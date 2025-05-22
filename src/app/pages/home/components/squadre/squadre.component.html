@@ -1,0 +1,94 @@
+<ng-container *ngIf="!stampa; else printTemplate">
+  <div class="container-fluid p-4 bg-light rounded-3 shadow-sm">
+    <div class="row mb-3">
+      <div class="col-12">
+        <button
+          class="btn btn-outline-secondary d-flex align-items-center"
+          style="
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+            padding: 10px 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+          "
+          (click)="this.router.navigate(['/home'])"
+        >
+          <span style="font-size: 1.5rem; margin-right: 8px">🏠</span>
+          <i class="fas fa-arrow-left me-2"></i>Torna Indietro
+        </button>
+      </div>
+    </div>
+
+    <div class="row mb-4">
+      <div class="col-12 text-center">
+        <h2 class="display-6 text-primary fw-bold">Andamento Sfida</h2>
+        <p class="lead text-muted">
+          Miciomania vs Alcamo - Aggiornamento in tempo reale
+        </p>
+      </div>
+    </div>
+
+    <div class="row align-items-center mb-3">
+      <div class="col-md-5 text-end">
+        <span class="badge bg-danger fs-5 p-2 rounded-pill shadow">
+          <i class="fas fa-users me-2"></i>Miciomania
+        </span>
+      </div>
+      <div class="col-md-2 text-center">
+        <span class="badge bg-dark fs-6 p-2">VS</span>
+      </div>
+      <div class="col-md-5">
+        <span class="badge bg-primary fs-5 p-2 rounded-pill shadow">
+          <i class="fas fa-users me-2"></i>Alcamo
+        </span>
+      </div>
+    </div>
+
+    <!-- Google Chart -->
+    <div class="row mb-3">
+      <div
+        id="chart_div"
+        style="
+          width: 100%;
+          height: 30rem;
+          border: 1px solid #e0e0e0;
+          border-radius: 12px;
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+          background: white;
+          padding: 15px;
+        "
+      ></div>
+    </div>
+
+    <div class="row mt-4">
+      <div class="col-12 text-center">
+        <div class="btn-group" role="group">
+          <!-- <button class="btn btn-outline-secondary">
+              <i class="fas fa-sync-alt me-2"></i>Aggiorna
+            </button> -->
+          <button class="btn btn-outline-primary">
+            <i class="fas fa-share-alt me-2"></i>Condividi
+          </button>
+          <button class="btn btn-outline-success">
+            <i class="fas fa-download me-2" (click)="captureElement()"
+              >Esporta</i
+            >
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-container>
+
+<ng-template #printTemplate>
+  <div
+    id="chart_div_print"
+    style="
+      width: 65rem;
+      height: 30rem;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+      background: white;
+      padding: 15px;
+    "
+  ></div>
+</ng-template>

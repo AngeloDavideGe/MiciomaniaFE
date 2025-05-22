@@ -1,0 +1,42 @@
+<form [formGroup]="profileForm" (ngSubmit)="onSave()">
+  <div class="form-group">
+    <label for="nome">Nome:</label>
+    <input id="nome" class="form-control" formControlName="nome" />
+  </div>
+  <div class="form-group">
+    <label for="email">Email:</label>
+    <input id="email" class="form-control" formControlName="email" />
+  </div>
+  <div class="form-group">
+    <label for="password">Password:</label>
+    <input
+      id="password"
+      type="password"
+      class="form-control"
+      formControlName="password"
+    />
+  </div>
+  <div class="form-group">
+    <label for="bio">Bio:</label>
+    <textarea id="bio" class="form-control" formControlName="bio"></textarea>
+  </div>
+  <div class="form-group">
+    <label for="telefono">Telefono:</label>
+    <input id="telefono" class="form-control" formControlName="telefono" />
+  </div>
+  <div class="form-group">
+    <label for="compleanno">Compleanno:</label>
+    <input
+      id="compleanno"
+      type="date"
+      class="form-control"
+      formControlName="compleanno"
+    />
+  </div>
+  <div class="modal-footer">
+    <button type="submit" class="btn btn-primary">Salva</button>
+    <button type="button" class="btn btn-secondary" (click)="chiudi.emit()">
+      Chiudi
+    </button>
+  </div>
+</form>

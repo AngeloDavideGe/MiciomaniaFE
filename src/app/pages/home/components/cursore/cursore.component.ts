@@ -1,0 +1,97 @@
+import { NgFor } from '@angular/common';
+import { Component } from '@angular/core';
+import { CursorClass } from '../../../../shared/class/cursor.class';
+
+@Component({
+  selector: 'app-cursore',
+  standalone: true,
+  imports: [NgFor],
+  template: `
+    <div class="container mt-5">
+      <div class="row justify-content-center">
+        <!-- Riquadro per il cursore di default -->
+        <div class="col-auto">
+          <div class="card mb-4 shadow-sm" style="width: 8rem; margin: 0.1rem;">
+            <div class="card-body text-center">
+              <i
+                class="bi bi-cursor"
+                style="font-size: 2rem; color: #007bff;"
+              ></i>
+              <h5 class="card-title mt-1" style="font-size: 1rem;">Default</h5>
+              <button
+                class="btn btn-danger btn-sm"
+                style="font-size: 0.875rem; padding: 0.25rem 0.75rem;"
+                (click)="rimuoviCursore()"
+              >
+                Rimuovi
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Lista dei cursori personalizzati -->
+        <div class="col-auto" *ngFor="let cursore of cursori">
+          <div class="card mb-4 shadow-sm" style="width: 8rem; margin: 0.1rem;">
+            <div class="card-body text-center">
+              <i
+                class="{{ 'bi bi-' + cursore.iconClass }}"
+                style="font-size: 2rem; color: #007bff;"
+              ></i>
+              <h5 class="card-title mt-1" style="font-size: 1rem;">
+                {{ cursore.nome }}
+              </h5>
+              <button
+                class="btn btn-primary btn-sm"
+                style="font-size: 0.875rem; padding: 0.25rem 0.75rem;"
+                (click)="cambiaCursore(cursore.iconClass)"
+              >
+                Seleziona
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  `,
+})
+export class CursoreComponent {
+  private cursorClass = new CursorClass();
+  public cursori: { nome: string; iconClass: string }[] = [
+    {
+      nome: 'Foglia',
+      iconClass: 'feather',
+    },
+    {
+      nome: 'Penna',
+      iconClass: 'pen',
+    },
+    {
+      nome: 'Penna Vett',
+      iconClass: 'vector-pen',
+    },
+    {
+      nome: 'Contagocce',
+      iconClass: 'eyedropper',
+    },
+    {
+      nome: 'Razzo',
+      iconClass: 'rocket-takeoff-fill',
+    },
+  ];
+
+  private getUrlIcona(iconClass: string): string {
+    return (
+      'https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/icons/' +
+      iconClass +
+      '.svg'
+    );
+  }
+
+  cambiaCursore(iconClass: string, size: number = 32) {
+    this.cursorClass.setCursoreByIcona(this.getUrlIcona(iconClass), size);
+  }
+
+  rimuoviCursore(): void {
+    this.cursorClass.removeCursor();
+  }
+}

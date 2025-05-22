@@ -1,0 +1,96 @@
+<div
+  class="container border border-primary rounded-lg p-4 shadow-lg text-center mt-4"
+  style="max-width: 55rem; background-color: #f8f9fa"
+>
+  <app-dettagli-game
+    [titolo]="'Quiz 🧠'"
+    [descrizione]="
+      'Vediamo quante ne sai di questa banda di derisori di sentimenti, più risposte indovinerai e meno piangerai quando Indy ti mostrerà il motivo per il quale Sirius li ha bloccati tutti'
+    "
+  ></app-dettagli-game>
+
+  <!-- Domanda corrente -->
+  <div class="card shadow" style="border-radius: 10px">
+    <div class="card-body">
+      <h4 class="card-title text-center" style="font-weight: bold">
+        {{ domandaCurrent.domanda }}
+      </h4>
+
+      <!-- Opzioni di risposta -->
+      <div class="list-group mt-3">
+        <label
+          class="list-group-item"
+          *ngFor="let risposta of domandaCurrent.risposte"
+        >
+          <div
+            class="d-flex align-items-center p-2"
+            [ngClass]="{
+              'bg-success text-white':
+                risposta.soluzione &&
+                rispostaConfermata &&
+                risposta.testo == rispostaSelezionata?.testo,
+              'bg-danger text-white':
+                !risposta.soluzione &&
+                rispostaConfermata &&
+                risposta.testo == rispostaSelezionata?.testo
+            }"
+            style="
+              border-radius: 8px;
+              margin-bottom: 8px;
+              transition: background 0.3s ease-in-out;
+            "
+          >
+            <input
+              type="radio"
+              name="risposta"
+              [(ngModel)]="rispostaSelezionata"
+              [value]="risposta"
+              style="margin-right: 12px; transform: scale(1.2)"
+            />
+            <p class="m-0" style="font-size: 16px">{{ risposta.testo }}</p>
+          </div>
+        </label>
+      </div>
+
+      <!-- Pulsanti di interazione -->
+      <div class="d-flex justify-content-center gap-3 mt-4">
+        <button
+          class="btn btn-success"
+          (click)="confermaRisposta()"
+          [disabled]="!rispostaSelezionata || rispostaConfermata"
+          style="padding: 10px 20px; font-size: 16px; border-radius: 8px"
+        >
+          ✅ Conferma
+        </button>
+      </div>
+
+      <div class="d-flex justify-content-center gap-3 mt-3">
+        <button
+          *ngIf="numDomanda != 5; else lastDomandaButton"
+          class="btn btn-primary"
+          (click)="domandaNext()"
+          [disabled]="!rispostaConfermata"
+          style="padding: 10px 20px; font-size: 16px; border-radius: 8px"
+        >
+          ➡️ Avanti
+        </button>
+
+        <ng-template #lastDomandaButton>
+          <button
+            class="btn btn-danger"
+            (click)="ricomincia()"
+            [disabled]="!rispostaConfermata"
+            style="
+              padding: 10px 20px;
+              font-size: 16px;
+              border-radius: 8px;
+              font-weight: bold;
+            "
+          >
+            🔄 Ricomincia
+          </button>
+        </ng-template>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,113 @@
+<ng-container *ngIf="this.router.url == '/manga'">
+  <div
+    *ngIf="!erroreHttp; else erroreHttpTemplate"
+    class="text-white py-5 mb-4"
+    style="background-color: #9fb987"
+  >
+    <div class="container text-center">
+      <h1 class="display-4 fw-bold mb-3">Benvenuto nel Mondo dei Manga</h1>
+      <p class="lead mb-4">
+        Esplora i migliori manga, trova nuovi titoli e leggi le ultime novità
+        online!
+      </p>
+      <p class="h5" style="font-style: italic">
+        Scopri opere da leggere, cerca per autore, genere o titolo.
+      </p>
+      <div class="d-flex justify-content-center gap-3 mt-4">
+        <button
+          class="btn btn-light btn-lg"
+          (click)="this.router.navigate(['/home'])"
+        >
+          <i class="bi bi-house-door me-2"></i>
+          Torna alla Home
+        </button>
+
+        <button
+          class="btn btn-light btn-lg"
+          (click)="this.router.navigate(['/manga/tuoi-manga'])"
+          [disabled]="!idUtente"
+        >
+          <i class="bi bi-book me-2"></i>
+          I tuoi manga
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Filters row -->
+  <div class="row mb-4">
+    <!-- Dropdown -->
+    <div class="col-md-4">
+      <label for="dropdownSelect" class="form-label text-primary fw-bold"
+        >Seleziona Genere</label
+      >
+      <select
+        id="dropdownSelect"
+        class="form-select bg-light border-primary"
+        aria-label="Select an option"
+        (change)="onGenreChange($event)"
+      >
+        <option selected>Qualsiasi</option>
+        <option *ngFor="let genere of mangaGeneri" [value]="genere">
+          {{ genere }}
+        </option>
+      </select>
+    </div>
+
+    <!-- Name Input -->
+    <div class="col-md-4">
+      <label for="nome" class="form-label text-danger fw-bold"
+        >Cerca per Nome</label
+      >
+      <input
+        type="text"
+        id="nome"
+        class="form-control bg-light border-danger"
+        placeholder="Cerca per Nome"
+        [(ngModel)]="filterSelect.nome"
+        (ngModelChange)="logFilterChanges()"
+      />
+    </div>
+
+    <!-- Author Input -->
+    <div class="col-md-4">
+      <label for="autore" class="form-label text-success fw-bold"
+        >Cerca per Autore</label
+      >
+      <input
+        type="text"
+        id="autore"
+        class="form-control bg-light border-success"
+        placeholder="Cerca per Autore"
+        [(ngModel)]="filterSelect.autore"
+        (ngModelChange)="logFilterChanges()"
+      />
+    </div>
+  </div>
+
+  <!-- Tabs Navigation -->
+  <app-tabs-manga [tabs]="Tabs"></app-tabs-manga>
+
+  <p *ngIf="aggiornamentoManga">Aggiornamento manga in corso...</p>
+
+  <!-- Manga list display -->
+  <div class="mt-4 d-flex flex-wrap" id="app-card">
+    <div
+      *ngFor="let manga of filteredManga$ | async"
+      class="d-flex"
+      style="padding: 0.2rem"
+    >
+      <app-card-manga
+        [manga]="manga"
+        [preferito]="mangaPreferiti[manga.id]"
+        (selezionaOpera)="selezionaOpera(manga)"
+      ></app-card-manga>
+    </div>
+  </div>
+</ng-container>
+
+<ng-template #erroreHttpTemplate>
+  <app-error-http></app-error-http>
+</ng-template>
+
+<router-outlet></router-outlet>

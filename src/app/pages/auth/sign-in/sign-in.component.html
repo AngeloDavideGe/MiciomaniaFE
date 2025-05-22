@@ -1,0 +1,193 @@
+<div
+  class="container min-vh-100 d-flex justify-content-center align-items-center"
+>
+  <div class="row w-100">
+    <div class="col-md-6 col-lg-4 mx-auto">
+      <div class="card shadow-sm">
+        <div class="card-header text-center">
+          <h3 class="h4">Registrati</h3>
+        </div>
+        <div class="card-body">
+          <form [formGroup]="signInForm" (ngSubmit)="onSubmit()">
+            <!-- Campo Nome -->
+            <div class="form-group mb-4">
+              <label for="nome" class="h5">Nome</label>
+              <input
+                type="text"
+                id="nome"
+                class="form-control form-control-lg"
+                formControlName="nome"
+                [ngClass]="{
+                  'is-invalid':
+                    ((f['nome'].touched && f['nome'].invalid) ||
+                      clickRegistrati) &&
+                    f['nome'].invalid,
+                  'is-valid': clickRegistrati && f['nome'].valid
+                }"
+              />
+
+              <!-- Errori -->
+              <div
+                *ngIf="
+                  ((f['nome'].touched && f['nome'].invalid) ||
+                    clickRegistrati) &&
+                  f['nome'].invalid
+                "
+                class="invalid-feedback"
+              >
+                <div *ngIf="f['nome'].errors?.['required']">
+                  Il nome è obbligatorio.
+                </div>
+                <div *ngIf="f['nome'].errors?.['minlength']">
+                  Il nome deve avere almeno 3 lettere.
+                </div>
+              </div>
+
+              <!-- Successo -->
+              <div
+                *ngIf="clickRegistrati && f['nome'].valid"
+                class="valid-feedback"
+              >
+                Nome valido!
+              </div>
+            </div>
+
+            <!-- Campo Username -->
+            <div class="form-group mb-4">
+              <label for="username" class="h5">Username</label>
+              <input
+                type="text"
+                id="username"
+                class="form-control form-control-lg"
+                formControlName="username"
+                [ngClass]="{
+                  'is-invalid':
+                    ((f['username'].touched && f['username'].invalid) ||
+                      clickRegistrati) &&
+                    f['username'].invalid,
+                  'is-valid': clickRegistrati && f['username'].valid
+                }"
+              />
+              <div
+                *ngIf="
+                  ((f['username'].touched && f['username'].invalid) ||
+                    clickRegistrati) &&
+                  f['username'].invalid
+                "
+                class="invalid-feedback"
+              >
+                <div *ngIf="f['username'].errors?.['required']">
+                  Username richiesto.
+                </div>
+                <div *ngIf="f['username'].errors?.['minlength']">
+                  L'username deve avere almeno 3 lettere.
+                </div>
+              </div>
+              <div
+                *ngIf="clickRegistrati && f['username'].valid"
+                class="valid-feedback"
+              >
+                Username valido!
+              </div>
+            </div>
+
+            <!-- Campo Email -->
+            <div class="form-group mb-4">
+              <label for="email" class="h5">Email</label>
+              <input
+                type="email"
+                id="email"
+                class="form-control form-control-lg"
+                formControlName="email"
+                [ngClass]="{
+                  'is-invalid':
+                    ((f['email'].touched && f['email'].invalid) ||
+                      clickRegistrati) &&
+                    f['email'].invalid,
+                  'is-valid': clickRegistrati && f['email'].valid
+                }"
+              />
+              <div
+                *ngIf="
+                  ((f['email'].touched && f['email'].invalid) ||
+                    clickRegistrati) &&
+                  f['email'].invalid
+                "
+                class="invalid-feedback"
+              >
+                <div *ngIf="f['email'].errors?.['required']">
+                  Email richiesta.
+                </div>
+                <div *ngIf="f['email'].errors?.['email']">
+                  Formato email non valido.
+                </div>
+              </div>
+              <div
+                *ngIf="clickRegistrati && f['email'].valid"
+                class="valid-feedback"
+              >
+                Email valida!
+              </div>
+            </div>
+
+            <!-- Campo Password -->
+            <div class="form-group mb-4">
+              <label for="password" class="h5">Password</label>
+              <input
+                type="password"
+                id="password"
+                class="form-control form-control-lg"
+                formControlName="password"
+                [ngClass]="{
+                  'is-invalid':
+                    ((f['password'].touched && f['password'].invalid) ||
+                      clickRegistrati) &&
+                    f['password'].invalid,
+                  'is-valid': clickRegistrati && f['password'].valid
+                }"
+              />
+              <div
+                *ngIf="
+                  ((f['password'].touched && f['password'].invalid) ||
+                    clickRegistrati) &&
+                  f['password'].invalid
+                "
+                class="invalid-feedback"
+              >
+                <div *ngIf="f['password'].errors?.['required']">
+                  Password richiesta.
+                </div>
+                <div *ngIf="f['password'].errors?.['minlength']">
+                  La password deve essere lunga almeno 6 caratteri.
+                </div>
+              </div>
+              <div
+                *ngIf="clickRegistrati && f['password'].valid"
+                class="valid-feedback"
+              >
+                Password valida!
+              </div>
+            </div>
+
+            <!-- Pulsante di Registrazione -->
+            <div class="form-group">
+              <button
+                type="submit"
+                class="btn btn-primary w-100 btn-lg"
+                (click)="clickRegistrati = true"
+              >
+                Registrati
+              </button>
+            </div>
+
+            <!-- Link per tornare al login -->
+            <div class="text-center mt-3">
+              <span>Hai già un account? </span>
+              <a routerLink="/login" class="text-primary"> Accedi </a>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

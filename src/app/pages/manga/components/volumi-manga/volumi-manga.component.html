@@ -1,0 +1,75 @@
+<ng-container *ngIf="volumiCaricati">
+  <div class="container mt-5" style="max-width: 50rem">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <h2 class="text-center mb-0 flex-grow-1">Volumi di {{ nomeOpera }}</h2>
+
+      <button
+        class="btn btn-secondary ms-3"
+        style="white-space: nowrap; font-size: 1rem; padding: 0.5rem 1rem"
+        (click)="this.router.navigate([tornaIndietroPath])"
+      >
+        Indietro
+      </button>
+    </div>
+
+    <div
+      *ngIf="volumiOpera.length === 0"
+      class="alert alert-warning"
+      role="alert"
+    >
+      Non sono stati trovati volumi per questo manga.
+    </div>
+
+    <div *ngIf="volumiOpera.length > 0">
+      <div class="table-responsive">
+        <table class="table table-striped table-bordered" id="VolumiMangaTable">
+          <thead>
+            <tr>
+              <th
+                *ngFor="let column of ['Numero', 'Leggi']"
+                class="text-center"
+              >
+                {{ column }}
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let volume of volumiOpera">
+              <td class="text-center">
+                Volume {{ " " + (volume.id | padZeroVolume) }}
+              </td>
+              <td class="text-center">
+                <i
+                  class="bi bi-book"
+                  style="color: rgb(0, 55, 255); cursor: pointer"
+                  (click)="$event.view?.open(volume.link)"
+                ></i>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</ng-container>
+
+<style>
+  #VolumiMangaTable {
+    td,
+    th {
+      padding: 10px;
+      text-align: center;
+      height: 60px;
+      font-size: 1.1rem;
+      border: 1px solid rgba(13, 13, 13, 0.533);
+
+      &:nth-child(odd) > * {
+        background-color: white;
+      }
+
+      &:nth-child(even) > * {
+        background-color: #e2e2e2;
+      }
+    }
+  }
+</style>

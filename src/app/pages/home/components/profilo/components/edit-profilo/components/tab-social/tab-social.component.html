@@ -1,0 +1,59 @@
+<div class="social-form-container">
+  <!-- Lista social esistenti -->
+  <div
+    *ngFor="let social of socialArray; let i = index"
+    class="social-row row g-2 align-items-center mb-3"
+  >
+    <div class="col-3">
+      <select
+        class="form-select form-select-sm"
+        [(ngModel)]="social.key"
+        style="min-width: 100px"
+      >
+        <option *ngFor="let soc of availableSocials" [value]="soc">
+          {{ soc | titlecase }}
+        </option>
+      </select>
+    </div>
+
+    <div class="col-8">
+      <input
+        type="text"
+        class="form-control form-control-sm"
+        [(ngModel)]="social.link"
+        [placeholder]="'link di' + ' ' + social.key"
+      />
+    </div>
+
+    <div class="col-1 text-end">
+      <button
+        class="btn btn-sm btn-outline-danger"
+        (click)="removeSocial(i)"
+        style="width: 30px"
+        title="Rimuovi"
+      >
+        &minus;
+      </button>
+    </div>
+  </div>
+
+  <!-- Controlli -->
+  <div class="justify-content-between">
+    <button
+      class="btn btn-sm btn-outline-primary"
+      (click)="addNewSocial()"
+      style="width: 40px"
+      title="Aggiungi social"
+    >
+      &plus;
+    </button>
+    <div class="modal-footer">
+      <button type="submit" class="btn btn-primary" (click)="saveChanges()">
+        Salva
+      </button>
+      <button type="button" class="btn btn-secondary" (click)="chiudi.emit()">
+        Chiudi
+      </button>
+    </div>
+  </div>
+</div>

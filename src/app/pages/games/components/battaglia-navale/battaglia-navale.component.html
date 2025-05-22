@@ -1,0 +1,84 @@
+<div
+  class="container border border-primary rounded-lg p-4 shadow-lg text-center mt-3"
+  style="max-width: 70rem; background-color: #f8f9fa; padding: 2rem !important"
+>
+  <app-dettagli-game
+    [titolo]="'Battaglia Navale 🚢'"
+    [descrizione]="
+      'Immergiti in questo gioco, oppure fai immergere le navi di quel dannato del tuo avversario, mentre è poi agonizzante in mezzo al mare umilialo e deridilo, altrimenti sarai tu ad esserlo.'
+    "
+  ></app-dettagli-game>
+
+  <div class="row mt-4" style="margin-top: 2rem !important">
+    <!-- Griglia del Player -->
+    <ng-container *ngFor="let key of keysCelle">
+      <div class="col-md-6 mb-4">
+        <h4 class="mb-3" style="font-size: 1.5rem">
+          {{ key == "cellaPlayer" ? "Giocatore" : "Bot" }}
+        </h4>
+        <div
+          class="d-flex flex-column align-items-center"
+          [id]="key"
+          style="margin-top: 1rem"
+        >
+          <div *ngFor="let row of celle[key]; let i = index" class="d-flex">
+            <div
+              *ngFor="let cell of row; let j = index"
+              class="cella"
+              style="margin: 2px; border: 1px solid #adb5bd"
+              [ngStyle]="{
+                'background-color': cell.cellaColpita
+                  ? cell.navePiccola || cell.naveGrande
+                    ? '#198754'
+                    : '#dc3545'
+                  : '#f8f9fa'
+              }"
+              (click)="colpisciCella({i, j, key})"
+            >
+              <span
+                *ngIf="
+                  (key == 'cellaPlayer' && cell.navePiccola) ||
+                  (key == 'cellaBot' && cell.navePiccola && cell.cellaColpita)
+                "
+                class="text-white"
+                style="font-size: 18px; font-weight: bold"
+              >
+                ⛴️
+              </span>
+              <span
+                *ngIf="
+                  (key == 'cellaPlayer' && cell.naveGrande) ||
+                  (key == 'cellaBot' && cell.naveGrande && cell.cellaColpita)
+                "
+                class="text-white"
+                style="font-size: 22px; font-weight: bold"
+              >
+                🚢
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+</div>
+
+<style>
+  #cellaPlayer,
+  #cellaBot {
+    .cella {
+      width: 65px;
+      height: 65px;
+      color: #fff;
+      border-radius: 5px;
+      margin: 2px;
+      cursor: pointer;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+      transition: background 0.3s ease-in-out;
+      border: 1px solid #ccc;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+</style>

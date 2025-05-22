@@ -1,0 +1,142 @@
+<ng-container *ngIf="this.router.url == '/games'">
+  <div class="container text-center mt-5">
+    <h1
+      class="display-4 fw-bold text-primary"
+      style="text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2)"
+    >
+      Miciomania Games
+    </h1>
+
+    <!-- Paragrafo introduttivo -->
+    <p
+      class="lead mt-4"
+      style="font-size: 1.2rem; line-height: 1.8; color: #555"
+    >
+      Benvenuti in <strong>Miciomania Games</strong>, il paradiso dei giochi
+      dove emozioni e divertimento si incontrano! Qui non si gioca solo per
+      vincere, ma per vivere esperienze uniche che ti faranno ridere, pensare e
+      competere. Ogni partita è un'avventura che ti permette di guadagnare punti
+      per la tua squadra preferita: <span class="text-danger">Alcamo</span> o
+      <span class="text-success">Miciomania</span>. Scegli con saggezza, gioca
+      con passione e scopri chi dominerà la classifica! Te la senti?
+    </p>
+
+    <!-- Pulsanti nello stesso rigo -->
+    <div
+      class="d-flex justify-content-center align-items-center gap-3 mt-3"
+      style="flex-wrap: wrap"
+    >
+      <!-- Pulsante Torna Indietro -->
+      <button
+        class="btn btn-outline-danger"
+        style="font-size: 1.1rem; padding: 0.5rem 1.5rem; border-radius: 30px"
+        (click)="this.router.navigate(['/home'])"
+      >
+        Torna Indietro
+      </button>
+
+      <!-- Pulsante Mostra/Nascondi Dettagli -->
+      <button
+        class="btn btn-outline-primary"
+        style="font-size: 1.1rem; padding: 0.5rem 1.5rem; border-radius: 30px"
+        (click)="showDetails = !showDetails"
+      >
+        {{ showDetails ? "Nascondi Dettagli" : "Mostra Dettagli" }}
+      </button>
+    </div>
+
+    <!-- Messaggio Dettagli -->
+    <div
+      *ngIf="showDetails"
+      class="alert alert-info mt-4"
+      style="
+        font-size: 1.1rem;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        background-color: #e7f8ff;
+        border-left: 5px solid #17a2b8;
+        padding: 1.25rem 1.5rem;
+      "
+    >
+      <div class="mb-3">
+        Se hai effettuato il login e completato l'iscrizione in home scegliendo
+        una squadra, i punti guadagnati in questi minigiochi saranno assegnati
+        alla tua squadra!
+      </div>
+
+      <div class="mb-2">
+        Squadre Giocatore:
+        <ng-container
+          *ngIf="squadre.personale.length > 0; else noSquadrePersonale"
+        >
+          <strong
+            *ngFor="let squadra of squadre.personale"
+            class="ms-2 fs-5 badge bg-primary"
+          >
+            {{ squadra.nome + " (" + squadra.punteggio + " punti)" }}
+          </strong>
+        </ng-container>
+        <ng-template #noSquadrePersonale>
+          <span class="ms-2 text-muted">Nessuna squadra</span>
+        </ng-template>
+      </div>
+
+      <div class="mb-0">
+        Squadre Avversarie:
+        <ng-container
+          *ngIf="squadre.avversario.length > 0; else noSquadreAvversario"
+        >
+          <strong
+            *ngFor="let squadra of squadre.avversario"
+            class="ms-2 fs-5 badge bg-danger"
+          >
+            {{ squadra.nome + " (" + squadra.punteggio + " punti)" }}
+          </strong>
+        </ng-container>
+        <ng-template #noSquadreAvversario>
+          <span class="ms-2 text-muted">Nessuna squadra</span>
+        </ng-template>
+      </div>
+    </div>
+
+    <div class="row justify-content-center mt-5" id="CardGame">
+      <ng-container *ngFor="let gioco of gamesClass.giochiList">
+        <div class="col-auto mb-4">
+          <div class="card h-100 shadow-lg border-0 div-card">
+            <img
+              [src]="gioco.linkImg"
+              class="card-img-top"
+              [alt]="gioco.nome"
+              style="height: 150px; object-fit: cover"
+            />
+            <div class="card-body">
+              <h5 class="card-title text-primary">{{ gioco.nome }}</h5>
+              <p class="card-text" style="font-size: 0.9rem; color: #555">
+                {{ gioco.descrizione }}
+              </p>
+              <a
+                (click)="router.navigate(['games/' + gioco.routerLink])"
+                class="btn btn-primary btn-block"
+                style="font-size: 0.9rem"
+                >Gioca Ora</a
+              >
+            </div>
+          </div>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+</ng-container>
+
+<router-outlet></router-outlet>
+
+<style>
+  #CardGame {
+    .div-card {
+      width: 18rem;
+      transition: transform 0.2s;
+      cursor: pointer;
+      margin: 0.5rem;
+    }
+  }
+</style>

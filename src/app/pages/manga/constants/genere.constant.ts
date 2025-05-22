@@ -1,0 +1,16 @@
+export const generiManga: string[] = [
+  'Azione',
+  'Avventura',
+  'Fantasy',
+  'Romanzo',
+  'Commedia',
+  'Horror',
+  'Sci-fi',
+  'Drammatico',
+  'Mystery',
+  'Shonen',
+  'Seinen',
+  'Sports',
+  'Music',
+  'Mecha',
+];

@@ -1,0 +1,91 @@
+<div
+  class="container border border-primary rounded-lg p-4 shadow-lg text-center mt-3"
+  style="max-width: 65rem; background-color: #f8f9fa"
+>
+  <app-dettagli-game
+    [titolo]="'Forza 4 🔴🟡'"
+    [descrizione]="
+      'Questa sfida è di difficoltà media-facile, perdi e subirai il peso della fanteria felina pronta a farti perdere la chioma dallo stress'
+    "
+  ></app-dettagli-game>
+
+  <div class="container mt-5">
+    <div class="row justify-content-center">
+      <div class="col-auto">
+        <!-- Tabellone di gioco -->
+        <div class="bg-primary rounded p-3" style="position: relative">
+          <!-- Griglia dei buchi -->
+          <div
+            style="
+              display: grid;
+              grid-template-columns: repeat(6, 60px);
+              grid-template-rows: repeat(6, 60px);
+              gap: 10px;
+            "
+          >
+            <div
+              *ngFor="let row of campo; let i = index"
+              style="display: contents"
+            >
+              <div
+                *ngFor="let cell of row; let j = index"
+                style="
+                  background-color: #1e88e5;
+                  border-radius: 50%;
+                  position: relative;
+                "
+                (click)="inserisciPedina(j)"
+              >
+                <!-- Slot per le pedine (vuoto) -->
+                <div
+                  style="
+                    position: absolute;
+                    top: 5px;
+                    left: 5px;
+                    width: 50px;
+                    height: 50px;
+                    border-radius: 50%;
+                    background-color: white;
+                    border: 2px solid #0d47a1;
+                  "
+                ></div>
+
+                <!-- Pedina giocatore (rossa) -->
+                <div
+                  *ngIf="cell.player"
+                  style="
+                    position: absolute;
+                    top: 5px;
+                    left: 5px;
+                    width: 50px;
+                    height: 50px;
+                    border-radius: 50%;
+                    background-color: #f44336;
+                    border: 2px solid #b71c1c;
+                    z-index: 2;
+                  "
+                ></div>
+
+                <!-- Pedina bot (gialla) -->
+                <div
+                  *ngIf="cell.bot"
+                  style="
+                    position: absolute;
+                    top: 5px;
+                    left: 5px;
+                    width: 50px;
+                    height: 50px;
+                    border-radius: 50%;
+                    background-color: #ffeb3b;
+                    border: 2px solid #f57f17;
+                    z-index: 2;
+                  "
+                ></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

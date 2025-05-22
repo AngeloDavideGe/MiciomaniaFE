@@ -1,0 +1,240 @@
+<!-- <div class="container mt-5" style="max-width: 70rem">
+  <div class="card shadow-lg rounded-3 border-primary"> -->
+<div class="card-header bg-gradient text-center">
+  <h5 class="card-title">Modulo di Aggiornamento Profilo</h5>
+</div>
+<div class="card-body">
+  <form [formGroup]="profileForm" (ngSubmit)="onSubmit()">
+    <!-- Nome Utente (Senza Validazione, Solo Lettura) -->
+    <div class="mb-4">
+      <label for="nomeUtente" class="form-label fs-5">Nome Utente</label>
+      <input
+        type="text"
+        id="nomeUtente"
+        class="form-control form-control-lg border-info shadow-sm"
+        [value]="nomeUtente"
+        readonly
+        style="background-color: #f4f4f9"
+      />
+    </div>
+
+    <!-- Email (Senza Validazione, Solo Lettura) -->
+    <div class="mb-4">
+      <label for="email" class="form-label fs-5">Email</label>
+      <input
+        type="email"
+        id="email"
+        class="form-control form-control-lg border-info shadow-sm"
+        [value]="email"
+        readonly
+        style="background-color: #f4f4f9"
+      />
+    </div>
+
+    <!-- Team (Checkbox) -->
+    <div class="mb-4">
+      <label for="team" class="form-label fs-5">Team</label>
+      <div
+        id="team"
+        class="form-check-group border-info shadow-sm p-3 rounded"
+        [ngClass]="{
+          'border-danger':
+            ((f['team'].touched && f['team'].invalid) || pulsantePremuto) &&
+            f['team'].invalid,
+          'border-success': pulsantePremuto && f['team'].valid
+        }"
+        style="background-color: #e7f3fe"
+      >
+        <div class="form-check" *ngFor="let t of team; let i = index">
+          <input
+            type="checkbox"
+            [id]="'team-' + i"
+            class="form-check-input"
+            [value]="t"
+            [checked]="profileForm.get('team')?.value?.includes(t)"
+            (change)="onTeamChange($event)"
+          />
+          <label [for]="'team-' + i" class="form-check-label">
+            {{ t }}
+          </label>
+        </div>
+      </div>
+
+      <!-- Messaggio di errore -->
+      <div
+        *ngIf="
+          ((f['team'].touched && f['team'].invalid) || pulsantePremuto) &&
+          f['team'].invalid
+        "
+        class="invalid-feedback d-block"
+      >
+        Il team è obbligatorio.
+      </div>
+
+      <!-- Messaggio di successo -->
+      <div
+        *ngIf="pulsantePremuto && f['team'].valid"
+        class="valid-feedback d-block"
+      >
+        Selezione valida!
+      </div>
+    </div>
+
+    <!-- Stato (Dropdown) -->
+    <div class="mb-4">
+      <label for="stato" class="form-label fs-5">Stato</label>
+      <select
+        id="stato"
+        class="form-select form-select-lg border-info shadow-sm"
+        formControlName="stato"
+        [ngClass]="{
+          'is-invalid':
+            ((f['stato'].touched && f['stato'].invalid) || pulsantePremuto) &&
+            f['stato'].invalid,
+          'is-valid': pulsantePremuto && f['stato'].valid
+        }"
+        style="background-color: #e7f3fe"
+      >
+        <option *ngFor="let stato of statiPersona" [value]="stato">
+          {{ stato }}
+        </option>
+      </select>
+      <div
+        *ngIf="(f['stato'].touched && f['stato'].invalid) || pulsantePremuto"
+        class="invalid-feedback"
+      >
+        Lo stato è obbligatorio.
+      </div>
+      <div *ngIf="pulsantePremuto && f['stato'].valid" class="valid-feedback">
+        Campo valido!
+      </div>
+    </div>
+
+    <div class="row mb-4">
+      <!-- Regione -->
+      <div class="col-md-6 mb-3 mb-md-0">
+        <label for="regione" class="form-label fs-5">Regione</label>
+        <select
+          id="regione"
+          class="form-select form-select-lg border-info shadow-sm"
+          formControlName="regione"
+          [ngClass]="{
+            'is-invalid':
+              ((f['regione'].touched && f['regione'].invalid) ||
+                pulsantePremuto) &&
+              f['regione'].invalid,
+            'is-valid': pulsantePremuto && f['regione'].valid
+          }"
+          (change)="onRegioneChange($event)"
+          style="background-color: #e7f3fe"
+        >
+          <option
+            *ngFor="let regione of regionClass.getRegioniMap()"
+            [value]="regione.codice"
+          >
+            {{ regione.nome }}
+          </option>
+        </select>
+
+        <!-- Messaggio di errore -->
+        <div
+          *ngIf="
+            ((f['regione'].touched && f['regione'].invalid) ||
+              pulsantePremuto) &&
+            f['regione'].invalid
+          "
+          class="invalid-feedback"
+        >
+          La regione è obbligatoria.
+        </div>
+
+        <!-- Messaggio di successo -->
+        <div
+          *ngIf="pulsantePremuto && f['regione'].valid"
+          class="valid-feedback"
+        >
+          Regione selezionata correttamente!
+        </div>
+      </div>
+
+      <!-- Provincia -->
+      <div class="col-md-6">
+        <label for="provincia" class="form-label fs-5">Provincia</label>
+        <select
+          id="provincia"
+          class="form-select form-select-lg border-info shadow-sm"
+          formControlName="provincia"
+          [ngClass]="{
+            'is-invalid':
+              ((f['provincia'].touched && f['provincia'].invalid) ||
+                pulsantePremuto) &&
+              f['provincia'].invalid,
+            'is-valid': pulsantePremuto && f['provincia'].valid
+          }"
+          style="background-color: #e7f3fe"
+          [disabled]="f['regione'].invalid"
+        >
+          <option *ngFor="let provincia of province" [value]="provincia.nome">
+            {{ provincia.nome }}
+          </option>
+        </select>
+
+        <!-- Messaggio di errore -->
+        <div
+          *ngIf="
+            ((f['provincia'].touched && f['provincia'].invalid) ||
+              pulsantePremuto) &&
+            f['provincia'].invalid
+          "
+          class="invalid-feedback"
+        >
+          La provincia è obbligatoria.
+        </div>
+
+        <!-- Messaggio di successo -->
+        <div
+          *ngIf="pulsantePremuto && f['provincia'].valid"
+          class="valid-feedback"
+        >
+          Provincia selezionata correttamente!
+        </div>
+      </div>
+    </div>
+
+    <!-- Città -->
+    <div class="mb-4">
+      <label for="citta" class="form-label fs-5">Città</label>
+      <input
+        type="text"
+        id="citta"
+        class="form-control form-control-lg border-info shadow-sm"
+        formControlName="citta"
+        [ngClass]="{
+          'is-invalid':
+            ((f['citta'].touched && f['citta'].invalid) || pulsantePremuto) &&
+            f['citta'].invalid,
+          'is-valid': pulsantePremuto && f['citta'].valid
+        }"
+        style="background-color: #e7f3fe"
+      />
+
+      <!-- Messaggio di errore -->
+      <div
+        *ngIf="
+          ((f['citta'].touched && f['citta'].invalid) || pulsantePremuto) &&
+          f['citta'].invalid
+        "
+        class="invalid-feedback"
+      >
+        La città è obbligatoria.
+      </div>
+
+      <!-- Messaggio di successo -->
+      <div *ngIf="pulsantePremuto && f['citta'].valid" class="valid-feedback">
+        Città inserita correttamente!
+      </div>
+    </div>
+  </form>
+</div>
+<!-- </div>
+</div> -->

@@ -1,0 +1,78 @@
+<div
+  class="position-fixed top-0 start-0 w-100 h-100 d-flex justify-content-center align-items-center"
+  style="background: rgba(0, 0, 0, 0.5); z-index: 1050"
+>
+  <div
+    class="card shadow"
+    style="
+      width: 400px;
+      background: white;
+      border-radius: 12px;
+      overflow: hidden;
+    "
+  >
+    <!-- Header -->
+    <div
+      class="card-header text-white"
+      style="
+        background-color: #007bff;
+        font-size: 18px;
+        font-weight: bold;
+        text-align: center;
+      "
+    >
+      Nuovo Tweet
+    </div>
+
+    <!-- Body -->
+    <div class="card-body" style="padding: 20px">
+      <form (ngSubmit)="inviaTweet()">
+        <div class="mb-3">
+          <textarea
+            class="form-control"
+            [(ngModel)]="testo"
+            name="testo"
+            rows="4"
+            placeholder="Cosa sta succedendo?"
+            style="
+              font-size: 16px;
+              border-radius: 8px;
+              padding: 10px;
+              resize: none;
+            "
+            required
+          ></textarea>
+        </div>
+
+        <!-- Footer -->
+        <div class="d-flex justify-content-end">
+          <button
+            type="button"
+            class="btn btn-outline-secondary me-2"
+            style="
+              font-size: 14px;
+              font-weight: bold;
+              border-radius: 8px;
+              padding: 8px 16px;
+            "
+            (click)="chiudiModale()"
+          >
+            Annulla
+          </button>
+          <button
+            type="submit"
+            class="btn btn-primary"
+            style="
+              font-size: 14px;
+              font-weight: bold;
+              border-radius: 8px;
+              padding: 8px 16px;
+            "
+          >
+            Tweet
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

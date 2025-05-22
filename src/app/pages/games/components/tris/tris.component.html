@@ -1,0 +1,96 @@
+<div
+  class="container border border-primary rounded-lg p-4 shadow-lg text-center mt-4"
+  style="max-width: 60rem; background-color: #f8f9fa"
+>
+  <app-dettagli-game
+    [titolo]="'Tris ⭕❌'"
+    [descrizione]="
+      'Divertiti a battere questo bot scarsone, talmente facile che se non riscirai nell impresa allora Claudia ti bannerà a vita da Alcamo'
+    "
+  ></app-dettagli-game>
+  <br />
+  <div class="d-flex justify-content-center">
+    <table class="table table-bordered" id="TrisTable">
+      <tbody>
+        <tr *ngFor="let row of tabella; let i = index">
+          <td
+            *ngFor="let cella of row; let j = index"
+            class="text-center align-middle"
+            style="
+              width: 100px;
+              height: 100px;
+              font-size: 2rem;
+              cursor: pointer;
+              background-color: #f8f9fa;
+            "
+            (click)="playerSelect(i, j)"
+          >
+            <ng-container *ngIf="cella.player">
+              <span style="color: #0d6efd">
+                <i class="bi bi-x-lg"></i>
+              </span>
+            </ng-container>
+            <ng-container *ngIf="cella.bot">
+              <span style="color: #dc3545">
+                <i class="bi bi-circle"></i>
+              </span>
+            </ng-container>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<style>
+  #TrisTable {
+    table-layout: fixed;
+    width: 450px;
+
+    tr {
+      td {
+        position: relative;
+        width: 33.33%;
+        border: 1px solid rgba(55, 55, 55, 0.638);
+
+        &::before {
+          content: "";
+          display: block;
+          padding-top: 100%;
+        }
+
+        span {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          font-size: 3rem;
+        }
+      }
+
+      &:nth-child(odd) {
+        td {
+          &:nth-child(odd) {
+            background-color: #e3e2e2 !important;
+          }
+
+          &:nth-child(even) {
+            background-color: #f0f8ff !important;
+          }
+        }
+      }
+
+      &:nth-child(even) {
+        td {
+          &:nth-child(odd) {
+            background-color: #f0f8ff !important;
+          }
+
+          &:nth-child(even) {
+            background-color: #e3e2e2 !important;
+          }
+        }
+      }
+    }
+  }
+</style>
