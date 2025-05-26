@@ -18,11 +18,11 @@ export class ProfiloService {
     }
   }
 
-  getProfiloById(userId: string): Observable<any[]> {
+  getProfiloById(userId: string): Observable<Profilo> {
     const url = environment.urlDB + 'rpc/get_profilo_by_id';
     const body = { p_id: userId };
 
-    return this.http.post<any[]>(url, body, {
+    return this.http.post<Profilo>(url, body, {
       headers: environment.defaultHeaders,
     });
   }

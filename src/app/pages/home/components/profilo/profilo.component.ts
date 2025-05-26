@@ -107,7 +107,7 @@ export class ProfiloComponent extends AuthCustom implements OnInit, OnDestroy {
       .getProfiloById(userId)
       .pipe(
         take(1),
-        map((data) => this.profiloUtilities.mapToProfilo(data[0]))
+        map((data) => this.profiloUtilities.mapToProfilo(data) as Profilo)
       )
       .subscribe({
         next: (data) => {
