@@ -41,7 +41,7 @@ export class SquadreService {
   getSquadre(): Observable<Squadre[]> {
     const url = environment.urlDB + 'squadre';
     return this.http.get<Squadre[]>(url, {
-      headers: environment.defaultHeaders,
+      headers: environment.headerSupabase,
     });
   }
 
@@ -57,7 +57,7 @@ export class SquadreService {
     };
 
     return this.http.post<void>(url, body, {
-      headers: environment.defaultHeaders,
+      headers: environment.headerSupabase,
     });
   }
 }

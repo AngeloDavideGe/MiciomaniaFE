@@ -1,6 +1,6 @@
 import { BehaviorSubject } from 'rxjs';
 import { Ruolo } from '../../pages/auth/enums/users.enum';
-import { User, UserParams } from '../../pages/auth/interfaces/users.interface';
+import { User, UserParams } from '../interfaces/users.interface';
 
 export class UserUtilities {
   public mapUserByDb(db: any): User {

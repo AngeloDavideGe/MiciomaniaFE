@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, TemplateRef } from '@angular/core';
-import { Credenziali } from '../../../auth/interfaces/users.interface';
+import { Credenziali } from '../../../../shared/interfaces/users.interface';
 
 @Component({
   selector: 'app-navbar',

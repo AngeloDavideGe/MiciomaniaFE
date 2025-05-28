@@ -1,7 +1,7 @@
 import { NgFor, TitleCasePipe } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { User } from '../../../../../../../auth/interfaces/users.interface';
+import { User } from '../../../../../../../../shared/interfaces/users.interface';
 import { EditableSocial } from '../../../../../../interfaces/profilo.interface';
 import { TabProfiloCustom } from '../../../../custom/tab-profilo-custom.class';
 

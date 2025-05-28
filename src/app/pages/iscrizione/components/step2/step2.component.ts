@@ -16,7 +16,7 @@ import {
 import { Subject, takeUntil } from 'rxjs';
 import { AuthCustom } from '../../../../shared/custom/auth-custom.class';
 import { StatoPersona } from '../../../auth/enums/users.enum';
-import { User } from '../../../auth/interfaces/users.interface';
+import { User } from '../../../../shared/interfaces/users.interface';
 import { Region } from '../../class/region.class';
 import { Provincia } from '../../interfaces/region.interface';
 import { FormWizard } from '../../interfaces/wizard.interface';

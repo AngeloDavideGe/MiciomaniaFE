@@ -1,7 +1,7 @@
 import { inject } from '@angular/core';
 import { AuthService } from '../../../../../shared/services/auth.service';
 import { ProfiloService } from '../../../services/profilo.service';
-import { User } from '../../../../auth/interfaces/users.interface';
+import { User } from '../../../../../shared/interfaces/users.interface';
 import { finalize, take } from 'rxjs';
 import { LoadingService } from '../../../../../shared/services/loading.service';
 

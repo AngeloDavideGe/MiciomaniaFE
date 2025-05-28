@@ -30,14 +30,14 @@ export class MangaService {
     return this.http.post<{
       lista_manga: ListaManga[];
       manga_utente: MangaUtente[];
-    }>(url, body, { headers: environment.defaultHeaders });
+    }>(url, body, { headers: environment.headerSupabase });
   }
 
   getNomeEVolumiMangaByPath(path: string): Observable<any> {
     const url = environment.urlDB + 'rpc/get_volumi_e_nome_by_path_wrapper';
     const body = { input_table_name: path };
     return this.http.post<any>(url, body, {
-      headers: environment.defaultHeaders,
+      headers: environment.headerSupabase,
     });
   }
 
@@ -45,7 +45,7 @@ export class MangaService {
     const url = environment.urlDB + 'rpc/get_volumi_by_path_wrapper';
     const body = { input_table_name: titolo };
     return this.http.post<{ volumi: MangaVolume[] }>(url, body, {
-      headers: environment.defaultHeaders,
+      headers: environment.headerSupabase,
     });
   }
 
@@ -63,7 +63,7 @@ export class MangaService {
       p_manga_completati: completati,
     };
     return this.http.post<void>(url, body, {
-      headers: environment.defaultHeaders,
+      headers: environment.headerSupabase,
     });
   }
 

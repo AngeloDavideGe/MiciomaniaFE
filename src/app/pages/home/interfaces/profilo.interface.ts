@@ -1,4 +1,4 @@
-import { User } from '../../auth/interfaces/users.interface';
+import { User } from '../../../shared/interfaces/users.interface';
 
 export interface Profilo {
   user: User;

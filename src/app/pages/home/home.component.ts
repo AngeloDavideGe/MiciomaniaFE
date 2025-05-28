@@ -5,7 +5,7 @@ import 'bootstrap'; // Importa Bootstrap JS (incluso Popper.js)
 import { distinctUntilChanged, filter, Subject, takeUntil } from 'rxjs';
 import { AuthCustom } from '../../shared/custom/auth-custom.class';
 import { NotificheService } from '../../shared/services/notifiche.service';
-import { User, UserParams } from '../auth/interfaces/users.interface';
+import { User, UserParams } from '../../shared/interfaces/users.interface';
 import { Messaggio } from '../chat-group/interfaces/chat-group.interface';
 import { ChatGroupService } from '../chat-group/services/chat-group.service';
 import { CardHomeComponent } from './components/card-home/card-home.component';
@@ -13,6 +13,7 @@ import { CercaProfiliComponent } from './components/cerca-profili/cerca-profili.
 import { CursoreComponent } from './components/cursore/cursore.component';
 import { NavBarComponent } from './components/nav-bar/navbar.component';
 import { SocialLinkComponent } from './components/social-link/social-link.component';
+import { ElementiUtenteUtilities } from '../../shared/utilities/elementiUtente-utilities.class';
 
 @Component({
   selector: 'app-home',
@@ -37,6 +38,7 @@ export class HomeComponent extends AuthCustom implements OnInit, OnDestroy {
   private destroy$ = new Subject<void>();
   public chiudiComponente: Function = () => (this.componenteAperto = '');
   public goToProfilo: Function = (path: string) => this.router.navigate([path]);
+  private elementiUtenteUtilities = new ElementiUtenteUtilities();
 
   private notificheService = inject(NotificheService);
   private chatGroupService = inject(ChatGroupService);
@@ -102,6 +104,7 @@ export class HomeComponent extends AuthCustom implements OnInit, OnDestroy {
     if (user) {
       this.user = user;
       this.inizialiUser = this.calculateUserInitials(user.credenziali.nome);
+      this.elementiUtenteUtilities.getElementiUtente(user.id);
     } else {
       this.setAnonymousUser();
     }

@@ -23,7 +23,7 @@ export class ProfiloService {
     const body = { p_id: userId };
 
     return this.http.post<Profilo>(url, body, {
-      headers: environment.defaultHeaders,
+      headers: environment.headerSupabase,
     });
   }
 
@@ -31,7 +31,7 @@ export class ProfiloService {
     const url = environment.urlDB + 'pubblicazioni';
 
     return this.http.post<Tweet>(url, tweet, {
-      headers: environment.defaultHeaders,
+      headers: environment.headerSupabase,
     });
   }
 
@@ -40,7 +40,7 @@ export class ProfiloService {
     const body = { p_id: tweetId };
 
     return this.http.post<void>(url, body, {
-      headers: environment.defaultHeaders,
+      headers: environment.headerSupabase,
     });
   }
 

@@ -2,7 +2,7 @@ import { NgFor } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Ruolo } from '../../../../../auth/enums/users.enum';
-import { UserParams } from '../../../../../auth/interfaces/users.interface';
+import { UserParams } from '../../../../../../shared/interfaces/users.interface';
 import { AdminService } from '../../../../services/admin.service';
 import { CambioRuoloUtente } from '../../interfaces/admin.interface';
 import { CapitalizeFirstLetterPipe } from '../../pipes/capitalize.pipe';

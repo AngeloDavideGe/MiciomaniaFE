@@ -5,7 +5,7 @@ import { finalize, map, Subject, take, takeUntil } from 'rxjs';
 import { AuthCustom } from '../../../../shared/custom/auth-custom.class';
 import { ErrorHttpComponent } from '../../../../shared/components/errorhttp.component';
 import { LoadingService } from '../../../../shared/services/loading.service';
-import { User } from '../../../auth/interfaces/users.interface';
+import { User } from '../../../../shared/interfaces/users.interface';
 import {
   EditableSocial,
   Profilo,

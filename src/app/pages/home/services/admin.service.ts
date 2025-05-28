@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { finalize, Observable, take } from 'rxjs';
 import { environment } from '../../../../environments/environment';
-import { User } from '../../auth/interfaces/users.interface';
+import { User } from '../../../shared/interfaces/users.interface';
 import { Ruolo } from '../../auth/enums/users.enum';
 import { LoadingService } from '../../../shared/services/loading.service';
 
@@ -19,7 +19,7 @@ export class AdminService {
     const url = `${environment.urlDB}utenti?id=eq.${id}`;
     const body = { ruolo }; // {ruolo: ruolo} - key: value sono uguali
     return this.http.patch<User>(url, body, {
-      headers: environment.defaultHeaders,
+      headers: environment.headerSupabase,
     });
   }
 

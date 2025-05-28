@@ -11,7 +11,7 @@ import {
   Profile,
   User,
   UserParams,
-} from '../../pages/auth/interfaces/users.interface';
+} from '../interfaces/users.interface';
 
 export abstract class AuthCustom {
   protected confirmService = inject(ConfirmService);

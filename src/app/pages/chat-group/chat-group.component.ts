@@ -12,7 +12,7 @@ import { FormsModule } from '@angular/forms';
 import { Subject, take, takeUntil } from 'rxjs';
 import { AuthCustom } from '../../shared/custom/auth-custom.class';
 import { LoadingService } from '../../shared/services/loading.service';
-import { User, UserParams } from '../auth/interfaces/users.interface';
+import { User, UserParams } from '../../shared/interfaces/users.interface';
 import { Messaggio } from './interfaces/chat-group.interface';
 import { ChatGroupService } from './services/chat-group.service';
 import { formatDataCustom } from '../../shared/function/utilities.function';

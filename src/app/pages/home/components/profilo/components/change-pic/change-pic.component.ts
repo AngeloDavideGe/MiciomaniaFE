@@ -3,7 +3,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { ProfiloService } from '../../../../services/profilo.service';
 import { AuthService } from '../../../../../../shared/services/auth.service';
 import { switchMap, take, tap } from 'rxjs';
-import { User } from '../../../../../auth/interfaces/users.interface';
+import { User } from '../../../../../../shared/interfaces/users.interface';
 
 @Component({
   selector: 'app-change-pic',

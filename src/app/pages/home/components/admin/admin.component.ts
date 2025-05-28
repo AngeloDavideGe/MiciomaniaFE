@@ -4,7 +4,10 @@ import { Subject } from 'rxjs';
 import { AuthCustom } from '../../../../shared/custom/auth-custom.class';
 import { LoadingService } from '../../../../shared/services/loading.service';
 import { Ruolo } from '../../../auth/enums/users.enum';
-import { User, UserParams } from '../../../auth/interfaces/users.interface';
+import {
+  User,
+  UserParams,
+} from '../../../../shared/interfaces/users.interface';
 import { AdminService } from '../../services/admin.service';
 import { EditAdminComponent } from './components/edit-admin/edit-admin.component';
 import { TableUserParamsComponent } from './components/table-user-params/table-user-params.component';

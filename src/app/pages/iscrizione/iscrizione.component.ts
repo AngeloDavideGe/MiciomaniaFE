@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { finalize, take } from 'rxjs';
 import { AuthService } from '../../shared/services/auth.service';
-import { Iscrizione, User } from '../auth/interfaces/users.interface';
+import { Iscrizione, User } from '../../shared/interfaces/users.interface';
 import { WizardCustom } from './custom/wizard-custom.class';
 import { ErrorIscrizioneComponent } from './components/error/error-iscrizione.component';
 import { Step1Component } from './components/step1/step1.component';

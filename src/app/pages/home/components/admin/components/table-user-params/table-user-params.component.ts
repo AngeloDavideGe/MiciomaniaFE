@@ -10,7 +10,7 @@ import {
 import {
   User,
   UserParams,
-} from '../../../../../auth/interfaces/users.interface';
+} from '../../../../../../shared/interfaces/users.interface';
 import { Router } from '@angular/router';
 import { Ruolo } from '../../../../../auth/enums/users.enum';
 

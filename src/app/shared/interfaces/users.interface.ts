@@ -1,4 +1,4 @@
-import { Ruolo, StatoPersona } from '../enums/users.enum';
+import { Ruolo, StatoPersona } from '../../pages/auth/enums/users.enum';
 
 export interface User {
   id: string;

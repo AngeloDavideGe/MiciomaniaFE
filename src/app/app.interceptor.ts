@@ -38,7 +38,7 @@ export class AppInterceptor implements HttpInterceptor {
   }
 
   private modifyRequest(req: HttpRequest<any>): HttpRequest<any> {
-    return req.clone({ headers: environment.defaultHeaders });
+    return req.clone({ headers: environment.headerSupabase });
   }
 
   private finalizeCall(): void {

@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { TabInfoComponent } from './components/tab-info/tab-info.component';
-import { User } from '../../../../../auth/interfaces/users.interface';
+import { User } from '../../../../../../shared/interfaces/users.interface';
 import { TabSocialComponent } from './components/tab-social/tab-social.component';
 import { NgIf } from '@angular/common';
 

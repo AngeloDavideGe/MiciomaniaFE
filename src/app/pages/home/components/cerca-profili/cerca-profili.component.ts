@@ -2,7 +2,7 @@ import { NgFor, NgIf } from '@angular/common';
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { debounceTime, of, Subject, switchMap, takeUntil } from 'rxjs';
-import { UserParams } from '../../../auth/interfaces/users.interface';
+import { UserParams } from '../../../../shared/interfaces/users.interface';
 
 @Component({
   selector: 'app-cerca-profili',

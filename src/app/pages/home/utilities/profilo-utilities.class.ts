@@ -1,5 +1,5 @@
 import { Ruolo } from '../../auth/enums/users.enum';
-import { User } from '../../auth/interfaces/users.interface';
+import { User } from '../../../shared/interfaces/users.interface';
 import { Profilo, Tweet } from '../interfaces/profilo.interface';
 
 export class ProfiloUtilities {

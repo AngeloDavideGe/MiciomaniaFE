@@ -11,7 +11,7 @@ import {
 import { environment } from '../../../environments/environment';
 
 import { UserUtilities } from '../utilities/user-utilities.class';
-import { User, UserParams } from '../../pages/auth/interfaces/users.interface';
+import { User, UserParams } from '../interfaces/users.interface';
 
 const userUtilities = new UserUtilities();
 const apiUrl = environment.urlDB + 'utenti';
@@ -38,7 +38,7 @@ export class AuthService {
     const params = new HttpParams().set('select', 'id,nome,profilePic,ruolo');
 
     return this.http.get<UserParams[]>(apiUrl, {
-      headers: environment.defaultHeaders,
+      headers: environment.headerSupabase,
       params: params,
     });
   }
@@ -48,7 +48,7 @@ export class AuthService {
     password: string
   ): Observable<User[]> {
     const url = `${apiUrl}?email=eq.${email}&password=eq.${password}`;
-    return this.http.get<User[]>(url, { headers: environment.defaultHeaders });
+    return this.http.get<User[]>(url, { headers: environment.headerSupabase });
   }
 
   postUser(
@@ -65,7 +65,7 @@ export class AuthService {
       password_input: password,
     };
     return this.http.post<User>(url, body, {
-      headers: environment.defaultHeaders,
+      headers: environment.headerSupabase,
     });
   }
 
@@ -73,7 +73,7 @@ export class AuthService {
     const url = `${apiUrl}?id=eq.${user.id}`;
     const userForDb = userUtilities.mapUserToDb(user);
     return this.http
-      .patch<User>(url, userForDb, { headers: environment.defaultHeaders })
+      .patch<User>(url, userForDb, { headers: environment.headerSupabase })
       .pipe(
         map(() => {
           this.userSubject.next(user);

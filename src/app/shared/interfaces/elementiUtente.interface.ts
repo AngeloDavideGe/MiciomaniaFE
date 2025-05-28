@@ -1,0 +1,20 @@
+export interface ElementiUtente {
+  manga: MangaMiciomania;
+  proposta: Proposta;
+}
+
+export interface MangaMiciomania {
+  id_autore: string;
+  nome: string;
+  genere: string;
+  copertina: string;
+}
+
+export interface Proposta {
+  id_utente: string;
+  tipo: string;
+  nome: string;
+  descrizione: string;
+  copertina: string;
+  file: string;
+}
