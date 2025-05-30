@@ -19,6 +19,13 @@ export const HOME_ROUTES: Routes = [
           ),
       },
       {
+        path: 'elementi-utente',
+        loadComponent: () =>
+          import('./components/elementi-utente/elementi-utente.component').then(
+            (m) => m.ElementiUtenteComponent
+          ),
+      },
+      {
         path: 'squadre',
         loadComponent: () =>
           import('./components/squadre/squadre.component').then(

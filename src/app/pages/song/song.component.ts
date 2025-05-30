@@ -1,9 +1,11 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { SongService } from './services/song.service';
 import { LoadingService } from '../../shared/services/loading.service';
 import { take } from 'rxjs';
 import { CanzoniMiciomania } from '../../shared/interfaces/elementiUtente.interface';
 import { NgFor } from '@angular/common';
+import { Router } from '@angular/router';
+import { MangaSongUtilities } from '../../shared/utilities/mangaSong-utilities';
 
 @Component({
   selector: 'app-song',
@@ -12,10 +14,10 @@ import { NgFor } from '@angular/common';
   templateUrl: './song.component.html',
   styles: ``,
 })
-export class SongComponent {
-  public currentAudio: HTMLAudioElement | null = null;
-
+export class SongComponent implements OnInit, OnDestroy {
+  public mangaSongUtilities = new MangaSongUtilities();
   public ss = inject(SongService);
+  public router = inject(Router);
   private loadingService = inject(LoadingService);
 
   ngOnInit(): void {
@@ -25,6 +27,10 @@ export class SongComponent {
     ) {
       this.loadMangaMiciomani();
     }
+  }
+
+  ngOnDestroy(): void {
+    this.mangaSongUtilities.stopSong();
   }
 
   private loadMangaMiciomani(): void {
@@ -47,22 +53,5 @@ export class SongComponent {
     this.loadingService.hide();
     localStorage.setItem('canzoniMiciomani', JSON.stringify(data));
     sessionStorage.setItem('canzoniMiciomaniLoaded', 'true');
-  }
-
-  playSong(song: CanzoniMiciomania): void {
-    this.stopSong();
-
-    this.currentAudio = new Audio(song.link.slice(0, -4) + 'raw=1');
-    this.currentAudio.play().catch((error) => {
-      console.error('Errore nella riproduzione:', error);
-    });
-  }
-
-  stopSong(): void {
-    if (this.currentAudio) {
-      this.currentAudio.pause();
-      this.currentAudio.currentTime = 0;
-      this.currentAudio = null;
-    }
   }
 }

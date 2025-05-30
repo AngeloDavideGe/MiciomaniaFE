@@ -1,6 +1,6 @@
 export interface ElementiUtente {
   manga: MangaMiciomania;
-  canzoni: CanzoniMiciomania;
+  canzone: CanzoniMiciomania;
   proposta: Proposta;
 }
 

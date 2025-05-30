@@ -5,6 +5,7 @@ import { MangaMiciomania } from '../../../../shared/interfaces/elementiUtente.in
 import { LoadingService } from '../../../../shared/services/loading.service';
 import { MangaMiciomaniService } from '../../services/mangaMiciomani.service';
 import { Router } from '@angular/router';
+import { MangaSongUtilities } from '../../../../shared/utilities/mangaSong-utilities';
 
 @Component({
   selector: 'app-manga-miciomani',
@@ -17,6 +18,7 @@ export class MangaMiciomaniComponent implements OnInit {
   public mms = inject(MangaMiciomaniService);
   public router = inject(Router);
   private loadingService = inject(LoadingService);
+  public mangaSongUtilities = new MangaSongUtilities();
 
   ngOnInit(): void {
     if (!this.mms.mangaMiciomaniLoaded || this.mms.mangaMiciomani.length == 0) {
@@ -44,9 +46,5 @@ export class MangaMiciomaniComponent implements OnInit {
     this.loadingService.hide();
     localStorage.setItem('mangaMiciomani', JSON.stringify(data));
     sessionStorage.setItem('mangaMiciomaniLoaded', 'true');
-  }
-
-  downloadManga(manga: MangaMiciomania): void {
-    window.open(manga.link.slice(0, -1) + '1');
   }
 }

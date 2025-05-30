@@ -2,7 +2,7 @@ import { NgIf } from '@angular/common';
 import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { NavigationEnd, RouterLink, RouterOutlet } from '@angular/router';
 import 'bootstrap'; // Importa Bootstrap JS (incluso Popper.js)
-import { distinctUntilChanged, filter, Subject, takeUntil } from 'rxjs';
+import { distinctUntilChanged, filter, Subject, take, takeUntil } from 'rxjs';
 import { AuthCustom } from '../../shared/custom/auth-custom.class';
 import { NotificheService } from '../../shared/services/notifiche.service';
 import { User, UserParams } from '../../shared/interfaces/users.interface';
@@ -104,7 +104,10 @@ export class HomeComponent extends AuthCustom implements OnInit, OnDestroy {
     if (user) {
       this.user = user;
       this.inizialiUser = this.calculateUserInitials(user.credenziali.nome);
-      this.elementiUtenteUtilities.getElementiUtente(user.id);
+      this.elementiUtenteUtilities
+        .getElementiUtente(user.id, false)
+        .pipe(take(1))
+        .subscribe();
     } else {
       this.setAnonymousUser();
     }

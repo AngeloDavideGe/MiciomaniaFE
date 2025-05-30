@@ -41,6 +41,18 @@
       Lasciati conquistare da playlist create per scaldare il cuore e farti
       ballare.
     </p>
+    <button
+      class="btn btn-light btn-lg mt-3"
+      style="
+        font-weight: 500;
+        border-radius: 24px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+      "
+      (click)="this.router.navigate(['/home'])"
+    >
+      <i class="bi bi-house-door me-2"></i>
+      Torna alla home
+    </button>
   </div>
 
   <div class="row row-cols-1 row-cols-md-3 g-4">
@@ -82,14 +94,14 @@
           <small style="color: #b3b3b3">Autore: {{ canzone.id_autore }}</small>
           <div class="d-flex gap-2">
             <button
-              (click)="playSong(canzone)"
+              (click)="mangaSongUtilities.playSong(canzone)"
               class="btn btn-success btn-sm"
               style="border-radius: 20px; font-size: 0.8rem; padding: 4px 12px"
             >
               ▶ Ascolta
             </button>
             <button
-              (click)="stopSong()"
+              (click)="mangaSongUtilities.stopSong()"
               class="btn btn-outline-light btn-sm"
               style="
                 border-radius: 20px;
