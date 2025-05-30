@@ -6,6 +6,7 @@ import { IscrizioneComponent } from './pages/iscrizione/iscrizione.component';
 import { MangaComponent } from './pages/manga/manga.component';
 import { ChatGroupComponent } from './pages/chat-group/chat-group.component';
 import { GamesComponent } from './pages/games/games.component';
+import { SongComponent } from './pages/song/song.component';
 
 export const routes: Routes = [
   {
@@ -32,20 +33,24 @@ export const routes: Routes = [
     component: SignInComponent,
   },
   {
-    path: 'chat-group',
-    component: ChatGroupComponent,
-  },
-  {
     path: 'manga',
     component: MangaComponent,
     loadChildren: () =>
       import('./pages/manga/manga.routes').then((m) => m.MANGA_ROUTES),
   },
   {
+    path: 'canzoni',
+    component: SongComponent,
+  },
+  {
     path: 'games',
     component: GamesComponent,
     loadChildren: () =>
       import('./pages/games/games.routes').then((m) => m.GAMES_ROUTES),
+  },
+  {
+    path: 'chat-group',
+    component: ChatGroupComponent,
   },
   {
     path: '**',

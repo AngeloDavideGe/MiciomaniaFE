@@ -4,6 +4,7 @@ import { take } from 'rxjs';
 import { MangaMiciomania } from '../../../../shared/interfaces/elementiUtente.interface';
 import { LoadingService } from '../../../../shared/services/loading.service';
 import { MangaMiciomaniService } from '../../services/mangaMiciomani.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-manga-miciomani',
@@ -14,6 +15,7 @@ import { MangaMiciomaniService } from '../../services/mangaMiciomani.service';
 })
 export class MangaMiciomaniComponent implements OnInit {
   public mms = inject(MangaMiciomaniService);
+  public router = inject(Router);
   private loadingService = inject(LoadingService);
 
   ngOnInit(): void {
@@ -45,9 +47,6 @@ export class MangaMiciomaniComponent implements OnInit {
   }
 
   downloadManga(manga: MangaMiciomania): void {
-    console.log('Download manga:', manga.link);
-    window.open(
-      'https://www.dropbox.com/scl/fi/pvlpi5s6di114218sl4s5/Indykun.pdf?rlkey=6yp11sywtemmwpo4wh4esouaf&st=hkzq3t9w&dl=1'
-    );
+    window.open(manga.link.slice(0, -1) + '1');
   }
 }

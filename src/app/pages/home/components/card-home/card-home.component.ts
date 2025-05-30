@@ -46,15 +46,6 @@ import { RouterLink } from '@angular/router';
 export class CardHomeComponent {
   public cardElements: CardElement[] = [
     {
-      link: 'https://hd2.tudocdn.net/1110659?w=824&h=494',
-      descrizione:
-        'Apri la chat del gruppo Miciomania, deridi e umilia numerose persone che Indy kun e i suoi fedeli compagni incontrano su Fortinte.',
-      titolo: '💬 Chatta con i Miciomani',
-      titoloBottone: 'Chat',
-      aLink: '/chat-group',
-      bgClass: 'bg-primary text-white',
-    },
-    {
       link: 'https://thesoundcheck.it/wp-content/uploads/2022/11/kono-manga-ga-sugoi-2021-migliori-riviste-manga-weekly-shonen-jump-secondo-v3-488235.jpg',
       descrizione:
         'Esplora il mondo dei manga di Miciomania (Parodie e non), cosi da capire come facciamo piangere le donne.',
@@ -64,6 +55,15 @@ export class CardHomeComponent {
       bgClass: 'bg-success text-white',
     },
     {
+      link: 'https://www.vice.com/wp-content/uploads/sites/2/2019/12/1577443774135-thumb_canzoni_internazionali.jpeg?w=1024',
+      descrizione:
+        'Immergiti nel mondo musicale di Miciomania: brani intensi che hanno toccato il cuore (e fatto versare qualche lacrima) a molte ascoltatrici.',
+      titolo: '🎶 Musica Miciomania',
+      titoloBottone: 'Ascolta',
+      aLink: '/canzoni',
+      bgClass: 'bg-danger text-white',
+    },
+    {
       link: 'https://www.flashgames.it/giochi/abilita/my.virtual.pet.shop/my.virtual.pet.shop.jpg',
       descrizione:
         'Prova i vari minigioghi Miciomani, non solo quelli con la quale tratti male una donna conoscente dei membri di Miciomania.',
@@ -71,6 +71,15 @@ export class CardHomeComponent {
       titoloBottone: 'Giochi',
       aLink: '/games',
       bgClass: 'bg-warning text-dark',
+    },
+    {
+      link: 'https://hd2.tudocdn.net/1110659?w=824&h=494',
+      descrizione:
+        'Apri la chat del gruppo Miciomania, deridi e umilia numerose persone che Indy kun e i suoi fedeli compagni incontrano su Fortinte.',
+      titolo: '💬 Chatta con i Miciomani',
+      titoloBottone: 'Chat',
+      aLink: '/chat-group',
+      bgClass: 'bg-primary text-white',
     },
   ];
 }

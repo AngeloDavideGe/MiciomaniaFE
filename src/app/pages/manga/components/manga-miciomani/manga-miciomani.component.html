@@ -1,12 +1,46 @@
-<div class="text-center mb-5">
-  <h2 class="fw-bold" style="color: #4e5d6c">Manga Inediti di Miciomania</h2>
-  <p class="lead" style="color: #6c757d">
-    Se hai raggiunto un determinato punteggio nei minigiochi, puoi scaricare
-    questi manga inediti esclusivi di
-    <span style="color: #7bb661; font-weight: bold">Miciomania</span>! Scopri
-    nuove storie e lasciati sorprendere dal mondo dei miciomani.
-  </p>
+<div
+  class="text-white py-3 mb-3"
+  style="
+    background: linear-gradient(135deg, #27ae60 0%, #2ecc71 50%, #1e8449 100%);
+    border-radius: 20px;
+    box-shadow: 0 6px 18px rgba(39, 174, 96, 0.6);
+  "
+>
+  <div class="container text-center">
+    <h1
+      class="display-5 fw-bold mb-2"
+      style="letter-spacing: 1.5px; text-shadow: 0 0 8px rgba(39, 174, 96, 0.9)"
+    >
+      📚 Manga Inediti di Miciomania
+    </h1>
+    <p
+      class="lead mb-3"
+      style="
+        color: #d4f7d4;
+        font-weight: 500;
+        text-shadow: 0 0 4px rgba(0, 0, 0, 0.3);
+      "
+    >
+      🎮 Hai raggiunto un punteggio speciale nei minigiochi? Ora puoi scaricare
+      questi manga inediti e esclusivi di
+      <span style="color: #adebad; font-weight: 700">Miciomania</span>!
+    </p>
+    <p class="h6 mb-4" style="font-style: italic; color: #c9f0c9">
+      Esplora nuove storie e immergiti nel fantastico universo dei nostri
+      miciomani.
+    </p>
+    <div class="d-flex justify-content-center gap-3">
+      <button
+        class="btn btn-light btn-lg"
+        (click)="this.router.navigate(['/manga'])"
+      >
+        <i class="bi bi-book me-2"></i>
+        Torna ai Manga
+      </button>
+    </div>
+  </div>
 </div>
+
 <div class="row justify-content-center g-4">
   <div
     *ngFor="let manga of mms.mangaMiciomani"
@@ -17,11 +51,13 @@
       style="
         border-radius: 1rem;
         border: none;
-        background: #fff;
+        background: #f0f9f1;
         width: 180px;
         min-height: 520px;
         display: flex;
         flex-direction: column;
+        box-shadow: 0 4px 12px rgba(39, 174, 96, 0.2);
+        transition: transform 0.3s ease;
       "
     >
       <img
@@ -33,6 +69,7 @@
           object-fit: cover;
           border-top-left-radius: 1rem;
           border-top-right-radius: 1rem;
+          border-bottom: 3px solid #27ae60;
         "
       />
       <div
@@ -40,16 +77,19 @@
         style="flex: 1 1 auto; min-height: 140px; padding: 1rem"
       >
         <div>
-          <h5 class="card-title mb-1" style="color: #4e5d6c; font-size: 1.1rem">
+          <h5
+            class="card-title mb-1"
+            style="color: #145a32; font-size: 1.1rem; font-weight: 700"
+          >
             {{ manga.nome }}
           </h5>
           <h6
             class="card-subtitle mb-2"
-            style="color: #7bb661; font-size: 0.95rem"
+            style="color: #27ae60; font-size: 0.95rem; font-weight: 600"
           >
             {{ manga.genere }}
           </h6>
-          <p class="card-text mb-3" style="color: #6c757d; font-size: 0.9rem">
+          <p class="card-text mb-3" style="color: #4d665d; font-size: 0.9rem">
             <span class="fw-bold">Autore:</span> {{ manga.id_autore }}
           </p>
         </div>
@@ -57,7 +97,7 @@
           (click)="downloadManga(manga)"
           target="_blank"
           class="btn btn-success w-100"
-          style="font-weight: 500"
+          style="font-weight: 600; border-radius: 30px"
         >
           <i class="bi bi-download me-2"></i>
           Scarica Manga
