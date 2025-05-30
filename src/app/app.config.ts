@@ -11,16 +11,18 @@ export const appConfig: ApplicationConfig = {
 
 export const configUrl = require('../assets/app.config');
 
-export const headerSupabase = new HttpHeaders({
-  apikey: configUrl.ANONKEY_SUPABASE,
-  Authorization: `Bearer ${configUrl.ANONKEY_SUPABASE}`,
-  'Content-Type': 'application/json',
-});
+export const headers = {
+  Supabase: new HttpHeaders({
+    apikey: configUrl.ANONKEY_SUPABASE,
+    Authorization: `Bearer ${configUrl.ANONKEY_SUPABASE}`,
+    'Content-Type': 'application/json',
+  }),
 
-export const headerRailway = new HttpHeaders({
-  apikey: configUrl.APIKEY_RAILWAY,
-  Authorization: `Bearer ${configUrl.APIKEY_RAILWAY}`,
-});
+  Railway: new HttpHeaders({
+    apikey: configUrl.APIKEY_RAILWAY,
+    Authorization: `Bearer ${configUrl.APIKEY_RAILWAY}`,
+  }),
+};
 
 export const supabase = createClient(
   configUrl.URL_SUPABASE,

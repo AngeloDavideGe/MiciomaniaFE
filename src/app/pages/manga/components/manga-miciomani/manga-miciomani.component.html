@@ -1,0 +1,68 @@
+<div class="text-center mb-5">
+  <h2 class="fw-bold" style="color: #4e5d6c">Manga Inediti di Miciomania</h2>
+  <p class="lead" style="color: #6c757d">
+    Se hai raggiunto un determinato punteggio nei minigiochi, puoi scaricare
+    questi manga inediti esclusivi di
+    <span style="color: #7bb661; font-weight: bold">Miciomania</span>! Scopri
+    nuove storie e lasciati sorprendere dal mondo dei miciomani.
+  </p>
+</div>
+<div class="row justify-content-center g-4">
+  <div
+    *ngFor="let manga of mms.mangaMiciomani"
+    class="col-12 col-sm-6 col-md-4 col-lg-2 d-flex"
+  >
+    <div
+      class="card shadow-sm w-100"
+      style="
+        border-radius: 1rem;
+        border: none;
+        background: #fff;
+        width: 180px;
+        min-height: 520px;
+        display: flex;
+        flex-direction: column;
+      "
+    >
+      <img
+        [src]="manga.copertina"
+        class="card-img-top"
+        alt="Copertina Manga"
+        style="
+          height: 380px;
+          object-fit: cover;
+          border-top-left-radius: 1rem;
+          border-top-right-radius: 1rem;
+        "
+      />
+      <div
+        class="card-body d-flex flex-column justify-content-between"
+        style="flex: 1 1 auto; min-height: 140px; padding: 1rem"
+      >
+        <div>
+          <h5 class="card-title mb-1" style="color: #4e5d6c; font-size: 1.1rem">
+            {{ manga.nome }}
+          </h5>
+          <h6
+            class="card-subtitle mb-2"
+            style="color: #7bb661; font-size: 0.95rem"
+          >
+            {{ manga.genere }}
+          </h6>
+          <p class="card-text mb-3" style="color: #6c757d; font-size: 0.9rem">
+            <span class="fw-bold">Autore:</span> {{ manga.id_autore }}
+          </p>
+        </div>
+        <a
+          (click)="downloadManga(manga)"
+          target="_blank"
+          class="btn btn-success w-100"
+          style="font-weight: 500"
+        >
+          <i class="bi bi-download me-2"></i>
+          Scarica Manga
+        </a>
+      </div>
+    </div>
+  </div>
+</div>

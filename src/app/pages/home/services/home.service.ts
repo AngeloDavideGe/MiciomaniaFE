@@ -40,19 +40,4 @@ export class HomeService {
       this.social = JSON.parse(social);
     }
   }
-
-  // Metodo Per inviare dei file sul sito GoFile dove soltanto il proprietario dell'account può vedere
-  uploadGoFile(
-    photoFile: File,
-    nome: string,
-    cartella: string
-  ): Observable<any> {
-    const formData = new FormData();
-    formData.append('file', photoFile, nome);
-    formData.append('folderId', cartella);
-    formData.append('token', environment.tokenGoFile);
-
-    // Usare un server fisso (store1 o store2 ecc.)
-    return this.http.post('https://store1.gofile.io/uploadFile', formData);
-  }
 }

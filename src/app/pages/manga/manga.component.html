@@ -30,6 +30,15 @@
           <i class="bi bi-book me-2"></i>
           I tuoi manga
         </button>
+
+        <button
+          class="btn btn-light btn-lg"
+          (click)="this.router.navigate(['/manga/manga-miciomani'])"
+          [disabled]="!idUtente"
+        >
+          <i class="bi bi-emoji-sunglasses me-2"></i>
+          Manga miciomani
+        </button>
       </div>
     </div>
   </div>

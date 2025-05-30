@@ -12,6 +12,13 @@ export const MANGA_ROUTES: Routes = [
           ),
       },
       {
+        path: 'manga-miciomani',
+        loadComponent: () =>
+          import('./components/manga-miciomani/manga-miciomani.component').then(
+            (m) => m.MangaMiciomaniComponent
+          ),
+      },
+      {
         path: ':nome',
         loadComponent: () =>
           import('./components/volumi-manga/volumi-manga.component').then(

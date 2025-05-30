@@ -130,14 +130,20 @@ export class HomeComponent extends AuthCustom implements OnInit, OnDestroy {
   }
 
   private handleUsersSubscription(data: UserParams[]): void {
-    const userFind = data.find((x) => x.id === this.user.id);
-    if (userFind) {
-      this.user.id = userFind.id;
-      this.user.credenziali.nome = userFind.nome;
-      this.user.credenziali.profilePic = userFind.profilePic;
+    const otherUsers: UserParams[] = [];
+
+    for (const user of data) {
+      if (user.id === this.user.id) {
+        this.user.id = user.id;
+        this.user.credenziali.nome = user.nome;
+        this.user.credenziali.profilePic = user.profilePic;
+      } else {
+        otherUsers.push(user);
+      }
     }
-    this.authService.users = data.filter((x) => x.id != this.user.id);
-    sessionStorage.setItem('users', JSON.stringify(this.authService.users));
+
+    this.authService.users = otherUsers;
+    sessionStorage.setItem('users', JSON.stringify(otherUsers));
   }
 
   private sottoscrizioneNotifiche(): void {

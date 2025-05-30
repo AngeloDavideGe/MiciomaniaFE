@@ -8,6 +8,7 @@ export interface MangaMiciomania {
   nome: string;
   genere: string;
   copertina: string;
+  link: string;
 }
 
 export interface Proposta {
