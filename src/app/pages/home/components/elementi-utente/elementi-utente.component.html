@@ -250,11 +250,23 @@
     >
       <p class="text-muted mb-2">Nessuna proposta in sospeso.</p>
       <button
+        *ngIf="creaPropostaControllo"
         class="btn btn-outline-success btn-sm"
         style="border-radius: 20px"
+        (click)="creaProposta = true"
       >
         <i class="bi bi-plus-circle me-1"></i> Invia una nuova proposta
       </button>
     </div>
   </div>
 </ng-template>
+
+<app-crea-proposta
+  *ngIf="creaProposta && creaPropostaControllo"
+  [userId]="this.userId"
+  (chiudi)="creaProposta = false"
+></app-crea-proposta>
+<!-- <app-crea-proposta
+  [userId]="this.userId"
+  (chiudi)="creaProposta = false"
+></app-crea-proposta> -->

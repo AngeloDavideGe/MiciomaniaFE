@@ -1,0 +1,170 @@
+<div
+  class="modal"
+  tabindex="-1"
+  role="dialog"
+  style="display: block; background-color: rgba(0, 0, 0, 0.5)"
+>
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <!-- Modal Header -->
+      <div
+        class="modal-header d-flex align-items-center justify-content-between border-bottom-0 pb-0"
+      >
+        <h5 class="modal-title mb-0">Modifica Profilo</h5>
+        <button
+          type="button"
+          class="btn-close"
+          (click)="chiudi.emit()"
+          aria-label="Close"
+        ></button>
+      </div>
+
+      <!-- Modal Body -->
+      <div class="modal-body pt-0 mt-2">
+        <form [formGroup]="propostaForm" (ngSubmit)="upload()">
+          <!-- Campo tipo -->
+          <div class="form-group mb-4">
+            <label for="tipo" class="h5"
+              >Tipo <span class="text-danger">*</span></label
+            >
+            <select
+              class="form-control form-control-lg"
+              id="tipo"
+              formControlName="tipo"
+              [ngClass]="{
+                'is-invalid': f['tipo'].touched && f['tipo'].invalid
+              }"
+            >
+              <option value="" disabled selected>Seleziona un tipo</option>
+              <option value="manga">Manga</option>
+              <option value="canzone">Canzone</option>
+            </select>
+            <div
+              *ngIf="f['tipo'].touched && f['tipo'].invalid"
+              class="invalid-feedback"
+            >
+              <div *ngIf="f['tipo'].errors?.['required']">
+                Il tipo è obbligatorio
+              </div>
+            </div>
+          </div>
+
+          <!-- Campo nome -->
+          <div class="form-group mb-4">
+            <label for="nome" class="h5"
+              >Nome <span class="text-danger">*</span></label
+            >
+            <input
+              type="text"
+              id="nome"
+              class="form-control form-control-lg"
+              formControlName="nome"
+              [ngClass]="{
+                'is-invalid': f['nome'].touched && f['nome'].invalid
+              }"
+            />
+            <div
+              *ngIf="f['nome'].touched && f['nome'].invalid"
+              class="invalid-feedback"
+            >
+              <div *ngIf="f['nome'].errors?.['required']">
+                Il nome è obbligatorio
+              </div>
+            </div>
+          </div>
+
+          <!-- Campo descrizione -->
+          <div class="form-group mb-4">
+            <label for="descrizione" class="h5"
+              >Descrizione <span class="text-danger">*</span></label
+            >
+            <textarea
+              id="descrizione"
+              class="form-control form-control-lg"
+              formControlName="descrizione"
+              rows="3"
+              [ngClass]="{
+                'is-invalid':
+                  f['descrizione'].touched && f['descrizione'].invalid
+              }"
+            ></textarea>
+            <div
+              *ngIf="f['descrizione'].touched && f['descrizione'].invalid"
+              class="invalid-feedback"
+            >
+              <div *ngIf="f['descrizione'].errors?.['required']">
+                La descrizione è obbligatoria
+              </div>
+            </div>
+          </div>
+
+          <!-- Campo copertina -->
+          <!-- <div class="form-group mb-4">
+            <label for="copertina" class="h5">Copertina (opzionale)</label>
+            <input
+              type="file"
+              id="copertina"
+              class="form-control form-control-lg"
+              (change)="onCopertinaSelected($event)"
+              accept="image/*"
+            />
+          </div> -->
+
+          <!-- Campo file -->
+          <div class="form-group mb-4">
+            <label for="file">File PDF/MP3</label>
+            <input
+              type="file"
+              id="file"
+              class="form-control form-control-lg"
+              (change)="onFileSelected($event)"
+              accept=".pdf,.mp3"
+              [ngClass]="{
+                'is-invalid': f['file'].touched && f['file'].invalid
+              }"
+            />
+            <div
+              *ngIf="f['file'].touched && f['file'].invalid"
+              class="invalid-feedback"
+            >
+              <div *ngIf="f['file'].errors?.['required']">
+                Il file è obbligatorio
+              </div>
+              <div *ngIf="f['file'].errors?.['invalidFileType']">
+                Sono accettati solo file PDF o MP3
+              </div>
+            </div>
+            <small class="text-muted"
+              >Formati accettati: PDF per libri, MP3 per musica</small
+            >
+          </div>
+
+          <div class="modal-footer" style="border-top: none; padding-top: 0">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+              style="border-radius: 8px; padding: 8px 20px; border: none"
+              (click)="chiudi.emit()"
+            >
+              Annulla
+            </button>
+            <button
+              type="submit"
+              class="btn btn-primary btn-lg"
+              [disabled]="!propostaForm.valid"
+              style="
+                border-radius: 8px;
+                padding: 8px 25px;
+                background-color: #0d6efd;
+                border: none;
+              "
+            >
+              Invia Proposta
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

@@ -11,11 +11,12 @@ import {
 } from '../../../../shared/interfaces/elementiUtente.interface';
 import { take } from 'rxjs';
 import { MangaSongUtilities } from '../../../../shared/utilities/mangaSong-utilities';
+import { CreaPropostaComponent } from './crea-proposta/crea-proposta.component';
 
 @Component({
   selector: 'app-elementi-utente',
   standalone: true,
-  imports: [NgIf],
+  imports: [NgIf, CreaPropostaComponent],
   templateUrl: './elementi-utente.component.html',
   styles: ``,
 })
@@ -23,6 +24,9 @@ export class ElementiUtenteComponent implements OnInit, OnDestroy {
   public manga: MangaMiciomania = {} as MangaMiciomania;
   public canzone: CanzoniMiciomania = {} as CanzoniMiciomania;
   public proposta: Proposta = {} as Proposta;
+  public creaProposta: boolean = false;
+  public creaPropostaControllo: boolean = false;
+  public userId: string = '';
 
   private elementiUtenteUtilities = new ElementiUtenteUtilities();
   public mangaSongUtilities = new MangaSongUtilities();
@@ -35,6 +39,7 @@ export class ElementiUtenteComponent implements OnInit, OnDestroy {
     const user = this.authService.getUser;
 
     if (user) {
+      this.userId = user.id;
       this.elementiUtenteUtilities
         .getElementiUtente(user.id, true)
         .pipe(take(1))
@@ -43,6 +48,8 @@ export class ElementiUtenteComponent implements OnInit, OnDestroy {
             this.manga = elementiUtente.manga;
             this.canzone = elementiUtente.canzone;
             this.proposta = elementiUtente.proposta;
+            this.creaPropostaControllo =
+              this.manga.nome == '' || this.canzone.nome == '';
           },
           error: (error) => {
             console.error('Errore nel recupero degli elementi utente:', error);

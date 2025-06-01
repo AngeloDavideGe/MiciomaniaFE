@@ -26,5 +26,5 @@ export interface Proposta {
   nome: string;
   descrizione: string;
   copertina: string;
-  file: string;
+  file: File;
 }
