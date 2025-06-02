@@ -11,12 +11,19 @@ import {
 } from '../../../../shared/interfaces/elementiUtente.interface';
 import { take } from 'rxjs';
 import { MangaSongUtilities } from '../../../../shared/utilities/mangaSong-utilities';
-import { CreaPropostaComponent } from './crea-proposta/crea-proposta.component';
+import { CreaPropostaComponent } from './components/crea-proposta/crea-proposta.component';
+import { MangaMiciomaniaCardComponent } from './components/manga-miciomania-card/manga-miciomania-card.component';
+import { CanzoniMiciomaniaCardComponent } from './components/canzoni-miciomania-card/canzoni-miciomania-card.component';
 
 @Component({
   selector: 'app-elementi-utente',
   standalone: true,
-  imports: [NgIf, CreaPropostaComponent],
+  imports: [
+    NgIf,
+    CreaPropostaComponent,
+    MangaMiciomaniaCardComponent,
+    CanzoniMiciomaniaCardComponent,
+  ],
   templateUrl: './elementi-utente.component.html',
   styles: ``,
 })
@@ -27,6 +34,7 @@ export class ElementiUtenteComponent implements OnInit, OnDestroy {
   public creaProposta: boolean = false;
   public creaPropostaControllo: boolean = false;
   public userId: string = '';
+  public tornaAllaHome: Function = () => this.router.navigate(['/home']);
 
   private elementiUtenteUtilities = new ElementiUtenteUtilities();
   public mangaSongUtilities = new MangaSongUtilities();

@@ -3,15 +3,9 @@ import { Observable } from 'rxjs';
 
 export class DropboxUtilities {
   public createHeaders(
-    basePath: string,
-    userId: string,
-    fileName: string,
+    normalizedPath: string,
     accessToken: string
   ): HttpHeaders {
-    const normalizedPath = `/${basePath}/${userId}/${fileName}`
-      .replace(/\/+/g, '/')
-      .replace(/\/$/, '');
-
     return new HttpHeaders({
       Authorization: `Bearer ${accessToken}`,
       'Content-Type': 'application/octet-stream',

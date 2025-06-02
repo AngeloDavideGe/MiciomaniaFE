@@ -1,13 +1,14 @@
 import {
   CanzoniMiciomania,
   MangaMiciomania,
+  Proposta,
 } from '../interfaces/elementiUtente.interface';
 
 export class MangaSongUtilities {
   private currentAudio: HTMLAudioElement | null = null;
   private loading = false;
 
-  playSong(song: CanzoniMiciomania): void {
+  playSong(song: CanzoniMiciomania | Proposta): void {
     this.stopSong();
 
     this.currentAudio = new Audio(song.link.slice(0, -4) + 'raw=1');
@@ -24,7 +25,7 @@ export class MangaSongUtilities {
     }
   }
 
-  downloadManga(manga: MangaMiciomania): void {
+  downloadManga(manga: MangaMiciomania | Proposta): void {
     if (!this.loading) {
       this.loading = true;
       window.location.href = manga.link.slice(0, -1) + '1';

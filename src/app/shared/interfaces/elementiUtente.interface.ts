@@ -21,10 +21,10 @@ export interface CanzoniMiciomania {
 }
 
 export interface Proposta {
-  id_utente: string;
-  tipo: string;
+  id_autore: string;
   nome: string;
-  descrizione: string;
+  genere: string;
   copertina: string;
-  file: File;
+  link: string;
+  tipo: string;
 }

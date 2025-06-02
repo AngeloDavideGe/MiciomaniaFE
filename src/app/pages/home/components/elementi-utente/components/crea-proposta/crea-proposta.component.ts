@@ -13,9 +13,12 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { take } from 'rxjs';
-import { DropboxService } from '../services/dropbox.service';
-import { fileValidator } from '../validators/proposta.validator';
+import { switchMap, take } from 'rxjs';
+import { DropboxService } from '../../services/dropbox.service';
+import { fileValidator } from '../../validators/proposta.validator';
+import { PropostaService } from '../../services/proposta.service';
+import { ElementiUtenteService } from '../../../../../../shared/services/elementiUtente.service';
+import { Proposta } from '../../../../../../shared/interfaces/elementiUtente.interface';
 
 @Component({
   selector: 'app-crea-proposta',
@@ -31,8 +34,11 @@ export class CreaPropostaComponent implements OnInit {
 
   private fb = inject(FormBuilder);
   private dropboxService = inject(DropboxService);
+  private propostaService = inject(PropostaService);
 
   @Input() userId!: string;
+  @Input() elementiUtenteService!: ElementiUtenteService;
+  @Input() tornaAllaHome!: Function;
   @Output() chiudi = new EventEmitter<void>();
 
   get f() {
@@ -87,28 +93,41 @@ export class CreaPropostaComponent implements OnInit {
 
   upload(): void {
     const file = this.propostaForm.get('file')?.value;
-    if (!file || !(file instanceof File)) {
-      this.uploadError = 'Seleziona un file valido';
-      return;
-    }
+    const basePath = this.propostaForm.get('tipo')?.value;
+
+    let proposta: Proposta = {
+      id_autore: this.userId,
+      tipo: this.propostaForm.get('tipo')?.value,
+      nome: this.propostaForm.get('nome')?.value,
+      genere: this.propostaForm.get('descrizione')?.value,
+      copertina: '', // Placeholder, will be set after upload
+      link: '', // Assuming the file name is used as identifier
+    };
 
     this.dropboxService
-      .uploadFile(file, 'Manga', this.userId)
+      .uploadFile(file, basePath, this.userId)
       .pipe(
-        take(1)
-        // switchMap((uploadResponse) => {
-        //   const filePath = uploadResponse.path_lower;
-        //   return this.dropboxService.getPermanentLink(filePath);
-        // })
+        take(1),
+        switchMap((res) => {
+          proposta.link = res;
+          return this.propostaService.postProposta(proposta);
+        })
       )
       .subscribe({
-        next: (permanentLink) => {
-          console.log('Upload completato, link permanente:', permanentLink);
+        next: (data) => {
+          this.elementiUtenteService.elementiUtente.proposta = data;
+          sessionStorage.setItem(
+            'elementiUtente',
+            JSON.stringify(this.elementiUtenteService.elementiUtente)
+          );
         },
         error: (err) => {
           console.error('Errore upload o recupero link:', err);
         },
       });
+
+    this.tornaAllaHome();
   }
+
   onCopertinaSelected(event: Event): void {}
 }

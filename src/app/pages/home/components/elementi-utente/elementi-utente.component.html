@@ -31,63 +31,11 @@
       *ngIf="manga && manga.nome; else noManga"
       class="col-12 col-md-4 d-flex"
     >
-      <div
-        class="card shadow-sm w-100"
-        style="
-          border-radius: 1rem;
-          border: none;
-          background: #f0f9f1;
-          display: flex;
-          flex-direction: column;
-          box-shadow: 0 4px 12px rgba(39, 174, 96, 0.2);
-          transition: transform 0.3s ease;
-          width: 24rem !important;
-        "
+      <app-manga-miciomania-card
+        [manga]="manga"
+        [mangaSongUtilities]="mangaSongUtilities"
       >
-        <img
-          [src]="manga.copertina"
-          class="card-img-top"
-          alt="Copertina Manga"
-          style="
-            height: 380px;
-            object-fit: cover;
-            border-top-left-radius: 1rem;
-            border-top-right-radius: 1rem;
-            border-bottom: 3px solid #27ae60;
-          "
-        />
-        <div
-          class="card-body d-flex flex-column"
-          style="flex: 1 1 auto; min-height: 140px; padding: 1rem"
-        >
-          <div>
-            <h5
-              class="card-title mb-1"
-              style="color: #145a32; font-size: 1.1rem; font-weight: 700"
-            >
-              {{ manga.nome }}
-            </h5>
-            <h6
-              class="card-subtitle mb-2"
-              style="color: #27ae60; font-size: 0.95rem; font-weight: 600"
-            >
-              {{ manga.genere }}
-            </h6>
-            <p class="card-text mb-3" style="color: #4d665d; font-size: 0.9rem">
-              <span class="fw-bold">Autore:</span> {{ manga.id_autore }}
-            </p>
-          </div>
-          <a
-            (click)="mangaSongUtilities.downloadManga(manga)"
-            target="_blank"
-            class="btn btn-success w-100 mt-auto"
-            style="font-weight: 600; border-radius: 30px"
-          >
-            <i class="bi bi-download me-2"></i>
-            Scarica Manga
-          </a>
-        </div>
-      </div>
+      </app-manga-miciomania-card>
     </div>
 
     <!-- Card Canzone -->
@@ -95,72 +43,10 @@
       *ngIf="canzone && canzone.nome; else noCanzone"
       class="col-12 col-md-4 d-flex"
     >
-      <div
-        class="card w-100 shadow-sm"
-        style="
-          border-radius: 12px;
-          background-color: #181818;
-          color: white;
-          display: flex;
-          flex-direction: column;
-          width: 24rem !important;
-        "
-      >
-        <img
-          [src]="canzone.copertina"
-          class="card-img-top"
-          alt="copertina"
-          style="
-            border-top-left-radius: 12px;
-            border-top-right-radius: 12px;
-            height: 380px;
-            object-fit: cover;
-          "
-        />
-        <div class="card-body d-flex flex-column" style="flex: 1 1 auto">
-          <h5
-            class="card-title"
-            style="
-              font-weight: bold;
-              white-space: nowrap;
-              overflow: hidden;
-              text-overflow: ellipsis;
-            "
-          >
-            {{ canzone.nome }}
-          </h5>
-          <p class="card-text" style="font-size: 0.9rem; color: #b3b3b3">
-            Genere: {{ canzone.genere }}
-          </p>
-        </div>
-        <div
-          class="card-footer bg-transparent border-0 d-flex justify-content-between align-items-center mt-auto"
-        >
-          <small style="color: #b3b3b3">Autore: {{ canzone.id_autore }}</small>
-          <div class="d-flex gap-2">
-            <button
-              (click)="mangaSongUtilities.playSong(canzone)"
-              class="btn btn-success btn-sm"
-              style="border-radius: 20px; font-size: 0.8rem; padding: 4px 12px"
-            >
-              ▶ Ascolta
-            </button>
-            <button
-              (click)="mangaSongUtilities.stopSong()"
-              class="btn btn-outline-light btn-sm"
-              style="
-                border-radius: 20px;
-                font-size: 0.8rem;
-                padding: 4px 12px;
-                color: #ffffff;
-                border-color: #ffffff;
-              "
-            >
-              ⏹ Stop
-            </button>
-          </div>
-        </div>
-      </div>
+      <app-canzoni-miciomania-card
+        [canzone]="canzone"
+        [mangaSongUtilities]="mangaSongUtilities"
+      ></app-canzoni-miciomania-card>
     </div>
 
     <!-- Card Proposta -->
@@ -168,42 +54,20 @@
       *ngIf="proposta && proposta.nome; else noProposta"
       class="col-12 col-md-4 d-flex"
     >
-      <div
-        class="card w-100 shadow-sm"
-        style="
-          border-radius: 1rem;
-          display: flex;
-          flex-direction: column;
-          width: 24rem !important;
-        "
-      >
-        <img
-          [src]="proposta.copertina"
-          class="card-img-top"
-          alt="Copertina Proposta"
-          style="
-            height: 380px;
-            object-fit: cover;
-            border-top-left-radius: 1rem;
-            border-top-right-radius: 1rem;
-          "
-        />
-        <div class="card-body d-flex flex-column" style="flex: 1 1 auto">
-          <h5 class="card-title" style="color: #2d8659">La tua Proposta</h5>
-          <p class="mb-1"><strong>Tipo:</strong> {{ proposta.tipo }}</p>
-          <p class="mb-1"><strong>Nome:</strong> {{ proposta.nome }}</p>
-          <p class="mb-2">
-            <strong>Descrizione:</strong> {{ proposta.descrizione }}
-          </p>
-          <a
-            target="_blank"
-            class="btn btn-warning btn-sm mt-auto"
-            style="border-radius: 20px"
-          >
-            <i class="bi bi-send me-1"></i> Visualizza Proposta
-          </a>
-        </div>
-      </div>
+      <ng-container *ngIf="proposta.tipo == 'manga'">
+        <app-manga-miciomania-card
+          [manga]="proposta"
+          [mangaSongUtilities]="mangaSongUtilities"
+        >
+        </app-manga-miciomania-card>
+      </ng-container>
+
+      <ng-container *ngIf="proposta.tipo == 'canzone'">
+        <app-canzoni-miciomania-card
+          [canzone]="proposta"
+          [mangaSongUtilities]="mangaSongUtilities"
+        ></app-canzoni-miciomania-card>
+      </ng-container>
     </div>
   </div>
 </div>
@@ -264,9 +128,7 @@
 <app-crea-proposta
   *ngIf="creaProposta && creaPropostaControllo"
   [userId]="this.userId"
+  [elementiUtenteService]="elementiUtenteService"
+  [tornaAllaHome]="tornaAllaHome"
   (chiudi)="creaProposta = false"
 ></app-crea-proposta>
-<!-- <app-crea-proposta
-  [userId]="this.userId"
-  (chiudi)="creaProposta = false"
-></app-crea-proposta> -->
