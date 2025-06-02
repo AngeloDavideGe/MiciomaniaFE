@@ -1,21 +1,18 @@
 import { NgIf } from '@angular/common';
-import { Component, inject, OnDestroy, OnInit } from '@angular/core';
-import { NavigationEnd, RouterLink, RouterOutlet } from '@angular/router';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { NavigationEnd, RouterOutlet } from '@angular/router';
 import 'bootstrap'; // Importa Bootstrap JS (incluso Popper.js)
 import { distinctUntilChanged, filter, Subject, take, takeUntil } from 'rxjs';
 import { AuthCustom } from '../../shared/custom/auth-custom.class';
-import { NotificheService } from '../../shared/services/notifiche.service';
 import { User, UserParams } from '../../shared/interfaces/users.interface';
-import { Messaggio } from '../chat-group/interfaces/chat-group.interface';
-import { ChatGroupService } from '../chat-group/services/chat-group.service';
+import { ElementiUtenteUtilities } from '../../shared/utilities/elementiUtente-utilities.class';
 import { CardHomeComponent } from './components/ui/card-home.component';
 import { CercaProfiliComponent } from './components/ui/cerca-profili/cerca-profili.component';
 import { CursoreComponent } from './components/ui/cursore.component';
-import { NavBarComponent } from './components/ui/navbar.component';
-import { SocialLinkComponent } from './components/ui/social-link.component';
-import { ElementiUtenteUtilities } from '../../shared/utilities/elementiUtente-utilities.class';
 import { MenuImpostazioniComponent } from './components/ui/menu-impostazioni.component';
 import { MenuProfiliComponent } from './components/ui/menu-profili.component';
+import { NavBarComponent } from './components/ui/navbar.component';
+import { SocialLinkComponent } from './components/ui/social-link.component';
 
 @Component({
   selector: 'app-home',
@@ -37,14 +34,10 @@ export class HomeComponent extends AuthCustom implements OnInit, OnDestroy {
   public user: User = {} as User;
   public inizialiUser: string = '';
   public componenteAperto: string = '';
-  private appenaAperto: boolean = true;
   private destroy$ = new Subject<void>();
   public chiudiComponente: Function = () => (this.componenteAperto = '');
   public goToProfilo: Function = (path: string) => this.router.navigate([path]);
   private elementiUtenteUtilities = new ElementiUtenteUtilities();
-
-  private notificheService = inject(NotificheService);
-  private chatGroupService = inject(ChatGroupService);
 
   ngOnInit(): void {
     if (this.router.url === '/home') {
@@ -54,7 +47,6 @@ export class HomeComponent extends AuthCustom implements OnInit, OnDestroy {
       });
     }
     this.routerEvents();
-    this.sottoscrizioneNotifiche();
   }
 
   ngOnDestroy(): void {
@@ -150,20 +142,5 @@ export class HomeComponent extends AuthCustom implements OnInit, OnDestroy {
 
     this.authService.users = otherUsers;
     sessionStorage.setItem('users', JSON.stringify(otherUsers));
-  }
-
-  private sottoscrizioneNotifiche(): void {
-    this.chatGroupService.messages$.pipe(takeUntil(this.destroy$)).subscribe({
-      next: (data) => {
-        const ultimoMessaggio: Messaggio = data[data.length - 1];
-        if (ultimoMessaggio?.sender != this.user.id && !this.appenaAperto) {
-          this.notificheService.show(
-            ultimoMessaggio.sender,
-            ultimoMessaggio.content
-          );
-        }
-        this.appenaAperto = false;
-      },
-    });
   }
 }

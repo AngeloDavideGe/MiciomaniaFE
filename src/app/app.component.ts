@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { CursorClass } from './shared/class/cursor.class';
+import { NotificheClass } from './shared/class/notifiche.class';
 
 @Component({
   selector: 'app-root',
@@ -27,8 +28,10 @@ import { CursorClass } from './shared/class/cursor.class';
 })
 export class AppComponent implements OnInit {
   private cursorClass = new CursorClass();
+  private notificheClass = new NotificheClass();
 
   ngOnInit(): void {
     this.cursorClass.setCursoreByStorage();
+    this.notificheClass.sottoscrizioneNotifiche();
   }
 }

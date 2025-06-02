@@ -1,15 +1,20 @@
-import { Component, Input } from '@angular/core';
+import { NgIf } from '@angular/common';
+import { Component, inject, Input } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-notifiche',
   standalone: true,
+  imports: [NgIf],
   template: `
-    <div class="notification-container" id="notification">
-      <div class="alert alert-success" role="alert">
-        <strong>{{ sender }}</strong
-        >: {{ content }}
+    <ng-container *ngIf="this.router.url != '/chat-group'">
+      <div class="notification-container" id="notification">
+        <div class="alert alert-success" role="alert">
+          <strong>{{ sender }}</strong
+          >: {{ content }}
+        </div>
       </div>
-    </div>
+    </ng-container>
   `,
   styles: [
     `
@@ -39,6 +44,8 @@ import { Component, Input } from '@angular/core';
   ],
 })
 export class NotificheComponent {
+  public router = inject(Router);
+
   @Input() sender: string = '';
   @Input() content: string = '';
 }
