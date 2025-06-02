@@ -16,8 +16,12 @@ export class NotificheClass {
   public sottoscrizioneNotifiche(): void {
     this.chatGroupService.messages$.pipe(take(100)).subscribe({
       next: (data) => {
-        const ultimoMessaggio: Messaggio = data[data.length - 1];
-        if (ultimoMessaggio?.sender != this.user.id) {
+        const ultimoMessaggio: Messaggio =
+          data[data.length - 1] || ({} as Messaggio);
+        if (
+          ultimoMessaggio?.sender != this.user.id &&
+          this.chatGroupService.messaggiCaricatiBool
+        ) {
           this.notificheService.show(
             ultimoMessaggio.sender,
             ultimoMessaggio.content

@@ -13,12 +13,13 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { switchMap, take } from 'rxjs';
+import { finalize, switchMap, take } from 'rxjs';
 import { DropboxService } from '../../services/dropbox.service';
 import { fileValidator } from '../../validators/proposta.validator';
 import { PropostaService } from '../../services/proposta.service';
 import { ElementiUtenteService } from '../../../../../../../shared/services/elementiUtente.service';
 import { Proposta } from '../../../../../../../shared/interfaces/elementiUtente.interface';
+import { ProposaPrePost } from '../../interfaces/dropbox.interface';
 
 @Component({
   selector: 'app-crea-proposta',
@@ -92,26 +93,63 @@ export class CreaPropostaComponent implements OnInit {
   }
 
   upload(): void {
-    const file = this.propostaForm.get('file')?.value;
-    const basePath = this.propostaForm.get('tipo')?.value;
+    let { proposta, file, basePath } = this.getPropostaPrePost();
+    if (!this.controlloPrePost({ proposta, file, basePath })) return;
+    this.uploadFileHttp({ proposta, file, basePath });
+    this.tornaAllaHome();
+  }
 
-    let proposta: Proposta = {
+  private getPropostaPrePost(): ProposaPrePost {
+    const file: File = this.propostaForm.get('file')?.value;
+    const tipo: string = this.propostaForm.get('tipo')?.value || '';
+    const basePath = tipo.charAt(0).toUpperCase() + tipo.slice(1);
+
+    const proposta: Proposta = {
       id_autore: this.userId,
-      tipo: this.propostaForm.get('tipo')?.value,
+      tipo: tipo,
       nome: this.propostaForm.get('nome')?.value,
       genere: this.propostaForm.get('descrizione')?.value,
-      copertina: '', // Placeholder, will be set after upload
-      link: '', // Assuming the file name is used as identifier
+      copertina: '',
+      link: '',
     };
 
+    return {
+      proposta: proposta,
+      file: file,
+      basePath: basePath,
+    } as ProposaPrePost;
+  }
+
+  private controlloPrePost(p: ProposaPrePost): boolean {
+    if (!this.dropboxService.dropboxResponse.access_token) {
+      alert('Attendere un momento il caricamento per il file');
+      return false;
+    }
+
+    if (p.basePath == 'Manga' && p.file.type !== 'application/pdf') {
+      alert('Il tipo manga deve essere in formato pdf');
+      return false;
+    }
+
+    if (p.basePath == 'Canzone' && p.file.type !== 'audio/mpeg') {
+      alert('Il tipo canzone deve essere in formato mp3');
+      return false;
+    }
+
+    return true;
+  }
+
+  private uploadFileHttp(p: ProposaPrePost): void {
+    this.elementiUtenteService.propostaCaricata = false;
     this.dropboxService
-      .uploadFile(file, basePath, this.userId)
+      .uploadFile(p.file, p.basePath, this.userId)
       .pipe(
         take(1),
         switchMap((res) => {
-          proposta.link = res;
-          return this.propostaService.postProposta(proposta);
-        })
+          p.proposta.link = res;
+          return this.propostaService.postProposta(p.proposta);
+        }),
+        finalize(() => (this.elementiUtenteService.propostaCaricata = true))
       )
       .subscribe({
         next: (data) => {
@@ -125,9 +163,5 @@ export class CreaPropostaComponent implements OnInit {
           console.error('Errore upload o recupero link:', err);
         },
       });
-
-    this.tornaAllaHome();
   }
-
-  onCopertinaSelected(event: Event): void {}
 }

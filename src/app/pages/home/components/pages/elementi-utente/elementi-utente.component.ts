@@ -1,20 +1,18 @@
-import { Component, inject, OnDestroy, OnInit } from '@angular/core';
-import { ElementiUtenteService } from '../../../../../shared/services/elementiUtente.service';
-import { ElementiUtenteUtilities } from '../../../../../shared/utilities/elementiUtente-utilities.class';
-import { AuthService } from '../../../../../shared/services/auth.service';
-import { Router } from '@angular/router';
 import { NgIf } from '@angular/common';
-
+import { Component, inject, OnDestroy, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { AuthService } from '../../../../../shared/services/auth.service';
+import { ElementiUtenteUtilities } from '../../../../../shared/utilities/elementiUtente-utilities.class';
 import { take } from 'rxjs';
-import { MangaSongUtilities } from '../../../../../shared/utilities/mangaSong-utilities';
-import { CreaPropostaComponent } from './components/crea-proposta/crea-proposta.component';
-import { MangaMiciomaniaCardComponent } from './components/manga-miciomania-card/manga-miciomania-card.component';
-import { CanzoniMiciomaniaCardComponent } from './components/canzoni-miciomania-card/canzoni-miciomania-card.component';
 import {
   CanzoniMiciomania,
   MangaMiciomania,
   Proposta,
 } from '../../../../../shared/interfaces/elementiUtente.interface';
+import { MangaSongUtilities } from '../../../../../shared/utilities/mangaSong-utilities';
+import { CanzoniMiciomaniaCardComponent } from './components/canzoni-miciomania-card/canzoni-miciomania-card.component';
+import { CreaPropostaComponent } from './components/crea-proposta/crea-proposta.component';
+import { MangaMiciomaniaCardComponent } from './components/manga-miciomania-card/manga-miciomania-card.component';
 
 @Component({
   selector: 'app-elementi-utente',
@@ -37,19 +35,23 @@ export class ElementiUtenteComponent implements OnInit, OnDestroy {
   public userId: string = '';
   public tornaAllaHome: Function = () => this.router.navigate(['/home']);
 
-  private elementiUtenteUtilities = new ElementiUtenteUtilities();
+  public elemUti = new ElementiUtenteUtilities();
   public mangaSongUtilities = new MangaSongUtilities();
 
-  public elementiUtenteService = inject(ElementiUtenteService);
   private authService = inject(AuthService);
   public router = inject(Router);
 
   ngOnInit(): void {
+    this.loadElementiUtente();
+    this.controlloProposta();
+  }
+
+  private loadElementiUtente(): void {
     const user = this.authService.getUser;
 
     if (user) {
       this.userId = user.id;
-      this.elementiUtenteUtilities
+      this.elemUti
         .getElementiUtente(user.id, true)
         .pipe(take(1))
         .subscribe({
@@ -64,8 +66,13 @@ export class ElementiUtenteComponent implements OnInit, OnDestroy {
             console.error('Errore nel recupero degli elementi utente:', error);
           },
         });
-    } else {
+    }
+  }
+
+  private controlloProposta(): void {
+    if (!this.elemUti.elementiUtenteService.propostaCaricata) {
       this.router.navigate(['/home']);
+      alert('La proposta sta in caricamento, attendere un attimo');
     }
   }
 

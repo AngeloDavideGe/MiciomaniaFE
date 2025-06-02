@@ -112,7 +112,13 @@
       class="card shadow-sm d-flex flex-column align-items-center justify-content-center"
       style="width: 20rem; height: 36rem; padding: 1rem"
     >
-      <p class="text-muted mb-2">Nessuna proposta in sospeso.</p>
+      <p class="text-muted mb-2">
+        {{
+          creaPropostaControllo
+            ? "Non hai proposte in sospeso"
+            : "Hai gia manga e canzone"
+        }}
+      </p>
       <button
         *ngIf="creaPropostaControllo"
         class="btn btn-outline-success btn-sm"
@@ -128,7 +134,7 @@
 <app-crea-proposta
   *ngIf="creaProposta && creaPropostaControllo"
   [userId]="this.userId"
-  [elementiUtenteService]="elementiUtenteService"
+  [elementiUtenteService]="elemUti.elementiUtenteService"
   [tornaAllaHome]="tornaAllaHome"
   (chiudi)="creaProposta = false"
 ></app-crea-proposta>

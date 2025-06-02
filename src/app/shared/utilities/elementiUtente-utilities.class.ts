@@ -5,7 +5,7 @@ import { ElementiUtente } from '../interfaces/elementiUtente.interface';
 import { LoadingService } from '../services/loading.service';
 
 export class ElementiUtenteUtilities {
-  private elementiUtenteService = inject(ElementiUtenteService);
+  public elementiUtenteService = inject(ElementiUtenteService);
   private loadingService = inject(LoadingService);
 
   public getElementiUtente(

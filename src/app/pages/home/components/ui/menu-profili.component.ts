@@ -39,7 +39,7 @@ import { User } from '../../../../shared/interfaces/users.interface';
       </li>
       <ng-container *ngIf="user.id; else loggedOut">
         <li>
-          <a class="dropdown-item" (click)="(logout)">
+          <a class="dropdown-item" (click)="logout.emit()">
             <i class="bi bi-box-arrow-right me-2"></i>
             Logout
           </a>

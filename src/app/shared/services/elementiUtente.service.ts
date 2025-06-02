@@ -12,6 +12,7 @@ import {
   providedIn: 'root',
 })
 export class ElementiUtenteService {
+  public propostaCaricata: boolean = true;
   public elementiUtente: ElementiUtente = {
     manga: {} as MangaMiciomania,
     proposta: {} as Proposta,

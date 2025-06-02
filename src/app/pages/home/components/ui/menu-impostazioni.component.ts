@@ -1,10 +1,12 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { NgIf } from '@angular/common';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { User } from '../../../../shared/interfaces/users.interface';
 
 @Component({
   selector: 'app-menu-impostazioni',
   standalone: true,
-  imports: [RouterLink],
+  imports: [RouterLink, NgIf],
   template: `
     <div id="menuBarImpostazioni">
       <li>
@@ -19,12 +21,22 @@ import { RouterLink } from '@angular/router';
           Squadre
         </a>
       </li>
-      <li>
-        <a class="dropdown-item" routerLink="/home/elementi-utente">
-          <i class="bi bi-lightbulb-fill me-2"></i>
-          Proposte
-        </a>
-      </li>
+      <ng-container *ngIf="user.id; else NoElementiUtente">
+        <li>
+          <a class="dropdown-item" routerLink="/home/elementi-utente">
+            <i class="bi bi-lightbulb-fill me-2"></i>
+            Proposte
+          </a>
+        </li>
+      </ng-container>
+      <ng-template #NoElementiUtente>
+        <li>
+          <span class="dropdown-item text-muted">
+            <i class="bi bi-exclamation-circle me-2"></i>
+            Accedi per vedere i tuoi elementi
+          </span>
+        </li>
+      </ng-template>
       <li class="pc-only">
         <a class="dropdown-item" (click)="cursore.emit()">
           <i class="bi bi-cursor me-2"></i>
@@ -61,5 +73,6 @@ import { RouterLink } from '@angular/router';
   ],
 })
 export class MenuImpostazioniComponent {
+  @Input() user!: User;
   @Output() cursore = new EventEmitter<void>();
 }

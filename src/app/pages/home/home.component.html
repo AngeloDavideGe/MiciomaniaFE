@@ -8,6 +8,7 @@
 
   <ng-template #menuBarImpostazioni>
     <app-menu-impostazioni
+      [user]="user"
       (cursore)="
         componenteAperto = componenteAperto == 'cursore' ? '' : 'cursore'
       "
