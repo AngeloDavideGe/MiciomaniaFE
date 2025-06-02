@@ -8,11 +8,11 @@ import { NotificheService } from '../../shared/services/notifiche.service';
 import { User, UserParams } from '../../shared/interfaces/users.interface';
 import { Messaggio } from '../chat-group/interfaces/chat-group.interface';
 import { ChatGroupService } from '../chat-group/services/chat-group.service';
-import { CardHomeComponent } from './components/card-home/card-home.component';
-import { CercaProfiliComponent } from './components/cerca-profili/cerca-profili.component';
-import { CursoreComponent } from './components/cursore/cursore.component';
-import { NavBarComponent } from './components/nav-bar/navbar.component';
-import { SocialLinkComponent } from './components/social-link/social-link.component';
+import { CardHomeComponent } from './components/ui/card-home.component';
+import { CercaProfiliComponent } from './components/ui/cerca-profili/cerca-profili.component';
+import { CursoreComponent } from './components/ui/cursore.component';
+import { NavBarComponent } from './components/ui/navbar.component';
+import { SocialLinkComponent } from './components/ui/social-link.component';
 import { ElementiUtenteUtilities } from '../../shared/utilities/elementiUtente-utilities.class';
 
 @Component({
