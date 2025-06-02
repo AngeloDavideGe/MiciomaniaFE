@@ -1,8 +1,8 @@
 import { NgClass, NgFor, NgIf, NgStyle } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import { take } from 'rxjs';
-import { HomeService } from '../../../services/home.service';
-import { Social } from '../../../interfaces/profilo.interface';
+import { HomeService } from '../../services/home.service';
+import { Social } from '../../interfaces/profilo.interface';
 
 @Component({
   selector: 'app-social-link',

@@ -14,6 +14,8 @@ import { CursoreComponent } from './components/ui/cursore.component';
 import { NavBarComponent } from './components/ui/navbar.component';
 import { SocialLinkComponent } from './components/ui/social-link.component';
 import { ElementiUtenteUtilities } from '../../shared/utilities/elementiUtente-utilities.class';
+import { MenuImpostazioniComponent } from './components/ui/menu-impostazioni.component';
+import { MenuProfiliComponent } from './components/ui/menu-profili.component';
 
 @Component({
   selector: 'app-home',
@@ -22,11 +24,12 @@ import { ElementiUtenteUtilities } from '../../shared/utilities/elementiUtente-u
     CardHomeComponent,
     SocialLinkComponent,
     CercaProfiliComponent,
-    RouterLink,
     NgIf,
     RouterOutlet,
     NavBarComponent,
     CursoreComponent,
+    MenuImpostazioniComponent,
+    MenuProfiliComponent,
   ],
   templateUrl: './home.component.html',
 })
