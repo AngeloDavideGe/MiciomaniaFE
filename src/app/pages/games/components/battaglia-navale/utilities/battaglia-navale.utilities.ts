@@ -23,7 +23,7 @@ export class BattagliaNavaleUtilities {
   private controlloOrizzontale(pn: PosizionaNave): boolean {
     if (pn.colonna + pn.nave.lunghezzaNave > pn.dimGriglia) return false;
 
-    const pn1 = structuredClone(pn);
+    const pn1: PosizionaNave = structuredClone(pn);
 
     for (let i = 0; i < pn.nave.lunghezzaNave; i++) {
       if (this.cellaOccupata(pn1)) {
@@ -43,7 +43,7 @@ export class BattagliaNavaleUtilities {
   private controlloVerticale(pn: PosizionaNave): boolean {
     if (pn.riga + pn.nave.lunghezzaNave > pn.dimGriglia) return false;
 
-    const pn1 = structuredClone(pn);
+    const pn1: PosizionaNave = structuredClone(pn);
 
     for (let i = 0; i < pn.nave.lunghezzaNave; i++) {
       if (this.cellaOccupata(pn1)) {
@@ -64,8 +64,8 @@ export class BattagliaNavaleUtilities {
     if (pn.riga - 1 < 0 || pn.colonna + 1 >= pn.dimGriglia) {
       return false;
     }
-    const pn1 = structuredClone(pn);
-    const pn2 = structuredClone(pn);
+    const pn1: PosizionaNave = structuredClone(pn);
+    const pn2: PosizionaNave = structuredClone(pn);
 
     pn1.riga--;
     pn2.colonna++;

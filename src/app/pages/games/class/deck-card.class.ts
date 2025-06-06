@@ -2,6 +2,7 @@ import { inject } from '@angular/core';
 import { map, Observable, take } from 'rxjs';
 import {
   CardDeck,
+  Deck,
   DefaultDeck,
   DrawDeck,
 } from '../interfaces/games.interfaces';
@@ -40,7 +41,7 @@ export class DeckCardClass {
   }
 
   public drawCards(count: number): void {
-    const deck = this.deckCardService.deckHttp;
+    const deck: Deck = this.deckCardService.deckHttp;
 
     if (deck.deck_id && deck.remaining >= count) {
       this.drawCardsCustom({

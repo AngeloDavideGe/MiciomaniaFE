@@ -13,6 +13,7 @@ import { MangaSongUtilities } from '../../../../../shared/utilities/mangaSong-ut
 import { CanzoniMiciomaniaCardComponent } from './components/canzoni-miciomania-card/canzoni-miciomania-card.component';
 import { CreaPropostaComponent } from './components/crea-proposta/crea-proposta.component';
 import { MangaMiciomaniaCardComponent } from './components/manga-miciomania-card/manga-miciomania-card.component';
+import { User } from '../../../../../shared/interfaces/users.interface';
 
 @Component({
   selector: 'app-elementi-utente',
@@ -47,7 +48,7 @@ export class ElementiUtenteComponent implements OnInit, OnDestroy {
   }
 
   private loadElementiUtente(): void {
-    const user = this.authService.getUser;
+    const user: User | null = this.authService.getUser;
 
     if (user) {
       this.userId = user.id;

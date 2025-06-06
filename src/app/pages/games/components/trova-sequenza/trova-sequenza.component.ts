@@ -24,7 +24,7 @@ export class TrovaSequenzaComponent implements OnInit {
 
   private initializeGame(): void {
     this.tentativiRestanti = structuredClone(this.valueGame.tentativi);
-    const uniqueNumbers = this.generateUniqueNumbers(
+    const uniqueNumbers: number[] = this.generateUniqueNumbers(
       1,
       50,
       this.valueGame.gridSize * this.valueGame.gridSize
@@ -62,7 +62,9 @@ export class TrovaSequenzaComponent implements OnInit {
       this.selectedNumbers.length ===
       this.valueGame.gridSize * this.valueGame.gridSize
     ) {
-      const correctSequence = this.numbers.flat().sort((a, b) => a - b);
+      const correctSequence: number[] = this.numbers
+        .flat()
+        .sort((a, b) => a - b);
       this.gameWon = this.selectedNumbers.every(
         (num, index) => num === correctSequence[index]
       );

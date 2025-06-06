@@ -114,7 +114,7 @@ export class HomeComponent extends AuthCustom implements OnInit, OnDestroy {
   }
 
   private calculateUserInitials(nome: string): string {
-    const nomi = nome.split(' ');
+    const nomi: string[] = nome.split(' ');
     if (nomi.length > 1) {
       return nomi[0][0] + nomi[1][0];
     }

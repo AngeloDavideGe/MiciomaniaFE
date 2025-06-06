@@ -36,8 +36,8 @@
               }"
             >
               <option value="" disabled selected>Seleziona un tipo</option>
-              <option value="manga">Manga</option>
-              <option value="canzone">Canzone</option>
+              <option *ngIf="!optionManga" value="manga">Manga</option>
+              <option *ngIf="!optionCanzone" value="canzone">Canzone</option>
             </select>
             <div
               *ngIf="f['tipo'].touched && f['tipo'].invalid"
@@ -97,18 +97,6 @@
               </div>
             </div>
           </div>
-
-          <!-- Campo copertina -->
-          <!-- <div class="form-group mb-4">
-            <label for="copertina" class="h5">Copertina (opzionale)</label>
-            <input
-              type="file"
-              id="copertina"
-              class="form-control form-control-lg"
-              (change)="onCopertinaSelected($event)"
-              accept="image/*"
-            />
-          </div> -->
 
           <!-- Campo file -->
           <div class="form-group mb-4">

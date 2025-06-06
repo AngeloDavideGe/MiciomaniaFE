@@ -75,7 +75,7 @@ export class AdminComponent extends AuthCustom implements OnInit, OnDestroy {
   }
 
   private mapUsersByRuolo(): void {
-    const users = this.authService.users;
+    const users: UserParams[] = this.authService.users;
 
     this.ruoli.forEach((ruolo) => {
       this.userMap[ruolo] = [];
@@ -110,7 +110,7 @@ export class AdminComponent extends AuthCustom implements OnInit, OnDestroy {
   }
 
   ruoloModificato(user: CambioRuoloUtente): void {
-    const globalUserIndex = this.authService.users.findIndex(
+    const globalUserIndex: number = this.authService.users.findIndex(
       (u) => u.id === user.id
     );
     if (globalUserIndex !== -1) {

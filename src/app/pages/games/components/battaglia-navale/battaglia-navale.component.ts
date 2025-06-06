@@ -54,7 +54,7 @@ export class BattagliaNavaleComponent extends GamesCustom implements OnInit {
   }
 
   private inizializzaNaviRimaste(): void {
-    const numNavi = this.numNavi.Grandi * 3 + this.numNavi.Piccole * 2;
+    const numNavi: number = this.numNavi.Grandi * 3 + this.numNavi.Piccole * 2;
     this.naviRimanenti.Player = structuredClone(numNavi);
     this.naviRimanenti.Bot = structuredClone(numNavi);
   }
@@ -84,13 +84,13 @@ export class BattagliaNavaleComponent extends GamesCustom implements OnInit {
 
   private posizionaNavi(nave: Nave): void {
     for (let i = 0; i < nave.numNavi; i++) {
-      const maxTentativi = 100;
-      let posizioneValida = false;
-      let tentativi = 0;
+      const maxTentativi: number = 100;
+      let posizioneValida: boolean = false;
+      let tentativi: number = 0;
 
       while (!posizioneValida && tentativi < maxTentativi) {
-        const riga = Math.floor(Math.random() * this.dimGriglia);
-        const colonna = Math.floor(
+        const riga: number = Math.floor(Math.random() * this.dimGriglia);
+        const colonna: number = Math.floor(
           Math.random() * (this.dimGriglia - nave.lunghezzaNave + 1)
         );
 
@@ -126,7 +126,7 @@ export class BattagliaNavaleComponent extends GamesCustom implements OnInit {
   }
 
   colpisciCella(cellOcc: CellaOccupata): void {
-    const { i, j, key } = cellOcc;
+    const { i, j, key }: CellaOccupata = cellOcc;
     if (this.celle.cellaBot[i][j].cellaColpita || key == 'cellaPlayer') {
       return;
     }

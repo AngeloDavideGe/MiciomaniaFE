@@ -196,7 +196,7 @@ export class ProfiloComponent extends AuthCustom implements OnInit, OnDestroy {
   }
 
   private openInvalidLinkPage(): void {
-    const newWindow = window.open('', '_blank');
+    const newWindow: Window | null = window.open('', '_blank');
     if (newWindow) {
       newWindow.document.write(this.getErrorPage());
       newWindow.document.close();

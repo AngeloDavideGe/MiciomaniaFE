@@ -84,7 +84,7 @@ export class VolumiMangaComponent implements OnInit {
   }
 
   private loadVolumi(): void {
-    const index = this.mangaService.mangaAperti.findIndex(
+    const index: number = this.mangaService.mangaAperti.findIndex(
       (x) => x.nome == this.pathOpera
     );
     if (index > -1) {

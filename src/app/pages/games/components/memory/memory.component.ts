@@ -81,7 +81,7 @@ export class MemoryComponent extends GamesCustom implements OnInit {
   }
 
   private fineGioco(): boolean {
-    let selectedCount = 0;
+    let selectedCount: number = 0;
 
     this.selectedCards.forEach((isSelected) => {
       if (isSelected) {

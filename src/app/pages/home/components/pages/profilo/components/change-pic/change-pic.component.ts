@@ -96,18 +96,27 @@ export class ChangePicComponent {
   onFileSelected(event: Event) {
     const input = event.target as HTMLInputElement;
     if (input.files && input.files[0]) {
-      const file = input.files[0];
+      const file: File = input.files[0];
 
-      // Controllo estensione e tipo MIME
-      const allowedExtensions = ['jpg', 'jpeg', 'png', 'gif', 'bmp', 'webp'];
-      const allowedTypes = [
+      const allowedExtensions: string[] = [
+        'jpg',
+        'jpeg',
+        'png',
+        'gif',
+        'bmp',
+        'webp',
+      ];
+      const allowedTypes: string[] = [
         'image/jpeg',
         'image/png',
         'image/gif',
         'image/bmp',
         'image/webp',
       ];
-      const fileExtension = file.name.split('.').pop()?.toLowerCase();
+      const fileExtension: string | undefined = file.name
+        .split('.')
+        .pop()
+        ?.toLowerCase();
 
       if (
         !fileExtension ||
@@ -115,7 +124,7 @@ export class ChangePicComponent {
         !allowedTypes.includes(file.type)
       ) {
         alert('Formato o tipo immagine non supportato');
-        input.value = ''; // reset input
+        input.value = '';
         this.selectedFile = null;
         this.previewUrl = null;
         return;

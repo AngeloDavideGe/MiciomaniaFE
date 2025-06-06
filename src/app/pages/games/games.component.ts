@@ -14,6 +14,8 @@ import { GamesClass } from './class/games.class';
 import { SquadreGioco } from './interfaces/games.interfaces';
 import { environment } from '../../../environments/environment';
 import { take } from 'rxjs';
+import { User } from '../../shared/interfaces/users.interface';
+import { SquadreService } from '../../shared/services/squadre.service';
 
 @Component({
   selector: 'app-games',
@@ -52,7 +54,7 @@ export class GamesComponent extends SquadreCustom implements OnInit, OnDestroy {
   }
 
   private ifCallLoadSquadre(): void {
-    const user = this.authService.getUser;
+    const user: User | null = this.authService.getUser;
     if (user) {
       environment.team.forEach((nomeTeam) => {
         if (user.iscrizione.team?.includes(nomeTeam)) {
@@ -71,12 +73,13 @@ export class GamesComponent extends SquadreCustom implements OnInit, OnDestroy {
   }
 
   private elseCallLoadSquadre(): void {
-    const user = this.authService.getUser;
+    const user: User | null = this.authService.getUser;
     if (user) {
       environment.team.forEach((nomeTeam) => {
-        const punteggioFind = this.squadreService.squadre.find(
-          (squadra) => squadra.id == nomeTeam
-        )?.punteggio;
+        const punteggioFind: number | undefined =
+          this.squadreService.squadre.find(
+            (squadra) => squadra.id == nomeTeam
+          )?.punteggio;
 
         if (user.iscrizione.team?.includes(nomeTeam)) {
           this.squadre.personale.push({
@@ -95,27 +98,29 @@ export class GamesComponent extends SquadreCustom implements OnInit, OnDestroy {
 
   private nextCallLoadSquadre(): void {
     this.squadre.personale.forEach((squadra) => {
-      const punteggioFind = this.squadreService.squadre.find(
-        (squadraFind) => squadraFind.id == squadra.nome
-      )?.punteggio;
+      const punteggioFind: number | undefined =
+        this.squadreService.squadre.find(
+          (squadraFind) => squadraFind.id == squadra.nome
+        )?.punteggio;
       squadra.punteggio = punteggioFind || 'non disponibile';
     });
 
     this.squadre.avversario.forEach((squadra) => {
-      const punteggioFind = this.squadreService.squadre.find(
-        (squadraFind) => squadraFind.id == squadra.nome
-      )?.punteggio;
+      const punteggioFind: number | undefined =
+        this.squadreService.squadre.find(
+          (squadraFind) => squadraFind.id == squadra.nome
+        )?.punteggio;
       squadra.punteggio = punteggioFind || 'non disponibile';
     });
   }
 
   private updatePunteggioSquadra($event: BeforeUnloadEvent | null): void {
-    const user = this.authService.getUser;
-    const ss = this.squadreService;
+    const user: User | null = this.authService.getUser;
+    const ss: SquadreService = this.squadreService;
 
     if (user && ss.getPunteggioOttenuto > 0) {
       $event ? $event.preventDefault() : null;
-      const squadre = ss.squadre.map((squadra) => squadra.id);
+      const squadre: string[] = ss.squadre.map((squadra) => squadra.id);
       ss.updatePunteggioSquadra(user.id, squadre)
         .pipe(take(1))
         .subscribe({

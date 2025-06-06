@@ -83,7 +83,7 @@ export class SquadreComponent extends SquadreCustom implements OnInit {
       data.addRow([s.id, s.punteggio]);
     });
 
-    const chartContainer = document.getElementById(idChart);
+    const chartContainer: HTMLElement | null = document.getElementById(idChart);
     if (!chartContainer) return;
 
     const chart = new google.visualization.BarChart(chartContainer);

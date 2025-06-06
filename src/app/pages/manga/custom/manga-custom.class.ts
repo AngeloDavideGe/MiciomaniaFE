@@ -79,9 +79,8 @@ export abstract class MangaCustom {
     let allManga: ListaManga[] = [];
 
     for (let i = 0; i < idManga.length; i++) {
-      const mangaFind = this.mangaService.listaManga.find(
-        (x) => x.id == idManga[i]
-      );
+      const mangaFind: ListaManga | undefined =
+        this.mangaService.listaManga.find((x) => x.id == idManga[i]);
       if (mangaFind) {
         allManga.push(mangaFind);
       }

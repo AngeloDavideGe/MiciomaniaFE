@@ -31,7 +31,7 @@ export class AlertGamesService {
     this.alertComponentRef.instance.esito = esito;
 
     this.appRef.attachView(this.alertComponentRef.hostView);
-    const domElement = (this.alertComponentRef.hostView as any)
+    const domElement: HTMLElement = (this.alertComponentRef.hostView as any)
       .rootNodes[0] as HTMLElement;
     document.body.appendChild(domElement);
 

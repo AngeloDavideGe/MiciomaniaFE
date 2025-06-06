@@ -1,4 +1,4 @@
-import { BotPlay, NavaleCell } from '../../../interfaces/games.interfaces';
+import { BotPlay } from '../../../interfaces/games.interfaces';
 
 interface Coordinate {
   i: number;
@@ -9,7 +9,7 @@ export class BotBattagliaNavale {
   public botHaColpito: Coordinate | null = null;
 
   public getCoordinateBot(bp: BotPlay): Coordinate {
-    const naveColpita = this.naveColpita(bp);
+    const naveColpita: Coordinate | null = this.naveColpita(bp);
     return naveColpita ? naveColpita : this.naveNonColpita(bp);
   }
 
@@ -18,7 +18,7 @@ export class BotBattagliaNavale {
       return null;
     }
 
-    const { i, j } = structuredClone(this.botHaColpito);
+    const { i, j }: Coordinate = structuredClone(this.botHaColpito);
     this.botHaColpito = null;
 
     const celleConNave: Coordinate[] = [];
@@ -65,8 +65,8 @@ export class BotBattagliaNavale {
   }
 
   private naveNonColpita(bp: BotPlay): Coordinate {
-    const celleLiberePlayer = this.getCelleLibere(bp);
-    const num = Math.floor(Math.random() * celleLiberePlayer.length);
+    const celleLiberePlayer: Coordinate[] = this.getCelleLibere(bp);
+    const num: number = Math.floor(Math.random() * celleLiberePlayer.length);
     return celleLiberePlayer[num];
   }
 

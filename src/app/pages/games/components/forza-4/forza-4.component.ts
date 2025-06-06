@@ -43,7 +43,7 @@ export class Forza4Component extends GamesCustom implements OnInit {
   inserisciPedina(j: number): void {
     if (this.turno == 'Player') {
       this.turno = 'Bot';
-      const rigaLibera = this.rigaLibera(j);
+      const rigaLibera: number | undefined = this.rigaLibera(j);
 
       if (rigaLibera || rigaLibera == 0) {
         this.campo[rigaLibera][j].player = true;
@@ -61,10 +61,10 @@ export class Forza4Component extends GamesCustom implements OnInit {
   }
 
   turnoBot(): void {
-    let j = this.bot.getColonnaSelezionata(this.campo);
+    let j: number = this.bot.getColonnaSelezionata(this.campo);
 
     if (j > -1) {
-      const rigaLibera = this.rigaLibera(j);
+      const rigaLibera: number | undefined = this.rigaLibera(j);
 
       if (rigaLibera || rigaLibera == 0) {
         this.campo[rigaLibera][j].bot = true;
@@ -82,9 +82,9 @@ export class Forza4Component extends GamesCustom implements OnInit {
   }
 
   private rigaLibera(j: number): number | undefined {
-    const righe = Array.from({ length: this.dimCampo }, (_, i) => i); // [0, 1, 2, 3, 4, 5]
+    const righe: number[] = Array.from({ length: this.dimCampo }, (_, i) => i); // [0, 1, 2, 3, 4, 5]
 
-    const rigaLibera = righe
+    const rigaLibera: number | undefined = righe
       .reverse()
       .find((i) => !this.campo[i][j].player && !this.campo[i][j].bot);
 
@@ -105,8 +105,8 @@ export class Forza4Component extends GamesCustom implements OnInit {
           for (const [di, dj] of directions) {
             let count = 1;
             for (let k = 1; k < 4; k++) {
-              const ni = i + di * k;
-              const nj = j + dj * k;
+              const ni: number = i + di * k;
+              const nj: number = j + dj * k;
               if (
                 ni >= 0 &&
                 ni < this.campo.length &&

@@ -28,10 +28,9 @@ import { ProposaPrePost } from '../../interfaces/dropbox.interface';
   templateUrl: './crea-proposta.component.html',
 })
 export class CreaPropostaComponent implements OnInit {
-  propostaForm!: FormGroup;
-  isUploading = false;
-  uploadError: string | null = null;
-  uploadSuccess = false;
+  public propostaForm!: FormGroup;
+  public optionManga: boolean = false;
+  public optionCanzone: boolean = false;
 
   private fb = inject(FormBuilder);
   private dropboxService = inject(DropboxService);
@@ -47,8 +46,15 @@ export class CreaPropostaComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.setProposteDisponibili();
     this.getDropboxToken();
     this.inizializzaForm();
+  }
+
+  private setProposteDisponibili(): void {
+    const elemUtente = this.elementiUtenteService.elementiUtente;
+    this.optionManga = !!elemUtente.manga.id_autore;
+    this.optionCanzone = !!elemUtente.canzone.id_autore;
   }
 
   private getDropboxToken(): void {
@@ -84,7 +90,7 @@ export class CreaPropostaComponent implements OnInit {
   onFileSelected(event: Event): void {
     const input = event.target as HTMLInputElement;
     if (input.files && input.files.length > 0) {
-      const file = input.files[0];
+      const file: File = input.files[0];
       this.propostaForm.patchValue({
         file: file,
       });
@@ -102,7 +108,7 @@ export class CreaPropostaComponent implements OnInit {
   private getPropostaPrePost(): ProposaPrePost {
     const file: File = this.propostaForm.get('file')?.value;
     const tipo: string = this.propostaForm.get('tipo')?.value || '';
-    const basePath = tipo.charAt(0).toUpperCase() + tipo.slice(1);
+    const basePath: string = tipo.charAt(0).toUpperCase() + tipo.slice(1);
 
     const proposta: Proposta = {
       id_autore: this.userId,

@@ -57,11 +57,11 @@ export class TuoiMangaComponent
   }
 
   ngOnDestroy(): void {
-    const mangaUtente = {
+    const mangaUtente: MangaUtente = {
       preferiti: this.sezioneListaManga.preferiti.map((x) => x.id).join(', '),
       letti: this.sezioneListaManga.letti.map((x) => x.id).join(', '),
       completati: this.sezioneListaManga.completati.map((x) => x.id).join(', '),
-    };
+    } as MangaUtente;
     localStorage.setItem('mangaUtente', JSON.stringify(mangaUtente));
   }
 
@@ -128,7 +128,8 @@ export class TuoiMangaComponent
   }
 
   cercaNuoviManga(event: Event): void {
-    const query = (event.target as HTMLInputElement).value.toLowerCase() || '';
+    const query: string =
+      (event.target as HTMLInputElement).value.toLowerCase() || '';
 
     this.allMangaFiltrati = this.mangaService.listaManga.filter((manga) =>
       manga.nome.toLowerCase().includes(query)

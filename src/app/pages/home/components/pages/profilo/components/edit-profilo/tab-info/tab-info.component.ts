@@ -92,9 +92,15 @@ export class TabInfoComponent extends TabProfiloCustom {
   }
 
   private areUsersEqual(user1: User, user2: User): boolean {
-    const credenzia = compareObjectCustom(user1.credenziali, user2.credenziali);
-    const iscrizione = compareObjectCustom(user1.iscrizione, user2.iscrizione);
-    const profilo = compareObjectCustom(user1.profile, user2.profile);
+    const credenzia: boolean = compareObjectCustom(
+      user1.credenziali,
+      user2.credenziali
+    );
+    const iscrizione: boolean = compareObjectCustom(
+      user1.iscrizione,
+      user2.iscrizione
+    );
+    const profilo: boolean = compareObjectCustom(user1.profile, user2.profile);
 
     return credenzia && iscrizione && profilo;
   }

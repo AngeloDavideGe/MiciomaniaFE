@@ -49,7 +49,7 @@ export class TabSocialComponent extends TabProfiloCustom implements OnInit {
 
   saveChanges() {
     if (!this.areSocialArraysEqual(this.socialArray, this.socialArrayCopy)) {
-      const userTemp = this.formatUser();
+      const userTemp: User = this.formatUser();
 
       this.updateUser({
         user: userTemp,
@@ -75,7 +75,7 @@ export class TabSocialComponent extends TabProfiloCustom implements OnInit {
       return acc;
     }, {} as Record<string, string>);
 
-    const userTemp = structuredClone(
+    const userTemp: User = structuredClone(
       this.profiloService.profiloPersonale!.user
     );
 
