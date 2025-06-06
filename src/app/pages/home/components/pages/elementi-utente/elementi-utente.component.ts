@@ -1,19 +1,19 @@
 import { NgIf } from '@angular/common';
-import { Component, inject, OnDestroy, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { AuthService } from '../../../../../shared/services/auth.service';
-import { ElementiUtenteUtilities } from '../../../../../shared/utilities/elementiUtente-utilities.class';
 import { take } from 'rxjs';
 import {
   CanzoniMiciomania,
   MangaMiciomania,
   Proposta,
 } from '../../../../../shared/interfaces/elementiUtente.interface';
+import { User } from '../../../../../shared/interfaces/users.interface';
+import { AuthService } from '../../../../../shared/services/auth.service';
+import { ElementiUtenteUtilities } from '../../../../../shared/utilities/elementiUtente-utilities.class';
 import { MangaSongUtilities } from '../../../../../shared/utilities/mangaSong-utilities';
 import { CanzoniMiciomaniaCardComponent } from './components/canzoni-miciomania-card/canzoni-miciomania-card.component';
 import { CreaPropostaComponent } from './components/crea-proposta/crea-proposta.component';
 import { MangaMiciomaniaCardComponent } from './components/manga-miciomania-card/manga-miciomania-card.component';
-import { User } from '../../../../../shared/interfaces/users.interface';
 
 @Component({
   selector: 'app-elementi-utente',
@@ -27,7 +27,7 @@ import { User } from '../../../../../shared/interfaces/users.interface';
   templateUrl: './elementi-utente.component.html',
   styles: ``,
 })
-export class ElementiUtenteComponent implements OnInit, OnDestroy {
+export class ElementiUtenteComponent implements OnInit {
   public manga: MangaMiciomania = {} as MangaMiciomania;
   public canzone: CanzoniMiciomania = {} as CanzoniMiciomania;
   public proposta: Proposta = {} as Proposta;
@@ -75,9 +75,5 @@ export class ElementiUtenteComponent implements OnInit, OnDestroy {
       this.router.navigate(['/home']);
       alert('La proposta sta in caricamento, attendere un attimo');
     }
-  }
-
-  ngOnDestroy(): void {
-    this.mangaSongUtilities.stopSong();
   }
 }

@@ -56,7 +56,7 @@
   </div>
 
   <div class="row row-cols-1 row-cols-md-3 g-4">
-    <div class="col" *ngFor="let canzone of ss.canzoniMiciomani">
+    <div class="col" *ngFor="let canzone of songService.canzoniMiciomani">
       <div
         class="card h-100 shadow-sm"
         style="border-radius: 12px; background-color: #181818; color: white"
@@ -94,14 +94,14 @@
           <small style="color: #b3b3b3">Autore: {{ canzone.id_autore }}</small>
           <div class="d-flex gap-2">
             <button
-              (click)="mangaSongUtilities.playSong(canzone)"
+              (click)="this.msu.playSong(canzone, songService.canzoniMiciomani)"
               class="btn btn-success btn-sm"
               style="border-radius: 20px; font-size: 0.8rem; padding: 4px 12px"
             >
               ▶ Ascolta
             </button>
             <button
-              (click)="mangaSongUtilities.stopSong()"
+              (click)="msu.sc.stopSong()"
               class="btn btn-outline-light btn-sm"
               style="
                 border-radius: 20px;

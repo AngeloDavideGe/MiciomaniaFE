@@ -1,28 +1,26 @@
+import { inject } from '@angular/core';
 import {
   CanzoniMiciomania,
   MangaMiciomania,
   Proposta,
 } from '../interfaces/elementiUtente.interface';
+import { MiniPlayerClass } from '../../core/class/mini-player.class';
 
 export class MangaSongUtilities {
-  private currentAudio: HTMLAudioElement | null = null;
   private loading = false;
+  public sc = inject(MiniPlayerClass);
 
-  playSong(song: CanzoniMiciomania | Proposta): void {
-    this.stopSong();
-
-    this.currentAudio = new Audio(song.link.slice(0, -4) + 'raw=1');
-    this.currentAudio.play().catch((error) => {
-      console.error('Errore nella riproduzione:', error);
-    });
-  }
-
-  stopSong(): void {
-    if (this.currentAudio) {
-      this.currentAudio.pause();
-      this.currentAudio.currentTime = 0;
-      this.currentAudio = null;
-    }
+  playSong(
+    song: CanzoniMiciomania | Proposta,
+    allSongs?: CanzoniMiciomania[]
+  ): void {
+    this.sc.stopSong();
+    this.sc.currentCanzone = song;
+    this.sc.allCanzoni = allSongs || ([] as CanzoniMiciomania[]);
+    this.sc.playSong();
+    this.sc.currentSongIndex = this.sc.allCanzoni.findIndex(
+      (x: CanzoniMiciomania) => x.id_autore == song.id_autore
+    );
   }
 
   downloadManga(manga: MangaMiciomania | Proposta): void {

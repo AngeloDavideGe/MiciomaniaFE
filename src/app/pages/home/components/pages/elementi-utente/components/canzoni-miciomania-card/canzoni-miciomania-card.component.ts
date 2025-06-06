@@ -61,7 +61,7 @@ import { MangaSongUtilities } from '../../../../../../../shared/utilities/mangaS
             ▶ Ascolta
           </button>
           <button
-            (click)="mangaSongUtilities.stopSong()"
+            (click)="mangaSongUtilities.sc.stopSong()"
             class="btn btn-outline-light btn-sm"
             style="
                 border-radius: 20px;

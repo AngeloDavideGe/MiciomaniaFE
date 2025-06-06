@@ -1,11 +1,11 @@
-import { Component, inject, OnDestroy, OnInit } from '@angular/core';
-import { SongService } from './services/song.service';
-import { LoadingService } from '../../shared/services/loading.service';
+import { NgFor } from '@angular/common';
+import { Component, inject, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { take } from 'rxjs';
 import { CanzoniMiciomania } from '../../shared/interfaces/elementiUtente.interface';
-import { NgFor } from '@angular/common';
-import { Router } from '@angular/router';
+import { LoadingService } from '../../shared/services/loading.service';
 import { MangaSongUtilities } from '../../shared/utilities/mangaSong-utilities';
+import { SongService } from './services/song.service';
 
 @Component({
   selector: 'app-song',
@@ -14,29 +14,27 @@ import { MangaSongUtilities } from '../../shared/utilities/mangaSong-utilities';
   templateUrl: './song.component.html',
   styles: ``,
 })
-export class SongComponent implements OnInit, OnDestroy {
-  public mangaSongUtilities = new MangaSongUtilities();
-  public ss = inject(SongService);
+export class SongComponent implements OnInit {
+  public msu = new MangaSongUtilities();
   public router = inject(Router);
   private loadingService = inject(LoadingService);
+  public songService = inject(SongService);
 
   ngOnInit(): void {
     if (
-      !this.ss.canzoniMiciomaniLoaded ||
-      this.ss.canzoniMiciomani.length == 0
+      !this.songService.canzoniMiciomaniLoaded ||
+      this.songService.canzoniMiciomani.length == 0
     ) {
-      this.loadMangaMiciomani();
+      this.loadCanzoniMiciomani();
     }
   }
 
-  ngOnDestroy(): void {
-    this.mangaSongUtilities.stopSong();
-  }
+  private loadCanzoniMiciomani(): void {
+    this.songService.canzoniMiciomani.length == 0
+      ? this.loadingService.show()
+      : null;
 
-  private loadMangaMiciomani(): void {
-    this.ss.canzoniMiciomani.length == 0 ? this.loadingService.show() : null;
-
-    this.ss
+    this.songService
       .getListaCanzoniMiciomani()
       .pipe(take(1))
       .subscribe({
@@ -48,8 +46,8 @@ export class SongComponent implements OnInit, OnDestroy {
   }
 
   private nextGetListaMangaMiciomani(data: CanzoniMiciomania[]): void {
-    this.ss.canzoniMiciomani = data;
-    this.ss.canzoniMiciomaniLoaded = true;
+    this.songService.canzoniMiciomani = data;
+    this.songService.canzoniMiciomaniLoaded = true;
     this.loadingService.hide();
     localStorage.setItem('canzoniMiciomani', JSON.stringify(data));
     sessionStorage.setItem('canzoniMiciomaniLoaded', 'true');
