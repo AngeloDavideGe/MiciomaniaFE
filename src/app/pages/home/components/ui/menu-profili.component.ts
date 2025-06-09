@@ -47,7 +47,7 @@ import { User } from '../../../../shared/interfaces/users.interface';
       </ng-container>
       <ng-template #loggedOut>
         <li>
-          <a class="dropdown-item" routerLink="/login">
+          <a class="dropdown-item" routerLink="/auth/login">
             <i class="bi bi-box-arrow-in-right me-2"></i>
             Login
           </a>

@@ -1,5 +1,5 @@
 <div
-  *ngIf="this.router.url == '/login'"
+  *ngIf="this.router.url == '/auth/login'"
   class="container min-vh-100 d-flex justify-content-center align-items-center"
 >
   <div class="row w-100">
@@ -70,7 +70,7 @@
 
             <div class="text-center mt-3">
               <span>Non sei iscritto? </span>
-              <a routerLink="/sign-in" class="text-primary"> Iscriviti </a>
+              <a routerLink="/auth/sign-in" class="text-primary"> Iscriviti </a>
             </div>
           </form>
         </div>

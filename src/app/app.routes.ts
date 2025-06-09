@@ -1,11 +1,10 @@
 import { Routes } from '@angular/router';
-import { LoginComponent } from './pages/auth/login.component';
-import { SignInComponent } from './pages/auth/sign-in/sign-in.component';
+import { AuthComponent } from './pages/auth/auth.component';
+import { ChatGroupComponent } from './pages/chat-group/chat-group.component';
+import { GamesComponent } from './pages/games/games.component';
 import { HomeComponent } from './pages/home/home.component';
 import { IscrizioneComponent } from './pages/iscrizione/iscrizione.component';
 import { MangaComponent } from './pages/manga/manga.component';
-import { ChatGroupComponent } from './pages/chat-group/chat-group.component';
-import { GamesComponent } from './pages/games/games.component';
 import { SongComponent } from './pages/song/song.component';
 
 export const routes: Routes = [
@@ -25,12 +24,10 @@ export const routes: Routes = [
     component: IscrizioneComponent,
   },
   {
-    path: 'login',
-    component: LoginComponent,
-  },
-  {
-    path: 'sign-in',
-    component: SignInComponent,
+    path: 'auth',
+    component: AuthComponent,
+    loadChildren: () =>
+      import('./pages/auth/auth.routes').then((m) => m.AUTH_ROUTES),
   },
   {
     path: 'manga',

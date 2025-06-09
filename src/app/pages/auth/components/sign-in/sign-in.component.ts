@@ -8,8 +8,8 @@ import {
 } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { Subject, take, takeUntil } from 'rxjs';
-import { AuthCustom } from '../../../shared/custom/auth-custom.class';
-import { usernameValidator } from '../validators/username.validator';
+import { AuthCustom } from '../../../../shared/custom/auth-custom.class';
+import { usernameValidator } from '../../validators/username.validator';
 
 @Component({
   selector: 'app-sign-in',
@@ -81,7 +81,7 @@ export class SignInComponent extends AuthCustom {
 
   private nextSignIn(data: any): void {
     if (data.user) {
-      this.router.navigate(['/login'], {
+      this.router.navigate(['/auth/login'], {
         state: { message: this.f['email'].value },
       });
     } else {

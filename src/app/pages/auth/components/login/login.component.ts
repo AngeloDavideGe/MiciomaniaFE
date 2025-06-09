@@ -8,8 +8,8 @@ import {
 } from '@angular/forms';
 import { RouterLink, RouterOutlet } from '@angular/router';
 import { Subject, take } from 'rxjs';
-import { AuthCustom } from '../../shared/custom/auth-custom.class';
-import { MangaService } from '../manga/services/manga.service';
+import { AuthCustom } from '../../../../shared/custom/auth-custom.class';
+import { MangaService } from '../../../manga/services/manga.service';
 
 @Component({
   selector: 'app-login',

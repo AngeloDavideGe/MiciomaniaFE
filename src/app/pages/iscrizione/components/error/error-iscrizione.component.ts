@@ -17,13 +17,13 @@ import { Component } from '@angular/core';
           Non sei iscritto. Registrati per accedere.
         </p>
         <a
-          href="/sign-in"
+          href="/auth/sign-in"
           class="btn btn-primary w-100"
           style="font-size: 1rem; padding: 10px 20px;"
           >Vai alla Registrazione</a
         >
         <a
-          href="/login"
+          href="/auth/login"
           class="btn btn-outline-secondary w-100 mt-2"
           style="font-size: 1rem; padding: 10px 20px;"
           >Torna al Login</a
