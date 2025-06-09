@@ -10,7 +10,7 @@ import { User } from '../../../../shared/interfaces/users.interface';
   template: `
     <div id="menuBarImpostazioni">
       <li>
-        <a class="dropdown-item" routerLink="/iscrizione">
+        <a class="dropdown-item" routerLink="/auth/iscrizione">
           <i class="bi bi-person-plus me-2"></i>
           Iscrizione Team
         </a>

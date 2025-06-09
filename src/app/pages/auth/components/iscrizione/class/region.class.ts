@@ -1,5 +1,5 @@
-import { regioniMock } from '../constants/regioni.constant';
-import { Provincia, Regione } from '../interfaces/region.interface';
+import { Provincia, Regione } from '../../../interfaces/region.interface';
+import { regioniMock } from '../../iscrizione/constants/regioni.constant';
 
 export class Region {
   public getRegioniMap(): { nome: string; codice: string }[] {

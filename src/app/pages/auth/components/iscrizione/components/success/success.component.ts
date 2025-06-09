@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { User } from '../../../../shared/interfaces/users.interface';
+import { User } from '../../../../../../shared/interfaces/users.interface';
 
 @Component({
   standalone: true,

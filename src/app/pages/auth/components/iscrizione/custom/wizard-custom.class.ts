@@ -1,8 +1,8 @@
 import { inject } from '@angular/core';
 import { Router } from '@angular/router';
-import { DTO_Wizard } from '../interfaces/wizard.interface';
-import { WizardService } from '../services/wizard.service';
-import { LoadingService } from '../../../shared/services/loading.service';
+import { DTO_Wizard } from '../../../interfaces/wizard.interface';
+import { WizardService } from '../../../services/wizard.service';
+import { LoadingService } from '../../../../../shared/services/loading.service';
 
 export abstract class WizardCustom {
   protected currentStep: number;

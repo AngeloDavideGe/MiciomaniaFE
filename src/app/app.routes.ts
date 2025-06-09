@@ -3,7 +3,6 @@ import { AuthComponent } from './pages/auth/auth.component';
 import { ChatGroupComponent } from './pages/chat-group/chat-group.component';
 import { GamesComponent } from './pages/games/games.component';
 import { HomeComponent } from './pages/home/home.component';
-import { IscrizioneComponent } from './pages/iscrizione/iscrizione.component';
 import { MangaComponent } from './pages/manga/manga.component';
 import { SongComponent } from './pages/song/song.component';
 
@@ -18,10 +17,6 @@ export const routes: Routes = [
     component: HomeComponent,
     loadChildren: () =>
       import('./pages/home/home.routes').then((m) => m.HOME_ROUTES),
-  },
-  {
-    path: 'iscrizione',
-    component: IscrizioneComponent,
   },
   {
     path: 'auth',

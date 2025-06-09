@@ -18,6 +18,13 @@ export const AUTH_ROUTES: Routes = [
             (m) => m.SignInComponent
           ),
       },
+      {
+        path: 'iscrizione',
+        loadComponent: () =>
+          import('./components/iscrizione/iscrizione.component').then(
+            (m) => m.IscrizioneComponent
+          ),
+      },
     ],
   },
 ];

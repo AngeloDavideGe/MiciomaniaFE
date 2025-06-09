@@ -1,16 +1,19 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { finalize, take } from 'rxjs';
-import { AuthService } from '../../shared/services/auth.service';
-import { Iscrizione, User } from '../../shared/interfaces/users.interface';
+import { AuthService } from '../../../../shared/services/auth.service';
+import {
+  Iscrizione,
+  User,
+} from '../../../../shared/interfaces/users.interface';
 import { WizardCustom } from './custom/wizard-custom.class';
 import { ErrorIscrizioneComponent } from './components/error/error-iscrizione.component';
 import { Step1Component } from './components/step1/step1.component';
 import { Step2Component } from './components/step2/step2.component';
 import { Step3Component } from './components/step3/step3.component';
 import { SuccessPageComponent } from './components/success/success.component';
-import { FormWizard } from './interfaces/wizard.interface';
-import { Ruolo } from '../auth/enums/users.enum';
+import { FormWizard } from '../../interfaces/wizard.interface';
+import { Ruolo } from '../../enums/users.enum';
 
 @Component({
   selector: 'app-iscrizione',
@@ -126,7 +129,7 @@ export class IscrizioneComponent extends WizardCustom {
     this.wizardService.setWizardForm({} as FormWizard);
 
     this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
-      this.router.navigate(['/iscrizione']);
+      this.router.navigate(['/auth/iscrizione']);
     });
   }
 

@@ -14,15 +14,15 @@ import {
   Validators,
 } from '@angular/forms';
 import { Subject, takeUntil } from 'rxjs';
-import { AuthCustom } from '../../../../shared/custom/auth-custom.class';
-import { StatoPersona } from '../../../auth/enums/users.enum';
-import { User } from '../../../../shared/interfaces/users.interface';
+import { AuthCustom } from '../../../../../../shared/custom/auth-custom.class';
+import { StatoPersona } from '../../../../enums/users.enum';
+import { User } from '../../../../../../shared/interfaces/users.interface';
 import { Region } from '../../class/region.class';
-import { Provincia } from '../../interfaces/region.interface';
-import { FormWizard } from '../../interfaces/wizard.interface';
-import { WizardService } from '../../services/wizard.service';
-import { arrayNotEmptyValidator } from '../../validators/checkbox.validator';
-import { environment } from '../../../../../environments/environment';
+import { Provincia } from '../../../../interfaces/region.interface';
+import { FormWizard } from '../../../../interfaces/wizard.interface';
+import { WizardService } from '../../../../services/wizard.service';
+import { arrayNotEmptyValidator } from '../../../../validators/checkbox.validator';
+import { environment } from '../../../../../../../environments/environment';
 
 @Component({
   selector: 'app-step2',

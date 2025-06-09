@@ -8,7 +8,7 @@ import {
   Output,
 } from '@angular/core';
 import { BehaviorSubject, Subject, takeUntil } from 'rxjs';
-import { FormWizard } from '../../interfaces/wizard.interface';
+import { FormWizard } from '../../../../interfaces/wizard.interface';
 import { LineeGuidaComponent } from './linee-guida/linee-guida.component';
 
 @Component({

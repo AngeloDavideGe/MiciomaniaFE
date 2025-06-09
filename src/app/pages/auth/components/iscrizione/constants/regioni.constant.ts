@@ -1,4 +1,4 @@
-import { Regione } from '../interfaces/region.interface';
+import { Regione } from '../../../interfaces/region.interface';
 
 export const regioniMock: Regione[] = [
   {
