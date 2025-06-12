@@ -27,6 +27,7 @@ import { Ruolo } from '../../enums/users.enum';
     SuccessPageComponent,
   ],
   templateUrl: './iscrizione.component.html',
+  styleUrl: './iscrizione.component.scss',
 })
 export class IscrizioneComponent extends WizardCustom {
   public user: User = {} as User;

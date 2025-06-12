@@ -6,7 +6,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { RouterLink, RouterOutlet } from '@angular/router';
+import { RouterLink } from '@angular/router';
 import { Subject, take } from 'rxjs';
 import { AuthCustom } from '../../../../shared/custom/auth-custom.class';
 import { MangaService } from '../../../manga/services/manga.service';
@@ -14,7 +14,7 @@ import { MangaService } from '../../../manga/services/manga.service';
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, RouterLink, RouterOutlet],
+  imports: [CommonModule, ReactiveFormsModule, RouterLink],
   templateUrl: './login.component.html',
 })
 export class LoginComponent extends AuthCustom implements OnInit {

@@ -2,56 +2,52 @@
   <ng-container
     *ngIf="!(user.iscrizione?.team && viewSuccespage); else successPage"
   >
-    <div class="container mt-5" style="max-width: 75rem">
-      <div class="wizard-header">
-        <div
-          *ngFor="let step of wizard; let i = index"
-          class="wizard-step"
-          [class.active]="currentStep === step.step"
-        >
-          <div class="circle">{{ step.step }}</div>
-          <div class="label">{{ step.titolo }}</div>
-        </div>
-      </div>
-      <div class="card shadow-lg rounded-3 border-primary">
-        <ng-container [ngSwitch]="currentStep">
-          <ng-container *ngSwitchCase="1">
-            <app-step1></app-step1>
-          </ng-container>
-          <ng-container *ngSwitchCase="2">
-            <app-step2
-              *ngIf="user.id; else errorPage"
-              (formValido)="formValido = $event"
-            ></app-step2>
-          </ng-container>
-          <ng-container *ngSwitchCase="3">
-            <app-step3
-              [wizardData]="wizardService.getWizardForm()"
-              (lineeGuidaEvent)="lineeGuidaAccettate = $event"
-            >
-            </app-step3>
-          </ng-container>
-        </ng-container>
-
-        <div
-          *ngIf="user.id || currentStep != 2"
-          class="d-flex justify-content-center mt-4"
-        >
-          <div
-            class="d-flex justify-content-between"
-            style="max-width: 70rem; width: 100%"
-          >
-            <button class="btn btn-primary btn-lg mx-3" (click)="prevStep()">
-              Indietro
-            </button>
-            <button class="btn btn-success btn-lg mx-3" (click)="nextStep()">
-              {{ currentStep == 3 ? "Invia" : "Avanti" }}
-            </button>
-          </div>
-        </div>
-        <br />
+    <div class="wizard-header">
+      <div
+        *ngFor="let step of wizard; let i = index"
+        class="wizard-step"
+        [class.active]="currentStep === step.step"
+      >
+        <div class="circle">{{ step.step }}</div>
+        <div class="label">{{ step.titolo }}</div>
       </div>
     </div>
+    <ng-container [ngSwitch]="currentStep">
+      <ng-container *ngSwitchCase="1">
+        <app-step1></app-step1>
+      </ng-container>
+      <ng-container *ngSwitchCase="2">
+        <app-step2
+          *ngIf="user.id; else errorPage"
+          (formValido)="formValido = $event"
+        ></app-step2>
+      </ng-container>
+      <ng-container *ngSwitchCase="3">
+        <app-step3
+          [wizardData]="wizardService.getWizardForm()"
+          (lineeGuidaEvent)="lineeGuidaAccettate = $event"
+        >
+        </app-step3>
+      </ng-container>
+    </ng-container>
+
+    <div
+      *ngIf="user.id || currentStep != 2"
+      class="d-flex justify-content-center mt-4"
+    >
+      <div
+        class="d-flex justify-content-between"
+        style="max-width: 70rem; width: 100%"
+      >
+        <button class="btn btn-primary btn-lg mx-3" (click)="prevStep()">
+          Indietro
+        </button>
+        <button class="btn btn-success btn-lg mx-3" (click)="nextStep()">
+          {{ currentStep == 3 ? "Invia" : "Avanti" }}
+        </button>
+      </div>
+    </div>
+    <br />
   </ng-container>
 </ng-container>
 
@@ -66,111 +62,3 @@
     [editInfo]="editInfo"
   ></app-success-page>
 </ng-template>
-
-<style>
-  .wizard-header {
-    margin-top: 2rem;
-    display: flex;
-    justify-content: center;
-    margin-bottom: 30px;
-    padding: 0 10%;
-    position: relative;
-    align-items: center;
-  }
-
-  .wizard-step {
-    text-align: center;
-    position: relative;
-    flex: 1;
-
-    .circle {
-      width: 50px;
-      height: 50px;
-      border-radius: 50%;
-      background-color: #ccc;
-      color: white;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      margin: 0 auto;
-      font-size: 20px;
-      font-weight: bold;
-      transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s;
-      z-index: 1;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-      position: relative;
-      overflow: hidden;
-      border: 2px solid transparent;
-
-      &::before {
-        content: "";
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        width: 120%;
-        height: 120%;
-        background: radial-gradient(
-          circle,
-          rgba(255, 255, 255, 0.3) 20%,
-          rgba(0, 0, 0, 0) 60%
-        );
-        transition: opacity 0.3s;
-        transform: translate(-50%, -50%);
-        opacity: 0;
-      }
-
-      &:hover::before {
-        opacity: 1;
-      }
-    }
-
-    .label {
-      margin-top: 10px;
-      font-size: 16px;
-      color: #333;
-      transition: color 0.3s;
-      font-weight: 500;
-    }
-
-    &.active .circle {
-      background-color: #007bff; /* Blue color */
-      transform: scale(1.2);
-      box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
-      border: 2px solid #0056b3; /* Darker blue border */
-    }
-
-    &.active .label {
-      color: #007bff;
-    }
-  }
-
-  .wizard-header::before {
-    content: "";
-    position: absolute;
-    top: 50%; /* Center the line vertically */
-    left: 10%; /* Align to the start padding */
-    width: 80%; /* Full width minus the start and end padding */
-    height: 4px;
-    background: linear-gradient(to right, #007bff, #0056b3); /* Gradient line */
-    z-index: 0;
-    border-radius: 2px;
-    transition: background 0.3s;
-  }
-
-  .canvas-container {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-    z-index: 9999; /* Porta il canvas davanti agli altri componenti */
-    pointer-events: none; /* Rende il canvas "cliccabile", ma non interferisce con l'interazione degli altri elementi */
-  }
-
-  canvas {
-    width: 100%;
-    height: 100%;
-    display: block;
-  }
-</style>
