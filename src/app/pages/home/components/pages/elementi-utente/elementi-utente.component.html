@@ -28,11 +28,11 @@
   <div class="row g-4 justify-content-center align-items-stretch">
     <!-- Card Manga -->
     <div
-      *ngIf="manga && manga.nome; else noManga"
+      *ngIf="eu.manga && eu.manga.nome; else noManga"
       class="col-12 col-md-4 d-flex"
     >
       <app-manga-miciomania-card
-        [manga]="manga"
+        [manga]="eu.manga"
         [mangaSongUtilities]="mangaSongUtilities"
       >
       </app-manga-miciomania-card>
@@ -40,31 +40,31 @@
 
     <!-- Card Canzone -->
     <div
-      *ngIf="canzone && canzone.nome; else noCanzone"
+      *ngIf="eu.canzone && eu.canzone.nome; else noCanzone"
       class="col-12 col-md-4 d-flex"
     >
       <app-canzoni-miciomania-card
-        [canzone]="canzone"
+        [canzone]="eu.canzone"
         [mangaSongUtilities]="mangaSongUtilities"
       ></app-canzoni-miciomania-card>
     </div>
 
     <!-- Card Proposta -->
     <div
-      *ngIf="proposta && proposta.nome; else noProposta"
+      *ngIf="eu.proposta && eu.proposta.nome; else noProposta"
       class="col-12 col-md-4 d-flex"
     >
-      <ng-container *ngIf="proposta.tipo == 'manga'">
+      <ng-container *ngIf="eu.proposta.tipo == 'manga'">
         <app-manga-miciomania-card
-          [manga]="proposta"
+          [manga]="eu.proposta"
           [mangaSongUtilities]="mangaSongUtilities"
         >
         </app-manga-miciomania-card>
       </ng-container>
 
-      <ng-container *ngIf="proposta.tipo == 'canzone'">
+      <ng-container *ngIf="eu.proposta.tipo == 'canzone'">
         <app-canzoni-miciomania-card
-          [canzone]="proposta"
+          [canzone]="eu.proposta"
           [mangaSongUtilities]="mangaSongUtilities"
         ></app-canzoni-miciomania-card>
       </ng-container>
@@ -114,16 +114,27 @@
     >
       <p class="text-muted mb-2">
         {{
-          creaPropostaControllo
+          creaProposta.controllo
             ? "Non hai proposte in sospeso"
             : "Hai gia manga e canzone"
         }}
       </p>
+      <p class="text-muted mb-2">
+        {{
+          creaProposta.punteggio
+            ? ""
+            : "Non hai abbastanza punti (" +
+              userPunteggio +
+              " su " +
+              punteggioNecessario +
+              ")"
+        }}
+      </p>
       <button
-        *ngIf="creaPropostaControllo"
+        *ngIf="creaProposta.controllo && creaProposta.punteggio"
         class="btn btn-outline-success btn-sm"
         style="border-radius: 20px"
-        (click)="creaProposta = true"
+        (click)="creaProposta.componente = true"
       >
         <i class="bi bi-plus-circle me-1"></i> Invia una nuova proposta
       </button>
@@ -132,9 +143,9 @@
 </ng-template>
 
 <app-crea-proposta
-  *ngIf="creaProposta && creaPropostaControllo"
+  *ngIf="creaProposta.componente"
   [userId]="this.userId"
   [elementiUtenteService]="elemUti.elementiUtenteService"
   [tornaAllaHome]="tornaAllaHome"
-  (chiudi)="creaProposta = false"
+  (chiudi)="creaProposta.componente = false"
 ></app-crea-proposta>

@@ -13,6 +13,7 @@ import { MenuImpostazioniComponent } from './components/ui/menu-impostazioni.com
 import { MenuProfiliComponent } from './components/ui/menu-profili.component';
 import { NavBarComponent } from './components/ui/navbar.component';
 import { SocialLinkComponent } from './components/ui/social-link.component';
+import { getConfirmParams } from './functions/home.functions';
 
 @Component({
   selector: 'app-home',
@@ -33,6 +34,8 @@ import { SocialLinkComponent } from './components/ui/social-link.component';
 export class HomeComponent extends AuthCustom implements OnInit, OnDestroy {
   public user: User = {} as User;
   public inizialiUser: string = '';
+  private punteggioUser: number = 0;
+  private punteggioCanzoni: number = 50;
   public componenteAperto: string = '';
   private destroy$ = new Subject<void>();
   public chiudiComponente: Function = () => (this.componenteAperto = '');
@@ -60,9 +63,7 @@ export class HomeComponent extends AuthCustom implements OnInit, OnDestroy {
       messaggio: 'Vuoi davvero effettuare il logout?',
       buttonNo: 'Annulla',
       buttonSi: 'Conferma',
-      confirmFunc: () => {
-        this.confirmLogout();
-      },
+      confirmFunc: () => this.confirmLogout(),
     });
   }
 
@@ -72,6 +73,7 @@ export class HomeComponent extends AuthCustom implements OnInit, OnDestroy {
     sessionStorage.setItem('users', JSON.stringify(this.authService.users));
     this.authService.logout();
     this.setAnonymousUser();
+    this.punteggioUser = 0;
   }
 
   private routerEvents(): void {
@@ -99,6 +101,7 @@ export class HomeComponent extends AuthCustom implements OnInit, OnDestroy {
     if (user) {
       this.user = user;
       this.inizialiUser = this.calculateUserInitials(user.credenziali.nome);
+      this.punteggioUser = user.iscrizione.punteggio || 0;
       this.elementiUtenteUtilities
         .getElementiUtente(user.id, false)
         .pipe(take(1))
@@ -142,5 +145,18 @@ export class HomeComponent extends AuthCustom implements OnInit, OnDestroy {
 
     this.authService.users = otherUsers;
     sessionStorage.setItem('users', JSON.stringify(otherUsers));
+  }
+
+  public controlloPunteggio(): void {
+    if (this.punteggioCanzoni < this.punteggioUser) {
+      this.router.navigate(['/canzoni']);
+    } else {
+      const { path, titolo, messaggio } = getConfirmParams(this.user);
+      this.confirmCustom({
+        titolo: titolo,
+        messaggio: messaggio,
+        confirmFunc: () => this.router.navigate([path]),
+      });
+    }
   }
 }

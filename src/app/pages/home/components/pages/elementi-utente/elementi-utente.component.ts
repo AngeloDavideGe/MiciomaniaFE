@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { take } from 'rxjs';
 import {
   CanzoniMiciomania,
+  ElementiUtente,
   MangaMiciomania,
   Proposta,
 } from '../../../../../shared/interfaces/elementiUtente.interface';
@@ -28,12 +29,19 @@ import { MangaMiciomaniaCardComponent } from './components/manga-miciomania-card
   styles: ``,
 })
 export class ElementiUtenteComponent implements OnInit {
-  public manga: MangaMiciomania = {} as MangaMiciomania;
-  public canzone: CanzoniMiciomania = {} as CanzoniMiciomania;
-  public proposta: Proposta = {} as Proposta;
-  public creaProposta: boolean = false;
-  public creaPropostaControllo: boolean = false;
+  public eu: ElementiUtente = {
+    manga: {} as MangaMiciomania,
+    canzone: {} as CanzoniMiciomania,
+    proposta: {} as Proposta,
+  };
+  public creaProposta = {
+    componente: false,
+    controllo: false,
+    punteggio: false,
+  };
   public userId: string = '';
+  public userPunteggio: number = 0;
+  public punteggioNecessario: number = 10;
   public tornaAllaHome: Function = () => this.router.navigate(['/home']);
 
   public elemUti = new ElementiUtenteUtilities();
@@ -52,20 +60,25 @@ export class ElementiUtenteComponent implements OnInit {
 
     if (user) {
       this.userId = user.id;
+      this.userPunteggio = user.iscrizione.punteggio || 0;
       this.elemUti
         .getElementiUtente(user.id, true)
         .pipe(take(1))
         .subscribe({
           next: (elementiUtente) => {
-            this.manga = elementiUtente.manga;
-            this.canzone = elementiUtente.canzone;
-            this.proposta = elementiUtente.proposta;
-            this.creaPropostaControllo =
-              this.manga.nome == '' || this.canzone.nome == '';
+            this.eu = {
+              manga: elementiUtente.manga,
+              canzone: elementiUtente.canzone,
+              proposta: elementiUtente.proposta,
+            };
+            this.creaProposta = {
+              componente: false,
+              controllo: this.eu.manga.nome == '' || this.eu.canzone.nome == '',
+              punteggio: this.userPunteggio > this.punteggioNecessario,
+            };
           },
-          error: (error) => {
-            console.error('Errore nel recupero degli elementi utente:', error);
-          },
+          error: (error) =>
+            console.error('Errore nel recupero degli elementi utente:', error),
         });
     }
   }

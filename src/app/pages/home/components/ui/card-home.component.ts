@@ -1,5 +1,5 @@
 import { NgClass, NgFor, NgIf } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { RouterLink } from '@angular/router';
 
 @Component({
@@ -27,14 +27,19 @@ import { RouterLink } from '@angular/router';
                 <h5 class="card-title fw-bold">{{ card.titolo }}</h5>
                 <p class="card-text">{{ card.descrizione }}</p>
                 <a
-                  *ngIf="card.aLink"
+                  *ngIf="!card.func; else noLink"
                   [routerLink]="card.aLink"
                   class="btn btn-light"
-                  >{{ card.titoloBottone }}</a
-                >
-                <span *ngIf="!card.aLink" class="btn btn-danger">{{
-                  card.titoloBottone
-                }}</span>
+                  >{{ card.titoloBottone }}
+                </a>
+                <ng-template #noLink>
+                  <a
+                    class="btn btn-light"
+                    (click)="card.func ? card.func() : null"
+                  >
+                    {{ card.titoloBottone }}
+                  </a>
+                </ng-template>
               </div>
             </div>
           </div>
@@ -44,6 +49,8 @@ import { RouterLink } from '@angular/router';
   `,
 })
 export class CardHomeComponent {
+  @Output() canzone = new EventEmitter<void>();
+
   public cardElements: CardElement[] = [
     {
       link: 'https://thesoundcheck.it/wp-content/uploads/2022/11/kono-manga-ga-sugoi-2021-migliori-riviste-manga-weekly-shonen-jump-secondo-v3-488235.jpg',
@@ -53,6 +60,7 @@ export class CardHomeComponent {
       titoloBottone: 'Manga',
       aLink: '/manga',
       bgClass: 'bg-success text-white',
+      func: null,
     },
     {
       link: 'https://www.vice.com/wp-content/uploads/sites/2/2019/12/1577443774135-thumb_canzoni_internazionali.jpeg?w=1024',
@@ -62,6 +70,7 @@ export class CardHomeComponent {
       titoloBottone: 'Ascolta',
       aLink: '/canzoni',
       bgClass: 'bg-danger text-white',
+      func: () => this.canzone.emit(),
     },
     {
       link: 'https://www.flashgames.it/giochi/abilita/my.virtual.pet.shop/my.virtual.pet.shop.jpg',
@@ -71,6 +80,7 @@ export class CardHomeComponent {
       titoloBottone: 'Giochi',
       aLink: '/games',
       bgClass: 'bg-warning text-dark',
+      func: null,
     },
     {
       link: 'https://hd2.tudocdn.net/1110659?w=824&h=494',
@@ -80,6 +90,7 @@ export class CardHomeComponent {
       titoloBottone: 'Chat',
       aLink: '/chat-group',
       bgClass: 'bg-primary text-white',
+      func: null,
     },
   ];
 }
@@ -91,4 +102,5 @@ interface CardElement {
   titoloBottone: string;
   aLink: string;
   bgClass: string;
+  func: Function | null;
 }

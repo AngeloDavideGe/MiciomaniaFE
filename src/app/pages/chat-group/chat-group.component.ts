@@ -15,7 +15,7 @@ import { LoadingService } from '../../shared/services/loading.service';
 import { User, UserParams } from '../../shared/interfaces/users.interface';
 import { Messaggio } from './interfaces/chat-group.interface';
 import { ChatGroupService } from './services/chat-group.service';
-import { formatDataCustom } from '../../shared/function/utilities.function';
+import { formatDataCustom } from '../../shared/functions/utilities.function';
 
 @Component({
   selector: 'app-chat-group',

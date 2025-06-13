@@ -18,7 +18,7 @@ import {
   takeUntil,
 } from 'rxjs';
 import { ErrorHttpComponent } from '../../shared/components/errorhttp.component';
-import { compareObjectCustom } from '../../shared/function/utilities.function';
+import { compareObjectCustom } from '../../shared/functions/utilities.function';
 import { AuthService } from '../../shared/services/auth.service';
 import { LoadingService } from '../../shared/services/loading.service';
 import { generiManga } from './constants/genere.constant';

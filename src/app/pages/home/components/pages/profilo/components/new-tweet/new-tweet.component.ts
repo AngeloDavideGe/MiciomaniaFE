@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { take } from 'rxjs';
-import { formatDataCustom } from '../../../../../../../shared/function/utilities.function';
+import { formatDataCustom } from '../../../../../../../shared/functions/utilities.function';
 import { Tweet } from '../../../../../interfaces/profilo.interface';
 import { ProfiloService } from '../../../../../services/profilo.service';
 
