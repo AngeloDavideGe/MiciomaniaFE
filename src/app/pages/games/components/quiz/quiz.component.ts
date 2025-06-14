@@ -1,6 +1,6 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { CasualQuiz, Quiz, Risposta } from '../../interfaces/games.interfaces';
-import { getCasualQuiz } from '../../function/quiz.function';
+import { getCasualQuiz } from '../../functions/quiz.function';
 import { NgClass, NgFor, NgIf } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { QuizService } from '../../services/quiz.service';

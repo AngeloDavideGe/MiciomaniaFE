@@ -27,6 +27,7 @@ import { FiltriManga, TabsManga } from './interfaces/filtri.interface';
 import { ListaManga, MangaUtente } from './interfaces/manga.interface';
 import { CardMangaComponent } from './shared/card-manga.component';
 import { TabsMangaComponent } from './shared/tabs-manga.component';
+import { getTabsManga } from './functions/manga.functions';
 
 @Component({
   selector: 'app-manga',
@@ -55,6 +56,9 @@ export class MangaComponent extends MangaCustom implements OnInit, OnDestroy {
   private destroy$ = new Subject<void>();
   public mangaGeneri = generiManga;
   public idUtente: string | null = null;
+  public tabs: TabsManga[] = getTabsManga(
+    [null, false, true].map((condition) => this.getTabClickHandler(condition))
+  );
 
   private authService = inject(AuthService);
   private loadingService = inject(LoadingService);
@@ -83,6 +87,15 @@ export class MangaComponent extends MangaCustom implements OnInit, OnDestroy {
   @HostListener('window:beforeunload', ['$event'])
   unloadNotification($event: BeforeUnloadEvent): void {
     this.upsertOnDestroy($event);
+  }
+
+  private getTabClickHandler(condition: boolean | null): Function {
+    return () => {
+      if (this.tabBoolean !== condition) {
+        this.tabBoolean = condition;
+        this.logFilterChanges();
+      }
+    };
   }
 
   private routerEvents(): void {
@@ -231,43 +244,4 @@ export class MangaComponent extends MangaCustom implements OnInit, OnDestroy {
         },
       });
   }
-
-  public Tabs: TabsManga[] = [
-    {
-      class: 'active',
-      href: '#tutti',
-      color: '#6c5ce7',
-      testo: 'Tutti',
-      clickCall: () => {
-        if (this.tabBoolean !== null) {
-          this.tabBoolean = null;
-          this.logFilterChanges();
-        }
-      },
-    },
-    {
-      class: '',
-      href: '#in-corso',
-      color: '#00b894',
-      testo: 'In corso',
-      clickCall: () => {
-        if (this.tabBoolean !== false) {
-          this.tabBoolean = false;
-          this.logFilterChanges();
-        }
-      },
-    },
-    {
-      class: '',
-      href: '#terminati',
-      color: '#e84393',
-      testo: 'Terminati',
-      clickCall: () => {
-        if (this.tabBoolean !== true) {
-          this.tabBoolean = true;
-          this.logFilterChanges();
-        }
-      },
-    },
-  ];
 }

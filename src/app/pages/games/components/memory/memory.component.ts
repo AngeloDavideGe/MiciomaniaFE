@@ -1,7 +1,7 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { CardDeck } from '../../interfaces/games.interfaces';
 import { DeckCardService } from '../../services/deck-card.service';
-import { getCardsDisponibili } from '../../function/deck-card.function';
+import { getCardsDisponibili } from '../../functions/deck-card.function';
 import { NgFor, NgIf } from '@angular/common';
 import { DeckCardClass } from '../../class/deck-card.class';
 import { AlertGamesService } from '../../services/alert-games.service';
