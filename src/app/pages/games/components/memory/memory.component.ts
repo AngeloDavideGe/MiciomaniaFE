@@ -1,19 +1,16 @@
 import { Component, inject, OnInit } from '@angular/core';
+import { DeckCardClass } from '../../class/deck-card.class';
+import { getCardsDisponibili } from '../../functions/deck-card.function';
 import { CardDeck } from '../../interfaces/games.interfaces';
 import { DeckCardService } from '../../services/deck-card.service';
-import { getCardsDisponibili } from '../../functions/deck-card.function';
-import { NgFor, NgIf } from '@angular/common';
-import { DeckCardClass } from '../../class/deck-card.class';
-import { AlertGamesService } from '../../services/alert-games.service';
-import { DettagliGameComponent } from '../../shared/dettagli-game.component';
 import { GamesCustom } from '../../shared/games-custom.class';
+import { games_imports } from '../../shared/games.imports';
 
 @Component({
   selector: 'app-memory',
   standalone: true,
-  imports: [NgIf, NgFor, DettagliGameComponent],
+  imports: games_imports,
   templateUrl: './memory.component.html',
-  // styles: ``
 })
 export class MemoryComponent extends GamesCustom implements OnInit {
   public cards: CardDeck[] = [];

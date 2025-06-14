@@ -1,4 +1,4 @@
-import { NgFor, NgIf, NgStyle } from '@angular/common';
+import { NgStyle } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { NumNavi } from '../../enums/games.enum';
 import {
@@ -8,15 +8,15 @@ import {
   Nave,
   PosizionaNave,
 } from '../../interfaces/games.interfaces';
-import { DettagliGameComponent } from '../../shared/dettagli-game.component';
+import { GamesCustom } from '../../shared/games-custom.class';
+import { games_imports } from '../../shared/games.imports';
 import { BotBattagliaNavale } from './bot/battaglia-navale.bot';
 import { BattagliaNavaleUtilities } from './utilities/battaglia-navale.utilities';
-import { GamesCustom } from '../../shared/games-custom.class';
 
 @Component({
   selector: 'app-battaglia-navale',
   standalone: true,
-  imports: [NgIf, NgFor, NgStyle, DettagliGameComponent],
+  imports: [games_imports, NgStyle],
   templateUrl: './battaglia-navale.component.html',
 })
 export class BattagliaNavaleComponent extends GamesCustom implements OnInit {

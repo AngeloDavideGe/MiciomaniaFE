@@ -1,35 +1,22 @@
-import { DatePipe, NgFor, NgIf, TitleCasePipe } from '@angular/common';
 import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { finalize, map, Subject, take, takeUntil } from 'rxjs';
 import { AuthCustom } from '../../../../../shared/custom/auth-custom.class';
-import { ErrorHttpComponent } from '../../../../../shared/components/errorhttp.component';
-import { LoadingService } from '../../../../../shared/services/loading.service';
 import { User } from '../../../../../shared/interfaces/users.interface';
+import { LoadingService } from '../../../../../shared/services/loading.service';
 
-import { ProfiloUtilities } from '../../../utilities/profilo-utilities.class';
-import { EditProfiloComponent } from './components/edit-profilo/edit-profilo.component';
-import { NewTweetComponent } from './components/new-tweet/new-tweet.component';
-import { ChangePicComponent } from './components/change-pic/change-pic.component';
 import {
   EditableSocial,
   Profilo,
   Tweet,
 } from '../../../interfaces/profilo.interface';
+import { ProfiloUtilities } from '../../../utilities/profilo-utilities.class';
+import { profilo_imports } from './imports/profilo.imports';
 
 @Component({
   selector: 'app-profilo',
   standalone: true,
-  imports: [
-    NgIf,
-    NgFor,
-    DatePipe,
-    NewTweetComponent,
-    EditProfiloComponent,
-    ChangePicComponent,
-    TitleCasePipe,
-    ErrorHttpComponent,
-  ],
+  imports: profilo_imports,
   templateUrl: './profilo.component.html',
 })
 export class ProfiloComponent extends AuthCustom implements OnInit, OnDestroy {

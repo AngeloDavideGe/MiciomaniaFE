@@ -1,34 +1,17 @@
-import { NgIf } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { NavigationEnd, RouterOutlet } from '@angular/router';
+import { NavigationEnd } from '@angular/router';
 import 'bootstrap'; // Importa Bootstrap JS (incluso Popper.js)
 import { distinctUntilChanged, filter, Subject, take, takeUntil } from 'rxjs';
 import { AuthCustom } from '../../shared/custom/auth-custom.class';
 import { User, UserParams } from '../../shared/interfaces/users.interface';
 import { ElementiUtenteUtilities } from '../../shared/utilities/elementiUtente-utilities.class';
-import { CardHomeComponent } from './components/ui/card-home.component';
-import { CercaProfiliComponent } from './components/ui/cerca-profili/cerca-profili.component';
-import { CursoreComponent } from './components/ui/cursore.component';
-import { MenuImpostazioniComponent } from './components/ui/menu-impostazioni.component';
-import { MenuProfiliComponent } from './components/ui/menu-profili.component';
-import { NavBarComponent } from './components/ui/navbar.component';
-import { SocialLinkComponent } from './components/ui/social-link.component';
 import { getConfirmParams } from './functions/home.functions';
+import { home_imports } from './imports/home.imports';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [
-    CardHomeComponent,
-    SocialLinkComponent,
-    CercaProfiliComponent,
-    NgIf,
-    RouterOutlet,
-    NavBarComponent,
-    CursoreComponent,
-    MenuImpostazioniComponent,
-    MenuProfiliComponent,
-  ],
+  imports: home_imports,
   templateUrl: './home.component.html',
 })
 export class HomeComponent extends AuthCustom implements OnInit, OnDestroy {

@@ -1,31 +1,19 @@
-import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { finalize, take } from 'rxjs';
-import { AuthService } from '../../../../shared/services/auth.service';
 import {
   Iscrizione,
   User,
 } from '../../../../shared/interfaces/users.interface';
-import { WizardCustom } from './custom/wizard-custom.class';
-import { ErrorIscrizioneComponent } from './components/error/error-iscrizione.component';
-import { Step1Component } from './components/step1/step1.component';
-import { Step2Component } from './components/step2/step2.component';
-import { Step3Component } from './components/step3/step3.component';
-import { SuccessPageComponent } from './components/success/success.component';
-import { FormWizard } from '../../interfaces/wizard.interface';
+import { AuthService } from '../../../../shared/services/auth.service';
 import { Ruolo } from '../../enums/users.enum';
+import { FormWizard } from '../../interfaces/wizard.interface';
+import { WizardCustom } from './custom/wizard-custom.class';
+import { iscrizione_imports } from './imports/iscrizione.import';
 
 @Component({
   selector: 'app-iscrizione',
   standalone: true,
-  imports: [
-    CommonModule,
-    Step1Component,
-    Step2Component,
-    Step3Component,
-    ErrorIscrizioneComponent,
-    SuccessPageComponent,
-  ],
+  imports: iscrizione_imports,
   templateUrl: './iscrizione.component.html',
   styleUrl: './iscrizione.component.scss',
 })

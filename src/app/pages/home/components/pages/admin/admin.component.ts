@@ -1,32 +1,22 @@
-import { NgFor, NgIf } from '@angular/common';
 import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { Subject } from 'rxjs';
 import { AuthCustom } from '../../../../../shared/custom/auth-custom.class';
 import { LoadingService } from '../../../../../shared/services/loading.service';
 import { Ruolo } from '../../../../auth/enums/users.enum';
 
-import { AdminService } from '../../../services/admin.service';
-import { EditAdminComponent } from './components/edit-admin/edit-admin.component';
-import { TableUserParamsComponent } from './components/table-user-params/table-user-params.component';
-import { CambioRuoloUtente } from './interfaces/admin.interface';
-import { CapitalizeFirstLetterPipe } from './pipes/capitalize.pipe';
 import {
   User,
   UserParams,
 } from '../../../../../shared/interfaces/users.interface';
+import { AdminService } from '../../../services/admin.service';
+import { admin_imports } from './imports/admin.imports';
+import { CambioRuoloUtente } from './interfaces/admin.interface';
 
 @Component({
   selector: 'app-admin',
   standalone: true,
-  imports: [
-    NgIf,
-    NgFor,
-    TableUserParamsComponent,
-    CapitalizeFirstLetterPipe,
-    EditAdminComponent,
-  ],
+  imports: admin_imports,
   templateUrl: './admin.component.html',
-  styles: ``,
 })
 export class AdminComponent extends AuthCustom implements OnInit, OnDestroy {
   public user: User | null = null;

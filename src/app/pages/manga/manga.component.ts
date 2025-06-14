@@ -1,5 +1,3 @@
-import { AsyncPipe, NgFor, NgIf } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
 import {
   Component,
   HostListener,
@@ -7,8 +5,7 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import { NavigationEnd, RouterOutlet } from '@angular/router';
+import { NavigationEnd } from '@angular/router';
 import {
   BehaviorSubject,
   distinctUntilChanged,
@@ -17,32 +14,20 @@ import {
   take,
   takeUntil,
 } from 'rxjs';
-import { ErrorHttpComponent } from '../../shared/components/errorhttp.component';
 import { compareObjectCustom } from '../../shared/functions/utilities.function';
 import { AuthService } from '../../shared/services/auth.service';
 import { LoadingService } from '../../shared/services/loading.service';
 import { generiManga } from './constants/genere.constant';
 import { MangaCustom } from './custom/manga-custom.class';
+import { getTabsManga } from './functions/manga.functions';
+import { manga_imports } from './imports/manga.imports';
 import { FiltriManga, TabsManga } from './interfaces/filtri.interface';
 import { ListaManga, MangaUtente } from './interfaces/manga.interface';
-import { CardMangaComponent } from './shared/card-manga.component';
-import { TabsMangaComponent } from './shared/tabs-manga.component';
-import { getTabsManga } from './functions/manga.functions';
 
 @Component({
   selector: 'app-manga',
   standalone: true,
-  imports: [
-    NgIf,
-    NgFor,
-    HttpClientModule,
-    RouterOutlet,
-    AsyncPipe,
-    FormsModule,
-    CardMangaComponent,
-    ErrorHttpComponent,
-    TabsMangaComponent,
-  ],
+  imports: manga_imports,
   // providers: [MangaService],
   templateUrl: './manga.component.html',
 })

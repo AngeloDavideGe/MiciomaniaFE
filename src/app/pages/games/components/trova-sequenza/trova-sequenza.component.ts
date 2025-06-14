@@ -1,12 +1,11 @@
-import { NgFor, NgIf } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { DettagliGameComponent } from '../../shared/dettagli-game.component';
 import { ValueSequenza } from '../../enums/games.enum';
+import { games_imports } from '../../shared/games.imports';
 
 @Component({
   selector: 'app-trova-sequenza',
   standalone: true,
-  imports: [NgIf, NgFor, DettagliGameComponent],
+  imports: games_imports,
   templateUrl: './trova-sequenza.component.html',
   styles: ``,
 })

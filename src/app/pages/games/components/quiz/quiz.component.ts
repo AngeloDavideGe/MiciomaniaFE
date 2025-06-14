@@ -1,18 +1,18 @@
+import { NgClass } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
-import { CasualQuiz, Quiz, Risposta } from '../../interfaces/games.interfaces';
-import { getCasualQuiz } from '../../functions/quiz.function';
-import { NgClass, NgFor, NgIf } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { QuizService } from '../../services/quiz.service';
 import { take } from 'rxjs';
 import { LoadingService } from '../../../../shared/services/loading.service';
-import { DettagliGameComponent } from '../../shared/dettagli-game.component';
+import { getCasualQuiz } from '../../functions/quiz.function';
+import { CasualQuiz, Quiz, Risposta } from '../../interfaces/games.interfaces';
+import { QuizService } from '../../services/quiz.service';
 import { GamesCustom } from '../../shared/games-custom.class';
+import { games_imports } from '../../shared/games.imports';
 
 @Component({
   selector: 'app-quiz',
   standalone: true,
-  imports: [NgIf, NgFor, NgClass, FormsModule, DettagliGameComponent],
+  imports: [NgClass, FormsModule, games_imports],
   templateUrl: './quiz.component.html',
 })
 export class QuizComponent extends GamesCustom implements OnInit {

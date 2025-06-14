@@ -1,4 +1,3 @@
-import { NgIf } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { take } from 'rxjs';
@@ -12,21 +11,13 @@ import { User } from '../../../../../shared/interfaces/users.interface';
 import { AuthService } from '../../../../../shared/services/auth.service';
 import { ElementiUtenteUtilities } from '../../../../../shared/utilities/elementiUtente-utilities.class';
 import { MangaSongUtilities } from '../../../../../shared/utilities/mangaSong-utilities';
-import { CanzoniMiciomaniaCardComponent } from './components/canzoni-miciomania-card/canzoni-miciomania-card.component';
-import { CreaPropostaComponent } from './components/crea-proposta/crea-proposta.component';
-import { MangaMiciomaniaCardComponent } from './components/manga-miciomania-card/manga-miciomania-card.component';
+import { elementi_utente_imports } from './imports/elementi-utebte.imports';
 
 @Component({
   selector: 'app-elementi-utente',
   standalone: true,
-  imports: [
-    NgIf,
-    CreaPropostaComponent,
-    MangaMiciomaniaCardComponent,
-    CanzoniMiciomaniaCardComponent,
-  ],
+  imports: elementi_utente_imports,
   templateUrl: './elementi-utente.component.html',
-  styles: ``,
 })
 export class ElementiUtenteComponent implements OnInit {
   public eu: ElementiUtente = {

@@ -1,20 +1,14 @@
-import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import {
-  FormBuilder,
-  FormGroup,
-  ReactiveFormsModule,
-  Validators,
-} from '@angular/forms';
-import { RouterLink } from '@angular/router';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Subject, take } from 'rxjs';
 import { AuthCustom } from '../../../../shared/custom/auth-custom.class';
 import { MangaService } from '../../../manga/services/manga.service';
+import { shared_imports } from '../../shared/auth-shared.import';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, RouterLink],
+  imports: shared_imports,
   templateUrl: './login.component.html',
 })
 export class LoginComponent extends AuthCustom implements OnInit {

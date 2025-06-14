@@ -1,14 +1,12 @@
-import { NgFor, NgIf } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { Component } from '@angular/core';
 import { EsitoGame, TrisCell } from '../../interfaces/games.interfaces';
-import { AlertGamesService } from '../../services/alert-games.service';
-import { DettagliGameComponent } from '../../shared/dettagli-game.component';
 import { GamesCustom } from '../../shared/games-custom.class';
+import { games_imports } from '../../shared/games.imports';
 
 @Component({
   selector: 'app-tris',
   standalone: true,
-  imports: [NgIf, NgFor, DettagliGameComponent],
+  imports: games_imports,
   templateUrl: './tris.component.html',
 })
 export class TrisComponent extends GamesCustom {
