@@ -65,6 +65,20 @@
       </div>
 
       <div class="mb-2">
+        Punteggio Personale:
+        <strong class="ms-2 fs-5 badge" style="color: black">{{
+          punteggioPersonale
+        }}</strong>
+      </div>
+
+      <div class="mb-2">
+        Punteggio in fase di valutazione:
+        <strong class="ms-2 fs-5 badge" style="color: black">{{
+          squadreService.punteggioOttenuto
+        }}</strong>
+      </div>
+
+      <div class="mb-2">
         Squadre Giocatore:
         <ng-container
           *ngIf="squadre.personale.length > 0; else noSquadrePersonale"

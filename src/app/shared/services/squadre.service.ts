@@ -1,15 +1,15 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Squadre } from '../../pages/home/interfaces/profilo.interface';
 import { environment } from '../../../environments/environment';
-import { HttpClient } from '@angular/common/http';
+import { Squadre } from '../../pages/home/interfaces/profilo.interface';
 
 @Injectable({
   providedIn: 'root',
 })
 export class SquadreService {
   public squadre: Squadre[] = [];
-  private punteggioOttenuto: number = 0;
+  public punteggioOttenuto: number = 0;
 
   constructor(private http: HttpClient) {
     sessionStorage.setItem(

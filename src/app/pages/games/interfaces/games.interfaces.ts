@@ -8,7 +8,7 @@ export interface CardGioco {
   routerLink: string;
 }
 
-export interface SquadreGioco {
+export interface SquadreGiocatore {
   personale: SquadraGioco[];
   avversario: SquadraGioco[];
 }

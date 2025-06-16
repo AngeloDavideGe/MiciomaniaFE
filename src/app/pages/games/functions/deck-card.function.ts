@@ -4,11 +4,17 @@ export function getCardsDisponibili(
   cardDeck: CardDeck[],
   numCards: number
 ): CardDeck[] {
-  const baseCards = [...cardDeck]
-    .sort(() => Math.random() - 0.5)
-    .slice(0, numCards);
+  const baseCards: CardDeck[] = [];
+  const deckCopy = [...cardDeck];
 
-  return shuffleArray([...baseCards, ...baseCards]);
+  for (let i = 0; i < numCards && deckCopy.length > 0; i++) {
+    const randomIndex = Math.floor(Math.random() * deckCopy.length);
+    const selectedCard = deckCopy[randomIndex];
+    baseCards.push(selectedCard, selectedCard);
+    deckCopy.splice(randomIndex, 1);
+  }
+
+  return shuffleArray(baseCards);
 }
 
 function shuffleArray<T>(array: T[]): T[] {

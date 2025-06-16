@@ -3,12 +3,12 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Subject, take, takeUntil } from 'rxjs';
 import { AuthCustom } from '../../../../shared/custom/auth-custom.class';
 import { usernameValidator } from '../../validators/username.validator';
-import { shared_imports } from '../../shared/auth-shared.import';
+import { auth_shared_imports } from '../../shared/auth-shared.import';
 
 @Component({
   selector: 'app-sign-in',
   standalone: true,
-  imports: shared_imports,
+  imports: auth_shared_imports,
   templateUrl: './sign-in.component.html',
 })
 export class SignInComponent extends AuthCustom {

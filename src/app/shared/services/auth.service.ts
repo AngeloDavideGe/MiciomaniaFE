@@ -9,11 +9,9 @@ import {
   shareReplay,
 } from 'rxjs';
 import { environment } from '../../../environments/environment';
-
 import { UserUtilities } from '../utilities/user-utilities.class';
 import { User, UserParams } from '../interfaces/users.interface';
 
-const userUtilities = new UserUtilities();
 const apiUrl = environment.urlDB + 'utenti';
 
 @Injectable({
@@ -22,11 +20,12 @@ const apiUrl = environment.urlDB + 'utenti';
 export class AuthService {
   public users: UserParams[] = [];
   public profiliPronti: boolean = false;
-  private userSubject = new BehaviorSubject<User | null>(null);
+  public userSubject = new BehaviorSubject<User | null>(null);
   public user$ = this.userSubject.asObservable().pipe(shareReplay(1));
+  private userUtilities = new UserUtilities();
 
   constructor(private http: HttpClient) {
-    userUtilities.loadUserFromStorage(this.userSubject, this.users);
+    this.userUtilities.loadUserFromStorage(this.userSubject, this.users);
     this.profiliPronti = this.users.length > 0;
   }
 
@@ -71,13 +70,13 @@ export class AuthService {
 
   updateUser(user: User): Observable<User> {
     const url = `${apiUrl}?id=eq.${user.id}`;
-    const userForDb = userUtilities.mapUserToDb(user);
+    const userForDb = this.userUtilities.mapUserToDb(user);
     return this.http
       .patch<User>(url, userForDb, { headers: environment.headerSupabase })
       .pipe(
         map(() => {
           this.userSubject.next(user);
-          userUtilities.saveUserToStorage(user, this.users);
+          this.userUtilities.saveUserToStorage(user, this.users);
           return user;
         }),
         catchError((error) => {
@@ -91,14 +90,14 @@ export class AuthService {
     return this.getUserByEmailAndPassword(email, password).pipe(
       map((data) => {
         if (data.length === 1) {
-          const user = userUtilities.mapUserByDb(data[0]);
+          const user = this.userUtilities.mapUserByDb(data[0]);
           this.users = this.users.filter((x) => x.id != user.id);
           this.userSubject.next(user);
-          userUtilities.saveUserToStorage(user, this.users);
+          this.userUtilities.saveUserToStorage(user, this.users);
           return true;
         } else {
           this.userSubject.next(null);
-          userUtilities.removeUserFromStorage();
+          this.userUtilities.removeUserFromStorage();
           return false;
         }
       }),
@@ -111,6 +110,6 @@ export class AuthService {
 
   logout(): void {
     this.userSubject.next(null);
-    userUtilities.removeUserFromStorage();
+    this.userUtilities.removeUserFromStorage();
   }
 }
