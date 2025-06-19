@@ -1,5 +1,5 @@
 import { NgClass, NgFor, NgIf } from '@angular/common';
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { RouterLink } from '@angular/router';
 
 @Component({
@@ -80,16 +80,6 @@ export class CardHomeComponent {
       titoloBottone: 'Giochi',
       aLink: '/games',
       bgClass: 'bg-warning text-dark',
-      func: null,
-    },
-    {
-      link: 'https://hd2.tudocdn.net/1110659?w=824&h=494',
-      descrizione:
-        'Apri la chat del gruppo Miciomania, deridi e umilia numerose persone che Indy kun e i suoi fedeli compagni incontrano su Fortinte.',
-      titolo: '💬 Chatta con i Miciomani',
-      titoloBottone: 'Chat',
-      aLink: '/chat-group',
-      bgClass: 'bg-primary text-white',
       func: null,
     },
   ];

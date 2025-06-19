@@ -7,15 +7,14 @@ import {
   OnInit,
 } from '@angular/core';
 import { Router, RouterOutlet } from '@angular/router';
-import { SquadreCustom } from '../../shared/custom/squadre-custom.class';
+import { take } from 'rxjs';
+import { environment } from '../../../environments/environment';
+import { SquadreClass } from '../../shared/class/squadre.class';
+import { User } from '../../shared/interfaces/users.interface';
 import { AuthService } from '../../shared/services/auth.service';
 import { DeckCardClass } from './class/deck-card.class';
 import { GamesClass } from './class/games.class';
 import { SquadreGiocatore } from './interfaces/games.interfaces';
-import { environment } from '../../../environments/environment';
-import { take } from 'rxjs';
-import { User } from '../../shared/interfaces/users.interface';
-import { SquadreService } from '../../shared/services/squadre.service';
 
 @Component({
   selector: 'app-games',
@@ -23,7 +22,8 @@ import { SquadreService } from '../../shared/services/squadre.service';
   imports: [NgIf, NgFor, RouterOutlet],
   templateUrl: './games.component.html',
 })
-export class GamesComponent extends SquadreCustom implements OnInit, OnDestroy {
+export class GamesComponent implements OnInit, OnDestroy {
+  public sc = new SquadreClass();
   public gamesClass = new GamesClass();
   public deckCardClass = new DeckCardClass();
   public showDetails: boolean = false;
@@ -39,7 +39,7 @@ export class GamesComponent extends SquadreCustom implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.setPunteggioGiocatore();
     this.deckCardClass.setAllCards();
-    this.loadSquadre({
+    this.sc.loadSquadre({
       ifCall: () => this.ifCallLoadSquadre(),
       elseCall: () => this.elseCallLoadSquadre(),
       nextCall: () => this.nextCallLoadSquadre(),
@@ -86,7 +86,7 @@ export class GamesComponent extends SquadreCustom implements OnInit, OnDestroy {
     if (user) {
       environment.team.forEach((nomeTeam) => {
         const punteggioFind: number | undefined =
-          this.squadreService.squadre.find(
+          this.sc.squadreService.squadre.find(
             (squadra) => squadra.id == nomeTeam
           )?.punteggio;
 
@@ -106,49 +106,61 @@ export class GamesComponent extends SquadreCustom implements OnInit, OnDestroy {
   }
 
   private nextCallLoadSquadre(): void {
-    this.squadre.personale.forEach((squadra) => {
-      const punteggioFind: number | undefined =
-        this.squadreService.squadre.find(
-          (squadraFind) => squadraFind.id == squadra.nome
-        )?.punteggio;
-      squadra.punteggio = punteggioFind || 'non disponibile';
-    });
+    const user: User | null = this.authService.getUser;
+    if (user) {
+      this.squadre.personale.forEach((squadra) => {
+        const punteggioFind: number | undefined =
+          this.sc.squadreService.squadre.find(
+            (squadraFind) => squadraFind.id == squadra.nome
+          )?.punteggio;
+        squadra.punteggio = punteggioFind || 'non disponibile';
+      });
 
-    this.squadre.avversario.forEach((squadra) => {
-      const punteggioFind: number | undefined =
-        this.squadreService.squadre.find(
-          (squadraFind) => squadraFind.id == squadra.nome
-        )?.punteggio;
-      squadra.punteggio = punteggioFind || 'non disponibile';
-    });
+      this.squadre.avversario.forEach((squadra) => {
+        const punteggioFind: number | undefined =
+          this.sc.squadreService.squadre.find(
+            (squadraFind) => squadraFind.id == squadra.nome
+          )?.punteggio;
+        squadra.punteggio = punteggioFind || 'non disponibile';
+      });
+    }
   }
 
   private updatePunteggioSquadra($event: BeforeUnloadEvent | null): void {
     const user: User | null = this.authService.getUser;
-    const ss: SquadreService = this.squadreService;
+    const punteggio: number = this.sc.squadreService.getPunteggioOttenuto;
 
-    if (user && ss.punteggioOttenuto > 0) {
+    if (user && punteggio != 0) {
       $event ? $event.preventDefault() : null;
       const squadre: string[] = this.squadre.personale.map(
         (squadra) => squadra.nome
       );
-      console.log(squadre);
-      ss.updatePunteggioSquadra(user.id, squadre)
+      this.sc.squadreService
+        .updatePunteggioSquadra(user.id, squadre)
         .pipe(take(1))
         .subscribe({
-          next: () => this.nextUpdatePunteggio(ss, this.authService),
+          next: () => this.nextUpdatePunteggio(squadre, punteggio),
         });
     }
   }
 
-  private nextUpdatePunteggio(ss: SquadreService, us: AuthService): void {
-    const user: User | null = us.getUser;
-    const punteggio = ss.getPunteggioOttenuto;
+  private nextUpdatePunteggio(squadre: string[], punteggio: number): void {
+    const user: User | null = this.authService.getUser;
+
     if (user && user.iscrizione && user.iscrizione.punteggio) {
       user.iscrizione.punteggio += punteggio;
       localStorage.setItem('user', JSON.stringify(user));
-      us.userSubject.next(user);
+      this.authService.userSubject.next(user);
     }
-    ss.setPunteggioOttenuto = 0;
+
+    const idSet = new Set(squadre.map((id) => id.toLowerCase()));
+
+    for (const squadra of this.sc.squadreService.squadre) {
+      if (idSet.has(squadra.id.toLowerCase())) {
+        squadra.punteggio += punteggio;
+      }
+    }
+
+    this.sc.squadreService.setPunteggioOttenuto = 0;
   }
 }

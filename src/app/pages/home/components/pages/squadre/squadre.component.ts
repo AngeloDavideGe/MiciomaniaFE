@@ -1,6 +1,6 @@
 import { NgIf } from '@angular/common';
 import { Component, HostListener, inject, NgZone, OnInit } from '@angular/core';
-import { SquadreCustom } from '../../../../../shared/custom/squadre-custom.class';
+import { SquadreClass } from '../../../../../shared/class/squadre.class';
 import { LoadingService } from '../../../../../shared/services/loading.service';
 import { Router } from '@angular/router';
 
@@ -12,7 +12,8 @@ declare var google: any;
   imports: [NgIf],
   templateUrl: './squadre.component.html',
 })
-export class SquadreComponent extends SquadreCustom implements OnInit {
+export class SquadreComponent implements OnInit {
+  private sc = new SquadreClass();
   private resizeTimeout: any;
   private printListener: any;
   public stampa: boolean = false;
@@ -53,7 +54,7 @@ export class SquadreComponent extends SquadreCustom implements OnInit {
   private loadingService = inject(LoadingService);
 
   ngOnInit(): void {
-    this.loadSquadre({
+    this.sc.loadSquadre({
       ifCall: () => this.loadingService.show(),
       elseCall: () => this.drawChart(),
       nextCall: () => {
@@ -79,7 +80,7 @@ export class SquadreComponent extends SquadreCustom implements OnInit {
     data.addColumn('string', 'Squadra');
     data.addColumn('number', 'Punteggio');
 
-    this.squadreService.squadre.forEach((s) => {
+    this.sc.squadreService.squadre.forEach((s) => {
       data.addRow([s.id, s.punteggio]);
     });
 

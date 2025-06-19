@@ -2,10 +2,10 @@ import { inject } from '@angular/core';
 import { take } from 'rxjs';
 import { SquadreService } from '../services/squadre.service';
 
-export abstract class SquadreCustom {
-  protected squadreService = inject(SquadreService);
+export class SquadreClass {
+  public squadreService = inject(SquadreService);
 
-  protected loadSquadre(params: {
+  public loadSquadre(params: {
     ifCall: Function;
     elseCall: Function;
     nextCall: Function;

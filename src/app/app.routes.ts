@@ -1,6 +1,5 @@
 import { Routes } from '@angular/router';
 import { AuthComponent } from './pages/auth/auth.component';
-import { ChatGroupComponent } from './pages/chat-group/chat-group.component';
 import { GamesComponent } from './pages/games/games.component';
 import { HomeComponent } from './pages/home/home.component';
 import { MangaComponent } from './pages/manga/manga.component';
@@ -31,18 +30,14 @@ export const routes: Routes = [
       import('./pages/manga/manga.routes').then((m) => m.MANGA_ROUTES),
   },
   {
-    path: 'canzoni',
-    component: SongComponent,
-  },
-  {
     path: 'games',
     component: GamesComponent,
     loadChildren: () =>
       import('./pages/games/games.routes').then((m) => m.GAMES_ROUTES),
   },
   {
-    path: 'chat-group',
-    component: ChatGroupComponent,
+    path: 'canzoni',
+    component: SongComponent,
   },
   {
     path: '**',

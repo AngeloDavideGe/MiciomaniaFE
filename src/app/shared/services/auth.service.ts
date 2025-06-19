@@ -12,8 +12,6 @@ import { environment } from '../../../environments/environment';
 import { UserUtilities } from '../utilities/user-utilities.class';
 import { User, UserParams } from '../interfaces/users.interface';
 
-const apiUrl = environment.urlDB + 'utenti';
-
 @Injectable({
   providedIn: 'root',
 })
@@ -34,6 +32,7 @@ export class AuthService {
   }
 
   getAllUsersHttp(): Observable<UserParams[]> {
+    const apiUrl = environment.urlDB + 'utenti';
     const params = new HttpParams().set('select', 'id,nome,profilePic,ruolo');
 
     return this.http.get<UserParams[]>(apiUrl, {
@@ -46,7 +45,7 @@ export class AuthService {
     email: string,
     password: string
   ): Observable<User[]> {
-    const url = `${apiUrl}?email=eq.${email}&password=eq.${password}`;
+    const url = `${environment.urlDB}utenti?email=eq.${email}&password=eq.${password}`;
     return this.http.get<User[]>(url, { headers: environment.headerSupabase });
   }
 
@@ -69,7 +68,7 @@ export class AuthService {
   }
 
   updateUser(user: User): Observable<User> {
-    const url = `${apiUrl}?id=eq.${user.id}`;
+    const url = `${environment.urlDB}utenti?id=eq.${user.id}`;
     const userForDb = this.userUtilities.mapUserToDb(user);
     return this.http
       .patch<User>(url, userForDb, { headers: environment.headerSupabase })
