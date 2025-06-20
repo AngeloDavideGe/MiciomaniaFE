@@ -1,8 +1,8 @@
 import { inject } from '@angular/core';
 import { User } from '../interfaces/users.interface';
 import { take } from 'rxjs';
-import { Messaggio } from '../../pages/chat-group/interfaces/chat-group.interface';
-import { ChatGroupService } from '../../pages/chat-group/services/chat-group.service';
+import { Messaggio } from '../../core/components/chat/interfaces/chat-group.interface';
+import { ChatGroupService } from '../../core/components/chat/services/chat-group.service';
 import { AuthService } from '../services/auth.service';
 import { NotificheService } from '../services/notifiche.service';
 

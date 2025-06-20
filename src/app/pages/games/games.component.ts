@@ -1,4 +1,4 @@
-import { NgFor, NgIf } from '@angular/common';
+import { AsyncPipe, NgFor, NgIf } from '@angular/common';
 import {
   Component,
   HostListener,
@@ -6,8 +6,8 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import { Router, RouterOutlet } from '@angular/router';
-import { take } from 'rxjs';
+import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
+import { filter, map, Observable, startWith, take } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { SquadreClass } from '../../shared/class/squadre.class';
 import { User } from '../../shared/interfaces/users.interface';
@@ -19,7 +19,7 @@ import { SquadreGiocatore } from './interfaces/games.interfaces';
 @Component({
   selector: 'app-games',
   standalone: true,
-  imports: [NgIf, NgFor, RouterOutlet],
+  imports: [NgIf, NgFor, RouterOutlet, AsyncPipe],
   templateUrl: './games.component.html',
 })
 export class GamesComponent implements OnInit, OnDestroy {
@@ -35,6 +35,12 @@ export class GamesComponent implements OnInit, OnDestroy {
 
   public router = inject(Router);
   private authService = inject(AuthService);
+
+  public isGames$: Observable<boolean> = this.router.events.pipe(
+    filter((event): event is NavigationEnd => event instanceof NavigationEnd),
+    startWith({ url: this.router.url } as NavigationEnd),
+    map((event) => event.url == '/games')
+  );
 
   ngOnInit(): void {
     this.setPunteggioGiocatore();

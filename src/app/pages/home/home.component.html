@@ -1,4 +1,4 @@
-<ng-container *ngIf="this.router.url == '/home'">
+<ng-container *ngIf="isHome">
   <app-navbar
     [credenziali]="user.credenziali"
     [inizialiUser]="inizialiUser"

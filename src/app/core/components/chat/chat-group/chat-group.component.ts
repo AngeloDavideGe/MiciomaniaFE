@@ -3,62 +3,60 @@ import {
   AfterViewChecked,
   Component,
   ElementRef,
+  EventEmitter,
   inject,
+  Input,
   OnDestroy,
   OnInit,
+  Output,
   ViewChild,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Subject, take, takeUntil } from 'rxjs';
-import { AuthCustom } from '../../shared/custom/auth-custom.class';
-import { LoadingService } from '../../shared/services/loading.service';
-import { User, UserParams } from '../../shared/interfaces/users.interface';
-import { Messaggio } from './interfaces/chat-group.interface';
-import { ChatGroupService } from './services/chat-group.service';
-import { formatDataCustom } from '../../shared/functions/utilities.function';
+import { AuthCustom } from '../../../../shared/custom/auth-custom.class';
+import { LoadingService } from '../../../../shared/services/loading.service';
+import { Messaggio } from './../interfaces/chat-group.interface';
+import { ChatGroupService } from './../services/chat-group.service';
+import { formatDataCustom } from '../../../../shared/functions/utilities.function';
+import {
+  User,
+  UserParams,
+} from '../../../../shared/interfaces/users.interface';
+import { AuthService } from '../../../../shared/services/auth.service';
 
 @Component({
   selector: 'app-chat-group',
   standalone: true,
   imports: [NgIf, NgFor, FormsModule, DatePipe],
   templateUrl: './chat-group.component.html',
+  styleUrl: './chat-group.component.scss',
 })
-export class ChatGroupComponent
-  extends AuthCustom
-  implements OnInit, AfterViewChecked, OnDestroy
-{
+export class ChatGroupComponent implements OnInit, AfterViewChecked, OnDestroy {
   public idUtente: string = '';
   public newMessage: string = '';
   private evitaSpam: boolean = true;
-  private initialLoad = true;
+  private initialLoad: boolean = true;
+  public spinner: boolean = false;
   public userMessageMap: { [id: string]: { nome: string; pic: string } } = {};
   public messages: Messaggio[] = [];
   public user: User | null = null;
   private destroy$ = new Subject<void>();
 
   private chatService = inject(ChatGroupService);
-  private loadingService = inject(LoadingService);
 
-  @ViewChild('chatMessages') private chatMessagesContainer!: ElementRef;
+  @Input() authService!: AuthService;
+  @Output() chiudiChat = new EventEmitter<void>();
+  @ViewChild('chatMessages') chatMessagesContainer!: ElementRef;
 
   ngOnInit(): void {
-    this.sottoscrizioneUtente({
-      userFunc: (user) => {
+    this.authService.user$.pipe(takeUntil(this.destroy$)).subscribe({
+      next: (user) => {
         user ? (this.idUtente = user.id) : null;
         this.user = user;
         this.loadMessaggiEUtenti();
-        if (this.authService.users.length === 0) {
-          this.sottoscrizioneUtenti({
-            nextCall: (data) => {
-              this.saveUsers(data);
-              this.saveProfilePic();
-            },
-          });
-        } else {
-          this.saveProfilePic();
-        }
+        this.saveProfilePic();
       },
-      destroy$: this.destroy$,
+      error: (err) => console.log('errore recupero utente', err),
     });
   }
 
@@ -113,11 +111,6 @@ export class ChatGroupComponent
     setTimeout(() => (this.evitaSpam = true), 2000);
   }
 
-  private saveUsers(data: UserParams[]): void {
-    this.authService.users = data.filter((x) => x.id != this.idUtente);
-    sessionStorage.setItem('users', JSON.stringify(this.authService.users));
-  }
-
   private saveProfilePic(): void {
     this.userMessageMap = this.authService.users.reduce((map, utente) => {
       if (utente) {
@@ -137,14 +130,14 @@ export class ChatGroupComponent
 
   private loadMessaggi(): void {
     if (!this.chatService.messaggiCaricatiBool) {
-      this.loadingService.show();
+      this.spinner = true;
       this.chatService
         .loadMessages('550e8400-e29b-41d4-a716-446655440000')
         .pipe(take(1))
         .subscribe({
           next: () => {
             this.chatService.messaggiCaricatiBool = true;
-            this.loadingService.hide();
+            this.spinner = false;
           },
           error: (err) => console.error('errore load message', err),
         });

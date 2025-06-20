@@ -1,7 +1,7 @@
 import { AsyncPipe, NgClass } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
-import { filter, map, startWith } from 'rxjs';
+import { filter, map, Observable, startWith } from 'rxjs';
 
 @Component({
   selector: 'app-auth',
@@ -24,7 +24,7 @@ import { filter, map, startWith } from 'rxjs';
 export class AuthComponent {
   private router = inject(Router);
 
-  public colClass$ = this.router.events.pipe(
+  public colClass$: Observable<string> = this.router.events.pipe(
     filter((event): event is NavigationEnd => event instanceof NavigationEnd),
     startWith({ url: this.router.url } as NavigationEnd),
     map((event) =>

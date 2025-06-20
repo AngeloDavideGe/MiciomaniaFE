@@ -32,6 +32,7 @@ import { ListaManga, MangaUtente } from './interfaces/manga.interface';
   templateUrl: './manga.component.html',
 })
 export class MangaComponent extends MangaCustom implements OnInit, OnDestroy {
+  public isManga: boolean = false;
   private filteredMangaSubject = new BehaviorSubject<ListaManga[]>([]);
   public filterSelect: FiltriManga = {} as FiltriManga;
   public mangaPreferiti: boolean[] = [];
@@ -58,6 +59,7 @@ export class MangaComponent extends MangaCustom implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     if (this.router.url == '/manga') {
+      this.isManga = true;
       this.loadFilteredManga();
     }
     this.routerEvents();
@@ -94,7 +96,10 @@ export class MangaComponent extends MangaCustom implements OnInit, OnDestroy {
       )
       .subscribe((event: NavigationEnd) => {
         if (event.url === '/manga') {
+          this.isManga = true;
           this.loadFilteredManga();
+        } else if (this.isManga) {
+          this.isManga = false;
         }
       });
   }

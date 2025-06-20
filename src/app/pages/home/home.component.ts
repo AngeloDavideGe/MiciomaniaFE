@@ -15,6 +15,7 @@ import { home_imports } from './imports/home.imports';
   templateUrl: './home.component.html',
 })
 export class HomeComponent extends AuthCustom implements OnInit, OnDestroy {
+  public isHome: boolean = false;
   public user: User = {} as User;
   public inizialiUser: string = '';
   private punteggioCanzoni: number = 50;
@@ -26,6 +27,7 @@ export class HomeComponent extends AuthCustom implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     if (this.router.url === '/home') {
+      this.isHome = true;
       this.sottoscrizioneUtente({
         userFunc: (user) => this.handleUserSubscription(user),
         destroy$: this.destroy$,
@@ -70,10 +72,13 @@ export class HomeComponent extends AuthCustom implements OnInit, OnDestroy {
         this.componenteAperto = '';
 
         if (event.url === '/home') {
+          this.isHome = true;
           this.sottoscrizioneUtente({
             userFunc: (user) => this.handleUserSubscription(user),
             destroy$: this.destroy$,
           });
+        } else if (this.isHome) {
+          this.isHome = false;
         }
       });
   }
