@@ -52,11 +52,17 @@ export class HomeComponent extends AuthCustom implements OnInit, OnDestroy {
   }
 
   private confirmLogout(): void {
-    this.authService.users.push(this.converUserParams(this.user));
+    this.usersLogout();
     this.profiloService.profiloPersonale = null;
-    sessionStorage.setItem('users', JSON.stringify(this.authService.users));
     this.authService.logout();
     this.setAnonymousUser();
+  }
+
+  private usersLogout(): void {
+    let allUser: UserParams[] = structuredClone(this.authService.getUsers);
+    allUser.push(this.converUserParams(this.user));
+    this.authService.usersSubject.next(allUser);
+    sessionStorage.setItem('users', JSON.stringify(allUser));
   }
 
   private routerEvents(): void {
@@ -94,7 +100,7 @@ export class HomeComponent extends AuthCustom implements OnInit, OnDestroy {
     } else {
       this.setAnonymousUser();
     }
-    if (this.authService.users.length === 0) {
+    if (this.authService.getUsers.length === 0) {
       this.sottoscrizioneUtenti({
         nextCall: (data) => this.handleUsersSubscription(data),
       });
@@ -128,7 +134,7 @@ export class HomeComponent extends AuthCustom implements OnInit, OnDestroy {
       }
     }
 
-    this.authService.users = otherUsers;
+    this.authService.usersSubject.next(otherUsers);
     sessionStorage.setItem('users', JSON.stringify(otherUsers));
   }
 

@@ -42,7 +42,7 @@ export class AdminComponent extends AuthCustom implements OnInit, OnDestroy {
     this.sottoscrizioneUtente({
       userFunc: (user) => {
         this.user = user;
-        if (this.authService.users.length === 0) {
+        if (this.authService.getUsers.length === 0) {
           this.loadingService.show();
           this.sottoscrizioneUtenti({
             nextCall: (data) => {
@@ -60,12 +60,14 @@ export class AdminComponent extends AuthCustom implements OnInit, OnDestroy {
   }
 
   private saveUsers(data: UserParams[]): void {
-    this.authService.users = data.filter((x) => x.id != this.user?.id);
-    sessionStorage.setItem('users', JSON.stringify(this.authService.users));
+    let allUsers: UserParams[] = this.authService.getUsers;
+    allUsers = data.filter((x) => x.id != this.user?.id);
+    this.authService.usersSubject.next(allUsers);
+    sessionStorage.setItem('users', JSON.stringify(allUsers));
   }
 
   private mapUsersByRuolo(): void {
-    const users: UserParams[] = this.authService.users;
+    const users: UserParams[] = this.authService.getUsers;
 
     this.ruoli.forEach((ruolo) => {
       this.userMap[ruolo] = [];
@@ -100,12 +102,14 @@ export class AdminComponent extends AuthCustom implements OnInit, OnDestroy {
   }
 
   ruoloModificato(user: CambioRuoloUtente): void {
-    const globalUserIndex: number = this.authService.users.findIndex(
+    const globalUserIndex: number = this.authService.getUsers.findIndex(
       (u) => u.id === user.id
     );
     if (globalUserIndex !== -1) {
-      this.authService.users[globalUserIndex].ruolo = user.nuovoRuolo;
-      sessionStorage.setItem('users', JSON.stringify(this.authService.users));
+      const allUsers: UserParams[] = this.authService.getUsers;
+      allUsers[globalUserIndex].ruolo = user.nuovoRuolo;
+      this.authService.usersSubject.next(allUsers);
+      sessionStorage.setItem('users', JSON.stringify(allUsers));
     }
 
     this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {

@@ -32,7 +32,6 @@ export class ChatGroupComponent implements OnInit, AfterViewChecked, OnDestroy {
   private evitaSpam: boolean = true;
   private initialLoad: boolean = true;
   public spinner: boolean = false;
-  public userMessageMap: { [id: string]: { nome: string; pic: string } } = {};
   public messages: Messaggio[] = [];
   public user: User | null = null;
   private destroy$ = new Subject<void>();
@@ -66,7 +65,7 @@ export class ChatGroupComponent implements OnInit, AfterViewChecked, OnDestroy {
     this.user = this.authService.getUser;
     this.idUtente = this.user ? this.user.id : '';
     this.loadMessaggiEUtenti();
-    this.saveProfilePic();
+    // this.saveProfilePic();
   }
 
   private changeUserSubscription(): void {
@@ -74,7 +73,7 @@ export class ChatGroupComponent implements OnInit, AfterViewChecked, OnDestroy {
       next: (user) => {
         this.user = user;
         this.idUtente = user ? user.id : '';
-        this.saveProfilePic();
+        // this.saveProfilePic();
       },
       error: (err) => console.error('errore recupero utente', err),
     });
@@ -115,23 +114,6 @@ export class ChatGroupComponent implements OnInit, AfterViewChecked, OnDestroy {
     this.evitaSpam = false;
     this.initialLoad = true;
     setTimeout(() => (this.evitaSpam = true), 2000);
-  }
-
-  private saveProfilePic(): void {
-    this.userMessageMap = this.authService.users.reduce((map, utente) => {
-      if (utente) {
-        map[utente.id] = {
-          nome: utente.nome || '',
-          pic: utente.profilePic || '',
-        };
-      } else {
-        map[utente] = {
-          nome: 'Anonimo',
-          pic: 'https://png.pngtree.com/png-vector/20191009/ourlarge/pngtree-user-icon-png-image_1796659.jpg',
-        };
-      }
-      return map;
-    }, {} as { [id: string]: { nome: string; pic: string } });
   }
 
   private loadMessaggi(): void {

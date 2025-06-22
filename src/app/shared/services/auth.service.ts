@@ -1,5 +1,5 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, OnInit } from '@angular/core';
 import {
   BehaviorSubject,
   catchError,
@@ -15,20 +15,41 @@ import { User, UserParams } from '../interfaces/users.interface';
 @Injectable({
   providedIn: 'root',
 })
-export class AuthService {
-  public users: UserParams[] = [];
-  public profiliPronti: boolean = false;
+export class AuthService implements OnInit {
+  // Utente corrente
   public userSubject = new BehaviorSubject<User | null>(null);
   public user$ = this.userSubject.asObservable().pipe(shareReplay(1));
+  // Lista di utenti (eccezione per l'utente corrente)
+  public usersSubject = new BehaviorSubject<UserParams[]>([]);
+  public users$ = this.usersSubject.asObservable().pipe(shareReplay(1));
+  // Altri
+  public profiliPronti: boolean = false;
+  public userMessageMap: { [id: string]: { nome: string; pic: string } } = {};
   private userUtilities = new UserUtilities();
-
-  constructor(private http: HttpClient) {
-    this.userUtilities.loadUserFromStorage(this.userSubject, this.users);
-    this.profiliPronti = this.users.length > 0;
-  }
 
   get getUser(): User | null {
     return this.userSubject.getValue();
+  }
+
+  get getUsers(): UserParams[] {
+    return this.usersSubject.getValue();
+  }
+
+  constructor(private http: HttpClient) {
+    this.userUtilities.loadUserFromStorage(this.userSubject, this.getUsers);
+    this.profiliPronti = this.getUsers.length > 0;
+  }
+
+  ngOnInit(): void {
+    this.usersSubjectSubscription();
+  }
+
+  private usersSubjectSubscription(): void {
+    this.users$.subscribe({
+      next: (users) => {
+        this.userMessageMap = this.userUtilities.mapUserMessage(users);
+      },
+    });
   }
 
   getAllUsersHttp(): Observable<UserParams[]> {
@@ -75,7 +96,7 @@ export class AuthService {
       .pipe(
         map(() => {
           this.userSubject.next(user);
-          this.userUtilities.saveUserToStorage(user, this.users);
+          this.userUtilities.saveUserToStorage(user, this.getUsers);
           return user;
         }),
         catchError((error) => {
@@ -90,9 +111,9 @@ export class AuthService {
       map((data) => {
         if (data.length === 1) {
           const user = this.userUtilities.mapUserByDb(data[0]);
-          this.users = this.users.filter((x) => x.id != user.id);
+          this.usersSubject.next(this.getUsers.filter((x) => x.id != user.id));
           this.userSubject.next(user);
-          this.userUtilities.saveUserToStorage(user, this.users);
+          this.userUtilities.saveUserToStorage(user, this.getUsers);
           return true;
         } else {
           this.userSubject.next(null);

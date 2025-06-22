@@ -34,7 +34,7 @@
   <app-cerca-profili
     *ngIf="componenteAperto == 'profili'"
     [profiliPronti]="authService.profiliPronti"
-    [users]="this.authService.users"
+    [users]="authService.getUsers"
     [goToProfilo]="goToProfilo"
     [chiudiComponente]="chiudiComponente"
   ></app-cerca-profili>
