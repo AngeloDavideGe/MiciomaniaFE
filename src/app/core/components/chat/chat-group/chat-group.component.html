@@ -1,4 +1,4 @@
-<div class="chat-container" *ngIf="!spinner; else spinnerTemplate">
+<div class="chat-container">
   <div
     class="chat-header d-flex align-items-center justify-content-between p-3"
   >
@@ -8,6 +8,7 @@
 
   <div
     #chatMessages
+    *ngIf="!spinner; else spinnerTemplate"
     class="chat-messages"
     style="overflow-y: auto; height: 500px"
   >
@@ -75,18 +76,26 @@
         idUtente ? 'Scrivi un messaggio' : 'Effettua login per scrivere'
       "
       (keyup.enter)="sendMessage()"
-      [disabled]="!idUtente"
+      [disabled]="!idUtente || spinner"
     />
     <button (click)="sendMessage()">Invia</button>
   </div>
 </div>
 
 <ng-template #spinnerTemplate>
-  <div
-    class="spinner-border text-dark rounded-circle me-3"
-    role="status"
-    style="width: 50px; height: 50px"
-  >
-    <span class="visually-hidden">Loading...</span>
+  <div class="chat-messages">
+    <div
+      class="spinner-border text-dark rounded-circle me-3"
+      role="status"
+      style="
+        width: 50px;
+        height: 50px;
+        margin-top: 10rem;
+        margin-left: 10rem;
+        margin-bottom: 10rem;
+      "
+    >
+      <span class="visually-hidden">Loading...</span>
+    </div>
   </div>
 </ng-template>

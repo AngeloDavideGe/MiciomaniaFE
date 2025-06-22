@@ -77,7 +77,7 @@ export class HomeComponent extends AuthCustom implements OnInit, OnDestroy {
             userFunc: (user) => this.handleUserSubscription(user),
             destroy$: this.destroy$,
           });
-        } else if (this.isHome) {
+        } else {
           this.isHome = false;
         }
       });

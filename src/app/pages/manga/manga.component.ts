@@ -98,7 +98,7 @@ export class MangaComponent extends MangaCustom implements OnInit, OnDestroy {
         if (event.url === '/manga') {
           this.isManga = true;
           this.loadFilteredManga();
-        } else if (this.isManga) {
+        } else {
           this.isManga = false;
         }
       });

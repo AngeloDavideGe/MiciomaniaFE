@@ -13,16 +13,11 @@ import {
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Subject, take, takeUntil } from 'rxjs';
-import { AuthCustom } from '../../../../shared/custom/auth-custom.class';
-import { LoadingService } from '../../../../shared/services/loading.service';
+import { formatDataCustom } from '../../../../shared/functions/utilities.function';
+import { User } from '../../../../shared/interfaces/users.interface';
+import { AuthService } from '../../../../shared/services/auth.service';
 import { Messaggio } from './../interfaces/chat-group.interface';
 import { ChatGroupService } from './../services/chat-group.service';
-import { formatDataCustom } from '../../../../shared/functions/utilities.function';
-import {
-  User,
-  UserParams,
-} from '../../../../shared/interfaces/users.interface';
-import { AuthService } from '../../../../shared/services/auth.service';
 
 @Component({
   selector: 'app-chat-group',
@@ -49,15 +44,8 @@ export class ChatGroupComponent implements OnInit, AfterViewChecked, OnDestroy {
   @ViewChild('chatMessages') chatMessagesContainer!: ElementRef;
 
   ngOnInit(): void {
-    this.authService.user$.pipe(takeUntil(this.destroy$)).subscribe({
-      next: (user) => {
-        user ? (this.idUtente = user.id) : null;
-        this.user = user;
-        this.loadMessaggiEUtenti();
-        this.saveProfilePic();
-      },
-      error: (err) => console.log('errore recupero utente', err),
-    });
+    this.inizializeChat();
+    this.changeUserSubscription();
   }
 
   ngAfterViewChecked(): void {
@@ -72,6 +60,24 @@ export class ChatGroupComponent implements OnInit, AfterViewChecked, OnDestroy {
   ngOnDestroy() {
     this.destroy$.next();
     this.destroy$.complete();
+  }
+
+  private inizializeChat(): void {
+    this.user = this.authService.getUser;
+    this.idUtente = this.user ? this.user.id : '';
+    this.loadMessaggiEUtenti();
+    this.saveProfilePic();
+  }
+
+  private changeUserSubscription(): void {
+    this.authService.user$.pipe(takeUntil(this.destroy$)).subscribe({
+      next: (user) => {
+        this.user = user;
+        this.idUtente = user ? user.id : '';
+        this.saveProfilePic();
+      },
+      error: (err) => console.error('errore recupero utente', err),
+    });
   }
 
   private scrollToBottom(): void {
