@@ -15,7 +15,7 @@ import { User, UserParams } from '../interfaces/users.interface';
 @Injectable({
   providedIn: 'root',
 })
-export class AuthService implements OnInit {
+export class AuthService {
   // Utente corrente
   public userSubject = new BehaviorSubject<User | null>(null);
   public user$ = this.userSubject.asObservable().pipe(shareReplay(1));
@@ -38,18 +38,6 @@ export class AuthService implements OnInit {
   constructor(private http: HttpClient) {
     this.userUtilities.loadUserFromStorage(this.userSubject, this.getUsers);
     this.profiliPronti = this.getUsers.length > 0;
-  }
-
-  ngOnInit(): void {
-    this.usersSubjectSubscription();
-  }
-
-  private usersSubjectSubscription(): void {
-    this.users$.subscribe({
-      next: (users) => {
-        this.userMessageMap = this.userUtilities.mapUserMessage(users);
-      },
-    });
   }
 
   getAllUsersHttp(): Observable<UserParams[]> {

@@ -1,8 +1,7 @@
 import { inject } from '@angular/core';
-import { User } from '../interfaces/users.interface';
-import { take } from 'rxjs';
 import { Messaggio } from '../../core/components/chat/interfaces/chat-group.interface';
 import { ChatGroupService } from '../../core/components/chat/services/chat-group.service';
+import { User } from '../interfaces/users.interface';
 import { AuthService } from '../services/auth.service';
 import { NotificheService } from '../services/notifiche.service';
 
@@ -14,7 +13,7 @@ export class NotificheClass {
   private user = this.authService.getUser || ({} as User);
 
   public sottoscrizioneNotifiche(): void {
-    this.chatGroupService.messages$.pipe(take(100)).subscribe({
+    this.chatGroupService.messages$.subscribe({
       next: (data) => {
         const ultimoMessaggio: Messaggio =
           data[data.length - 1] || ({} as Messaggio);

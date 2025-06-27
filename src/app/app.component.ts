@@ -6,6 +6,7 @@ import { MiniPlayerComponent } from './core/components/mini-player/mini-player.c
 import { NgIf, NgStyle } from '@angular/common';
 import { MiniPlayerClass } from './core/class/mini-player.class';
 import { ChatComponent } from './core/components/chat/chat.component';
+import { UsersMapClass } from './core/class/users-map.class';
 
 @Component({
   selector: 'app-root',
@@ -32,10 +33,12 @@ import { ChatComponent } from './core/components/chat/chat.component';
 export class AppComponent implements OnInit {
   private cursorClass = new CursorClass();
   private notificheClass = new NotificheClass();
+  private userMapClass = new UsersMapClass();
   public miniPlayerClass = inject(MiniPlayerClass);
 
   ngOnInit(): void {
     this.cursorClass.setCursoreByStorage();
     this.notificheClass.sottoscrizioneNotifiche();
+    this.userMapClass.usersSubjectSubscription();
   }
 }
