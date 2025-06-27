@@ -1,5 +1,5 @@
 <div class="user-table-container">
-  <ng-container *ngIf="userMap.length > 0; else noElement">
+  <ng-container *ngIf="userMap().length > 0; else noElement">
     <table class="table table-bordered" id="ruolo">
       <thead>
         <tr>
@@ -9,7 +9,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let user of userTable">
+        <tr *ngFor="let user of userTable()">
           <td>{{ user.id }}</td>
           <td>{{ user.nome }}</td>
           <td>
@@ -39,7 +39,7 @@
     </table>
 
     <!-- Pulsanti di paginazione -->
-    <ng-container *ngIf="userMap.length > 5">
+    <ng-container *ngIf="userMap().length > 5">
       <div
         id="PulsantiPaginazione"
         class="pagination-controls"

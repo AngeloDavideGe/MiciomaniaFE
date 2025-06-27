@@ -15,7 +15,7 @@ export class MangaSongUtilities {
     allSongs?: CanzoniMiciomania[]
   ): void {
     this.sc.stopSong();
-    this.sc.currentCanzone = song;
+    this.sc.currentCanzone.set(song);
     this.sc.allCanzoni = allSongs || ([] as CanzoniMiciomania[]);
     this.sc.playSong();
     this.sc.currentSongIndex = this.sc.allCanzoni.findIndex(

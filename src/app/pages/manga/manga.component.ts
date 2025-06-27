@@ -4,6 +4,7 @@ import {
   inject,
   OnDestroy,
   OnInit,
+  signal,
 } from '@angular/core';
 import { NavigationEnd } from '@angular/router';
 import {
@@ -28,11 +29,10 @@ import { ListaManga, MangaUtente } from './interfaces/manga.interface';
   selector: 'app-manga',
   standalone: true,
   imports: manga_imports,
-  // providers: [MangaService],
   templateUrl: './manga.component.html',
 })
 export class MangaComponent extends MangaCustom implements OnInit, OnDestroy {
-  public isManga: boolean = false;
+  public isManga = signal<boolean>(false);
   private filteredMangaSubject = new BehaviorSubject<ListaManga[]>([]);
   public filterSelect: FiltriManga = {} as FiltriManga;
   public mangaPreferiti: boolean[] = [];
@@ -59,7 +59,7 @@ export class MangaComponent extends MangaCustom implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     if (this.router.url == '/manga') {
-      this.isManga = true;
+      this.isManga.set(true);
       this.loadFilteredManga();
     }
     this.routerEvents();
@@ -96,10 +96,10 @@ export class MangaComponent extends MangaCustom implements OnInit, OnDestroy {
       )
       .subscribe((event: NavigationEnd) => {
         if (event.url === '/manga') {
-          this.isManga = true;
+          this.isManga.set(true);
           this.loadFilteredManga();
         } else {
-          this.isManga = false;
+          this.isManga.set(false);
         }
       });
   }

@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { ChatGroupComponent } from './chat-group/chat-group.component';
 import { NgIf } from '@angular/common';
 import { AuthService } from '../../../shared/services/auth.service';
@@ -9,14 +9,14 @@ import { AuthService } from '../../../shared/services/auth.service';
   imports: [ChatGroupComponent, NgIf],
   template: `
     <!-- Chat aperta -->
-    <ng-container *ngIf="chatAperta; else chatGroupTemplate">
+    <ng-container *ngIf="chatAperta(); else chatGroupTemplate">
       <div
         class="position-fixed bottom-0 end-0 mb-3 me-3"
         style="width: 360px; height: 520px; z-index: 1080;"
       >
         <app-chat-group
           [authService]="authService"
-          (chiudiChat)="chatAperta = false"
+          (chiudiChat)="chatAperta.set(false)"
         >
         </app-chat-group>
       </div>
@@ -30,7 +30,7 @@ import { AuthService } from '../../../shared/services/auth.service';
           background: linear-gradient(135deg,#fd5949 0%,#d6249f 50%,#285AEB 100%);
           color:#fff; cursor:pointer; padding:.5rem 1rem; z-index:1080;
         "
-        (click)="chatAperta = true"
+        (click)="chatAperta.set(true)"
       >
         <!-- icona Bootstrap Icons (opzionale) -->
         <i class="bi bi-chat-dots-fill me-2"></i>
@@ -40,6 +40,6 @@ import { AuthService } from '../../../shared/services/auth.service';
   `,
 })
 export class ChatComponent {
-  public chatAperta: boolean = false;
+  public chatAperta = signal<boolean>(false);
   public authService = inject(AuthService);
 }

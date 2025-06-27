@@ -1,4 +1,4 @@
-<ng-container *ngIf="isHome">
+<ng-container *ngIf="isHome()">
   <app-navbar
     [credenziali]="user.credenziali"
     [inizialiUser]="inizialiUser"
@@ -10,7 +10,7 @@
     <app-menu-impostazioni
       [user]="user"
       (cursore)="
-        componenteAperto = componenteAperto == 'cursore' ? '' : 'cursore'
+        componenteAperto.set(componenteAperto() === 'cursore' ? '' : 'cursore')
       "
     >
     </app-menu-impostazioni>
@@ -21,23 +21,22 @@
       [user]="user"
       (logout)="logout()"
       (cercaProfili)="
-        componenteAperto = componenteAperto == 'profili' ? '' : 'profili'
+        componenteAperto.set(componenteAperto() === 'profili' ? '' : 'profili')
       "
     ></app-menu-profili>
   </ng-template>
 
-  <app-cursore
-    *ngIf="componenteAperto == 'cursore'"
-    class="pc-only"
-  ></app-cursore>
+  <div [ngSwitch]="componenteAperto()">
+    <app-cursore *ngSwitchCase="'cursore'" class="pc-only"></app-cursore>
 
-  <app-cerca-profili
-    *ngIf="componenteAperto == 'profili'"
-    [profiliPronti]="authService.profiliPronti"
-    [users]="authService.getUsers"
-    [goToProfilo]="goToProfilo"
-    [chiudiComponente]="chiudiComponente"
-  ></app-cerca-profili>
+    <app-cerca-profili
+      *ngSwitchCase="'profili'"
+      [profiliPronti]="authService.profiliPronti"
+      [users]="authService.getUsers"
+      [goToProfilo]="goToProfilo"
+      [chiudiComponente]="chiudiComponente"
+    ></app-cerca-profili>
+  </div>
 
   <app-card-home (canzone)="controlloPunteggio()"></app-card-home>
 

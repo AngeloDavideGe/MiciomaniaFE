@@ -9,6 +9,7 @@ import {
   OnDestroy,
   OnInit,
   Output,
+  signal,
   ViewChild,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
@@ -31,8 +32,8 @@ export class ChatGroupComponent implements OnInit, AfterViewChecked, OnDestroy {
   public newMessage: string = '';
   private evitaSpam: boolean = true;
   private initialLoad: boolean = true;
-  public spinner: boolean = false;
-  public messages: Messaggio[] = [];
+  public spinner = signal<boolean>(false);
+  public messages = signal<Messaggio[]>([]);
   public user: User | null = null;
   private destroy$ = new Subject<void>();
 
@@ -48,7 +49,7 @@ export class ChatGroupComponent implements OnInit, AfterViewChecked, OnDestroy {
   }
 
   ngAfterViewChecked(): void {
-    if (this.initialLoad && this.messages.length > 0) {
+    if (this.initialLoad && this.messages().length > 0) {
       this.scrollToBottom();
       setTimeout(() => {
         this.initialLoad = false;
@@ -65,7 +66,6 @@ export class ChatGroupComponent implements OnInit, AfterViewChecked, OnDestroy {
     this.user = this.authService.getUser;
     this.idUtente = this.user ? this.user.id : '';
     this.loadMessaggiEUtenti();
-    // this.saveProfilePic();
   }
 
   private changeUserSubscription(): void {
@@ -73,7 +73,6 @@ export class ChatGroupComponent implements OnInit, AfterViewChecked, OnDestroy {
       next: (user) => {
         this.user = user;
         this.idUtente = user ? user.id : '';
-        // this.saveProfilePic();
       },
       error: (err) => console.error('errore recupero utente', err),
     });
@@ -118,14 +117,14 @@ export class ChatGroupComponent implements OnInit, AfterViewChecked, OnDestroy {
 
   private loadMessaggi(): void {
     if (!this.chatService.messaggiCaricatiBool) {
-      this.spinner = true;
+      this.spinner.set(true);
       this.chatService
         .loadMessages('550e8400-e29b-41d4-a716-446655440000')
         .pipe(take(1))
         .subscribe({
           next: () => {
             this.chatService.messaggiCaricatiBool = true;
-            this.spinner = false;
+            this.spinner.set(false);
           },
           error: (err) => console.error('errore load message', err),
         });
@@ -134,7 +133,7 @@ export class ChatGroupComponent implements OnInit, AfterViewChecked, OnDestroy {
 
   private sottoscrizioneMessaggi(): void {
     this.chatService.messages$.pipe(takeUntil(this.destroy$)).subscribe({
-      next: (mess) => (this.messages = mess),
+      next: (mess) => this.messages.set(mess),
       error: (err) => console.error('errore nel recupero messaggi', err),
     });
   }

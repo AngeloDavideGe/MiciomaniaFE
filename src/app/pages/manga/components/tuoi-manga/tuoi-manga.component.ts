@@ -1,5 +1,5 @@
 import { NgFor, NgIf } from '@angular/common';
-import { Component, inject, OnDestroy, OnInit } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { take } from 'rxjs';
 import { AuthService } from '../../../../shared/services/auth.service';
@@ -30,7 +30,7 @@ export class TuoiMangaComponent
   implements OnInit, OnDestroy
 {
   public allMangaFiltrati: ListaManga[] = [];
-  public mangafiltrati: ListaManga[] = [];
+  public mangafiltrati = signal<ListaManga[]>([]);
   public selectedTab: keyofMangaUtente = 'preferiti';
   public searchQuery: string = '';
   public erroreHttp: boolean = false;
@@ -121,9 +121,9 @@ export class TuoiMangaComponent
   private filterManga(key: keyofMangaUtente): void {
     this.checkSplitManga = this.voidSplitManga();
     if (this.sezioneListaManga[key].length > 0) {
-      this.mangafiltrati = structuredClone(this.sezioneListaManga[key]);
+      this.mangafiltrati.set(this.sezioneListaManga[key]);
     } else {
-      this.mangafiltrati = [];
+      this.mangafiltrati.set([]);
     }
   }
 
@@ -141,9 +141,7 @@ export class TuoiMangaComponent
       this.selectedTab
     ].filter((x) => x.id != idManga);
 
-    this.mangafiltrati = structuredClone(
-      this.sezioneListaManga[this.selectedTab]
-    );
+    this.mangafiltrati.set(this.sezioneListaManga[this.selectedTab]);
   }
 
   aggiungiMangaTab(idManga: number) {
@@ -157,9 +155,7 @@ export class TuoiMangaComponent
 
       if (mangaTrovato) {
         this.sezioneListaManga[this.selectedTab].push(mangaTrovato);
-        this.mangafiltrati = structuredClone(
-          this.sezioneListaManga[this.selectedTab]
-        );
+        this.mangafiltrati.set(this.sezioneListaManga[this.selectedTab]);
       }
     }
 
@@ -222,7 +218,7 @@ export class TuoiMangaComponent
       tabRemove
     ].filter((x) => !checkSplitMangaSet.has(x.id));
 
-    this.mangafiltrati = [...this.sezioneListaManga[tabRemove]];
+    this.mangafiltrati.set([...this.sezioneListaManga[tabRemove]]);
 
     this.checkSplitManga = this.voidSplitManga();
   }

@@ -21,7 +21,7 @@ import { MiniPlayerClass } from '../../class/mini-player.class';
       <div class="d-flex align-items-center">
         <img
           [src]="
-            miniPlayerClass.currentCanzone?.copertina ||
+            miniPlayerClass.currentCanzone()?.copertina ||
             'https://i.postimg.cc/NfmNs2FC/Miku.png'
           "
           alt="Copertina"
@@ -30,10 +30,12 @@ import { MiniPlayerClass } from '../../class/mini-player.class';
         />
         <div>
           <div class="fw-semibold" style="font-size: 1.1rem;">
-            {{ miniPlayerClass.currentCanzone?.nome || 'Nessun titolo' }}
+            {{ miniPlayerClass.currentCanzone()?.nome || 'Nessun titolo' }}
           </div>
           <div class="text-white-50" style="font-size: 0.85rem;">
-            {{ miniPlayerClass.currentCanzone?.genere || 'Genere sconosciuto' }}
+            {{
+              miniPlayerClass.currentCanzone()?.genere || 'Genere sconosciuto'
+            }}
           </div>
         </div>
       </div>

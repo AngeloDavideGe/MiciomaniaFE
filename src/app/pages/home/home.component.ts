@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, signal } from '@angular/core';
 import { NavigationEnd } from '@angular/router';
 import 'bootstrap'; // Importa Bootstrap JS (incluso Popper.js)
 import { distinctUntilChanged, filter, Subject, take, takeUntil } from 'rxjs';
@@ -15,19 +15,19 @@ import { home_imports } from './imports/home.imports';
   templateUrl: './home.component.html',
 })
 export class HomeComponent extends AuthCustom implements OnInit, OnDestroy {
-  public isHome: boolean = false;
+  public isHome = signal<boolean>(false);
   public user: User = {} as User;
-  public inizialiUser: string = '';
+  public inizialiUser = signal<string>('');
   private punteggioCanzoni: number = 50;
-  public componenteAperto: string = '';
+  public componenteAperto = signal<string>('');
   private destroy$ = new Subject<void>();
-  public chiudiComponente: Function = () => (this.componenteAperto = '');
+  public chiudiComponente: Function = () => this.componenteAperto.set('');
   public goToProfilo: Function = (path: string) => this.router.navigate([path]);
   private elementiUtenteUtilities = new ElementiUtenteUtilities();
 
   ngOnInit(): void {
     if (this.router.url === '/home') {
-      this.isHome = true;
+      this.isHome.set(true);
       this.sottoscrizioneUtente({
         userFunc: (user) => this.handleUserSubscription(user),
         destroy$: this.destroy$,
@@ -75,16 +75,16 @@ export class HomeComponent extends AuthCustom implements OnInit, OnDestroy {
         distinctUntilChanged((prev, curr) => prev.url === curr.url)
       )
       .subscribe((event: NavigationEnd) => {
-        this.componenteAperto = '';
+        this.componenteAperto.set('');
 
         if (event.url === '/home') {
-          this.isHome = true;
+          this.isHome.set(true);
           this.sottoscrizioneUtente({
             userFunc: (user) => this.handleUserSubscription(user),
             destroy$: this.destroy$,
           });
         } else {
-          this.isHome = false;
+          this.isHome.set(false);
         }
       });
   }
@@ -92,7 +92,7 @@ export class HomeComponent extends AuthCustom implements OnInit, OnDestroy {
   private handleUserSubscription(user: User | null): void {
     if (user) {
       this.user = user;
-      this.inizialiUser = this.calculateUserInitials(user.credenziali.nome);
+      this.inizialiUser.set(this.calculateUserInitials(user.credenziali.nome));
       this.elementiUtenteUtilities
         .getElementiUtente(user.id, false)
         .pipe(take(1))
@@ -118,7 +118,7 @@ export class HomeComponent extends AuthCustom implements OnInit, OnDestroy {
   private setAnonymousUser(): void {
     this.user = this.getVoidUser();
     this.user.credenziali.nome = 'Anonimo';
-    this.inizialiUser = 'AN';
+    this.inizialiUser.set('AN');
   }
 
   private handleUsersSubscription(data: UserParams[]): void {

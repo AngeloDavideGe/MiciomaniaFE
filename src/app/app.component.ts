@@ -15,7 +15,7 @@ import { ChatComponent } from './core/components/chat/chat.component';
     <div
       class="app-router-outlet-container"
       [ngStyle]="{
-        'margin-bottom': miniPlayerClass.currentCanzone ? '8rem' : '0'
+        'margin-bottom': miniPlayerClass.currentCanzone() ? '8rem' : '0'
       }"
     >
       <router-outlet></router-outlet>
@@ -23,7 +23,7 @@ import { ChatComponent } from './core/components/chat/chat.component';
 
     <app-chat></app-chat>
     <app-mini-player
-      *ngIf="miniPlayerClass.currentCanzone"
+      *ngIf="miniPlayerClass.currentCanzone()"
       [miniPlayerClass]="miniPlayerClass"
     >
     </app-mini-player>

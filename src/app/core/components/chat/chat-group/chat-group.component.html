@@ -8,11 +8,11 @@
 
   <div
     #chatMessages
-    *ngIf="!spinner; else spinnerTemplate"
+    *ngIf="!spinner(); else spinnerTemplate"
     class="chat-messages"
     style="overflow-y: auto; height: 500px"
   >
-    <ng-container *ngFor="let message of messages">
+    <ng-container *ngFor="let message of messages()">
       <!-- Messaggi inviati (sent) -->
       <div *ngIf="message.sender == idUtente" class="sent-messages">
         <div class="message sent">
@@ -76,7 +76,7 @@
         idUtente ? 'Scrivi un messaggio' : 'Effettua login per scrivere'
       "
       (keyup.enter)="sendMessage()"
-      [disabled]="!idUtente || spinner"
+      [disabled]="!idUtente || spinner()"
     />
     <button (click)="sendMessage()">Invia</button>
   </div>

@@ -1,4 +1,13 @@
-import { Component, inject, OnDestroy, OnInit } from '@angular/core';
+import {
+  Component,
+  computed,
+  inject,
+  OnDestroy,
+  OnInit,
+  signal,
+  Signal,
+  WritableSignal,
+} from '@angular/core';
 import { Subject } from 'rxjs';
 import { AuthCustom } from '../../../../../shared/custom/auth-custom.class';
 import { LoadingService } from '../../../../../shared/services/loading.service';
@@ -20,16 +29,22 @@ import { CambioRuoloUtente } from './interfaces/admin.interface';
 })
 export class AdminComponent extends AuthCustom implements OnInit, OnDestroy {
   public user: User | null = null;
-  public editAdmin: boolean = false;
+  public editAdmin = signal<boolean>(false);
   public userEdit: UserParams = {} as UserParams;
   public ruoli = Object.values(Ruolo);
   private destroy$ = new Subject<void>();
-  public userMap: { [ruolo: string]: UserParams[] } = {};
+  public userMap: WritableSignal<{ [ruolo: string]: UserParams[] }> = signal(
+    {}
+  );
+  public userMapByRuolo: { [ruolo: string]: Signal<UserParams[]> } = {};
 
   private loadingService = inject(LoadingService);
   public adminService = inject(AdminService);
 
   ngOnInit(): void {
+    this.ruoli.forEach((ruolo) => {
+      this.userMapByRuolo[ruolo] = computed(() => this.userMap()[ruolo] ?? []);
+    });
     this.loadUtenti();
   }
 
@@ -68,25 +83,33 @@ export class AdminComponent extends AuthCustom implements OnInit, OnDestroy {
 
   private mapUsersByRuolo(): void {
     const users: UserParams[] = this.authService.getUsers;
+    const newMap: { [ruolo: string]: UserParams[] } = {};
 
     this.ruoli.forEach((ruolo) => {
-      this.userMap[ruolo] = [];
+      newMap[ruolo] = [];
     });
 
     users.forEach((user) => {
-      this.userMap[user.ruolo].push(user);
+      if (!newMap[user.ruolo]) {
+        newMap[user.ruolo] = [];
+      }
+      newMap[user.ruolo].push(user);
     });
 
     if (this.user) {
-      this.userMap[this.user.credenziali.ruolo].push(
-        this.converUserParams(this.user)
-      );
+      const ruoloUtente = this.user.credenziali.ruolo;
+      if (!newMap[ruoloUtente]) {
+        newMap[ruoloUtente] = [];
+      }
+      newMap[ruoloUtente].push(this.converUserParams(this.user));
     }
+
+    this.userMap.set(newMap);
   }
 
   modificaRuolo(user: UserParams): void {
     this.userEdit = user;
-    this.editAdmin = true;
+    this.editAdmin.set(true);
   }
 
   eliminaRuolo(user: UserParams): void {

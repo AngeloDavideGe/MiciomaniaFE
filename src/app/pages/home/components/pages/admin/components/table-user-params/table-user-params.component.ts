@@ -6,6 +6,8 @@ import {
   Input,
   OnInit,
   Output,
+  Signal,
+  signal,
 } from '@angular/core';
 
 import { Router } from '@angular/router';
@@ -23,19 +25,19 @@ import {
 })
 export class TableUserParamsComponent implements OnInit {
   @Input() ruolo!: Ruolo;
-  @Input() userMap!: UserParams[];
+  @Input() userMap!: Signal<UserParams[]>;
   @Input() user: User | null = null;
   @Output() modificaRuolo = new EventEmitter<UserParams>();
   @Output() eliminaRuolo = new EventEmitter<UserParams>();
 
-  public userTable: UserParams[] = [];
+  public userTable = signal<UserParams[]>([]);
   public currentPage: number = 1;
   public totalPages: number = 0;
 
   public router = inject(Router);
 
   ngOnInit(): void {
-    this.userTable = this.userMap.slice(0, 5);
+    this.userTable.set(this.userMap().slice(0, 5));
     this.totalPages = Math.ceil(this.userMap.length / 5);
   }
 
@@ -70,9 +72,8 @@ export class TableUserParamsComponent implements OnInit {
   previousPage(): void {
     if (this.currentPage > 1) {
       this.currentPage--;
-      this.userTable = this.userMap.slice(
-        (this.currentPage - 1) * 5,
-        this.currentPage * 5
+      this.userTable.set(
+        this.userMap().slice((this.currentPage - 1) * 5, this.currentPage * 5)
       );
     }
   }
@@ -80,9 +81,8 @@ export class TableUserParamsComponent implements OnInit {
   nextPage(): void {
     if (this.currentPage < this.totalPages) {
       this.currentPage++;
-      this.userTable = this.userMap.slice(
-        (this.currentPage - 1) * 5,
-        this.currentPage * 5
+      this.userTable.set(
+        this.userMap().slice((this.currentPage - 1) * 5, this.currentPage * 5)
       );
     }
   }

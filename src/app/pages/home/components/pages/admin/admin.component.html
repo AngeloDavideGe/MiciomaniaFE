@@ -44,7 +44,7 @@
             <app-table-user-params
               [ruolo]="ruolo"
               [user]="user"
-              [userMap]="userMap[ruolo]"
+              [userMap]="userMapByRuolo[ruolo]"
               (modificaRuolo)="modificaRuolo($event)"
               (eliminaRuolo)="eliminaRuolo($event)"
               class="p-3 flex-grow-1"
@@ -57,10 +57,10 @@
 
   <!-- Modale -->
   <app-edit-admin
-    *ngIf="editAdmin"
+    *ngIf="editAdmin()"
     [userEdit]="userEdit"
     [adminService]="adminService"
-    (chiudiModale)="editAdmin = false"
+    (chiudiModale)="editAdmin.set(false)"
     (ruoloModificato)="ruoloModificato($event)"
   ></app-edit-admin>
 </div>
