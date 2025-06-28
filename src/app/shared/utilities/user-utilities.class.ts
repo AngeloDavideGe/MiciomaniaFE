@@ -1,4 +1,4 @@
-import { BehaviorSubject } from 'rxjs';
+import { WritableSignal } from '@angular/core';
 import { Ruolo } from '../../pages/auth/enums/users.enum';
 import { User, UserParams } from '../interfaces/users.interface';
 
@@ -53,14 +53,14 @@ export class UserUtilities {
   }
 
   public loadUserFromStorage(
-    userSubject: BehaviorSubject<User | null>,
+    user: WritableSignal<User | null>,
     users: UserParams[]
   ): void {
     const userData = localStorage.getItem('user');
     const usersData = sessionStorage.getItem('users');
 
     if (userData) {
-      userSubject.next(JSON.parse(userData));
+      user.set(JSON.parse(userData));
     }
 
     if (usersData) {

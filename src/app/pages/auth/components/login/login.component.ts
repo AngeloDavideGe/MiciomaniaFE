@@ -37,7 +37,6 @@ export class LoginComponent extends AuthCustom implements OnInit {
   ngOnInit(): void {
     this.navigateOut({
       condUserForBack: true,
-      destroy$: this.destroy$,
       userFunc: () => {},
     });
   }

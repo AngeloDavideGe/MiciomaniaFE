@@ -62,14 +62,14 @@ export class GamesComponent implements OnInit, OnDestroy {
   }
 
   private setPunteggioGiocatore(): void {
-    const user: User | null = this.authService.getUser;
+    const user: User | null = this.authService.user();
     if (user) {
       this.punteggioPersonale = user.iscrizione.punteggio || 0;
     }
   }
 
   private ifCallLoadSquadre(): void {
-    const user: User | null = this.authService.getUser;
+    const user: User | null = this.authService.user();
     if (user) {
       environment.team.forEach((nomeTeam) => {
         if (user.iscrizione.team?.includes(nomeTeam)) {
@@ -88,7 +88,7 @@ export class GamesComponent implements OnInit, OnDestroy {
   }
 
   private elseCallLoadSquadre(): void {
-    const user: User | null = this.authService.getUser;
+    const user: User | null = this.authService.user();
     if (user) {
       environment.team.forEach((nomeTeam) => {
         const punteggioFind: number | undefined =
@@ -112,7 +112,7 @@ export class GamesComponent implements OnInit, OnDestroy {
   }
 
   private nextCallLoadSquadre(): void {
-    const user: User | null = this.authService.getUser;
+    const user: User | null = this.authService.user();
     if (user) {
       this.squadre.personale.forEach((squadra) => {
         const punteggioFind: number | undefined =
@@ -133,7 +133,7 @@ export class GamesComponent implements OnInit, OnDestroy {
   }
 
   private updatePunteggioSquadra($event: BeforeUnloadEvent | null): void {
-    const user: User | null = this.authService.getUser;
+    const user: User | null = this.authService.user();
     const punteggio: number = this.sc.squadreService.getPunteggioOttenuto;
 
     if (user && punteggio != 0) {
@@ -151,12 +151,12 @@ export class GamesComponent implements OnInit, OnDestroy {
   }
 
   private nextUpdatePunteggio(squadre: string[], punteggio: number): void {
-    const user: User | null = this.authService.getUser;
+    const user: User | null = this.authService.user();
 
     if (user && user.iscrizione && user.iscrizione.punteggio) {
       user.iscrizione.punteggio += punteggio;
       localStorage.setItem('user', JSON.stringify(user));
-      this.authService.userSubject.next(user);
+      this.authService.user.set(user);
     }
 
     const idSet = new Set(squadre.map((id) => id.toLowerCase()));

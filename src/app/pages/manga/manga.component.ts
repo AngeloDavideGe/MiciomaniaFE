@@ -114,7 +114,7 @@ export class MangaComponent extends MangaCustom implements OnInit, OnDestroy {
       this.identificaPreferiti(
         savedMangaUtente ? savedMangaUtente : ({} as MangaUtente)
       );
-      this.idUtente = this.authService.getUser?.id || null;
+      this.idUtente = this.authService.user()?.id || null;
     } else {
       ms.listaManga.length > 0 ? null : this.loadingService.show();
       this.aggiornamentoManga = true;
@@ -123,7 +123,7 @@ export class MangaComponent extends MangaCustom implements OnInit, OnDestroy {
   }
 
   private sottoscrizioneUtente(): void {
-    const user = this.authService.getUser;
+    const user = this.authService.user();
     this.idUtente = user ? user.id : null;
     this.inizializzaLista({
       idUtente: this.idUtente,

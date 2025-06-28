@@ -35,7 +35,6 @@ export class SignInComponent extends AuthCustom {
 
   ngOnInit(): void {
     this.navigateOut({
-      destroy$: this.destroy$,
       condUserForBack: true,
       userFunc: () => this.sottoscrizioneForm(),
     });

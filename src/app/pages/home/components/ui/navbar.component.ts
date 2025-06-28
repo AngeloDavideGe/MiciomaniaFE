@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, Signal, TemplateRef } from '@angular/core';
+import { Component, Input, TemplateRef } from '@angular/core';
 import { Credenziali } from '../../../../shared/interfaces/users.interface';
 
 @Component({
@@ -99,7 +99,7 @@ import { Credenziali } from '../../../../shared/interfaces/users.interface';
       <div
         class="d-flex align-items-center justify-content-center div-profilo-pic"
       >
-        {{ inizialiUser() }}
+        {{ inizialiUser }}
       </div>
     </ng-template>
 
@@ -133,7 +133,7 @@ import { Credenziali } from '../../../../shared/interfaces/users.interface';
 })
 export class NavBarComponent {
   @Input() credenziali!: Credenziali;
-  @Input() inizialiUser!: Signal<string>;
+  @Input() inizialiUser!: string;
 
   @Input() settingsMenu!: TemplateRef<any>;
   @Input() profilesMenu!: TemplateRef<any>;

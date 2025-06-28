@@ -1,10 +1,9 @@
-import { Component, inject, OnDestroy, OnInit } from '@angular/core';
+import { Component, effect, inject, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { finalize, map, Subject, take, takeUntil } from 'rxjs';
 import { AuthCustom } from '../../../../../shared/custom/auth-custom.class';
 import { User } from '../../../../../shared/interfaces/users.interface';
 import { LoadingService } from '../../../../../shared/services/loading.service';
-
 import {
   EditableSocial,
   Profilo,
@@ -41,12 +40,12 @@ export class ProfiloComponent extends AuthCustom implements OnInit, OnDestroy {
 
   constructor() {
     super();
+    this.sottoscrizioneParam();
     this.setTornaIndietroPath();
   }
 
   ngOnInit(): void {
     this.loaderService.show();
-    this.sottoscrizioneParam();
   }
 
   ngOnDestroy(): void {
@@ -69,9 +68,9 @@ export class ProfiloComponent extends AuthCustom implements OnInit, OnDestroy {
   private sottoscrizioneParam(): void {
     this.route.params.pipe(takeUntil(this.destroy$)).subscribe((params) => {
       this.idUtente = params['id'];
-      this.sottoscrizioneUtente({
-        userFunc: (user) => this.caricaDatiUser(user),
-        destroy$: this.destroy$,
+      effect(() => {
+        const user: User | null = this.authService.user();
+        this.caricaDatiUser(user);
       });
     });
   }

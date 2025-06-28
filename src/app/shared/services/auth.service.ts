@@ -1,42 +1,52 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Injectable, OnInit } from '@angular/core';
+import { Injectable, signal } from '@angular/core';
 import {
   BehaviorSubject,
   catchError,
+  filter,
   map,
   Observable,
   of,
   shareReplay,
 } from 'rxjs';
 import { environment } from '../../../environments/environment';
-import { UserUtilities } from '../utilities/user-utilities.class';
 import { User, UserParams } from '../interfaces/users.interface';
+import { UserUtilities } from '../utilities/user-utilities.class';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
   // Utente corrente
-  public userSubject = new BehaviorSubject<User | null>(null);
-  public user$ = this.userSubject.asObservable().pipe(shareReplay(1));
+  public user = signal<User | null>(null);
   // Lista di utenti (eccezione per l'utente corrente)
-  public usersSubject = new BehaviorSubject<UserParams[]>([]);
-  public users$ = this.usersSubject.asObservable().pipe(shareReplay(1));
+  private muteUsers = false;
+  private usersSubject = new BehaviorSubject<UserParams[]>([]);
+  public users$ = this.usersSubject.asObservable().pipe(
+    filter(() => !this.muteUsers),
+    shareReplay(1)
+  );
   // Altri
   public profiliPronti: boolean = false;
   public userMessageMap: { [id: string]: { nome: string; pic: string } } = {};
   private userUtilities = new UserUtilities();
 
-  get getUser(): User | null {
-    return this.userSubject.getValue();
-  }
-
   get getUsers(): UserParams[] {
     return this.usersSubject.getValue();
   }
 
+  set setUsers(users: UserParams[]) {
+    this.usersSubject.next(users);
+  }
+
+  set setMuteUsers(users: UserParams[]) {
+    this.muteUsers = true;
+    this.usersSubject.next(users);
+    this.muteUsers = false;
+  }
+
   constructor(private http: HttpClient) {
-    this.userUtilities.loadUserFromStorage(this.userSubject, this.getUsers);
+    this.userUtilities.loadUserFromStorage(this.user, this.getUsers);
     this.profiliPronti = this.getUsers.length > 0;
   }
 
@@ -83,7 +93,7 @@ export class AuthService {
       .patch<User>(url, userForDb, { headers: environment.headerSupabase })
       .pipe(
         map(() => {
-          this.userSubject.next(user);
+          this.user.set(user);
           this.userUtilities.saveUserToStorage(user, this.getUsers);
           return user;
         }),
@@ -100,11 +110,11 @@ export class AuthService {
         if (data.length === 1) {
           const user = this.userUtilities.mapUserByDb(data[0]);
           this.usersSubject.next(this.getUsers.filter((x) => x.id != user.id));
-          this.userSubject.next(user);
+          this.user.set(user);
           this.userUtilities.saveUserToStorage(user, this.getUsers);
           return true;
         } else {
-          this.userSubject.next(null);
+          this.user.set(null);
           this.userUtilities.removeUserFromStorage();
           return false;
         }
@@ -117,7 +127,7 @@ export class AuthService {
   }
 
   logout(): void {
-    this.userSubject.next(null);
+    this.user.set(null);
     this.userUtilities.removeUserFromStorage();
   }
 }

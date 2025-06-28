@@ -1,4 +1,11 @@
-import { Component, OnDestroy, OnInit, signal } from '@angular/core';
+import {
+  Component,
+  effect,
+  Injector,
+  OnDestroy,
+  runInInjectionContext,
+  signal,
+} from '@angular/core';
 import { NavigationEnd } from '@angular/router';
 import 'bootstrap'; // Importa Bootstrap JS (incluso Popper.js)
 import { distinctUntilChanged, filter, Subject, take, takeUntil } from 'rxjs';
@@ -14,10 +21,10 @@ import { home_imports } from './imports/home.imports';
   imports: home_imports,
   templateUrl: './home.component.html',
 })
-export class HomeComponent extends AuthCustom implements OnInit, OnDestroy {
+export class HomeComponent extends AuthCustom implements OnDestroy {
   public isHome = signal<boolean>(false);
   public user: User = {} as User;
-  public inizialiUser = signal<string>('');
+  public inizialiUser: string = '';
   private punteggioCanzoni: number = 50;
   public componenteAperto = signal<string>('');
   private destroy$ = new Subject<void>();
@@ -25,12 +32,12 @@ export class HomeComponent extends AuthCustom implements OnInit, OnDestroy {
   public goToProfilo: Function = (path: string) => this.router.navigate([path]);
   private elementiUtenteUtilities = new ElementiUtenteUtilities();
 
-  ngOnInit(): void {
+  constructor(private injector: Injector) {
+    super();
     if (this.router.url === '/home') {
-      this.isHome.set(true);
-      this.sottoscrizioneUtente({
-        userFunc: (user) => this.handleUserSubscription(user),
-        destroy$: this.destroy$,
+      effect(() => {
+        const user: User | null = this.authService.user();
+        this.handleUserSubscription(user);
       });
     }
     this.routerEvents();
@@ -61,7 +68,7 @@ export class HomeComponent extends AuthCustom implements OnInit, OnDestroy {
   private usersLogout(): void {
     let allUser: UserParams[] = structuredClone(this.authService.getUsers);
     allUser.push(this.converUserParams(this.user));
-    this.authService.usersSubject.next(allUser);
+    this.authService.setUsers = allUser;
     sessionStorage.setItem('users', JSON.stringify(allUser));
   }
 
@@ -69,19 +76,17 @@ export class HomeComponent extends AuthCustom implements OnInit, OnDestroy {
     this.router.events
       .pipe(
         takeUntil(this.destroy$),
-        filter(
-          (event): event is NavigationEnd => event instanceof NavigationEnd
-        ),
-        distinctUntilChanged((prev, curr) => prev.url === curr.url)
+        filter((e): e is NavigationEnd => e instanceof NavigationEnd),
+        distinctUntilChanged((a, b) => a.url === b.url)
       )
-      .subscribe((event: NavigationEnd) => {
+      .subscribe((event) => {
         this.componenteAperto.set('');
 
         if (event.url === '/home') {
           this.isHome.set(true);
-          this.sottoscrizioneUtente({
-            userFunc: (user) => this.handleUserSubscription(user),
-            destroy$: this.destroy$,
+
+          runInInjectionContext(this.injector, () => {
+            effect(() => this.handleUserSubscription(this.authService.user()));
           });
         } else {
           this.isHome.set(false);
@@ -92,7 +97,7 @@ export class HomeComponent extends AuthCustom implements OnInit, OnDestroy {
   private handleUserSubscription(user: User | null): void {
     if (user) {
       this.user = user;
-      this.inizialiUser.set(this.calculateUserInitials(user.credenziali.nome));
+      this.inizialiUser = this.calculateUserInitials(user.credenziali.nome);
       this.elementiUtenteUtilities
         .getElementiUtente(user.id, false)
         .pipe(take(1))
@@ -118,7 +123,7 @@ export class HomeComponent extends AuthCustom implements OnInit, OnDestroy {
   private setAnonymousUser(): void {
     this.user = this.getVoidUser();
     this.user.credenziali.nome = 'Anonimo';
-    this.inizialiUser.set('AN');
+    this.inizialiUser = 'AN';
   }
 
   private handleUsersSubscription(data: UserParams[]): void {
@@ -134,7 +139,7 @@ export class HomeComponent extends AuthCustom implements OnInit, OnDestroy {
       }
     }
 
-    this.authService.usersSubject.next(otherUsers);
+    this.authService.setUsers = otherUsers;
     sessionStorage.setItem('users', JSON.stringify(otherUsers));
   }
 

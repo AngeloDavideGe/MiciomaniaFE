@@ -139,7 +139,7 @@ export class ChangePicComponent {
   }
 
   onUpload() {
-    let user = structuredClone(this.authService.getUser) || ({} as User);
+    let user = structuredClone(this.authService.user()) || ({} as User);
     this.profiloService.aggiornamentoPic = true;
     this.chiudi.emit();
 

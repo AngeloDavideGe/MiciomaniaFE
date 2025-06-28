@@ -10,7 +10,7 @@ export class NotificheClass {
   private notificheService = inject(NotificheService);
   private authService = inject(AuthService);
 
-  private user = this.authService.getUser || ({} as User);
+  private user = this.authService.user() || ({} as User);
 
   public sottoscrizioneNotifiche(): void {
     this.chatGroupService.messages$.subscribe({

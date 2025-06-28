@@ -47,7 +47,7 @@ export class ElementiUtenteComponent implements OnInit {
   }
 
   private loadElementiUtente(): void {
-    const user: User | null = this.authService.getUser;
+    const user: User | null = this.authService.user();
 
     if (user) {
       this.userId = user.id;

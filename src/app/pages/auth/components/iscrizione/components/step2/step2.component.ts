@@ -52,10 +52,7 @@ export class Step2Component extends AuthCustom implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.inizializzaForm();
-    this.sottoscrizioneUtente({
-      userFunc: (user) => this.associaUtenteFunc(user),
-      destroy$: this.destroy$,
-    });
+    this.associaUtenteFunc(this.authService.user());
     this.sottoscrizioneForm();
     this.pulsantePremutoFunc();
 

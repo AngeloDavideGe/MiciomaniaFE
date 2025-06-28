@@ -1,7 +1,7 @@
 import { NgFor, NgIf } from '@angular/common';
 import { Component, inject, OnDestroy, OnInit, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { take } from 'rxjs';
+import { ErrorHttpComponent } from '../../../../shared/components/errorhttp.component';
 import { AuthService } from '../../../../shared/services/auth.service';
 import { LoadingService } from '../../../../shared/services/loading.service';
 import { MangaCustom } from '../../custom/manga-custom.class';
@@ -12,7 +12,6 @@ import {
   SplitMangaUtente,
 } from '../../interfaces/manga.interface';
 import { CardMangaComponent } from '../../shared/card-manga.component';
-import { ErrorHttpComponent } from '../../../../shared/components/errorhttp.component';
 
 type keyofMangaUtente =
   | keyof MangaUtente
@@ -45,15 +44,12 @@ export class TuoiMangaComponent
   private loadingService = inject(LoadingService);
 
   ngOnInit(): void {
-    this.authService.user$.pipe(take(1)).subscribe({
-      next: (user) => {
-        if (user) {
-          this.loadListaManga(user.id);
-        } else {
-          this.router.navigate(['/manga']);
-        }
-      },
-    });
+    const user = this.authService.user();
+    if (user) {
+      this.loadListaManga(user.id);
+    } else {
+      this.router.navigate(['/manga']);
+    }
   }
 
   ngOnDestroy(): void {

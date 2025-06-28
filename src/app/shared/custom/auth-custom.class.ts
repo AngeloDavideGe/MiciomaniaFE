@@ -1,10 +1,7 @@
-import { inject } from '@angular/core';
+import { inject, Signal } from '@angular/core';
 import { Router } from '@angular/router';
-import { finalize, Subject, take, takeUntil } from 'rxjs';
-
+import { finalize, take } from 'rxjs';
 import { ProfiloService } from '../../pages/home/services/profilo.service';
-import { AuthService } from '../services/auth.service';
-import { ConfirmService } from '../services/confirm.service';
 import {
   Credenziali,
   Iscrizione,
@@ -12,23 +9,14 @@ import {
   User,
   UserParams,
 } from '../interfaces/users.interface';
+import { AuthService } from '../services/auth.service';
+import { ConfirmService } from '../services/confirm.service';
 
 export abstract class AuthCustom {
   protected confirmService = inject(ConfirmService);
   protected authService = inject(AuthService);
   protected profiloService = inject(ProfiloService);
   protected router = inject(Router);
-
-  protected sottoscrizioneUtente(params: {
-    userFunc: (user: User | null) => void;
-    destroy$: Subject<void>;
-  }): void {
-    this.authService.user$.pipe(takeUntil(params.destroy$)).subscribe({
-      next: (user) => params.userFunc(user),
-      error: (error) => console.error('Errore nel recupero utente', error),
-      complete: () => {},
-    });
-  }
 
   protected sottoscrizioneUtenti(params: {
     nextCall: (data: UserParams[]) => void;
@@ -48,21 +36,17 @@ export abstract class AuthCustom {
   }
 
   protected navigateOut(params: {
-    destroy$: Subject<void>;
     condUserForBack: boolean;
-    userFunc: Function;
+    userFunc: () => void;
   }): void {
-    this.sottoscrizioneUtente({
-      userFunc: (user) => {
-        const result = params.condUserForBack ? !!user : !user;
-        if (result) {
-          this.router.navigate(['home']);
-        } else {
-          params.userFunc();
-        }
-      },
-      destroy$: params.destroy$,
-    });
+    const user = this.authService.user();
+    const result = params.condUserForBack ? !!user : !user;
+
+    if (result) {
+      this.router.navigate(['home']);
+    } else {
+      params.userFunc();
+    }
   }
 
   protected confirmCustom(params: {

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { finalize, take } from 'rxjs';
+import { take } from 'rxjs';
 import {
   Iscrizione,
   User,
@@ -29,19 +29,8 @@ export class IscrizioneComponent extends WizardCustom {
   }
 
   iscrizioneUser(): void {
-    this.authService.user$
-      .pipe(
-        take(1),
-        finalize(() => {
-          this.caricaPersona = true;
-        })
-      )
-      .subscribe({
-        next: (user) => (this.user = user ?? ({} as User)),
-        error: (error) => {
-          console.error('errore nel recupero utente', error);
-        },
-      });
+    this.user = this.authService.user() ?? ({} as User);
+    this.caricaPersona = true;
   }
 
   inviaIscrizione(): void {

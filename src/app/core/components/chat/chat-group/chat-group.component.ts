@@ -2,6 +2,7 @@ import { DatePipe, NgFor, NgIf } from '@angular/common';
 import {
   AfterViewChecked,
   Component,
+  effect,
   ElementRef,
   EventEmitter,
   inject,
@@ -43,9 +44,12 @@ export class ChatGroupComponent implements OnInit, AfterViewChecked, OnDestroy {
   @Output() chiudiChat = new EventEmitter<void>();
   @ViewChild('chatMessages') chatMessagesContainer!: ElementRef;
 
+  constructor() {
+    this.changeUserSubscription();
+  }
+
   ngOnInit(): void {
     this.inizializeChat();
-    this.changeUserSubscription();
   }
 
   ngAfterViewChecked(): void {
@@ -63,18 +67,16 @@ export class ChatGroupComponent implements OnInit, AfterViewChecked, OnDestroy {
   }
 
   private inizializeChat(): void {
-    this.user = this.authService.getUser;
+    this.user = this.authService.user();
     this.idUtente = this.user ? this.user.id : '';
     this.loadMessaggiEUtenti();
   }
 
   private changeUserSubscription(): void {
-    this.authService.user$.pipe(takeUntil(this.destroy$)).subscribe({
-      next: (user) => {
-        this.user = user;
-        this.idUtente = user ? user.id : '';
-      },
-      error: (err) => console.error('errore recupero utente', err),
+    effect(() => {
+      const user: User | null = this.authService.user();
+      this.user = user;
+      this.idUtente = user ? user.id : '';
     });
   }
 

@@ -54,30 +54,27 @@ export class AdminComponent extends AuthCustom implements OnInit, OnDestroy {
   }
 
   private loadUtenti(): void {
-    this.sottoscrizioneUtente({
-      userFunc: (user) => {
-        this.user = user;
-        if (this.authService.getUsers.length === 0) {
-          this.loadingService.show();
-          this.sottoscrizioneUtenti({
-            nextCall: (data) => {
-              this.saveUsers(data);
-              this.mapUsersByRuolo();
-              this.loadingService.hide();
-            },
-          });
-        } else {
-          this.mapUsersByRuolo();
-        }
-      },
-      destroy$: this.destroy$,
-    });
+    {
+      this.user = this.authService.user();
+      if (this.authService.getUsers.length === 0) {
+        this.loadingService.show();
+        this.sottoscrizioneUtenti({
+          nextCall: (data) => {
+            this.saveUsers(data);
+            this.mapUsersByRuolo();
+            this.loadingService.hide();
+          },
+        });
+      } else {
+        this.mapUsersByRuolo();
+      }
+    }
   }
 
   private saveUsers(data: UserParams[]): void {
     let allUsers: UserParams[] = this.authService.getUsers;
     allUsers = data.filter((x) => x.id != this.user?.id);
-    this.authService.usersSubject.next(allUsers);
+    this.authService.setMuteUsers = allUsers;
     sessionStorage.setItem('users', JSON.stringify(allUsers));
   }
 
@@ -131,7 +128,7 @@ export class AdminComponent extends AuthCustom implements OnInit, OnDestroy {
     if (globalUserIndex !== -1) {
       const allUsers: UserParams[] = this.authService.getUsers;
       allUsers[globalUserIndex].ruolo = user.nuovoRuolo;
-      this.authService.usersSubject.next(allUsers);
+      this.authService.setMuteUsers = allUsers;
       sessionStorage.setItem('users', JSON.stringify(allUsers));
     }
 
