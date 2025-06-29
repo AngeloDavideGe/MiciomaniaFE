@@ -3,6 +3,7 @@ import {
   effect,
   Injector,
   OnDestroy,
+  OnInit,
   runInInjectionContext,
   signal,
 } from '@angular/core';
@@ -21,7 +22,7 @@ import { home_imports } from './imports/home.imports';
   imports: home_imports,
   templateUrl: './home.component.html',
 })
-export class HomeComponent extends AuthCustom implements OnDestroy {
+export class HomeComponent extends AuthCustom implements OnInit, OnDestroy {
   public isHome = signal<boolean>(false);
   public user: User = {} as User;
   public inizialiUser: string = '';
@@ -41,6 +42,12 @@ export class HomeComponent extends AuthCustom implements OnDestroy {
       });
     }
     this.routerEvents();
+  }
+
+  ngOnInit(): void {
+    if (this.router.url === '/home') {
+      this.isHome.set(true);
+    }
   }
 
   ngOnDestroy(): void {

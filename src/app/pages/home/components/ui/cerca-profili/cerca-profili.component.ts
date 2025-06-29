@@ -1,5 +1,5 @@
 import { NgFor, NgIf } from '@angular/common';
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { debounceTime, of, Subject, switchMap, takeUntil } from 'rxjs';
 import { UserParams } from '../../../../../shared/interfaces/users.interface';
@@ -14,9 +14,9 @@ export class CercaProfiliComponent implements OnInit, OnDestroy {
   private itemsPerPage: number = 5;
   public currentPage: number = 1;
   public totalPages: number = 0;
-  public searchQuery: string = '';
   public filteredUsers: UserParams[] = [];
-  public userSlice: UserParams[] = [];
+  public userSlice = signal<UserParams[]>([]);
+  public searchQuery: string = '';
   public searchQuery$ = new Subject<string>();
   private destroy$ = new Subject<void>();
 
@@ -72,7 +72,7 @@ export class CercaProfiliComponent implements OnInit, OnDestroy {
   }
 
   private setUserSlice(): void {
-    this.userSlice = this.filteredUsers.slice(0, this.itemsPerPage);
+    this.userSlice.set(this.filteredUsers.slice(0, this.itemsPerPage));
     this.totalPages = Math.ceil(this.filteredUsers.length / this.itemsPerPage);
     this.currentPage = this.totalPages > 0 ? 1 : 0;
   }
@@ -94,6 +94,6 @@ export class CercaProfiliComponent implements OnInit, OnDestroy {
   private setPaginatedUsers(): void {
     const startIndex = (this.currentPage - 1) * this.itemsPerPage;
     const endIndex = startIndex + this.itemsPerPage;
-    this.userSlice = this.filteredUsers.slice(startIndex, endIndex);
+    this.userSlice.set(this.filteredUsers.slice(startIndex, endIndex));
   }
 }

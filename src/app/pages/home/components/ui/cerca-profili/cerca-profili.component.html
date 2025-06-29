@@ -72,7 +72,7 @@
             id="RisultatiUtenti"
           >
             <div
-              *ngIf="userSlice.length === 0"
+              *ngIf="userSlice().length === 0"
               class="no-results"
               style="text-align: center; padding: 1rem; color: #888"
             >
@@ -81,7 +81,7 @@
 
             <!-- Visualizza solo 5 elementi per pagina -->
             <div
-              *ngFor="let user of this.userSlice"
+              *ngFor="let user of userSlice()"
               class="d-flex align-items-center mb-2 p-2"
               style="
                 cursor: pointer;

@@ -178,20 +178,18 @@ export class MangaComponent extends MangaCustom implements OnInit, OnDestroy {
   logFilterChanges() {
     const filterKeys = Object.keys(this.filterSelect) as (keyof FiltriManga)[];
 
-    this.filteredManga = structuredClone(
-      this.mangaService.listaManga.filter((manga) => {
-        for (const key of filterKeys) {
-          if (
-            this.filterSelect[key] &&
-            !this.matchesFilter(manga, key) &&
-            this.filterSelect[key] !== 'Qualsiasi'
-          ) {
-            return false;
-          }
+    this.filteredManga = this.mangaService.listaManga.filter((manga) => {
+      for (const key of filterKeys) {
+        if (
+          this.filterSelect[key] &&
+          !this.matchesFilter(manga, key) &&
+          this.filterSelect[key] !== 'Qualsiasi'
+        ) {
+          return false;
         }
-        return this.tabBoolean === null || manga.completato == this.tabBoolean;
-      })
-    );
+      }
+      return this.tabBoolean === null || manga.completato == this.tabBoolean;
+    });
   }
 
   private matchesFilter(manga: ListaManga, key: keyof FiltriManga): boolean {
