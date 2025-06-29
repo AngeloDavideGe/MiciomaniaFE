@@ -1,4 +1,4 @@
-import { inject, Signal } from '@angular/core';
+import { inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { finalize, take } from 'rxjs';
 import { ProfiloService } from '../../pages/home/services/profilo.service';

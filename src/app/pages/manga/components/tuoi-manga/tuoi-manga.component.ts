@@ -1,5 +1,14 @@
 import { NgFor, NgIf } from '@angular/common';
-import { Component, inject, OnDestroy, OnInit, signal } from '@angular/core';
+import {
+  Component,
+  computed,
+  effect,
+  inject,
+  OnDestroy,
+  OnInit,
+  Signal,
+  signal,
+} from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ErrorHttpComponent } from '../../../../shared/components/errorhttp.component';
 import { AuthService } from '../../../../shared/services/auth.service';
@@ -28,12 +37,15 @@ export class TuoiMangaComponent
   extends MangaCustom
   implements OnInit, OnDestroy
 {
-  public allMangaFiltrati: ListaManga[] = [];
-  public mangafiltrati = signal<ListaManga[]>([]);
   public selectedTab: keyofMangaUtente = 'preferiti';
-  public searchQuery: string = '';
   public erroreHttp: boolean = false;
   private checkSplitManga: SplitMangaUtente = this.voidSplitManga();
+  public mangafiltrati = signal<ListaManga[]>([]);
+  public searchQuery = signal<string>('');
+  private debouncedSearchQuery = signal<string>('');
+  public allMangaSearch: Signal<ListaManga[]> = computed(() =>
+    this.computedallMangaSearch()
+  );
   private sezioneListaManga: SezioniMangaUtente = {
     preferiti: [],
     letti: [],
@@ -42,6 +54,16 @@ export class TuoiMangaComponent
 
   private authService = inject(AuthService);
   private loadingService = inject(LoadingService);
+
+  constructor() {
+    super();
+    effect(() => {
+      const value = this.searchQuery();
+      setTimeout(() => {
+        this.debouncedSearchQuery.set(value);
+      }, 300);
+    });
+  }
 
   ngOnInit(): void {
     const user = this.authService.user();
@@ -59,6 +81,18 @@ export class TuoiMangaComponent
       completati: this.sezioneListaManga.completati.map((x) => x.id).join(', '),
     } as MangaUtente;
     localStorage.setItem('mangaUtente', JSON.stringify(mangaUtente));
+  }
+
+  private computedallMangaSearch(): ListaManga[] {
+    const search = this.debouncedSearchQuery().toLowerCase().trim();
+
+    if (search) {
+      return this.mangaService.listaManga.filter((manga) =>
+        manga.nome.toLowerCase().includes(search)
+      );
+    } else {
+      return [] as ListaManga[];
+    }
   }
 
   private loadListaManga(idUtente: string | null): void {
@@ -97,7 +131,7 @@ export class TuoiMangaComponent
 
   private caricaManga(lista: ListaManga[]): void {
     this.mangaService.listaManga = lista;
-    this.allMangaFiltrati = lista;
+    // this.allMangaSearch.set(lista);
     this.copiaSplitUtente();
     this.filterMangaFunc('preferiti');
     this.loadingService.hide();
@@ -109,7 +143,7 @@ export class TuoiMangaComponent
   }
 
   filterMangaFunc(tab: keyofMangaUtente): void {
-    this.searchQuery = '';
+    this.searchQuery.set('');
     this.selectedTab = tab;
     this.filterManga(tab);
   }
@@ -123,14 +157,14 @@ export class TuoiMangaComponent
     }
   }
 
-  cercaNuoviManga(event: Event): void {
-    const query: string =
-      (event.target as HTMLInputElement).value.toLowerCase() || '';
+  // private cercaNuoviManga(event: Event): void {
 
-    this.allMangaFiltrati = this.mangaService.listaManga.filter((manga) =>
-      manga.nome.toLowerCase().includes(query)
-    );
-  }
+  //   this.allMangaSearch.set(
+  //     this.mangaService.listaManga.filter((manga) =>
+  //       manga.nome.toLowerCase().includes(query)
+  //     )
+  //   );
+  // }
 
   rimuoviMangaTab(idManga: number): void {
     this.sezioneListaManga[this.selectedTab] = this.sezioneListaManga[
@@ -155,7 +189,7 @@ export class TuoiMangaComponent
       }
     }
 
-    this.searchQuery = '';
+    this.searchQuery.set('');
   }
 
   onSelezionato(checkbox: boolean, idManga: number): void {
