@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Subject, take } from 'rxjs';
 import { AuthCustom } from '../../../../shared/custom/auth-custom.class';
-import { MangaService } from '../../../manga/services/manga.service';
+import { MangaHandler } from '../../../manga/handlers/manga.handler';
 import { auth_shared_imports } from '../../shared/auth-shared.import';
 
 @Component({
@@ -18,7 +18,7 @@ export class LoginComponent extends AuthCustom implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private mangaService: MangaService
+    private mangaHandler: MangaHandler
   ) {
     super();
     this.loginForm = this.formBuilder.group({
@@ -66,7 +66,7 @@ export class LoginComponent extends AuthCustom implements OnInit {
   private provaLogin(data: boolean): void {
     if (data) {
       this.loginError = false;
-      this.mangaService.resettaMangaUtente();
+      this.mangaHandler.resettaMangaUtente();
       this.router.navigate(['/home']);
     } else {
       this.loginError = true;

@@ -19,7 +19,7 @@ import { compareObjectCustom } from '../../shared/functions/utilities.function';
 import { AuthService } from '../../shared/services/auth.service';
 import { LoadingService } from '../../shared/services/loading.service';
 import { generiManga } from './constants/genere.constant';
-import { MangaCustom } from './custom/manga-custom.class';
+import { MangaHandler } from './handlers/manga.handler';
 import { getTabsManga } from './functions/manga.functions';
 import { manga_imports } from './imports/manga.imports';
 import { FiltriManga, TabsManga } from './interfaces/filtri.interface';
@@ -31,7 +31,7 @@ import { ListaManga, MangaUtente } from './interfaces/manga.interface';
   imports: manga_imports,
   templateUrl: './manga.component.html',
 })
-export class MangaComponent extends MangaCustom implements OnInit, OnDestroy {
+export class MangaComponent implements OnInit, OnDestroy {
   public isManga = signal<boolean>(false);
   private filteredMangaSubject = new BehaviorSubject<ListaManga[]>([]);
   public filterSelect: FiltriManga = {} as FiltriManga;
@@ -48,6 +48,7 @@ export class MangaComponent extends MangaCustom implements OnInit, OnDestroy {
 
   private authService = inject(AuthService);
   private loadingService = inject(LoadingService);
+  public mangaHandler = inject(MangaHandler);
 
   get filteredManga$() {
     return this.filteredMangaSubject.asObservable();
@@ -58,7 +59,7 @@ export class MangaComponent extends MangaCustom implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    if (this.router.url == '/manga') {
+    if (this.mangaHandler.router.url == '/manga') {
       this.isManga.set(true);
       this.loadFilteredManga();
     }
@@ -86,7 +87,7 @@ export class MangaComponent extends MangaCustom implements OnInit, OnDestroy {
   }
 
   private routerEvents(): void {
-    this.router.events
+    this.mangaHandler.router.events
       .pipe(
         takeUntil(this.destroy$),
         filter(
@@ -105,7 +106,7 @@ export class MangaComponent extends MangaCustom implements OnInit, OnDestroy {
   }
 
   private loadFilteredManga(): void {
-    const ms = this.mangaService;
+    const ms = this.mangaHandler;
     if (ms.listaManga.length > 0 && ms.mangaScaricati) {
       this.filteredManga = structuredClone(ms.listaManga);
       const savedMangaUtente = JSON.parse(
@@ -125,14 +126,14 @@ export class MangaComponent extends MangaCustom implements OnInit, OnDestroy {
   private sottoscrizioneUtente(): void {
     const user = this.authService.user();
     this.idUtente = user ? user.id : null;
-    this.inizializzaLista({
+    this.mangaHandler.inizializzaLista({
       idUtente: this.idUtente,
       caricaManga: (data) => {
-        this.caricaMangaEPreferiti({
+        this.mangaHandler.caricaMangaEPreferiti({
           data: data,
           caricaMangaUtente: (mangaUtente) => {
             this.identificaPreferiti(mangaUtente);
-            this.mangaService.initialMangaUtente = mangaUtente;
+            this.mangaHandler.initialMangaUtente = mangaUtente;
           },
           caricaListaManga: (listamanga) => {
             this.caricaManga(listamanga);
@@ -146,7 +147,7 @@ export class MangaComponent extends MangaCustom implements OnInit, OnDestroy {
   private caricaManga(lista: ListaManga[]): void {
     this.loadingService.show();
     this.filteredManga = structuredClone(lista);
-    this.mangaService.listaManga = lista;
+    this.mangaHandler.listaManga = lista;
     this.aggiornamentoManga = false;
     this.loadingService.hide();
   }
@@ -178,7 +179,7 @@ export class MangaComponent extends MangaCustom implements OnInit, OnDestroy {
   logFilterChanges() {
     const filterKeys = Object.keys(this.filterSelect) as (keyof FiltriManga)[];
 
-    this.filteredManga = this.mangaService.listaManga.filter((manga) => {
+    this.filteredManga = this.mangaHandler.listaManga.filter((manga) => {
       for (const key of filterKeys) {
         if (
           this.filterSelect[key] &&
@@ -204,7 +205,7 @@ export class MangaComponent extends MangaCustom implements OnInit, OnDestroy {
 
     const condEquals = !compareObjectCustom(
       mangaUtente,
-      this.mangaService.initialMangaUtente
+      this.mangaHandler.initialMangaUtente
     );
 
     if (this.idUtente && condEquals) {
@@ -214,22 +215,6 @@ export class MangaComponent extends MangaCustom implements OnInit, OnDestroy {
   }
 
   private upsertMangaUtente(mangaUtente: MangaUtente): void {
-    this.mangaService
-      .postOrUpdateMangaUtente(
-        this.idUtente || '',
-        mangaUtente.preferiti,
-        mangaUtente.letti,
-        mangaUtente.completati
-      )
-      .pipe(take(1))
-      .subscribe({
-        next: () => {
-          this.mangaService.initialMangaUtente = mangaUtente;
-          localStorage.setItem('mangaUtente', JSON.stringify(mangaUtente));
-        },
-        error: (err) => {
-          console.error('Errore modifica utenti', err);
-        },
-      });
+    this.mangaHandler.postOrUpdateMangaUtente(mangaUtente, this.idUtente || '');
   }
 }

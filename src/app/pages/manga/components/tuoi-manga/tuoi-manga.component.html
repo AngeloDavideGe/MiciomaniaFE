@@ -11,7 +11,7 @@
     </p>
     <button
       class="btn btn-light btn-lg px-4 py-2"
-      (click)="this.router.navigate(['/manga'])"
+      (click)="this.mangaHandler.router.navigate(['/manga'])"
     >
       📚 Cerca tutti i manga
     </button>
@@ -127,7 +127,7 @@
       [manga]="manga"
       [visualizzaPreferito]="selectedTab != 'preferiti'"
       [seleziona]="selectedTab != 'preferiti'"
-      (selezionaOpera)="selezionaOpera(manga)"
+      (selezionaOpera)="mangaHandler.selezionaOpera(manga)"
       (rimuoviPreferito)="rimuoviMangaTab(manga.id)"
       (selezionato)="onSelezionato($event, manga.id)"
     ></app-card-manga>

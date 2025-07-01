@@ -12,15 +12,7 @@ import {
   providedIn: 'root',
 })
 export class MangaService {
-  public listaManga: ListaManga[] = [];
-  public mangaScaricati: boolean = false;
-  public initialMangaUtente: MangaUtente = {} as MangaUtente;
-  public mangaAperti: { nome: string; volumi: MangaVolume[] }[] = [];
-  public mangaSelected: { nome: string; completato: boolean } | null = null;
-
-  constructor(private http: HttpClient) {
-    this.loadMangaFromStorage();
-  }
+  constructor(private http: HttpClient) {}
 
   getListaManga(
     idUtente: string | null
@@ -65,26 +57,5 @@ export class MangaService {
     return this.http.post<void>(url, body, {
       headers: environment.headerSupabase,
     });
-  }
-
-  resettaMangaUtente(): void {
-    this.listaManga = [] as ListaManga[];
-  }
-
-  private loadMangaFromStorage(): void {
-    const listaManga = localStorage.getItem('listaManga');
-    if (listaManga) {
-      this.listaManga = JSON.parse(listaManga);
-    }
-
-    const mangaUtente = localStorage.getItem('mangaUtente');
-    if (mangaUtente) {
-      this.initialMangaUtente = JSON.parse(mangaUtente);
-    }
-
-    const mangaCaricati = sessionStorage.getItem('mangaCaricati');
-    if (mangaCaricati) {
-      this.mangaScaricati = JSON.parse(mangaCaricati);
-    }
   }
 }

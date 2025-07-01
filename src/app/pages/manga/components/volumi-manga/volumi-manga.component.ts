@@ -4,8 +4,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { finalize, Observable, take } from 'rxjs';
 import { LoadingService } from '../../../../shared/services/loading.service';
 import { MangaVolume } from '../../interfaces/manga.interface';
-import { MangaService } from '../../services/manga.service';
 import { PadZeroVolumePipe } from '../../pipes/padZeroVolume.pipe';
+import { MangaHandler } from '../../handlers/manga.handler';
 
 @Component({
   selector: 'app-volumi-manga',
@@ -23,7 +23,7 @@ export class VolumiMangaComponent implements OnInit {
 
   public router = inject(Router);
   private route = inject(ActivatedRoute);
-  private mangaService = inject(MangaService);
+  private mangaHandler = inject(MangaHandler);
   private loadingService = inject(LoadingService);
 
   constructor() {
@@ -70,29 +70,29 @@ export class VolumiMangaComponent implements OnInit {
 
   private controlloOperaByService(): void {
     this.loadingService.show();
-    if (this.mangaService.mangaSelected) {
-      this.nomeOpera = this.mangaService.mangaSelected.nome;
-      this.operaCompletata = this.mangaService.mangaSelected.completato;
+    if (this.mangaHandler.mangaSelected) {
+      this.nomeOpera = this.mangaHandler.mangaSelected.nome;
+      this.operaCompletata = this.mangaHandler.mangaSelected.completato;
       this.loadVolumi();
     } else {
       this.fetchMangaData({
         loadVolumiFunc: (pathOpera) =>
-          this.mangaService.getNomeEVolumiMangaByPath(pathOpera),
+          this.mangaHandler.mangaService.getNomeEVolumiMangaByPath(pathOpera),
         nextCallback: (data) => this.handleNomeEVolumiSuccess(data),
       });
     }
   }
 
   private loadVolumi(): void {
-    const index: number = this.mangaService.mangaAperti.findIndex(
+    const index: number = this.mangaHandler.mangaAperti.findIndex(
       (x) => x.nome == this.pathOpera
     );
     if (index > -1) {
-      this.handleVolumiSuccess(this.mangaService.mangaAperti[index].volumi);
+      this.handleVolumiSuccess(this.mangaHandler.mangaAperti[index].volumi);
     } else {
       this.fetchMangaData({
         loadVolumiFunc: (pathOpera) =>
-          this.mangaService.getVolumiManga(pathOpera),
+          this.mangaHandler.mangaService.getVolumiManga(pathOpera),
         nextCallback: (data) => this.handleVolumiSuccess(data.volumi),
       });
     }
@@ -123,7 +123,7 @@ export class VolumiMangaComponent implements OnInit {
     this.nomeOpera = opera.info_manga.nome;
     this.operaCompletata = opera.info_manga.completato;
     this.volumiOpera = opera.volumi;
-    this.mangaService.mangaAperti.push({
+    this.mangaHandler.mangaAperti.push({
       nome: this.pathOpera,
       volumi: this.volumiOpera,
     });
@@ -132,7 +132,7 @@ export class VolumiMangaComponent implements OnInit {
 
   private handleVolumiSuccess(volumi: MangaVolume[]): void {
     this.volumiOpera = volumi;
-    this.mangaService.mangaAperti.push({
+    this.mangaHandler.mangaAperti.push({
       nome: this.pathOpera,
       volumi: this.volumiOpera,
     });
