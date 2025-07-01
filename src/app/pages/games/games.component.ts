@@ -9,7 +9,7 @@ import {
 import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { filter, map, Observable, startWith, take } from 'rxjs';
 import { environment } from '../../../environments/environment';
-import { SquadreClass } from '../../shared/class/squadre.class';
+import { SquadreHandler } from '../../shared/handlers/squadre.handler';
 import { User } from '../../shared/interfaces/users.interface';
 import { AuthService } from '../../shared/services/auth.service';
 import { DeckCardClass } from './class/deck-card.class';
@@ -23,7 +23,6 @@ import { SquadreGiocatore } from './interfaces/games.interfaces';
   templateUrl: './games.component.html',
 })
 export class GamesComponent implements OnInit, OnDestroy {
-  public sc = new SquadreClass();
   public gamesClass = new GamesClass();
   public deckCardClass = new DeckCardClass();
   public showDetails: boolean = false;
@@ -33,6 +32,7 @@ export class GamesComponent implements OnInit, OnDestroy {
     avversario: [],
   } as SquadreGiocatore;
 
+  public sc = inject(SquadreHandler);
   public router = inject(Router);
   private authService = inject(AuthService);
 
@@ -91,10 +91,9 @@ export class GamesComponent implements OnInit, OnDestroy {
     const user: User | null = this.authService.user();
     if (user) {
       environment.team.forEach((nomeTeam) => {
-        const punteggioFind: number | undefined =
-          this.sc.squadreService.squadre.find(
-            (squadra) => squadra.id == nomeTeam
-          )?.punteggio;
+        const punteggioFind: number | undefined = this.sc.squadre.find(
+          (squadra) => squadra.id == nomeTeam
+        )?.punteggio;
 
         if (user.iscrizione.team?.includes(nomeTeam)) {
           this.squadre.personale.push({
@@ -115,18 +114,16 @@ export class GamesComponent implements OnInit, OnDestroy {
     const user: User | null = this.authService.user();
     if (user) {
       this.squadre.personale.forEach((squadra) => {
-        const punteggioFind: number | undefined =
-          this.sc.squadreService.squadre.find(
-            (squadraFind) => squadraFind.id == squadra.nome
-          )?.punteggio;
+        const punteggioFind: number | undefined = this.sc.squadre.find(
+          (squadraFind) => squadraFind.id == squadra.nome
+        )?.punteggio;
         squadra.punteggio = punteggioFind || 'non disponibile';
       });
 
       this.squadre.avversario.forEach((squadra) => {
-        const punteggioFind: number | undefined =
-          this.sc.squadreService.squadre.find(
-            (squadraFind) => squadraFind.id == squadra.nome
-          )?.punteggio;
+        const punteggioFind: number | undefined = this.sc.squadre.find(
+          (squadraFind) => squadraFind.id == squadra.nome
+        )?.punteggio;
         squadra.punteggio = punteggioFind || 'non disponibile';
       });
     }
@@ -134,19 +131,16 @@ export class GamesComponent implements OnInit, OnDestroy {
 
   private updatePunteggioSquadra($event: BeforeUnloadEvent | null): void {
     const user: User | null = this.authService.user();
-    const punteggio: number = this.sc.squadreService.getPunteggioOttenuto;
+    const punteggio: number = this.sc.getPunteggioOttenuto;
 
     if (user && punteggio != 0) {
       $event ? $event.preventDefault() : null;
       const squadre: string[] = this.squadre.personale.map(
         (squadra) => squadra.nome
       );
-      this.sc.squadreService
-        .updatePunteggioSquadra(user.id, squadre)
-        .pipe(take(1))
-        .subscribe({
-          next: () => this.nextUpdatePunteggio(squadre, punteggio),
-        });
+      this.sc.updatePunteggioSquadra(user.id, squadre, () =>
+        this.nextUpdatePunteggio(squadre, punteggio)
+      );
     }
   }
 
@@ -161,12 +155,12 @@ export class GamesComponent implements OnInit, OnDestroy {
 
     const idSet = new Set(squadre.map((id) => id.toLowerCase()));
 
-    for (const squadra of this.sc.squadreService.squadre) {
+    for (const squadra of this.sc.squadre) {
       if (idSet.has(squadra.id.toLowerCase())) {
         squadra.punteggio += punteggio;
       }
     }
 
-    this.sc.squadreService.setPunteggioOttenuto = 0;
+    this.sc.setPunteggioOttenuto = 0;
   }
 }

@@ -40,6 +40,7 @@ export class TuoiMangaComponent
   public selectedTab: keyofMangaUtente = 'preferiti';
   public erroreHttp: boolean = false;
   private checkSplitManga: SplitMangaUtente = this.voidSplitManga();
+  private searchTimeout: NodeJS.Timeout | null = null;
   public mangafiltrati = signal<ListaManga[]>([]);
   public searchQuery = signal<string>('');
   private debouncedSearchQuery = signal<string>('');
@@ -59,7 +60,10 @@ export class TuoiMangaComponent
     super();
     effect(() => {
       const value = this.searchQuery();
-      setTimeout(() => {
+      if (this.searchTimeout) {
+        clearTimeout(this.searchTimeout);
+      }
+      this.searchTimeout = setTimeout(() => {
         this.debouncedSearchQuery.set(value);
       }, 300);
     });
@@ -85,7 +89,6 @@ export class TuoiMangaComponent
 
   private computedallMangaSearch(): ListaManga[] {
     const search = this.debouncedSearchQuery().toLowerCase().trim();
-
     if (search) {
       return this.mangaService.listaManga.filter((manga) =>
         manga.nome.toLowerCase().includes(search)

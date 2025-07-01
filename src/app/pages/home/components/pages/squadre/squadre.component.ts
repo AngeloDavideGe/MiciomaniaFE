@@ -1,6 +1,6 @@
 import { NgIf } from '@angular/common';
 import { Component, HostListener, inject, NgZone, OnInit } from '@angular/core';
-import { SquadreClass } from '../../../../../shared/class/squadre.class';
+import { SquadreHandler } from '../../../../../shared/handlers/squadre.handler';
 import { LoadingService } from '../../../../../shared/services/loading.service';
 import { Router } from '@angular/router';
 
@@ -13,7 +13,7 @@ declare var google: any;
   templateUrl: './squadre.component.html',
 })
 export class SquadreComponent implements OnInit {
-  private sc = new SquadreClass();
+  private sc = inject(SquadreHandler);
   private resizeTimeout: any;
   private printListener: any;
   public stampa: boolean = false;
@@ -80,7 +80,7 @@ export class SquadreComponent implements OnInit {
     data.addColumn('string', 'Squadra');
     data.addColumn('number', 'Punteggio');
 
-    this.sc.squadreService.squadre.forEach((s) => {
+    this.sc.squadre.forEach((s) => {
       data.addRow([s.id, s.punteggio]);
     });
 
