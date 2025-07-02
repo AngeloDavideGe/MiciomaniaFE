@@ -76,9 +76,9 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   private usersLogout(): void {
-    let allUser: UserParams[] = structuredClone(this.authHandler.getUsers);
+    let allUser: UserParams[] = structuredClone(this.authHandler.users());
     allUser.push(this.authHandler.converUserParams(this.user));
-    this.authHandler.setUsers = allUser;
+    this.authHandler.users.set(allUser);
     sessionStorage.setItem('users', JSON.stringify(allUser));
   }
 
@@ -115,7 +115,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     } else {
       this.setAnonymousUser();
     }
-    if (this.authHandler.getUsers.length === 0) {
+    if (this.authHandler.users().length === 0) {
       this.authHandler.sottoscrizioneUtenti({
         nextCall: (data) => this.handleUsersSubscription(data),
       });
@@ -149,7 +149,7 @@ export class HomeComponent implements OnInit, OnDestroy {
       }
     }
 
-    this.authHandler.setUsers = otherUsers;
+    this.authHandler.users.set(otherUsers);
     sessionStorage.setItem('users', JSON.stringify(otherUsers));
   }
 

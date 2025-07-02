@@ -59,7 +59,7 @@ export class AdminComponent implements OnInit, OnDestroy {
   private loadUtenti(): void {
     {
       this.user = this.authHandler.user();
-      if (this.authHandler.getUsers.length === 0) {
+      if (this.authHandler.users().length === 0) {
         this.loadingService.show();
         this.authHandler.sottoscrizioneUtenti({
           nextCall: (data) => {
@@ -75,14 +75,14 @@ export class AdminComponent implements OnInit, OnDestroy {
   }
 
   private saveUsers(data: UserParams[]): void {
-    let allUsers: UserParams[] = this.authHandler.getUsers;
+    let allUsers: UserParams[] = this.authHandler.users();
     allUsers = data.filter((x) => x.id != this.user?.id);
     this.authHandler.setMuteUsers = allUsers;
     sessionStorage.setItem('users', JSON.stringify(allUsers));
   }
 
   private mapUsersByRuolo(): void {
-    const users: UserParams[] = this.authHandler.getUsers;
+    const users: UserParams[] = this.authHandler.users();
     const newMap: { [ruolo: string]: UserParams[] } = {};
 
     this.ruoli.forEach((ruolo) => {
@@ -125,11 +125,11 @@ export class AdminComponent implements OnInit, OnDestroy {
   }
 
   ruoloModificato(user: CambioRuoloUtente): void {
-    const globalUserIndex: number = this.authHandler.getUsers.findIndex(
-      (u) => u.id === user.id
-    );
+    const globalUserIndex: number = this.authHandler
+      .users()
+      .findIndex((u) => u.id === user.id);
     if (globalUserIndex !== -1) {
-      const allUsers: UserParams[] = this.authHandler.getUsers;
+      const allUsers: UserParams[] = this.authHandler.users();
       allUsers[globalUserIndex].ruolo = user.nuovoRuolo;
       this.authHandler.setMuteUsers = allUsers;
       sessionStorage.setItem('users', JSON.stringify(allUsers));

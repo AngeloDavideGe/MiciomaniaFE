@@ -1,18 +1,7 @@
-import { inject } from '@angular/core';
-import { AuthHandler } from '../../shared/handlers/auth.handler';
 import { UserParams } from '../../shared/interfaces/users.interface';
 
 export class UsersMapClass {
-  private authHandler = inject(AuthHandler);
-
-  public usersSubjectSubscription(): void {
-    this.authHandler.users$.subscribe({
-      next: (users) =>
-        (this.authHandler.userMessageMap = this.mapUserMessage(users)),
-    });
-  }
-
-  private mapUserMessage(users: UserParams[]): {
+  public mapUserMessage(users: UserParams[]): {
     [id: string]: { nome: string; pic: string };
   } {
     return users.reduce((map, utente) => {

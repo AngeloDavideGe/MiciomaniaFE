@@ -1,11 +1,10 @@
+import { NgIf, NgStyle } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { CursorClass } from './shared/class/cursor.class';
-import { MiniPlayerComponent } from './core/components/mini-player/mini-player.component';
-import { NgIf, NgStyle } from '@angular/common';
 import { MiniPlayerClass } from './core/class/mini-player.class';
 import { ChatComponent } from './core/components/chat/chat.component';
-import { UsersMapClass } from './core/class/users-map.class';
+import { MiniPlayerComponent } from './core/components/mini-player/mini-player.component';
+import { CursorClass } from './shared/class/cursor.class';
 
 @Component({
   selector: 'app-root',
@@ -31,11 +30,9 @@ import { UsersMapClass } from './core/class/users-map.class';
 })
 export class AppComponent implements OnInit {
   private cursorClass = new CursorClass();
-  private userMapClass = new UsersMapClass();
   public miniPlayerClass = inject(MiniPlayerClass);
 
   ngOnInit(): void {
     this.cursorClass.setCursoreByStorage();
-    this.userMapClass.usersSubjectSubscription();
   }
 }

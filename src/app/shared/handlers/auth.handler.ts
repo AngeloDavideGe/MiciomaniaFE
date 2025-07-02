@@ -1,15 +1,7 @@
-import { inject, Injectable, signal } from '@angular/core';
-import {
-  BehaviorSubject,
-  catchError,
-  filter,
-  finalize,
-  map,
-  Observable,
-  of,
-  shareReplay,
-  take,
-} from 'rxjs';
+import { computed, inject, Injectable, Signal, signal } from '@angular/core';
+import { catchError, finalize, map, Observable, of, take } from 'rxjs';
+import { UsersMapClass } from '../../core/class/users-map.class';
+import { ProfiloHandler } from '../../pages/home/handlers/profilo.handler';
 import {
   Credenziali,
   Iscrizione,
@@ -20,7 +12,6 @@ import {
 import { AuthService } from '../services/auth.service';
 import { ConfirmService } from '../services/confirm.service';
 import { UserUtilities } from '../utilities/user-utilities.class';
-import { ProfiloHandler } from '../../pages/home/handlers/profilo.handler';
 
 @Injectable({
   providedIn: 'root',
@@ -29,38 +20,32 @@ export class AuthHandler {
   public confirmService = inject(ConfirmService);
   public authService = inject(AuthService);
   public profiloHandler = inject(ProfiloHandler);
-
-  // Utente corrente
-  public user = signal<User | null>(null);
-  // Lista di utenti (eccezione per l'utente corrente)
-  private muteUsers = false;
-  private usersSubject = new BehaviorSubject<UserParams[]>([]);
-  public users$ = this.usersSubject.asObservable().pipe(
-    filter(() => !this.muteUsers),
-    shareReplay(1)
-  );
-  // Altri
-  public profiliPronti: boolean = false;
-  public userMessageMap: { [id: string]: { nome: string; pic: string } } = {};
   private userUtilities = new UserUtilities();
+  private usersMapClass = new UsersMapClass();
+  private muteUsers: boolean = false;
+  public profiliPronti: boolean = false;
 
-  get getUsers(): UserParams[] {
-    return this.usersSubject.getValue();
-  }
-
-  set setUsers(users: UserParams[]) {
-    this.usersSubject.next(users);
-  }
+  public user = signal<User | null>(null);
+  public users = signal<UserParams[]>([]);
+  public filteredUsers: Signal<UserParams[]> = computed(() =>
+    this.muteUsers ? [] : this.users()
+  );
+  public userMessageMap: Signal<{
+    [id: string]: {
+      nome: string;
+      pic: string;
+    };
+  }> = computed(() => this.usersMapClass.mapUserMessage(this.filteredUsers()));
 
   set setMuteUsers(users: UserParams[]) {
     this.muteUsers = true;
-    this.usersSubject.next(users);
+    this.users.set(users);
     this.muteUsers = false;
   }
 
   constructor() {
-    this.userUtilities.loadUserFromStorage(this.user, this.getUsers);
-    this.profiliPronti = this.getUsers.length > 0;
+    this.userUtilities.loadUserFromStorage(this.user, this.users());
+    this.profiliPronti = this.users().length > 0;
   }
 
   public sottoscrizioneUtenti(params: {
@@ -129,9 +114,9 @@ export class AuthHandler {
       map((data) => {
         if (data.length === 1) {
           const user = this.userUtilities.mapUserByDb(data[0]);
-          this.usersSubject.next(this.getUsers.filter((x) => x.id != user.id));
+          this.users.set(this.users().filter((x) => x.id != user.id));
           this.user.set(user);
-          this.userUtilities.saveUserToStorage(user, this.getUsers);
+          this.userUtilities.saveUserToStorage(user, this.users());
           return true;
         } else {
           this.user.set(null);
@@ -151,7 +136,7 @@ export class AuthHandler {
     return this.authService.updateUser(userForDb).pipe(
       map(() => {
         this.user.set(user);
-        this.userUtilities.saveUserToStorage(user, this.getUsers);
+        this.userUtilities.saveUserToStorage(user, this.users());
         return user;
       }),
       catchError((error) => {
