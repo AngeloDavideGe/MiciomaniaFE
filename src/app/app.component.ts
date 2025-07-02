@@ -1,7 +1,6 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { CursorClass } from './shared/class/cursor.class';
-import { NotificheClass } from './shared/class/notifiche.class';
 import { MiniPlayerComponent } from './core/components/mini-player/mini-player.component';
 import { NgIf, NgStyle } from '@angular/common';
 import { MiniPlayerClass } from './core/class/mini-player.class';
@@ -32,13 +31,11 @@ import { UsersMapClass } from './core/class/users-map.class';
 })
 export class AppComponent implements OnInit {
   private cursorClass = new CursorClass();
-  private notificheClass = new NotificheClass();
   private userMapClass = new UsersMapClass();
   public miniPlayerClass = inject(MiniPlayerClass);
 
   ngOnInit(): void {
     this.cursorClass.setCursoreByStorage();
-    this.notificheClass.sottoscrizioneNotifiche();
     this.userMapClass.usersSubjectSubscription();
   }
 }
