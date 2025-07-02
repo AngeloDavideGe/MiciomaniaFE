@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Subject, take } from 'rxjs';
-import { AuthCustom } from '../../../../shared/custom/auth-custom.class';
 import { MangaHandler } from '../../../manga/handlers/manga.handler';
 import { auth_shared_imports } from '../../shared/auth-shared.import';
+import { AuthHandler } from '../../../../shared/handlers/auth.handler';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -11,16 +12,17 @@ import { auth_shared_imports } from '../../shared/auth-shared.import';
   imports: auth_shared_imports,
   templateUrl: './login.component.html',
 })
-export class LoginComponent extends AuthCustom implements OnInit {
+export class LoginComponent {
   public loginForm: FormGroup;
   public loginError = false;
   private destroy$ = new Subject<void>();
 
   constructor(
     private formBuilder: FormBuilder,
-    private mangaHandler: MangaHandler
+    private mangaHandler: MangaHandler,
+    private authHandler: AuthHandler,
+    public router: Router
   ) {
-    super();
     this.loginForm = this.formBuilder.group({
       email: [
         this.getEmailRegistrata() || '',
@@ -34,13 +36,6 @@ export class LoginComponent extends AuthCustom implements OnInit {
     return this.loginForm.controls;
   }
 
-  ngOnInit(): void {
-    this.navigateOut({
-      condUserForBack: true,
-      userFunc: () => {},
-    });
-  }
-
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
@@ -51,7 +46,7 @@ export class LoginComponent extends AuthCustom implements OnInit {
       return;
     }
 
-    this.authService
+    this.authHandler.authService
       .login(this.f['email'].value, this.f['password'].value)
       .pipe(take(1))
       .subscribe({

@@ -9,7 +9,6 @@ import {
   WritableSignal,
 } from '@angular/core';
 import { Subject } from 'rxjs';
-import { AuthCustom } from '../../../../../shared/custom/auth-custom.class';
 import { LoadingService } from '../../../../../shared/services/loading.service';
 import { Ruolo } from '../../../../auth/enums/users.enum';
 
@@ -20,6 +19,8 @@ import {
 import { AdminService } from '../../../services/admin.service';
 import { admin_imports } from './imports/admin.imports';
 import { CambioRuoloUtente } from './interfaces/admin.interface';
+import { AuthHandler } from '../../../../../shared/handlers/auth.handler';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-admin',
@@ -27,7 +28,7 @@ import { CambioRuoloUtente } from './interfaces/admin.interface';
   imports: admin_imports,
   templateUrl: './admin.component.html',
 })
-export class AdminComponent extends AuthCustom implements OnInit, OnDestroy {
+export class AdminComponent implements OnInit, OnDestroy {
   public user: User | null = null;
   public editAdmin = signal<boolean>(false);
   public userEdit: UserParams = {} as UserParams;
@@ -40,6 +41,8 @@ export class AdminComponent extends AuthCustom implements OnInit, OnDestroy {
 
   private loadingService = inject(LoadingService);
   public adminService = inject(AdminService);
+  public authHandler = inject(AuthHandler);
+  public router = inject(Router);
 
   ngOnInit(): void {
     this.ruoli.forEach((ruolo) => {
@@ -55,10 +58,10 @@ export class AdminComponent extends AuthCustom implements OnInit, OnDestroy {
 
   private loadUtenti(): void {
     {
-      this.user = this.authService.user();
-      if (this.authService.getUsers.length === 0) {
+      this.user = this.authHandler.user();
+      if (this.authHandler.getUsers.length === 0) {
         this.loadingService.show();
-        this.sottoscrizioneUtenti({
+        this.authHandler.sottoscrizioneUtenti({
           nextCall: (data) => {
             this.saveUsers(data);
             this.mapUsersByRuolo();
@@ -72,14 +75,14 @@ export class AdminComponent extends AuthCustom implements OnInit, OnDestroy {
   }
 
   private saveUsers(data: UserParams[]): void {
-    let allUsers: UserParams[] = this.authService.getUsers;
+    let allUsers: UserParams[] = this.authHandler.getUsers;
     allUsers = data.filter((x) => x.id != this.user?.id);
-    this.authService.setMuteUsers = allUsers;
+    this.authHandler.setMuteUsers = allUsers;
     sessionStorage.setItem('users', JSON.stringify(allUsers));
   }
 
   private mapUsersByRuolo(): void {
-    const users: UserParams[] = this.authService.getUsers;
+    const users: UserParams[] = this.authHandler.getUsers;
     const newMap: { [ruolo: string]: UserParams[] } = {};
 
     this.ruoli.forEach((ruolo) => {
@@ -98,7 +101,7 @@ export class AdminComponent extends AuthCustom implements OnInit, OnDestroy {
       if (!newMap[ruoloUtente]) {
         newMap[ruoloUtente] = [];
       }
-      newMap[ruoloUtente].push(this.converUserParams(this.user));
+      newMap[ruoloUtente].push(this.authHandler.converUserParams(this.user));
     }
 
     this.userMap.set(newMap);
@@ -122,13 +125,13 @@ export class AdminComponent extends AuthCustom implements OnInit, OnDestroy {
   }
 
   ruoloModificato(user: CambioRuoloUtente): void {
-    const globalUserIndex: number = this.authService.getUsers.findIndex(
+    const globalUserIndex: number = this.authHandler.getUsers.findIndex(
       (u) => u.id === user.id
     );
     if (globalUserIndex !== -1) {
-      const allUsers: UserParams[] = this.authService.getUsers;
+      const allUsers: UserParams[] = this.authHandler.getUsers;
       allUsers[globalUserIndex].ruolo = user.nuovoRuolo;
-      this.authService.setMuteUsers = allUsers;
+      this.authHandler.setMuteUsers = allUsers;
       sessionStorage.setItem('users', JSON.stringify(allUsers));
     }
 

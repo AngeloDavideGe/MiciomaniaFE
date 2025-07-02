@@ -14,15 +14,15 @@ import {
   Validators,
 } from '@angular/forms';
 import { Subject, takeUntil } from 'rxjs';
-import { AuthCustom } from '../../../../../../shared/custom/auth-custom.class';
-import { StatoPersona } from '../../../../enums/users.enum';
+import { environment } from '../../../../../../../environments/environment';
+import { AuthHandler } from '../../../../../../shared/handlers/auth.handler';
 import { User } from '../../../../../../shared/interfaces/users.interface';
-import { Region } from '../../class/region.class';
+import { StatoPersona } from '../../../../enums/users.enum';
 import { Provincia } from '../../../../interfaces/region.interface';
 import { FormWizard } from '../../../../interfaces/wizard.interface';
 import { WizardService } from '../../../../services/wizard.service';
 import { arrayNotEmptyValidator } from '../../../../validators/checkbox.validator';
-import { environment } from '../../../../../../../environments/environment';
+import { Region } from '../../class/region.class';
 
 @Component({
   selector: 'app-step2',
@@ -30,7 +30,7 @@ import { environment } from '../../../../../../../environments/environment';
   imports: [ReactiveFormsModule, NgFor, NgClass, NgIf],
   templateUrl: './step2.component.html',
 })
-export class Step2Component extends AuthCustom implements OnInit, OnDestroy {
+export class Step2Component implements OnInit, OnDestroy {
   public profileForm!: FormGroup;
   private destroy$ = new Subject<void>();
   public statiPersona = Object.values(StatoPersona);
@@ -45,6 +45,7 @@ export class Step2Component extends AuthCustom implements OnInit, OnDestroy {
 
   private fb = inject(FormBuilder);
   private wizardService = inject(WizardService);
+  private atuthHandler = inject(AuthHandler);
 
   get f() {
     return this.profileForm.controls;
@@ -52,7 +53,7 @@ export class Step2Component extends AuthCustom implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.inizializzaForm();
-    this.associaUtenteFunc(this.authService.user());
+    this.associaUtenteFunc(this.atuthHandler.user());
     this.sottoscrizioneForm();
     this.pulsantePremutoFunc();
 

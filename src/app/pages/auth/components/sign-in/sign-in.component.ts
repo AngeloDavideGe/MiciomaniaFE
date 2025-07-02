@@ -1,9 +1,10 @@
-import { Component } from '@angular/core';
+import { AfterViewInit, Component, inject, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Subject, take, takeUntil } from 'rxjs';
-import { AuthCustom } from '../../../../shared/custom/auth-custom.class';
-import { usernameValidator } from '../../validators/username.validator';
 import { auth_shared_imports } from '../../shared/auth-shared.import';
+import { usernameValidator } from '../../validators/username.validator';
+import { AuthHandler } from '../../../../shared/handlers/auth.handler';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-sign-in',
@@ -11,13 +12,15 @@ import { auth_shared_imports } from '../../shared/auth-shared.import';
   imports: auth_shared_imports,
   templateUrl: './sign-in.component.html',
 })
-export class SignInComponent extends AuthCustom {
+export class SignInComponent implements AfterViewInit, OnDestroy {
   public signInForm: FormGroup;
   public clickRegistrati: boolean = false;
   private destroy$ = new Subject<void>();
 
+  private authHandler = inject(AuthHandler);
+  private router = inject(Router);
+
   constructor(private fb: FormBuilder) {
-    super();
     this.signInForm = this.fb.group({
       nome: ['', [Validators.required, Validators.minLength(3)]],
       username: [
@@ -33,11 +36,8 @@ export class SignInComponent extends AuthCustom {
     return this.signInForm.controls;
   }
 
-  ngOnInit(): void {
-    this.navigateOut({
-      condUserForBack: true,
-      userFunc: () => this.sottoscrizioneForm(),
-    });
+  ngAfterViewInit(): void {
+    this.sottoscrizioneForm();
   }
 
   ngOnDestroy(): void {
@@ -47,7 +47,7 @@ export class SignInComponent extends AuthCustom {
 
   onSubmit(): void {
     if (this.signInForm.valid) {
-      this.authService
+      this.authHandler.authService
         .postUser(
           this.f['nome'].value,
           this.f['username'].value,
