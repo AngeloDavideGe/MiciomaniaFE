@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ValueSequenza } from '../../enums/games.enum';
-import { games_imports } from '../../shared/games.imports';
+import { games_imports } from '../../shared/imports/games.imports';
 
 @Component({
   selector: 'app-trova-sequenza',

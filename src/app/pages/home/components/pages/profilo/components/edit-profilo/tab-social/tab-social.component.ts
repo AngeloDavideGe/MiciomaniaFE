@@ -3,7 +3,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { User } from '../../../../../../../../shared/interfaces/users.interface';
 import { EditableSocial } from '../../../../../../interfaces/profilo.interface';
-import { TabProfiloCustom } from '../../../../../pages/profilo/custom/tab-profilo-custom.class';
+import { TabProfiloBase } from '../../../base/tab-profilo.base';
 
 @Component({
   selector: 'tab-social-profilo',
@@ -11,7 +11,7 @@ import { TabProfiloCustom } from '../../../../../pages/profilo/custom/tab-profil
   imports: [NgFor, FormsModule, TitleCasePipe],
   templateUrl: './tab-social.component.html',
 })
-export class TabSocialComponent extends TabProfiloCustom implements OnInit {
+export class TabSocialComponent extends TabProfiloBase implements OnInit {
   public socialArray: EditableSocial[] = [];
   public socialArrayCopy: EditableSocial[] = [];
   public availableSocials = [

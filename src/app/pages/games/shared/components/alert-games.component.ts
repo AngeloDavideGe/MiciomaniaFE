@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { EsitoGame } from '../interfaces/games.interfaces';
+import { EsitoGame } from '../../interfaces/games.interfaces';
 import { NgClass, NgStyle } from '@angular/common';
 
 @Component({

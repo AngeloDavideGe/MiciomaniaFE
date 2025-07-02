@@ -4,7 +4,7 @@ import { DTO_Wizard } from '../../../interfaces/wizard.interface';
 import { WizardService } from '../../../services/wizard.service';
 import { LoadingService } from '../../../../../shared/services/loading.service';
 
-export abstract class WizardCustom {
+export abstract class WizardBase {
   protected currentStep: number;
   protected wizard: DTO_Wizard[];
   protected formValido: boolean;

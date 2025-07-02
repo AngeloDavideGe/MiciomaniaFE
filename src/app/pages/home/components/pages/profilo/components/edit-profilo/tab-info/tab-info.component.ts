@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { compareObjectCustom } from '../../../../../../../../shared/functions/utilities.function';
 import { StatoPersona } from '../../../../../../../auth/enums/users.enum';
 import { User } from '../../../../../../../../shared/interfaces/users.interface';
-import { TabProfiloCustom } from '../../../../../pages/profilo/custom/tab-profilo-custom.class';
+import { TabProfiloBase } from '../../../base/tab-profilo.base';
 
 @Component({
   selector: 'tab-info-profilo',
@@ -11,7 +11,7 @@ import { TabProfiloCustom } from '../../../../../pages/profilo/custom/tab-profil
   imports: [ReactiveFormsModule],
   templateUrl: './tab-info.component.html',
 })
-export class TabInfoComponent extends TabProfiloCustom {
+export class TabInfoComponent extends TabProfiloBase {
   public bottoneDisabilitato: boolean = false;
   public profileForm: FormGroup;
   public statiPersona = Object.values(StatoPersona);

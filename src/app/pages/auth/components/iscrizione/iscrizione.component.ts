@@ -7,7 +7,7 @@ import {
 import { AuthService } from '../../../../shared/services/auth.service';
 import { Ruolo } from '../../enums/users.enum';
 import { FormWizard } from '../../interfaces/wizard.interface';
-import { WizardCustom } from './custom/wizard-custom.class';
+import { WizardBase } from './base/wizard.base';
 import { iscrizione_imports } from './imports/iscrizione.import';
 
 @Component({
@@ -17,7 +17,7 @@ import { iscrizione_imports } from './imports/iscrizione.import';
   templateUrl: './iscrizione.component.html',
   styleUrl: './iscrizione.component.scss',
 })
-export class IscrizioneComponent extends WizardCustom {
+export class IscrizioneComponent extends WizardBase {
   public user: User = {} as User;
   public caricaPersona: boolean = false;
   public viewSuccespage: boolean = true;

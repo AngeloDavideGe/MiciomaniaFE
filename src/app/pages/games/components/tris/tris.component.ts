@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { EsitoGame, TrisCell } from '../../interfaces/games.interfaces';
-import { GamesCustom } from '../../shared/games-custom.class';
-import { games_imports } from '../../shared/games.imports';
+import { GamesBase } from '../../shared/base/games.base';
+import { games_imports } from '../../shared/imports/games.imports';
 
 @Component({
   selector: 'app-tris',
@@ -9,7 +9,7 @@ import { games_imports } from '../../shared/games.imports';
   imports: games_imports,
   templateUrl: './tris.component.html',
 })
-export class TrisComponent extends GamesCustom {
+export class TrisComponent extends GamesBase {
   public tabella: TrisCell[][] = [
     [{} as TrisCell, {} as TrisCell, {} as TrisCell],
     [{} as TrisCell, {} as TrisCell, {} as TrisCell],

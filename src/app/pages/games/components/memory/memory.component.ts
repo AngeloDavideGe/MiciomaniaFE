@@ -3,8 +3,8 @@ import { DeckCardClass } from '../../class/deck-card.class';
 import { getCardsDisponibili } from '../../functions/deck-card.function';
 import { CardDeck } from '../../interfaces/games.interfaces';
 import { DeckCardService } from '../../services/deck-card.service';
-import { GamesCustom } from '../../shared/games-custom.class';
-import { games_imports } from '../../shared/games.imports';
+import { GamesBase } from '../../shared/base/games.base';
+import { games_imports } from '../../shared/imports/games.imports';
 
 @Component({
   selector: 'app-memory',
@@ -12,7 +12,7 @@ import { games_imports } from '../../shared/games.imports';
   imports: games_imports,
   templateUrl: './memory.component.html',
 })
-export class MemoryComponent extends GamesCustom implements OnInit {
+export class MemoryComponent extends GamesBase implements OnInit {
   public cards: CardDeck[] = [];
   public coppieTrovate: string[] = [];
   public selectedCards: Map<number, boolean> = new Map();

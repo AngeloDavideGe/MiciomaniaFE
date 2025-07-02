@@ -5,7 +5,7 @@ import { AuthService } from '../../../../../../shared/services/auth.service';
 import { LoadingService } from '../../../../../../shared/services/loading.service';
 import { ProfiloHandler } from '../../../../handlers/profilo.handler';
 
-export abstract class TabProfiloCustom {
+export abstract class TabProfiloBase {
   protected authService = inject(AuthService);
   protected profiloHandler = inject(ProfiloHandler);
   private loadingService = inject(LoadingService);

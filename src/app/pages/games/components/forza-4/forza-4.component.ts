@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Forza4, Turno } from '../../interfaces/games.interfaces';
-import { GamesCustom } from '../../shared/games-custom.class';
-import { games_imports } from '../../shared/games.imports';
+import { GamesBase } from '../../shared/base/games.base';
+import { games_imports } from '../../shared/imports/games.imports';
 import { Forza4BotClass } from './bot/forza-4.bot';
 
 @Component({
@@ -10,7 +10,7 @@ import { Forza4BotClass } from './bot/forza-4.bot';
   imports: games_imports,
   templateUrl: './forza-4.component.html',
 })
-export class Forza4Component extends GamesCustom implements OnInit {
+export class Forza4Component extends GamesBase implements OnInit {
   public campo: Forza4[][] = [];
   public dimCampo: number = 6;
   public gameOver: boolean = false;

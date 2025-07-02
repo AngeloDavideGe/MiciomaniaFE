@@ -8,8 +8,8 @@ import {
   Nave,
   PosizionaNave,
 } from '../../interfaces/games.interfaces';
-import { GamesCustom } from '../../shared/games-custom.class';
-import { games_imports } from '../../shared/games.imports';
+import { GamesBase } from '../../shared/base/games.base';
+import { games_imports } from '../../shared/imports/games.imports';
 import { BotBattagliaNavale } from './bot/battaglia-navale.bot';
 import { BattagliaNavaleUtilities } from './utilities/battaglia-navale.utilities';
 
@@ -19,7 +19,7 @@ import { BattagliaNavaleUtilities } from './utilities/battaglia-navale.utilities
   imports: [games_imports, NgStyle],
   templateUrl: './battaglia-navale.component.html',
 })
-export class BattagliaNavaleComponent extends GamesCustom implements OnInit {
+export class BattagliaNavaleComponent extends GamesBase implements OnInit {
   public keysCelle: (keyof CelleBattaglia)[] = ['cellaPlayer', 'cellaBot'];
   private utilitiesBN = new BattagliaNavaleUtilities();
   private botBN = new BotBattagliaNavale();

@@ -5,7 +5,7 @@ import {
   EnvironmentInjector,
 } from '@angular/core';
 import { createComponent } from '@angular/core';
-import { AlertsGameComponent } from '../shared/alert-games.component';
+import { AlertsGameComponent } from '../shared/components/alert-games.component';
 import { EsitoGame } from '../interfaces/games.interfaces';
 
 @Injectable({

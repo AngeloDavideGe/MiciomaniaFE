@@ -6,8 +6,8 @@ import { LoadingService } from '../../../../shared/services/loading.service';
 import { getCasualQuiz } from '../../functions/quiz.function';
 import { CasualQuiz, Quiz, Risposta } from '../../interfaces/games.interfaces';
 import { QuizService } from '../../services/quiz.service';
-import { GamesCustom } from '../../shared/games-custom.class';
-import { games_imports } from '../../shared/games.imports';
+import { GamesBase } from '../../shared/base/games.base';
+import { games_imports } from '../../shared/imports/games.imports';
 
 @Component({
   selector: 'app-quiz',
@@ -15,7 +15,7 @@ import { games_imports } from '../../shared/games.imports';
   imports: [NgClass, FormsModule, games_imports],
   templateUrl: './quiz.component.html',
 })
-export class QuizComponent extends GamesCustom implements OnInit {
+export class QuizComponent extends GamesBase implements OnInit {
   public domandaCurrent: Quiz = {} as Quiz;
   public rispostaSelezionata: Risposta | null = null;
   public rispostaConfermata: boolean = false;
