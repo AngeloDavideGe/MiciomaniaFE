@@ -58,12 +58,12 @@ export class TabInfoComponent extends TabProfiloCustom {
   }
 
   private completeEdit(user: User): void {
-    if (this.profiloService.profiloPersonale) {
-      this.profiloService.profiloPersonale.user = user;
+    if (this.profiloHandler.profiloPersonale) {
+      this.profiloHandler.profiloPersonale.user = user;
       this.bottoneDisabilitato = true;
       sessionStorage.setItem(
         'pubblicazioni',
-        JSON.stringify(this.profiloService.profiloPersonale)
+        JSON.stringify(this.profiloHandler.profiloPersonale)
       );
       this.chiudi.emit();
     }

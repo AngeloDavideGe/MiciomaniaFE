@@ -1,9 +1,9 @@
 import { NgIf } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { ProfiloService } from '../../../../../services/profilo.service';
-import { AuthService } from '../../../../../../../shared/services/auth.service';
 import { switchMap, take, tap } from 'rxjs';
 import { User } from '../../../../../../../shared/interfaces/users.interface';
+import { AuthService } from '../../../../../../../shared/services/auth.service';
+import { ProfiloHandler } from '../../../../../handlers/profilo.handler';
 
 @Component({
   selector: 'app-change-pic',
@@ -89,7 +89,7 @@ export class ChangePicComponent {
   public previewUrl: string | ArrayBuffer | null = null;
   public selectedFile: File | null = null;
 
-  @Input() profiloService!: ProfiloService;
+  @Input() profiloHandler!: ProfiloHandler;
   @Input() authService!: AuthService;
   @Output() chiudi = new EventEmitter();
 
@@ -140,38 +140,35 @@ export class ChangePicComponent {
 
   onUpload() {
     let user = structuredClone(this.authService.user()) || ({} as User);
-    this.profiloService.aggiornamentoPic = true;
+    this.profiloHandler.aggiornamentoPic = true;
     this.chiudi.emit();
 
-    this.profiloService
-      .uploadProfileImage(this.selectedFile!, user.id)
-      .pipe(
-        take(1),
-        tap((url: string) => {
-          user.credenziali.profilePic = url;
-        }),
-        switchMap(() => this.authService.updateUser(user))
-      )
-      .subscribe({
-        next: (data) => this.completeEdit(data),
-        error: (err) => this.errorEdit(err),
-      });
+    this.profiloHandler.uploadProfileImage({
+      selectedFile: this.selectedFile,
+      user: user,
+      tapCall: (url: string) => {
+        user.credenziali.profilePic = url;
+      },
+      switcMapCall: (user: User) => this.authService.updateUser(user),
+      nextCall: (data: User) => this.completeEdit(data),
+      errorCall: (err: Error) => this.errorEdit(err),
+    });
   }
 
   private completeEdit(user: User): void {
-    if (this.profiloService.profiloPersonale) {
-      this.profiloService.profiloPersonale.user = user;
+    if (this.profiloHandler.profiloPersonale) {
+      this.profiloHandler.profiloPersonale.user = user;
       sessionStorage.setItem(
         'pubblicazioni',
-        JSON.stringify(this.profiloService.profiloPersonale)
+        JSON.stringify(this.profiloHandler.profiloPersonale)
       );
     }
-    this.profiloService.aggiornamentoPic = false;
+    this.profiloHandler.aggiornamentoPic = false;
   }
 
   private errorEdit(err: Error): void {
     console.error('Errore chiamata:', err);
     alert("Errore durante il caricamento dell'immagine");
-    this.profiloService.aggiornamentoPic = false;
+    this.profiloHandler.aggiornamentoPic = false;
   }
 }

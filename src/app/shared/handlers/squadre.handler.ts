@@ -7,7 +7,7 @@ import { Squadre } from '../../pages/home/interfaces/profilo.interface';
   providedIn: 'root',
 })
 export class SquadreHandler {
-  public squadreService = inject(SquadreService);
+  private squadreService = inject(SquadreService);
 
   public squadre: Squadre[] = [];
   public punteggioOttenuto: number = 0;

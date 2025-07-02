@@ -8,15 +8,7 @@ import { Profilo, Tweet } from '../interfaces/profilo.interface';
   providedIn: 'root',
 })
 export class ProfiloService {
-  public profiloPersonale: Profilo | null = null;
-  public aggiornamentoPic: boolean = false;
-
-  constructor(private http: HttpClient) {
-    const pubblicazioniJSON = sessionStorage.getItem('pubblicazioni');
-    if (pubblicazioniJSON) {
-      this.profiloPersonale = JSON.parse(pubblicazioniJSON);
-    }
-  }
+  constructor(private http: HttpClient) {}
 
   getProfiloById(userId: string): Observable<Profilo> {
     const url = environment.urlDB + 'rpc/get_profilo_by_id';

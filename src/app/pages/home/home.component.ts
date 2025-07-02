@@ -67,7 +67,7 @@ export class HomeComponent extends AuthCustom implements OnInit, OnDestroy {
 
   private confirmLogout(): void {
     this.usersLogout();
-    this.profiloService.profiloPersonale = null;
+    this.profiloHandler.profiloPersonale = null;
     this.authService.logout();
     this.setAnonymousUser();
   }

@@ -1,7 +1,6 @@
 import { inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { finalize, take } from 'rxjs';
-import { ProfiloService } from '../../pages/home/services/profilo.service';
 import {
   Credenziali,
   Iscrizione,
@@ -11,11 +10,12 @@ import {
 } from '../interfaces/users.interface';
 import { AuthService } from '../services/auth.service';
 import { ConfirmService } from '../services/confirm.service';
+import { ProfiloHandler } from '../../pages/home/handlers/profilo.handler';
 
 export abstract class AuthCustom {
+  protected profiloHandler = inject(ProfiloHandler);
   protected confirmService = inject(ConfirmService);
   protected authService = inject(AuthService);
-  protected profiloService = inject(ProfiloService);
   protected router = inject(Router);
 
   protected sottoscrizioneUtenti(params: {

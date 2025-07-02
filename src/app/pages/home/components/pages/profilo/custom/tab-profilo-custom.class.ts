@@ -1,13 +1,13 @@
 import { inject } from '@angular/core';
-import { AuthService } from '../../../../../../shared/services/auth.service';
-import { ProfiloService } from '../../../../services/profilo.service';
-import { User } from '../../../../../../shared/interfaces/users.interface';
 import { finalize, take } from 'rxjs';
+import { User } from '../../../../../../shared/interfaces/users.interface';
+import { AuthService } from '../../../../../../shared/services/auth.service';
 import { LoadingService } from '../../../../../../shared/services/loading.service';
+import { ProfiloHandler } from '../../../../handlers/profilo.handler';
 
 export abstract class TabProfiloCustom {
   protected authService = inject(AuthService);
-  protected profiloService = inject(ProfiloService);
+  protected profiloHandler = inject(ProfiloHandler);
   private loadingService = inject(LoadingService);
 
   protected updateUser(params: {

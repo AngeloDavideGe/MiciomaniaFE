@@ -1,6 +1,6 @@
 import { Component, effect, inject, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { finalize, map, Subject, take, takeUntil } from 'rxjs';
+import { Subject, takeUntil } from 'rxjs';
 import { AuthCustom } from '../../../../../shared/custom/auth-custom.class';
 import { User } from '../../../../../shared/interfaces/users.interface';
 import { LoadingService } from '../../../../../shared/services/loading.service';
@@ -9,7 +9,6 @@ import {
   Profilo,
   Tweet,
 } from '../../../interfaces/profilo.interface';
-import { ProfiloUtilities } from '../../../utilities/profilo-utilities.class';
 import { profilo_imports } from './imports/profilo.imports';
 
 @Component({
@@ -19,7 +18,6 @@ import { profilo_imports } from './imports/profilo.imports';
   templateUrl: './profilo.component.html',
 })
 export class ProfiloComponent extends AuthCustom implements OnInit, OnDestroy {
-  private profiloUtilities = new ProfiloUtilities();
   private destroy$ = new Subject<void>();
   private idUtente: string | null = null;
   public profiloPersonale: boolean = false;
@@ -78,8 +76,8 @@ export class ProfiloComponent extends AuthCustom implements OnInit, OnDestroy {
   private caricaDatiUser(user: User | null): void {
     if (user && user.id) {
       this.profiloPersonale = this.idUtente == user.id;
-      if (this.profiloService.profiloPersonale && this.profiloPersonale) {
-        this.profilo = this.profiloService.profiloPersonale;
+      if (this.profiloHandler.profiloPersonale && this.profiloPersonale) {
+        this.profilo = this.profiloHandler.profiloPersonale;
         this.caricamentoCompletato();
       } else {
         this.sottoscrizioneProfilo(this.idUtente!);
@@ -90,22 +88,12 @@ export class ProfiloComponent extends AuthCustom implements OnInit, OnDestroy {
   }
 
   private sottoscrizioneProfilo(userId: string): void {
-    this.profiloService
-      .getProfiloById(userId)
-      .pipe(
-        take(1),
-        map((data) => this.profiloUtilities.mapToProfilo(data) as Profilo)
-      )
-      .subscribe({
-        next: (data) => {
-          this.setLocalStorage(data);
-          this.caricamentoCompletato();
-        },
-        error: (error) => {
-          this.caricamentoFallito();
-          console.error('Errore nel recupero del profilo', error);
-        },
-      });
+    this.profiloHandler.getProfiloById({
+      userId: userId,
+      setLocalStorage: (profilo: Profilo) => this.setLocalStorage(profilo),
+      caricamentoCompletato: () => this.caricamentoCompletato(),
+      caricamentoFallito: () => this.caricamentoFallito(),
+    });
   }
 
   private caricamentoCompletato(): void {
@@ -122,7 +110,7 @@ export class ProfiloComponent extends AuthCustom implements OnInit, OnDestroy {
   private setLocalStorage(data: Profilo): void {
     this.profilo = data;
     if (this.profiloPersonale) {
-      this.profiloService.profiloPersonale = data;
+      this.profiloHandler.profiloPersonale = data;
       localStorage.setItem('user', JSON.stringify(data.user));
       sessionStorage.setItem('pubblicazioni', JSON.stringify(data));
     }
@@ -151,20 +139,15 @@ export class ProfiloComponent extends AuthCustom implements OnInit, OnDestroy {
 
   private confirmEliminaTweet(tweetId: number): void {
     this.loaderService.show();
-    this.profiloService
-      .deletePubblicazioni(tweetId)
-      .pipe(
-        take(1),
-        finalize(() => this.loaderService.hide())
-      )
-      .subscribe({
-        next: () =>
-          (this.profilo.tweets = this.profilo.tweets.filter(
-            (tweet: Tweet) => tweet.id != tweetId
-          )),
-        error: (error) =>
-          console.error('Errore nella cancellazione del tweet', error),
-      });
+    this.profiloHandler.deletePubblicazioneById({
+      tweetId: tweetId,
+      finalizeCall: () => this.loaderService.hide(),
+      nextCall: () => {
+        this.profilo.tweets = this.profilo.tweets.filter(
+          (tweet: Tweet) => tweet.id != tweetId
+        );
+      },
+    });
   }
 
   openLink(link: string): void {

@@ -76,7 +76,7 @@ export class TabSocialComponent extends TabProfiloCustom implements OnInit {
     }, {} as Record<string, string>);
 
     const userTemp: User = structuredClone(
-      this.profiloService.profiloPersonale!.user
+      this.profiloHandler.profiloPersonale!.user
     );
 
     userTemp.profile!.social = updatedSocials as unknown as JSON;
@@ -85,11 +85,11 @@ export class TabSocialComponent extends TabProfiloCustom implements OnInit {
   }
 
   private completeEdit(user: User): void {
-    if (this.profiloService.profiloPersonale) {
-      this.profiloService.profiloPersonale.user = user;
+    if (this.profiloHandler.profiloPersonale) {
+      this.profiloHandler.profiloPersonale.user = user;
       sessionStorage.setItem(
         'pubblicazioni',
-        JSON.stringify(this.profiloService.profiloPersonale)
+        JSON.stringify(this.profiloHandler.profiloPersonale)
       );
       this.chiudi.emit();
     }

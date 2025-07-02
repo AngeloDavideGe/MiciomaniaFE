@@ -1,9 +1,8 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { take } from 'rxjs';
 import { formatDataCustom } from '../../../../../../../shared/functions/utilities.function';
+import { ProfiloHandler } from '../../../../../handlers/profilo.handler';
 import { Tweet } from '../../../../../interfaces/profilo.interface';
-import { ProfiloService } from '../../../../../services/profilo.service';
 
 @Component({
   selector: 'app-new-tweet',
@@ -15,7 +14,7 @@ export class NewTweetComponent {
   public nuovoTweet: any;
   public testo: string = '';
 
-  @Input() profiloService!: ProfiloService;
+  @Input() profiloHandler!: ProfiloHandler;
   @Input() idUtente!: string;
   @Output() chiudi = new EventEmitter<void>();
 
@@ -36,21 +35,17 @@ export class NewTweetComponent {
   }
 
   private inviaTweetDb(tweet: Tweet): void {
-    this.profiloService
-      .postPubblicazioni(tweet)
-      .pipe(take(1))
-      .subscribe({
-        next: () => this.setProfiloPersonale(tweet),
-        error: (err) =>
-          console.error('errore nella pubblicazione del tweer', err),
-      });
+    this.profiloHandler.postPubblicazioni({
+      tweet: tweet,
+      nextCall: () => this.setProfiloPersonale(tweet),
+    });
   }
 
   private setProfiloPersonale(tweet: Tweet): void {
-    this.profiloService.profiloPersonale?.tweets.unshift(tweet);
+    this.profiloHandler.profiloPersonale?.tweets.unshift(tweet);
     sessionStorage.setItem(
       'pubblicazioni',
-      JSON.stringify(this.profiloService.profiloPersonale)
+      JSON.stringify(this.profiloHandler.profiloPersonale)
     );
   }
 }
