@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { authGuard } from '../../core/guards/auth.guard';
 
 export const MANGA_ROUTES: Routes = [
   {
@@ -10,6 +11,7 @@ export const MANGA_ROUTES: Routes = [
           import('./components/tuoi-manga/tuoi-manga.component').then(
             (m) => m.TuoiMangaComponent
           ),
+        canActivate: [authGuard],
       },
       {
         path: 'manga-miciomani',
