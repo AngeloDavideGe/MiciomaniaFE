@@ -1,20 +1,21 @@
 import {
   Component,
   effect,
+  inject,
   Injector,
   OnDestroy,
   OnInit,
   runInInjectionContext,
   signal,
 } from '@angular/core';
-import { NavigationEnd } from '@angular/router';
+import { NavigationEnd, Router } from '@angular/router';
 import 'bootstrap'; // Importa Bootstrap JS (incluso Popper.js)
 import { distinctUntilChanged, filter, Subject, take, takeUntil } from 'rxjs';
-import { AuthCustom } from '../../shared/custom/auth-custom.class';
 import { User, UserParams } from '../../shared/interfaces/users.interface';
 import { ElementiUtenteUtilities } from '../../shared/utilities/elementiUtente-utilities.class';
 import { getConfirmParams } from './functions/home.functions';
 import { home_imports } from './imports/home.imports';
+import { AuthHandler } from '../../shared/handlers/auth.handler';
 
 @Component({
   selector: 'app-home',
@@ -22,7 +23,10 @@ import { home_imports } from './imports/home.imports';
   imports: home_imports,
   templateUrl: './home.component.html',
 })
-export class HomeComponent extends AuthCustom implements OnInit, OnDestroy {
+export class HomeComponent implements OnInit, OnDestroy {
+  public authHandler = inject(AuthHandler);
+  public router = inject(Router);
+
   public isHome = signal<boolean>(false);
   public user: User = {} as User;
   public inizialiUser: string = '';
@@ -34,10 +38,9 @@ export class HomeComponent extends AuthCustom implements OnInit, OnDestroy {
   private elementiUtenteUtilities = new ElementiUtenteUtilities();
 
   constructor(private injector: Injector) {
-    super();
     if (this.router.url === '/home') {
       effect(() => {
-        const user: User | null = this.authService.user();
+        const user: User | null = this.authHandler.user();
         this.handleUserSubscription(user);
       });
     }
@@ -56,7 +59,7 @@ export class HomeComponent extends AuthCustom implements OnInit, OnDestroy {
   }
 
   logout(): void {
-    this.confirmCustom({
+    this.authHandler.confirmCustom({
       titolo: 'Logout',
       messaggio: 'Vuoi davvero effettuare il logout?',
       buttonNo: 'Annulla',
@@ -67,15 +70,15 @@ export class HomeComponent extends AuthCustom implements OnInit, OnDestroy {
 
   private confirmLogout(): void {
     this.usersLogout();
-    this.profiloHandler.profiloPersonale = null;
-    this.authService.logout();
+    this.authHandler.profiloHandler.profiloPersonale = null;
+    this.authHandler.authService.logout();
     this.setAnonymousUser();
   }
 
   private usersLogout(): void {
-    let allUser: UserParams[] = structuredClone(this.authService.getUsers);
-    allUser.push(this.converUserParams(this.user));
-    this.authService.setUsers = allUser;
+    let allUser: UserParams[] = structuredClone(this.authHandler.getUsers);
+    allUser.push(this.authHandler.converUserParams(this.user));
+    this.authHandler.setUsers = allUser;
     sessionStorage.setItem('users', JSON.stringify(allUser));
   }
 
@@ -93,7 +96,7 @@ export class HomeComponent extends AuthCustom implements OnInit, OnDestroy {
           this.isHome.set(true);
 
           runInInjectionContext(this.injector, () => {
-            effect(() => this.handleUserSubscription(this.authService.user()));
+            effect(() => this.handleUserSubscription(this.authHandler.user()));
           });
         } else {
           this.isHome.set(false);
@@ -112,8 +115,8 @@ export class HomeComponent extends AuthCustom implements OnInit, OnDestroy {
     } else {
       this.setAnonymousUser();
     }
-    if (this.authService.getUsers.length === 0) {
-      this.sottoscrizioneUtenti({
+    if (this.authHandler.getUsers.length === 0) {
+      this.authHandler.sottoscrizioneUtenti({
         nextCall: (data) => this.handleUsersSubscription(data),
       });
     }
@@ -128,7 +131,7 @@ export class HomeComponent extends AuthCustom implements OnInit, OnDestroy {
   }
 
   private setAnonymousUser(): void {
-    this.user = this.getVoidUser();
+    this.user = this.authHandler.getVoidUser();
     this.user.credenziali.nome = 'Anonimo';
     this.inizialiUser = 'AN';
   }
@@ -146,7 +149,7 @@ export class HomeComponent extends AuthCustom implements OnInit, OnDestroy {
       }
     }
 
-    this.authService.setUsers = otherUsers;
+    this.authHandler.setUsers = otherUsers;
     sessionStorage.setItem('users', JSON.stringify(otherUsers));
   }
 
@@ -155,7 +158,7 @@ export class HomeComponent extends AuthCustom implements OnInit, OnDestroy {
       this.router.navigate(['/canzoni']);
     } else {
       const { path, titolo, messaggio } = getConfirmParams(this.user);
-      this.confirmCustom({
+      this.authHandler.confirmCustom({
         titolo: titolo,
         messaggio: messaggio,
         confirmFunc: () => this.router.navigate([path]),

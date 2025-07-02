@@ -10,6 +10,7 @@ import {
 import { AuthService } from '../services/auth.service';
 import { ConfirmService } from '../services/confirm.service';
 import { UserUtilities } from '../utilities/user-utilities.class';
+import { ProfiloHandler } from '../../pages/home/handlers/profilo.handler';
 
 @Injectable({
   providedIn: 'root',
@@ -17,6 +18,7 @@ import { UserUtilities } from '../utilities/user-utilities.class';
 export class AuthHandler {
   public confirmService = inject(ConfirmService);
   public authService = inject(AuthService);
+  public profiloHandler = inject(ProfiloHandler);
 
   // Utente corrente
   public user = signal<User | null>(null);

@@ -27,7 +27,10 @@
             "
           >
             <ng-container
-              *ngIf="!profiloHandler.aggiornamentoPic; else spinnerTemplate"
+              *ngIf="
+                !authHandler.profiloHandler.aggiornamentoPic;
+                else spinnerTemplate
+              "
             >
               <img
                 [src]="
@@ -158,7 +161,10 @@
             <div class="card-body" style="padding: 16px">
               <div class="d-flex align-items-start">
                 <ng-container
-                  *ngIf="!profiloHandler.aggiornamentoPic; else spinnerTemplate"
+                  *ngIf="
+                    !authHandler.profiloHandler.aggiornamentoPic;
+                    else spinnerTemplate
+                  "
                 >
                   <img
                     [src]="
@@ -213,7 +219,7 @@
     <app-new-tweet
       *ngIf="modaleApertaTweet"
       [idUtente]="profilo.user.id!"
-      [profiloHandler]="profiloHandler"
+      [profiloHandler]="authHandler.profiloHandler"
       (chiudi)="modaleApertaTweet = false"
     ></app-new-tweet>
 
@@ -225,8 +231,7 @@
 
     <app-change-pic
       *ngIf="modaleApertaChangePic"
-      [profiloHandler]="profiloHandler"
-      [authService]="authService"
+      [authHandler]="authHandler"
       (chiudi)="modaleApertaChangePic = false"
     ></app-change-pic>
   </ng-container>

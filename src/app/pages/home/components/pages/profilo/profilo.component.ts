@@ -1,7 +1,6 @@
 import { Component, effect, inject, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Subject, takeUntil } from 'rxjs';
-import { AuthCustom } from '../../../../../shared/custom/auth-custom.class';
 import { User } from '../../../../../shared/interfaces/users.interface';
 import { LoadingService } from '../../../../../shared/services/loading.service';
 import {
@@ -10,6 +9,7 @@ import {
   Tweet,
 } from '../../../interfaces/profilo.interface';
 import { profilo_imports } from './imports/profilo.imports';
+import { AuthHandler } from '../../../../../shared/handlers/auth.handler';
 
 @Component({
   selector: 'app-profilo',
@@ -17,7 +17,12 @@ import { profilo_imports } from './imports/profilo.imports';
   imports: profilo_imports,
   templateUrl: './profilo.component.html',
 })
-export class ProfiloComponent extends AuthCustom implements OnInit, OnDestroy {
+export class ProfiloComponent implements OnInit, OnDestroy {
+  private route = inject(ActivatedRoute);
+  public router = inject(Router);
+  private loaderService = inject(LoadingService);
+  public authHandler = inject(AuthHandler);
+
   private destroy$ = new Subject<void>();
   private idUtente: string | null = null;
   public profiloPersonale: boolean = false;
@@ -29,15 +34,11 @@ export class ProfiloComponent extends AuthCustom implements OnInit, OnDestroy {
   public socialArray: EditableSocial[] = [];
   public tornaIndietroPath: string = '';
   public profilo: Profilo = {
-    user: this.getVoidUser(),
+    user: this.authHandler.getVoidUser(),
     tweets: [] as Tweet[],
   };
 
-  private route = inject(ActivatedRoute);
-  private loaderService = inject(LoadingService);
-
   constructor() {
-    super();
     this.sottoscrizioneParam();
     this.setTornaIndietroPath();
   }
@@ -67,7 +68,7 @@ export class ProfiloComponent extends AuthCustom implements OnInit, OnDestroy {
     this.route.params.pipe(takeUntil(this.destroy$)).subscribe((params) => {
       this.idUtente = params['id'];
       effect(() => {
-        const user: User | null = this.authService.user();
+        const user: User | null = this.authHandler.user();
         this.caricaDatiUser(user);
       });
     });
@@ -76,8 +77,11 @@ export class ProfiloComponent extends AuthCustom implements OnInit, OnDestroy {
   private caricaDatiUser(user: User | null): void {
     if (user && user.id) {
       this.profiloPersonale = this.idUtente == user.id;
-      if (this.profiloHandler.profiloPersonale && this.profiloPersonale) {
-        this.profilo = this.profiloHandler.profiloPersonale;
+      if (
+        this.authHandler.profiloHandler.profiloPersonale &&
+        this.profiloPersonale
+      ) {
+        this.profilo = this.authHandler.profiloHandler.profiloPersonale;
         this.caricamentoCompletato();
       } else {
         this.sottoscrizioneProfilo(this.idUtente!);
@@ -88,7 +92,7 @@ export class ProfiloComponent extends AuthCustom implements OnInit, OnDestroy {
   }
 
   private sottoscrizioneProfilo(userId: string): void {
-    this.profiloHandler.getProfiloById({
+    this.authHandler.profiloHandler.getProfiloById({
       userId: userId,
       setLocalStorage: (profilo: Profilo) => this.setLocalStorage(profilo),
       caricamentoCompletato: () => this.caricamentoCompletato(),
@@ -110,7 +114,7 @@ export class ProfiloComponent extends AuthCustom implements OnInit, OnDestroy {
   private setLocalStorage(data: Profilo): void {
     this.profilo = data;
     if (this.profiloPersonale) {
-      this.profiloHandler.profiloPersonale = data;
+      this.authHandler.profiloHandler.profiloPersonale = data;
       localStorage.setItem('user', JSON.stringify(data.user));
       sessionStorage.setItem('pubblicazioni', JSON.stringify(data));
     }
@@ -126,7 +130,7 @@ export class ProfiloComponent extends AuthCustom implements OnInit, OnDestroy {
   }
 
   eliminaTweet(tweetId: number): void {
-    this.confirmCustom({
+    this.authHandler.confirmCustom({
       titolo: 'Elimina Tweet',
       messaggio: 'Sei sicuro di voler eliminare questo tweet?',
       buttonNo: 'Annulla',
@@ -139,7 +143,7 @@ export class ProfiloComponent extends AuthCustom implements OnInit, OnDestroy {
 
   private confirmEliminaTweet(tweetId: number): void {
     this.loaderService.show();
-    this.profiloHandler.deletePubblicazioneById({
+    this.authHandler.profiloHandler.deletePubblicazioneById({
       tweetId: tweetId,
       finalizeCall: () => this.loaderService.hide(),
       nextCall: () => {

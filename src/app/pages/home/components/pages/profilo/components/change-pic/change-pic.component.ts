@@ -1,9 +1,7 @@
 import { NgIf } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { switchMap, take, tap } from 'rxjs';
+import { AuthHandler } from '../../../../../../../shared/handlers/auth.handler';
 import { User } from '../../../../../../../shared/interfaces/users.interface';
-import { AuthService } from '../../../../../../../shared/services/auth.service';
-import { ProfiloHandler } from '../../../../../handlers/profilo.handler';
 
 @Component({
   selector: 'app-change-pic',
@@ -89,8 +87,7 @@ export class ChangePicComponent {
   public previewUrl: string | ArrayBuffer | null = null;
   public selectedFile: File | null = null;
 
-  @Input() profiloHandler!: ProfiloHandler;
-  @Input() authService!: AuthService;
+  @Input() authHandler!: AuthHandler;
   @Output() chiudi = new EventEmitter();
 
   onFileSelected(event: Event) {
@@ -139,36 +136,37 @@ export class ChangePicComponent {
   }
 
   onUpload() {
-    let user = structuredClone(this.authService.user()) || ({} as User);
-    this.profiloHandler.aggiornamentoPic = true;
+    let user = structuredClone(this.authHandler.user()) || ({} as User);
+    this.authHandler.profiloHandler.aggiornamentoPic = true;
     this.chiudi.emit();
 
-    this.profiloHandler.uploadProfileImage({
+    this.authHandler.profiloHandler.uploadProfileImage({
       selectedFile: this.selectedFile,
       user: user,
       tapCall: (url: string) => {
         user.credenziali.profilePic = url;
       },
-      switcMapCall: (user: User) => this.authService.updateUser(user),
+      switcMapCall: (user: User) =>
+        this.authHandler.authService.updateUser(user),
       nextCall: (data: User) => this.completeEdit(data),
       errorCall: (err: Error) => this.errorEdit(err),
     });
   }
 
   private completeEdit(user: User): void {
-    if (this.profiloHandler.profiloPersonale) {
-      this.profiloHandler.profiloPersonale.user = user;
+    if (this.authHandler.profiloHandler.profiloPersonale) {
+      this.authHandler.profiloHandler.profiloPersonale.user = user;
       sessionStorage.setItem(
         'pubblicazioni',
-        JSON.stringify(this.profiloHandler.profiloPersonale)
+        JSON.stringify(this.authHandler.profiloHandler.profiloPersonale)
       );
     }
-    this.profiloHandler.aggiornamentoPic = false;
+    this.authHandler.profiloHandler.aggiornamentoPic = false;
   }
 
   private errorEdit(err: Error): void {
     console.error('Errore chiamata:', err);
     alert("Errore durante il caricamento dell'immagine");
-    this.profiloHandler.aggiornamentoPic = false;
+    this.authHandler.profiloHandler.aggiornamentoPic = false;
   }
 }

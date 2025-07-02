@@ -31,8 +31,8 @@
 
     <app-cerca-profili
       *ngSwitchCase="'profili'"
-      [profiliPronti]="authService.profiliPronti"
-      [users]="authService.getUsers"
+      [profiliPronti]="authHandler.profiliPronti"
+      [users]="authHandler.getUsers"
       [goToProfilo]="goToProfilo"
       [chiudiComponente]="chiudiComponente"
     ></app-cerca-profili>
