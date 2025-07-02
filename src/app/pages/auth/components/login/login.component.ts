@@ -46,7 +46,7 @@ export class LoginComponent {
       return;
     }
 
-    this.authHandler.authService
+    this.authHandler
       .login(this.f['email'].value, this.f['password'].value)
       .pipe(take(1))
       .subscribe({

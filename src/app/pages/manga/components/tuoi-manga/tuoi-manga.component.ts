@@ -11,7 +11,6 @@ import {
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ErrorHttpComponent } from '../../../../shared/components/errorhttp.component';
-import { AuthService } from '../../../../shared/services/auth.service';
 import { LoadingService } from '../../../../shared/services/loading.service';
 import { MangaHandler } from '../../handlers/manga.handler';
 import {
@@ -21,6 +20,7 @@ import {
   SplitMangaUtente,
 } from '../../interfaces/manga.interface';
 import { CardMangaComponent } from '../../shared/card-manga.component';
+import { AuthHandler } from '../../../../shared/handlers/auth.handler';
 
 type keyofMangaUtente =
   | keyof MangaUtente
@@ -35,7 +35,7 @@ type keyofMangaUtente =
 })
 export class TuoiMangaComponent implements OnInit, OnDestroy {
   public mangaHandler = inject(MangaHandler);
-  private authService = inject(AuthService);
+  private authHandler = inject(AuthHandler);
   private loadingService = inject(LoadingService);
 
   public selectedTab: keyofMangaUtente = 'preferiti';
@@ -68,7 +68,7 @@ export class TuoiMangaComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    const user = this.authService.user();
+    const user = this.authHandler.user();
     if (user) {
       this.loadListaManga(user.id);
     } else {

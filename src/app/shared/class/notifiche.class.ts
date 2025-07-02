@@ -2,15 +2,15 @@ import { inject } from '@angular/core';
 import { Messaggio } from '../../core/components/chat/interfaces/chat-group.interface';
 import { ChatGroupService } from '../../core/components/chat/services/chat-group.service';
 import { User } from '../interfaces/users.interface';
-import { AuthService } from '../services/auth.service';
 import { NotificheService } from '../services/notifiche.service';
+import { AuthHandler } from '../handlers/auth.handler';
 
 export class NotificheClass {
   private chatGroupService = inject(ChatGroupService);
   private notificheService = inject(NotificheService);
-  private authService = inject(AuthService);
+  private authHandler = inject(AuthHandler);
 
-  private user = this.authService.user() || ({} as User);
+  private user = this.authHandler.user() || ({} as User);
 
   public sottoscrizioneNotifiche(): void {
     this.chatGroupService.messages$.subscribe({

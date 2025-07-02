@@ -1,54 +1,14 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Injectable, signal } from '@angular/core';
-import {
-  BehaviorSubject,
-  catchError,
-  filter,
-  map,
-  Observable,
-  of,
-  shareReplay,
-} from 'rxjs';
+import { Injectable } from '@angular/core';
+import { catchError, map, Observable, of } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { User, UserParams } from '../interfaces/users.interface';
-import { UserUtilities } from '../utilities/user-utilities.class';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  // Utente corrente
-  public user = signal<User | null>(null);
-  // Lista di utenti (eccezione per l'utente corrente)
-  private muteUsers = false;
-  private usersSubject = new BehaviorSubject<UserParams[]>([]);
-  public users$ = this.usersSubject.asObservable().pipe(
-    filter(() => !this.muteUsers),
-    shareReplay(1)
-  );
-  // Altri
-  public profiliPronti: boolean = false;
-  public userMessageMap: { [id: string]: { nome: string; pic: string } } = {};
-  private userUtilities = new UserUtilities();
-
-  get getUsers(): UserParams[] {
-    return this.usersSubject.getValue();
-  }
-
-  set setUsers(users: UserParams[]) {
-    this.usersSubject.next(users);
-  }
-
-  set setMuteUsers(users: UserParams[]) {
-    this.muteUsers = true;
-    this.usersSubject.next(users);
-    this.muteUsers = false;
-  }
-
-  constructor(private http: HttpClient) {
-    this.userUtilities.loadUserFromStorage(this.user, this.getUsers);
-    this.profiliPronti = this.getUsers.length > 0;
-  }
+  constructor(private http: HttpClient) {}
 
   getAllUsersHttp(): Observable<UserParams[]> {
     const apiUrl = environment.urlDB + 'utenti';
@@ -86,48 +46,10 @@ export class AuthService {
     });
   }
 
-  updateUser(user: User): Observable<User> {
-    const url = `${environment.urlDB}utenti?id=eq.${user.id}`;
-    const userForDb = this.userUtilities.mapUserToDb(user);
-    return this.http
-      .patch<User>(url, userForDb, { headers: environment.headerSupabase })
-      .pipe(
-        map(() => {
-          this.user.set(user);
-          this.userUtilities.saveUserToStorage(user, this.getUsers);
-          return user;
-        }),
-        catchError((error) => {
-          console.error("Errore durante l'aggiornamento dell'utente", error);
-          throw error;
-        })
-      );
-  }
-
-  login(email: string, password: string): Observable<boolean> {
-    return this.getUserByEmailAndPassword(email, password).pipe(
-      map((data) => {
-        if (data.length === 1) {
-          const user = this.userUtilities.mapUserByDb(data[0]);
-          this.usersSubject.next(this.getUsers.filter((x) => x.id != user.id));
-          this.user.set(user);
-          this.userUtilities.saveUserToStorage(user, this.getUsers);
-          return true;
-        } else {
-          this.user.set(null);
-          this.userUtilities.removeUserFromStorage();
-          return false;
-        }
-      }),
-      catchError((error) => {
-        console.error('Errore nel login', error);
-        return of(false);
-      })
-    );
-  }
-
-  logout(): void {
-    this.user.set(null);
-    this.userUtilities.removeUserFromStorage();
+  updateUser(userForDb: any): Observable<any> {
+    const url = `${environment.urlDB}utenti?id=eq.${userForDb.id}`;
+    return this.http.patch<User>(url, userForDb, {
+      headers: environment.headerSupabase,
+    });
   }
 }

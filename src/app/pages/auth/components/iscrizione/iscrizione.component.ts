@@ -4,11 +4,11 @@ import {
   Iscrizione,
   User,
 } from '../../../../shared/interfaces/users.interface';
-import { AuthService } from '../../../../shared/services/auth.service';
 import { Ruolo } from '../../enums/users.enum';
 import { FormWizard } from '../../interfaces/wizard.interface';
 import { WizardBase } from './base/wizard.base';
 import { iscrizione_imports } from './imports/iscrizione.import';
+import { AuthHandler } from '../../../../shared/handlers/auth.handler';
 
 @Component({
   selector: 'app-iscrizione',
@@ -23,20 +23,20 @@ export class IscrizioneComponent extends WizardBase {
   public viewSuccespage: boolean = true;
   public wizardData: FormWizard = {} as FormWizard;
 
-  constructor(private authService: AuthService) {
+  constructor(private authHandler: AuthHandler) {
     super();
     this.iscrizioneUser();
   }
 
   iscrizioneUser(): void {
-    this.user = this.authService.user() ?? ({} as User);
+    this.user = this.authHandler.user() ?? ({} as User);
     this.caricaPersona = true;
   }
 
   inviaIscrizione(): void {
     this.setUserPerInvio();
 
-    this.authService
+    this.authHandler
       .updateUser(this.user)
       .pipe(take(1))
       .subscribe({

@@ -1,7 +1,7 @@
-import { Component, inject, signal } from '@angular/core';
-import { ChatGroupComponent } from './chat-group/chat-group.component';
 import { NgIf } from '@angular/common';
-import { AuthService } from '../../../shared/services/auth.service';
+import { Component, inject, signal } from '@angular/core';
+import { AuthHandler } from '../../../shared/handlers/auth.handler';
+import { ChatGroupComponent } from './chat-group/chat-group.component';
 
 @Component({
   selector: 'app-chat',
@@ -15,7 +15,7 @@ import { AuthService } from '../../../shared/services/auth.service';
         style="width: 360px; height: 520px; z-index: 1080;"
       >
         <app-chat-group
-          [authService]="authService"
+          [authHandler]="authHandler"
           (chiudiChat)="chatAperta.set(false)"
         >
         </app-chat-group>
@@ -41,5 +41,5 @@ import { AuthService } from '../../../shared/services/auth.service';
 })
 export class ChatComponent {
   public chatAperta = signal<boolean>(false);
-  public authService = inject(AuthService);
+  public authHandler = inject(AuthHandler);
 }

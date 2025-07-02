@@ -11,10 +11,10 @@ import { filter, map, Observable, startWith, take } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { SquadreHandler } from '../../shared/handlers/squadre.handler';
 import { User } from '../../shared/interfaces/users.interface';
-import { AuthService } from '../../shared/services/auth.service';
 import { DeckCardClass } from './class/deck-card.class';
 import { GamesClass } from './class/games.class';
 import { SquadreGiocatore } from './interfaces/games.interfaces';
+import { AuthHandler } from '../../shared/handlers/auth.handler';
 
 @Component({
   selector: 'app-games',
@@ -34,7 +34,7 @@ export class GamesComponent implements OnInit, OnDestroy {
 
   public sc = inject(SquadreHandler);
   public router = inject(Router);
-  private authService = inject(AuthService);
+  private authHandler = inject(AuthHandler);
 
   public isGames$: Observable<boolean> = this.router.events.pipe(
     filter((event): event is NavigationEnd => event instanceof NavigationEnd),
@@ -62,14 +62,14 @@ export class GamesComponent implements OnInit, OnDestroy {
   }
 
   private setPunteggioGiocatore(): void {
-    const user: User | null = this.authService.user();
+    const user: User | null = this.authHandler.user();
     if (user) {
       this.punteggioPersonale = user.iscrizione.punteggio || 0;
     }
   }
 
   private ifCallLoadSquadre(): void {
-    const user: User | null = this.authService.user();
+    const user: User | null = this.authHandler.user();
     if (user) {
       environment.team.forEach((nomeTeam) => {
         if (user.iscrizione.team?.includes(nomeTeam)) {
@@ -88,7 +88,7 @@ export class GamesComponent implements OnInit, OnDestroy {
   }
 
   private elseCallLoadSquadre(): void {
-    const user: User | null = this.authService.user();
+    const user: User | null = this.authHandler.user();
     if (user) {
       environment.team.forEach((nomeTeam) => {
         const punteggioFind: number | undefined = this.sc.squadre.find(
@@ -111,7 +111,7 @@ export class GamesComponent implements OnInit, OnDestroy {
   }
 
   private nextCallLoadSquadre(): void {
-    const user: User | null = this.authService.user();
+    const user: User | null = this.authHandler.user();
     if (user) {
       this.squadre.personale.forEach((squadra) => {
         const punteggioFind: number | undefined = this.sc.squadre.find(
@@ -130,7 +130,7 @@ export class GamesComponent implements OnInit, OnDestroy {
   }
 
   private updatePunteggioSquadra($event: BeforeUnloadEvent | null): void {
-    const user: User | null = this.authService.user();
+    const user: User | null = this.authHandler.user();
     const punteggio: number = this.sc.getPunteggioOttenuto;
 
     if (user && punteggio != 0) {
@@ -145,12 +145,12 @@ export class GamesComponent implements OnInit, OnDestroy {
   }
 
   private nextUpdatePunteggio(squadre: string[], punteggio: number): void {
-    const user: User | null = this.authService.user();
+    const user: User | null = this.authHandler.user();
 
     if (user && user.iscrizione && user.iscrizione.punteggio) {
       user.iscrizione.punteggio += punteggio;
       localStorage.setItem('user', JSON.stringify(user));
-      this.authService.user.set(user);
+      this.authHandler.user.set(user);
     }
 
     const idSet = new Set(squadre.map((id) => id.toLowerCase()));

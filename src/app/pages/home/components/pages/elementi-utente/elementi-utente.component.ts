@@ -1,6 +1,7 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { take } from 'rxjs';
+import { AuthHandler } from '../../../../../shared/handlers/auth.handler';
 import {
   CanzoniMiciomania,
   ElementiUtente,
@@ -8,7 +9,6 @@ import {
   Proposta,
 } from '../../../../../shared/interfaces/elementiUtente.interface';
 import { User } from '../../../../../shared/interfaces/users.interface';
-import { AuthService } from '../../../../../shared/services/auth.service';
 import { ElementiUtenteUtilities } from '../../../../../shared/utilities/elementiUtente-utilities.class';
 import { MangaSongUtilities } from '../../../../../shared/utilities/mangaSong-utilities';
 import { elementi_utente_imports } from './imports/elementi-utebte.imports';
@@ -38,7 +38,7 @@ export class ElementiUtenteComponent implements OnInit {
   public elemUti = new ElementiUtenteUtilities();
   public mangaSongUtilities = new MangaSongUtilities();
 
-  private authService = inject(AuthService);
+  private authHandler = inject(AuthHandler);
   public router = inject(Router);
 
   ngOnInit(): void {
@@ -47,7 +47,7 @@ export class ElementiUtenteComponent implements OnInit {
   }
 
   private loadElementiUtente(): void {
-    const user: User | null = this.authService.user();
+    const user: User | null = this.authHandler.user();
 
     if (user) {
       this.userId = user.id;

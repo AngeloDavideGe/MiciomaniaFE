@@ -71,7 +71,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   private confirmLogout(): void {
     this.usersLogout();
     this.authHandler.profiloHandler.profiloPersonale = null;
-    this.authHandler.authService.logout();
+    this.authHandler.logout();
     this.setAnonymousUser();
   }
 

@@ -1,14 +1,14 @@
 import { inject } from '@angular/core';
-import { AuthService } from '../../shared/services/auth.service';
+import { AuthHandler } from '../../shared/handlers/auth.handler';
 import { UserParams } from '../../shared/interfaces/users.interface';
 
 export class UsersMapClass {
-  private authService = inject(AuthService);
+  private authHandler = inject(AuthHandler);
 
   public usersSubjectSubscription(): void {
-    this.authService.users$.subscribe({
+    this.authHandler.users$.subscribe({
       next: (users) =>
-        (this.authService.userMessageMap = this.mapUserMessage(users)),
+        (this.authHandler.userMessageMap = this.mapUserMessage(users)),
     });
   }
 

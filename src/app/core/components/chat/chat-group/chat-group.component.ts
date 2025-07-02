@@ -16,8 +16,8 @@ import {
 import { FormsModule } from '@angular/forms';
 import { Subject, take, takeUntil } from 'rxjs';
 import { formatDataCustom } from '../../../../shared/functions/utilities.function';
+import { AuthHandler } from '../../../../shared/handlers/auth.handler';
 import { User } from '../../../../shared/interfaces/users.interface';
-import { AuthService } from '../../../../shared/services/auth.service';
 import { Messaggio } from './../interfaces/chat-group.interface';
 import { ChatGroupService } from './../services/chat-group.service';
 
@@ -40,7 +40,7 @@ export class ChatGroupComponent implements OnInit, AfterViewChecked, OnDestroy {
 
   private chatService = inject(ChatGroupService);
 
-  @Input() authService!: AuthService;
+  @Input() authHandler!: AuthHandler;
   @Output() chiudiChat = new EventEmitter<void>();
   @ViewChild('chatMessages') chatMessagesContainer!: ElementRef;
 
@@ -67,14 +67,14 @@ export class ChatGroupComponent implements OnInit, AfterViewChecked, OnDestroy {
   }
 
   private inizializeChat(): void {
-    this.user = this.authService.user();
+    this.user = this.authHandler.user();
     this.idUtente = this.user ? this.user.id : '';
     this.loadMessaggiEUtenti();
   }
 
   private changeUserSubscription(): void {
     effect(() => {
-      const user: User | null = this.authService.user();
+      const user: User | null = this.authHandler.user();
       this.user = user;
       this.idUtente = user ? user.id : '';
     });

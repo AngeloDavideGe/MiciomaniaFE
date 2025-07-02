@@ -1,5 +1,15 @@
 import { inject, Injectable, signal } from '@angular/core';
-import { BehaviorSubject, filter, finalize, shareReplay, take } from 'rxjs';
+import {
+  BehaviorSubject,
+  catchError,
+  filter,
+  finalize,
+  map,
+  Observable,
+  of,
+  shareReplay,
+  take,
+} from 'rxjs';
 import {
   Credenziali,
   Iscrizione,
@@ -60,7 +70,7 @@ export class AuthHandler {
       .getAllUsersHttp()
       .pipe(
         take(1),
-        finalize(() => (this.authService.profiliPronti = true))
+        finalize(() => (this.profiliPronti = true))
       )
       .subscribe({
         next: (data) => params.nextCall(data),
@@ -107,5 +117,47 @@ export class AuthHandler {
       profile: {} as Profile,
       iscrizione: {} as Iscrizione,
     } as User;
+  }
+
+  public logout(): void {
+    this.user.set(null);
+    this.userUtilities.removeUserFromStorage();
+  }
+
+  public login(email: string, password: string): Observable<boolean> {
+    return this.authService.getUserByEmailAndPassword(email, password).pipe(
+      map((data) => {
+        if (data.length === 1) {
+          const user = this.userUtilities.mapUserByDb(data[0]);
+          this.usersSubject.next(this.getUsers.filter((x) => x.id != user.id));
+          this.user.set(user);
+          this.userUtilities.saveUserToStorage(user, this.getUsers);
+          return true;
+        } else {
+          this.user.set(null);
+          this.userUtilities.removeUserFromStorage();
+          return false;
+        }
+      }),
+      catchError((error) => {
+        console.error('Errore nel login', error);
+        return of(false);
+      })
+    );
+  }
+
+  updateUser(user: User): Observable<User> {
+    const userForDb = this.userUtilities.mapUserToDb(user);
+    return this.authService.updateUser(userForDb).pipe(
+      map(() => {
+        this.user.set(user);
+        this.userUtilities.saveUserToStorage(user, this.getUsers);
+        return user;
+      }),
+      catchError((error) => {
+        console.error("Errore durante l'aggiornamento dell'utente", error);
+        throw error;
+      })
+    );
   }
 }

@@ -12,15 +12,14 @@ import {
   distinctUntilChanged,
   filter,
   Subject,
-  take,
   takeUntil,
 } from 'rxjs';
 import { compareObjectCustom } from '../../shared/functions/utilities.function';
-import { AuthService } from '../../shared/services/auth.service';
+import { AuthHandler } from '../../shared/handlers/auth.handler';
 import { LoadingService } from '../../shared/services/loading.service';
 import { generiManga } from './constants/genere.constant';
-import { MangaHandler } from './handlers/manga.handler';
 import { getTabsManga } from './functions/manga.functions';
+import { MangaHandler } from './handlers/manga.handler';
 import { manga_imports } from './imports/manga.imports';
 import { FiltriManga, TabsManga } from './interfaces/filtri.interface';
 import { ListaManga, MangaUtente } from './interfaces/manga.interface';
@@ -46,7 +45,7 @@ export class MangaComponent implements OnInit, OnDestroy {
     [null, false, true].map((condition) => this.getTabClickHandler(condition))
   );
 
-  private authService = inject(AuthService);
+  private authHandler = inject(AuthHandler);
   private loadingService = inject(LoadingService);
   public mangaHandler = inject(MangaHandler);
 
@@ -115,7 +114,7 @@ export class MangaComponent implements OnInit, OnDestroy {
       this.identificaPreferiti(
         savedMangaUtente ? savedMangaUtente : ({} as MangaUtente)
       );
-      this.idUtente = this.authService.user()?.id || null;
+      this.idUtente = this.authHandler.user()?.id || null;
     } else {
       ms.listaManga.length > 0 ? null : this.loadingService.show();
       this.aggiornamentoManga = true;
@@ -124,7 +123,7 @@ export class MangaComponent implements OnInit, OnDestroy {
   }
 
   private sottoscrizioneUtente(): void {
-    const user = this.authService.user();
+    const user = this.authHandler.user();
     this.idUtente = user ? user.id : null;
     this.mangaHandler.inizializzaLista({
       idUtente: this.idUtente,
