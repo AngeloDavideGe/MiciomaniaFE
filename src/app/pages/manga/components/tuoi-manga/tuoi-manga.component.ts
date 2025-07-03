@@ -14,6 +14,7 @@ import { ErrorHttpComponent } from '../../../../shared/components/errorhttp.comp
 import { LoadingService } from '../../../../shared/services/loading.service';
 import { MangaHandler } from '../../handlers/manga.handler';
 import {
+  ListaEUtenti,
   ListaManga,
   MangaUtente,
   SezioniMangaUtente,
@@ -100,22 +101,14 @@ export class TuoiMangaComponent implements OnInit, OnDestroy {
     const ms = this.mangaHandler;
     if (!ms.mangaScaricati) {
       ms.listaManga.length == 0 ? this.loadingService.show() : null;
+
       this.mangaHandler.inizializzaLista({
         idUtente: idUtente,
-        caricaManga: (data) => {
-          this.mangaHandler.caricaMangaEPreferiti({
-            data: data,
-            caricaMangaUtente: () => {
-              localStorage.setItem(
-                'mangaUtente',
-                JSON.stringify(data.manga_utente[0])
-              );
-            },
-            caricaListaManga: (listamanga) => {
-              this.caricaManga(listamanga);
-            },
-          });
+        caricaMangaUtente: (manga_utente: MangaUtente) => {
+          localStorage.setItem('mangaUtente', JSON.stringify(manga_utente));
         },
+        caricaListaManga: (lista_manga: ListaManga[]) =>
+          this.caricaManga(lista_manga),
         caricamentoFallito: () => this.caricamentoFallito(),
       });
     } else {

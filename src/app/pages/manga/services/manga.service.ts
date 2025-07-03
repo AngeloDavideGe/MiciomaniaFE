@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '../../../../environments/environment';
 import {
+  ListaEUtenti,
   ListaManga,
   MangaUtente,
   MangaVolume,
@@ -14,9 +15,7 @@ import {
 export class MangaService {
   constructor(private http: HttpClient) {}
 
-  getListaManga(
-    idUtente: string | null
-  ): Observable<{ lista_manga: ListaManga[]; manga_utente: MangaUtente[] }> {
+  getListaManga(idUtente: string | null): Observable<ListaEUtenti> {
     const url = environment.urlDB + 'rpc/get_all_manga';
     const body = { input_id: idUtente };
     return this.http.post<{

@@ -1,8 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { pipe, take } from 'rxjs';
+import { take } from 'rxjs';
 import {
-  ListaEUtenti,
   ListaManga,
   MangaUtente,
   MangaVolume,
@@ -10,17 +9,24 @@ import {
   SplitMangaUtente,
 } from '../interfaces/manga.interface';
 import { MangaService } from '../services/manga.service';
+import { MangaUtilities } from './utilities/manga.utilities';
 
 @Injectable({ providedIn: 'root' })
 export class MangaHandler {
+  private mangaUtilities = new MangaUtilities();
+
   public listaManga: ListaManga[] = [];
   public mangaScaricati: boolean = false;
   public initialMangaUtente: MangaUtente = {} as MangaUtente;
   public mangaAperti: { nome: string; volumi: MangaVolume[] }[] = [];
   public mangaSelected: { nome: string; completato: boolean } | null = null;
 
-  router = inject(Router);
-  mangaService = inject(MangaService);
+  public voidSplitManga: Function = (): SplitMangaUtente => {
+    return this.mangaUtilities.voidSplitManga();
+  };
+
+  public router = inject(Router);
+  public mangaService = inject(MangaService);
 
   constructor() {
     this.loadMangaFromStorage();
@@ -38,7 +44,8 @@ export class MangaHandler {
 
   inizializzaLista(params: {
     idUtente: string | null;
-    caricaManga: (listaEUtenti: ListaEUtenti) => void;
+    caricaMangaUtente: (manga_utente: MangaUtente) => void;
+    caricaListaManga: (lista_manga: ListaManga[]) => void;
     caricamentoFallito: Function;
   }): void {
     this.mangaService
@@ -47,7 +54,15 @@ export class MangaHandler {
       .subscribe({
         next: (data) => {
           this.mangaScaricati = true;
-          params.caricaManga(data);
+          this.mangaUtilities.caricaMangaEPreferiti({
+            data: data,
+            caricaMangaUtente: () => {
+              params.caricaMangaUtente(data.manga_utente[0]);
+            },
+            caricaListaManga: () => {
+              params.caricaListaManga(data.lista_manga);
+            },
+          });
         },
         error: () => {
           console.error('Lista manga non trovata');
@@ -56,24 +71,35 @@ export class MangaHandler {
       });
   }
 
-  caricaMangaEPreferiti(params: {
-    data: ListaEUtenti;
-    caricaMangaUtente: (mangaUtente: MangaUtente) => void;
-    caricaListaManga: (listaManga: ListaManga[]) => void;
-  }): void {
-    if (params.data.manga_utente) {
-      params.caricaMangaUtente(params.data.manga_utente[0]);
-    }
-    params.caricaListaManga(params.data.lista_manga);
-    localStorage.setItem('listaManga', JSON.stringify(params.data.lista_manga));
-    sessionStorage.setItem('mangaCaricati', JSON.stringify(true));
+  resettaMangaUtente(): void {
+    this.listaManga = [] as ListaManga[];
   }
 
-  createSezioneMangaUtente(mangaUtente: MangaUtente): SezioniMangaUtente {
+  postOrUpdateMangaUtente(mangaUtente: MangaUtente, idUtente: string): void {
+    this.mangaService
+      .postOrUpdateMangaUtente(
+        idUtente,
+        mangaUtente.preferiti,
+        mangaUtente.letti,
+        mangaUtente.completati
+      )
+      .pipe(take(1))
+      .subscribe({
+        next: () => {
+          this.initialMangaUtente = mangaUtente;
+          localStorage.setItem('mangaUtente', JSON.stringify(mangaUtente));
+        },
+        error: (err) => {
+          console.error('Errore modifica utenti', err);
+        },
+      });
+  }
+
+  createSezioneMangaUtente(mu: MangaUtente): SezioniMangaUtente {
     const mangaPerStorage: SplitMangaUtente = {
-      preferiti: mangaUtente.preferiti.split(',').map(Number),
-      letti: mangaUtente.letti.split(',').map(Number),
-      completati: mangaUtente.completati.split(',').map(Number),
+      preferiti: mu.preferiti.split(',').map(Number),
+      letti: mu.letti.split(',').map(Number),
+      completati: mu.completati.split(',').map(Number),
     };
 
     const sezionePerStorage: SezioniMangaUtente = {
@@ -100,18 +126,6 @@ export class MangaHandler {
     return allManga;
   }
 
-  voidSplitManga(): SplitMangaUtente {
-    return {
-      preferiti: [],
-      letti: [],
-      completati: [],
-    };
-  }
-
-  resettaMangaUtente(): void {
-    this.listaManga = [] as ListaManga[];
-  }
-
   private loadMangaFromStorage(): void {
     const listaManga = localStorage.getItem('listaManga');
     if (listaManga) {
@@ -127,25 +141,5 @@ export class MangaHandler {
     if (mangaCaricati) {
       this.mangaScaricati = JSON.parse(mangaCaricati);
     }
-  }
-
-  postOrUpdateMangaUtente(mangaUtente: MangaUtente, idUtente: string): void {
-    this.mangaService
-      .postOrUpdateMangaUtente(
-        idUtente,
-        mangaUtente.preferiti,
-        mangaUtente.letti,
-        mangaUtente.completati
-      )
-      .pipe(take(1))
-      .subscribe({
-        next: () => {
-          this.initialMangaUtente = mangaUtente;
-          localStorage.setItem('mangaUtente', JSON.stringify(mangaUtente));
-        },
-        error: (err) => {
-          console.error('Errore modifica utenti', err);
-        },
-      });
   }
 }

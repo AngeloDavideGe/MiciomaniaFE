@@ -22,7 +22,11 @@ import { getTabsManga } from './functions/manga.functions';
 import { MangaHandler } from './handlers/manga.handler';
 import { manga_imports } from './imports/manga.imports';
 import { FiltriManga, TabsManga } from './interfaces/filtri.interface';
-import { ListaManga, MangaUtente } from './interfaces/manga.interface';
+import {
+  ListaEUtenti,
+  ListaManga,
+  MangaUtente,
+} from './interfaces/manga.interface';
 
 @Component({
   selector: 'app-manga',
@@ -125,20 +129,15 @@ export class MangaComponent implements OnInit, OnDestroy {
   private sottoscrizioneUtente(): void {
     const user = this.authHandler.user();
     this.idUtente = user ? user.id : null;
+
     this.mangaHandler.inizializzaLista({
       idUtente: this.idUtente,
-      caricaManga: (data) => {
-        this.mangaHandler.caricaMangaEPreferiti({
-          data: data,
-          caricaMangaUtente: (mangaUtente) => {
-            this.identificaPreferiti(mangaUtente);
-            this.mangaHandler.initialMangaUtente = mangaUtente;
-          },
-          caricaListaManga: (listamanga) => {
-            this.caricaManga(listamanga);
-          },
-        });
+      caricaMangaUtente: (manga_utente: MangaUtente) => {
+        this.identificaPreferiti(manga_utente);
+        this.mangaHandler.initialMangaUtente = manga_utente;
       },
+      caricaListaManga: (lista_manga: ListaManga[]) =>
+        this.caricaManga(lista_manga),
       caricamentoFallito: () => this.caricamentoFallito(),
     });
   }
