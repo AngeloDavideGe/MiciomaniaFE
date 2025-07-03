@@ -12,7 +12,7 @@ import { NavigationEnd, Router } from '@angular/router';
 import 'bootstrap'; // Importa Bootstrap JS (incluso Popper.js)
 import { distinctUntilChanged, filter, Subject, take, takeUntil } from 'rxjs';
 import { User, UserParams } from '../../shared/interfaces/users.interface';
-import { ElementiUtenteUtilities } from '../../shared/utilities/elementiUtente-utilities.class';
+import { ElementiUtenteUtilities } from '../../shared/utilities/elementiUtente.utilities';
 import { getConfirmParams } from './functions/home.functions';
 import { home_imports } from './imports/home.imports';
 import { AuthHandler } from '../../shared/handlers/auth.handler';

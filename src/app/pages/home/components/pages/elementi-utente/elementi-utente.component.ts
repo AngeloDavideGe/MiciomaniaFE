@@ -9,8 +9,8 @@ import {
   Proposta,
 } from '../../../../../shared/interfaces/elementiUtente.interface';
 import { User } from '../../../../../shared/interfaces/users.interface';
-import { ElementiUtenteUtilities } from '../../../../../shared/utilities/elementiUtente-utilities.class';
-import { MangaSongUtilities } from '../../../../../shared/utilities/mangaSong-utilities';
+import { ElementiUtenteUtilities } from '../../../../../shared/utilities/elementiUtente.utilities';
+import { MangaSongUtilities } from '../../../../../shared/utilities/mangaSong.utilities';
 import { elementi_utente_imports } from './imports/elementi-utebte.imports';
 
 @Component({

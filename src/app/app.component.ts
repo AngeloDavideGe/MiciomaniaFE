@@ -4,7 +4,7 @@ import { RouterOutlet } from '@angular/router';
 import { MiniPlayerClass } from './core/class/mini-player.class';
 import { ChatComponent } from './core/components/chat/chat.component';
 import { MiniPlayerComponent } from './core/components/mini-player/mini-player.component';
-import { CursorClass } from './shared/class/cursor.class';
+import { CursorUtilities } from './shared/utilities/cursor.utilities';
 
 @Component({
   selector: 'app-root',
@@ -29,10 +29,10 @@ import { CursorClass } from './shared/class/cursor.class';
   `,
 })
 export class AppComponent implements OnInit {
-  private cursorClass = new CursorClass();
+  private cursorUtilities = new CursorUtilities();
   public miniPlayerClass = inject(MiniPlayerClass);
 
   ngOnInit(): void {
-    this.cursorClass.setCursoreByStorage();
+    this.cursorUtilities.setCursoreByStorage();
   }
 }

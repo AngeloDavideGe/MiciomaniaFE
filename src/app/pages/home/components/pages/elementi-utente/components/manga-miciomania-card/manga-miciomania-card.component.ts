@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { MangaSongUtilities } from '../../../../../../../shared/utilities/mangaSong-utilities';
+import { MangaSongUtilities } from '../../../../../../../shared/utilities/mangaSong.utilities';
 import {
   MangaMiciomania,
   Proposta,

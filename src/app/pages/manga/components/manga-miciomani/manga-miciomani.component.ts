@@ -5,7 +5,7 @@ import { MangaMiciomania } from '../../../../shared/interfaces/elementiUtente.in
 import { LoadingService } from '../../../../shared/services/loading.service';
 import { MangaMiciomaniService } from '../../services/mangaMiciomani.service';
 import { Router } from '@angular/router';
-import { MangaSongUtilities } from '../../../../shared/utilities/mangaSong-utilities';
+import { MangaSongUtilities } from '../../../../shared/utilities/mangaSong.utilities';
 
 @Component({
   selector: 'app-manga-miciomani',

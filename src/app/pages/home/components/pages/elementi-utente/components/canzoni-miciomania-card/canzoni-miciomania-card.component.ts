@@ -3,7 +3,7 @@ import {
   CanzoniMiciomania,
   Proposta,
 } from '../../../../../../../shared/interfaces/elementiUtente.interface';
-import { MangaSongUtilities } from '../../../../../../../shared/utilities/mangaSong-utilities';
+import { MangaSongUtilities } from '../../../../../../../shared/utilities/mangaSong.utilities';
 
 @Component({
   selector: 'app-canzoni-miciomania-card',

@@ -44,9 +44,8 @@ export class IscrizioneComponent extends WizardBase {
           this.setLocalStorage(this.user);
           this.nextCallIscrizione();
         },
-        error: (err) => {
-          this.errorUpdateUtente(err, 'Errore nella modifica dell utente');
-        },
+        error: (err) =>
+          this.errorUpdateUtente(err, 'Errore modifica dell utente'),
       });
   }
 

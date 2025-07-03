@@ -1,6 +1,6 @@
 import { NgFor } from '@angular/common';
 import { Component } from '@angular/core';
-import { CursorClass } from '../../../../shared/class/cursor.class';
+import { CursorUtilities } from '../../../../shared/utilities/cursor.utilities';
 
 @Component({
   selector: 'app-cursore',
@@ -55,7 +55,7 @@ import { CursorClass } from '../../../../shared/class/cursor.class';
   `,
 })
 export class CursoreComponent {
-  private cursorClass = new CursorClass();
+  private cursorUtilities = new CursorUtilities();
   public cursori: { nome: string; iconClass: string }[] = [
     {
       nome: 'Foglia',
@@ -88,10 +88,10 @@ export class CursoreComponent {
   }
 
   cambiaCursore(iconClass: string, size: number = 32) {
-    this.cursorClass.setCursoreByIcona(this.getUrlIcona(iconClass), size);
+    this.cursorUtilities.setCursoreByIcona(this.getUrlIcona(iconClass), size);
   }
 
   rimuoviCursore(): void {
-    this.cursorClass.removeCursor();
+    this.cursorUtilities.removeCursor();
   }
 }

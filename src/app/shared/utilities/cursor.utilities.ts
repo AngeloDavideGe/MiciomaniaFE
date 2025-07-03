@@ -1,6 +1,6 @@
 import { inject, Renderer2 } from '@angular/core';
 
-export class CursorClass {
+export class CursorUtilities {
   private renderer = inject(Renderer2);
 
   private setStyle(cursor: string, url: string): void {

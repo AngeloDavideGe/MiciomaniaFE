@@ -1,6 +1,6 @@
-import { UserParams } from '../../shared/interfaces/users.interface';
+import { User, UserParams } from '../../interfaces/users.interface';
 
-export class UsersMapClass {
+export class UsersUtilities {
   public mapUserMessage(users: UserParams[]): {
     [id: string]: { nome: string; pic: string };
   } {
@@ -18,5 +18,14 @@ export class UsersMapClass {
       }
       return map;
     }, {} as { [id: string]: { nome: string; pic: string } });
+  }
+
+  public converUserParams(user: User): UserParams {
+    return {
+      id: user.id,
+      nome: user.credenziali.nome,
+      profilePic: user.credenziali.profilePic,
+      ruolo: user.credenziali.ruolo,
+    } as UserParams;
   }
 }

@@ -143,11 +143,8 @@ export class ChangePicComponent {
     this.authHandler.profiloHandler.uploadProfileImage({
       selectedFile: this.selectedFile,
       user: user,
-      tapCall: (url: string) => {
-        user.credenziali.profilePic = url;
-      },
-      switcMapCall: (user: User) =>
-        this.authHandler.authService.updateUser(user),
+      tapCall: (url: string) => (user.credenziali.profilePic = url),
+      switcMapCall: (user: User) => this.authHandler.updateUser(user),
       nextCall: (data: User) => this.completeEdit(data),
       errorCall: (err: Error) => this.errorEdit(err),
     });

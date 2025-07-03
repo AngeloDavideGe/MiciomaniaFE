@@ -87,9 +87,7 @@ export class ProfiloHandler {
       .uploadProfileImage(params.selectedFile!, params.user.id)
       .pipe(
         take(1),
-        tap((url: string) => {
-          params.user.credenziali.profilePic = url;
-        }),
+        tap((url: string) => params.tapCall(url)),
         switchMap(() => params.switcMapCall(params.user))
       )
       .subscribe({

@@ -1,17 +1,11 @@
 import { computed, inject, Injectable, Signal, signal } from '@angular/core';
 import { catchError, finalize, map, Observable, of, take } from 'rxjs';
-import { UsersMapClass } from '../../core/class/users-map.class';
 import { ProfiloHandler } from '../../pages/home/handlers/profilo.handler';
-import {
-  Credenziali,
-  Iscrizione,
-  Profile,
-  User,
-  UserParams,
-} from '../interfaces/users.interface';
+import { User, UserParams } from '../interfaces/users.interface';
 import { AuthService } from '../services/auth.service';
 import { ConfirmService } from '../services/confirm.service';
-import { UserUtilities } from '../utilities/user-utilities.class';
+import { UserUtilities } from './utilities/user.utilities';
+import { UsersUtilities } from './utilities/users.utilities';
 
 @Injectable({
   providedIn: 'root',
@@ -20,9 +14,17 @@ export class AuthHandler {
   public confirmService = inject(ConfirmService);
   public authService = inject(AuthService);
   public profiloHandler = inject(ProfiloHandler);
+
   private userUtilities = new UserUtilities();
-  private usersMapClass = new UsersMapClass();
+  private usersUtilities = new UsersUtilities();
+
   public profiliPronti: boolean = false;
+  public converUserParams: Function = (user: User): UserParams => {
+    return this.usersUtilities.converUserParams(user);
+  };
+  public getVoidUser: Function = (): User => {
+    return this.userUtilities.getVoidUser();
+  };
 
   public user = signal<User | null>(null);
   public users = signal<UserParams[]>([]);
@@ -31,7 +33,7 @@ export class AuthHandler {
       nome: string;
       pic: string;
     };
-  }> = computed(() => this.usersMapClass.mapUserMessage(this.users()));
+  }> = computed(() => this.usersUtilities.mapUserMessage(this.users()));
 
   constructor() {
     this.userUtilities.loadUserFromStorage(this.user, this.users());
@@ -49,9 +51,7 @@ export class AuthHandler {
       )
       .subscribe({
         next: (data) => params.nextCall(data),
-        error: (error) => {
-          console.error('errore nella lista utenti', error);
-        },
+        error: (error) => console.error('errore nella lista utenti', error),
       });
   }
 
@@ -75,23 +75,6 @@ export class AuthHandler {
           params.confirmFunc();
         }
       });
-  }
-
-  public converUserParams(user: User): UserParams {
-    return {
-      id: user.id,
-      nome: user.credenziali.nome,
-      profilePic: user.credenziali.profilePic,
-      ruolo: user.credenziali.ruolo,
-    } as UserParams;
-  }
-
-  public getVoidUser(): User {
-    return {
-      credenziali: {} as Credenziali,
-      profile: {} as Profile,
-      iscrizione: {} as Iscrizione,
-    } as User;
   }
 
   public logout(): void {

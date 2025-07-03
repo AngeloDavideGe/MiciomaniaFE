@@ -1,6 +1,12 @@
 import { WritableSignal } from '@angular/core';
-import { Ruolo } from '../../pages/auth/enums/users.enum';
-import { User, UserParams } from '../interfaces/users.interface';
+import { Ruolo } from '../../../pages/auth/enums/users.enum';
+import {
+  Credenziali,
+  Iscrizione,
+  Profile,
+  User,
+  UserParams,
+} from '../../interfaces/users.interface';
 
 export class UserUtilities {
   public mapUserByDb(db: any): User {
@@ -78,5 +84,13 @@ export class UserUtilities {
     localStorage.removeItem('user');
     localStorage.removeItem('mangaUtente');
     sessionStorage.removeItem('pubblicazioni');
+  }
+
+  public getVoidUser(): User {
+    return {
+      credenziali: {} as Credenziali,
+      profile: {} as Profile,
+      iscrizione: {} as Iscrizione,
+    } as User;
   }
 }

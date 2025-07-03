@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { take } from 'rxjs';
 import { CanzoniMiciomania } from '../../shared/interfaces/elementiUtente.interface';
 import { LoadingService } from '../../shared/services/loading.service';
-import { MangaSongUtilities } from '../../shared/utilities/mangaSong-utilities';
+import { MangaSongUtilities } from '../../shared/utilities/mangaSong.utilities';
 import { SongService } from './services/song.service';
 
 @Component({

@@ -1,12 +1,12 @@
 import { inject } from '@angular/core';
 import { finalize, take } from 'rxjs';
 import { User } from '../../../../../../shared/interfaces/users.interface';
-import { AuthService } from '../../../../../../shared/services/auth.service';
 import { LoadingService } from '../../../../../../shared/services/loading.service';
 import { ProfiloHandler } from '../../../../handlers/profilo.handler';
+import { AuthHandler } from '../../../../../../shared/handlers/auth.handler';
 
 export abstract class TabProfiloBase {
-  protected authService = inject(AuthService);
+  protected authHandler = inject(AuthHandler);
   protected profiloHandler = inject(ProfiloHandler);
   private loadingService = inject(LoadingService);
 
@@ -15,7 +15,7 @@ export abstract class TabProfiloBase {
     updateCall: (user: User) => void;
   }): void {
     this.loadingService.show();
-    this.authService
+    this.authHandler
       .updateUser(params.user)
       .pipe(
         take(1),
@@ -23,8 +23,7 @@ export abstract class TabProfiloBase {
       )
       .subscribe({
         next: () => params.updateCall(params.user),
-        error: (err) =>
-          this.errorEdit(err, 'Errore nella modifica del profilo'),
+        error: (err) => this.errorEdit(err, 'Errore modifica del profilo'),
       });
   }
 
