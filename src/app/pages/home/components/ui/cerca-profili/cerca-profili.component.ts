@@ -1,7 +1,7 @@
 import { NgFor, NgIf } from '@angular/common';
 import { Component, Input, OnDestroy, OnInit, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { debounceTime, of, Subject, switchMap, takeUntil } from 'rxjs';
+import { debounceTime, Subject, takeUntil } from 'rxjs';
 import { UserParams } from '../../../../../shared/interfaces/users.interface';
 
 @Component({
@@ -38,14 +38,8 @@ export class CercaProfiliComponent implements OnInit, OnDestroy {
 
   private sottoscrizioneFiltroUtenti(): void {
     this.searchQuery$
-      .pipe(
-        takeUntil(this.destroy$),
-        debounceTime(100),
-        switchMap((searchQuery) => of(searchQuery))
-      )
-      .subscribe((searchQuery) => {
-        this.applicaFiltroUtenti(searchQuery);
-      });
+      .pipe(takeUntil(this.destroy$), debounceTime(100))
+      .subscribe((searchQuery) => this.applicaFiltroUtenti(searchQuery));
   }
 
   private applicaFiltroUtenti(searchQuery: string): void {

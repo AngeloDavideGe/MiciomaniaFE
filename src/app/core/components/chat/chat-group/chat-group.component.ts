@@ -2,19 +2,20 @@ import { DatePipe, NgFor, NgIf } from '@angular/common';
 import {
   AfterViewChecked,
   Component,
+  computed,
   effect,
   ElementRef,
   EventEmitter,
   inject,
   Input,
-  OnDestroy,
   OnInit,
   Output,
+  Signal,
   signal,
   ViewChild,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { Subject, take, takeUntil } from 'rxjs';
+import { take } from 'rxjs';
 import { formatDataCustom } from '../../../../shared/functions/utilities.function';
 import { AuthHandler } from '../../../../shared/handlers/auth.handler';
 import { User } from '../../../../shared/interfaces/users.interface';
@@ -28,15 +29,16 @@ import { ChatGroupService } from './../services/chat-group.service';
   templateUrl: './chat-group.component.html',
   styleUrl: './chat-group.component.scss',
 })
-export class ChatGroupComponent implements OnInit, AfterViewChecked, OnDestroy {
+export class ChatGroupComponent implements OnInit, AfterViewChecked {
   public idUtente: string = '';
   public newMessage: string = '';
   private evitaSpam: boolean = true;
   private initialLoad: boolean = true;
   public spinner = signal<boolean>(false);
-  public messages = signal<Messaggio[]>([]);
+  public messages: Signal<Messaggio[]> = computed(() =>
+    this.chatService.messages()
+  );
   public user: User | null = null;
-  private destroy$ = new Subject<void>();
 
   private chatService = inject(ChatGroupService);
 
@@ -59,11 +61,6 @@ export class ChatGroupComponent implements OnInit, AfterViewChecked, OnDestroy {
         this.initialLoad = false;
       }, 200);
     }
-  }
-
-  ngOnDestroy() {
-    this.destroy$.next();
-    this.destroy$.complete();
   }
 
   private inizializeChat(): void {
@@ -91,7 +88,6 @@ export class ChatGroupComponent implements OnInit, AfterViewChecked, OnDestroy {
 
   private loadMessaggiEUtenti(): void {
     this.loadMessaggi();
-    this.sottoscrizioneMessaggi();
   }
 
   sendMessage() {
@@ -131,12 +127,5 @@ export class ChatGroupComponent implements OnInit, AfterViewChecked, OnDestroy {
           error: (err) => console.error('errore load message', err),
         });
     }
-  }
-
-  private sottoscrizioneMessaggi(): void {
-    this.chatService.messages$.pipe(takeUntil(this.destroy$)).subscribe({
-      next: (mess) => this.messages.set(mess),
-      error: (err) => console.error('errore nel recupero messaggi', err),
-    });
   }
 }

@@ -28,12 +28,11 @@ import { Router } from '@angular/router';
   imports: admin_imports,
   templateUrl: './admin.component.html',
 })
-export class AdminComponent implements OnInit, OnDestroy {
+export class AdminComponent implements OnInit {
   public user: User | null = null;
   public editAdmin = signal<boolean>(false);
   public userEdit: UserParams = {} as UserParams;
   public ruoli = Object.values(Ruolo);
-  private destroy$ = new Subject<void>();
   public userMap: WritableSignal<{ [ruolo: string]: UserParams[] }> = signal(
     {}
   );
@@ -49,11 +48,6 @@ export class AdminComponent implements OnInit, OnDestroy {
       this.userMapByRuolo[ruolo] = computed(() => this.userMap()[ruolo] ?? []);
     });
     this.loadUtenti();
-  }
-
-  ngOnDestroy() {
-    this.destroy$.next();
-    this.destroy$.complete();
   }
 
   private loadUtenti(): void {
@@ -77,7 +71,7 @@ export class AdminComponent implements OnInit, OnDestroy {
   private saveUsers(data: UserParams[]): void {
     let allUsers: UserParams[] = this.authHandler.users();
     allUsers = data.filter((x) => x.id != this.user?.id);
-    this.authHandler.setMuteUsers = allUsers;
+    this.authHandler.users.set(allUsers);
     sessionStorage.setItem('users', JSON.stringify(allUsers));
   }
 
@@ -131,7 +125,7 @@ export class AdminComponent implements OnInit, OnDestroy {
     if (globalUserIndex !== -1) {
       const allUsers: UserParams[] = this.authHandler.users();
       allUsers[globalUserIndex].ruolo = user.nuovoRuolo;
-      this.authHandler.setMuteUsers = allUsers;
+      this.authHandler.users.set(allUsers);
       sessionStorage.setItem('users', JSON.stringify(allUsers));
     }
 

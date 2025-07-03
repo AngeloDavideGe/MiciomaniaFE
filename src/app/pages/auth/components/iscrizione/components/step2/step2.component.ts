@@ -54,10 +54,13 @@ export class Step2Component implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.inizializzaForm();
     this.associaUtenteFunc(this.atuthHandler.user());
-    this.sottoscrizioneForm();
-    this.pulsantePremutoFunc();
 
     this.profileForm.get('team')?.updateValueAndValidity();
+  }
+
+  ngAfterViewInit(): void {
+    this.sottoscrizioneForm();
+    this.pulsantePremutoFunc();
   }
 
   ngOnDestroy(): void {
@@ -140,9 +143,7 @@ export class Step2Component implements OnInit, OnDestroy {
     this.wizardService
       .getAvantiStep2Premuto$()
       .pipe(takeUntil(this.destroy$))
-      .subscribe(() => {
-        this.pulsantePremuto = true;
-      });
+      .subscribe(() => (this.pulsantePremuto = true));
   }
 
   private associaUtente(nome: string, email: string): void {

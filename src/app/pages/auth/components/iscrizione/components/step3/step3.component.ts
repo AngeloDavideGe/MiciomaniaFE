@@ -27,9 +27,7 @@ export class Step3Component implements AfterViewInit, OnDestroy {
   ngAfterViewInit(): void {
     this.lineeGuidaAccettate
       .pipe(takeUntil(this.destroy$))
-      .subscribe((accettate) => {
-        this.lineeGuidaEvent.emit(accettate);
-      });
+      .subscribe((accettate) => this.lineeGuidaEvent.emit(accettate));
   }
 
   ngOnDestroy(): void {

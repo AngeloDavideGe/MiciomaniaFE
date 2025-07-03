@@ -67,9 +67,7 @@ export class SignInComponent implements AfterViewInit, OnDestroy {
   private sottoscrizioneForm(): void {
     this.signInForm.statusChanges
       .pipe(takeUntil(this.destroy$))
-      .subscribe(() => {
-        this.clickRegistrati = false;
-      });
+      .subscribe(() => (this.clickRegistrati = false));
   }
 
   private nextSignIn(data: any): void {

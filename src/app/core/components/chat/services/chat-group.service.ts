@@ -1,15 +1,15 @@
-import { Injectable } from '@angular/core';
-import { BehaviorSubject, from, Observable } from 'rxjs';
-import { map, shareReplay, tap } from 'rxjs/operators';
+import { Injectable, signal } from '@angular/core';
+import { from, Observable } from 'rxjs';
+import { map, tap } from 'rxjs/operators';
 import { environment } from '../../../../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ChatGroupService {
-  private messagesSubject = new BehaviorSubject<any[]>([]);
   public messaggiCaricatiBool: boolean = false;
-  public messages$ = this.messagesSubject.asObservable().pipe(shareReplay(1));
+  public messages = signal<any[]>([]);
+  private readonly maxMessages = 10;
 
   constructor() {
     this.listenForMessages();
@@ -21,16 +21,18 @@ export class ChatGroupService {
         .from('messaggi')
         .select('*')
         .eq('chat_id', chatId)
-        .order('id', { ascending: true })
+        .order('id', { ascending: false })
+        .limit(this.maxMessages)
     ).pipe(
       map(({ data, error }) => {
         if (error) {
           console.error('Errore nel caricamento dei messaggi:', error);
           return [];
         }
-        this.messagesSubject.next(data || []);
+        const limitedMessages = (data || []).reverse();
+        this.messages.set(limitedMessages);
         this.messaggiCaricatiBool = true;
-        return data || [];
+        return limitedMessages;
       })
     );
   }
@@ -66,8 +68,14 @@ export class ChatGroupService {
         'postgres_changes',
         { event: 'INSERT', schema: 'public', table: 'messaggi' },
         (payload) => {
-          const currentMessages = this.messagesSubject.value;
-          this.messagesSubject.next([...currentMessages, payload.new]);
+          const currentMessages = this.messages();
+          currentMessages.push(payload.new);
+
+          if (currentMessages.length > this.maxMessages) {
+            this.messages.set(currentMessages.slice(-this.maxMessages));
+          } else {
+            this.messages.set([...currentMessages]);
+          }
         }
       )
       .subscribe();

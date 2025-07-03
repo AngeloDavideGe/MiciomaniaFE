@@ -1,10 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Subject, take } from 'rxjs';
+import { Router } from '@angular/router';
+import { take } from 'rxjs';
+import { AuthHandler } from '../../../../shared/handlers/auth.handler';
 import { MangaHandler } from '../../../manga/handlers/manga.handler';
 import { auth_shared_imports } from '../../shared/auth-shared.import';
-import { AuthHandler } from '../../../../shared/handlers/auth.handler';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -15,14 +15,12 @@ import { Router } from '@angular/router';
 export class LoginComponent {
   public loginForm: FormGroup;
   public loginError = false;
-  private destroy$ = new Subject<void>();
 
-  constructor(
-    private formBuilder: FormBuilder,
-    private mangaHandler: MangaHandler,
-    private authHandler: AuthHandler,
-    public router: Router
-  ) {
+  private mangaHandler = inject(MangaHandler);
+  private authHandler = inject(AuthHandler);
+  public router = inject(Router);
+
+  constructor(private formBuilder: FormBuilder) {
     this.loginForm = this.formBuilder.group({
       email: [
         this.getEmailRegistrata() || '',
@@ -34,11 +32,6 @@ export class LoginComponent {
 
   get f() {
     return this.loginForm.controls;
-  }
-
-  ngOnDestroy(): void {
-    this.destroy$.next();
-    this.destroy$.complete();
   }
 
   onSubmit() {

@@ -30,8 +30,8 @@ import { Component, EventEmitter, Output } from '@angular/core';
   `,
 })
 export class LineeGuidaComponent {
-  lineeGuidaAccettate = false;
-  lineeGuida = [
+  private lineeGuidaAccettate: boolean = false;
+  public lineeGuida: { frase: string; checked: boolean }[] = [
     {
       frase:
         'Seguire le pratiche di sicurezza per proteggere i dati sensibili.',

@@ -22,26 +22,16 @@ export class AuthHandler {
   public profiloHandler = inject(ProfiloHandler);
   private userUtilities = new UserUtilities();
   private usersMapClass = new UsersMapClass();
-  private muteUsers: boolean = false;
   public profiliPronti: boolean = false;
 
   public user = signal<User | null>(null);
   public users = signal<UserParams[]>([]);
-  public filteredUsers: Signal<UserParams[]> = computed(() =>
-    this.muteUsers ? [] : this.users()
-  );
   public userMessageMap: Signal<{
     [id: string]: {
       nome: string;
       pic: string;
     };
-  }> = computed(() => this.usersMapClass.mapUserMessage(this.filteredUsers()));
-
-  set setMuteUsers(users: UserParams[]) {
-    this.muteUsers = true;
-    this.users.set(users);
-    this.muteUsers = false;
-  }
+  }> = computed(() => this.usersMapClass.mapUserMessage(this.users()));
 
   constructor() {
     this.userUtilities.loadUserFromStorage(this.user, this.users());
