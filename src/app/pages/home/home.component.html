@@ -1,4 +1,4 @@
-<ng-container *ngIf="isHome()">
+<ng-container *ngIf="isHome$ | async">
   <app-navbar
     [credenziali]="user.credenziali"
     [inizialiUser]="inizialiUser"

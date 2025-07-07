@@ -2,20 +2,26 @@ import {
   Component,
   effect,
   inject,
-  Injector,
   OnDestroy,
   OnInit,
-  runInInjectionContext,
   signal,
 } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import 'bootstrap'; // Importa Bootstrap JS (incluso Popper.js)
-import { distinctUntilChanged, filter, Subject, take, takeUntil } from 'rxjs';
+import {
+  filter,
+  map,
+  Observable,
+  startWith,
+  Subject,
+  take,
+  takeUntil,
+} from 'rxjs';
+import { AuthHandler } from '../../shared/handlers/auth.handler';
 import { User, UserParams } from '../../shared/interfaces/users.interface';
 import { ElementiUtenteUtilities } from '../../shared/utilities/elementiUtente.utilities';
 import { getConfirmParams } from './functions/home.functions';
 import { home_imports } from './imports/home.imports';
-import { AuthHandler } from '../../shared/handlers/auth.handler';
 
 @Component({
   selector: 'app-home',
@@ -27,7 +33,6 @@ export class HomeComponent implements OnInit, OnDestroy {
   public authHandler = inject(AuthHandler);
   public router = inject(Router);
 
-  public isHome = signal<boolean>(false);
   public user: User = {} as User;
   public inizialiUser: string = '';
   private punteggioCanzoni: number = 50;
@@ -37,25 +42,50 @@ export class HomeComponent implements OnInit, OnDestroy {
   public goToProfilo: Function = (path: string) => this.router.navigate([path]);
   private elementiUtenteUtilities = new ElementiUtenteUtilities();
 
-  constructor(private injector: Injector) {
-    if (this.router.url === '/home') {
-      effect(() => {
-        const user: User | null = this.authHandler.user();
-        this.handleUserSubscription(user);
-      });
-    }
-    this.routerEvents();
+  public isHome$: Observable<boolean> = this.router.events.pipe(
+    filter((event): event is NavigationEnd => event instanceof NavigationEnd),
+    startWith({ url: this.router.url } as NavigationEnd),
+    map((event) => event.url == '/home')
+  );
+
+  constructor() {
+    effect(() => {
+      const user = this.authHandler.user();
+      this.handleUserSubscription(user);
+    });
   }
 
   ngOnInit(): void {
-    if (this.router.url === '/home') {
-      this.isHome.set(true);
+    this.isHome$.pipe(takeUntil(this.destroy$)).subscribe((isHome) => {
+      if (isHome) {
+        this.loadUsers();
+      }
+    });
+
+    const user = this.authHandler.user();
+    if (user && user.id) {
+      this.loadElementiUtente(user.id);
     }
   }
 
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
+  }
+
+  private loadUsers(): void {
+    if (this.authHandler.users().length === 0) {
+      this.authHandler.sottoscrizioneUtenti({
+        nextCall: (data) => this.handleUsersSubscription(data),
+      });
+    }
+  }
+
+  private loadElementiUtente(idUtente: string): void {
+    this.elementiUtenteUtilities
+      .getElementiUtente(idUtente, true)
+      .pipe(take(1))
+      .subscribe();
   }
 
   logout(): void {
@@ -82,43 +112,12 @@ export class HomeComponent implements OnInit, OnDestroy {
     sessionStorage.setItem('users', JSON.stringify(allUser));
   }
 
-  private routerEvents(): void {
-    this.router.events
-      .pipe(
-        takeUntil(this.destroy$),
-        filter((e): e is NavigationEnd => e instanceof NavigationEnd),
-        distinctUntilChanged((a, b) => a.url === b.url)
-      )
-      .subscribe((event) => {
-        this.componenteAperto.set('');
-
-        if (event.url === '/home') {
-          this.isHome.set(true);
-
-          runInInjectionContext(this.injector, () => {
-            effect(() => this.handleUserSubscription(this.authHandler.user()));
-          });
-        } else {
-          this.isHome.set(false);
-        }
-      });
-  }
-
   private handleUserSubscription(user: User | null): void {
     if (user) {
       this.user = user;
       this.inizialiUser = this.calculateUserInitials(user.credenziali.nome);
-      this.elementiUtenteUtilities
-        .getElementiUtente(user.id, false)
-        .pipe(take(1))
-        .subscribe();
     } else {
       this.setAnonymousUser();
-    }
-    if (this.authHandler.users().length === 0) {
-      this.authHandler.sottoscrizioneUtenti({
-        nextCall: (data) => this.handleUsersSubscription(data),
-      });
     }
   }
 
