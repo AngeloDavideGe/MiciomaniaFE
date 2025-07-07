@@ -21,10 +21,13 @@ export class ElementiUtenteService {
   constructor(private http: HttpClient) {}
 
   getElementiUtente(idUtente: string): Observable<ElementiUtente> {
-    const apiUrl = `${environment.urlBE}user_miciomania/lista_elementi_utente?IdUtente=${idUtente}`;
+    const apiUrl = `${environment.urlDB2}rpc/get_elementi_utente`;
+    const body = {
+      id_utente: idUtente,
+    };
 
-    return this.http.get<ElementiUtente>(apiUrl, {
-      headers: environment.headerRailway,
+    return this.http.post<ElementiUtente>(apiUrl, body, {
+      headers: environment.headerSupabase2,
     });
   }
 }

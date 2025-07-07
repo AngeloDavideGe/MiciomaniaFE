@@ -18,9 +18,15 @@ export const headers = {
     'Content-Type': 'application/json',
   }),
 
-  Railway: new HttpHeaders({
-    apikey: configUrl.APIKEY_RAILWAY,
-    Authorization: `Bearer ${configUrl.APIKEY_RAILWAY}`,
+  Supabase2: new HttpHeaders({
+    apikey: configUrl.ANONKEY_SUPABASE2,
+    Authorization: `Bearer ${configUrl.ANONKEY_SUPABASE2}`,
+    'Content-Type': 'application/json',
+  }),
+
+  BEMiciomania: new HttpHeaders({
+    apikey: configUrl.APIKEY_BE_MICIOMANIA,
+    Authorization: `Bearer ${configUrl.APIKEY_BE_MICIOMANIA}`,
   }),
 };
 

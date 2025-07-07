@@ -11,7 +11,7 @@ export class PropostaService {
   constructor(private http: HttpClient) {}
 
   public postProposta(proposta: Proposta): Observable<Proposta> {
-    const url = environment.urlBE + 'proposte/invio_proposta';
+    const url = environment.urlDB2 + 'proposte/invio_proposta';
 
     const formData = new FormData();
     formData.append('Tipo', proposta.tipo);
@@ -22,7 +22,7 @@ export class PropostaService {
     formData.append('Copertina', '');
 
     return this.http.post<Proposta>(url, formData, {
-      headers: environment.headerRailway,
+      headers: environment.headerSupabase2,
     });
   }
 }

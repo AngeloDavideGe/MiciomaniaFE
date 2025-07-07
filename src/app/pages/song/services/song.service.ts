@@ -16,10 +16,10 @@ export class SongService {
   }
 
   getListaCanzoniMiciomani(): Observable<CanzoniMiciomania[]> {
-    const url = environment.urlBE + 'canzoni_miciomania/lista_canzoni';
+    const url = environment.urlDB2 + 'rpc/get_all_canzoni';
 
     return this.http.get<CanzoniMiciomania[]>(url, {
-      headers: environment.headerRailway,
+      headers: environment.headerSupabase2,
     });
   }
 

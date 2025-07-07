@@ -16,10 +16,10 @@ export class MangaMiciomaniService {
   }
 
   getListaMangaMiciomani(): Observable<MangaMiciomania[]> {
-    const url = environment.urlBE + 'manga_miciomania/lista_manga';
+    const url = environment.urlDB2 + 'rpc/get_all_manga';
 
-    return this.http.get<MangaMiciomania[]>(url, {
-      headers: environment.headerRailway,
+    return this.http.post<MangaMiciomania[]>(url, {
+      headers: environment.headerSupabase2,
     });
   }
 

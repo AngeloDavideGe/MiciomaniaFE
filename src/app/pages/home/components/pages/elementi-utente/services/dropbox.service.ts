@@ -21,7 +21,7 @@ export class DropboxService {
   getDropboxToken(): Observable<DropboxResponse> {
     const url = `${environment.urlBE}dropbox/get_access_token`;
     return this.http.get<DropboxResponse>(url, {
-      headers: environment.headerRailway,
+      headers: environment.headerBEMiciomania,
     });
   }
 
