@@ -219,7 +219,6 @@
     <app-new-tweet
       *ngIf="modaleApertaTweet"
       [idUtente]="profilo.user.id!"
-      [profiloHandler]="authHandler.profiloHandler"
       (chiudi)="modaleApertaTweet = false"
     ></app-new-tweet>
 
@@ -231,7 +230,6 @@
 
     <app-change-pic
       *ngIf="modaleApertaChangePic"
-      [authHandler]="authHandler"
       (chiudi)="modaleApertaChangePic = false"
     ></app-change-pic>
   </ng-container>

@@ -35,9 +35,9 @@ export class CreaPropostaComponent implements OnInit {
   private fb = inject(FormBuilder);
   private dropboxService = inject(DropboxService);
   private propostaService = inject(PropostaService);
+  private elementiUtenteService = inject(ElementiUtenteService);
 
   @Input() userId!: string;
-  @Input() elementiUtenteService!: ElementiUtenteService;
   @Input() tornaAllaHome!: Function;
   @Output() chiudi = new EventEmitter<void>();
 

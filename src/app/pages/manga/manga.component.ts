@@ -1,12 +1,13 @@
 import {
   Component,
+  effect,
   HostListener,
   inject,
   OnDestroy,
   signal,
 } from '@angular/core';
 import { NavigationEnd } from '@angular/router';
-import { BehaviorSubject, filter, map, Observable, startWith, tap } from 'rxjs';
+import { filter, map, Observable, startWith, tap } from 'rxjs';
 import { compareObjectCustom } from '../../shared/functions/utilities.function';
 import { AuthHandler } from '../../shared/handlers/auth.handler';
 import { LoadingService } from '../../shared/services/loading.service';
@@ -14,7 +15,7 @@ import { generiManga } from './constants/genere.constant';
 import { getTabsManga } from './functions/manga.functions';
 import { MangaHandler } from './handlers/manga.handler';
 import { manga_imports } from './imports/manga.imports';
-import { FiltriManga, TabsManga } from './interfaces/filtri.interface';
+import { TabsManga } from './interfaces/filtri.interface';
 import { ListaManga, MangaUtente } from './interfaces/manga.interface';
 
 @Component({
@@ -24,7 +25,11 @@ import { ListaManga, MangaUtente } from './interfaces/manga.interface';
   templateUrl: './manga.component.html',
 })
 export class MangaComponent implements OnDestroy {
-  public filterSelect: FiltriManga = {} as FiltriManga;
+  public filterSelect = {
+    genere: 'Qualsiasi',
+    autore: signal<string>(''),
+    nome: signal<string>(''),
+  };
   public mangaPreferiti: boolean[] = [];
   public tabBoolean: boolean | null = null;
   public erroreHttp: boolean = false;
@@ -44,8 +49,16 @@ export class MangaComponent implements OnDestroy {
     filter((event): event is NavigationEnd => event instanceof NavigationEnd),
     startWith({ url: this.mangaHandler.router.url } as NavigationEnd),
     map((event) => event.url == '/manga'),
-    tap(() => this.loadFilteredManga())
+    tap((isManga) => (isManga ? this.loadFilteredManga() : null))
   );
+
+  constructor() {
+    // effect(() => {
+    //   this.filterSelect.nome();
+    //   this.filterSelect.autore();
+    //   this.logFilterChanges();
+    // });
+  }
 
   ngOnDestroy(): void {
     this.upsertOnDestroy(null);
@@ -69,7 +82,7 @@ export class MangaComponent implements OnDestroy {
     const ms = this.mangaHandler;
     if (ms.listaManga.length > 0 && ms.mangaScaricati) {
       this.filteredManga.set(ms.listaManga);
-      const savedMangaUtente = JSON.parse(
+      const savedMangaUtente: MangaUtente = JSON.parse(
         localStorage.getItem('mangaUtente') || '{}'
       );
       this.identificaPreferiti(
@@ -132,28 +145,25 @@ export class MangaComponent implements OnDestroy {
   }
 
   logFilterChanges() {
-    const filterKeys = Object.keys(this.filterSelect) as (keyof FiltriManga)[];
-
     this.filteredManga.set(
       this.mangaHandler.listaManga.filter((manga) => {
-        for (const key of filterKeys) {
-          if (
-            this.filterSelect[key] &&
-            !this.matchesFilter(manga, key) &&
-            this.filterSelect[key] !== 'Qualsiasi'
-          ) {
-            return false;
-          }
-        }
-        return this.tabBoolean === null || manga.completato == this.tabBoolean;
+        return (
+          (this.filterSelect.genere === 'Qualsiasi' ||
+            manga.genere.includes(this.filterSelect.genere)) &&
+          (this.filterSelect.autore() === '' ||
+            manga.autore
+              .toLowerCase()
+              .includes(this.filterSelect.autore().toLowerCase())) &&
+          (this.filterSelect.nome() === '' ||
+            manga.nome
+              .toLowerCase()
+              .includes(this.filterSelect.nome().toLowerCase())) &&
+          (this.tabBoolean === null ||
+            (this.tabBoolean === false && !manga.completato) ||
+            (this.tabBoolean === true && manga.completato))
+        );
       })
     );
-  }
-
-  private matchesFilter(manga: ListaManga, key: keyof FiltriManga): boolean {
-    return manga[key]
-      .toLowerCase()
-      .includes(this.filterSelect[key].toString().toLowerCase());
   }
 
   private upsertOnDestroy($event: BeforeUnloadEvent | null): void {

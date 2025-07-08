@@ -1,5 +1,12 @@
 import { NgFor } from '@angular/common';
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  inject,
+  Input,
+  OnInit,
+  Output,
+} from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Ruolo } from '../../../../../../auth/enums/users.enum';
 import { UserParams } from '../../../../../../../shared/interfaces/users.interface';
@@ -79,8 +86,8 @@ import { CapitalizeFirstLetterPipe } from '../../pipes/capitalize.pipe';
   `,
 })
 export class EditAdminComponent implements OnInit {
+  private adminService = inject(AdminService);
   @Input() userEdit!: UserParams;
-  @Input() adminService!: AdminService;
   @Output() chiudiModale = new EventEmitter<void>();
   @Output() ruoloModificato = new EventEmitter<CambioRuoloUtente>();
 

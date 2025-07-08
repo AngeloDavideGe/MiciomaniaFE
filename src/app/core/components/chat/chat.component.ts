@@ -14,11 +14,7 @@ import { ChatGroupComponent } from './chat-group/chat-group.component';
         class="position-fixed bottom-0 end-0 mb-3 me-3"
         style="width: 360px; height: 520px; z-index: 1080;"
       >
-        <app-chat-group
-          [authHandler]="authHandler"
-          (chiudiChat)="chatAperta.set(false)"
-        >
-        </app-chat-group>
+        <app-chat-group (chiudiChat)="chatAperta.set(false)"> </app-chat-group>
       </div>
     </ng-container>
 

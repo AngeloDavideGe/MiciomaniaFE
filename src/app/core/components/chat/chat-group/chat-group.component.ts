@@ -7,7 +7,6 @@ import {
   ElementRef,
   EventEmitter,
   inject,
-  Input,
   OnInit,
   Output,
   Signal,
@@ -41,8 +40,8 @@ export class ChatGroupComponent implements OnInit, AfterViewChecked {
   public user: User | null = null;
 
   private chatService = inject(ChatGroupService);
+  public authHandler = inject(AuthHandler);
 
-  @Input() authHandler!: AuthHandler;
   @Output() chiudiChat = new EventEmitter<void>();
   @ViewChild('chatMessages') chatMessagesContainer!: ElementRef;
 

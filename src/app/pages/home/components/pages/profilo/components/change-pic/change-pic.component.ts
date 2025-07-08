@@ -1,5 +1,5 @@
 import { NgIf } from '@angular/common';
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
 import { AuthHandler } from '../../../../../../../shared/handlers/auth.handler';
 import { User } from '../../../../../../../shared/interfaces/users.interface';
 
@@ -86,8 +86,8 @@ import { User } from '../../../../../../../shared/interfaces/users.interface';
 export class ChangePicComponent {
   public previewUrl: string | ArrayBuffer | null = null;
   public selectedFile: File | null = null;
+  private authHandler = inject(AuthHandler);
 
-  @Input() authHandler!: AuthHandler;
   @Output() chiudi = new EventEmitter();
 
   onFileSelected(event: Event) {

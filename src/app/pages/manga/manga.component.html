@@ -76,7 +76,7 @@
         class="form-control bg-light border-danger"
         placeholder="Cerca per Nome"
         [(ngModel)]="filterSelect.nome"
-        (ngModelChange)="logFilterChanges()"
+        (ngModelChange)="filterSelect.nome.set($event)"
       />
     </div>
 
@@ -91,7 +91,7 @@
         class="form-control bg-light border-success"
         placeholder="Cerca per Autore"
         [(ngModel)]="filterSelect.autore"
-        (ngModelChange)="logFilterChanges()"
+        (ngModelChange)="filterSelect.autore.set($event)"
       />
     </div>
   </div>

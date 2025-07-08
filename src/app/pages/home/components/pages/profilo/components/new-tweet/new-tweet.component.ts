@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { formatDataCustom } from '../../../../../../../shared/functions/utilities.function';
 import { ProfiloHandler } from '../../../../../handlers/profilo.handler';
@@ -13,8 +13,8 @@ import { Tweet } from '../../../../../interfaces/profilo.interface';
 export class NewTweetComponent {
   public nuovoTweet: any;
   public testo: string = '';
+  private profiloHandler = inject(ProfiloHandler);
 
-  @Input() profiloHandler!: ProfiloHandler;
   @Input() idUtente!: string;
   @Output() chiudi = new EventEmitter<void>();
 

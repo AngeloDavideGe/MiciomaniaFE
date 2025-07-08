@@ -59,7 +59,6 @@
   <app-edit-admin
     *ngIf="editAdmin()"
     [userEdit]="userEdit"
-    [adminService]="adminService"
     (chiudiModale)="editAdmin.set(false)"
     (ruoloModificato)="ruoloModificato($event)"
   ></app-edit-admin>
