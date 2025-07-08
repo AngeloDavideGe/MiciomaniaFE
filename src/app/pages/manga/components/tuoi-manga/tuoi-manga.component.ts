@@ -11,17 +11,16 @@ import {
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ErrorHttpComponent } from '../../../../shared/components/errorhttp.component';
+import { AuthHandler } from '../../../../shared/handlers/auth.handler';
 import { LoadingService } from '../../../../shared/services/loading.service';
 import { MangaHandler } from '../../handlers/manga.handler';
 import {
-  ListaEUtenti,
   ListaManga,
   MangaUtente,
   SezioniMangaUtente,
   SplitMangaUtente,
 } from '../../interfaces/manga.interface';
 import { CardMangaComponent } from '../../shared/card-manga.component';
-import { AuthHandler } from '../../../../shared/handlers/auth.handler';
 
 type keyofMangaUtente =
   | keyof MangaUtente
@@ -43,7 +42,7 @@ export class TuoiMangaComponent implements OnInit, OnDestroy {
   public erroreHttp: boolean = false;
   private checkSplitManga: SplitMangaUtente =
     this.mangaHandler.voidSplitManga();
-  private searchTimeout: NodeJS.Timeout | null = null;
+  private searchTimeout: any;
   public mangafiltrati = signal<ListaManga[]>([]);
   public searchQuery = signal<string>('');
   private debouncedSearchQuery = signal<string>('');
@@ -59,9 +58,7 @@ export class TuoiMangaComponent implements OnInit, OnDestroy {
   constructor() {
     effect(() => {
       const value = this.searchQuery();
-      if (this.searchTimeout) {
-        clearTimeout(this.searchTimeout);
-      }
+      clearTimeout(this.searchTimeout);
       this.searchTimeout = setTimeout(() => {
         this.debouncedSearchQuery.set(value);
       }, 300);

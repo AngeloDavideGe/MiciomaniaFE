@@ -1,9 +1,11 @@
 import {
   Component,
+  computed,
   effect,
   HostListener,
   inject,
   OnDestroy,
+  Signal,
   signal,
 } from '@angular/core';
 import { NavigationEnd } from '@angular/router';
@@ -25,18 +27,26 @@ import { ListaManga, MangaUtente } from './interfaces/manga.interface';
   templateUrl: './manga.component.html',
 })
 export class MangaComponent implements OnDestroy {
-  public filterSelect = {
-    genere: 'Qualsiasi',
-    autore: signal<string>(''),
-    nome: signal<string>(''),
-  };
   public mangaPreferiti: boolean[] = [];
-  public tabBoolean: boolean | null = null;
   public erroreHttp: boolean = false;
   public aggiornamentoManga: boolean = false;
   public mangaGeneri = generiManga;
   public idUtente: string | null = null;
-  public filteredManga = signal<ListaManga[]>([]);
+  private debounce = {
+    autore: signal(''),
+    nome: signal(''),
+    autoreTimeout: {} as any,
+    nomeTimeout: {} as any,
+  };
+  public filterSelect = {
+    genere: signal<string>(''),
+    autore: signal<string>(''),
+    nome: signal<string>(''),
+    tabBoolean: signal<boolean | null>(null),
+  };
+  public filteredManga: Signal<ListaManga[]> = computed(() =>
+    this.logFilterChanges()
+  );
   public tabs: TabsManga[] = getTabsManga(
     [null, false, true].map((condition) => this.getTabClickHandler(condition))
   );
@@ -53,11 +63,21 @@ export class MangaComponent implements OnDestroy {
   );
 
   constructor() {
-    // effect(() => {
-    //   this.filterSelect.nome();
-    //   this.filterSelect.autore();
-    //   this.logFilterChanges();
-    // });
+    effect(() => {
+      const value = this.filterSelect.autore();
+      clearTimeout(this.debounce.autoreTimeout);
+      this.debounce.autoreTimeout = setTimeout(() => {
+        this.debounce.autore.set(value);
+      }, 300);
+    });
+
+    effect(() => {
+      const value = this.filterSelect.nome();
+      clearTimeout(this.debounce.nomeTimeout);
+      this.debounce.nomeTimeout = setTimeout(() => {
+        this.debounce.nome.set(value);
+      }, 300);
+    });
   }
 
   ngOnDestroy(): void {
@@ -71,17 +91,37 @@ export class MangaComponent implements OnDestroy {
 
   private getTabClickHandler(condition: boolean | null): Function {
     return () => {
-      if (this.tabBoolean !== condition) {
-        this.tabBoolean = condition;
+      if (this.filterSelect.tabBoolean() !== condition) {
+        this.filterSelect.tabBoolean.set(condition);
         this.logFilterChanges();
       }
     };
   }
 
+  private logFilterChanges(): ListaManga[] {
+    return this.mangaHandler.listaManga.filter((manga) => {
+      return (
+        (this.filterSelect.genere() === 'Qualsiasi' ||
+          manga.genere.includes(this.filterSelect.genere())) &&
+        (this.debounce.autore() === '' ||
+          manga.autore
+            .toLowerCase()
+            .includes(this.debounce.autore().toLowerCase())) &&
+        (this.debounce.nome() === '' ||
+          manga.nome
+            .toLowerCase()
+            .includes(this.debounce.nome().toLowerCase())) &&
+        (this.filterSelect.tabBoolean() === null ||
+          (this.filterSelect.tabBoolean() === false && !manga.completato) ||
+          (this.filterSelect.tabBoolean() === true && manga.completato))
+      );
+    });
+  }
+
   private loadFilteredManga(): void {
     const ms = this.mangaHandler;
     if (ms.listaManga.length > 0 && ms.mangaScaricati) {
-      this.filteredManga.set(ms.listaManga);
+      this.filterSelect.nome.set('');
       const savedMangaUtente: MangaUtente = JSON.parse(
         localStorage.getItem('mangaUtente') || '{}'
       );
@@ -114,8 +154,8 @@ export class MangaComponent implements OnDestroy {
 
   private caricaManga(lista: ListaManga[]): void {
     this.loadingService.show();
-    this.filteredManga.set(lista);
     this.mangaHandler.listaManga = lista;
+    this.filterSelect.nome.set('');
     this.aggiornamentoManga = false;
     this.loadingService.hide();
   }
@@ -140,30 +180,7 @@ export class MangaComponent implements OnDestroy {
 
   onGenreChange(event: Event) {
     const target = event.target as HTMLSelectElement;
-    this.filterSelect.genere = target.value;
-    this.logFilterChanges();
-  }
-
-  logFilterChanges() {
-    this.filteredManga.set(
-      this.mangaHandler.listaManga.filter((manga) => {
-        return (
-          (this.filterSelect.genere === 'Qualsiasi' ||
-            manga.genere.includes(this.filterSelect.genere)) &&
-          (this.filterSelect.autore() === '' ||
-            manga.autore
-              .toLowerCase()
-              .includes(this.filterSelect.autore().toLowerCase())) &&
-          (this.filterSelect.nome() === '' ||
-            manga.nome
-              .toLowerCase()
-              .includes(this.filterSelect.nome().toLowerCase())) &&
-          (this.tabBoolean === null ||
-            (this.tabBoolean === false && !manga.completato) ||
-            (this.tabBoolean === true && manga.completato))
-        );
-      })
-    );
+    this.filterSelect.genere.set(target.value);
   }
 
   private upsertOnDestroy($event: BeforeUnloadEvent | null): void {

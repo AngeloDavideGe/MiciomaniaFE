@@ -2,16 +2,15 @@ import {
   Component,
   computed,
   inject,
-  OnDestroy,
   OnInit,
   signal,
   Signal,
   WritableSignal,
 } from '@angular/core';
-import { Subject } from 'rxjs';
 import { LoadingService } from '../../../../../shared/services/loading.service';
 import { Ruolo } from '../../../../auth/enums/users.enum';
-
+import { Router } from '@angular/router';
+import { AuthHandler } from '../../../../../shared/handlers/auth.handler';
 import {
   User,
   UserParams,
@@ -19,8 +18,6 @@ import {
 import { AdminService } from '../../../services/admin.service';
 import { admin_imports } from './imports/admin.imports';
 import { CambioRuoloUtente } from './interfaces/admin.interface';
-import { AuthHandler } from '../../../../../shared/handlers/auth.handler';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-admin',
