@@ -3,17 +3,10 @@ import {
   HostListener,
   inject,
   OnDestroy,
-  OnInit,
   signal,
 } from '@angular/core';
 import { NavigationEnd } from '@angular/router';
-import {
-  BehaviorSubject,
-  distinctUntilChanged,
-  filter,
-  Subject,
-  takeUntil,
-} from 'rxjs';
+import { BehaviorSubject, filter, map, Observable, startWith, tap } from 'rxjs';
 import { compareObjectCustom } from '../../shared/functions/utilities.function';
 import { AuthHandler } from '../../shared/handlers/auth.handler';
 import { LoadingService } from '../../shared/services/loading.service';
@@ -22,11 +15,7 @@ import { getTabsManga } from './functions/manga.functions';
 import { MangaHandler } from './handlers/manga.handler';
 import { manga_imports } from './imports/manga.imports';
 import { FiltriManga, TabsManga } from './interfaces/filtri.interface';
-import {
-  ListaEUtenti,
-  ListaManga,
-  MangaUtente,
-} from './interfaces/manga.interface';
+import { ListaManga, MangaUtente } from './interfaces/manga.interface';
 
 @Component({
   selector: 'app-manga',
@@ -34,17 +23,15 @@ import {
   imports: manga_imports,
   templateUrl: './manga.component.html',
 })
-export class MangaComponent implements OnInit, OnDestroy {
-  public isManga = signal<boolean>(false);
-  private filteredMangaSubject = new BehaviorSubject<ListaManga[]>([]);
+export class MangaComponent implements OnDestroy {
   public filterSelect: FiltriManga = {} as FiltriManga;
   public mangaPreferiti: boolean[] = [];
   public tabBoolean: boolean | null = null;
   public erroreHttp: boolean = false;
   public aggiornamentoManga: boolean = false;
-  private destroy$ = new Subject<void>();
   public mangaGeneri = generiManga;
   public idUtente: string | null = null;
+  public filteredManga = signal<ListaManga[]>([]);
   public tabs: TabsManga[] = getTabsManga(
     [null, false, true].map((condition) => this.getTabClickHandler(condition))
   );
@@ -53,25 +40,14 @@ export class MangaComponent implements OnInit, OnDestroy {
   private loadingService = inject(LoadingService);
   public mangaHandler = inject(MangaHandler);
 
-  get filteredManga$() {
-    return this.filteredMangaSubject.asObservable();
-  }
-
-  set filteredManga(mangaList: ListaManga[]) {
-    this.filteredMangaSubject.next(mangaList);
-  }
-
-  ngOnInit(): void {
-    if (this.mangaHandler.router.url == '/manga') {
-      this.isManga.set(true);
-      this.loadFilteredManga();
-    }
-    this.routerEvents();
-  }
+  public isManga$: Observable<boolean> = this.mangaHandler.router.events.pipe(
+    filter((event): event is NavigationEnd => event instanceof NavigationEnd),
+    startWith({ url: this.mangaHandler.router.url } as NavigationEnd),
+    map((event) => event.url == '/manga'),
+    tap(() => this.loadFilteredManga())
+  );
 
   ngOnDestroy(): void {
-    this.destroy$.next();
-    this.destroy$.complete();
     this.upsertOnDestroy(null);
   }
 
@@ -89,29 +65,10 @@ export class MangaComponent implements OnInit, OnDestroy {
     };
   }
 
-  private routerEvents(): void {
-    this.mangaHandler.router.events
-      .pipe(
-        takeUntil(this.destroy$),
-        filter(
-          (event): event is NavigationEnd => event instanceof NavigationEnd
-        ),
-        distinctUntilChanged((prev, curr) => prev.url === curr.url)
-      )
-      .subscribe((event: NavigationEnd) => {
-        if (event.url === '/manga') {
-          this.isManga.set(true);
-          this.loadFilteredManga();
-        } else {
-          this.isManga.set(false);
-        }
-      });
-  }
-
   private loadFilteredManga(): void {
     const ms = this.mangaHandler;
     if (ms.listaManga.length > 0 && ms.mangaScaricati) {
-      this.filteredManga = structuredClone(ms.listaManga);
+      this.filteredManga.set(ms.listaManga);
       const savedMangaUtente = JSON.parse(
         localStorage.getItem('mangaUtente') || '{}'
       );
@@ -144,7 +101,7 @@ export class MangaComponent implements OnInit, OnDestroy {
 
   private caricaManga(lista: ListaManga[]): void {
     this.loadingService.show();
-    this.filteredManga = structuredClone(lista);
+    this.filteredManga.set(lista);
     this.mangaHandler.listaManga = lista;
     this.aggiornamentoManga = false;
     this.loadingService.hide();
@@ -177,18 +134,20 @@ export class MangaComponent implements OnInit, OnDestroy {
   logFilterChanges() {
     const filterKeys = Object.keys(this.filterSelect) as (keyof FiltriManga)[];
 
-    this.filteredManga = this.mangaHandler.listaManga.filter((manga) => {
-      for (const key of filterKeys) {
-        if (
-          this.filterSelect[key] &&
-          !this.matchesFilter(manga, key) &&
-          this.filterSelect[key] !== 'Qualsiasi'
-        ) {
-          return false;
+    this.filteredManga.set(
+      this.mangaHandler.listaManga.filter((manga) => {
+        for (const key of filterKeys) {
+          if (
+            this.filterSelect[key] &&
+            !this.matchesFilter(manga, key) &&
+            this.filterSelect[key] !== 'Qualsiasi'
+          ) {
+            return false;
+          }
         }
-      }
-      return this.tabBoolean === null || manga.completato == this.tabBoolean;
-    });
+        return this.tabBoolean === null || manga.completato == this.tabBoolean;
+      })
+    );
   }
 
   private matchesFilter(manga: ListaManga, key: keyof FiltriManga): boolean {

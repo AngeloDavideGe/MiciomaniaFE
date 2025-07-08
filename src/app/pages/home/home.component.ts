@@ -16,6 +16,7 @@ import {
   Subject,
   take,
   takeUntil,
+  tap,
 } from 'rxjs';
 import { AuthHandler } from '../../shared/handlers/auth.handler';
 import { User, UserParams } from '../../shared/interfaces/users.interface';
@@ -29,7 +30,7 @@ import { home_imports } from './imports/home.imports';
   imports: home_imports,
   templateUrl: './home.component.html',
 })
-export class HomeComponent implements OnInit, OnDestroy {
+export class HomeComponent implements OnInit {
   public authHandler = inject(AuthHandler);
   public router = inject(Router);
 
@@ -37,7 +38,6 @@ export class HomeComponent implements OnInit, OnDestroy {
   public inizialiUser: string = '';
   private punteggioCanzoni: number = 50;
   public componenteAperto = signal<string>('');
-  private destroy$ = new Subject<void>();
   public chiudiComponente: Function = () => this.componenteAperto.set('');
   public goToProfilo: Function = (path: string) => this.router.navigate([path]);
   private elementiUtenteUtilities = new ElementiUtenteUtilities();
@@ -45,7 +45,11 @@ export class HomeComponent implements OnInit, OnDestroy {
   public isHome$: Observable<boolean> = this.router.events.pipe(
     filter((event): event is NavigationEnd => event instanceof NavigationEnd),
     startWith({ url: this.router.url } as NavigationEnd),
-    map((event) => event.url == '/home')
+    map((event) => event.url == '/home'),
+    tap(() => {
+      this.componenteAperto.set('');
+      this.loadUsers();
+    })
   );
 
   constructor() {
@@ -56,21 +60,10 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.isHome$.pipe(takeUntil(this.destroy$)).subscribe((isHome) => {
-      if (isHome) {
-        this.loadUsers();
-      }
-    });
-
     const user = this.authHandler.user();
     if (user && user.id) {
       this.loadElementiUtente(user.id);
     }
-  }
-
-  ngOnDestroy(): void {
-    this.destroy$.next();
-    this.destroy$.complete();
   }
 
   private loadUsers(): void {

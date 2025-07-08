@@ -1,4 +1,4 @@
-<ng-container *ngIf="isManga()">
+<ng-container *ngIf="isManga$ | async">
   <div
     *ngIf="!erroreHttp; else erroreHttpTemplate"
     class="text-white py-5 mb-4"
@@ -104,7 +104,7 @@
   <!-- Manga list display -->
   <div class="mt-4 d-flex flex-wrap" id="app-card">
     <div
-      *ngFor="let manga of filteredManga$ | async"
+      *ngFor="let manga of filteredManga()"
       class="d-flex"
       style="padding: 0.2rem"
     >
