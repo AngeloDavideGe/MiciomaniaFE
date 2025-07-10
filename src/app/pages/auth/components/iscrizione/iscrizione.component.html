@@ -6,13 +6,13 @@
       <div
         *ngFor="let step of wizard; let i = index"
         class="wizard-step"
-        [class.active]="currentStep === step.step"
+        [class.active]="currentStep() === step.step"
       >
         <div class="circle">{{ step.step }}</div>
         <div class="label">{{ step.titolo }}</div>
       </div>
     </div>
-    <ng-container [ngSwitch]="currentStep">
+    <ng-container [ngSwitch]="currentStep()">
       <ng-container *ngSwitchCase="1">
         <app-step1></app-step1>
       </ng-container>
@@ -32,7 +32,7 @@
     </ng-container>
 
     <div
-      *ngIf="user.id || currentStep != 2"
+      *ngIf="user.id || currentStep() != 2"
       class="d-flex justify-content-center mt-4"
     >
       <div
@@ -43,7 +43,7 @@
           Indietro
         </button>
         <button class="btn btn-success btn-lg mx-3" (click)="nextStep()">
-          {{ currentStep == 3 ? "Invia" : "Avanti" }}
+          {{ currentStep() == 3 ? "Invia" : "Avanti" }}
         </button>
       </div>
     </div>

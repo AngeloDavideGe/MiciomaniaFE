@@ -12,7 +12,7 @@ npm-debug.log
 yarn-error.log
 
 # Ignora il file app.config
-src/assets/app.config.js
+src/app/app.config.js
 
 # IDEs and editors
 .idea/

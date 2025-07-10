@@ -1,23 +1,7 @@
-import {
-  Component,
-  effect,
-  inject,
-  OnDestroy,
-  OnInit,
-  signal,
-} from '@angular/core';
+import { Component, effect, inject, OnInit, signal } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import 'bootstrap'; // Importa Bootstrap JS (incluso Popper.js)
-import {
-  filter,
-  map,
-  Observable,
-  startWith,
-  Subject,
-  take,
-  takeUntil,
-  tap,
-} from 'rxjs';
+import { filter, map, Observable, startWith, take, tap } from 'rxjs';
 import { AuthHandler } from '../../shared/handlers/auth.handler';
 import { User, UserParams } from '../../shared/interfaces/users.interface';
 import { ElementiUtenteUtilities } from '../../shared/utilities/elementiUtente.utilities';
@@ -76,7 +60,7 @@ export class HomeComponent implements OnInit {
 
   private loadElementiUtente(idUtente: string): void {
     this.elementiUtenteUtilities
-      .getElementiUtente(idUtente, true)
+      .getElementiUtente(idUtente, false)
       .pipe(take(1))
       .subscribe();
   }
@@ -99,10 +83,11 @@ export class HomeComponent implements OnInit {
   }
 
   private usersLogout(): void {
-    let allUser: UserParams[] = structuredClone(this.authHandler.users());
-    allUser.push(this.authHandler.converUserParams(this.user));
-    this.authHandler.users.set(allUser);
-    sessionStorage.setItem('users', JSON.stringify(allUser));
+    this.authHandler.users.update((users) => [
+      ...users,
+      this.authHandler.converUserParams(this.user),
+    ]);
+    sessionStorage.setItem('users', JSON.stringify(this.authHandler.users()));
   }
 
   private handleUserSubscription(user: User | null): void {

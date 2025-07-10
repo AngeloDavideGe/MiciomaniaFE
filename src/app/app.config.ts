@@ -9,7 +9,7 @@ export const appConfig: ApplicationConfig = {
   providers: [provideRouter(routes), provideHttpClient(), provideInterceptor],
 };
 
-export const configUrl = require('../assets/app.config');
+export const configUrl = require('./app.config.js');
 
 export const headers = {
   Supabase: new HttpHeaders({

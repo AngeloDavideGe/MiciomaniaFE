@@ -71,13 +71,13 @@ export class IscrizioneComponent extends WizardBase {
   }
 
   override nextStep(): void {
-    switch (this.currentStep) {
+    switch (this.currentStep()) {
       case 1:
-        this.currentStep += 1;
+        this.currentStep.update((x) => x + 1);
         break;
       case 2:
         if (this.formValido) {
-          this.currentStep += 1;
+          this.currentStep.update((x) => x + 1);
         } else {
           this.wizardService.setAvantiStep2Premuto();
         }

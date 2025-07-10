@@ -30,9 +30,7 @@ export class AdminComponent implements OnInit {
   public editAdmin = signal<boolean>(false);
   public userEdit: UserParams = {} as UserParams;
   public ruoli = Object.values(Ruolo);
-  public userMap: WritableSignal<{ [ruolo: string]: UserParams[] }> = signal(
-    {}
-  );
+  public userMap = signal<{ [ruolo: string]: UserParams[] }>({});
   public userMapByRuolo: { [ruolo: string]: Signal<UserParams[]> } = {};
 
   private loadingService = inject(LoadingService);
@@ -66,10 +64,10 @@ export class AdminComponent implements OnInit {
   }
 
   private saveUsers(data: UserParams[]): void {
-    let allUsers: UserParams[] = this.authHandler.users();
-    allUsers = data.filter((x) => x.id != this.user?.id);
-    this.authHandler.users.set(allUsers);
-    sessionStorage.setItem('users', JSON.stringify(allUsers));
+    this.authHandler.users.update(() =>
+      data.filter((x) => x.id !== this.user?.id)
+    );
+    sessionStorage.setItem('users', JSON.stringify(this.authHandler.users()));
   }
 
   private mapUsersByRuolo(): void {
@@ -81,9 +79,6 @@ export class AdminComponent implements OnInit {
     });
 
     users.forEach((user) => {
-      if (!newMap[user.ruolo]) {
-        newMap[user.ruolo] = [];
-      }
       newMap[user.ruolo].push(user);
     });
 

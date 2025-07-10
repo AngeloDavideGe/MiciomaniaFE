@@ -122,7 +122,6 @@ export class TuoiMangaComponent implements OnInit, OnDestroy {
 
   private caricaManga(lista: ListaManga[]): void {
     this.mangaHandler.listaManga = lista;
-    // this.allMangaSearch.set(lista);
     this.copiaSplitUtente();
     this.filterMangaFunc('preferiti');
     this.loadingService.hide();
@@ -148,15 +147,6 @@ export class TuoiMangaComponent implements OnInit, OnDestroy {
       this.mangafiltrati.set([]);
     }
   }
-
-  // private cercaNuoviManga(event: Event): void {
-
-  //   this.allMangaSearch.set(
-  //     this.mangaService.listaManga.filter((manga) =>
-  //       manga.nome.toLowerCase().includes(query)
-  //     )
-  //   );
-  // }
 
   rimuoviMangaTab(idManga: number): void {
     this.sezioneListaManga[this.selectedTab] = this.sezioneListaManga[

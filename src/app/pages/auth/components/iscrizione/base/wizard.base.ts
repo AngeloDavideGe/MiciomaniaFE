@@ -1,11 +1,11 @@
-import { inject } from '@angular/core';
+import { inject, signal, WritableSignal } from '@angular/core';
 import { Router } from '@angular/router';
 import { DTO_Wizard } from '../../../interfaces/wizard.interface';
 import { WizardService } from '../../../services/wizard.service';
 import { LoadingService } from '../../../../../shared/services/loading.service';
 
 export abstract class WizardBase {
-  protected currentStep: number;
+  protected currentStep: WritableSignal<number>;
   protected wizard: DTO_Wizard[];
   protected formValido: boolean;
   protected lineeGuidaAccettate: boolean;
@@ -15,7 +15,7 @@ export abstract class WizardBase {
   protected loadingService = inject(LoadingService);
 
   constructor() {
-    this.currentStep = 1;
+    this.currentStep = signal<number>(1);
     this.formValido = false;
     this.lineeGuidaAccettate = false;
     this.wizard = [
@@ -41,8 +41,8 @@ export abstract class WizardBase {
   protected nextStep(): void {}
 
   protected prevStep(): void {
-    if (this.currentStep > 1) {
-      this.currentStep -= 1;
+    if (this.currentStep() > 1) {
+      this.currentStep.update((x) => x - 1);
     } else {
       this.router.navigate(['home']);
     }
