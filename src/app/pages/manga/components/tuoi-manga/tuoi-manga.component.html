@@ -119,7 +119,7 @@
 <!-- Sezione manga filtrati -->
 <div class="d-flex flex-wrap mt-4" id="app-card">
   <div
-    *ngFor="let manga of mangafiltrati()"
+    *ngFor="let manga of sezioneListaManga()[selectedTab]"
     class="d-flex"
     style="padding: 0.2rem"
   >

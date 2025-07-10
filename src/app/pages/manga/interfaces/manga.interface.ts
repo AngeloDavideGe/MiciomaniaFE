@@ -35,3 +35,8 @@ export interface SezioniMangaUtente {
   letti: ListaManga[];
   completati: ListaManga[];
 }
+
+export type keyofMangaUtente =
+  | keyof MangaUtente
+  | keyof SplitMangaUtente
+  | keyof SezioniMangaUtente;

@@ -15,17 +15,13 @@ import { AuthHandler } from '../../../../shared/handlers/auth.handler';
 import { LoadingService } from '../../../../shared/services/loading.service';
 import { MangaHandler } from '../../handlers/manga.handler';
 import {
+  keyofMangaUtente,
   ListaManga,
   MangaUtente,
   SezioniMangaUtente,
   SplitMangaUtente,
 } from '../../interfaces/manga.interface';
 import { CardMangaComponent } from '../../shared/card-manga.component';
-
-type keyofMangaUtente =
-  | keyof MangaUtente
-  | keyof SplitMangaUtente
-  | keyof SezioniMangaUtente;
 
 @Component({
   selector: 'app-tuoi-manga',
@@ -43,17 +39,16 @@ export class TuoiMangaComponent implements OnInit, OnDestroy {
   private checkSplitManga: SplitMangaUtente =
     this.mangaHandler.voidSplitManga();
   private searchTimeout: any;
-  public mangafiltrati = signal<ListaManga[]>([]);
   public searchQuery = signal<string>('');
   private debouncedSearchQuery = signal<string>('');
   public allMangaSearch: Signal<ListaManga[]> = computed(() =>
     this.computedallMangaSearch()
   );
-  private sezioneListaManga: SezioniMangaUtente = {
+  public sezioneListaManga = signal<SezioniMangaUtente>({
     preferiti: [],
     letti: [],
     completati: [],
-  };
+  });
 
   constructor() {
     effect(() => {
@@ -76,9 +71,15 @@ export class TuoiMangaComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     const mangaUtente: MangaUtente = {
-      preferiti: this.sezioneListaManga.preferiti.map((x) => x.id).join(', '),
-      letti: this.sezioneListaManga.letti.map((x) => x.id).join(', '),
-      completati: this.sezioneListaManga.completati.map((x) => x.id).join(', '),
+      preferiti: this.sezioneListaManga()
+        .preferiti.map((x) => x.id)
+        .join(', '),
+      letti: this.sezioneListaManga()
+        .letti.map((x) => x.id)
+        .join(', '),
+      completati: this.sezioneListaManga()
+        .completati.map((x) => x.id)
+        .join(', '),
     } as MangaUtente;
     localStorage.setItem('mangaUtente', JSON.stringify(mangaUtente));
   }
@@ -129,45 +130,40 @@ export class TuoiMangaComponent implements OnInit, OnDestroy {
 
   private copiaSplitUtente(): void {
     const mangaUtente = JSON.parse(localStorage.getItem('mangaUtente') || '{}');
-    this.sezioneListaManga =
-      this.mangaHandler.createSezioneMangaUtente(mangaUtente);
+    this.sezioneListaManga.set(
+      this.mangaHandler.createSezioneMangaUtente(mangaUtente)
+    );
   }
 
   filterMangaFunc(tab: keyofMangaUtente): void {
     this.searchQuery.set('');
     this.selectedTab = tab;
-    this.filterManga(tab);
-  }
-
-  private filterManga(key: keyofMangaUtente): void {
     this.checkSplitManga = this.mangaHandler.voidSplitManga();
-    if (this.sezioneListaManga[key].length > 0) {
-      this.mangafiltrati.set(this.sezioneListaManga[key]);
-    } else {
-      this.mangafiltrati.set([]);
-    }
   }
 
   rimuoviMangaTab(idManga: number): void {
-    this.sezioneListaManga[this.selectedTab] = this.sezioneListaManga[
-      this.selectedTab
-    ].filter((x) => x.id != idManga);
-
-    this.mangafiltrati.set(this.sezioneListaManga[this.selectedTab]);
+    this.sezioneListaManga.update((sezioni) => ({
+      ...sezioni,
+      [this.selectedTab]: sezioni[this.selectedTab].filter(
+        (x) => x.id !== idManga
+      ),
+    }));
   }
 
   aggiungiMangaTab(idManga: number) {
     if (
-      !this.sezioneListaManga[this.selectedTab]
-        .map((x) => x.id)
+      !this.sezioneListaManga()
+        [this.selectedTab].map((x) => x.id)
         .includes(idManga)
     ) {
       const mangaTrovato: ListaManga | undefined =
         this.mangaHandler.listaManga.find((x) => x.id == idManga);
 
       if (mangaTrovato) {
-        this.sezioneListaManga[this.selectedTab].push(mangaTrovato);
-        this.mangafiltrati.set(this.sezioneListaManga[this.selectedTab]);
+        this.sezioneListaManga.update((sezioni) => ({
+          ...sezioni,
+          [this.selectedTab]: [...sezioni[this.selectedTab], mangaTrovato],
+        }));
       }
     }
 
@@ -215,8 +211,11 @@ export class TuoiMangaComponent implements OnInit, OnDestroy {
     );
 
     mangaDaAggiungere.forEach((manga) => {
-      if (!this.sezioneListaManga[tabPush].some((x) => x.id == manga.id)) {
-        this.sezioneListaManga[tabPush].push(manga);
+      if (!this.sezioneListaManga()[tabPush].some((x) => x.id == manga.id)) {
+        this.sezioneListaManga.update((sezioni) => ({
+          ...sezioni,
+          [tabPush]: [...sezioni[tabPush], manga],
+        }));
       }
     });
 
@@ -226,11 +225,12 @@ export class TuoiMangaComponent implements OnInit, OnDestroy {
   private deleteCheckManga(tabRemove: keyofMangaUtente): void {
     const checkSplitMangaSet = new Set(this.checkSplitManga[tabRemove]);
 
-    this.sezioneListaManga[tabRemove] = this.sezioneListaManga[
-      tabRemove
-    ].filter((x) => !checkSplitMangaSet.has(x.id));
-
-    this.mangafiltrati.set([...this.sezioneListaManga[tabRemove]]);
+    this.sezioneListaManga.update((sezione) => ({
+      ...sezione,
+      [tabRemove]: sezione[tabRemove].filter(
+        (x) => !checkSplitMangaSet.has(x.id)
+      ),
+    }));
 
     this.checkSplitManga = this.mangaHandler.voidSplitManga();
   }
