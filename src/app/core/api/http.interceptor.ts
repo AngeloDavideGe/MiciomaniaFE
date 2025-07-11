@@ -1,8 +1,13 @@
-import { HTTP_INTERCEPTORS, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
+import {
+  HttpEvent,
+  HttpHandler,
+  HttpInterceptor,
+  HttpRequest,
+} from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, finalize, Observable } from 'rxjs';
-import { environment } from '../environments/environment';
-import { LoadingService } from './shared/services/loading.service';
+import { environment } from '../../../environments/environment';
+import { LoadingService } from '../../shared/services/loading.service';
 
 @Injectable()
 export class AppInterceptor implements HttpInterceptor {
@@ -47,9 +52,3 @@ export class AppInterceptor implements HttpInterceptor {
     throw error;
   }
 }
-
-export const provideInterceptor = {
-  provide: HTTP_INTERCEPTORS,
-  useClass: AppInterceptor,
-  multi: true,
-};

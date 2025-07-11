@@ -1,12 +1,24 @@
-import { HttpHeaders, provideHttpClient } from '@angular/common/http';
+import {
+  HTTP_INTERCEPTORS,
+  HttpHeaders,
+  provideHttpClient,
+} from '@angular/common/http';
 import { ApplicationConfig } from '@angular/core';
 import { provideRouter } from '@angular/router';
-import { provideInterceptor } from './app.interceptor';
 import { routes } from './app.routes';
 import { createClient } from '@supabase/supabase-js';
+import { AppInterceptor } from './core/api/http.interceptor';
 
 export const appConfig: ApplicationConfig = {
-  providers: [provideRouter(routes), provideHttpClient(), provideInterceptor],
+  providers: [
+    provideRouter(routes),
+    provideHttpClient(),
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AppInterceptor,
+      multi: true,
+    },
+  ],
 };
 
 export const configUrl = require('./app.config.js');
