@@ -1,4 +1,3 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { from, Observable } from 'rxjs';
 import { Social } from '../interfaces/profilo.interface';
@@ -9,7 +8,7 @@ import { Social } from '../interfaces/profilo.interface';
 export class HomeService {
   public social: Social[] = [];
 
-  constructor(private http: HttpClient) {
+  constructor() {
     this.loadMangaFromStorage();
   }
 

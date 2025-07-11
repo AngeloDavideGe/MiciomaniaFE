@@ -41,5 +41,6 @@ export class AppComponent implements OnInit {
   @HostListener('window:beforeunload', ['$event'])
   unloadNotification(): void {
     this.storageClass.refreshLocalStorage();
+    this.storageClass.refreshSessionStorage();
   }
 }
