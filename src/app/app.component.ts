@@ -1,10 +1,11 @@
 import { NgIf, NgStyle } from '@angular/common';
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, HostListener, inject, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { MiniPlayerClass } from './core/class/mini-player.class';
 import { ChatComponent } from './core/components/chat/chat.component';
 import { MiniPlayerComponent } from './core/components/mini-player/mini-player.component';
 import { CursorUtilities } from './shared/utilities/cursor.utilities';
+import { StorageClass } from './core/class/storage.class';
 
 @Component({
   selector: 'app-root',
@@ -30,9 +31,15 @@ import { CursorUtilities } from './shared/utilities/cursor.utilities';
 })
 export class AppComponent implements OnInit {
   private cursorUtilities = new CursorUtilities();
+  private storageClass = new StorageClass();
   public miniPlayerClass = inject(MiniPlayerClass);
 
   ngOnInit(): void {
     this.cursorUtilities.setCursoreByStorage();
+  }
+
+  @HostListener('window:beforeunload', ['$event'])
+  unloadNotification(): void {
+    this.storageClass.refreshLocalStorage();
   }
 }

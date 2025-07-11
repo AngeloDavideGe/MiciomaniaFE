@@ -7,6 +7,7 @@ import { User, UserParams } from '../../shared/interfaces/users.interface';
 import { ElementiUtenteUtilities } from '../../shared/utilities/elementiUtente.utilities';
 import { getConfirmParams } from './functions/home.functions';
 import { home_imports } from './imports/home.imports';
+import { MangaHandler } from '../manga/handlers/manga.handler';
 
 @Component({
   selector: 'app-home',
@@ -77,6 +78,7 @@ export class HomeComponent implements OnInit {
 
   private confirmLogout(): void {
     this.usersLogout();
+    this.authHandler.mangaHandler.mangaUtente = {} as any;
     this.authHandler.profiloHandler.profiloPersonale = null;
     this.authHandler.logout();
     this.setAnonymousUser();

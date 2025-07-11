@@ -81,6 +81,7 @@ export class TuoiMangaComponent implements OnInit, OnDestroy {
         .completati.map((x) => x.id)
         .join(', '),
     } as MangaUtente;
+    this.mangaHandler.mangaUtente = mangaUtente;
     localStorage.setItem('mangaUtente', JSON.stringify(mangaUtente));
   }
 
@@ -103,6 +104,7 @@ export class TuoiMangaComponent implements OnInit, OnDestroy {
       this.mangaHandler.inizializzaLista({
         idUtente: idUtente,
         caricaMangaUtente: (manga_utente: MangaUtente) => {
+          this.mangaHandler.mangaUtente = manga_utente;
           localStorage.setItem('mangaUtente', JSON.stringify(manga_utente));
         },
         caricaListaManga: (lista_manga: ListaManga[]) =>
@@ -129,9 +131,10 @@ export class TuoiMangaComponent implements OnInit, OnDestroy {
   }
 
   private copiaSplitUtente(): void {
-    const mangaUtente = JSON.parse(localStorage.getItem('mangaUtente') || '{}');
     this.sezioneListaManga.set(
-      this.mangaHandler.createSezioneMangaUtente(mangaUtente)
+      this.mangaHandler.createSezioneMangaUtente(
+        this.authHandler.mangaHandler.mangaUtente
+      )
     );
   }
 

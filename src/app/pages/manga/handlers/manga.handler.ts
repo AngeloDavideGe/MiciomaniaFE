@@ -16,6 +16,7 @@ export class MangaHandler {
   private mangaUtilities = new MangaUtilities();
 
   public listaManga: ListaManga[] = [];
+  public mangaUtente: MangaUtente = {} as MangaUtente;
   public mangaScaricati: boolean = false;
   public initialMangaUtente: MangaUtente = {} as MangaUtente;
   public mangaAperti: { nome: string; volumi: MangaVolume[] }[] = [];
@@ -87,6 +88,7 @@ export class MangaHandler {
       .subscribe({
         next: () => {
           this.initialMangaUtente = mangaUtente;
+          this.mangaUtente = mangaUtente;
           localStorage.setItem('mangaUtente', JSON.stringify(mangaUtente));
         },
         error: (err) => {
@@ -134,6 +136,7 @@ export class MangaHandler {
 
     const mangaUtente = localStorage.getItem('mangaUtente');
     if (mangaUtente) {
+      this.mangaUtente = JSON.parse(mangaUtente);
       this.initialMangaUtente = JSON.parse(mangaUtente);
     }
 

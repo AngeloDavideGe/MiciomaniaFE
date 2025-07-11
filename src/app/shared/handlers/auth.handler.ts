@@ -6,6 +6,7 @@ import { AuthService } from '../services/auth.service';
 import { ConfirmService } from '../services/confirm.service';
 import { UserUtilities } from './utilities/user.utilities';
 import { UsersUtilities } from './utilities/users.utilities';
+import { MangaHandler } from '../../pages/manga/handlers/manga.handler';
 
 @Injectable({
   providedIn: 'root',
@@ -13,6 +14,7 @@ import { UsersUtilities } from './utilities/users.utilities';
 export class AuthHandler {
   public confirmService = inject(ConfirmService);
   public authService = inject(AuthService);
+  public mangaHandler = inject(MangaHandler);
   public profiloHandler = inject(ProfiloHandler);
 
   private userUtilities = new UserUtilities();
