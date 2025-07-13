@@ -164,9 +164,9 @@ export class MangaComponent implements OnDestroy {
         .split(',')
         .map(Number);
 
-      arrayIdPreferiti.forEach((valore, indice) => {
-        this.mangaPreferiti[valore] = true;
-      });
+      arrayIdPreferiti.forEach(
+        (valore) => (this.mangaPreferiti[valore] = true)
+      );
     }
   }
 

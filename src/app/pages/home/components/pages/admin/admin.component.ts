@@ -74,13 +74,8 @@ export class AdminComponent implements OnInit {
     const users: UserParams[] = this.authHandler.users();
     const newMap: { [ruolo: string]: UserParams[] } = {};
 
-    this.ruoli.forEach((ruolo) => {
-      newMap[ruolo] = [];
-    });
-
-    users.forEach((user) => {
-      newMap[user.ruolo].push(user);
-    });
+    this.ruoli.forEach((ruolo) => (newMap[ruolo] = []));
+    users.forEach((user) => newMap[user.ruolo].push(user));
 
     if (this.user) {
       const ruoloUtente: Ruolo = this.user.credenziali.ruolo;

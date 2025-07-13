@@ -12,7 +12,8 @@ export class ElementiUtenteUtilities {
     idUtente: string,
     loading: boolean
   ): Observable<ElementiUtente> {
-    const elementiUtente = this.elementiUtenteService.elementiUtente;
+    const elementiUtente: ElementiUtente | null =
+      this.elementiUtenteService.elementiUtente;
 
     if (elementiUtente) {
       return of(elementiUtente);

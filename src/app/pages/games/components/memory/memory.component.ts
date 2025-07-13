@@ -80,11 +80,9 @@ export class MemoryComponent extends GamesBase implements OnInit {
   private fineGioco(): boolean {
     let selectedCount: number = 0;
 
-    this.selectedCards.forEach((isSelected) => {
-      if (isSelected) {
-        selectedCount++;
-      }
-    });
+    this.selectedCards.forEach((isSelected) =>
+      isSelected ? selectedCount++ : null
+    );
 
     return selectedCount === this.cards.length;
   }

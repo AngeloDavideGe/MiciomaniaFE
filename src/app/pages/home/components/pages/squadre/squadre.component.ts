@@ -80,9 +80,7 @@ export class SquadreComponent implements OnInit {
     data.addColumn('string', 'Squadra');
     data.addColumn('number', 'Punteggio');
 
-    this.sc.squadre.forEach((s) => {
-      data.addRow([s.id, s.punteggio]);
-    });
+    this.sc.squadre.forEach((s) => data.addRow([s.id, s.punteggio]));
 
     const chartContainer: HTMLElement | null = document.getElementById(idChart);
     if (!chartContainer) return;
