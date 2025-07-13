@@ -12,13 +12,10 @@ export class ElementiUtenteUtilities {
     idUtente: string,
     loading: boolean
   ): Observable<ElementiUtente> {
-    const storageElementiUtente = sessionStorage.getItem('elementiUtente');
+    const elementiUtente = this.elementiUtenteService.elementiUtente;
 
-    if (storageElementiUtente) {
-      this.elementiUtenteService.elementiUtente = JSON.parse(
-        storageElementiUtente
-      );
-      return of(this.elementiUtenteService.elementiUtente);
+    if (elementiUtente) {
+      return of(elementiUtente);
     } else {
       loading ? this.loadingService.show() : null;
       return this.getElemtiUtenteHttp(idUtente);

@@ -21,7 +21,7 @@ export class AppInterceptor implements HttpInterceptor {
   ): Observable<HttpEvent<any>> {
     /* -------------------------- */
     this.startIntercept();
-    const modifiedReq = this.modifyRequest(req);
+    const modifiedReq: HttpRequest<any> = this.modifyRequest(req);
 
     return next.handle(modifiedReq).pipe(
       finalize(() => this.finalizeCall()),

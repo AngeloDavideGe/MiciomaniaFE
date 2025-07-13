@@ -131,7 +131,7 @@ export class GamesComponent implements OnInit, OnDestroy {
 
   private updatePunteggioSquadra($event: BeforeUnloadEvent | null): void {
     const user: User | null = this.authHandler.user();
-    const punteggio: number = this.sc.getPunteggioOttenuto;
+    const punteggio: number = this.sc.punteggioOttenuto;
 
     if (user && punteggio != 0) {
       $event ? $event.preventDefault() : null;

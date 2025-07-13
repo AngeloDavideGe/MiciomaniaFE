@@ -83,7 +83,7 @@ export class AdminComponent implements OnInit {
     });
 
     if (this.user) {
-      const ruoloUtente = this.user.credenziali.ruolo;
+      const ruoloUtente: Ruolo = this.user.credenziali.ruolo;
       if (!newMap[ruoloUtente]) {
         newMap[ruoloUtente] = [];
       }

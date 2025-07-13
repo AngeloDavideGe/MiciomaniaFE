@@ -4,9 +4,11 @@ import { SongService } from '../../pages/song/services/song.service';
 import { AuthHandler } from '../../shared/handlers/auth.handler';
 import { ElementiUtenteService } from '../../shared/services/elementiUtente.service';
 import { HomeService } from '../../pages/home/services/home.service';
+import { SquadreHandler } from '../../shared/handlers/squadre.handler';
 
 export class StorageClass {
   private authHandler = inject(AuthHandler);
+  private squadreHandler = inject(SquadreHandler);
   private songService = inject(SongService);
   private homeService = inject(HomeService);
   private mangaMiciomaniService = inject(MangaMiciomaniService);
@@ -48,6 +50,10 @@ export class StorageClass {
     sessionStorage.setItem(
       'socialLinks',
       JSON.stringify(this.homeService.social)
+    );
+    sessionStorage.setItem(
+      'punteggioOttenuto',
+      JSON.stringify(this.squadreHandler.punteggioOttenuto)
     );
     sessionStorage.setItem('users', JSON.stringify(this.authHandler.users()));
   }

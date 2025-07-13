@@ -50,8 +50,8 @@ export class IscrizioneComponent extends WizardBase {
   }
 
   private setUserPerInvio(): void {
-    const wizardForm = this.wizardService.getWizardForm();
-    const ruolo = this.user.credenziali.ruolo;
+    const wizardForm: FormWizard = this.wizardService.getWizardForm();
+    const ruolo: Ruolo = this.user.credenziali.ruolo;
     const iscrizione: Iscrizione = {
       stato: wizardForm.stato,
       team: wizardForm.team,

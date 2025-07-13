@@ -16,10 +16,7 @@ export class ProfiloHandler {
   public aggiornamentoPic: boolean = false;
 
   constructor() {
-    const pubblicazioniJSON = sessionStorage.getItem('pubblicazioni');
-    if (pubblicazioniJSON) {
-      this.profiloPersonale = JSON.parse(pubblicazioniJSON);
-    }
+    this.loadPubblicazioniFromStorage();
   }
 
   public getProfiloById(params: {
@@ -94,5 +91,12 @@ export class ProfiloHandler {
         next: (data) => params.nextCall(data),
         error: (err) => params.errorCall(err),
       });
+  }
+
+  private loadPubblicazioniFromStorage(): void {
+    const pubblicazioniJSON = sessionStorage.getItem('pubblicazioni');
+    if (pubblicazioniJSON) {
+      this.profiloPersonale = JSON.parse(pubblicazioniJSON);
+    }
   }
 }

@@ -2,30 +2,17 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
-import {
-  CanzoniMiciomania,
-  ElementiUtente,
-  MangaMiciomania,
-  Proposta,
-} from '../interfaces/elementiUtente.interface';
+import { ElementiUtente } from '../interfaces/elementiUtente.interface';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ElementiUtenteService {
   public propostaCaricata: boolean = true;
-  public elementiUtente: ElementiUtente = {
-    manga: {} as MangaMiciomania,
-    canzone: {} as CanzoniMiciomania,
-    proposta: {} as Proposta,
-  } as ElementiUtente;
+  public elementiUtente: ElementiUtente | null = null;
 
   constructor(private http: HttpClient) {
-    const storageElementiUtente = sessionStorage.getItem('elementiUtente');
-
-    if (storageElementiUtente) {
-      this.elementiUtente = JSON.parse(storageElementiUtente);
-    }
+    this.getElementiFromStorage();
   }
 
   getElementiUtente(idUtente: string): Observable<ElementiUtente> {
@@ -37,5 +24,12 @@ export class ElementiUtenteService {
     return this.http.post<ElementiUtente>(apiUrl, body, {
       headers: environment.headerSupabase2,
     });
+  }
+
+  private getElementiFromStorage(): void {
+    const storageElementiUtente = sessionStorage.getItem('elementiUtente');
+    if (storageElementiUtente) {
+      this.elementiUtente = JSON.parse(storageElementiUtente);
+    }
   }
 }

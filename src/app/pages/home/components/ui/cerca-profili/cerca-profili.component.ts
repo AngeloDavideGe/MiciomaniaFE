@@ -86,8 +86,8 @@ export class CercaProfiliComponent implements OnInit, OnDestroy {
   }
 
   private setPaginatedUsers(): void {
-    const startIndex = (this.currentPage - 1) * this.itemsPerPage;
-    const endIndex = startIndex + this.itemsPerPage;
+    const startIndex: number = (this.currentPage - 1) * this.itemsPerPage;
+    const endIndex: number = startIndex + this.itemsPerPage;
     this.userSlice.set(this.filteredUsers.slice(startIndex, endIndex));
   }
 }

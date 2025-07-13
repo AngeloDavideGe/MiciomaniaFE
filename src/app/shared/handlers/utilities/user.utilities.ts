@@ -63,12 +63,11 @@ export class UserUtilities {
     users: UserParams[]
   ): void {
     const userData = localStorage.getItem('user');
-    const usersData = sessionStorage.getItem('users');
-
     if (userData) {
       user.set(JSON.parse(userData));
     }
 
+    const usersData = sessionStorage.getItem('users');
     if (usersData) {
       const parsedUsers: UserParams[] = JSON.parse(usersData);
       users.splice(0, users.length, ...parsedUsers);

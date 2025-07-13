@@ -13,18 +13,7 @@ export class SquadreHandler {
   public punteggioOttenuto: number = 0;
 
   constructor() {
-    sessionStorage.setItem(
-      'punteggioOttenuto',
-      JSON.stringify(this.punteggioOttenuto)
-    );
-  }
-
-  get getPunteggioOttenuto(): number {
-    const punteggio = sessionStorage.getItem('punteggioOttenuto');
-    if (punteggio) {
-      this.punteggioOttenuto = JSON.parse(punteggio);
-    }
-    return this.punteggioOttenuto;
+    this.loadPunteggioOttenutoFromStorage();
   }
 
   set setPunteggioOttenuto(punteggio: number) {
@@ -67,12 +56,19 @@ export class SquadreHandler {
     nextUpdatePunteggio: Function
   ): void {
     this.squadreService
-      .updatePunteggioSquadra(userId, nomeSquadra, this.getPunteggioOttenuto)
+      .updatePunteggioSquadra(userId, nomeSquadra, this.punteggioOttenuto)
       .pipe(take(1))
       .subscribe({
         next: () => nextUpdatePunteggio(),
         error: (err) =>
           console.error("errore nell'aggiornamento del punteggio", err),
       });
+  }
+
+  private loadPunteggioOttenutoFromStorage(): void {
+    const punteggioOttenuto = sessionStorage.getItem('punteggioOttenuto');
+    if (punteggioOttenuto) {
+      this.punteggioOttenuto = JSON.parse(punteggioOttenuto);
+    }
   }
 }

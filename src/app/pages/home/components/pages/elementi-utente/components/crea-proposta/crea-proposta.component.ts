@@ -18,7 +18,10 @@ import { DropboxService } from '../../services/dropbox.service';
 import { fileValidator } from '../../validators/proposta.validator';
 import { PropostaService } from '../../services/proposta.service';
 import { ElementiUtenteService } from '../../../../../../../shared/services/elementiUtente.service';
-import { Proposta } from '../../../../../../../shared/interfaces/elementiUtente.interface';
+import {
+  ElementiUtente,
+  Proposta,
+} from '../../../../../../../shared/interfaces/elementiUtente.interface';
 import { ProposaPrePost } from '../../interfaces/dropbox.interface';
 
 @Component({
@@ -52,7 +55,8 @@ export class CreaPropostaComponent implements OnInit {
   }
 
   private setProposteDisponibili(): void {
-    const elemUtente = this.elementiUtenteService.elementiUtente;
+    const elemUtente: ElementiUtente =
+      this.elementiUtenteService.elementiUtente || ({} as ElementiUtente);
     this.optionManga = !!elemUtente.manga.id_autore;
     this.optionCanzone = !!elemUtente.canzone.id_autore;
   }
@@ -159,7 +163,11 @@ export class CreaPropostaComponent implements OnInit {
       )
       .subscribe({
         next: (data) => {
-          this.elementiUtenteService.elementiUtente.proposta = data;
+          this.elementiUtenteService.elementiUtente = {
+            ...(this.elementiUtenteService.elementiUtente ||
+              ({} as ElementiUtente)),
+            proposta: data,
+          };
           sessionStorage.setItem(
             'elementiUtente',
             JSON.stringify(this.elementiUtenteService.elementiUtente)

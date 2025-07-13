@@ -22,6 +22,7 @@ import {
   SplitMangaUtente,
 } from '../../interfaces/manga.interface';
 import { CardMangaComponent } from '../../shared/card-manga.component';
+import { User } from '../../../../shared/interfaces/users.interface';
 
 @Component({
   selector: 'app-tuoi-manga',
@@ -52,7 +53,7 @@ export class TuoiMangaComponent implements OnInit, OnDestroy {
 
   constructor() {
     effect(() => {
-      const value = this.searchQuery();
+      const value: string = this.searchQuery();
       clearTimeout(this.searchTimeout);
       this.searchTimeout = setTimeout(() => {
         this.debouncedSearchQuery.set(value);
@@ -61,7 +62,7 @@ export class TuoiMangaComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    const user = this.authHandler.user();
+    const user: User | null = this.authHandler.user();
     if (user) {
       this.loadListaManga(user.id);
     } else {
@@ -86,7 +87,7 @@ export class TuoiMangaComponent implements OnInit, OnDestroy {
   }
 
   private computedallMangaSearch(): ListaManga[] {
-    const search = this.debouncedSearchQuery().toLowerCase().trim();
+    const search: string = this.debouncedSearchQuery().toLowerCase().trim();
     if (search) {
       return this.mangaHandler.listaManga.filter((manga) =>
         manga.nome.toLowerCase().includes(search)

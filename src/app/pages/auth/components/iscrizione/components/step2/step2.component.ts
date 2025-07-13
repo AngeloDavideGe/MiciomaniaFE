@@ -70,7 +70,7 @@ export class Step2Component implements OnInit, OnDestroy {
   }
 
   private inizializzaForm(): void {
-    const wizardFormData = this.wizardService.getWizardForm();
+    const wizardFormData: FormWizard = this.wizardService.getWizardForm();
     this.profileForm = this.fb.group({
       team: [[], arrayNotEmptyValidator()],
       stato: [wizardFormData.stato || '', Validators.required],
@@ -102,7 +102,7 @@ export class Step2Component implements OnInit, OnDestroy {
         selectedTeam.push(checkbox.value);
       }
     } else {
-      const index = selectedTeam.indexOf(checkbox.value);
+      const index: number = selectedTeam.indexOf(checkbox.value);
       if (index > -1) {
         selectedTeam.splice(index, 1);
       }

@@ -39,13 +39,13 @@ export class HomeComponent implements OnInit {
 
   constructor() {
     effect(() => {
-      const user = this.authHandler.user();
+      const user: User | null = this.authHandler.user();
       this.handleUserSubscription(user);
     });
   }
 
   ngOnInit(): void {
-    const user = this.authHandler.user();
+    const user: User | null = this.authHandler.user();
     if (user && user.id) {
       this.loadElementiUtente(user.id);
     }
