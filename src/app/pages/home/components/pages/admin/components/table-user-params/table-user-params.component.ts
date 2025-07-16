@@ -1,4 +1,3 @@
-import { NgFor, NgIf } from '@angular/common';
 import {
   Component,
   EventEmitter,
@@ -11,16 +10,16 @@ import {
 } from '@angular/core';
 
 import { Router } from '@angular/router';
-import { Ruolo } from '../../../../../../auth/enums/users.enum';
 import {
   User,
   UserParams,
 } from '../../../../../../../shared/interfaces/users.interface';
+import { Ruolo } from '../../../../../../auth/enums/users.enum';
 
 @Component({
   selector: 'app-table-user-params',
   standalone: true,
-  imports: [NgIf, NgFor],
+  imports: [],
   templateUrl: './table-user-params.component.html',
 })
 export class TableUserParamsComponent implements OnInit {

@@ -17,25 +17,29 @@ import { Credenziali } from '../../../../shared/interfaces/users.interface';
       <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
         <div class="container">
           <div class="navbar-brand d-flex align-items-center">
-            <div
-              *ngIf="
-                credenziali && credenziali.profilePic;
-                else profilePicTemplate
-              "
-            >
+            @if(credenziali && credenziali.profilePic) {
+            <div>
               <img
                 [src]="credenziali.profilePic"
                 alt="Profile Picture"
                 style="height: 3.3rem; width: 3.3rem; border-radius: 50%"
               />
             </div>
-            <span
-              *ngIf="credenziali && credenziali.nome; else nomeTemplate"
-              class="ms-2"
-              style="font-size: 1.2rem; font-weight: bold"
+            } @else {
+            <div
+              class="d-flex align-items-center justify-content-center div-profilo-pic"
             >
+              {{ inizialiUser }}
+            </div>
+            } @if(credenziali && credenziali.nome) {
+            <span class="ms-2" style="font-size: 1.2rem; font-weight: bold">
               {{ credenziali.nome }}
             </span>
+            } @else {
+            <span class="ms-2" style="font-size: 1.2rem; font-weight: bold">
+              Anonimo</span
+            >
+            }
           </div>
           <button
             class="navbar-toggler"
@@ -94,20 +98,6 @@ import { Credenziali } from '../../../../shared/interfaces/users.interface';
         </div>
       </nav>
     </section>
-
-    <ng-template #profilePicTemplate>
-      <div
-        class="d-flex align-items-center justify-content-center div-profilo-pic"
-      >
-        {{ inizialiUser }}
-      </div>
-    </ng-template>
-
-    <ng-template #nomeTemplate>
-      <span class="ms-2" style="font-size: 1.2rem; font-weight: bold">
-        Anonimo</span
-      >
-    </ng-template>
   `,
   styles: [
     `

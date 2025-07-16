@@ -1,4 +1,3 @@
-import { NgFor, NgIf } from '@angular/common';
 import { Component, Input, OnDestroy, OnInit, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { debounceTime, Subject, takeUntil } from 'rxjs';
@@ -7,7 +6,7 @@ import { UserParams } from '../../../../../shared/interfaces/users.interface';
 @Component({
   selector: 'app-cerca-profili',
   standalone: true,
-  imports: [NgIf, NgFor, FormsModule],
+  imports: [FormsModule],
   templateUrl: './cerca-profili.component.html',
 })
 export class CercaProfiliComponent implements OnInit, OnDestroy {

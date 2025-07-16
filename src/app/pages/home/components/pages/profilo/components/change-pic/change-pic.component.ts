@@ -1,12 +1,11 @@
-import { NgIf } from '@angular/common';
-import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
+import { Component, EventEmitter, inject, Output } from '@angular/core';
 import { AuthHandler } from '../../../../../../../shared/handlers/auth.handler';
 import { User } from '../../../../../../../shared/interfaces/users.interface';
 
 @Component({
   selector: 'app-change-pic',
   standalone: true,
-  imports: [NgIf],
+  imports: [],
   template: `
     <div
       class="modal"
@@ -45,19 +44,19 @@ import { User } from '../../../../../../../shared/interfaces/users.interface';
                     Carica la tua immagine profilo
                   </h4>
                   <div class="mb-4 w-100 d-flex justify-content-center">
+                    @if(previewUrl){
                     <img
-                      *ngIf="previewUrl; else placeholder"
                       [src]="previewUrl"
                       alt="Anteprima"
                       style="width: 120px; height: 120px; object-fit: cover; border-radius: 50%; border: 2px solid #dee2e6;"
                     />
-                    <ng-template #placeholder>
-                      <div
-                        style="width: 120px; height: 120px; border-radius: 50%; background: #e9ecef; display: flex; align-items: center; justify-content: center; color: #adb5bd; font-size: 2.5rem; border: 2px dashed #dee2e6;"
-                      >
-                        <i class="bi bi-person"></i>
-                      </div>
-                    </ng-template>
+                    } @else {
+                    <div
+                      style="width: 120px; height: 120px; border-radius: 50%; background: #e9ecef; display: flex; align-items: center; justify-content: center; color: #adb5bd; font-size: 2.5rem; border: 2px dashed #dee2e6;"
+                    >
+                      <i class="bi bi-person"></i>
+                    </div>
+                    }
                   </div>
                   <input
                     type="file"

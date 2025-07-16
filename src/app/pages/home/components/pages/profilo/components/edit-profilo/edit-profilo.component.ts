@@ -1,4 +1,3 @@
-import { NgIf } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { User } from '../../../../../../../shared/interfaces/users.interface';
 import { TabInfoComponent } from './tab-info/tab-info.component';
@@ -7,7 +6,7 @@ import { TabSocialComponent } from './tab-social/tab-social.component';
 @Component({
   selector: 'app-edit-profilo',
   standalone: true,
-  imports: [TabInfoComponent, TabSocialComponent, NgIf],
+  imports: [TabInfoComponent, TabSocialComponent],
   template: ` <!-- Tab Header -->
     <div
       class="modal"
@@ -65,17 +64,17 @@ import { TabSocialComponent } from './tab-social/tab-social.component';
 
             <!-- Tab Content -->
             <div class="tab-content">
+              @switch(tab) { @case('info') {
               <tab-info-profilo
-                *ngIf="tab == 'info'"
                 [user]="user"
                 (chiudi)="chiudi.emit()"
               ></tab-info-profilo>
-
+              } @case('social') {
               <tab-social-profilo
-                *ngIf="tab == 'social'"
                 [user]="user"
                 (chiudi)="chiudi.emit()"
               ></tab-social-profilo>
+              } }
             </div>
           </div>
         </div>

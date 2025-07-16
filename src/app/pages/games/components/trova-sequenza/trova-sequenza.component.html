@@ -9,7 +9,8 @@
     "
   ></app-dettagli-game>
 
-  <div *ngIf="gameWon" class="alert alert-success text-center mb-4">
+  @if (gameWon) {
+  <div class="alert alert-success text-center mb-4">
     <h4 class="fw-bold mb-3">
       <i class="fas fa-trophy me-2"></i>Hai vinto! 🎉
     </h4>
@@ -17,12 +18,13 @@
       Rigioca
     </button>
   </div>
-
-  <div *ngIf="wrongSequence" class="alert alert-danger text-center mb-4">
+  } @if (wrongSequence) {
+  <div class="alert alert-danger text-center mb-4">
     <h4 class="fw-bold mb-0">
       <i class="fas fa-times-circle me-2"></i>Sequenza errata! ❌
     </h4>
   </div>
+  }
 
   <div class="game-board p-3 bg-white rounded-3 shadow-sm mb-4">
     <p>Tentativi a disposizione : {{ tentativiRestanti }}</p>
@@ -58,9 +60,11 @@
         class="badge bg-dark text-white py-2 px-3 fs-6 rounded-pill"
         >{{ num }}</span
       >
-      <span *ngIf="selectedNumbers.length === 0" class="text-muted fst-italic">
+      @if (selectedNumbers.length === 0) {
+      <span class="text-muted fst-italic">
         <i class="fas fa-mouse-pointer me-1"></i>Seleziona una carta
       </span>
+      }
     </div>
   </div>
 

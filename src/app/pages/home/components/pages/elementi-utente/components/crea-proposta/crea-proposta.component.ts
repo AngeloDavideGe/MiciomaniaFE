@@ -1,4 +1,4 @@
-import { NgClass, NgIf } from '@angular/common';
+import { NgClass } from '@angular/common';
 import {
   Component,
   EventEmitter,
@@ -27,7 +27,7 @@ import { ProposaPrePost } from '../../interfaces/dropbox.interface';
 @Component({
   selector: 'app-crea-proposta',
   standalone: true,
-  imports: [NgIf, NgClass, ReactiveFormsModule],
+  imports: [NgClass, ReactiveFormsModule],
   templateUrl: './crea-proposta.component.html',
 })
 export class CreaPropostaComponent implements OnInit {

@@ -39,121 +39,120 @@
         ></button>
       </div>
       <div class="modal-body" style="padding: 1.5rem">
-        <ng-container *ngIf="profiliPronti; else spinnerTemplate">
-          <!-- Input di ricerca -->
-          <div class="input-group mb-3">
-            <input
-              type="text"
-              [(ngModel)]="searchQuery"
-              (ngModelChange)="editFiltro($event)"
-              placeholder="Cerca utenti..."
-              class="form-control"
-              style="border-radius: 30px 0 0 30px"
-            />
-            <button
-              class="btn btn-outline-secondary"
-              type="button"
-              style="border-radius: 0 30px 30px 0"
-            >
-              <i class="bi bi-x" (click)="clearSearch()"></i>
-            </button>
-          </div>
+        @if(profiliPronti) {
+        <!-- Input di ricerca -->
+        <div class="input-group mb-3">
+          <input
+            type="text"
+            [(ngModel)]="searchQuery"
+            (ngModelChange)="editFiltro($event)"
+            placeholder="Cerca utenti..."
+            class="form-control"
+            style="border-radius: 30px 0 0 30px"
+          />
+          <button
+            class="btn btn-outline-secondary"
+            type="button"
+            style="border-radius: 0 30px 30px 0"
+            (click)="clearSearch()"
+          >
+            <i class="bi bi-x"></i>
+          </button>
+        </div>
 
-          <!-- Risultati della ricerca -->
+        <!-- Risultati della ricerca -->
+        <div
+          class="search-results"
+          style="
+            max-height: 350px;
+            overflow-y: auto;
+            border-radius: 8px;
+            background: #f9f9f9;
+            padding: 0.5rem;
+          "
+          id="RisultatiUtenti"
+        >
+          @if(userSlice().length === 0) {
           <div
-            class="search-results"
+            class="no-results"
+            style="text-align: center; padding: 1rem; color: #888"
+          >
+            Nessun utente trovato.
+          </div>
+          } @else { @for(user of userSlice(); track user.id) {
+          <div
+            class="d-flex align-items-center mb-2 p-2"
             style="
-              max-height: 350px;
-              overflow-y: auto;
+              cursor: pointer;
               border-radius: 8px;
-              background: #f9f9f9;
-              padding: 0.5rem;
+              transition: background 0.2s;
             "
-            id="RisultatiUtenti"
+            (click)="goToProfilo('/home/profilo/' + user.id)"
+            onmouseover="this.style.backgroundColor='#e9ecef'"
+            onmouseout="this.style.backgroundColor='transparent'"
           >
-            <div
-              *ngIf="userSlice().length === 0"
-              class="no-results"
-              style="text-align: center; padding: 1rem; color: #888"
-            >
-              Nessun utente trovato.
-            </div>
-
-            <!-- Visualizza solo 5 elementi per pagina -->
-            <div
-              *ngFor="let user of userSlice()"
-              class="d-flex align-items-center mb-2 p-2"
-              style="
-                cursor: pointer;
-                border-radius: 8px;
-                transition: background 0.2s;
+            <img
+              [src]="
+                user.profilePic ||
+                'https://png.pngtree.com/png-vector/20191009/ourlarge/pngtree-user-icon-png-image_1796659.jpg'
               "
-              (click)="goToProfilo('/home/profilo/' + user.id)"
-              onmouseover="this.style.backgroundColor='#e9ecef'"
-              onmouseout="this.style.backgroundColor='transparent'"
-            >
-              <img
-                [src]="
-                  user.profilePic ||
-                  'https://png.pngtree.com/png-vector/20191009/ourlarge/pngtree-user-icon-png-image_1796659.jpg'
-                "
-                alt="{{ user.nome }}"
-                style="
-                  width: 48px;
-                  height: 48px;
-                  border-radius: 50%;
-                  margin-right: 1rem;
-                  border: 2px solid #dee2e6;
-                "
-              />
-              <div style="flex: 1; text-align: left">
-                <span style="font-weight: bold; display: block; color: #333">
-                  {{ user.nome || "" }}
-                </span>
-                <span style="font-size: 0.95rem; color: #888">
-                  {{ user.id }}
-                </span>
-              </div>
+              alt="{{ user.nome }}"
+              style="
+                width: 48px;
+                height: 48px;
+                border-radius: 50%;
+                margin-right: 1rem;
+                border: 2px solid #dee2e6;
+              "
+            />
+            <div style="flex: 1; text-align: left">
+              <span style="font-weight: bold; display: block; color: #333">
+                {{ user.nome || "" }}
+              </span>
+              <span style="font-size: 0.95rem; color: #888">
+                {{ user.id }}
+              </span>
             </div>
           </div>
+          } }
+        </div>
 
-          <!-- Pulsanti di paginazione -->
-          <div
-            class="d-flex justify-content-center align-items-center mt-3"
-            style="gap: 0.5rem"
-            id="PulsantiPaginazione"
+        <!-- Pulsanti di paginazione -->
+        <div
+          class="d-flex justify-content-center align-items-center mt-3"
+          style="gap: 0.5rem"
+          id="PulsantiPaginazione"
+        >
+          <button
+            (click)="previousPage()"
+            [disabled]="currentPage === 1"
+            class="btn btn-outline-primary btn-sm"
+            style="border-radius: 50%; width: 36px; height: 36px"
           >
-            <button
-              (click)="previousPage()"
-              [disabled]="currentPage === 1"
-              class="btn btn-outline-primary btn-sm"
-              style="border-radius: 50%; width: 36px; height: 36px"
-            >
-              &lt;
-            </button>
-            <span style="margin: 0 0.5rem; color: #555; font-weight: 500">
-              {{ currentPage + "/" + totalPages }}
-            </span>
-            <button
-              (click)="nextPage()"
-              [disabled]="currentPage === totalPages"
-              class="btn btn-outline-primary btn-sm"
-              style="border-radius: 50%; width: 36px; height: 36px"
-            >
-              &gt;
-            </button>
-          </div>
-        </ng-container>
-        <ng-template #spinnerTemplate>
-          <div
-            class="d-flex justify-content-center align-items-center"
-            style="height: 200px"
+            &lt;
+          </button>
+          <span style="margin: 0 0.5rem; color: #555; font-weight: 500">
+            {{ currentPage + "/" + totalPages }}
+          </span>
+          <button
+            (click)="nextPage()"
+            [disabled]="currentPage === totalPages"
+            class="btn btn-outline-primary btn-sm"
+            style="border-radius: 50%; width: 36px; height: 36px"
           >
-            <div class="spinner-border text-primary" role="status">
-              <span class="visually-hidden">Loading...</span>
-            </div>
+            &gt;
+          </button>
+        </div>
+        } @else {
+        <div
+          class="d-flex justify-content-center align-items-center"
+          style="height: 200px"
+        >
+          <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Loading...</span>
           </div>
-        </ng-template>
+        </div>
+        }
       </div>
     </div>
   </div>

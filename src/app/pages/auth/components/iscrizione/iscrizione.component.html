@@ -1,64 +1,55 @@
-<ng-container *ngIf="caricaPersona">
-  <ng-container
-    *ngIf="!(user.iscrizione?.team && viewSuccespage); else successPage"
+@if (caricaPersona) { @if (!(user.iscrizione.team && viewSuccespage)) {
+<div class="wizard-header">
+  <div
+    *ngFor="let step of wizard; let i = index"
+    class="wizard-step"
+    [class.active]="currentStep() === step.step"
   >
-    <div class="wizard-header">
-      <div
-        *ngFor="let step of wizard; let i = index"
-        class="wizard-step"
-        [class.active]="currentStep() === step.step"
-      >
-        <div class="circle">{{ step.step }}</div>
-        <div class="label">{{ step.titolo }}</div>
-      </div>
-    </div>
-    <ng-container [ngSwitch]="currentStep()">
-      <ng-container *ngSwitchCase="1">
-        <app-step1></app-step1>
-      </ng-container>
-      <ng-container *ngSwitchCase="2">
-        <app-step2
-          *ngIf="user.id; else errorPage"
-          (formValido)="formValido = $event"
-        ></app-step2>
-      </ng-container>
-      <ng-container *ngSwitchCase="3">
-        <app-step3
-          [wizardData]="wizardService.getWizardForm()"
-          (lineeGuidaEvent)="lineeGuidaAccettate = $event"
-        >
-        </app-step3>
-      </ng-container>
-    </ng-container>
+    <div class="circle">{{ step.step }}</div>
+    <div class="label">{{ step.titolo }}</div>
+  </div>
+</div>
+<ng-container [ngSwitch]="currentStep()">
+  <ng-container *ngSwitchCase="1">
+    <app-step1></app-step1>
+  </ng-container>
+  <ng-container *ngSwitchCase="2">
+    @if (user.id) {
+    <app-step2 (formValido)="formValido = $event"></app-step2>
+    } @else {
+    <app-error-iscrizione></app-error-iscrizione>
 
-    <div
-      *ngIf="user.id || currentStep() != 2"
-      class="d-flex justify-content-center mt-4"
+    }
+  </ng-container>
+  <ng-container *ngSwitchCase="3">
+    <app-step3
+      [wizardData]="wizardService.getWizardForm()"
+      (lineeGuidaEvent)="lineeGuidaAccettate = $event"
     >
-      <div
-        class="d-flex justify-content-between"
-        style="max-width: 70rem; width: 100%"
-      >
-        <button class="btn btn-primary btn-lg mx-3" (click)="prevStep()">
-          Indietro
-        </button>
-        <button class="btn btn-success btn-lg mx-3" (click)="nextStep()">
-          {{ currentStep() == 3 ? "Invia" : "Avanti" }}
-        </button>
-      </div>
-    </div>
-    <br />
+    </app-step3>
   </ng-container>
 </ng-container>
 
-<ng-template #errorPage>
-  <app-error-iscrizione></app-error-iscrizione>
-</ng-template>
-
-<ng-template #successPage>
-  <app-success-page
-    [user]="user!"
-    [navigateToHome]="navigateToHome"
-    [editInfo]="editInfo"
-  ></app-success-page>
-</ng-template>
+@if (user.id || currentStep()!=2) {
+<div class="d-flex justify-content-center mt-4">
+  <div
+    class="d-flex justify-content-between"
+    style="max-width: 70rem; width: 100%"
+  >
+    <button class="btn btn-primary btn-lg mx-3" (click)="prevStep()">
+      Indietro
+    </button>
+    <button class="btn btn-success btn-lg mx-3" (click)="nextStep()">
+      {{ currentStep() == 3 ? "Invia" : "Avanti" }}
+    </button>
+  </div>
+</div>
+}
+<br />
+} @else {
+<app-success-page
+  [user]="user!"
+  [navigateToHome]="navigateToHome"
+  [editInfo]="editInfo"
+></app-success-page>
+} }

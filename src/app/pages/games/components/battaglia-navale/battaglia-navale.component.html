@@ -35,26 +35,23 @@
               }"
               (click)="colpisciCella({i, j, key})"
             >
+              @if ((key == 'cellaPlayer' && cell.navePiccola) || (key ==
+              'cellaBot' && cell.navePiccola && cell.cellaColpita)) {
               <span
-                *ngIf="
-                  (key == 'cellaPlayer' && cell.navePiccola) ||
-                  (key == 'cellaBot' && cell.navePiccola && cell.cellaColpita)
-                "
                 class="text-white"
                 style="font-size: 18px; font-weight: bold"
               >
                 ⛴️
               </span>
+              } @else if ((key == 'cellaPlayer' && cell.naveGrande) || (key ==
+              'cellaBot' && cell.naveGrande && cell.cellaColpita)) {
               <span
-                *ngIf="
-                  (key == 'cellaPlayer' && cell.naveGrande) ||
-                  (key == 'cellaBot' && cell.naveGrande && cell.cellaColpita)
-                "
                 class="text-white"
                 style="font-size: 22px; font-weight: bold"
               >
                 🚢
               </span>
+              }
             </div>
           </div>
         </div>

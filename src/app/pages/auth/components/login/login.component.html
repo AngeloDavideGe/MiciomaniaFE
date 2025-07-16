@@ -1,11 +1,12 @@
 <div class="card-header text-center">
   <h3 class="h4">Login</h3>
 </div>
+
 <div class="card-body">
   <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-    <div *ngIf="loginError" class="text-danger mb-3">
-      Email o password errati
-    </div>
+    @if (loginError) {
+    <div class="text-danger mb-3">Email o password errati</div>
+    }
 
     <div class="form-group mb-4">
       <label for="email" class="h5">Email</label>
@@ -18,15 +19,16 @@
           'is-invalid': f['email'].touched && f['email'].invalid
         }"
       />
-      <div
-        *ngIf="f['email'].touched && f['email'].invalid"
-        class="invalid-feedback"
-      >
-        <div *ngIf="f['email'].errors?.['required']">Email richiesta.</div>
-        <div *ngIf="f['email'].errors?.['email']">
-          Formato email non valido.
-        </div>
+
+      @if (f['email'].touched && f['email'].invalid) {
+      <div class="invalid-feedback">
+        @if (f['email'].errors?.['required']) {
+        <div>Email richiesta.</div>
+        } @if (f['email'].errors?.['email']) {
+        <div>Formato email non valido.</div>
+        }
       </div>
+      }
     </div>
 
     <div class="form-group mb-4">
@@ -40,17 +42,16 @@
           'is-invalid': f['password'].touched && f['password'].invalid
         }"
       />
-      <div
-        *ngIf="f['password'].touched && f['password'].invalid"
-        class="invalid-feedback"
-      >
-        <div *ngIf="f['password'].errors?.['required']">
-          Password richiesta.
-        </div>
-        <div *ngIf="f['password'].errors?.['minlength']">
-          La password deve essere lunga almeno 6 caratteri.
-        </div>
+
+      @if (f['password'].touched && f['password'].invalid) {
+      <div class="invalid-feedback">
+        @if (f['password'].errors?.['required']) {
+        <div>Password richiesta.</div>
+        } @if (f['password'].errors?.['minlength']) {
+        <div>La password deve essere lunga almeno 6 caratteri.</div>
+        }
       </div>
+      }
     </div>
 
     <div class="form-group">

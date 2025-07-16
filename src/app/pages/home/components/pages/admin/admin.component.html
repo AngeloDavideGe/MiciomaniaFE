@@ -26,40 +26,41 @@
     class="row justify-content-center"
     style="gap: 1.5rem; row-gap: 2rem; margin: 0 auto"
   >
-    <ng-container *ngFor="let ruolo of ruoli">
-      <div
-        class="flex-grow-0 flex-shrink-0"
-        style="min-width: 20rem; max-width: 30rem"
-      >
-        <div class="card border-0 shadow-lg h-100">
-          <div
-            class="card-header bg-primary text-white rounded-top d-flex align-items-center py-2"
-          >
-            <i class="bi bi-people-fill me-2 fs-5"></i>
-            <h5 class="card-title mb-0 flex-grow-1 fs-6">
-              {{ ruolo | capitalizeFirstLetter }}
-            </h5>
-          </div>
-          <div class="card-body p-0 d-flex flex-column">
-            <app-table-user-params
-              [ruolo]="ruolo"
-              [user]="user"
-              [userMap]="userMapByRuolo[ruolo]"
-              (modificaRuolo)="modificaRuolo($event)"
-              (eliminaRuolo)="eliminaRuolo($event)"
-              class="p-3 flex-grow-1"
-            ></app-table-user-params>
-          </div>
+    @for(ruolo of ruoli; track $index){
+    <div
+      class="flex-grow-0 flex-shrink-0"
+      style="min-width: 20rem; max-width: 30rem"
+    >
+      <div class="card border-0 shadow-lg h-100">
+        <div
+          class="card-header bg-primary text-white rounded-top d-flex align-items-center py-2"
+        >
+          <i class="bi bi-people-fill me-2 fs-5"></i>
+          <h5 class="card-title mb-0 flex-grow-1 fs-6">
+            {{ ruolo | capitalizeFirstLetter }}
+          </h5>
+        </div>
+        <div class="card-body p-0 d-flex flex-column">
+          <app-table-user-params
+            [ruolo]="ruolo"
+            [user]="user"
+            [userMap]="userMapByRuolo[ruolo]"
+            (modificaRuolo)="modificaRuolo($event)"
+            (eliminaRuolo)="eliminaRuolo($event)"
+            class="p-3 flex-grow-1"
+          ></app-table-user-params>
         </div>
       </div>
-    </ng-container>
+    </div>
+    }
   </div>
 
   <!-- Modale -->
+  @if (editAdmin()) {
   <app-edit-admin
-    *ngIf="editAdmin()"
     [userEdit]="userEdit"
     (chiudiModale)="editAdmin.set(false)"
     (ruoloModificato)="ruoloModificato($event)"
   ></app-edit-admin>
+  }
 </div>

@@ -1,4 +1,4 @@
-import { NgFor, NgIf } from '@angular/common';
+import { NgFor } from '@angular/common';
 import {
   Component,
   computed,
@@ -12,6 +12,7 @@ import {
 import { FormsModule } from '@angular/forms';
 import { ErrorHttpComponent } from '../../../../shared/components/errorhttp.component';
 import { AuthHandler } from '../../../../shared/handlers/auth.handler';
+import { User } from '../../../../shared/interfaces/users.interface';
 import { LoadingService } from '../../../../shared/services/loading.service';
 import { MangaHandler } from '../../handlers/manga.handler';
 import {
@@ -22,12 +23,11 @@ import {
   SplitMangaUtente,
 } from '../../interfaces/manga.interface';
 import { CardMangaComponent } from '../../shared/card-manga.component';
-import { User } from '../../../../shared/interfaces/users.interface';
 
 @Component({
   selector: 'app-tuoi-manga',
   standalone: true,
-  imports: [NgIf, NgFor, CardMangaComponent, FormsModule, ErrorHttpComponent],
+  imports: [NgFor, CardMangaComponent, FormsModule, ErrorHttpComponent],
   templateUrl: './tuoi-manga.component.html',
 })
 export class TuoiMangaComponent implements OnInit, OnDestroy {

@@ -1,6 +1,7 @@
 import { Component, effect, inject, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subject, takeUntil } from 'rxjs';
+import { AuthHandler } from '../../../../../shared/handlers/auth.handler';
 import { User } from '../../../../../shared/interfaces/users.interface';
 import { LoadingService } from '../../../../../shared/services/loading.service';
 import {
@@ -9,7 +10,6 @@ import {
   Tweet,
 } from '../../../interfaces/profilo.interface';
 import { profilo_imports } from './imports/profilo.imports';
-import { AuthHandler } from '../../../../../shared/handlers/auth.handler';
 
 @Component({
   selector: 'app-profilo',
@@ -37,6 +37,16 @@ export class ProfiloComponent implements OnInit, OnDestroy {
     user: this.authHandler.getVoidUser(),
     tweets: [] as Tweet[],
   };
+
+  // @Template() spinnerTemplate = `
+  //   <div
+  //     class="spinner-border text-dark rounded-circle me-3"
+  //     role="status"
+  //     style="width: 50px; height: 50px"
+  //   >
+  //     <span class="visually-hidden">Loading...</span>
+  //   </div>
+  // `;
 
   constructor() {
     this.sottoscrizioneParam();
@@ -240,4 +250,10 @@ export class ProfiloComponent implements OnInit, OnDestroy {
       </html>
     `;
   }
+}
+function Template(): (
+  target: ProfiloComponent,
+  propertyKey: 'spinnerTemplate'
+) => void {
+  throw new Error('Function not implemented.');
 }

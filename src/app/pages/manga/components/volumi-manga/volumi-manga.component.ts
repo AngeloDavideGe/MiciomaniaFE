@@ -1,16 +1,15 @@
-import { NgFor, NgIf } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { finalize, Observable, take } from 'rxjs';
 import { LoadingService } from '../../../../shared/services/loading.service';
+import { MangaHandler } from '../../handlers/manga.handler';
 import { MangaVolume } from '../../interfaces/manga.interface';
 import { PadZeroVolumePipe } from '../../pipes/padZeroVolume.pipe';
-import { MangaHandler } from '../../handlers/manga.handler';
 
 @Component({
   selector: 'app-volumi-manga',
   standalone: true,
-  imports: [NgIf, NgFor, PadZeroVolumePipe],
+  imports: [PadZeroVolumePipe],
   templateUrl: './volumi-manga.component.html',
 })
 export class VolumiMangaComponent implements OnInit {

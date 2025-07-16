@@ -1,11 +1,10 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { ListaManga } from '../interfaces/manga.interface';
-import { NgIf } from '@angular/common';
 
 @Component({
   selector: 'app-card-manga',
   standalone: true,
-  imports: [NgIf],
+  imports: [],
   template: `
     <div class="card shadow-sm h-100" style="width: 200px;">
       <img
@@ -22,13 +21,27 @@ import { NgIf } from '@angular/common';
           <div
             class="card-footer d-flex align-items-center justify-content-between p-0 border-0 bg-transparent"
           >
-            <ng-container *ngIf="visualizzaPreferito; else removeTemplate">
-              <button
-                *ngIf="preferito; then stellaPreferita; else stellaNonPreferita"
-                class="p-0 border-0 bg-transparent"
-                style="font-size: 1.5rem"
-              ></button>
-            </ng-container>
+            @if(visualizzaPreferito) {
+            <button
+              class="p-0 border-0 bg-transparent"
+              style="font-size: 1.5rem"
+            >
+              @if(preferito) {
+              <i class="bi bi-star-fill stella-icon"></i>
+              } @else {
+              <i class="bi bi-star stella-icon"></i>
+              }
+            </button>
+
+            } @else {
+            <button
+              class="p-0 border-0 bg-transparent"
+              style="font-size: 1.5rem"
+              (click)="rimuoviPreferito.emit()"
+            >
+              <i class="bi bi-x"></i>
+            </button>
+            }
             <button
               class="btn btn-primary btn-sm"
               (click)="selezionaOpera.emit()"
@@ -39,35 +52,17 @@ import { NgIf } from '@angular/common';
         </div>
       </div>
 
-      <ng-container *ngIf="seleziona">
-        <div class="position-absolute top-0 end-0 p-2">
-          <input
-            type="checkbox"
-            class="form-check-input border-warning custom-checkbox"
-            (change)="clickCheckbox()"
-            id="checkboxSeleziona"
-          />
-        </div>
-      </ng-container>
+      @if(seleziona) {
+      <div class="position-absolute top-0 end-0 p-2">
+        <input
+          type="checkbox"
+          class="form-check-input border-warning custom-checkbox"
+          (change)="clickCheckbox()"
+          id="checkboxSeleziona"
+        />
+      </div>
+      }
     </div>
-
-    <ng-template #removeTemplate>
-      <button
-        class="p-0 border-0 bg-transparent"
-        style="font-size: 1.5rem"
-        (click)="rimuoviPreferito.emit()"
-      >
-        <i class="bi bi-x"></i>
-      </button>
-    </ng-template>
-
-    <ng-template #stellaPreferita>
-      <i class="bi bi-star-fill stella-icon"></i>
-    </ng-template>
-
-    <ng-template #stellaNonPreferita>
-      <i class="bi bi-star stella-icon"></i>
-    </ng-template>
   `,
   styles: [
     `

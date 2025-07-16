@@ -65,8 +65,8 @@
       </div>
 
       <div class="d-flex justify-content-center gap-3 mt-3">
+        @if (numDomanda != 5) {
         <button
-          *ngIf="numDomanda != 5; else lastDomandaButton"
           class="btn btn-primary"
           (click)="domandaNext()"
           [disabled]="!rispostaConfermata"
@@ -74,22 +74,21 @@
         >
           ➡️ Avanti
         </button>
-
-        <ng-template #lastDomandaButton>
-          <button
-            class="btn btn-danger"
-            (click)="ricomincia()"
-            [disabled]="!rispostaConfermata"
-            style="
-              padding: 10px 20px;
-              font-size: 16px;
-              border-radius: 8px;
-              font-weight: bold;
-            "
-          >
-            🔄 Ricomincia
-          </button>
-        </ng-template>
+        } @else {
+        <button
+          class="btn btn-danger"
+          (click)="ricomincia()"
+          [disabled]="!rispostaConfermata"
+          style="
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 8px;
+            font-weight: bold;
+          "
+        >
+          🔄 Ricomincia
+        </button>
+        }
       </div>
     </div>
   </div>

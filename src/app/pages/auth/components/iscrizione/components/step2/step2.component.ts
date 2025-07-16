@@ -1,4 +1,4 @@
-import { NgClass, NgFor, NgIf } from '@angular/common';
+import { NgClass, NgFor } from '@angular/common';
 import {
   Component,
   EventEmitter,
@@ -27,7 +27,7 @@ import { Region } from '../../class/region.class';
 @Component({
   selector: 'app-step2',
   standalone: true,
-  imports: [ReactiveFormsModule, NgFor, NgClass, NgIf],
+  imports: [ReactiveFormsModule, NgFor, NgClass],
   templateUrl: './step2.component.html',
 })
 export class Step2Component implements OnInit, OnDestroy {

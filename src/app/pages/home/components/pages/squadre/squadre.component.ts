@@ -1,15 +1,14 @@
-import { NgIf } from '@angular/common';
 import { Component, HostListener, inject, NgZone, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { SquadreHandler } from '../../../../../shared/handlers/squadre.handler';
 import { LoadingService } from '../../../../../shared/services/loading.service';
-import { Router } from '@angular/router';
 
 declare var google: any;
 
 @Component({
   selector: 'app-squadre',
   standalone: true,
-  imports: [NgIf],
+  imports: [],
   templateUrl: './squadre.component.html',
 })
 export class SquadreComponent implements OnInit {

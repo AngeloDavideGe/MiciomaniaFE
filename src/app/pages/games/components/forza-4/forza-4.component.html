@@ -50,9 +50,8 @@
                   "
                 ></div>
 
-                <!-- Pedina giocatore (rossa) -->
+                @if (cell.player) {
                 <div
-                  *ngIf="cell.player"
                   style="
                     position: absolute;
                     top: 5px;
@@ -65,10 +64,8 @@
                     z-index: 2;
                   "
                 ></div>
-
-                <!-- Pedina bot (gialla) -->
+                } @if (cell.bot) {
                 <div
-                  *ngIf="cell.bot"
                   style="
                     position: absolute;
                     top: 5px;
@@ -81,6 +78,7 @@
                     z-index: 2;
                   "
                 ></div>
+                }
               </div>
             </div>
           </div>

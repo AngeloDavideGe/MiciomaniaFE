@@ -1,4 +1,4 @@
-import { DatePipe, NgFor, NgIf } from '@angular/common';
+import { DatePipe, NgFor } from '@angular/common';
 import {
   AfterViewChecked,
   Component,
@@ -24,7 +24,7 @@ import { ChatGroupService } from './../services/chat-group.service';
 @Component({
   selector: 'app-chat-group',
   standalone: true,
-  imports: [NgIf, NgFor, FormsModule, DatePipe],
+  imports: [NgFor, FormsModule, DatePipe],
   templateUrl: './chat-group.component.html',
   styleUrl: './chat-group.component.scss',
 })

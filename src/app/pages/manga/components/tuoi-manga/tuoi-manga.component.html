@@ -1,8 +1,5 @@
-<div
-  *ngIf="!erroreHttp; else erroreHttpTemplate"
-  class="text-white py-5 mb-4"
-  style="background-color: #4a6572"
->
+@if (!erroreHttp) {
+<div class="text-white py-5 mb-4" style="background-color: #4a6572">
   <div class="container text-center">
     <h1 class="display-4 fw-bold mb-3">I tuoi Manga</h1>
     <p class="lead mb-4">
@@ -17,6 +14,9 @@
     </button>
   </div>
 </div>
+} @else {
+<app-error-http></app-error-http>
+}
 
 <!-- Tabs per Preferiti, Leggendo e Completati -->
 <div class="container mt-4" id="tabs">
@@ -75,8 +75,8 @@
   />
 
   <!-- Lista di risultati della ricerca (dropdown) -->
+  @if (allMangaSearch().length > 0 && searchQuery().length > 0) {
   <div
-    *ngIf="allMangaSearch().length > 0 && searchQuery().length > 0"
     class="position-absolute w-100 w-sm-75 w-md-50"
     style="z-index: 1050; margin-top: 3.5rem"
   >
@@ -101,10 +101,11 @@
       </li>
     </ul>
   </div>
+  }
 </div>
 
+@if (selectedTab != 'preferiti') {
 <select
-  *ngIf="selectedTab != 'preferiti'"
   class="form-select form-select-lg mb-3 mt-3"
   aria-label="Sposta i selezionati"
   (change)="spostaMangaSelezionati($event)"
@@ -115,6 +116,7 @@
   <option value="Completati">✅ Completati</option>
   <option value="Elimina">🗑️ Cestino</option>
 </select>
+}
 
 <!-- Sezione manga filtrati -->
 <div class="d-flex flex-wrap mt-4" id="app-card">
@@ -134,9 +136,7 @@
   </div>
 </div>
 
-<ng-template #erroreHttpTemplate>
-  <app-error-http></app-error-http>
-</ng-template>
+<ng-template #erroreHttpTemplate> </ng-template>
 
 <style>
   #tabs .stile-bottoni {

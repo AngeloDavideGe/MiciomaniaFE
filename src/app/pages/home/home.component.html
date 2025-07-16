@@ -1,50 +1,50 @@
-<ng-container *ngIf="isHome$ | async">
-  <app-navbar
-    [credenziali]="user.credenziali"
-    [inizialiUser]="inizialiUser"
-    [profilesMenu]="menuBarProfili"
-    [settingsMenu]="menuBarImpostazioni"
-  ></app-navbar>
+@if (isHome$ | async) {
+<app-navbar
+  [credenziali]="user.credenziali"
+  [inizialiUser]="inizialiUser"
+  [profilesMenu]="menuBarProfili"
+  [settingsMenu]="menuBarImpostazioni"
+></app-navbar>
 
-  <ng-template #menuBarImpostazioni>
-    <app-menu-impostazioni
-      [user]="user"
-      (cursore)="
-        componenteAperto.set(componenteAperto() === 'cursore' ? '' : 'cursore')
-      "
-    >
-    </app-menu-impostazioni>
-  </ng-template>
+<ng-template #menuBarImpostazioni>
+  <app-menu-impostazioni
+    [user]="user"
+    (cursore)="
+      componenteAperto.set(componenteAperto() === 'cursore' ? '' : 'cursore')
+    "
+  >
+  </app-menu-impostazioni>
+</ng-template>
 
-  <ng-template #menuBarProfili>
-    <app-menu-profili
-      [user]="user"
-      (logout)="logout()"
-      (cercaProfili)="
-        componenteAperto.set(componenteAperto() === 'profili' ? '' : 'profili')
-      "
-    ></app-menu-profili>
-  </ng-template>
+<ng-template #menuBarProfili>
+  <app-menu-profili
+    [user]="user"
+    (logout)="logout()"
+    (cercaProfili)="
+      componenteAperto.set(componenteAperto() === 'profili' ? '' : 'profili')
+    "
+  ></app-menu-profili>
+</ng-template>
 
-  <div [ngSwitch]="componenteAperto()">
-    <app-cursore *ngSwitchCase="'cursore'" class="pc-only"></app-cursore>
+<div [ngSwitch]="componenteAperto()">
+  <app-cursore *ngSwitchCase="'cursore'" class="pc-only"></app-cursore>
 
-    <app-cerca-profili
-      *ngSwitchCase="'profili'"
-      [profiliPronti]="authHandler.profiliPronti"
-      [users]="authHandler.users()"
-      [goToProfilo]="goToProfilo"
-      [chiudiComponente]="chiudiComponente"
-    ></app-cerca-profili>
-  </div>
+  <app-cerca-profili
+    *ngSwitchCase="'profili'"
+    [profiliPronti]="authHandler.profiliPronti"
+    [users]="authHandler.users()"
+    [goToProfilo]="goToProfilo"
+    [chiudiComponente]="chiudiComponente"
+  ></app-cerca-profili>
+</div>
 
-  <app-card-home (canzone)="controlloPunteggio()"></app-card-home>
+<app-card-home (canzone)="controlloPunteggio()"></app-card-home>
 
-  <app-social-link></app-social-link>
+<app-social-link></app-social-link>
 
-  <footer class="text-center py-4">
-    <p>&copy; 2024 MiciomaniWeb. Tutti i diritti riservati.</p>
-  </footer>
-</ng-container>
+<footer class="text-center py-4">
+  <p>&copy; 2024 MiciomaniWeb. Tutti i diritti riservati.</p>
+</footer>
+}
 
 <router-outlet></router-outlet>

@@ -1,11 +1,11 @@
-import { NgClass, NgFor, NgIf } from '@angular/common';
+import { NgClass, NgFor } from '@angular/common';
 import { Component, EventEmitter, Output } from '@angular/core';
 import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-card-home',
   standalone: true,
-  imports: [RouterLink, NgFor, NgIf, NgClass],
+  imports: [RouterLink, NgFor, NgClass],
   template: `
     <section
       data-bs-version="5.1"
@@ -26,20 +26,18 @@ import { RouterLink } from '@angular/router';
               <div class="card-body" [ngClass]="card.bgClass">
                 <h5 class="card-title fw-bold">{{ card.titolo }}</h5>
                 <p class="card-text">{{ card.descrizione }}</p>
-                <a
-                  *ngIf="!card.func; else noLink"
-                  [routerLink]="card.aLink"
-                  class="btn btn-light"
-                  >{{ card.titoloBottone }}
+                @if(!card.func) {
+                <a [routerLink]="card.aLink" class="btn btn-light">
+                  {{ card.titoloBottone }}
                 </a>
-                <ng-template #noLink>
-                  <a
-                    class="btn btn-light"
-                    (click)="card.func ? card.func() : null"
-                  >
-                    {{ card.titoloBottone }}
-                  </a>
-                </ng-template>
+                } @else {
+                <a
+                  class="btn btn-light"
+                  (click)="card.func ? card.func() : null"
+                >
+                  {{ card.titoloBottone }}
+                </a>
+                }
               </div>
             </div>
           </div>

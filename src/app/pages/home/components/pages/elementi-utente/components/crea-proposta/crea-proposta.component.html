@@ -28,25 +28,29 @@
               >Tipo <span class="text-danger">*</span></label
             >
             <select
-              class="form-control form-control-lg"
               id="tipo"
               formControlName="tipo"
+              class="form-control form-control-lg"
               [ngClass]="{
                 'is-invalid': f['tipo'].touched && f['tipo'].invalid
               }"
             >
               <option value="" disabled selected>Seleziona un tipo</option>
-              <option *ngIf="!optionManga" value="manga">Manga</option>
-              <option *ngIf="!optionCanzone" value="canzone">Canzone</option>
+
+              @if (!optionManga) {
+              <option value="manga">Manga</option>
+              } @if (!optionCanzone) {
+              <option value="canzone">Canzone</option>
+              }
             </select>
-            <div
-              *ngIf="f['tipo'].touched && f['tipo'].invalid"
-              class="invalid-feedback"
-            >
-              <div *ngIf="f['tipo'].errors?.['required']">
-                Il tipo è obbligatorio
-              </div>
+
+            @if (f['tipo'].touched && f['tipo'].invalid) {
+            <div class="invalid-feedback">
+              @if (f['tipo'].errors?.['required']) {
+              <div>Il tipo è obbligatorio</div>
+              }
             </div>
+            }
           </div>
 
           <!-- Campo nome -->
@@ -63,14 +67,14 @@
                 'is-invalid': f['nome'].touched && f['nome'].invalid
               }"
             />
-            <div
-              *ngIf="f['nome'].touched && f['nome'].invalid"
-              class="invalid-feedback"
-            >
-              <div *ngIf="f['nome'].errors?.['required']">
-                Il nome è obbligatorio
-              </div>
+
+            @if (f['nome'].touched && f['nome'].invalid) {
+            <div class="invalid-feedback">
+              @if (f['nome'].errors?.['required']) {
+              <div>Il nome è obbligatorio</div>
+              }
             </div>
+            }
           </div>
 
           <!-- Campo descrizione -->
@@ -88,14 +92,14 @@
                   f['descrizione'].touched && f['descrizione'].invalid
               }"
             ></textarea>
-            <div
-              *ngIf="f['descrizione'].touched && f['descrizione'].invalid"
-              class="invalid-feedback"
-            >
-              <div *ngIf="f['descrizione'].errors?.['required']">
-                La descrizione è obbligatoria
-              </div>
+
+            @if (f['descrizione'].touched && f['descrizione'].invalid) {
+            <div class="invalid-feedback">
+              @if (f['descrizione'].errors?.['required']) {
+              <div>La descrizione è obbligatoria</div>
+              }
             </div>
+            }
           </div>
 
           <!-- Campo file -->
@@ -111,17 +115,16 @@
                 'is-invalid': f['file'].touched && f['file'].invalid
               }"
             />
-            <div
-              *ngIf="f['file'].touched && f['file'].invalid"
-              class="invalid-feedback"
-            >
-              <div *ngIf="f['file'].errors?.['required']">
-                Il file è obbligatorio
-              </div>
-              <div *ngIf="f['file'].errors?.['invalidFileType']">
-                Sono accettati solo file PDF o MP3
-              </div>
+
+            @if (f['file'].touched && f['file'].invalid) {
+            <div class="invalid-feedback">
+              @if (f['file'].errors?.['required']) {
+              <div>Il file è obbligatorio</div>
+              } @if (f['file'].errors?.['invalidFileType']) {
+              <div>Sono accettati solo file PDF o MP3</div>
+              }
             </div>
+            }
             <small class="text-muted"
               >Formati accettati: PDF per libri, MP3 per musica</small
             >

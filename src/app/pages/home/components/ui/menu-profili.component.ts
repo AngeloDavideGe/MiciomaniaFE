@@ -1,4 +1,3 @@
-import { NgIf } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { User } from '../../../../shared/interfaces/users.interface';
@@ -6,25 +5,25 @@ import { User } from '../../../../shared/interfaces/users.interface';
 @Component({
   selector: 'app-menu-profili',
   standalone: true,
-  imports: [RouterLink, NgIf],
+  imports: [RouterLink],
   template: `
     <div id="menuBarProfili">
-      <ng-container *ngIf="user.id; else NoProfiloPersonale">
-        <li>
-          <a class="dropdown-item" [routerLink]="'/home/profilo/' + user.id">
-            <i class="bi bi-person-circle me-2"></i>
-            Il mio profilo
-          </a>
-        </li>
-      </ng-container>
-      <ng-template #NoProfiloPersonale>
-        <li>
-          <span class="dropdown-item text-muted">
-            <i class="bi bi-exclamation-circle me-2"></i>
-            Accedi per vedere il tuo Profilo
-          </span>
-        </li>
-      </ng-template>
+      @if(user.id) {
+      <li>
+        <a class="dropdown-item" [routerLink]="'/home/profilo/' + user.id">
+          <i class="bi bi-person-circle me-2"></i>
+          Il mio profilo
+        </a>
+      </li>
+      } @else {
+      <li>
+        <span class="dropdown-item text-muted">
+          <i class="bi bi-exclamation-circle me-2"></i>
+          Accedi per vedere il tuo Profilo
+        </span>
+      </li>
+      }
+
       <li>
         <a class="dropdown-item" (click)="cercaProfili.emit()">
           <i class="bi bi-search me-2"></i>
@@ -37,22 +36,22 @@ import { User } from '../../../../shared/interfaces/users.interface';
           Contatta Admin
         </a>
       </li>
-      <ng-container *ngIf="user.id; else loggedOut">
-        <li>
-          <a class="dropdown-item" (click)="logout.emit()">
-            <i class="bi bi-box-arrow-right me-2"></i>
-            Logout
-          </a>
-        </li>
-      </ng-container>
-      <ng-template #loggedOut>
-        <li>
-          <a class="dropdown-item" routerLink="/auth/login">
-            <i class="bi bi-box-arrow-in-right me-2"></i>
-            Login
-          </a>
-        </li>
-      </ng-template>
+
+      @if(user.id) {
+      <li>
+        <a class="dropdown-item" (click)="logout.emit()">
+          <i class="bi bi-box-arrow-right me-2"></i>
+          Logout
+        </a>
+      </li>
+      } @else {
+      <li>
+        <a class="dropdown-item" routerLink="/auth/login">
+          <i class="bi bi-box-arrow-in-right me-2"></i>
+          Login
+        </a>
+      </li>
+      }
     </div>
   `,
   styles: [

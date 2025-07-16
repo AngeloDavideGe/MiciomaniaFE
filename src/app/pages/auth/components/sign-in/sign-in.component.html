@@ -1,6 +1,7 @@
 <div class="card-header text-center">
   <h3 class="h4">Registrati</h3>
 </div>
+
 <div class="card-body">
   <form [formGroup]="signInForm" (ngSubmit)="onSubmit()">
     <!-- Campo Nome -->
@@ -19,26 +20,18 @@
         }"
       />
 
-      <!-- Errori -->
-      <div
-        *ngIf="
-          ((f['nome'].touched && f['nome'].invalid) || clickRegistrati) &&
-          f['nome'].invalid
-        "
-        class="invalid-feedback"
-      >
-        <div *ngIf="f['nome'].errors?.['required']">
-          Il nome è obbligatorio.
-        </div>
-        <div *ngIf="f['nome'].errors?.['minlength']">
-          Il nome deve avere almeno 3 lettere.
-        </div>
+      @if (((f['nome'].touched && f['nome'].invalid) || clickRegistrati) &&
+      f['nome'].invalid) {
+      <div class="invalid-feedback">
+        @if (f['nome'].errors?.['required']) {
+        <div>Il nome è obbligatorio.</div>
+        } @if (f['nome'].errors?.['minlength']) {
+        <div>Il nome deve avere almeno 3 lettere.</div>
+        }
       </div>
-
-      <!-- Successo -->
-      <div *ngIf="clickRegistrati && f['nome'].valid" class="valid-feedback">
-        Nome valido!
-      </div>
+      } @if (clickRegistrati && f['nome'].valid) {
+      <div class="valid-feedback">Nome valido!</div>
+      }
     </div>
 
     <!-- Campo Username -->
@@ -57,27 +50,19 @@
           'is-valid': clickRegistrati && f['username'].valid
         }"
       />
-      <div
-        *ngIf="
-          ((f['username'].touched && f['username'].invalid) ||
-            clickRegistrati) &&
-          f['username'].invalid
-        "
-        class="invalid-feedback"
-      >
-        <div *ngIf="f['username'].errors?.['required']">
-          Username richiesto.
-        </div>
-        <div *ngIf="f['username'].errors?.['minlength']">
-          L'username deve avere almeno 3 lettere.
-        </div>
+
+      @if (((f['username'].touched && f['username'].invalid) || clickRegistrati)
+      && f['username'].invalid) {
+      <div class="invalid-feedback">
+        @if (f['username'].errors?.['required']) {
+        <div>Username richiesto.</div>
+        } @if (f['username'].errors?.['minlength']) {
+        <div>L'username deve avere almeno 3 lettere.</div>
+        }
       </div>
-      <div
-        *ngIf="clickRegistrati && f['username'].valid"
-        class="valid-feedback"
-      >
-        Username valido!
-      </div>
+      } @if (clickRegistrati && f['username'].valid) {
+      <div class="valid-feedback">Username valido!</div>
+      }
     </div>
 
     <!-- Campo Email -->
@@ -95,21 +80,19 @@
           'is-valid': clickRegistrati && f['email'].valid
         }"
       />
-      <div
-        *ngIf="
-          ((f['email'].touched && f['email'].invalid) || clickRegistrati) &&
-          f['email'].invalid
-        "
-        class="invalid-feedback"
-      >
-        <div *ngIf="f['email'].errors?.['required']">Email richiesta.</div>
-        <div *ngIf="f['email'].errors?.['email']">
-          Formato email non valido.
-        </div>
+
+      @if (((f['email'].touched && f['email'].invalid) || clickRegistrati) &&
+      f['email'].invalid) {
+      <div class="invalid-feedback">
+        @if (f['email'].errors?.['required']) {
+        <div>Email richiesta.</div>
+        } @if (f['email'].errors?.['email']) {
+        <div>Formato email non valido.</div>
+        }
       </div>
-      <div *ngIf="clickRegistrati && f['email'].valid" class="valid-feedback">
-        Email valida!
-      </div>
+      } @if (clickRegistrati && f['email'].valid) {
+      <div class="valid-feedback">Email valida!</div>
+      }
     </div>
 
     <!-- Campo Password -->
@@ -128,27 +111,19 @@
           'is-valid': clickRegistrati && f['password'].valid
         }"
       />
-      <div
-        *ngIf="
-          ((f['password'].touched && f['password'].invalid) ||
-            clickRegistrati) &&
-          f['password'].invalid
-        "
-        class="invalid-feedback"
-      >
-        <div *ngIf="f['password'].errors?.['required']">
-          Password richiesta.
-        </div>
-        <div *ngIf="f['password'].errors?.['minlength']">
-          La password deve essere lunga almeno 6 caratteri.
-        </div>
+
+      @if (((f['password'].touched && f['password'].invalid) || clickRegistrati)
+      && f['password'].invalid) {
+      <div class="invalid-feedback">
+        @if (f['password'].errors?.['required']) {
+        <div>Password richiesta.</div>
+        } @if (f['password'].errors?.['minlength']) {
+        <div>La password deve essere lunga almeno 6 caratteri.</div>
+        }
       </div>
-      <div
-        *ngIf="clickRegistrati && f['password'].valid"
-        class="valid-feedback"
-      >
-        Password valida!
-      </div>
+      } @if (clickRegistrati && f['password'].valid) {
+      <div class="valid-feedback">Password valida!</div>
+      }
     </div>
 
     <!-- Pulsante di Registrazione -->
