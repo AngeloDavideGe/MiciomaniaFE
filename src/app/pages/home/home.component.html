@@ -26,17 +26,21 @@
   ></app-menu-profili>
 </ng-template>
 
-<div [ngSwitch]="componenteAperto()">
-  <app-cursore *ngSwitchCase="'cursore'" class="pc-only"></app-cursore>
+@switch (componenteAperto()) {
+<!-- cursore -->
+@case ('cursore') {
+<app-cursore class="pc-only"></app-cursore>
+}
 
-  <app-cerca-profili
-    *ngSwitchCase="'profili'"
-    [profiliPronti]="authHandler.profiliPronti"
-    [users]="authHandler.users()"
-    [goToProfilo]="goToProfilo"
-    [chiudiComponente]="chiudiComponente"
-  ></app-cerca-profili>
-</div>
+<!-- Cerca profili -->
+@case ('profili') {
+<app-cerca-profili
+  [profiliPronti]="authHandler.profiliPronti"
+  [users]="authHandler.users()"
+  [goToProfilo]="goToProfilo"
+  [chiudiComponente]="chiudiComponente"
+></app-cerca-profili>
+} }
 
 <app-card-home (canzone)="controlloPunteggio()"></app-card-home>
 

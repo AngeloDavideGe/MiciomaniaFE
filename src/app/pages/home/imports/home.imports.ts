@@ -1,4 +1,4 @@
-import { AsyncPipe, NgSwitch, NgSwitchCase } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
 import { CardHomeComponent } from '../components/ui/card-home.component';
 import { CercaProfiliComponent } from '../components/ui/cerca-profili/cerca-profili.component';
@@ -12,8 +12,6 @@ export const home_imports = [
   CardHomeComponent,
   SocialLinkComponent,
   CercaProfiliComponent,
-  NgSwitch,
-  NgSwitchCase,
   RouterOutlet,
   NavBarComponent,
   CursoreComponent,

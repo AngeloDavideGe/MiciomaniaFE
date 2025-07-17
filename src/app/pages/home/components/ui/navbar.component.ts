@@ -1,11 +1,11 @@
-import { CommonModule } from '@angular/common';
 import { Component, Input, TemplateRef } from '@angular/core';
 import { Credenziali } from '../../../../shared/interfaces/users.interface';
+import { NgTemplateOutlet } from '@angular/common';
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [CommonModule],
+  imports: [NgTemplateOutlet],
   template: `
     <section
       data-bs-version="5.1"

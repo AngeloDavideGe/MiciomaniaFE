@@ -4,8 +4,10 @@ import { DTO_Wizard } from '../../../interfaces/wizard.interface';
 import { WizardService } from '../../../services/wizard.service';
 import { LoadingService } from '../../../../../shared/services/loading.service';
 
+export type stepType = 1 | 2 | 3;
+
 export abstract class WizardBase {
-  protected currentStep: WritableSignal<number>;
+  protected currentStep: WritableSignal<stepType>;
   protected wizard: DTO_Wizard[];
   protected formValido: boolean;
   protected lineeGuidaAccettate: boolean;
@@ -15,7 +17,7 @@ export abstract class WizardBase {
   protected loadingService = inject(LoadingService);
 
   constructor() {
-    this.currentStep = signal<number>(1);
+    this.currentStep = signal<stepType>(1);
     this.formValido = false;
     this.lineeGuidaAccettate = false;
     this.wizard = [
@@ -41,8 +43,9 @@ export abstract class WizardBase {
   protected nextStep(): void {}
 
   protected prevStep(): void {
-    if (this.currentStep() > 1) {
-      this.currentStep.update((x) => x - 1);
+    const step: stepType = this.currentStep();
+    if (step > 1) {
+      this.currentStep.update((x) => (x - 1) as stepType);
     } else {
       this.router.navigate(['home']);
     }

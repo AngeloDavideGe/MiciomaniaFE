@@ -6,7 +6,7 @@ import {
 } from '../../../../shared/interfaces/users.interface';
 import { Ruolo } from '../../enums/users.enum';
 import { FormWizard } from '../../interfaces/wizard.interface';
-import { WizardBase } from './base/wizard.base';
+import { stepType, WizardBase } from './base/wizard.base';
 import { iscrizione_imports } from './imports/iscrizione.import';
 import { AuthHandler } from '../../../../shared/handlers/auth.handler';
 
@@ -73,11 +73,11 @@ export class IscrizioneComponent extends WizardBase {
   override nextStep(): void {
     switch (this.currentStep()) {
       case 1:
-        this.currentStep.update((x) => x + 1);
+        this.currentStep.update((x) => (x + 1) as stepType);
         break;
       case 2:
         if (this.formValido) {
-          this.currentStep.update((x) => x + 1);
+          this.currentStep.update((x) => (x + 1) as stepType);
         } else {
           this.wizardService.setAvantiStep2Premuto();
         }

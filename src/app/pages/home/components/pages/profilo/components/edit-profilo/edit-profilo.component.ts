@@ -64,12 +64,16 @@ import { TabSocialComponent } from './tab-social/tab-social.component';
 
             <!-- Tab Content -->
             <div class="tab-content">
-              @switch(tab) { @case('info') {
+              @switch(tab) {
+              <!-- Info -->
+              @case('info') {
               <tab-info-profilo
                 [user]="user"
                 (chiudi)="chiudi.emit()"
               ></tab-info-profilo>
-              } @case('social') {
+              }
+              <!-- Social -->
+              @case('social') {
               <tab-social-profilo
                 [user]="user"
                 (chiudi)="chiudi.emit()"
@@ -82,7 +86,7 @@ import { TabSocialComponent } from './tab-social/tab-social.component';
     </div>`,
 })
 export class EditProfiloComponent {
-  public tab: string = 'info';
+  public tab: 'info' | 'social' = 'info';
 
   @Input() user: User = {} as User;
   @Output() chiudi = new EventEmitter<void>();

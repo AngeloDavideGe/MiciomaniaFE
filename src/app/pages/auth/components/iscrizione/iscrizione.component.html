@@ -10,27 +10,31 @@
 
   }
 </div>
-<ng-container [ngSwitch]="currentStep()">
-  <ng-container *ngSwitchCase="1">
-    <app-step1></app-step1>
-  </ng-container>
-  <ng-container *ngSwitchCase="2">
-    @if (user.id) {
-    <app-step2 (formValido)="formValido = $event"></app-step2>
-    } @else {
-    <app-error-iscrizione></app-error-iscrizione>
 
-    }
-  </ng-container>
-  <ng-container *ngSwitchCase="3">
-    <app-step3
-      [wizardData]="wizardService.getWizardForm()"
-      (lineeGuidaEvent)="lineeGuidaAccettate = $event"
-    >
-    </app-step3>
-  </ng-container>
-</ng-container>
+@switch (currentStep()) {
+<!-- Step 1 -->
+@case (1) {
+<app-step1></app-step1>
+}
 
+<!-- Step 2 -->
+@case (2) { @if (user.id) {
+<app-step2 (formValido)="formValido = $event"></app-step2>
+} @else {
+<app-error-iscrizione></app-error-iscrizione>
+
+} }
+
+<!-- Step 3 -->
+@case (3) {
+<app-step3
+  [wizardData]="wizardService.getWizardForm()"
+  (lineeGuidaEvent)="lineeGuidaAccettate = $event"
+>
+</app-step3>
+} }
+
+<!-- Pulsanti -->
 @if (user.id || currentStep()!=2) {
 <div class="d-flex justify-content-center mt-4">
   <div
