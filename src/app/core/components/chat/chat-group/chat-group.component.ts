@@ -1,4 +1,4 @@
-import { DatePipe, NgFor } from '@angular/common';
+import { DatePipe } from '@angular/common';
 import {
   AfterViewChecked,
   Component,
@@ -13,18 +13,18 @@ import {
   signal,
   ViewChild,
 } from '@angular/core';
-import { FormsModule } from '@angular/forms';
 import { take } from 'rxjs';
 import { formatDataCustom } from '../../../../shared/functions/utilities.function';
 import { AuthHandler } from '../../../../shared/handlers/auth.handler';
 import { User } from '../../../../shared/interfaces/users.interface';
 import { Messaggio } from './../interfaces/chat-group.interface';
 import { ChatGroupService } from './../services/chat-group.service';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-chat-group',
   standalone: true,
-  imports: [NgFor, FormsModule, DatePipe],
+  imports: [FormsModule, DatePipe],
   templateUrl: './chat-group.component.html',
   styleUrl: './chat-group.component.scss',
 })

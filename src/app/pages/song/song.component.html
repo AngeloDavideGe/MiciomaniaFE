@@ -56,7 +56,8 @@
   </div>
 
   <div class="row row-cols-1 row-cols-md-3 g-4">
-    <div class="col" *ngFor="let canzone of songService.canzoniMiciomani">
+    @for (canzone of songService.canzoniMiciomani; track $index) {
+    <div class="col">
       <div
         class="card h-100 shadow-sm"
         style="border-radius: 12px; background-color: #181818; color: white"
@@ -117,5 +118,6 @@
         </div>
       </div>
     </div>
+    }
   </div>
 </div>

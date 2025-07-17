@@ -7,12 +7,12 @@ import { getCasualQuiz } from '../../functions/quiz.function';
 import { CasualQuiz, Quiz, Risposta } from '../../interfaces/games.interfaces';
 import { QuizService } from '../../services/quiz.service';
 import { GamesBase } from '../../shared/base/games.base';
-import { games_imports } from '../../shared/imports/games.imports';
+import { DettagliGameComponent } from '../../shared/components/dettagli-game.component';
 
 @Component({
   selector: 'app-quiz',
   standalone: true,
-  imports: [NgClass, FormsModule, games_imports],
+  imports: [NgClass, FormsModule, DettagliGameComponent],
   templateUrl: './quiz.component.html',
 })
 export class QuizComponent extends GamesBase implements OnInit {

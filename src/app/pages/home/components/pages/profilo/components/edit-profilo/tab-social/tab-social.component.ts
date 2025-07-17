@@ -1,4 +1,4 @@
-import { NgFor, TitleCasePipe } from '@angular/common';
+import { TitleCasePipe } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { User } from '../../../../../../../../shared/interfaces/users.interface';
@@ -8,7 +8,7 @@ import { TabProfiloBase } from '../../../base/tab-profilo.base';
 @Component({
   selector: 'tab-social-profilo',
   standalone: true,
-  imports: [NgFor, FormsModule, TitleCasePipe],
+  imports: [FormsModule, TitleCasePipe],
   templateUrl: './tab-social.component.html',
 })
 export class TabSocialComponent extends TabProfiloBase implements OnInit {

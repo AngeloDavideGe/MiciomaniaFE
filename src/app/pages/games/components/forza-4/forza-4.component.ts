@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { Forza4, Turno } from '../../interfaces/games.interfaces';
 import { GamesBase } from '../../shared/base/games.base';
-import { games_imports } from '../../shared/imports/games.imports';
+import { DettagliGameComponent } from '../../shared/components/dettagli-game.component';
 import { Forza4BotClass } from './bot/forza-4.bot';
 
 @Component({
   selector: 'app-forza-4',
   standalone: true,
-  imports: games_imports,
+  imports: [DettagliGameComponent],
   templateUrl: './forza-4.component.html',
 })
 export class Forza4Component extends GamesBase implements OnInit {

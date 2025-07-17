@@ -42,10 +42,8 @@
 </div>
 
 <div class="row justify-content-center g-4">
-  <div
-    *ngFor="let manga of mms.mangaMiciomani"
-    class="col-12 col-sm-6 col-md-4 col-lg-2 d-flex"
-  >
+  @for (manga of mms.mangaMiciomani; track $index) {
+  <div class="col-12 col-sm-6 col-md-4 col-lg-2 d-flex">
     <div
       class="card shadow-sm w-100"
       style="
@@ -105,4 +103,5 @@
       </div>
     </div>
   </div>
+  }
 </div>

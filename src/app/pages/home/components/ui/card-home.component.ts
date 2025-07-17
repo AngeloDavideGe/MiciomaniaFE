@@ -1,11 +1,11 @@
-import { NgClass, NgFor } from '@angular/common';
+import { NgClass } from '@angular/common';
 import { Component, EventEmitter, Output } from '@angular/core';
 import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-card-home',
   standalone: true,
-  imports: [RouterLink, NgFor, NgClass],
+  imports: [RouterLink, NgClass],
   template: `
     <section
       data-bs-version="5.1"
@@ -17,10 +17,8 @@ import { RouterLink } from '@angular/router';
           <h4 class="fw-bold display-4">Home - Miciomania</h4>
         </div>
         <div class="row g-4">
-          <div
-            class="col-12 col-md-6 col-lg-4"
-            *ngFor="let card of cardElements"
-          >
+          @for (card of cardElements; track $index) {
+          <div class="col-12 col-md-6 col-lg-4">
             <div class="card h-100">
               <img [src]="card.link" class="card-img-top" alt="..." />
               <div class="card-body" [ngClass]="card.bgClass">
@@ -41,6 +39,7 @@ import { RouterLink } from '@angular/router';
               </div>
             </div>
           </div>
+          }
         </div>
       </div>
     </section>

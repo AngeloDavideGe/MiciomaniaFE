@@ -1,4 +1,3 @@
-import { NgFor } from '@angular/common';
 import {
   Component,
   EventEmitter,
@@ -8,8 +7,8 @@ import {
   Output,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { Ruolo } from '../../../../../../auth/enums/users.enum';
 import { UserParams } from '../../../../../../../shared/interfaces/users.interface';
+import { Ruolo } from '../../../../../../auth/enums/users.enum';
 import { AdminService } from '../../../../../services/admin.service';
 import { CambioRuoloUtente } from '../../interfaces/admin.interface';
 import { CapitalizeFirstLetterPipe } from '../../pipes/capitalize.pipe';
@@ -17,7 +16,7 @@ import { CapitalizeFirstLetterPipe } from '../../pipes/capitalize.pipe';
 @Component({
   selector: 'app-edit-admin',
   standalone: true,
-  imports: [NgFor, FormsModule, CapitalizeFirstLetterPipe],
+  imports: [FormsModule, CapitalizeFirstLetterPipe],
   template: `
     <div
       class="modal"
@@ -60,9 +59,11 @@ import { CapitalizeFirstLetterPipe } from '../../pipes/capitalize.pipe';
             <div class="mb-3">
               <label for="ruolo" class="form-label">Ruolo</label>
               <select id="ruolo" class="form-select" [(ngModel)]="newRuolo">
-                <option *ngFor="let r of availableRoles" [value]="r">
+                @for (r of availableRoles; track $index) {
+                <option [value]="r">
                   {{ r | capitalizeFirstLetter }}
                 </option>
+                }
               </select>
             </div>
           </div>

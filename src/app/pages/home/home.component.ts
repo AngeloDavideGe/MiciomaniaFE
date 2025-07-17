@@ -7,7 +7,7 @@ import { User, UserParams } from '../../shared/interfaces/users.interface';
 import { ElementiUtenteUtilities } from '../../shared/utilities/elementiUtente.utilities';
 import { getConfirmParams } from './functions/home.functions';
 import { home_imports } from './imports/home.imports';
-import { MangaHandler } from '../manga/handlers/manga.handler';
+import { componenteApertoType } from './interfaces/profilo.interface';
 
 @Component({
   selector: 'app-home',
@@ -22,7 +22,7 @@ export class HomeComponent implements OnInit {
   public user: User = {} as User;
   public inizialiUser: string = '';
   private punteggioCanzoni: number = 50;
-  public componenteAperto = signal<string>('');
+  public componenteAperto = signal<componenteApertoType>('');
   public chiudiComponente: Function = () => this.componenteAperto.set('');
   public goToProfilo: Function = (path: string) => this.router.navigate([path]);
   private elementiUtenteUtilities = new ElementiUtenteUtilities();

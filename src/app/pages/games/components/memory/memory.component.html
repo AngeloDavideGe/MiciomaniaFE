@@ -10,10 +10,10 @@
   ></app-dettagli-game>
 
   <div class="row no-gutters justify-content-center">
-    <!-- Iteriamo attraverso tutte le carte nel mazzo -->
-    <div *ngFor="let card of cards; let i = index" class="col-auto p-1">
+    @for (card of cards; track $index) {
+    <div class="col-auto p-1">
       <!-- Selezionata -->
-      @if (selectedCards.has(i) && selectedCards.get(i) &&
+      @if (selectedCards.has($index) && selectedCards.get($index) &&
       !coppieTrovate.includes(card.code)) {
       <div class="card" style="width: 160px; height: 240px">
         <img
@@ -23,17 +23,20 @@
           style="cursor: pointer"
         />
       </div>
-      } @if (!(selectedCards.has(i) && selectedCards.get(i))) {
+      }
+      <!-- Non selezionata -->
+      @if (!(selectedCards.has($index) && selectedCards.get($index))) {
       <div class="card" style="width: 160px; height: 240px">
         <img
           src="https://deckofcardsapi.com/static/img/back.png"
           class="card-img-top h-100 w-100"
           alt="Card back"
           style="cursor: pointer"
-          (click)="selectCardFunc(card, i)"
+          (click)="selectCardFunc(card, $index)"
         />
       </div>
       }
     </div>
+    }
   </div>
 </div>

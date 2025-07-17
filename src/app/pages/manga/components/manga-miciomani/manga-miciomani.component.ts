@@ -1,16 +1,15 @@
-import { NgFor } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { take } from 'rxjs';
 import { MangaMiciomania } from '../../../../shared/interfaces/elementiUtente.interface';
 import { LoadingService } from '../../../../shared/services/loading.service';
-import { MangaMiciomaniService } from '../../services/mangaMiciomani.service';
-import { Router } from '@angular/router';
 import { MangaSongUtilities } from '../../../../shared/utilities/mangaSong.utilities';
+import { MangaMiciomaniService } from '../../services/mangaMiciomani.service';
 
 @Component({
   selector: 'app-manga-miciomani',
   standalone: true,
-  imports: [NgFor],
+  imports: [],
   templateUrl: './manga-miciomani.component.html',
   styles: ``,
 })

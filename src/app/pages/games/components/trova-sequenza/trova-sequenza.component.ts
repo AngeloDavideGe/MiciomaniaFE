@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { ValueSequenza } from '../../enums/games.enum';
-import { games_imports } from '../../shared/imports/games.imports';
+import { DettagliGameComponent } from '../../shared/components/dettagli-game.component';
 
 @Component({
   selector: 'app-trova-sequenza',
   standalone: true,
-  imports: games_imports,
+  imports: [DettagliGameComponent],
   templateUrl: './trova-sequenza.component.html',
   styles: ``,
 })

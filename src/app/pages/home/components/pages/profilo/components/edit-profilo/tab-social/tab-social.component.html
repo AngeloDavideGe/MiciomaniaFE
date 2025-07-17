@@ -1,18 +1,18 @@
 <div class="social-form-container">
   <!-- Lista social esistenti -->
-  <div
-    *ngFor="let social of socialArray; let i = index"
-    class="social-row row g-2 align-items-center mb-3"
-  >
+  @for (social of socialArray; track $index) {
+  <div class="social-row row g-2 align-items-center mb-3">
     <div class="col-3">
       <select
         class="form-select form-select-sm"
         [(ngModel)]="social.key"
         style="min-width: 100px"
       >
-        <option *ngFor="let soc of availableSocials" [value]="soc">
+        @for (soc of availableSocials; track $index) {
+        <option [value]="soc">
           {{ soc | titlecase }}
         </option>
+        }
       </select>
     </div>
 
@@ -28,7 +28,7 @@
     <div class="col-1 text-end">
       <button
         class="btn btn-sm btn-outline-danger"
-        (click)="removeSocial(i)"
+        (click)="removeSocial($index)"
         style="width: 30px"
         title="Rimuovi"
       >
@@ -36,6 +36,7 @@
       </button>
     </div>
   </div>
+  }
 
   <!-- Controlli -->
   <div class="justify-content-between">

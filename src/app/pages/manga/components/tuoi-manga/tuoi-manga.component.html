@@ -84,8 +84,8 @@
       class="list-group stile-gruppo-lista"
       style="max-height: 200px; overflow-y: auto"
     >
+      @for (result of allMangaSearch(); track $index) {
       <li
-        *ngFor="let result of allMangaSearch()"
         class="list-group-item d-flex align-items-center"
         (click)="aggiungiMangaTab(result.id)"
         style="cursor: pointer"
@@ -99,6 +99,7 @@
           result.nome
         }}</span>
       </li>
+      }
     </ul>
   </div>
   }
@@ -120,11 +121,8 @@
 
 <!-- Sezione manga filtrati -->
 <div class="d-flex flex-wrap mt-4" id="app-card">
-  <div
-    *ngFor="let manga of sezioneListaManga()[selectedTab]"
-    class="d-flex"
-    style="padding: 0.2rem"
-  >
+  @for (manga of sezioneListaManga()[selectedTab]; track $index) {
+  <div class="d-flex" style="padding: 0.2rem">
     <app-card-manga
       [manga]="manga"
       [visualizzaPreferito]="selectedTab != 'preferiti'"
@@ -134,6 +132,7 @@
       (selezionato)="onSelezionato($event, manga.id)"
     ></app-card-manga>
   </div>
+  }
 </div>
 
 <ng-template #erroreHttpTemplate> </ng-template>

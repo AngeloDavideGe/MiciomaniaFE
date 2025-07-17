@@ -1,4 +1,4 @@
-import { NgClass, NgFor } from '@angular/common';
+import { NgClass } from '@angular/common';
 import {
   Component,
   EventEmitter,
@@ -27,11 +27,12 @@ import { Region } from '../../class/region.class';
 @Component({
   selector: 'app-step2',
   standalone: true,
-  imports: [ReactiveFormsModule, NgFor, NgClass],
+  imports: [ReactiveFormsModule, NgClass],
   templateUrl: './step2.component.html',
 })
 export class Step2Component implements OnInit, OnDestroy {
   public profileForm!: FormGroup;
+  private regionClass = new Region();
   private destroy$ = new Subject<void>();
   public statiPersona = Object.values(StatoPersona);
   public team = environment.team;
@@ -39,7 +40,7 @@ export class Step2Component implements OnInit, OnDestroy {
   public province: Provincia[] = [];
   public nomeUtente: string = '';
   public email: string = '';
-  public regionClass = new Region();
+  public regioni = this.regionClass.getRegioniMap();
 
   @Output() formValido = new EventEmitter<boolean>();
 

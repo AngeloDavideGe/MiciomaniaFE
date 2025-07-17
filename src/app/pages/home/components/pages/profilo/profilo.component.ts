@@ -10,6 +10,7 @@ import {
   Tweet,
 } from '../../../interfaces/profilo.interface';
 import { profilo_imports } from './imports/profilo.imports';
+import { modaleApertaType } from './types/profilo.type';
 
 @Component({
   selector: 'app-profilo',
@@ -28,25 +29,13 @@ export class ProfiloComponent implements OnInit, OnDestroy {
   public profiloPersonale: boolean = false;
   public utenteCaricato: boolean = false;
   public errorHttp: boolean = false;
-  public modaleApertaTweet: boolean = false;
-  public modaleApertaModifiche: boolean = false;
-  public modaleApertaChangePic: boolean = false;
+  public modaleAperta: modaleApertaType = '';
   public socialArray: EditableSocial[] = [];
   public tornaIndietroPath: string = '';
   public profilo: Profilo = {
     user: this.authHandler.getVoidUser(),
     tweets: [] as Tweet[],
   };
-
-  // @Template() spinnerTemplate = `
-  //   <div
-  //     class="spinner-border text-dark rounded-circle me-3"
-  //     role="status"
-  //     style="width: 50px; height: 50px"
-  //   >
-  //     <span class="visually-hidden">Loading...</span>
-  //   </div>
-  // `;
 
   constructor() {
     this.sottoscrizioneParam();

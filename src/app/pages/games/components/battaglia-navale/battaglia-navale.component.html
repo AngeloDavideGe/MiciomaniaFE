@@ -11,52 +11,49 @@
 
   <div class="row mt-4" style="margin-top: 2rem !important">
     <!-- Griglia del Player -->
-    <ng-container *ngFor="let key of keysCelle">
-      <div class="col-md-6 mb-4">
-        <h4 class="mb-3" style="font-size: 1.5rem">
-          {{ key == "cellaPlayer" ? "Giocatore" : "Bot" }}
-        </h4>
-        <div
-          class="d-flex flex-column align-items-center"
-          [id]="key"
-          style="margin-top: 1rem"
-        >
-          <div *ngFor="let row of celle[key]; let i = index" class="d-flex">
-            <div
-              *ngFor="let cell of row; let j = index"
-              class="cella"
-              style="margin: 2px; border: 1px solid #adb5bd"
-              [ngStyle]="{
-                'background-color': cell.cellaColpita
-                  ? cell.navePiccola || cell.naveGrande
-                    ? '#198754'
-                    : '#dc3545'
-                  : '#f8f9fa'
-              }"
-              (click)="colpisciCella({i, j, key})"
-            >
-              @if ((key == 'cellaPlayer' && cell.navePiccola) || (key ==
-              'cellaBot' && cell.navePiccola && cell.cellaColpita)) {
-              <span
-                class="text-white"
-                style="font-size: 18px; font-weight: bold"
-              >
-                ⛴️
-              </span>
-              } @else if ((key == 'cellaPlayer' && cell.naveGrande) || (key ==
-              'cellaBot' && cell.naveGrande && cell.cellaColpita)) {
-              <span
-                class="text-white"
-                style="font-size: 22px; font-weight: bold"
-              >
-                🚢
-              </span>
-              }
-            </div>
+    @for (key of keysCelle; track $index) {
+    <div class="col-md-6 mb-4">
+      <h4 class="mb-3" style="font-size: 1.5rem">
+        {{ key == "cellaPlayer" ? "Giocatore" : "Bot" }}
+      </h4>
+      <div
+        class="d-flex flex-column align-items-center"
+        [id]="key"
+        style="margin-top: 1rem"
+      >
+        @for (row of celle[key]; track $index; let i = $index) {
+        <div class="d-flex">
+          @for (cell of row; track $index; let j = $index) {
+          <div
+            class="cella"
+            style="margin: 2px; border: 1px solid #adb5bd"
+            [ngStyle]="{
+              'background-color': cell.cellaColpita
+                ? cell.navePiccola || cell.naveGrande
+                  ? '#198754'
+                  : '#dc3545'
+                : '#f8f9fa'
+            }"
+            (click)="colpisciCella({i, j, key})"
+          >
+            @if ((key == 'cellaPlayer' && cell.navePiccola) || (key ==
+            'cellaBot' && cell.navePiccola && cell.cellaColpita)) {
+            <span class="text-white" style="font-size: 18px; font-weight: bold">
+              ⛴️
+            </span>
+            } @if ((key == 'cellaPlayer' && cell.naveGrande) || (key ==
+            'cellaBot' && cell.naveGrande && cell.cellaColpita)) {
+            <span class="text-white" style="font-size: 22px; font-weight: bold">
+              🚢
+            </span>
+            }
           </div>
+          }
         </div>
+        }
       </div>
-    </ng-container>
+    </div>
+    }
   </div>
 </div>
 

@@ -12,9 +12,10 @@
   <div class="d-flex justify-content-center">
     <table class="table table-bordered" id="TrisTable">
       <tbody>
-        <tr *ngFor="let row of tabella; let i = index">
+        @for (row of tabella; track $index; let i = $index) {
+        <tr>
+          @for (cella of row; track $index; let j = $index) {
           <td
-            *ngFor="let cella of row; let j = index"
             class="text-center align-middle"
             style="
               width: 100px;
@@ -35,7 +36,9 @@
             </span>
             }
           </td>
+          }
         </tr>
+        }
       </tbody>
     </table>
   </div>

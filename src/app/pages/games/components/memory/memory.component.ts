@@ -4,12 +4,12 @@ import { getCardsDisponibili } from '../../functions/deck-card.function';
 import { CardDeck } from '../../interfaces/games.interfaces';
 import { DeckCardService } from '../../services/deck-card.service';
 import { GamesBase } from '../../shared/base/games.base';
-import { games_imports } from '../../shared/imports/games.imports';
+import { DettagliGameComponent } from '../../shared/components/dettagli-game.component';
 
 @Component({
   selector: 'app-memory',
   standalone: true,
-  imports: games_imports,
+  imports: [DettagliGameComponent],
   templateUrl: './memory.component.html',
 })
 export class MemoryComponent extends GamesBase implements OnInit {

@@ -1,11 +1,10 @@
-import { NgFor } from '@angular/common';
 import { Component } from '@angular/core';
 import { CursorUtilities } from '../../../../shared/utilities/cursor.utilities';
 
 @Component({
   selector: 'app-cursore',
   standalone: true,
-  imports: [NgFor],
+  imports: [],
   template: `
     <div class="container mt-5">
       <div class="row justify-content-center">
@@ -30,7 +29,8 @@ import { CursorUtilities } from '../../../../shared/utilities/cursor.utilities';
         </div>
 
         <!-- Lista dei cursori personalizzati -->
-        <div class="col-auto" *ngFor="let cursore of cursori">
+        @for (cursore of cursori; track $index) {
+        <div class="col-auto">
           <div class="card mb-4 shadow-sm" style="width: 8rem; margin: 0.1rem;">
             <div class="card-body text-center">
               <i
@@ -50,6 +50,7 @@ import { CursorUtilities } from '../../../../shared/utilities/cursor.utilities';
             </div>
           </div>
         </div>
+        }
       </div>
     </div>
   `,

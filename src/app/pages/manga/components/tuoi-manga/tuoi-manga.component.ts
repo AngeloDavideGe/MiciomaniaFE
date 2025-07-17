@@ -1,4 +1,3 @@
-import { NgFor } from '@angular/common';
 import {
   Component,
   computed,
@@ -27,7 +26,7 @@ import { CardMangaComponent } from '../../shared/card-manga.component';
 @Component({
   selector: 'app-tuoi-manga',
   standalone: true,
-  imports: [NgFor, CardMangaComponent, FormsModule, ErrorHttpComponent],
+  imports: [CardMangaComponent, FormsModule, ErrorHttpComponent],
   templateUrl: './tuoi-manga.component.html',
 })
 export class TuoiMangaComponent implements OnInit, OnDestroy {

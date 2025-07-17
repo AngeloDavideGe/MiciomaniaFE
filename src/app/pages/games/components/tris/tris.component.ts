@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
 import { EsitoGame, TrisCell } from '../../interfaces/games.interfaces';
 import { GamesBase } from '../../shared/base/games.base';
-import { games_imports } from '../../shared/imports/games.imports';
+import { DettagliGameComponent } from '../../shared/components/dettagli-game.component';
 
 @Component({
   selector: 'app-tris',
   standalone: true,
-  imports: games_imports,
+  imports: [DettagliGameComponent],
   templateUrl: './tris.component.html',
 })
 export class TrisComponent extends GamesBase {

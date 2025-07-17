@@ -1,4 +1,3 @@
-import { NgFor } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { take } from 'rxjs';
@@ -10,7 +9,7 @@ import { SongService } from './services/song.service';
 @Component({
   selector: 'app-song',
   standalone: true,
-  imports: [NgFor],
+  imports: [],
   templateUrl: './song.component.html',
   styles: ``,
 })

@@ -1,4 +1,6 @@
-@if (isManga$ | async) { @if (!erroreHttp) {
+@if (isManga$ | async) {
+<!-- Chiamata riuscita -->
+@if (!erroreHttp) {
 <div class="text-white py-5 mb-4" style="background-color: #9fb987">
   <div class="container text-center">
     <h1 class="display-4 fw-bold mb-3">Benvenuto nel Mondo dei Manga</h1>

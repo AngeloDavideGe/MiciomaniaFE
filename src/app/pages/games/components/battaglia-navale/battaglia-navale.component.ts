@@ -9,14 +9,14 @@ import {
   PosizionaNave,
 } from '../../interfaces/games.interfaces';
 import { GamesBase } from '../../shared/base/games.base';
-import { games_imports } from '../../shared/imports/games.imports';
+import { DettagliGameComponent } from '../../shared/components/dettagli-game.component';
 import { BotBattagliaNavale } from './bot/battaglia-navale.bot';
 import { BattagliaNavaleUtilities } from './utilities/battaglia-navale.utilities';
 
 @Component({
   selector: 'app-battaglia-navale',
   standalone: true,
-  imports: [games_imports, NgStyle],
+  imports: [DettagliGameComponent, NgStyle],
   templateUrl: './battaglia-navale.component.html',
 })
 export class BattagliaNavaleComponent extends GamesBase implements OnInit {

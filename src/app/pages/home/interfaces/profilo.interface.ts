@@ -29,3 +29,5 @@ export interface Squadre {
   id: string;
   punteggio: number;
 }
+
+export type componenteApertoType = 'cursore' | 'profili' | '';

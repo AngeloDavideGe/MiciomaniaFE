@@ -1,241 +1,234 @@
-<ng-container *ngIf="utenteCaricato">
-  <div class="container mt-5">
-    <div class="row">
-      <div class="col-md-8 offset-md-2">
-        <!-- Pulsante Torna alla Home -->
-        <div class="mb-3">
+@if (utenteCaricato) {
+<div class="container mt-5">
+  <div class="row">
+    <div class="col-md-8 offset-md-2">
+      <!-- Pulsante Torna alla Home -->
+      <div class="mb-3">
+        <button
+          class="btn btn-outline-primary"
+          (click)="this.router.navigate([tornaIndietroPath])"
+          style="font-size: 14px; font-weight: bold; border-radius: 8px"
+        >
+          &larr; Indietro
+        </button>
+      </div>
+
+      <!-- Card del profilo -->
+      <div class="card shadow-sm border-0">
+        <!-- Immagine di copertina -->
+        <div
+          class="position-relative bg-light d-flex align-items-center"
+          style="
+            height: 150px;
+            border-top-left-radius: 15px;
+            border-top-right-radius: 15px;
+            padding-left: 20px;
+            padding-top: 7rem;
+          "
+        >
+          @if (!authHandler.profiloHandler.aggiornamentoPic) {
+          <img
+            [src]="
+              profilo.user.credenziali.profilePic ||
+              'https://png.pngtree.com/png-vector/20191009/ourlarge/pngtree-user-icon-png-image_1796659.jpg'
+            "
+            alt="Profile Picture"
+            class="rounded-circle border border-white me-3"
+            style="width: 10rem; height: 10rem"
+          />
+          } @else {
+          <ng-container *ngTemplateOutlet="spinnerTemplate"></ng-container>
+
+          } @if (profiloPersonale) {
           <button
-            class="btn btn-outline-primary"
-            (click)="this.router.navigate([tornaIndietroPath])"
-            style="font-size: 14px; font-weight: bold; border-radius: 8px"
+            class="btn btn-light btn-sm d-flex align-items-center justify-content-center shadow"
+            style="
+              border-radius: 50%;
+              width: 36px;
+              height: 36px;
+              border: 1px solid #ced4da;
+              z-index: 2;
+              margin-top: 90px;
+            "
+            (click)="modaleAperta = 'change-pic'"
+            title="Modifica foto profilo"
           >
-            &larr; Indietro
+            <i class="bi bi-pencil-fill text-primary"></i>
           </button>
+          }
         </div>
 
-        <!-- Card del profilo -->
-        <div class="card shadow-sm border-0">
-          <!-- Immagine di copertina -->
-          <div
-            class="position-relative bg-light d-flex align-items-center"
+        <!-- Informazioni del profilo -->
+        <div class="card-body" style="margin-top: 60px; padding: 20px">
+          <div class="d-flex justify-content-between align-items-center">
+            <div>
+              <h2
+                class="mb-0"
+                style="font-size: 24px; font-weight: bold; color: #0f1419"
+              >
+                {{ profilo.user.credenziali.nome }}
+              </h2>
+              <p class="text-muted mb-1" style="font-size: 14px">
+                {{ profilo.user.id }}
+              </p>
+            </div>
+            <!-- Pulsante Modifica Profilo -->
+            @if (profiloPersonale) {
+            <button
+              class="btn btn-outline-secondary btn-sm"
+              (click)="modaleAperta = 'edit-profilo'"
+              style="font-size: 14px; font-weight: bold; border-radius: 8px"
+            >
+              ✏️
+            </button>
+            }
+          </div>
+
+          <p class="mt-3" style="font-size: 16px; color: #0f1419">
+            {{ profilo.user.profile.bio || "Nessuna bio disponibile" }}
+          </p>
+          <div class="d-flex text-muted mb-3" style="font-size: 14px">
+            @if (profilo.user.iscrizione.citta &&
+            profilo.user.iscrizione.provincia) {
+            <span class="me-3">
+              <i class="fas fa-map-marker-alt"></i>
+              {{ profilo.user.iscrizione.citta }},
+              {{ profilo.user.iscrizione.provincia }}
+            </span>
+            } @if (profilo.user.profile.compleanno) {
+            <span class="me-3">
+              <i class="fas fa-birthday-cake"></i> Nato il
+              {{ profilo.user.profile.compleanno | date : "dd/MM/yyyy" }}
+            </span>
+            }
+          </div>
+
+          @if (socialArray.length > 0) {
+          <div class="d-flex flex-wrap">
+            @for (social of socialArray; track $index) {
+            <a
+              (click)="openLink(social.link)"
+              target="_blank"
+              class="btn btn-outline-primary btn-sm me-2 mb-2"
+              style="font-size: 14px; border-radius: 20px; padding: 4px 12px"
+            >
+              {{ social.key | titlecase }}
+            </a>
+            }
+          </div>
+          }
+        </div>
+      </div>
+
+      <!-- Sezione Tweet -->
+      <div class="mt-4">
+        <div class="d-flex justify-content-between align-items-center">
+          <h3
             style="
-              height: 150px;
-              border-top-left-radius: 15px;
-              border-top-right-radius: 15px;
-              padding-left: 20px;
-              padding-top: 7rem;
+              font-size: 20px;
+              font-weight: bold;
+              color: #0f1419;
+              margin: 0;
             "
           >
-            <ng-container
-              *ngIf="
-                !authHandler.profiloHandler.aggiornamentoPic;
-                else spinnerTemplate
-              "
-            >
+            Tweet
+          </h3>
+          <!-- Pulsante Nuovo Tweet -->
+          @if (profiloPersonale) {
+          <button
+            class="btn btn-primary btn-sm"
+            (click)="modaleAperta = 'new-tweet'"
+            style="font-size: 14px; font-weight: bold; border-radius: 8px"
+          >
+            ✍️
+          </button>
+          }
+        </div>
+
+        @for (tweet of profilo.tweets; track $index) {
+        <div class="card mb-3 border-0 shadow-sm mt-3">
+          <div class="card-body" style="padding: 16px">
+            <div class="d-flex align-items-start">
+              @if (!authHandler.profiloHandler.aggiornamentoPic) {
+
               <img
                 [src]="
                   profilo.user.credenziali.profilePic ||
                   'https://png.pngtree.com/png-vector/20191009/ourlarge/pngtree-user-icon-png-image_1796659.jpg'
                 "
-                alt="Profile Picture"
-                class="rounded-circle border border-white me-3"
-                style="width: 10rem; height: 10rem"
+                alt="User"
+                class="rounded-circle me-3"
+                style="width: 50px; height: 50px"
               />
-            </ng-container>
+              } @else {
+              <ng-container *ngTemplateOutlet="spinnerTemplate"></ng-container>
+              }
 
-            <div>
-              <!-- Qui puoi mettere il contenuto, tipo nome ecc -->
-            </div>
-
-            <button
-              *ngIf="profiloPersonale"
-              class="btn btn-light btn-sm d-flex align-items-center justify-content-center shadow"
-              style="
-                border-radius: 50%;
-                width: 36px;
-                height: 36px;
-                border: 1px solid #ced4da;
-                z-index: 2;
-                margin-top: 90px;
-              "
-              (click)="modaleApertaChangePic = true"
-              title="Modifica foto profilo"
-            >
-              <i class="bi bi-pencil-fill text-primary"></i>
-            </button>
-          </div>
-
-          <!-- Informazioni del profilo -->
-          <div class="card-body" style="margin-top: 60px; padding: 20px">
-            <div class="d-flex justify-content-between align-items-center">
-              <div>
-                <h2
-                  class="mb-0"
-                  style="font-size: 24px; font-weight: bold; color: #0f1419"
-                >
+              <div class="flex-grow-1">
+                <h6 class="mb-0" style="font-size: 16px; color: #0f1419">
                   {{ profilo.user.credenziali.nome }}
-                </h2>
-                <p class="text-muted mb-1" style="font-size: 14px">
-                  {{ profilo.user.id }}
+                  <span class="text-muted" style="font-size: 14px">
+                    {{ profilo.user.credenziali.email.split("@")[0] }} ·
+                    {{ tweet.dataCreazione | date }}
+                  </span>
+                </h6>
+                <p class="mt-2" style="font-size: 16px; color: #0f1419">
+                  {{ tweet.testo }}
                 </p>
               </div>
-              <!-- Pulsante Modifica Profilo -->
+
+              @if (profiloPersonale) {
               <button
-                *ngIf="profiloPersonale"
-                class="btn btn-outline-secondary btn-sm"
-                (click)="modaleApertaModifiche = true"
-                style="font-size: 14px; font-weight: bold; border-radius: 8px"
-              >
-                ✏️
-              </button>
-            </div>
-
-            <p class="mt-3" style="font-size: 16px; color: #0f1419">
-              {{ profilo.user.profile.bio || "Nessuna bio disponibile" }}
-            </p>
-            <div class="d-flex text-muted mb-3" style="font-size: 14px">
-              <span
-                class="me-3"
-                *ngIf="
-                  profilo.user.iscrizione?.citta &&
-                  profilo.user.iscrizione?.provincia
+                class="btn btn-outline-danger btn-sm d-flex align-items-center justify-content-center"
+                (click)="eliminaTweet(tweet.id)"
+                style="
+                  width: 36px;
+                  height: 36px;
+                  border-radius: 50%;
+                  font-size: 16px;
+                  padding: 0;
+                  line-height: 1;
                 "
+                title="Elimina tweet"
               >
-                <i class="fas fa-map-marker-alt"></i>
-                {{ profilo.user.iscrizione.citta }},
-                {{ profilo.user.iscrizione.provincia }}
-              </span>
-              <span class="me-3" *ngIf="profilo.user.profile?.compleanno">
-                <i class="fas fa-birthday-cake"></i> Nato il
-                {{ profilo.user.profile.compleanno | date : "dd/MM/yyyy" }}
-              </span>
-            </div>
-
-            <div class="d-flex flex-wrap" *ngIf="socialArray.length > 0">
-              <ng-container *ngFor="let social of socialArray">
-                <a
-                  (click)="openLink(social.link)"
-                  target="_blank"
-                  class="btn btn-outline-primary btn-sm me-2 mb-2"
-                  style="
-                    font-size: 14px;
-                    border-radius: 20px;
-                    padding: 4px 12px;
-                  "
-                >
-                  {{ social.key | titlecase }}
-                </a>
-              </ng-container>
+                🗑️
+              </button>
+              }
             </div>
           </div>
         </div>
-
-        <!-- Sezione Tweet -->
-        <div class="mt-4">
-          <div class="d-flex justify-content-between align-items-center">
-            <h3
-              style="
-                font-size: 20px;
-                font-weight: bold;
-                color: #0f1419;
-                margin: 0;
-              "
-            >
-              Tweet
-            </h3>
-            <!-- Pulsante Nuovo Tweet -->
-            <button
-              *ngIf="profiloPersonale"
-              class="btn btn-primary btn-sm"
-              (click)="modaleApertaTweet = true"
-              style="font-size: 14px; font-weight: bold; border-radius: 8px"
-            >
-              ✍️
-            </button>
-          </div>
-
-          <div
-            class="card mb-3 border-0 shadow-sm mt-3"
-            *ngFor="let tweet of profilo.tweets"
-          >
-            <div class="card-body" style="padding: 16px">
-              <div class="d-flex align-items-start">
-                <ng-container
-                  *ngIf="
-                    !authHandler.profiloHandler.aggiornamentoPic;
-                    else spinnerTemplate
-                  "
-                >
-                  <img
-                    [src]="
-                      profilo.user.credenziali.profilePic ||
-                      'https://png.pngtree.com/png-vector/20191009/ourlarge/pngtree-user-icon-png-image_1796659.jpg'
-                    "
-                    alt="User"
-                    class="rounded-circle me-3"
-                    style="width: 50px; height: 50px"
-                  />
-                </ng-container>
-
-                <div class="flex-grow-1">
-                  <h6 class="mb-0" style="font-size: 16px; color: #0f1419">
-                    {{ profilo.user.credenziali.nome }}
-                    <span class="text-muted" style="font-size: 14px">
-                      {{ profilo.user.credenziali.email.split("@")[0] }} ·
-                      {{ tweet.dataCreazione | date }}
-                    </span>
-                  </h6>
-                  <p class="mt-2" style="font-size: 16px; color: #0f1419">
-                    {{ tweet.testo }}
-                  </p>
-                </div>
-
-                <button
-                  *ngIf="profiloPersonale"
-                  class="btn btn-outline-danger btn-sm d-flex align-items-center justify-content-center"
-                  (click)="eliminaTweet(tweet.id)"
-                  style="
-                    width: 36px;
-                    height: 36px;
-                    border-radius: 50%;
-                    font-size: 16px;
-                    padding: 0;
-                    line-height: 1;
-                  "
-                  title="Elimina tweet"
-                >
-                  🗑️
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
+        }
       </div>
     </div>
   </div>
+</div>
 
-  <!-- Lista Modali -->
-  <ng-container>
-    <app-new-tweet
-      *ngIf="modaleApertaTweet"
-      [idUtente]="profilo.user.id!"
-      (chiudi)="modaleApertaTweet = false"
-    ></app-new-tweet>
+@switch (modaleAperta) {
+<!-- Nuovo Tweet -->
+@case ('new-tweet') {
+<app-new-tweet
+  [idUtente]="profilo.user.id!"
+  (chiudi)="modaleAperta = ''"
+></app-new-tweet>
+}
 
-    <app-edit-profilo
-      *ngIf="modaleApertaModifiche"
-      [user]="profilo.user"
-      (chiudi)="modaleApertaModifiche = false; loadSocial()"
-    ></app-edit-profilo>
+<!-- Edit Profilo -->
+@case ('edit-profilo') {
+<app-edit-profilo
+  [user]="profilo.user"
+  (chiudi)="modaleAperta = ''; loadSocial()"
+></app-edit-profilo>
+}
 
-    <app-change-pic
-      *ngIf="modaleApertaChangePic"
-      (chiudi)="modaleApertaChangePic = false"
-    ></app-change-pic>
-  </ng-container>
-</ng-container>
+<!--Cambia Immagine  -->
+@case ('change-pic') {
+<app-change-pic (chiudi)="modaleAperta = ''"></app-change-pic>
+} } }
 
-<app-error-http *ngIf="errorHttp"></app-error-http>
+<!-- Error -->
+@if (errorHttp) {
+<app-error-http></app-error-http>
+}
 
 <ng-template #spinnerTemplate>
   <div

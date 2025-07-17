@@ -1,13 +1,14 @@
-@if (caricaPersona) { @if (!(user.iscrizione.team && viewSuccespage)) {
+@if (caricaPersona) {
+<!-- Success Page -->
+@if (!(user.iscrizione.team && viewSuccespage)) {
 <div class="wizard-header">
-  <div
-    *ngFor="let step of wizard; let i = index"
-    class="wizard-step"
-    [class.active]="currentStep() === step.step"
-  >
+  @for (step of wizard; track $index) {
+  <div class="wizard-step" [class.active]="currentStep() === step.step">
     <div class="circle">{{ step.step }}</div>
     <div class="label">{{ step.titolo }}</div>
   </div>
+
+  }
 </div>
 <ng-container [ngSwitch]="currentStep()">
   <ng-container *ngSwitchCase="1">
