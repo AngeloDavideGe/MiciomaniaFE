@@ -32,6 +32,7 @@ export class MangaMiciomaniService {
     const mangaLoaded = sessionStorage.getItem('mangaMiciomaniLoaded');
     if (mangaLoaded) {
       this.mangaMiciomaniLoaded = JSON.parse(mangaLoaded);
+      sessionStorage.removeItem('mangaMiciomaniLoaded');
     }
   }
 }

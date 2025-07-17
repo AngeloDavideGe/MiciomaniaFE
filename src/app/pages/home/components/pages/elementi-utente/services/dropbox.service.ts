@@ -14,9 +14,7 @@ export class DropboxService {
   private readonly UPLOAD_URL = 'https://content.dropboxapi.com/2/files/upload';
   private dropboxUtilities = new DropboxUtilities();
 
-  constructor(private http: HttpClient) {
-    this.loadTokenFromStorage();
-  }
+  constructor(private http: HttpClient) {}
 
   getDropboxToken(): Observable<DropboxResponse> {
     const url = `${environment.urlBE}dropbox/get_access_token`;
@@ -66,12 +64,5 @@ export class DropboxService {
     return this.http
       .post<any>(url, body, { headers })
       .pipe(map((res) => res.url));
-  }
-
-  private loadTokenFromStorage(): void {
-    const token = sessionStorage.getItem('dropbox_access_token');
-    if (token) {
-      this.dropboxResponse.access_token = token;
-    }
   }
 }

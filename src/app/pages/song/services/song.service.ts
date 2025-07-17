@@ -32,6 +32,7 @@ export class SongService {
     const canzoniLoaded = sessionStorage.getItem('canzoniMiciomaniLoaded');
     if (canzoniLoaded) {
       this.canzoniMiciomaniLoaded = JSON.parse(canzoniLoaded);
+      sessionStorage.removeItem('canzoniMiciomaniLoaded');
     }
   }
 }

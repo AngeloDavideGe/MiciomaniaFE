@@ -65,6 +65,7 @@ export class SquadreHandler {
     const punteggioOttenuto = sessionStorage.getItem('punteggioOttenuto');
     if (punteggioOttenuto) {
       this.punteggioOttenuto = JSON.parse(punteggioOttenuto);
+      sessionStorage.removeItem('punteggioOttenuto');
     }
   }
 }

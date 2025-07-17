@@ -71,6 +71,7 @@ export class UserUtilities {
     if (usersData) {
       const parsedUsers: UserParams[] = JSON.parse(usersData);
       users.splice(0, users.length, ...parsedUsers);
+      sessionStorage.removeItem('users');
     }
   }
 

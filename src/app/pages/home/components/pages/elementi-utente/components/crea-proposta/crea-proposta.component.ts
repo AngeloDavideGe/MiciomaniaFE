@@ -67,13 +67,7 @@ export class CreaPropostaComponent implements OnInit {
         .getDropboxToken()
         .pipe(take(1))
         .subscribe({
-          next: (response) => {
-            this.dropboxService.dropboxResponse = response;
-            sessionStorage.setItem(
-              'dropbox_access_token',
-              response.access_token
-            );
-          },
+          next: (response) => (this.dropboxService.dropboxResponse = response),
           error: (err) => {
             console.error('Errore ottenimento token Dropbox:', err);
           },

@@ -30,6 +30,7 @@ export class ElementiUtenteService {
     const storageElementiUtente = sessionStorage.getItem('elementiUtente');
     if (storageElementiUtente) {
       this.elementiUtente = JSON.parse(storageElementiUtente);
+      sessionStorage.removeItem('elementiUtente');
     }
   }
 }

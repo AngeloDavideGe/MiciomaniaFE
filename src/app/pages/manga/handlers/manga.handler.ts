@@ -142,6 +142,7 @@ export class MangaHandler {
     const mangaCaricati = sessionStorage.getItem('mangaCaricati');
     if (mangaCaricati) {
       this.mangaScaricati = JSON.parse(mangaCaricati);
+      sessionStorage.removeItem('mangaCaricati');
     }
   }
 }
