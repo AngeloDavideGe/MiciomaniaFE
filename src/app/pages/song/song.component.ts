@@ -48,7 +48,5 @@ export class SongComponent implements OnInit {
     this.songService.canzoniMiciomani = data;
     this.songService.canzoniMiciomaniLoaded = true;
     this.loadingService.hide();
-    localStorage.setItem('canzoniMiciomani', JSON.stringify(data));
-    sessionStorage.setItem('canzoniMiciomaniLoaded', 'true');
   }
 }

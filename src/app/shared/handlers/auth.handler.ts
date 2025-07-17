@@ -1,12 +1,10 @@
 import { computed, inject, Injectable, Signal, signal } from '@angular/core';
 import { catchError, finalize, map, Observable, of, take } from 'rxjs';
-import { ProfiloHandler } from '../../pages/home/handlers/profilo.handler';
 import { User, UserParams } from '../interfaces/users.interface';
 import { AuthService } from '../services/auth.service';
 import { ConfirmService } from '../services/confirm.service';
 import { UserUtilities } from './utilities/user.utilities';
 import { UsersUtilities } from './utilities/users.utilities';
-import { MangaHandler } from '../../pages/manga/handlers/manga.handler';
 
 @Injectable({
   providedIn: 'root',
@@ -14,8 +12,6 @@ import { MangaHandler } from '../../pages/manga/handlers/manga.handler';
 export class AuthHandler {
   public confirmService = inject(ConfirmService);
   public authService = inject(AuthService);
-  public mangaHandler = inject(MangaHandler);
-  public profiloHandler = inject(ProfiloHandler);
 
   private userUtilities = new UserUtilities();
   private usersUtilities = new UsersUtilities();
@@ -91,7 +87,6 @@ export class AuthHandler {
           const user = this.userUtilities.mapUserByDb(data[0]);
           this.users.set(this.users().filter((x) => x.id != user.id));
           this.user.set(user);
-          this.userUtilities.saveUserToStorage(user, this.users());
           return true;
         } else {
           this.user.set(null);
@@ -111,7 +106,6 @@ export class AuthHandler {
     return this.authService.updateUser(userForDb).pipe(
       map(() => {
         this.user.set(user);
-        this.userUtilities.saveUserToStorage(user, this.users());
         return user;
       }),
       catchError((error) => {

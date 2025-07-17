@@ -15,8 +15,6 @@ export class MangaUtilities {
       params.caricaMangaUtente(params.data.manga_utente[0]);
     }
     params.caricaListaManga(params.data.lista_manga);
-    localStorage.setItem('listaManga', JSON.stringify(params.data.lista_manga));
-    sessionStorage.setItem('mangaCaricati', JSON.stringify(true));
   }
 
   voidSplitManga(): SplitMangaUtente {

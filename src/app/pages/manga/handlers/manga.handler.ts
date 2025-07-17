@@ -89,7 +89,6 @@ export class MangaHandler {
         next: () => {
           this.initialMangaUtente = mangaUtente;
           this.mangaUtente = mangaUtente;
-          localStorage.setItem('mangaUtente', JSON.stringify(mangaUtente));
         },
         error: (err) => {
           console.error('Errore modifica utenti', err);

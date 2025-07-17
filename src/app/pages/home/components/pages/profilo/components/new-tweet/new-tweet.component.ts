@@ -37,15 +37,8 @@ export class NewTweetComponent {
   private inviaTweetDb(tweet: Tweet): void {
     this.profiloHandler.postPubblicazioni({
       tweet: tweet,
-      nextCall: () => this.setProfiloPersonale(tweet),
+      nextCall: () =>
+        this.profiloHandler.profiloPersonale?.tweets.unshift(tweet),
     });
-  }
-
-  private setProfiloPersonale(tweet: Tweet): void {
-    this.profiloHandler.profiloPersonale?.tweets.unshift(tweet);
-    sessionStorage.setItem(
-      'pubblicazioni',
-      JSON.stringify(this.profiloHandler.profiloPersonale)
-    );
   }
 }

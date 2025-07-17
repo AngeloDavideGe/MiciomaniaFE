@@ -26,7 +26,7 @@
             padding-top: 7rem;
           "
         >
-          @if (!authHandler.profiloHandler.aggiornamentoPic) {
+          @if (!profiloHandler.aggiornamentoPic) {
           <img
             [src]="
               profilo.user.credenziali.profilePic ||
@@ -149,7 +149,7 @@
         <div class="card mb-3 border-0 shadow-sm mt-3">
           <div class="card-body" style="padding: 16px">
             <div class="d-flex align-items-start">
-              @if (!authHandler.profiloHandler.aggiornamentoPic) {
+              @if (!profiloHandler.aggiornamentoPic) {
 
               <img
                 [src]="

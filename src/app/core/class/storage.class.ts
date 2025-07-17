@@ -5,9 +5,13 @@ import { AuthHandler } from '../../shared/handlers/auth.handler';
 import { ElementiUtenteService } from '../../shared/services/elementiUtente.service';
 import { HomeService } from '../../pages/home/services/home.service';
 import { SquadreHandler } from '../../shared/handlers/squadre.handler';
+import { MangaHandler } from '../../pages/manga/handlers/manga.handler';
+import { ProfiloHandler } from '../../pages/home/handlers/profilo.handler';
 
 export class StorageClass {
   private authHandler = inject(AuthHandler);
+  public profiloHandler = inject(ProfiloHandler);
+  private mangaHandler = inject(MangaHandler);
   private squadreHandler = inject(SquadreHandler);
   private songService = inject(SongService);
   private homeService = inject(HomeService);
@@ -21,7 +25,7 @@ export class StorageClass {
     );
     localStorage.setItem(
       'listaManga',
-      JSON.stringify(this.authHandler.mangaHandler.listaManga)
+      JSON.stringify(this.mangaHandler.listaManga)
     );
     localStorage.setItem(
       'mangaMiciomani',
@@ -29,7 +33,7 @@ export class StorageClass {
     );
     localStorage.setItem(
       'mangaUtente',
-      JSON.stringify(this.authHandler.mangaHandler.mangaUtente)
+      JSON.stringify(this.mangaHandler.mangaUtente)
     );
     localStorage.setItem('user', JSON.stringify(this.authHandler.user()));
   }
@@ -41,7 +45,7 @@ export class StorageClass {
     );
     sessionStorage.setItem(
       'mangaCaricati',
-      JSON.stringify(this.authHandler.mangaHandler.mangaScaricati)
+      JSON.stringify(this.mangaHandler.mangaScaricati)
     );
     sessionStorage.setItem(
       'mangaMiciomaniLoaded',
@@ -54,6 +58,10 @@ export class StorageClass {
     sessionStorage.setItem(
       'punteggioOttenuto',
       JSON.stringify(this.squadreHandler.punteggioOttenuto)
+    );
+    sessionStorage.setItem(
+      'pubblicazioni',
+      JSON.stringify(this.profiloHandler.profiloPersonale)
     );
     sessionStorage.setItem('users', JSON.stringify(this.authHandler.users()));
   }

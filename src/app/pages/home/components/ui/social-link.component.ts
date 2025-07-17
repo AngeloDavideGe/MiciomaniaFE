@@ -69,18 +69,10 @@ export class SocialLinkComponent implements OnInit {
         )
         .pipe(take(1))
         .subscribe({
-          next: (data) => this.saveSocial(data),
+          next: (data) => (this.homeService.social = data),
           error: (err) => console.error('errore recupero social', err),
         });
     }
-  }
-
-  private saveSocial(data: Social[]): void {
-    this.homeService.social = data;
-    sessionStorage.setItem(
-      'socialLinks',
-      JSON.stringify(this.homeService.social)
-    );
   }
 
   openLink(link: string): void {

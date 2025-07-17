@@ -1,6 +1,7 @@
 import { Component, EventEmitter, inject, Output } from '@angular/core';
 import { AuthHandler } from '../../../../../../../shared/handlers/auth.handler';
 import { User } from '../../../../../../../shared/interfaces/users.interface';
+import { ProfiloHandler } from '../../../../../handlers/profilo.handler';
 
 @Component({
   selector: 'app-change-pic',
@@ -86,6 +87,7 @@ export class ChangePicComponent {
   public previewUrl: string | ArrayBuffer | null = null;
   public selectedFile: File | null = null;
   private authHandler = inject(AuthHandler);
+  public profiloHandler = inject(ProfiloHandler);
 
   @Output() chiudi = new EventEmitter();
 
@@ -136,10 +138,10 @@ export class ChangePicComponent {
 
   onUpload() {
     let user = structuredClone(this.authHandler.user()) || ({} as User);
-    this.authHandler.profiloHandler.aggiornamentoPic = true;
+    this.profiloHandler.aggiornamentoPic = true;
     this.chiudi.emit();
 
-    this.authHandler.profiloHandler.uploadProfileImage({
+    this.profiloHandler.uploadProfileImage({
       selectedFile: this.selectedFile,
       user: user,
       tapCall: (url: string) => (user.credenziali.profilePic = url),
@@ -150,19 +152,15 @@ export class ChangePicComponent {
   }
 
   private completeEdit(user: User): void {
-    if (this.authHandler.profiloHandler.profiloPersonale) {
-      this.authHandler.profiloHandler.profiloPersonale.user = user;
-      sessionStorage.setItem(
-        'pubblicazioni',
-        JSON.stringify(this.authHandler.profiloHandler.profiloPersonale)
-      );
+    if (this.profiloHandler.profiloPersonale) {
+      this.profiloHandler.profiloPersonale.user = user;
     }
-    this.authHandler.profiloHandler.aggiornamentoPic = false;
+    this.profiloHandler.aggiornamentoPic = false;
   }
 
   private errorEdit(err: Error): void {
     console.error('Errore chiamata:', err);
     alert("Errore durante il caricamento dell'immagine");
-    this.authHandler.profiloHandler.aggiornamentoPic = false;
+    this.profiloHandler.aggiornamentoPic = false;
   }
 }

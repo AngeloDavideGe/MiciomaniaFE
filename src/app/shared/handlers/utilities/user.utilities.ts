@@ -74,11 +74,6 @@ export class UserUtilities {
     }
   }
 
-  public saveUserToStorage(user: User, users: UserParams[]): void {
-    localStorage.setItem('user', JSON.stringify(user));
-    sessionStorage.setItem('users', JSON.stringify(users));
-  }
-
   public removeUserFromStorage(): void {
     localStorage.removeItem('user');
     localStorage.removeItem('mangaUtente');

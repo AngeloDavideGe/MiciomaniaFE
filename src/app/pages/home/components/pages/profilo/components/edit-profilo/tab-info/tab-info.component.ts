@@ -61,10 +61,6 @@ export class TabInfoComponent extends TabProfiloBase {
     if (this.profiloHandler.profiloPersonale) {
       this.profiloHandler.profiloPersonale.user = user;
       this.bottoneDisabilitato = true;
-      sessionStorage.setItem(
-        'pubblicazioni',
-        JSON.stringify(this.profiloHandler.profiloPersonale)
-      );
       this.chiudi.emit();
     }
   }

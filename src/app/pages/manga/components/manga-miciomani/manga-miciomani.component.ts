@@ -43,7 +43,5 @@ export class MangaMiciomaniComponent implements OnInit {
     this.mms.mangaMiciomani = data;
     this.mms.mangaMiciomaniLoaded = true;
     this.loadingService.hide();
-    localStorage.setItem('mangaMiciomani', JSON.stringify(data));
-    sessionStorage.setItem('mangaMiciomaniLoaded', 'true');
   }
 }

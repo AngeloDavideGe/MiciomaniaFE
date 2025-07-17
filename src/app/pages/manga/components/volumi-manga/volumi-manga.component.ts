@@ -126,7 +126,6 @@ export class VolumiMangaComponent implements OnInit {
       nome: this.pathOpera,
       volumi: this.volumiOpera,
     });
-    this.setLocalStorageOpera(this.volumiOpera, this.nomeOpera);
   }
 
   private handleVolumiSuccess(volumi: MangaVolume[]): void {
@@ -135,18 +134,7 @@ export class VolumiMangaComponent implements OnInit {
       nome: this.pathOpera,
       volumi: this.volumiOpera,
     });
-    this.setLocalStorageOpera(volumi, this.nomeOpera);
     this.completeLoading();
-  }
-
-  private setLocalStorageOpera(volumi: MangaVolume[], nome: string): void {
-    if (this.operaCompletata) {
-      const opera = {
-        nome: nome,
-        volumi: volumi,
-      };
-      localStorage.setItem(this.pathOpera, JSON.stringify(opera));
-    }
   }
 
   leggiVolume(link: string): void {

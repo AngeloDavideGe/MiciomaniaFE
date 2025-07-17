@@ -87,10 +87,6 @@ export class TabSocialComponent extends TabProfiloBase implements OnInit {
   private completeEdit(user: User): void {
     if (this.profiloHandler.profiloPersonale) {
       this.profiloHandler.profiloPersonale.user = user;
-      sessionStorage.setItem(
-        'pubblicazioni',
-        JSON.stringify(this.profiloHandler.profiloPersonale)
-      );
       this.chiudi.emit();
     }
   }

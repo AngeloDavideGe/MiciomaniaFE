@@ -8,6 +8,8 @@ import { ElementiUtenteUtilities } from '../../shared/utilities/elementiUtente.u
 import { getConfirmParams } from './functions/home.functions';
 import { home_imports } from './imports/home.imports';
 import { componenteApertoType } from './interfaces/profilo.interface';
+import { MangaHandler } from '../manga/handlers/manga.handler';
+import { ProfiloHandler } from './handlers/profilo.handler';
 
 @Component({
   selector: 'app-home',
@@ -17,6 +19,9 @@ import { componenteApertoType } from './interfaces/profilo.interface';
 })
 export class HomeComponent implements OnInit {
   public authHandler = inject(AuthHandler);
+  public profiloHandler = inject(ProfiloHandler);
+  private mangaHandler = inject(MangaHandler);
+
   public router = inject(Router);
 
   public user: User = {} as User;
@@ -78,8 +83,8 @@ export class HomeComponent implements OnInit {
 
   private confirmLogout(): void {
     this.usersLogout();
-    this.authHandler.mangaHandler.mangaUtente = {} as any;
-    this.authHandler.profiloHandler.profiloPersonale = null;
+    this.mangaHandler.mangaUtente = {} as any;
+    this.profiloHandler.profiloPersonale = null;
     this.authHandler.logout();
     this.setAnonymousUser();
   }
@@ -89,7 +94,6 @@ export class HomeComponent implements OnInit {
       ...users,
       this.authHandler.converUserParams(this.user),
     ]);
-    sessionStorage.setItem('users', JSON.stringify(this.authHandler.users()));
   }
 
   private handleUserSubscription(user: User | null): void {
@@ -129,7 +133,6 @@ export class HomeComponent implements OnInit {
     }
 
     this.authHandler.users.set(otherUsers);
-    sessionStorage.setItem('users', JSON.stringify(otherUsers));
   }
 
   public controlloPunteggio(): void {

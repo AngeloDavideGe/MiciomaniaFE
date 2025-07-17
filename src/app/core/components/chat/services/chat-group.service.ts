@@ -9,6 +9,7 @@ import { environment } from '../../../../../environments/environment';
 export class ChatGroupService {
   public messaggiCaricatiBool: boolean = false;
   public messages = signal<any[]>([]);
+  public newMessages = signal<number>(-1);
   private readonly maxMessages = 10;
 
   constructor() {
@@ -78,6 +79,8 @@ export class ChatGroupService {
           }
         }
       )
-      .subscribe();
+      .subscribe(() => {
+        this.newMessages.update((x) => x + 1);
+      });
   }
 }

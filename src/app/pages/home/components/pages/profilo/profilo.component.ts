@@ -11,6 +11,7 @@ import {
 } from '../../../interfaces/profilo.interface';
 import { profilo_imports } from './imports/profilo.imports';
 import { modaleApertaType } from './types/profilo.type';
+import { ProfiloHandler } from '../../../handlers/profilo.handler';
 
 @Component({
   selector: 'app-profilo',
@@ -23,6 +24,7 @@ export class ProfiloComponent implements OnInit, OnDestroy {
   public router = inject(Router);
   private loaderService = inject(LoadingService);
   public authHandler = inject(AuthHandler);
+  public profiloHandler = inject(ProfiloHandler);
 
   private destroy$ = new Subject<void>();
   private idUtente: string | null = null;
@@ -76,11 +78,8 @@ export class ProfiloComponent implements OnInit, OnDestroy {
   private caricaDatiUser(user: User | null): void {
     if (user && user.id) {
       this.profiloPersonale = this.idUtente == user.id;
-      if (
-        this.authHandler.profiloHandler.profiloPersonale &&
-        this.profiloPersonale
-      ) {
-        this.profilo = this.authHandler.profiloHandler.profiloPersonale;
+      if (this.profiloHandler.profiloPersonale && this.profiloPersonale) {
+        this.profilo = this.profiloHandler.profiloPersonale;
         this.caricamentoCompletato();
       } else {
         this.sottoscrizioneProfilo(this.idUtente!);
@@ -91,7 +90,7 @@ export class ProfiloComponent implements OnInit, OnDestroy {
   }
 
   private sottoscrizioneProfilo(userId: string): void {
-    this.authHandler.profiloHandler.getProfiloById({
+    this.profiloHandler.getProfiloById({
       userId: userId,
       setLocalStorage: (profilo: Profilo) => this.setLocalStorage(profilo),
       caricamentoCompletato: () => this.caricamentoCompletato(),
@@ -113,9 +112,7 @@ export class ProfiloComponent implements OnInit, OnDestroy {
   private setLocalStorage(data: Profilo): void {
     this.profilo = data;
     if (this.profiloPersonale) {
-      this.authHandler.profiloHandler.profiloPersonale = data;
-      localStorage.setItem('user', JSON.stringify(data.user));
-      sessionStorage.setItem('pubblicazioni', JSON.stringify(data));
+      this.profiloHandler.profiloPersonale = data;
     }
   }
 
@@ -142,7 +139,7 @@ export class ProfiloComponent implements OnInit, OnDestroy {
 
   private confirmEliminaTweet(tweetId: number): void {
     this.loaderService.show();
-    this.authHandler.profiloHandler.deletePubblicazioneById({
+    this.profiloHandler.deletePubblicazioneById({
       tweetId: tweetId,
       finalizeCall: () => this.loaderService.hide(),
       nextCall: () => {

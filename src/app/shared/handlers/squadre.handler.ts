@@ -22,10 +22,6 @@ export class SquadreHandler {
     } else {
       this.punteggioOttenuto += punteggio;
     }
-    sessionStorage.setItem(
-      'punteggioOttenuto',
-      JSON.stringify(this.punteggioOttenuto)
-    );
   }
 
   public loadSquadre(params: {

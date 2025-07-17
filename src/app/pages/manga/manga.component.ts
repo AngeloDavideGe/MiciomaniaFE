@@ -18,6 +18,7 @@ import { getTabsManga } from './functions/manga.functions';
 import { manga_imports } from './imports/manga.imports';
 import { TabsManga } from './interfaces/filtri.interface';
 import { ListaManga, MangaUtente } from './interfaces/manga.interface';
+import { MangaHandler } from './handlers/manga.handler';
 
 @Component({
   selector: 'app-manga',
@@ -51,17 +52,17 @@ export class MangaComponent implements OnDestroy {
   );
 
   public authHandler = inject(AuthHandler);
+  public mangaHandler = inject(MangaHandler);
   private loadingService = inject(LoadingService);
 
-  public isManga$: Observable<boolean> =
-    this.authHandler.mangaHandler.router.events.pipe(
-      filter((event): event is NavigationEnd => event instanceof NavigationEnd),
-      startWith({
-        url: this.authHandler.mangaHandler.router.url,
-      }),
-      map((event) => event.url == '/manga'),
-      tap((isManga) => (isManga ? this.loadFilteredManga() : null))
-    );
+  public isManga$: Observable<boolean> = this.mangaHandler.router.events.pipe(
+    filter((event): event is NavigationEnd => event instanceof NavigationEnd),
+    startWith({
+      url: this.mangaHandler.router.url,
+    }),
+    map((event) => event.url == '/manga'),
+    tap((isManga) => (isManga ? this.loadFilteredManga() : null))
+  );
 
   constructor() {
     effect(() => {
@@ -100,7 +101,7 @@ export class MangaComponent implements OnDestroy {
   }
 
   private logFilterChanges(): ListaManga[] {
-    return this.authHandler.mangaHandler.listaManga.filter((manga) => {
+    return this.mangaHandler.listaManga.filter((manga) => {
       return (
         (this.filterSelect.genere() === 'Qualsiasi' ||
           manga.genere.includes(this.filterSelect.genere())) &&
@@ -120,10 +121,10 @@ export class MangaComponent implements OnDestroy {
   }
 
   private loadFilteredManga(): void {
-    const ms = this.authHandler.mangaHandler;
+    const ms = this.mangaHandler;
     if (ms.listaManga.length > 0 && ms.mangaScaricati) {
       this.filterSelect.nome.set('');
-      this.identificaPreferiti(this.authHandler.mangaHandler.mangaUtente);
+      this.identificaPreferiti(this.mangaHandler.mangaUtente);
       this.idUtente = this.authHandler.user()?.id || null;
     } else {
       ms.listaManga.length > 0 ? null : this.loadingService.show();
@@ -136,11 +137,11 @@ export class MangaComponent implements OnDestroy {
     const user = this.authHandler.user();
     this.idUtente = user ? user.id : null;
 
-    this.authHandler.mangaHandler.inizializzaLista({
+    this.mangaHandler.inizializzaLista({
       idUtente: this.idUtente,
       caricaMangaUtente: (manga_utente: MangaUtente) => {
         this.identificaPreferiti(manga_utente);
-        this.authHandler.mangaHandler.initialMangaUtente = manga_utente;
+        this.mangaHandler.initialMangaUtente = manga_utente;
       },
       caricaListaManga: (lista_manga: ListaManga[]) =>
         this.caricaManga(lista_manga),
@@ -150,7 +151,7 @@ export class MangaComponent implements OnDestroy {
 
   private caricaManga(lista: ListaManga[]): void {
     this.loadingService.show();
-    this.authHandler.mangaHandler.listaManga = lista;
+    this.mangaHandler.listaManga = lista;
     this.filterSelect.nome.set('');
     this.aggiornamentoManga = false;
     this.loadingService.hide();
@@ -158,8 +159,7 @@ export class MangaComponent implements OnDestroy {
 
   private identificaPreferiti(mangaUtente: MangaUtente): void {
     if (mangaUtente?.preferiti) {
-      this.authHandler.mangaHandler.mangaUtente = mangaUtente;
-      localStorage.setItem('mangaUtente', JSON.stringify(mangaUtente));
+      this.mangaHandler.mangaUtente = mangaUtente;
       const arrayIdPreferiti: number[] = mangaUtente.preferiti
         .split(',')
         .map(Number);
@@ -181,7 +181,7 @@ export class MangaComponent implements OnDestroy {
   }
 
   private upsertOnDestroy($event: BeforeUnloadEvent | null): void {
-    const ma = this.authHandler.mangaHandler;
+    const ma = this.mangaHandler;
 
     const condEquals = !compareObjectCustom(
       ma.mangaUtente,
@@ -195,9 +195,6 @@ export class MangaComponent implements OnDestroy {
   }
 
   private upsertMangaUtente(mangaUtente: MangaUtente): void {
-    this.authHandler.mangaHandler.postOrUpdateMangaUtente(
-      mangaUtente,
-      this.idUtente || ''
-    );
+    this.mangaHandler.postOrUpdateMangaUtente(mangaUtente, this.idUtente || '');
   }
 }

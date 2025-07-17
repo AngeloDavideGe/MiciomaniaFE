@@ -82,7 +82,6 @@ export class TuoiMangaComponent implements OnInit, OnDestroy {
         .join(', '),
     } as MangaUtente;
     this.mangaHandler.mangaUtente = mangaUtente;
-    localStorage.setItem('mangaUtente', JSON.stringify(mangaUtente));
   }
 
   private computedallMangaSearch(): ListaManga[] {
@@ -103,10 +102,8 @@ export class TuoiMangaComponent implements OnInit, OnDestroy {
 
       this.mangaHandler.inizializzaLista({
         idUtente: idUtente,
-        caricaMangaUtente: (manga_utente: MangaUtente) => {
-          this.mangaHandler.mangaUtente = manga_utente;
-          localStorage.setItem('mangaUtente', JSON.stringify(manga_utente));
-        },
+        caricaMangaUtente: (manga_utente: MangaUtente) =>
+          (this.mangaHandler.mangaUtente = manga_utente),
         caricaListaManga: (lista_manga: ListaManga[]) =>
           this.caricaManga(lista_manga),
         caricamentoFallito: () => this.caricamentoFallito(),
@@ -132,9 +129,7 @@ export class TuoiMangaComponent implements OnInit, OnDestroy {
 
   private copiaSplitUtente(): void {
     this.sezioneListaManga.set(
-      this.mangaHandler.createSezioneMangaUtente(
-        this.authHandler.mangaHandler.mangaUtente
-      )
+      this.mangaHandler.createSezioneMangaUtente(this.mangaHandler.mangaUtente)
     );
   }
 

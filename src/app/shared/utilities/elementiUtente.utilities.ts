@@ -32,7 +32,6 @@ export class ElementiUtenteUtilities {
 
   private nextGetElemUtenti(elementiUtente: ElementiUtente): void {
     this.elementiUtenteService.elementiUtente = elementiUtente;
-    sessionStorage.setItem('elementiUtente', JSON.stringify(elementiUtente));
     this.loadingService.hide();
   }
 }

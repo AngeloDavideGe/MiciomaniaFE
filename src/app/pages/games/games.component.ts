@@ -149,7 +149,6 @@ export class GamesComponent implements OnInit, OnDestroy {
 
     if (user && user.iscrizione && user.iscrizione.punteggio) {
       user.iscrizione.punteggio += punteggio;
-      localStorage.setItem('user', JSON.stringify(user));
       this.authHandler.user.set(user);
     }
 

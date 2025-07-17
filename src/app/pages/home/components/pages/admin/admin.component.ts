@@ -66,7 +66,6 @@ export class AdminComponent implements OnInit {
     this.authHandler.users.update(() =>
       data.filter((x) => x.id !== this.user?.id)
     );
-    sessionStorage.setItem('users', JSON.stringify(this.authHandler.users()));
   }
 
   private mapUsersByRuolo(): void {
@@ -112,7 +111,6 @@ export class AdminComponent implements OnInit {
       const allUsers: UserParams[] = this.authHandler.users();
       allUsers[globalUserIndex].ruolo = user.nuovoRuolo;
       this.authHandler.users.set(allUsers);
-      sessionStorage.setItem('users', JSON.stringify(allUsers));
     }
 
     this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {

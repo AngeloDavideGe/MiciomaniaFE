@@ -1,14 +1,15 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { take } from 'rxjs';
+import { AuthHandler } from '../../../../shared/handlers/auth.handler';
 import {
   Iscrizione,
   User,
 } from '../../../../shared/interfaces/users.interface';
+import { ProfiloHandler } from '../../../home/handlers/profilo.handler';
 import { Ruolo } from '../../enums/users.enum';
 import { FormWizard } from '../../interfaces/wizard.interface';
 import { stepType, WizardBase } from './base/wizard.base';
 import { iscrizione_imports } from './imports/iscrizione.import';
-import { AuthHandler } from '../../../../shared/handlers/auth.handler';
 
 @Component({
   selector: 'app-iscrizione',
@@ -23,7 +24,10 @@ export class IscrizioneComponent extends WizardBase {
   public viewSuccespage: boolean = true;
   public wizardData: FormWizard = {} as FormWizard;
 
-  constructor(private authHandler: AuthHandler) {
+  private profiloHandler = inject(ProfiloHandler);
+  private authHandler = inject(AuthHandler);
+
+  constructor() {
     super();
     this.iscrizioneUser();
   }
@@ -41,7 +45,7 @@ export class IscrizioneComponent extends WizardBase {
       .pipe(take(1))
       .subscribe({
         next: () => {
-          this.setLocalStorage(this.user);
+          this.setLocalStorage();
           this.nextCallIscrizione();
         },
         error: (err) =>
@@ -90,14 +94,9 @@ export class IscrizioneComponent extends WizardBase {
     }
   }
 
-  private setLocalStorage(utente: User): void {
-    localStorage.setItem('user', JSON.stringify(this.user));
-
-    const pubblicazioniSession = sessionStorage.getItem('pubblicazioni');
-    if (pubblicazioniSession) {
-      const datiSession = JSON.parse(pubblicazioniSession);
-      datiSession.user = utente;
-      sessionStorage.setItem('pubblicazioni', JSON.stringify(datiSession));
+  private setLocalStorage(): void {
+    if (this.profiloHandler.profiloPersonale) {
+      this.profiloHandler.profiloPersonale.user = this.user;
     }
   }
 

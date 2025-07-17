@@ -168,10 +168,6 @@ export class CreaPropostaComponent implements OnInit {
               ({} as ElementiUtente)),
             proposta: data,
           };
-          sessionStorage.setItem(
-            'elementiUtente',
-            JSON.stringify(this.elementiUtenteService.elementiUtente)
-          );
         },
         error: (err) => {
           console.error('Errore upload o recupero link:', err);
