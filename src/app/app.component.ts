@@ -15,7 +15,7 @@ import { CursorUtilities } from './shared/utilities/cursor.utilities';
     <div
       class="app-router-outlet-container"
       [ngStyle]="{
-        'margin-bottom': miniPlayerClass.currentCanzone() ? '8rem' : '0'
+        'margin-bottom': miniPlayerClass.currentCanzone() ? '8rem' : '0rem'
       }"
     >
       <router-outlet></router-outlet>

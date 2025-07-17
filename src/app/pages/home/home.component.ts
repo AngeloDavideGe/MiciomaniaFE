@@ -29,7 +29,7 @@ export class HomeComponent implements OnInit {
 
   public isHome$: Observable<boolean> = this.router.events.pipe(
     filter((event): event is NavigationEnd => event instanceof NavigationEnd),
-    startWith({ url: this.router.url } as NavigationEnd),
+    startWith({ url: this.router.url }),
     map((event) => event.url == '/home'),
     tap(() => {
       this.componenteAperto.set('');

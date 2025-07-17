@@ -38,7 +38,7 @@ export class GamesComponent implements OnInit, OnDestroy {
 
   public isGames$: Observable<boolean> = this.router.events.pipe(
     filter((event): event is NavigationEnd => event instanceof NavigationEnd),
-    startWith({ url: this.router.url } as NavigationEnd),
+    startWith({ url: this.router.url }),
     map((event) => event.url == '/games')
   );
 

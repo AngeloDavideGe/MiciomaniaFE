@@ -58,7 +58,7 @@ export class MangaComponent implements OnDestroy {
       filter((event): event is NavigationEnd => event instanceof NavigationEnd),
       startWith({
         url: this.authHandler.mangaHandler.router.url,
-      } as NavigationEnd),
+      }),
       map((event) => event.url == '/manga'),
       tap((isManga) => (isManga ? this.loadFilteredManga() : null))
     );
