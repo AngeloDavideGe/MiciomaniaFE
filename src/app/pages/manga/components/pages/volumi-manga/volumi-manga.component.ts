@@ -1,10 +1,10 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { finalize, Observable, take } from 'rxjs';
-import { LoadingService } from '../../../../shared/services/loading.service';
-import { MangaHandler } from '../../handlers/manga.handler';
-import { MangaVolume } from '../../interfaces/manga.interface';
-import { PadZeroVolumePipe } from '../../pipes/padZeroVolume.pipe';
+import { LoadingService } from '../../../../../shared/services/loading.service';
+import { MangaHandler } from '../../../handlers/manga.handler';
+import { MangaVolume } from '../../../interfaces/manga.interface';
+import { PadZeroVolumePipe } from '../../../pipes/padZeroVolume.pipe';
 
 @Component({
   selector: 'app-volumi-manga',

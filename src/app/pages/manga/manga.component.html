@@ -2,43 +2,16 @@
 <!-- Chiamata riuscita -->
 @if (!erroreHttp) {
 <div class="text-white py-5 mb-4" style="background-color: #9fb987">
-  <div class="container text-center">
-    <h1 class="display-4 fw-bold mb-3">Benvenuto nel Mondo dei Manga</h1>
-    <p class="lead mb-4">
-      Esplora i migliori manga, trova nuovi titoli e leggi le ultime novità
-      online!
-    </p>
-    <p class="h5" style="font-style: italic">
-      Scopri opere da leggere, cerca per autore, genere o titolo.
-    </p>
-    <div class="d-flex justify-content-center gap-3 mt-4">
-      <button
-        class="btn btn-light btn-lg"
-        (click)="this.mangaHandler.router.navigate(['/home'])"
-      >
-        <i class="bi bi-house-door me-2"></i>
-        Torna alla Home
-      </button>
-
-      <button
-        class="btn btn-light btn-lg"
-        (click)="this.mangaHandler.router.navigate(['/manga/tuoi-manga'])"
-        [disabled]="!idUtente"
-      >
-        <i class="bi bi-book me-2"></i>
-        I tuoi manga
-      </button>
-
-      <button
-        class="btn btn-light btn-lg"
-        (click)="this.mangaHandler.router.navigate(['/manga/manga-miciomani'])"
-        [disabled]="!idUtente"
-      >
-        <i class="bi bi-emoji-sunglasses me-2"></i>
-        Manga miciomani
-      </button>
-    </div>
-  </div>
+  <app-dettagli-manga
+    [titolo]="'Benvenuto nel Mondo dei Manga'"
+    [messaggio]="
+      'Esplora i migliori manga, trova nuovi titoli e leggi le ultime novità online!'
+    "
+    [descrizione]="
+      'Scopri opere da leggere, cerca per autore, genere o titolo.'
+    "
+    [bottoni]="pulsanti"
+  ></app-dettagli-manga>
 </div>
 } @else {<app-error-http></app-error-http>}
 

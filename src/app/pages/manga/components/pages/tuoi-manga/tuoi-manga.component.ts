@@ -9,24 +9,31 @@ import {
   signal,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { ErrorHttpComponent } from '../../../../shared/components/errorhttp.component';
-import { AuthHandler } from '../../../../shared/handlers/auth.handler';
-import { User } from '../../../../shared/interfaces/users.interface';
-import { LoadingService } from '../../../../shared/services/loading.service';
-import { MangaHandler } from '../../handlers/manga.handler';
+import { ErrorHttpComponent } from '../../../../../shared/components/errorhttp.component';
+import { AuthHandler } from '../../../../../shared/handlers/auth.handler';
+import { User } from '../../../../../shared/interfaces/users.interface';
+import { LoadingService } from '../../../../../shared/services/loading.service';
+import { MangaHandler } from '../../../handlers/manga.handler';
 import {
   keyofMangaUtente,
   ListaManga,
   MangaUtente,
   SezioniMangaUtente,
   SplitMangaUtente,
-} from '../../interfaces/manga.interface';
-import { CardMangaComponent } from '../../shared/card-manga.component';
+} from '../../../interfaces/manga.interface';
+import { CardMangaComponent } from '../../../shared/card-manga.component';
+import { DettagliMangaComponent } from '../../../shared/dettagli-manga.component';
+import { PulsantiManga } from '../../../interfaces/filtri.interface';
 
 @Component({
   selector: 'app-tuoi-manga',
   standalone: true,
-  imports: [CardMangaComponent, FormsModule, ErrorHttpComponent],
+  imports: [
+    CardMangaComponent,
+    FormsModule,
+    ErrorHttpComponent,
+    DettagliMangaComponent,
+  ],
   templateUrl: './tuoi-manga.component.html',
 })
 export class TuoiMangaComponent implements OnInit, OnDestroy {
@@ -49,6 +56,14 @@ export class TuoiMangaComponent implements OnInit, OnDestroy {
     letti: [],
     completati: [],
   });
+  public pulsanti: PulsantiManga[] = [
+    {
+      click: () => this.mangaHandler.router.navigate(['/manga']),
+      disabled: false,
+      titolo: '📚 Cerca tutti i manga',
+      icona: '',
+    },
+  ];
 
   constructor() {
     effect(() => {

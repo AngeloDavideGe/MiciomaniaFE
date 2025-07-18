@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { TabsManga } from '../interfaces/filtri.interface';
+import { TabsManga } from '../../interfaces/filtri.interface';
 
 @Component({
   selector: 'app-tabs-manga',

@@ -15,10 +15,10 @@ import { AuthHandler } from '../../shared/handlers/auth.handler';
 import { LoadingService } from '../../shared/services/loading.service';
 import { generiManga } from './constants/genere.constant';
 import { getTabsManga } from './functions/manga.functions';
-import { manga_imports } from './imports/manga.imports';
-import { TabsManga } from './interfaces/filtri.interface';
-import { ListaManga, MangaUtente } from './interfaces/manga.interface';
 import { MangaHandler } from './handlers/manga.handler';
+import { manga_imports } from './imports/manga.imports';
+import { PulsantiManga, TabsManga } from './interfaces/filtri.interface';
+import { ListaManga, MangaUtente } from './interfaces/manga.interface';
 
 @Component({
   selector: 'app-manga',
@@ -27,11 +27,17 @@ import { MangaHandler } from './handlers/manga.handler';
   templateUrl: './manga.component.html',
 })
 export class MangaComponent implements OnDestroy {
+  public authHandler = inject(AuthHandler);
+  public mangaHandler = inject(MangaHandler);
+  private loadingService = inject(LoadingService);
+
   public mangaPreferiti: boolean[] = [];
   public erroreHttp: boolean = false;
   public aggiornamentoManga: boolean = false;
   public mangaGeneri = generiManga;
   public idUtente: string | null = null;
+  public pulsanti: PulsantiManga[] = this.getPulsanti();
+
   private debounce = {
     autore: signal(''),
     nome: signal(''),
@@ -44,16 +50,13 @@ export class MangaComponent implements OnDestroy {
     nome: signal<string>(''),
     tabBoolean: signal<boolean | null>(null),
   };
+
   public filteredManga: Signal<ListaManga[]> = computed(() =>
     this.logFilterChanges()
   );
   public tabs: TabsManga[] = getTabsManga(
     [null, false, true].map((condition) => this.getTabClickHandler(condition))
   );
-
-  public authHandler = inject(AuthHandler);
-  public mangaHandler = inject(MangaHandler);
-  private loadingService = inject(LoadingService);
 
   public isManga$: Observable<boolean> = this.mangaHandler.router.events.pipe(
     filter((event): event is NavigationEnd => event instanceof NavigationEnd),
@@ -89,6 +92,30 @@ export class MangaComponent implements OnDestroy {
   @HostListener('window:beforeunload', ['$event'])
   unloadNotification($event: BeforeUnloadEvent): void {
     this.upsertOnDestroy($event);
+  }
+
+  private getPulsanti(): PulsantiManga[] {
+    return [
+      {
+        click: () => this.mangaHandler.router.navigate(['/home']),
+        disabled: false,
+        titolo: 'Torna alla Home',
+        icona: 'bi bi-house-door me-2',
+      },
+      {
+        click: () => this.mangaHandler.router.navigate(['/manga/tuoi-manga']),
+        disabled: !this.authHandler.user(),
+        titolo: 'I tuoi Manga',
+        icona: 'bi bi-book me-2',
+      },
+      {
+        click: () =>
+          this.mangaHandler.router.navigate(['/manga/manga-miciomani']),
+        disabled: !this.authHandler.user(),
+        titolo: 'Manga Miciomani',
+        icona: 'bi bi-emoji-sunglasses me-2',
+      },
+    ];
   }
 
   private getTabClickHandler(condition: boolean | null): Function {
@@ -183,18 +210,17 @@ export class MangaComponent implements OnDestroy {
   private upsertOnDestroy($event: BeforeUnloadEvent | null): void {
     const ma = this.mangaHandler;
 
-    const condEquals = !compareObjectCustom(
+    const condEquals: boolean = !compareObjectCustom(
       ma.mangaUtente,
       ma.initialMangaUtente
     );
 
     if (this.idUtente && condEquals) {
       $event ? $event.preventDefault() : null;
-      this.upsertMangaUtente(ma.mangaUtente);
+      this.mangaHandler.postOrUpdateMangaUtente(
+        ma.mangaUtente,
+        this.idUtente || ''
+      );
     }
-  }
-
-  private upsertMangaUtente(mangaUtente: MangaUtente): void {
-    this.mangaHandler.postOrUpdateMangaUtente(mangaUtente, this.idUtente || '');
   }
 }

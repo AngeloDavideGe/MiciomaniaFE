@@ -3,7 +3,8 @@ import { FormsModule } from '@angular/forms';
 import { RouterOutlet } from '@angular/router';
 import { ErrorHttpComponent } from '../../../shared/components/errorhttp.component';
 import { CardMangaComponent } from '../shared/card-manga.component';
-import { TabsMangaComponent } from '../shared/tabs-manga.component';
+import { DettagliMangaComponent } from '../shared/dettagli-manga.component';
+import { TabsMangaComponent } from '../components/ui/tabs-manga.component';
 
 export const manga_imports = [
   RouterOutlet,
@@ -12,4 +13,5 @@ export const manga_imports = [
   CardMangaComponent,
   ErrorHttpComponent,
   TabsMangaComponent,
+  DettagliMangaComponent,
 ];

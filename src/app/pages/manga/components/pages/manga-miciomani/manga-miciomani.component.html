@@ -6,39 +6,16 @@
     box-shadow: 0 6px 18px rgba(39, 174, 96, 0.6);
   "
 >
-  <div class="container text-center">
-    <h1
-      class="display-5 fw-bold mb-2"
-      style="letter-spacing: 1.5px; text-shadow: 0 0 8px rgba(39, 174, 96, 0.9)"
-    >
-      📚 Manga Inediti di Miciomania
-    </h1>
-    <p
-      class="lead mb-3"
-      style="
-        color: #d4f7d4;
-        font-weight: 500;
-        text-shadow: 0 0 4px rgba(0, 0, 0, 0.3);
-      "
-    >
-      🎮 Hai raggiunto un punteggio speciale nei minigiochi? Ora puoi scaricare
-      questi manga inediti e esclusivi di
-      <span style="color: #adebad; font-weight: 700">Miciomania</span>!
-    </p>
-    <p class="h6 mb-4" style="font-style: italic; color: #c9f0c9">
-      Esplora nuove storie e immergiti nel fantastico universo dei nostri
-      miciomani.
-    </p>
-    <div class="d-flex justify-content-center gap-3">
-      <button
-        class="btn btn-light btn-lg"
-        (click)="this.router.navigate(['/manga'])"
-      >
-        <i class="bi bi-book me-2"></i>
-        Torna ai Manga
-      </button>
-    </div>
-  </div>
+  <app-dettagli-manga
+    [titolo]="'Manga Inediti di Miciomania'"
+    [messaggio]="
+      '🎮 Hai raggiunto un punteggio speciale nei minigiochi? Ora puoi scaricare questi manga inediti e esclusivi di'
+    "
+    [descrizione]="
+      'Esplora nuove storie e immergiti nel fantastico universo dei nostri miciomani.'
+    "
+    [bottoni]="pulsanti"
+  ></app-dettagli-manga>
 </div>
 
 <div class="row justify-content-center g-4">
