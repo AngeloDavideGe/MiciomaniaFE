@@ -9,109 +9,25 @@
     [bottoni]="pulsanti"
   ></app-dettagli-manga>
 </div>
-} @else {
-<app-error-http></app-error-http>
-}
 
 <!-- Tabs per Preferiti, Leggendo e Completati -->
-<div class="container mt-4" id="tabs">
-  <div class="d-flex justify-content-center gap-3 flex-wrap">
-    <button
-      class="btn btn-lg py-2 px-4 fw-bold stile-bottoni"
-      style="background-color: #ff4081"
-      onmouseover="this.style.backgroundColor='#e91e63'"
-      onmouseout="this.style.backgroundColor='#ff4081'"
-      (click)="filterMangaFunc('preferiti')"
-      [disabled]="selectedTab == 'preferiti'"
-    >
-      ⭐ Preferiti
-    </button>
-
-    <button
-      class="btn btn-lg py-2 px-4 fw-bold stile-bottoni"
-      style="background-color: #ff9800"
-      onmouseover="this.style.backgroundColor='#fb8c00'"
-      onmouseout="this.style.backgroundColor='#ff9800'"
-      (click)="filterMangaFunc('letti')"
-      [disabled]="selectedTab == 'letti'"
-    >
-      📖 Leggendo
-    </button>
-
-    <button
-      class="btn btn-lg py-2 px-4 fw-bold stile-bottoni"
-      style="background-color: #4caf50"
-      onmouseover="this.style.backgroundColor='#43a047'"
-      onmouseout="this.style.backgroundColor='#4caf50'"
-      (click)="filterMangaFunc('completati')"
-      [disabled]="selectedTab == 'completati'"
-    >
-      ✅ Completati
-    </button>
-  </div>
-</div>
+<app-tabs-tuoi-manga
+  (filterMangaFunc)="filterMangaFunc($event)"
+  [selectedTab]="selectedTab"
+></app-tabs-tuoi-manga>
 
 <!-- Input per la ricerca di manga da aggiungere ai preferiti -->
-<div
-  class="d-flex justify-content-center mt-4 position-relative w-100"
-  id="input-ricerca"
->
-  <input
-    type="text"
-    class="form-control w-100 w-sm-75 w-md-50"
-    [placeholder]="'Aggiungi manga a ' + selectedTab"
-    [(ngModel)]="searchQuery"
-    style="
-      border-radius: 20px;
-      padding-left: 40px;
-      position: relative;
-      font-size: clamp(0.9rem, 1.2vw, 1.1rem);
-    "
-  />
-
-  <!-- Lista di risultati della ricerca (dropdown) -->
-  @if (allMangaSearch().length > 0 && searchQuery().length > 0) {
-  <div
-    class="position-absolute w-100 w-sm-75 w-md-50"
-    style="z-index: 1050; margin-top: 3.5rem"
-  >
-    <ul
-      class="list-group stile-gruppo-lista"
-      style="max-height: 200px; overflow-y: auto"
-    >
-      @for (result of allMangaSearch(); track $index) {
-      <li
-        class="list-group-item d-flex align-items-center"
-        (click)="aggiungiMangaTab(result.id)"
-        style="cursor: pointer"
-      >
-        <img
-          [src]="result.copertina"
-          alt="manga copertina"
-          class="rounded-circle stile-immagine-profilo"
-        />
-        <span style="font-size: clamp(1.2rem, 1.5vw, 1.6rem)">{{
-          result.nome
-        }}</span>
-      </li>
-      }
-    </ul>
-  </div>
-  }
-</div>
+<app-input-tuoi-manga
+  (aggiungiMangaTab)="aggiungiMangaTab($event)"
+  [allMangaSearch]="allMangaSearch"
+  [searchQuery]="searchQuery"
+  [selectedTab]="selectedTab"
+></app-input-tuoi-manga>
 
 @if (selectedTab != 'preferiti') {
-<select
-  class="form-select form-select-lg mb-3 mt-3"
-  aria-label="Sposta i selezionati"
-  (change)="spostaMangaSelezionati($event)"
-  style="width: auto; display: inline-block; margin-right: 10px"
->
-  <option value="">📦 Sposta i selezionati</option>
-  <option value="Letti">📖 Leggendo</option>
-  <option value="Completati">✅ Completati</option>
-  <option value="Elimina">🗑️ Cestino</option>
-</select>
+<app-select-tab-manga
+  (spostaMangaSelezionati)="spostaMangaSelezionati($event)"
+></app-select-tab-manga>
 }
 
 <!-- Sezione manga filtrati -->
@@ -130,45 +46,6 @@
   }
 </div>
 
-<ng-template #erroreHttpTemplate> </ng-template>
-
-<style>
-  #tabs .stile-bottoni {
-    color: white;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    transition: all 0.3s;
-  }
-
-  #input-ricerca {
-    .stile-gruppo-lista {
-      border-radius: 20px;
-      overflow-y: auto;
-      background-color: white;
-
-      @media (max-width: 576px) {
-        max-height: 200px;
-      }
-
-      @media (min-width: 577px) and (max-width: 992px) {
-        max-height: 300px;
-      }
-
-      @media (min-width: 993px) {
-        max-height: 400px;
-      }
-    }
-
-    .stile-immagine-profilo {
-      width: 70px;
-      height: 70px;
-      object-fit: cover;
-      margin-right: 10px;
-
-      @media (min-width: 768px) {
-        width: 70px;
-        height: 70px;
-      }
-    }
-  }
-</style>
+} @else {
+<app-error-http></app-error-http>
+}

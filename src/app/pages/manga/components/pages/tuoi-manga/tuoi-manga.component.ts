@@ -8,12 +8,12 @@ import {
   Signal,
   signal,
 } from '@angular/core';
-import { FormsModule } from '@angular/forms';
 import { ErrorHttpComponent } from '../../../../../shared/components/errorhttp.component';
 import { AuthHandler } from '../../../../../shared/handlers/auth.handler';
 import { User } from '../../../../../shared/interfaces/users.interface';
 import { LoadingService } from '../../../../../shared/services/loading.service';
 import { MangaHandler } from '../../../handlers/manga.handler';
+import { PulsantiManga } from '../../../interfaces/filtri.interface';
 import {
   keyofMangaUtente,
   ListaManga,
@@ -23,16 +23,20 @@ import {
 } from '../../../interfaces/manga.interface';
 import { CardMangaComponent } from '../../../shared/card-manga.component';
 import { DettagliMangaComponent } from '../../../shared/dettagli-manga.component';
-import { PulsantiManga } from '../../../interfaces/filtri.interface';
+import { InputTuoiMangaComponent } from './components/input-tuoi-manga.component';
+import { TabsTuoiMangaComponent } from './components/tabs-tuoi-manga.component';
+import { SelectTabMangaComponent } from './components/select-tab-manga.component';
 
 @Component({
   selector: 'app-tuoi-manga',
   standalone: true,
   imports: [
     CardMangaComponent,
-    FormsModule,
     ErrorHttpComponent,
     DettagliMangaComponent,
+    TabsTuoiMangaComponent,
+    InputTuoiMangaComponent,
+    SelectTabMangaComponent,
   ],
   templateUrl: './tuoi-manga.component.html',
 })
