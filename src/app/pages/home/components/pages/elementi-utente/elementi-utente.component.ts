@@ -10,7 +10,6 @@ import {
 } from '../../../../../shared/interfaces/elementiUtente.interface';
 import { User } from '../../../../../shared/interfaces/users.interface';
 import { ElementiUtenteUtilities } from '../../../../../shared/utilities/elementiUtente.utilities';
-import { MangaSongUtilities } from '../../../../../shared/utilities/mangaSong.utilities';
 import { elementi_utente_imports } from './imports/elementi-utebte.imports';
 
 @Component({
@@ -36,7 +35,6 @@ export class ElementiUtenteComponent implements OnInit {
   public tornaAllaHome: Function = () => this.router.navigate(['/home']);
 
   public elemUti = new ElementiUtenteUtilities();
-  public mangaSongUtilities = new MangaSongUtilities();
 
   private authHandler = inject(AuthHandler);
   public router = inject(Router);
