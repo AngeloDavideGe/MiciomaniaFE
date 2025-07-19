@@ -9,6 +9,7 @@ import { MangaSongUtilities } from '../../../../../../../shared/utilities/mangaS
   standalone: true,
   imports: [MangaMiciomaniaCardComponent, CanzoniMiciomaniaCardComponent],
   template: `
+    <!-- Sezione Manga -->
     <div class="row g-4 justify-content-center align-items-stretch">
       @if (eu.manga && eu.manga.nome) {
       <div class="col-12 col-md-4 d-flex">
@@ -33,7 +34,10 @@ import { MangaSongUtilities } from '../../../../../../../shared/utilities/mangaS
           <p class="text-muted mb-0">Nessun manga caricato.</p>
         </div>
       </div>
-      } @if (eu.canzone && eu.canzone.nome) {
+      }
+
+      <!-- Sezione Canzone -->
+      @if (eu.canzone && eu.canzone.nome) {
       <div class="col-12 col-md-4 d-flex">
         <app-canzoni-miciomania-card
           [canzone]="eu.canzone"
@@ -55,20 +59,27 @@ import { MangaSongUtilities } from '../../../../../../../shared/utilities/mangaS
           <p class="text-muted mb-0">Nessuna canzone caricata.</p>
         </div>
       </div>
-      } @if (eu.proposta && eu.proposta.nome) {
+      }
+
+      <!-- Sezione Proposta -->
+      @if (eu.proposta && eu.proposta.nome) {
       <div class="col-12 col-md-4 d-flex">
-        @if (eu.proposta.tipo == 'manga') {
+        @switch (eu.proposta.tipo) {
+        <!-- Proposta Manga -->
+        @case ('manga') {
         <app-manga-miciomania-card
           [manga]="eu.proposta"
           [mangaSongUtilities]="mangaSongUtilities"
         >
         </app-manga-miciomania-card>
-        } @else if (eu.proposta.tipo == 'canzone') {
+        }
+        <!-- Proposta Canzone -->
+        @case ('canzone') {
         <app-canzoni-miciomania-card
           [canzone]="eu.proposta"
           [mangaSongUtilities]="mangaSongUtilities"
         ></app-canzoni-miciomania-card>
-        }
+        } }
       </div>
       } @else {
       <div class="col-12 col-md-4">

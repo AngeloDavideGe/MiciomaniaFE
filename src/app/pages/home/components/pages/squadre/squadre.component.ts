@@ -1,14 +1,15 @@
 import { Component, HostListener, inject, NgZone, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 import { SquadreHandler } from '../../../../../shared/handlers/squadre.handler';
 import { LoadingService } from '../../../../../shared/services/loading.service';
+import { ListaSquadreComponent } from './components/lista-squadre.component';
+import { BottoniSquadreComponent } from './components/bottoni-squadre.component';
 
 declare var google: any;
 
 @Component({
   selector: 'app-squadre',
   standalone: true,
-  imports: [],
+  imports: [ListaSquadreComponent, BottoniSquadreComponent],
   templateUrl: './squadre.component.html',
 })
 export class SquadreComponent implements OnInit {
@@ -48,7 +49,6 @@ export class SquadreComponent implements OnInit {
     colors: ['#4caf50'],
   };
 
-  public router = inject(Router);
   private ngZone = inject(NgZone);
   private loadingService = inject(LoadingService);
 
@@ -119,7 +119,7 @@ export class SquadreComponent implements OnInit {
     });
   }
 
-  @HostListener('window:resize', ['$event'])
+  @HostListener('window:resize')
   onResize() {
     clearTimeout(this.resizeTimeout);
     this.resizeTimeout = setTimeout(() => this.drawChart(), 200);
