@@ -13,8 +13,8 @@ import { Router } from '@angular/router';
 import {
   User,
   UserParams,
-} from '../../../../../../../shared/interfaces/users.interface';
-import { Ruolo } from '../../../../../../auth/enums/users.enum';
+} from '../../../../../../../../shared/interfaces/users.interface';
+import { Ruolo } from '../../../../../../../auth/enums/users.enum';
 
 @Component({
   selector: 'app-table-user-params',
