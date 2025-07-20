@@ -1,4 +1,4 @@
-import { PosizionaNave } from '../../../interfaces/games.interfaces';
+import { PosizionaNave } from '../../../../interfaces/games.interfaces';
 
 export class BattagliaNavaleUtilities {
   public controlloCasuale(pn: PosizionaNave): boolean {

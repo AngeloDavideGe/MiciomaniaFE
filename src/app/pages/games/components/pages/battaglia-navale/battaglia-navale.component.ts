@@ -1,15 +1,15 @@
 import { NgStyle } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { NumNavi } from '../../enums/games.enum';
+import { NumNavi } from '../../../enums/games.enum';
 import {
   CellaOccupata,
   CelleBattaglia,
   NavaleCell,
   Nave,
   PosizionaNave,
-} from '../../interfaces/games.interfaces';
-import { GamesBase } from '../../shared/base/games.base';
-import { DettagliGameComponent } from '../../shared/components/dettagli-game.component';
+} from '../../../interfaces/games.interfaces';
+import { GamesBase } from '../../../shared/base/games.base';
+import { DettagliGameComponent } from '../../../shared/components/dettagli-game.component';
 import { BotBattagliaNavale } from './bot/battaglia-navale.bot';
 import { BattagliaNavaleUtilities } from './utilities/battaglia-navale.utilities';
 

@@ -1,4 +1,4 @@
-import { Forza4 } from '../../../interfaces/games.interfaces';
+import { Forza4 } from '../../../../interfaces/games.interfaces';
 
 export class Forza4BotClass {
   public getColonnaSelezionata(campo: Forza4[][]): number {

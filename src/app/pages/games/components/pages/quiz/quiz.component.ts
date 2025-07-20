@@ -2,12 +2,16 @@ import { NgClass } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { take } from 'rxjs';
-import { LoadingService } from '../../../../shared/services/loading.service';
-import { getCasualQuiz } from '../../functions/quiz.function';
-import { CasualQuiz, Quiz, Risposta } from '../../interfaces/games.interfaces';
-import { QuizService } from '../../services/quiz.service';
-import { GamesBase } from '../../shared/base/games.base';
-import { DettagliGameComponent } from '../../shared/components/dettagli-game.component';
+import { LoadingService } from '../../../../../shared/services/loading.service';
+import { getCasualQuiz } from '../../../functions/quiz.function';
+import {
+  CasualQuiz,
+  Quiz,
+  Risposta,
+} from '../../../interfaces/games.interfaces';
+import { QuizService } from '../../../services/quiz.service';
+import { GamesBase } from '../../../shared/base/games.base';
+import { DettagliGameComponent } from '../../../shared/components/dettagli-game.component';
 
 @Component({
   selector: 'app-quiz',

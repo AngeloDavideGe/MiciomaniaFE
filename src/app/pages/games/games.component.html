@@ -1,136 +1,18 @@
 @if (isGames$ | async) {
 <div class="container text-center mt-5">
-  <h1
-    class="display-4 fw-bold text-primary"
-    style="text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2)"
-  >
-    Miciomania Games
-  </h1>
-
-  <p class="lead mt-4" style="font-size: 1.2rem; line-height: 1.8; color: #555">
-    Benvenuti in <strong>Miciomania Games</strong>, il paradiso dei giochi dove
-    emozioni e divertimento si incontrano! Qui non si gioca solo per vincere, ma
-    per vivere esperienze uniche che ti faranno ridere, pensare e competere.
-    Ogni partita è un'avventura che ti permette di guadagnare punti per la tua
-    squadra preferita: <span class="text-danger">Alcamo</span> o
-    <span class="text-success">Miciomania</span>. Scegli con saggezza, gioca con
-    passione e scopri chi dominerà la classifica! Te la senti?
-  </p>
-
-  <div
-    class="d-flex justify-content-center align-items-center gap-3 mt-3"
-    style="flex-wrap: wrap"
-  >
-    <button
-      class="btn btn-outline-danger"
-      style="font-size: 1.1rem; padding: 0.5rem 1.5rem; border-radius: 30px"
-      (click)="this.router.navigate(['/home'])"
-    >
-      Torna Indietro
-    </button>
-
-    <button
-      class="btn btn-outline-primary"
-      style="font-size: 1.1rem; padding: 0.5rem 1.5rem; border-radius: 30px"
-      (click)="showDetails = !showDetails"
-    >
-      {{ showDetails ? "Nascondi Dettagli" : "Mostra Dettagli" }}
-    </button>
-  </div>
+  <app-presentazione-games
+    [showDetails]="showDetails"
+    (showDetailsFunc)="showDetails = !showDetails"
+  ></app-presentazione-games>
 
   @if (showDetails) {
-  <div
-    class="alert alert-info mt-4"
-    style="
-      font-size: 1.1rem;
-      border-radius: 10px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-      background-color: #e7f8ff;
-      border-left: 5px solid #17a2b8;
-      padding: 1.25rem 1.5rem;
-    "
-  >
-    <div class="mb-3">
-      Se hai effettuato il login e completato l'iscrizione in home scegliendo
-      una squadra, i punti guadagnati in questi minigiochi saranno assegnati
-      alla tua squadra!
-    </div>
-
-    <div class="mb-2">
-      Punteggio Personale:
-      <strong class="ms-2 fs-5 badge" style="color: black">
-        {{ punteggioPersonale }}
-      </strong>
-    </div>
-
-    <div class="mb-2">
-      Punteggio in fase di valutazione:
-      <strong class="ms-2 fs-5 badge" style="color: black">
-        {{ sc.punteggioOttenuto }}
-      </strong>
-    </div>
-
-    <div class="mb-2">
-      Squadre Giocatore: @if (squadre.personale.length > 0) { @for (squadra of
-      squadre.personale; track squadra.nome) {
-      <strong class="ms-2 fs-5 badge bg-primary">
-        {{ squadra.nome + " (" + squadra.punteggio + " punti)" }}
-      </strong>
-      } } @else {
-      <span class="ms-2 text-muted">Nessuna squadra</span>
-      }
-    </div>
-
-    <div class="mb-0">
-      Squadre Avversarie: @if (squadre.avversario.length > 0) { @for (squadra of
-      squadre.avversario; track squadra.nome) {
-      <strong class="ms-2 fs-5 badge bg-danger">
-        {{ squadra.nome + " (" + squadra.punteggio + " punti)" }}
-      </strong>
-      } } @else {
-      <span class="ms-2 text-muted">Nessuna squadra</span>
-      }
-    </div>
-  </div>
+  <app-punteggi-games
+    [punteggioPersonale]="punteggioPersonale"
+    [squadre]="squadre"
+  ></app-punteggi-games>
   }
 
-  <div class="row justify-content-center mt-5 g-3" id="CardGame">
-    @for (gioco of gamesClass.giochiList; track gioco.nome) {
-    <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4">
-      <div class="card h-100 shadow-sm border-0" style="border-radius: 12px">
-        <img
-          [src]="gioco.linkImg"
-          class="card-img-top"
-          [alt]="gioco.nome"
-          style="
-            height: 180px;
-            object-fit: cover;
-            border-top-left-radius: 12px;
-            border-top-right-radius: 12px;
-          "
-        />
-        <div class="card-body d-flex flex-column">
-          <h5 class="card-title text-primary mb-2" style="font-weight: 600">
-            {{ gioco.nome }}
-          </h5>
-          <p
-            class="card-text flex-grow-1"
-            style="font-size: 0.9rem; color: #6c757d"
-          >
-            {{ gioco.descrizione }}
-          </p>
-          <a
-            (click)="router.navigate(['games/' + gioco.routerLink])"
-            class="btn btn-primary w-100 mt-3"
-            style="font-size: 0.9rem; border-radius: 30px"
-          >
-            Gioca Ora
-          </a>
-        </div>
-      </div>
-    </div>
-    }
-  </div>
+  <app-lista-games></app-lista-games>
 </div>
 }
 

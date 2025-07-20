@@ -1,4 +1,4 @@
-import { BotPlay } from '../../../interfaces/games.interfaces';
+import { BotPlay } from '../../../../interfaces/games.interfaces';
 
 interface Coordinate {
   i: number;

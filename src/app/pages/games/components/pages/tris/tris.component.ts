@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
-import { EsitoGame, TrisCell } from '../../interfaces/games.interfaces';
-import { GamesBase } from '../../shared/base/games.base';
-import { DettagliGameComponent } from '../../shared/components/dettagli-game.component';
+import { EsitoGame, TrisCell } from '../../../interfaces/games.interfaces';
+import { GamesBase } from '../../../shared/base/games.base';
+import { DettagliGameComponent } from '../../../shared/components/dettagli-game.component';
 
 @Component({
   selector: 'app-tris',

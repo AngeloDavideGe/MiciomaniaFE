@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { Forza4, Turno } from '../../interfaces/games.interfaces';
-import { GamesBase } from '../../shared/base/games.base';
-import { DettagliGameComponent } from '../../shared/components/dettagli-game.component';
+import { Forza4, Turno } from '../../../interfaces/games.interfaces';
+import { GamesBase } from '../../../shared/base/games.base';
+import { DettagliGameComponent } from '../../../shared/components/dettagli-game.component';
 import { Forza4BotClass } from './bot/forza-4.bot';
 
 @Component({
