@@ -3,6 +3,7 @@ import { SquadreHandler } from '../../../../../shared/handlers/squadre.handler';
 import { LoadingService } from '../../../../../shared/services/loading.service';
 import { ListaSquadreComponent } from './components/lista-squadre.component';
 import { BottoniSquadreComponent } from './components/bottoni-squadre.component';
+import { chartOptions } from './options/squadre.option';
 
 declare var google: any;
 
@@ -17,37 +18,6 @@ export class SquadreComponent implements OnInit {
   private resizeTimeout: any;
   private printListener: any;
   public stampa: boolean = false;
-  private options = {
-    title: 'Punteggi Squadre',
-    titleTextStyle: {
-      fontSize: 32,
-      bold: true,
-    },
-    chartArea: {
-      width: '70%',
-      top: 60,
-    },
-    hAxis: {
-      titleTextStyle: {
-        fontSize: 28,
-      },
-      textStyle: {
-        fontSize: 24,
-      },
-      minValue: 0,
-      format: '0',
-      gridlines: { count: 5 },
-    },
-    vAxis: {
-      titleTextStyle: {
-        fontSize: 28,
-      },
-      textStyle: {
-        fontSize: 25,
-      },
-    },
-    colors: ['#4caf50'],
-  };
 
   private ngZone = inject(NgZone);
   private loadingService = inject(LoadingService);
@@ -85,7 +55,7 @@ export class SquadreComponent implements OnInit {
     if (!chartContainer) return;
 
     const chart = new google.visualization.BarChart(chartContainer);
-    chart.draw(data, this.options);
+    chart.draw(data, chartOptions);
   }
 
   captureElement() {

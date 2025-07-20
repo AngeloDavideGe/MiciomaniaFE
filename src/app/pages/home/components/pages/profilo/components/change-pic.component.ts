@@ -1,7 +1,7 @@
 import { Component, EventEmitter, inject, Output } from '@angular/core';
-import { AuthHandler } from '../../../../../../../shared/handlers/auth.handler';
-import { User } from '../../../../../../../shared/interfaces/users.interface';
-import { ProfiloHandler } from '../../../../../handlers/profilo.handler';
+import { AuthHandler } from '../../../../../../shared/handlers/auth.handler';
+import { User } from '../../../../../../shared/interfaces/users.interface';
+import { ProfiloHandler } from '../../../../handlers/profilo.handler';
 
 @Component({
   selector: 'app-change-pic',
