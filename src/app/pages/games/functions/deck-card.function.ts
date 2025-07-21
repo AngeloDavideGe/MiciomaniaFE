@@ -5,11 +5,13 @@ export function getCardsDisponibili(
   numCards: number
 ): CardDeck[] {
   const baseCards: CardDeck[] = [];
-  const deckCopy = [...cardDeck];
+  const deckCopy: CardDeck[] = [...cardDeck];
 
   for (let i = 0; i < numCards && deckCopy.length > 0; i++) {
-    const randomIndex = Math.floor(Math.random() * deckCopy.length);
-    const selectedCard = deckCopy[randomIndex];
+    // Prende un indice casuale da dove prelevare la carta dal deck di copia
+    const randomIndex: number = Math.floor(Math.random() * deckCopy.length);
+    const selectedCard: CardDeck = deckCopy[randomIndex];
+    // Aggiunge la carta al nuovo deck e a toglie dal deck di copia
     baseCards.push(selectedCard, selectedCard);
     deckCopy.splice(randomIndex, 1);
   }

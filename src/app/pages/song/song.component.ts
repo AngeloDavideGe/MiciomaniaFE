@@ -1,21 +1,21 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 import { take } from 'rxjs';
 import { CanzoniMiciomania } from '../../shared/interfaces/elementiUtente.interface';
 import { LoadingService } from '../../shared/services/loading.service';
 import { MangaSongUtilities } from '../../shared/utilities/mangaSong.utilities';
+import { HeaderSongComponent } from './components/header-song.component';
 import { SongService } from './services/song.service';
+import { CardSongComponent } from './components/card-song.component';
 
 @Component({
   selector: 'app-song',
   standalone: true,
-  imports: [],
+  imports: [HeaderSongComponent, CardSongComponent],
   templateUrl: './song.component.html',
   styles: ``,
 })
 export class SongComponent implements OnInit {
   public msu = new MangaSongUtilities();
-  public router = inject(Router);
   private loadingService = inject(LoadingService);
   public songService = inject(SongService);
 

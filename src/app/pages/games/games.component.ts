@@ -1,4 +1,3 @@
-import { AsyncPipe } from '@angular/common';
 import {
   Component,
   HostListener,
@@ -6,28 +5,20 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
+import { NavigationEnd, Router } from '@angular/router';
 import { filter, map, Observable, startWith } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { AuthHandler } from '../../shared/handlers/auth.handler';
 import { SquadreHandler } from '../../shared/handlers/squadre.handler';
 import { User } from '../../shared/interfaces/users.interface';
 import { DeckCardClass } from './class/deck-card.class';
-import { PunteggiGamesComponent } from './components/ui/dettagli-games.component';
-import { PresentazioneGamesComponent } from './components/ui/presentazione-games.component';
+import { games_imports } from './imports/games.import';
 import { SquadreGiocatore } from './interfaces/games.interfaces';
-import { ListaGamesComponent } from './components/ui/lista-games.component';
 
 @Component({
   selector: 'app-games',
   standalone: true,
-  imports: [
-    RouterOutlet,
-    AsyncPipe,
-    PresentazioneGamesComponent,
-    PunteggiGamesComponent,
-    ListaGamesComponent,
-  ],
+  imports: games_imports,
   templateUrl: './games.component.html',
 })
 export class GamesComponent implements OnInit, OnDestroy {
