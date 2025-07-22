@@ -7,11 +7,12 @@ import { MangaSongUtilities } from '../../../../../shared/utilities/mangaSong.ut
 import { MangaMiciomaniService } from '../../../services/mangaMiciomani.service';
 import { DettagliMangaComponent } from '../../../shared/dettagli-manga.component';
 import { PulsantiManga } from '../../../interfaces/filtri.interface';
+import { CardMangaMiciomaniaComponent } from './components/card-mangaMiciomania.component';
 
 @Component({
   selector: 'app-manga-miciomani',
   standalone: true,
-  imports: [DettagliMangaComponent],
+  imports: [DettagliMangaComponent, CardMangaMiciomaniaComponent],
   templateUrl: './manga-miciomani.component.html',
   styles: ``,
 })
