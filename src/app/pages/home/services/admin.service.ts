@@ -4,7 +4,7 @@ import { finalize, Observable, take } from 'rxjs';
 import { environment } from '../../../../environments/environment';
 import { User } from '../../../shared/interfaces/users.interface';
 import { Ruolo } from '../../auth/enums/users.enum';
-import { LoadingService } from '../../../shared/services/loading.service';
+import { LoadingService } from '../../../shared/services/template/loading.service';
 
 @Injectable({
   providedIn: 'root',

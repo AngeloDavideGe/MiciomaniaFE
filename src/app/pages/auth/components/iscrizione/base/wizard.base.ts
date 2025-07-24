@@ -2,7 +2,7 @@ import { inject, signal, WritableSignal } from '@angular/core';
 import { Router } from '@angular/router';
 import { DTO_Wizard } from '../../../interfaces/wizard.interface';
 import { WizardService } from '../../../services/wizard.service';
-import { LoadingService } from '../../../../../shared/services/loading.service';
+import { LoadingService } from '../../../../../shared/services/template/loading.service';
 
 export type stepType = 1 | 2 | 3;
 

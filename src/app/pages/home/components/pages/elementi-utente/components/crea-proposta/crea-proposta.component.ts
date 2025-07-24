@@ -17,7 +17,7 @@ import { finalize, switchMap, take } from 'rxjs';
 import { DropboxService } from '../../services/dropbox.service';
 import { fileValidator } from '../../validators/proposta.validator';
 import { PropostaService } from '../../services/proposta.service';
-import { ElementiUtenteService } from '../../../../../../../shared/services/elementiUtente.service';
+import { ElementiUtenteService } from '../../../../../../../shared/services/api/elementiUtente.service';
 import {
   ElementiUtente,
   Proposta,

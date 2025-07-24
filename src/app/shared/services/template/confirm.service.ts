@@ -6,7 +6,7 @@ import {
   Injectable,
 } from '@angular/core';
 import { finalize, Observable } from 'rxjs';
-import { ConfirmComponent } from '../components/confirm.component';
+import { ConfirmComponent } from '../../components/confirm.component';
 
 @Injectable({
   providedIn: 'root',

@@ -1,7 +1,7 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { take } from 'rxjs';
 import { CanzoniMiciomania } from '../../shared/interfaces/elementiUtente.interface';
-import { LoadingService } from '../../shared/services/loading.service';
+import { LoadingService } from '../../shared/services/template/loading.service';
 import { MangaSongUtilities } from '../../shared/utilities/mangaSong.utilities';
 import { HeaderSongComponent } from './components/header-song.component';
 import { SongService } from './services/song.service';

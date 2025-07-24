@@ -2,7 +2,7 @@ import { Component, inject, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { take } from 'rxjs';
 import { MangaMiciomania } from '../../../../../shared/interfaces/elementiUtente.interface';
-import { LoadingService } from '../../../../../shared/services/loading.service';
+import { LoadingService } from '../../../../../shared/services/template/loading.service';
 import { MangaSongUtilities } from '../../../../../shared/utilities/mangaSong.utilities';
 import { MangaMiciomaniService } from '../../../services/mangaMiciomani.service';
 import { DettagliMangaComponent } from '../../../shared/dettagli-manga.component';

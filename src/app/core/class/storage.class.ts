@@ -2,7 +2,7 @@ import { inject } from '@angular/core';
 import { MangaMiciomaniService } from '../../pages/manga/services/mangaMiciomani.service';
 import { SongService } from '../../pages/song/services/song.service';
 import { AuthHandler } from '../../shared/handlers/auth.handler';
-import { ElementiUtenteService } from '../../shared/services/elementiUtente.service';
+import { ElementiUtenteService } from '../../shared/services/api/elementiUtente.service';
 import { HomeService } from '../../pages/home/services/home.service';
 import { SquadreHandler } from '../../shared/handlers/squadre.handler';
 import { MangaHandler } from '../../pages/manga/handlers/manga.handler';

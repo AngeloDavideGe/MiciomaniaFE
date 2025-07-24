@@ -7,7 +7,7 @@ import {
 import { Injectable } from '@angular/core';
 import { catchError, finalize, Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
-import { LoadingService } from '../../shared/services/loading.service';
+import { LoadingService } from '../../shared/services/template/loading.service';
 
 @Injectable()
 export class AppInterceptor implements HttpInterceptor {

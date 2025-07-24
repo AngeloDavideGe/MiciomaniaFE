@@ -11,7 +11,7 @@ import {
 import { ErrorHttpComponent } from '../../../../../shared/components/errorhttp.component';
 import { AuthHandler } from '../../../../../shared/handlers/auth.handler';
 import { User } from '../../../../../shared/interfaces/users.interface';
-import { LoadingService } from '../../../../../shared/services/loading.service';
+import { LoadingService } from '../../../../../shared/services/template/loading.service';
 import { MangaHandler } from '../../../handlers/manga.handler';
 import { PulsantiManga } from '../../../interfaces/filtri.interface';
 import {

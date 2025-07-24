@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { environment } from '../../../environments/environment';
-import { ElementiUtente } from '../interfaces/elementiUtente.interface';
+import { environment } from '../../../../environments/environment';
+import { ElementiUtente } from '../../interfaces/elementiUtente.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -30,7 +30,6 @@ export class ElementiUtenteService {
     const storageElementiUtente = sessionStorage.getItem('elementiUtente');
     if (storageElementiUtente) {
       this.elementiUtente = JSON.parse(storageElementiUtente);
-      sessionStorage.removeItem('elementiUtente');
     }
   }
 }

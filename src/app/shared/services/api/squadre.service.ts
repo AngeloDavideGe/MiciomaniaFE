@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { environment } from '../../../environments/environment';
-import { Squadre } from '../../pages/home/interfaces/profilo.interface';
+import { environment } from '../../../../environments/environment';
+import { Squadre } from '../../../pages/home/interfaces/profilo.interface';
 import { Injectable } from '@angular/core';
 
 @Injectable({

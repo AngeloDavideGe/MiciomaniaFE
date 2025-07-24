@@ -1,6 +1,6 @@
 import { Component, HostListener, inject, NgZone, OnInit } from '@angular/core';
 import { SquadreHandler } from '../../../../../shared/handlers/squadre.handler';
-import { LoadingService } from '../../../../../shared/services/loading.service';
+import { LoadingService } from '../../../../../shared/services/template/loading.service';
 import { ListaSquadreComponent } from './components/lista-squadre.component';
 import { BottoniSquadreComponent } from './components/bottoni-squadre.component';
 import { chartOptions } from './options/squadre.option';

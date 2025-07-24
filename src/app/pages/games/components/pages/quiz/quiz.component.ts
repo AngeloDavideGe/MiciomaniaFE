@@ -2,7 +2,7 @@ import { NgClass } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { take } from 'rxjs';
-import { LoadingService } from '../../../../../shared/services/loading.service';
+import { LoadingService } from '../../../../../shared/services/template/loading.service';
 import { getCasualQuiz } from '../../../functions/quiz.function';
 import {
   CasualQuiz,

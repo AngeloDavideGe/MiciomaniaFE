@@ -5,7 +5,7 @@ import {
   EnvironmentInjector,
 } from '@angular/core';
 import { createComponent } from '@angular/core';
-import { LoadingComponent } from '../components/loading.component';
+import { LoadingComponent } from '../../components/loading.component';
 
 @Injectable({
   providedIn: 'root',

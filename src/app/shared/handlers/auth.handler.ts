@@ -1,8 +1,8 @@
 import { computed, inject, Injectable, Signal, signal } from '@angular/core';
 import { catchError, finalize, map, Observable, of, take } from 'rxjs';
 import { User, UserParams } from '../interfaces/users.interface';
-import { AuthService } from '../services/auth.service';
-import { ConfirmService } from '../services/confirm.service';
+import { AuthService } from '../services/api/auth.service';
+import { ConfirmService } from '../services/template/confirm.service';
 import { UserUtilities } from './utilities/user.utilities';
 import { UsersUtilities } from './utilities/users.utilities';
 
@@ -75,11 +75,6 @@ export class AuthHandler {
       });
   }
 
-  public logout(): void {
-    this.user.set(null);
-    this.userUtilities.removeUserFromStorage();
-  }
-
   public login(email: string, password: string): Observable<boolean> {
     return this.authService.getUserByEmailAndPassword(email, password).pipe(
       map((data) => {
@@ -90,7 +85,6 @@ export class AuthHandler {
           return true;
         } else {
           this.user.set(null);
-          this.userUtilities.removeUserFromStorage();
           return false;
         }
       }),

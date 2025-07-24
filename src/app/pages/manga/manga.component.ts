@@ -12,7 +12,7 @@ import { NavigationEnd } from '@angular/router';
 import { filter, map, Observable, startWith, tap } from 'rxjs';
 import { compareObjectCustom } from '../../shared/functions/utilities.function';
 import { AuthHandler } from '../../shared/handlers/auth.handler';
-import { LoadingService } from '../../shared/services/loading.service';
+import { LoadingService } from '../../shared/services/template/loading.service';
 import { generiManga } from './constants/genere.constant';
 import { getTabsManga } from './functions/manga.functions';
 import { MangaHandler } from './handlers/manga.handler';

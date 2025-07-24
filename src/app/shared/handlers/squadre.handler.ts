@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { take } from 'rxjs';
-import { SquadreService } from '../services/squadre.service';
+import { SquadreService } from '../services/api/squadre.service';
 import { Squadre } from '../../pages/home/interfaces/profilo.interface';
 
 @Injectable({
@@ -65,7 +65,6 @@ export class SquadreHandler {
     const punteggioOttenuto = sessionStorage.getItem('punteggioOttenuto');
     if (punteggioOttenuto) {
       this.punteggioOttenuto = JSON.parse(punteggioOttenuto);
-      sessionStorage.removeItem('punteggioOttenuto');
     }
   }
 }

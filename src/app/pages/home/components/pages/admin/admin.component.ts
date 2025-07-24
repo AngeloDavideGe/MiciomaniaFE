@@ -12,7 +12,7 @@ import {
   User,
   UserParams,
 } from '../../../../../shared/interfaces/users.interface';
-import { LoadingService } from '../../../../../shared/services/loading.service';
+import { LoadingService } from '../../../../../shared/services/template/loading.service';
 import { Ruolo } from '../../../../auth/enums/users.enum';
 import { AdminService } from '../../../services/admin.service';
 import { admin_imports } from './imports/admin.imports';

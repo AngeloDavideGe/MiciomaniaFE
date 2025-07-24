@@ -97,7 +97,6 @@ export class ProfiloHandler {
     const pubblicazioniJSON = sessionStorage.getItem('pubblicazioni');
     if (pubblicazioniJSON) {
       this.profiloPersonale = JSON.parse(pubblicazioniJSON);
-      sessionStorage.removeItem('pubblicazioni');
     }
   }
 }

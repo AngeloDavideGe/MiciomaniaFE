@@ -85,7 +85,7 @@ export class HomeComponent implements OnInit {
     this.usersLogout();
     this.mangaHandler.mangaUtente = {} as any;
     this.profiloHandler.profiloPersonale = null;
-    this.authHandler.logout();
+    this.authHandler.user.set(null);
     this.setAnonymousUser();
   }
 

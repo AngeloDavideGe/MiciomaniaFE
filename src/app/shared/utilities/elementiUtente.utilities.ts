@@ -1,8 +1,8 @@
 import { inject } from '@angular/core';
-import { ElementiUtenteService } from '../services/elementiUtente.service';
+import { ElementiUtenteService } from '../services/api/elementiUtente.service';
 import { Observable, of, take, tap } from 'rxjs';
 import { ElementiUtente } from '../interfaces/elementiUtente.interface';
-import { LoadingService } from '../services/loading.service';
+import { LoadingService } from '../services/template/loading.service';
 
 export class ElementiUtenteUtilities {
   public elementiUtenteService = inject(ElementiUtenteService);

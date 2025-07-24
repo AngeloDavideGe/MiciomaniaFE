@@ -36,7 +36,6 @@ export class HomeService {
     const social = sessionStorage.getItem('socialLinks');
     if (social) {
       this.social = JSON.parse(social);
-      sessionStorage.removeItem('socialLinks');
     }
   }
 }
