@@ -48,6 +48,10 @@ export class StorageClass {
       JSON.stringify(this.mangaHandler.mangaScaricati)
     );
     sessionStorage.setItem(
+      'mangaAperti',
+      JSON.stringify(this.mangaHandler.mangaAperti)
+    );
+    sessionStorage.setItem(
       'mangaMiciomaniLoaded',
       JSON.stringify(this.mangaMiciomaniService.mangaMiciomaniLoaded)
     );

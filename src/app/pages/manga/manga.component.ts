@@ -177,7 +177,6 @@ export class MangaComponent implements OnDestroy {
   }
 
   private caricaManga(lista: ListaManga[]): void {
-    this.loadingService.show();
     this.mangaHandler.listaManga = lista;
     this.filterSelect.nome.set('');
     this.aggiornamentoManga = false;

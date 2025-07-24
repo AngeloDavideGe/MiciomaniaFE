@@ -52,19 +52,8 @@ export class VolumiMangaComponent implements OnInit {
   private sottoscrizioneRouterParams(): void {
     this.route.params.pipe(take(1)).subscribe((params) => {
       this.pathOpera = params['nome'];
-      this.controlloOperaLocalStorage();
-    });
-  }
-
-  private controlloOperaLocalStorage(): void {
-    const opera = JSON.parse(localStorage.getItem(this.pathOpera) || 'null');
-    if (opera) {
-      this.nomeOpera = opera.nome;
-      this.volumiOpera = opera.volumi;
-      this.completeLoading();
-    } else {
       this.controlloOperaByService();
-    }
+    });
   }
 
   private controlloOperaByService(): void {

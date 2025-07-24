@@ -90,9 +90,7 @@ export class MangaHandler {
           this.initialMangaUtente = mangaUtente;
           this.mangaUtente = mangaUtente;
         },
-        error: (err) => {
-          console.error('Errore modifica utenti', err);
-        },
+        error: (err) => console.error('Errore modifica utenti', err),
       });
   }
 
@@ -142,6 +140,11 @@ export class MangaHandler {
     const mangaCaricati = sessionStorage.getItem('mangaCaricati');
     if (mangaCaricati) {
       this.mangaScaricati = JSON.parse(mangaCaricati);
+    }
+
+    const mangaAperti = sessionStorage.getItem('mangaAperti');
+    if (mangaAperti) {
+      this.mangaAperti = JSON.parse(mangaAperti);
     }
   }
 }
