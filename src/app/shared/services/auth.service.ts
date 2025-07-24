@@ -11,7 +11,7 @@ export class AuthService {
   constructor(private http: HttpClient) {}
 
   getAllUsersHttp(): Observable<UserParams[]> {
-    const apiUrl = environment.urlDB + 'utenti';
+    const apiUrl = environment.urlDB1 + 'utenti';
     const params = new HttpParams().set('select', 'id,nome,profilePic,ruolo');
 
     return this.http.get<UserParams[]>(apiUrl, {
@@ -24,7 +24,7 @@ export class AuthService {
     email: string,
     password: string
   ): Observable<User[]> {
-    const url = `${environment.urlDB}utenti?email=eq.${email}&password=eq.${password}`;
+    const url = `${environment.urlDB1}utenti?email=eq.${email}&password=eq.${password}`;
     return this.http.get<User[]>(url, { headers: environment.headerSupabase });
   }
 
@@ -34,7 +34,7 @@ export class AuthService {
     email: string,
     password: string
   ): Observable<User> {
-    const url = environment.urlDB + 'rpc/postsignin';
+    const url = environment.urlDB1 + 'rpc/postsignin';
     const body = {
       nome_input: nome,
       username_input: username,
@@ -47,7 +47,7 @@ export class AuthService {
   }
 
   updateUser(userForDb: any): Observable<any> {
-    const url = `${environment.urlDB}utenti?id=eq.${userForDb.id}`;
+    const url = `${environment.urlDB1}utenti?id=eq.${userForDb.id}`;
     return this.http.patch<User>(url, userForDb, {
       headers: environment.headerSupabase,
     });

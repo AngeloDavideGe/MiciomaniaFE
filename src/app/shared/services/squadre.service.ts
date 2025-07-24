@@ -11,7 +11,7 @@ export class SquadreService {
   constructor(private http: HttpClient) {}
 
   getSquadre(): Observable<Squadre[]> {
-    const url = environment.urlDB + 'squadre';
+    const url = environment.urlDB1 + 'squadre';
     return this.http.get<Squadre[]>(url, {
       headers: environment.headerSupabase,
     });
@@ -22,7 +22,7 @@ export class SquadreService {
     nomeSquadra: string[],
     punteggioOttenuto: number
   ): Observable<void> {
-    const url = environment.urlDB + 'rpc/update_punteggio_squadre';
+    const url = environment.urlDB1 + 'rpc/update_punteggio_squadre';
     const body = {
       p_id_utente: userId,
       p_id_squadre: nomeSquadra,

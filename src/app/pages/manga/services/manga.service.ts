@@ -16,7 +16,7 @@ export class MangaService {
   constructor(private http: HttpClient) {}
 
   getListaManga(idUtente: string | null): Observable<ListaEUtenti> {
-    const url = environment.urlDB + 'rpc/get_all_manga';
+    const url = environment.urlDB1 + 'rpc/get_all_manga';
     const body = { input_id: idUtente };
     return this.http.post<{
       lista_manga: ListaManga[];
@@ -25,7 +25,7 @@ export class MangaService {
   }
 
   getNomeEVolumiMangaByPath(path: string): Observable<any> {
-    const url = environment.urlDB + 'rpc/get_volumi_e_nome_by_path_wrapper';
+    const url = environment.urlDB1 + 'rpc/get_volumi_e_nome_by_path_wrapper';
     const body = { input_table_name: path };
     return this.http.post<any>(url, body, {
       headers: environment.headerSupabase,
@@ -33,7 +33,7 @@ export class MangaService {
   }
 
   getVolumiManga(titolo: string): Observable<{ volumi: MangaVolume[] }> {
-    const url = environment.urlDB + 'rpc/get_volumi_by_path_wrapper';
+    const url = environment.urlDB1 + 'rpc/get_volumi_by_path_wrapper';
     const body = { input_table_name: titolo };
     return this.http.post<{ volumi: MangaVolume[] }>(url, body, {
       headers: environment.headerSupabase,
@@ -46,7 +46,7 @@ export class MangaService {
     letti: string,
     completati: string
   ): Observable<void> {
-    const url = environment.urlDB + 'rpc/upsert_manga_utente';
+    const url = environment.urlDB1 + 'rpc/upsert_manga_utente';
     const body = {
       p_id_utente: id,
       p_manga_preferiti: preferiti,

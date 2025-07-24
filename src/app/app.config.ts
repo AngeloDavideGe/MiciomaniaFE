@@ -24,7 +24,7 @@ export const appConfig: ApplicationConfig = {
 export const configUrl = require('./app.config.js');
 
 export const headers = {
-  Supabase: new HttpHeaders({
+  Supabase1: new HttpHeaders({
     apikey: configUrl.ANONKEY_SUPABASE1,
     Authorization: `Bearer ${configUrl.ANONKEY_SUPABASE1}`,
     'Content-Type': 'application/json',

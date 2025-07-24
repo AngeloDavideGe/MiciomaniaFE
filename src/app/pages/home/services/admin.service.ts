@@ -16,7 +16,7 @@ export class AdminService {
   ) {}
 
   private updateRuoloUtente(id: string, ruolo: Ruolo): Observable<User> {
-    const url = `${environment.urlDB}utenti?id=eq.${id}`;
+    const url = `${environment.urlDB1}utenti?id=eq.${id}`;
     const body = { ruolo }; // {ruolo: ruolo} - key: value sono uguali
     return this.http.patch<User>(url, body, {
       headers: environment.headerSupabase,

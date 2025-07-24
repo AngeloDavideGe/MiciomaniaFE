@@ -11,7 +11,7 @@ export class ProfiloService {
   constructor(private http: HttpClient) {}
 
   getProfiloById(userId: string): Observable<Profilo> {
-    const url = environment.urlDB + 'rpc/get_profilo_by_id';
+    const url = environment.urlDB1 + 'rpc/get_profilo_by_id';
     const body = { p_id: userId };
 
     return this.http.post<Profilo>(url, body, {
@@ -20,7 +20,7 @@ export class ProfiloService {
   }
 
   postPubblicazioni(tweet: Tweet): Observable<Tweet> {
-    const url = environment.urlDB + 'pubblicazioni';
+    const url = environment.urlDB1 + 'pubblicazioni';
 
     return this.http.post<Tweet>(url, tweet, {
       headers: environment.headerSupabase,
@@ -28,7 +28,7 @@ export class ProfiloService {
   }
 
   deletePubblicazioni(tweetId: number): Observable<void> {
-    const url = environment.urlDB + 'rpc/delete_pubblicazione_by_id';
+    const url = environment.urlDB1 + 'rpc/delete_pubblicazione_by_id';
     const body = { p_id: tweetId };
 
     return this.http.post<void>(url, body, {
