@@ -42,10 +42,12 @@ export class ProfiloService {
     const filePath = `${fileName}`;
 
     return from(
-      environment.supabase.storage.from('avatar').upload(filePath, file, {
-        upsert: true,
-        contentType: file.type,
-      })
+      environment.supabaseClient1.storage
+        .from('avatar')
+        .upload(filePath, file, {
+          upsert: true,
+          contentType: file.type,
+        })
     ).pipe(
       switchMap(({ error }) => this.getLinkPic(error, filePath)),
       catchError((err) => {
@@ -58,7 +60,7 @@ export class ProfiloService {
   private getLinkPic(error: any, filePath: string): Observable<string> {
     if (error) return throwError(() => error);
 
-    const { data: publicData } = environment.supabase.storage
+    const { data: publicData } = environment.supabaseClient1.storage
       .from('avatar')
       .getPublicUrl(filePath);
 

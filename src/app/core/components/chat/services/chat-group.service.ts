@@ -18,7 +18,7 @@ export class ChatGroupService {
 
   loadMessages(chatId: string): Observable<any[]> {
     return from(
-      environment.supabase
+      environment.supabaseClient2
         .from('messaggi')
         .select('*')
         .eq('chat_id', chatId)
@@ -45,7 +45,7 @@ export class ChatGroupService {
     dateTime: Date
   ): Observable<{ data: any; error: any }> {
     return from(
-      environment.supabase.from('messaggi').insert([
+      environment.supabaseClient2.from('messaggi').insert([
         {
           chat_id: chatId,
           sender,
@@ -63,7 +63,7 @@ export class ChatGroupService {
   }
 
   private listenForMessages() {
-    environment.supabase
+    environment.supabaseClient2
       .channel('messaggi')
       .on(
         'postgres_changes',
