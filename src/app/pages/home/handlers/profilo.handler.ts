@@ -1,16 +1,15 @@
 import { inject, Injectable } from '@angular/core';
-import { ProfiloService } from '../services/profilo.service';
 import { finalize, map, switchMap, take, tap } from 'rxjs';
-import { Profilo, Tweet } from '../interfaces/profilo.interface';
-import { ProfiloUtilities } from '../utilities/profilo-utilities.class';
 import { User } from '../../../shared/interfaces/users.interface';
+import { Profilo, Tweet } from '../interfaces/profilo.interface';
+import { ProfiloService } from '../services/profilo.service';
+import { mapToProfilo } from '../functions/profilo.function';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ProfiloHandler {
   private profiloService = inject(ProfiloService);
-  private profiloUtilities = new ProfiloUtilities();
 
   public profiloPersonale: Profilo | null = null;
   public aggiornamentoPic: boolean = false;
@@ -29,7 +28,7 @@ export class ProfiloHandler {
       .getProfiloById(params.userId)
       .pipe(
         take(1),
-        map((data) => this.profiloUtilities.mapToProfilo(data) as Profilo)
+        map((data) => mapToProfilo(data) as Profilo)
       )
       .subscribe({
         next: (data) => {

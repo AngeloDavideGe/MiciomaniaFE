@@ -41,8 +41,8 @@
       <div class="message received">
         <img
           [src]="
-            authHandler.userMessageMap()[message.sender]
-              ? authHandler.userMessageMap()[message.sender].pic
+            userMessageMap()[message.sender]
+              ? userMessageMap()[message.sender].pic
               : 'https://png.pngtree.com/png-vector/20191009/ourlarge/pngtree-user-icon-png-image_1796659.jpg'
           "
           alt=""
@@ -51,8 +51,8 @@
         <div class="message-content">
           <div class="message-sender">
             {{
-              authHandler.userMessageMap()[message.sender]
-                ? authHandler.userMessageMap()[message.sender].nome +
+              userMessageMap()[message.sender]
+                ? userMessageMap()[message.sender].nome +
                   " (" +
                   message.sender +
                   ")"

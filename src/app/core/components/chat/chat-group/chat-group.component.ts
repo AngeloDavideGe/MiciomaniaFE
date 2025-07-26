@@ -20,6 +20,7 @@ import { User } from '../../../../shared/interfaces/users.interface';
 import { Messaggio } from './../interfaces/chat-group.interface';
 import { ChatGroupService } from './../services/chat-group.service';
 import { FormsModule } from '@angular/forms';
+import { mapUserMessage } from '../functions/user-map.function';
 
 @Component({
   selector: 'app-chat-group',
@@ -37,6 +38,12 @@ export class ChatGroupComponent implements OnInit, AfterViewChecked {
   public messages: Signal<Messaggio[]> = computed(() =>
     this.chatService.messages()
   );
+  public userMessageMap: Signal<{
+    [id: string]: {
+      nome: string;
+      pic: string;
+    };
+  }> = computed(() => mapUserMessage(this.authHandler.users()));
   public user: User | null = null;
 
   private chatService = inject(ChatGroupService);

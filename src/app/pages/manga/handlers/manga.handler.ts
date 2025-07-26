@@ -9,12 +9,13 @@ import {
   SplitMangaUtente,
 } from '../interfaces/manga.interface';
 import { MangaService } from '../services/manga.service';
-import { MangaUtilities } from './utilities/manga.utilities';
+import {
+  caricaMangaEPreferiti,
+  voidSplitManga,
+} from './functions/manga.function';
 
 @Injectable({ providedIn: 'root' })
 export class MangaHandler {
-  private mangaUtilities = new MangaUtilities();
-
   public listaManga: ListaManga[] = [];
   public mangaUtente: MangaUtente = {} as MangaUtente;
   public mangaScaricati: boolean = false;
@@ -23,7 +24,7 @@ export class MangaHandler {
   public mangaSelected: { nome: string; completato: boolean } | null = null;
 
   public voidSplitManga: Function = (): SplitMangaUtente => {
-    return this.mangaUtilities.voidSplitManga();
+    return voidSplitManga();
   };
 
   public router = inject(Router);
@@ -55,7 +56,7 @@ export class MangaHandler {
       .subscribe({
         next: (data) => {
           this.mangaScaricati = true;
-          this.mangaUtilities.caricaMangaEPreferiti({
+          caricaMangaEPreferiti({
             data: data,
             caricaMangaUtente: () => {
               params.caricaMangaUtente(data.manga_utente[0]);

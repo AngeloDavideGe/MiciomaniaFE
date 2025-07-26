@@ -1,10 +1,15 @@
-import { computed, inject, Injectable, Signal, signal } from '@angular/core';
+import { inject, Injectable, signal } from '@angular/core';
 import { catchError, finalize, map, Observable, of, take } from 'rxjs';
 import { User, UserParams } from '../interfaces/users.interface';
 import { AuthService } from '../services/api/auth.service';
 import { ConfirmService } from '../services/template/confirm.service';
-import { UserUtilities } from './utilities/user.utilities';
-import { UsersUtilities } from './utilities/users.utilities';
+import {
+  getVoidUser,
+  loadUserFromStorage,
+  mapUserByDb,
+  mapUserToDb,
+} from './functions/user.function';
+import { converUserParams } from './functions/users.function';
 
 @Injectable({
   providedIn: 'root',
@@ -13,28 +18,16 @@ export class AuthHandler {
   public confirmService = inject(ConfirmService);
   public authService = inject(AuthService);
 
-  private userUtilities = new UserUtilities();
-  private usersUtilities = new UsersUtilities();
-
   public profiliPronti: boolean = false;
   public converUserParams: Function = (user: User): UserParams => {
-    return this.usersUtilities.converUserParams(user);
+    return converUserParams(user);
   };
-  public getVoidUser: Function = (): User => {
-    return this.userUtilities.getVoidUser();
-  };
-
+  public getVoidUser: Function = (): User => getVoidUser();
   public user = signal<User | null>(null);
   public users = signal<UserParams[]>([]);
-  public userMessageMap: Signal<{
-    [id: string]: {
-      nome: string;
-      pic: string;
-    };
-  }> = computed(() => this.usersUtilities.mapUserMessage(this.users()));
 
   constructor() {
-    this.userUtilities.loadUserFromStorage(this.user, this.users());
+    loadUserFromStorage(this.user, this.users());
     this.profiliPronti = this.users().length > 0;
   }
 
@@ -79,7 +72,7 @@ export class AuthHandler {
     return this.authService.getUserByEmailAndPassword(email, password).pipe(
       map((data) => {
         if (data.length === 1) {
-          const user = this.userUtilities.mapUserByDb(data[0]);
+          const user = mapUserByDb(data[0]);
           this.users.set(this.users().filter((x) => x.id != user.id));
           this.user.set(user);
           return true;
@@ -96,7 +89,7 @@ export class AuthHandler {
   }
 
   updateUser(user: User): Observable<User> {
-    const userForDb = this.userUtilities.mapUserToDb(user);
+    const userForDb = mapUserToDb(user);
     return this.authService.updateUser(userForDb).pipe(
       map(() => {
         this.user.set(user);
