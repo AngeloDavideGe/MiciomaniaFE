@@ -1,4 +1,6 @@
+import { finalize, Observable, take } from 'rxjs';
 import { TabsManga } from '../interfaces/filtri.interface';
+import { MangaENome } from '../interfaces/manga.interface';
 
 export function getTabsManga(clickCalls: Function[]): TabsManga[] {
   return [
@@ -24,4 +26,25 @@ export function getTabsManga(clickCalls: Function[]): TabsManga[] {
       clickCall: clickCalls[2],
     },
   ];
+}
+
+export function loadMangaVolumiENome(params: {
+  pathOpera: string;
+  loadingFunction: () => void;
+  loadVolumiFunc: (pathOpera: string) => Observable<MangaENome>;
+  finalizeFunction: () => void;
+  nextCallback: (data: MangaENome) => void;
+}) {
+  params.loadingFunction();
+
+  params
+    .loadVolumiFunc(params.pathOpera)
+    .pipe(
+      take(1),
+      finalize(() => params.finalizeFunction())
+    )
+    .subscribe({
+      next: (data) => params.nextCallback(data),
+      error: () => console.error('Si è verificato un errore'),
+    });
 }

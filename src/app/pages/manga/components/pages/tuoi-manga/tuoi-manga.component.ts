@@ -26,6 +26,7 @@ import { DettagliMangaComponent } from '../../../shared/dettagli-manga.component
 import { InputTuoiMangaComponent } from './components/input-tuoi-manga.component';
 import { TabsTuoiMangaComponent } from './components/tabs-tuoi-manga.component';
 import { SelectTabMangaComponent } from './components/select-tab-manga.component';
+import { voidSplitManga } from '../../../handlers/functions/manga.function';
 
 @Component({
   selector: 'app-tuoi-manga',
@@ -47,8 +48,7 @@ export class TuoiMangaComponent implements OnInit, OnDestroy {
 
   public selectedTab: keyofMangaUtente = 'preferiti';
   public erroreHttp: boolean = false;
-  private checkSplitManga: SplitMangaUtente =
-    this.mangaHandler.voidSplitManga();
+  private checkSplitManga: SplitMangaUtente = voidSplitManga();
   private searchTimeout: any;
   public searchQuery = signal<string>('');
   private debouncedSearchQuery = signal<string>('');
@@ -155,7 +155,7 @@ export class TuoiMangaComponent implements OnInit, OnDestroy {
   filterMangaFunc(tab: keyofMangaUtente): void {
     this.searchQuery.set('');
     this.selectedTab = tab;
-    this.checkSplitManga = this.mangaHandler.voidSplitManga();
+    this.checkSplitManga = voidSplitManga();
   }
 
   rimuoviMangaTab(idManga: number): void {
@@ -249,6 +249,6 @@ export class TuoiMangaComponent implements OnInit, OnDestroy {
       ),
     }));
 
-    this.checkSplitManga = this.mangaHandler.voidSplitManga();
+    this.checkSplitManga = voidSplitManga();
   }
 }

@@ -5,6 +5,7 @@ import { environment } from '../../../../environments/environment';
 import {
   ListaEUtenti,
   ListaManga,
+  MangaENome,
   MangaUtente,
   MangaVolume,
 } from '../interfaces/manga.interface';
@@ -24,18 +25,10 @@ export class MangaService {
     }>(url, body, { headers: environment.headerSupabase });
   }
 
-  getNomeEVolumiMangaByPath(path: string): Observable<any> {
+  getNomeEVolumiMangaByPath(path: string): Observable<MangaENome> {
     const url = environment.urlDB1 + 'rpc/get_volumi_e_nome_by_path_wrapper';
     const body = { input_table_name: path };
-    return this.http.post<any>(url, body, {
-      headers: environment.headerSupabase,
-    });
-  }
-
-  getVolumiManga(titolo: string): Observable<{ volumi: MangaVolume[] }> {
-    const url = environment.urlDB1 + 'rpc/get_volumi_by_path_wrapper';
-    const body = { input_table_name: titolo };
-    return this.http.post<{ volumi: MangaVolume[] }>(url, body, {
+    return this.http.post<MangaENome>(url, body, {
       headers: environment.headerSupabase,
     });
   }

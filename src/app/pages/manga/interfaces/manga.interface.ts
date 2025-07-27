@@ -13,9 +13,19 @@ export interface ListaManga {
   completato: boolean;
 }
 
+export interface MangaENome {
+  info_manga: InfoManga;
+  volumi: MangaVolume[];
+}
+
 export interface MangaVolume {
   id: number;
   link: string;
+}
+
+export interface InfoManga {
+  nome: string;
+  completato: boolean;
 }
 
 export interface MangaUtente {

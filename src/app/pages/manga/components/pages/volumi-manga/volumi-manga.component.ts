@@ -1,9 +1,14 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { finalize, Observable, take } from 'rxjs';
+import { take } from 'rxjs';
 import { LoadingService } from '../../../../../shared/services/template/loading.service';
+import { loadMangaVolumiENome } from '../../../functions/manga.functions';
 import { MangaHandler } from '../../../handlers/manga.handler';
-import { MangaVolume } from '../../../interfaces/manga.interface';
+import {
+  InfoManga,
+  MangaENome,
+  MangaVolume,
+} from '../../../interfaces/manga.interface';
 import { PadZeroVolumePipe } from '../../../pipes/padZeroVolume.pipe';
 
 @Component({
@@ -52,54 +57,41 @@ export class VolumiMangaComponent implements OnInit {
   private sottoscrizioneRouterParams(): void {
     this.route.params.pipe(take(1)).subscribe((params) => {
       this.pathOpera = params['nome'];
-      this.controlloOperaByService();
+      this.loadVolumiENome();
     });
   }
 
-  private controlloOperaByService(): void {
-    this.loadingService.show();
-    if (this.mangaHandler.mangaSelected) {
-      this.nomeOpera = this.mangaHandler.mangaSelected.nome;
-      this.operaCompletata = this.mangaHandler.mangaSelected.completato;
-      this.loadVolumi();
+  private loadVolumiENome(): void {
+    const index: number = this.mangaHandler.mangaAperti.findIndex(
+      (x) => x.nome == this.pathOpera
+    );
+    if (index > -1) {
+      this.loadNoHttp(index);
     } else {
-      this.fetchMangaData({
+      loadMangaVolumiENome({
+        pathOpera: this.pathOpera,
+        loadingFunction: () => this.loadingService.show(),
         loadVolumiFunc: (pathOpera) =>
           this.mangaHandler.mangaService.getNomeEVolumiMangaByPath(pathOpera),
+        finalizeFunction: () => this.completeLoading(),
         nextCallback: (data) => this.handleNomeEVolumiSuccess(data),
       });
     }
   }
 
-  private loadVolumi(): void {
-    const index: number = this.mangaHandler.mangaAperti.findIndex(
-      (x) => x.nome == this.pathOpera
-    );
-    if (index > -1) {
-      this.handleVolumiSuccess(this.mangaHandler.mangaAperti[index].volumi);
-    } else {
-      this.fetchMangaData({
-        loadVolumiFunc: (pathOpera) =>
-          this.mangaHandler.mangaService.getVolumiManga(pathOpera),
-        nextCallback: (data) => this.handleVolumiSuccess(data.volumi),
-      });
-    }
-  }
+  private loadNoHttp(index: number): void {
+    const volumi: MangaVolume[] = this.mangaHandler.mangaAperti[index].volumi;
+    const info_manga: InfoManga = {
+      nome: this.pathOpera,
+      completato: false,
+    };
 
-  private fetchMangaData(params: {
-    loadVolumiFunc: (path: string) => Observable<any>;
-    nextCallback: (data: any) => void;
-  }) {
-    params
-      .loadVolumiFunc(this.pathOpera)
-      .pipe(
-        take(1),
-        finalize(() => this.completeLoading())
-      )
-      .subscribe({
-        next: (data) => params.nextCallback(data),
-        error: () => console.error('Si è verificato un errore'),
-      });
+    this.handleNomeEVolumiSuccess({
+      info_manga: info_manga,
+      volumi: volumi,
+    } as MangaENome);
+
+    this.volumiCaricati = true;
   }
 
   private completeLoading(): void {
@@ -107,7 +99,7 @@ export class VolumiMangaComponent implements OnInit {
     this.loadingService.hide();
   }
 
-  private handleNomeEVolumiSuccess(opera: any): void {
+  private handleNomeEVolumiSuccess(opera: MangaENome): void {
     this.nomeOpera = opera.info_manga.nome;
     this.operaCompletata = opera.info_manga.completato;
     this.volumiOpera = opera.volumi;
@@ -115,15 +107,6 @@ export class VolumiMangaComponent implements OnInit {
       nome: this.pathOpera,
       volumi: this.volumiOpera,
     });
-  }
-
-  private handleVolumiSuccess(volumi: MangaVolume[]): void {
-    this.volumiOpera = volumi;
-    this.mangaHandler.mangaAperti.push({
-      nome: this.pathOpera,
-      volumi: this.volumiOpera,
-    });
-    this.completeLoading();
   }
 
   leggiVolume(link: string): void {

@@ -54,7 +54,7 @@ export class LoginComponent {
   private provaLogin(data: boolean): void {
     if (data) {
       this.loginError = false;
-      this.mangaHandler.resettaMangaUtente();
+      this.mangaHandler.listaManga = [];
       this.router.navigate(['/home']);
     } else {
       this.loginError = true;
