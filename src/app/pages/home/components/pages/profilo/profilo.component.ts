@@ -12,6 +12,7 @@ import {
 } from '../../../interfaces/profilo.interface';
 import { profilo_imports } from './imports/profilo.imports';
 import { modaleApertaType } from './types/profilo.type';
+import { ConfirmService } from '../../../../../shared/services/template/confirm.service';
 
 @Component({
   selector: 'app-profilo',
@@ -25,6 +26,7 @@ export class ProfiloComponent implements OnInit, OnDestroy {
   private loaderService = inject(LoadingService);
   public authHandler = inject(AuthHandler);
   public profiloHandler = inject(ProfiloHandler);
+  private confirmService = inject(ConfirmService);
 
   private destroy$ = new Subject<void>();
   private idUtente: string | null = null;
@@ -126,14 +128,13 @@ export class ProfiloComponent implements OnInit, OnDestroy {
   }
 
   eliminaTweet(tweetId: number): void {
-    this.authHandler.confirmCustom({
+    this.confirmService.confirmCustom({
       titolo: 'Elimina Tweet',
       messaggio: 'Sei sicuro di voler eliminare questo tweet?',
       buttonNo: 'Annulla',
       buttonSi: 'Conferma',
-      confirmFunc: () => {
-        this.confirmEliminaTweet(tweetId);
-      },
+      confirmFunc: () => this.confirmEliminaTweet(tweetId),
+      notConfirmFunc: () => {},
     });
   }
 

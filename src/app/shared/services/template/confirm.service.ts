@@ -5,7 +5,7 @@ import {
   EnvironmentInjector,
   Injectable,
 } from '@angular/core';
-import { finalize, Observable } from 'rxjs';
+import { finalize, Observable, take } from 'rxjs';
 import { ConfirmComponent } from '../../components/confirm.component';
 
 @Injectable({
@@ -19,7 +19,31 @@ export class ConfirmService {
     private environmentInjector: EnvironmentInjector
   ) {}
 
-  confirm(confirmParams: ConfirmParams): Observable<boolean> {
+  public confirmCustom(params: {
+    titolo: string;
+    messaggio: string;
+    buttonNo?: string;
+    buttonSi?: string;
+    confirmFunc: Function;
+    notConfirmFunc: Function;
+  }): void {
+    this.confirm({
+      title: params.titolo,
+      message: params.messaggio,
+      buttonNo: params.buttonNo || 'No',
+      buttonSi: params.buttonSi || 'Si',
+    })
+      .pipe(take(1))
+      .subscribe((result) => {
+        if (result) {
+          params.confirmFunc();
+        } else {
+          params.notConfirmFunc();
+        }
+      });
+  }
+
+  private confirm(confirmParams: ConfirmParams): Observable<boolean> {
     if (this.confirmComponentRef) {
       this.destroyConfirmComponent();
     }
@@ -31,8 +55,8 @@ export class ConfirmService {
     this.confirmComponentRef.instance.params = {
       title: confirmParams.title,
       message: confirmParams.message,
-      buttonNo: confirmParams.buttonNo || 'No',
-      buttonSi: confirmParams.buttonSi || 'Si',
+      buttonNo: confirmParams.buttonNo,
+      buttonSi: confirmParams.buttonSi,
     };
 
     document.body.appendChild(this.confirmComponentRef.location.nativeElement);
@@ -55,6 +79,6 @@ export class ConfirmService {
 interface ConfirmParams {
   title: string;
   message: string;
-  buttonNo?: string;
-  buttonSi?: string;
+  buttonNo: string;
+  buttonSi: string;
 }

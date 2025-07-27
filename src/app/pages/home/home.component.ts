@@ -11,6 +11,7 @@ import { componenteApertoType } from './interfaces/profilo.interface';
 import { MangaHandler } from '../manga/handlers/manga.handler';
 import { ProfiloHandler } from './handlers/profilo.handler';
 import { converUserParams } from './functions/home.functions';
+import { ConfirmService } from '../../shared/services/template/confirm.service';
 
 @Component({
   selector: 'app-home',
@@ -22,6 +23,7 @@ export class HomeComponent implements OnInit {
   public authHandler = inject(AuthHandler);
   public profiloHandler = inject(ProfiloHandler);
   private mangaHandler = inject(MangaHandler);
+  private confirmService = inject(ConfirmService);
 
   public router = inject(Router);
 
@@ -73,12 +75,13 @@ export class HomeComponent implements OnInit {
   }
 
   logout(): void {
-    this.authHandler.confirmCustom({
+    this.confirmService.confirmCustom({
       titolo: 'Logout',
       messaggio: 'Vuoi davvero effettuare il logout?',
       buttonNo: 'Annulla',
       buttonSi: 'Conferma',
       confirmFunc: () => this.confirmLogout(),
+      notConfirmFunc: () => {},
     });
   }
 
@@ -141,10 +144,11 @@ export class HomeComponent implements OnInit {
       this.router.navigate(['/canzoni']);
     } else {
       const { path, titolo, messaggio } = getConfirmParams(this.user);
-      this.authHandler.confirmCustom({
+      this.confirmService.confirmCustom({
         titolo: titolo,
         messaggio: messaggio,
         confirmFunc: () => this.router.navigate([path]),
+        notConfirmFunc: () => {},
       });
     }
   }

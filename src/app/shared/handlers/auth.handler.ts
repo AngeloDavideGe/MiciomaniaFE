@@ -2,7 +2,6 @@ import { inject, Injectable, signal } from '@angular/core';
 import { catchError, finalize, map, Observable, of, take } from 'rxjs';
 import { User, UserParams } from '../interfaces/users.interface';
 import { AuthService } from '../services/api/auth.service';
-import { ConfirmService } from '../services/template/confirm.service';
 import {
   getVoidUser,
   loadUserFromStorage,
@@ -14,7 +13,6 @@ import {
   providedIn: 'root',
 })
 export class AuthHandler {
-  public confirmService = inject(ConfirmService);
   public authService = inject(AuthService);
 
   public profiliPronti: boolean = false;
@@ -39,28 +37,6 @@ export class AuthHandler {
       .subscribe({
         next: (data) => params.nextCall(data),
         error: (error) => console.error('errore nella lista utenti', error),
-      });
-  }
-
-  public confirmCustom(params: {
-    titolo: string;
-    messaggio: string;
-    buttonNo?: string;
-    buttonSi?: string;
-    confirmFunc: Function;
-  }): void {
-    this.confirmService
-      .confirm({
-        title: params.titolo,
-        message: params.messaggio,
-        buttonNo: params.buttonNo || 'No',
-        buttonSi: params.buttonSi || 'Si',
-      })
-      .pipe(take(1))
-      .subscribe((result) => {
-        if (result) {
-          params.confirmFunc();
-        }
       });
   }
 
