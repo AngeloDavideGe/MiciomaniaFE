@@ -1,4 +1,4 @@
-import { User } from '../../../shared/interfaces/users.interface';
+import { User, UserParams } from '../../../shared/interfaces/users.interface';
 
 export function getConfirmParams(user: User): {
   path: string;
@@ -18,4 +18,13 @@ export function getConfirmParams(user: User): {
       messaggio: 'Vuoi accedere per ascoltare la musica inedita?',
     };
   }
+}
+
+export function converUserParams(user: User): UserParams {
+  return {
+    id: user.id,
+    nome: user.credenziali.nome,
+    profilePic: user.credenziali.profilePic,
+    ruolo: user.credenziali.ruolo,
+  } as UserParams;
 }

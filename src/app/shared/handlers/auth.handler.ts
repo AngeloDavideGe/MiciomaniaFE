@@ -9,7 +9,6 @@ import {
   mapUserByDb,
   mapUserToDb,
 } from './functions/user.function';
-import { converUserParams } from './functions/users.function';
 
 @Injectable({
   providedIn: 'root',
@@ -19,9 +18,6 @@ export class AuthHandler {
   public authService = inject(AuthService);
 
   public profiliPronti: boolean = false;
-  public converUserParams: Function = (user: User): UserParams => {
-    return converUserParams(user);
-  };
   public getVoidUser: Function = (): User => getVoidUser();
   public user = signal<User | null>(null);
   public users = signal<UserParams[]>([]);

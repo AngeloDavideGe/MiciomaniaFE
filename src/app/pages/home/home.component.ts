@@ -10,6 +10,7 @@ import { home_imports } from './imports/home.imports';
 import { componenteApertoType } from './interfaces/profilo.interface';
 import { MangaHandler } from '../manga/handlers/manga.handler';
 import { ProfiloHandler } from './handlers/profilo.handler';
+import { converUserParams } from './functions/home.functions';
 
 @Component({
   selector: 'app-home',
@@ -92,7 +93,7 @@ export class HomeComponent implements OnInit {
   private usersLogout(): void {
     this.authHandler.users.update((users) => [
       ...users,
-      this.authHandler.converUserParams(this.user),
+      converUserParams(this.user),
     ]);
   }
 

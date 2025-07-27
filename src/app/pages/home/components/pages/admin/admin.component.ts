@@ -17,6 +17,7 @@ import { Ruolo } from '../../../../auth/enums/users.enum';
 import { AdminService } from '../../../services/admin.service';
 import { admin_imports } from './imports/admin.imports';
 import { CambioRuoloUtente } from './interfaces/admin.interface';
+import { converUserParams } from '../../../functions/home.functions';
 
 @Component({
   selector: 'app-admin',
@@ -80,7 +81,7 @@ export class AdminComponent implements OnInit {
       if (!newMap[ruoloUtente]) {
         newMap[ruoloUtente] = [];
       }
-      newMap[ruoloUtente].push(this.authHandler.converUserParams(this.user));
+      newMap[ruoloUtente].push(converUserParams(this.user));
     }
 
     this.userMap.set(newMap);
