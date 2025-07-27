@@ -1,13 +1,8 @@
 import { inject, Injectable, signal } from '@angular/core';
-import { catchError, finalize, map, Observable, of, take } from 'rxjs';
+import { catchError, map, Observable, of, take } from 'rxjs';
 import { User, UserParams } from '../interfaces/users.interface';
 import { AuthService } from '../services/api/auth.service';
-import {
-  getVoidUser,
-  loadUserFromStorage,
-  mapUserByDb,
-  mapUserToDb,
-} from './functions/user.function';
+import { mapUserByDb, mapUserToDb } from './functions/user.function';
 
 @Injectable({
   providedIn: 'root',
@@ -15,14 +10,11 @@ import {
 export class AuthHandler {
   public authService = inject(AuthService);
 
-  public profiliPronti: boolean = false;
-  public getVoidUser: Function = (): User => getVoidUser();
   public user = signal<User | null>(null);
   public users = signal<UserParams[]>([]);
 
   constructor() {
-    loadUserFromStorage(this.user, this.users());
-    this.profiliPronti = this.users().length > 0;
+    this.loadUserFromStorage();
   }
 
   public sottoscrizioneUtenti(params: {
@@ -30,10 +22,7 @@ export class AuthHandler {
   }): void {
     this.authService
       .getAllUsersHttp()
-      .pipe(
-        take(1),
-        finalize(() => (this.profiliPronti = true))
-      )
+      .pipe(take(1))
       .subscribe({
         next: (data) => params.nextCall(data),
         error: (error) => console.error('errore nella lista utenti', error),
@@ -72,5 +61,17 @@ export class AuthHandler {
         throw error;
       })
     );
+  }
+
+  private loadUserFromStorage(): void {
+    const userData = localStorage.getItem('user');
+    if (userData) {
+      this.user.set(JSON.parse(userData));
+    }
+
+    const usersData = sessionStorage.getItem('users');
+    if (usersData) {
+      this.users.set(JSON.parse(usersData));
+    }
   }
 }

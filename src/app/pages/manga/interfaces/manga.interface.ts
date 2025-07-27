@@ -18,6 +18,11 @@ export interface MangaENome {
   volumi: MangaVolume[];
 }
 
+export interface MangaAperto {
+  nome: string;
+  volumi: MangaVolume[];
+}
+
 export interface MangaVolume {
   id: number;
   link: string;

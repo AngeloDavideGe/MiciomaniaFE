@@ -1,35 +1,25 @@
 import { inject, Injectable } from '@angular/core';
-import { Router } from '@angular/router';
 import { take } from 'rxjs';
 import {
   ListaManga,
+  MangaAperto,
   MangaUtente,
-  MangaVolume,
-  SezioniMangaUtente,
-  SplitMangaUtente,
 } from '../interfaces/manga.interface';
 import { MangaService } from '../services/manga.service';
 import { caricaMangaEPreferiti } from './functions/manga.function';
 
 @Injectable({ providedIn: 'root' })
 export class MangaHandler {
+  public mangaService = inject(MangaService);
+
   public listaManga: ListaManga[] = [];
   public mangaUtente: MangaUtente = {} as MangaUtente;
   public mangaScaricati: boolean = false;
+  public mangaAperti: MangaAperto[] = [];
   public initialMangaUtente: MangaUtente = {} as MangaUtente;
-  public mangaAperti: { nome: string; volumi: MangaVolume[] }[] = [];
-
-  public router = inject(Router);
-  public mangaService = inject(MangaService);
 
   constructor() {
     this.loadMangaFromStorage();
-  }
-
-  selezionaOpera(manga: ListaManga) {
-    this.router.navigate(['manga/', manga.path], {
-      state: { message: this.constructor.name },
-    });
   }
 
   inizializzaLista(params: {
@@ -77,37 +67,6 @@ export class MangaHandler {
         },
         error: (err) => console.error('Errore modifica utenti', err),
       });
-  }
-
-  createSezioneMangaUtente(mu: MangaUtente): SezioniMangaUtente {
-    const mangaPerStorage: SplitMangaUtente = {
-      preferiti: mu.preferiti.split(',').map(Number),
-      letti: mu.letti.split(',').map(Number),
-      completati: mu.completati.split(',').map(Number),
-    };
-
-    const sezionePerStorage: SezioniMangaUtente = {
-      preferiti: this.convertedIdtoManga(mangaPerStorage.preferiti),
-      letti: this.convertedIdtoManga(mangaPerStorage.letti),
-      completati: this.convertedIdtoManga(mangaPerStorage.completati),
-    };
-
-    return sezionePerStorage;
-  }
-
-  private convertedIdtoManga(idManga: number[]): ListaManga[] {
-    let allManga: ListaManga[] = [];
-
-    for (let i = 0; i < idManga.length; i++) {
-      const mangaFind: ListaManga | undefined = this.listaManga.find(
-        (x) => x.id == idManga[i]
-      );
-      if (mangaFind) {
-        allManga.push(mangaFind);
-      }
-    }
-
-    return allManga;
   }
 
   private loadMangaFromStorage(): void {

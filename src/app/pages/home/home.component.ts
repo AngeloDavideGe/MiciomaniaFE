@@ -12,6 +12,7 @@ import { MangaHandler } from '../manga/handlers/manga.handler';
 import { ProfiloHandler } from './handlers/profilo.handler';
 import { converUserParams } from './functions/home.functions';
 import { ConfirmService } from '../../shared/services/template/confirm.service';
+import { getVoidUser } from '../../shared/handlers/functions/user.function';
 
 @Component({
   selector: 'app-home',
@@ -118,7 +119,7 @@ export class HomeComponent implements OnInit {
   }
 
   private setAnonymousUser(): void {
-    this.user = this.authHandler.getVoidUser();
+    this.user = getVoidUser();
     this.user.credenziali.nome = 'Anonimo';
     this.inizialiUser = 'AN';
   }

@@ -26,7 +26,11 @@ import { DettagliMangaComponent } from '../../../shared/dettagli-manga.component
 import { InputTuoiMangaComponent } from './components/input-tuoi-manga.component';
 import { TabsTuoiMangaComponent } from './components/tabs-tuoi-manga.component';
 import { SelectTabMangaComponent } from './components/select-tab-manga.component';
-import { voidSplitManga } from '../../../handlers/functions/manga.function';
+import { Router } from '@angular/router';
+import {
+  voidSplitManga,
+  createSezioneMangaUtente,
+} from '../../../functions/manga.functions';
 
 @Component({
   selector: 'app-tuoi-manga',
@@ -45,6 +49,7 @@ export class TuoiMangaComponent implements OnInit, OnDestroy {
   public mangaHandler = inject(MangaHandler);
   private authHandler = inject(AuthHandler);
   private loadingService = inject(LoadingService);
+  private router = inject(Router);
 
   public selectedTab: keyofMangaUtente = 'preferiti';
   public erroreHttp: boolean = false;
@@ -62,7 +67,7 @@ export class TuoiMangaComponent implements OnInit, OnDestroy {
   });
   public pulsanti: PulsantiManga[] = [
     {
-      click: () => this.mangaHandler.router.navigate(['/manga']),
+      click: () => this.router.navigate(['/manga']),
       disabled: false,
       titolo: '📚 Cerca tutti i manga',
       icona: '',
@@ -84,7 +89,7 @@ export class TuoiMangaComponent implements OnInit, OnDestroy {
     if (user) {
       this.loadListaManga(user.id);
     } else {
-      this.mangaHandler.router.navigate(['/manga']);
+      this.router.navigate(['/manga']);
     }
   }
 
@@ -148,7 +153,10 @@ export class TuoiMangaComponent implements OnInit, OnDestroy {
 
   private copiaSplitUtente(): void {
     this.sezioneListaManga.set(
-      this.mangaHandler.createSezioneMangaUtente(this.mangaHandler.mangaUtente)
+      createSezioneMangaUtente(
+        this.mangaHandler.mangaUtente,
+        this.mangaHandler.listaManga
+      )
     );
   }
 
@@ -250,5 +258,11 @@ export class TuoiMangaComponent implements OnInit, OnDestroy {
     }));
 
     this.checkSplitManga = voidSplitManga();
+  }
+
+  selezionaOpera(manga: ListaManga) {
+    this.router.navigate(['manga/', manga.path], {
+      state: { message: this.constructor.name },
+    });
   }
 }

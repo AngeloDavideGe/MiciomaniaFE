@@ -38,7 +38,7 @@
       [manga]="manga"
       [visualizzaPreferito]="selectedTab != 'preferiti'"
       [seleziona]="selectedTab != 'preferiti'"
-      (selezionaOpera)="mangaHandler.selezionaOpera(manga)"
+      (selezionaOpera)="selezionaOpera(manga)"
       (rimuoviPreferito)="rimuoviMangaTab(manga.id)"
       (selezionato)="onSelezionato($event, manga.id)"
     ></app-card-manga>

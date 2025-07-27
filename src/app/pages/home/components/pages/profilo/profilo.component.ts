@@ -13,6 +13,7 @@ import {
 import { profilo_imports } from './imports/profilo.imports';
 import { modaleApertaType } from './types/profilo.type';
 import { ConfirmService } from '../../../../../shared/services/template/confirm.service';
+import { getVoidUser } from '../../../../../shared/handlers/functions/user.function';
 
 @Component({
   selector: 'app-profilo',
@@ -37,7 +38,7 @@ export class ProfiloComponent implements OnInit, OnDestroy {
   public socialArray: EditableSocial[] = [];
   public tornaIndietroPath: string = '';
   public profilo: Profilo = {
-    user: this.authHandler.getVoidUser(),
+    user: getVoidUser(),
     tweets: [] as Tweet[],
   };
 

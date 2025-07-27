@@ -22,7 +22,6 @@ export class CercaProfiliComponent implements OnInit, OnDestroy {
   @Input() goToProfilo!: Function;
   @Input() chiudiComponente!: Function;
   @Input() users: UserParams[] = [];
-  @Input() profiliPronti: boolean = false;
 
   ngOnInit(): void {
     this.filteredUsers = structuredClone(this.users);

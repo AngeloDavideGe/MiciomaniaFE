@@ -57,22 +57,6 @@ export function mapUserToDb(user: User): any {
   };
 }
 
-export function loadUserFromStorage(
-  user: WritableSignal<User | null>,
-  users: UserParams[]
-): void {
-  const userData = localStorage.getItem('user');
-  if (userData) {
-    user.set(JSON.parse(userData));
-  }
-
-  const usersData = sessionStorage.getItem('users');
-  if (usersData) {
-    const parsedUsers: UserParams[] = JSON.parse(usersData);
-    users.splice(0, users.length, ...parsedUsers);
-  }
-}
-
 export function getVoidUser(): User {
   return {
     credenziali: {} as Credenziali,

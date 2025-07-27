@@ -8,7 +8,7 @@ import {
   Signal,
   signal,
 } from '@angular/core';
-import { NavigationEnd } from '@angular/router';
+import { NavigationEnd, Router } from '@angular/router';
 import { filter, map, Observable, startWith, tap } from 'rxjs';
 import { compareObjectCustom } from '../../shared/functions/utilities.function';
 import { AuthHandler } from '../../shared/handlers/auth.handler';
@@ -30,6 +30,7 @@ export class MangaComponent implements OnDestroy {
   public authHandler = inject(AuthHandler);
   public mangaHandler = inject(MangaHandler);
   private loadingService = inject(LoadingService);
+  private router = inject(Router);
 
   public mangaPreferiti: boolean[] = [];
   public erroreHttp: boolean = false;
@@ -58,10 +59,10 @@ export class MangaComponent implements OnDestroy {
     [null, false, true].map((condition) => this.getTabClickHandler(condition))
   );
 
-  public isManga$: Observable<boolean> = this.mangaHandler.router.events.pipe(
+  public isManga$: Observable<boolean> = this.router.events.pipe(
     filter((event): event is NavigationEnd => event instanceof NavigationEnd),
     startWith({
-      url: this.mangaHandler.router.url,
+      url: this.router.url,
     }),
     map((event) => event.url == '/manga'),
     tap((isManga) => (isManga ? this.loadFilteredManga() : null))
@@ -97,20 +98,19 @@ export class MangaComponent implements OnDestroy {
   private getPulsanti(): PulsantiManga[] {
     return [
       {
-        click: () => this.mangaHandler.router.navigate(['/home']),
+        click: () => this.router.navigate(['/home']),
         disabled: false,
         titolo: 'Torna alla Home',
         icona: 'bi bi-house-door me-2',
       },
       {
-        click: () => this.mangaHandler.router.navigate(['/manga/tuoi-manga']),
+        click: () => this.router.navigate(['/manga/tuoi-manga']),
         disabled: !this.authHandler.user(),
         titolo: 'I tuoi Manga',
         icona: 'bi bi-book me-2',
       },
       {
-        click: () =>
-          this.mangaHandler.router.navigate(['/manga/manga-miciomani']),
+        click: () => this.router.navigate(['/manga/manga-miciomani']),
         disabled: !this.authHandler.user(),
         titolo: 'Manga Miciomani',
         icona: 'bi bi-emoji-sunglasses me-2',
@@ -221,5 +221,11 @@ export class MangaComponent implements OnDestroy {
         this.idUtente || ''
       );
     }
+  }
+
+  selezionaOpera(manga: ListaManga) {
+    this.router.navigate(['manga/', manga.path], {
+      state: { message: this.constructor.name },
+    });
   }
 }
