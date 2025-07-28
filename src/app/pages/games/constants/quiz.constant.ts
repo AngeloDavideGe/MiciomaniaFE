@@ -1,6 +1,6 @@
-import { Quiz } from '../interfaces/games.interfaces';
+import { Quiz } from '../../../shared/interfaces/github.interface';
 
-const quiz: Quiz[] = [
+export const quiz: Quiz[] = [
   {
     domanda: 'Perché Indy deride i sentimenti?',
     risposte: [
@@ -160,5 +160,3 @@ const quiz: Quiz[] = [
     ],
   },
 ];
-
-export default quiz;

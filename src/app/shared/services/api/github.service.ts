@@ -1,10 +1,7 @@
 import { Injectable } from '@angular/core';
 import { from, Observable } from 'rxjs';
-import { Social } from '../../interfaces/github.interface';
-import {
-  CasualQuiz,
-  Quiz,
-} from '../../../pages/games/interfaces/games.interfaces';
+import { Quiz, Social } from '../../interfaces/github.interface';
+import { CasualQuiz } from '../../../pages/games/interfaces/games.interfaces';
 
 @Injectable({
   providedIn: 'root',

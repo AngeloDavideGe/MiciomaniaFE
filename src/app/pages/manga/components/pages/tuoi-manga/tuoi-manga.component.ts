@@ -8,10 +8,14 @@ import {
   Signal,
   signal,
 } from '@angular/core';
-import { ErrorHttpComponent } from '../../../../../shared/components/errorhttp.component';
+import { Router } from '@angular/router';
 import { AuthHandler } from '../../../../../shared/handlers/auth.handler';
 import { User } from '../../../../../shared/interfaces/users.interface';
 import { LoadingService } from '../../../../../shared/services/template/loading.service';
+import {
+  createSezioneMangaUtente,
+  voidSplitManga,
+} from '../../../functions/manga.functions';
 import { MangaHandler } from '../../../handlers/manga.handler';
 import { PulsantiManga } from '../../../interfaces/filtri.interface';
 import {
@@ -21,28 +25,12 @@ import {
   SezioniMangaUtente,
   SplitMangaUtente,
 } from '../../../interfaces/manga.interface';
-import { CardMangaComponent } from '../../../shared/card-manga.component';
-import { DettagliMangaComponent } from '../../../shared/dettagli-manga.component';
-import { InputTuoiMangaComponent } from './components/input-tuoi-manga.component';
-import { TabsTuoiMangaComponent } from './components/tabs-tuoi-manga.component';
-import { SelectTabMangaComponent } from './components/select-tab-manga.component';
-import { Router } from '@angular/router';
-import {
-  voidSplitManga,
-  createSezioneMangaUtente,
-} from '../../../functions/manga.functions';
+import { tuoi_manga_imports } from './imports/tuoi-manga.import';
 
 @Component({
   selector: 'app-tuoi-manga',
   standalone: true,
-  imports: [
-    CardMangaComponent,
-    ErrorHttpComponent,
-    DettagliMangaComponent,
-    TabsTuoiMangaComponent,
-    InputTuoiMangaComponent,
-    SelectTabMangaComponent,
-  ],
+  imports: tuoi_manga_imports,
   templateUrl: './tuoi-manga.component.html',
 })
 export class TuoiMangaComponent implements OnInit, OnDestroy {

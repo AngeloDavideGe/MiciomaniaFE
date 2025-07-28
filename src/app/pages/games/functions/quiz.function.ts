@@ -1,5 +1,6 @@
-import { CasualQuiz, Quiz } from '../interfaces/games.interfaces';
-import quiz from '../constants/quiz.constant';
+import { CasualQuiz } from '../interfaces/games.interfaces';
+import { Quiz } from '../../../shared/interfaces/github.interface';
+import { quiz } from '../constants/quiz.constant';
 
 type CasualOrQuiz = CasualQuiz | Quiz;
 
