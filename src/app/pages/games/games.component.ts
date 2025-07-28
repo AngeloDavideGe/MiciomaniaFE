@@ -11,9 +11,9 @@ import { environment } from '../../../environments/environment';
 import { AuthHandler } from '../../shared/handlers/auth.handler';
 import { SquadreHandler } from '../../shared/handlers/squadre.handler';
 import { User } from '../../shared/interfaces/users.interface';
-import { DeckCardClass } from './class/deck-card.class';
 import { games_imports } from './imports/games.import';
 import { SquadreGiocatore } from './interfaces/games.interfaces';
+import { DeckCardService } from './services/deck-card.service';
 
 @Component({
   selector: 'app-games',
@@ -22,7 +22,6 @@ import { SquadreGiocatore } from './interfaces/games.interfaces';
   templateUrl: './games.component.html',
 })
 export class GamesComponent implements OnInit, OnDestroy {
-  public deckCardClass = new DeckCardClass();
   public showDetails: boolean = false;
   public punteggioPersonale: number = 0;
   public squadre: SquadreGiocatore = {
@@ -33,6 +32,7 @@ export class GamesComponent implements OnInit, OnDestroy {
   public sc = inject(SquadreHandler);
   public router = inject(Router);
   private authHandler = inject(AuthHandler);
+  private deckCardService = inject(DeckCardService);
 
   public isGames$: Observable<boolean> = this.router.events.pipe(
     filter((event): event is NavigationEnd => event instanceof NavigationEnd),
@@ -42,7 +42,7 @@ export class GamesComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.setPunteggioGiocatore();
-    this.deckCardClass.setAllCards();
+    this.deckCardService.setAllCards();
     this.sc.loadSquadre({
       ifCall: () => this.ifCallLoadSquadre(),
       elseCall: () => this.elseCallLoadSquadre(),
