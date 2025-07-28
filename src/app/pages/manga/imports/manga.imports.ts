@@ -5,8 +5,9 @@ import { TabsMangaComponent } from '../components/ui/tabs-manga.component';
 import { CardMangaComponent } from '../shared/card-manga.component';
 import { DettagliMangaComponent } from '../shared/dettagli-manga.component';
 import { FiltriMangaComponent } from '../components/ui/filtri-manga.component';
+import { Type } from '@angular/core';
 
-export const manga_imports = [
+export const manga_imports: Type<any>[] = [
   RouterOutlet,
   AsyncPipe,
   CardMangaComponent,

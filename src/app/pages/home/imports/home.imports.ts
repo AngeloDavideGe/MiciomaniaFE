@@ -7,8 +7,9 @@ import { MenuImpostazioniComponent } from '../components/ui/menu-impostazioni.co
 import { MenuProfiliComponent } from '../components/ui/menu-profili.component';
 import { NavBarComponent } from '../components/ui/navbar.component';
 import { SocialLinkComponent } from '../components/ui/social-link.component';
+import { Type, Component } from '@angular/core';
 
-export const home_imports = [
+export const home_imports: Type<any>[] = [
   CardHomeComponent,
   SocialLinkComponent,
   CercaProfiliComponent,
@@ -19,3 +20,9 @@ export const home_imports = [
   MenuProfiliComponent,
   AsyncPipe,
 ];
+
+export const home_component: Component = {
+  selector: 'app-home',
+  standalone: true,
+  imports: home_imports,
+};

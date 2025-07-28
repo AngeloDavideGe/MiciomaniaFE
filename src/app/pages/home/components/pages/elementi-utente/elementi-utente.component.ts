@@ -10,7 +10,7 @@ import {
 } from '../../../../../shared/interfaces/elementiUtente.interface';
 import { User } from '../../../../../shared/interfaces/users.interface';
 import { ElementiUtenteUtilities } from '../../../../../shared/utilities/elementiUtente.utilities';
-import { elementi_utente_imports } from './imports/elementi-utebte.imports';
+import { elementi_utente_imports } from './imports/elementi-utente.imports';
 
 @Component({
   selector: 'app-elementi-utente',

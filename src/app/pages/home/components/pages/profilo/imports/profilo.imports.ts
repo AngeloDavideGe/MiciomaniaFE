@@ -1,3 +1,4 @@
+import { Type } from '@angular/core';
 import { ErrorHttpComponent } from '../../../../../../shared/components/errorhttp.component';
 import { CardProfiloComponent } from '../components/card-profilo.component';
 import { ChangePicComponent } from '../components/change-pic.component';
@@ -5,7 +6,7 @@ import { EditProfiloComponent } from '../components/edit-profilo/edit-profilo.co
 import { NewTweetComponent } from '../components/new-tweet/new-tweet.component';
 import { SezioneTweetComponent } from '../components/sezione-tweet.component';
 
-export const profilo_imports = [
+export const profilo_imports: Type<any>[] = [
   NewTweetComponent,
   EditProfiloComponent,
   ChangePicComponent,

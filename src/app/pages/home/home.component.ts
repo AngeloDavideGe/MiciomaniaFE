@@ -25,7 +25,6 @@ export class HomeComponent implements OnInit {
   public profiloHandler = inject(ProfiloHandler);
   private mangaHandler = inject(MangaHandler);
   private confirmService = inject(ConfirmService);
-
   public router = inject(Router);
 
   public user: User = {} as User;
