@@ -4,14 +4,14 @@ import { FormsModule } from '@angular/forms';
 import { take } from 'rxjs';
 import { LoadingService } from '../../../../../shared/services/template/loading.service';
 import { getCasualQuiz } from '../../../functions/quiz.function';
-import {
-  CasualQuiz,
-  Quiz,
-  Risposta,
-} from '../../../interfaces/games.interfaces';
-import { QuizService } from '../../../services/quiz.service';
+import { CasualQuiz } from '../../../interfaces/games.interfaces';
 import { GamesBase } from '../../../shared/base/games.base';
 import { DettagliGameComponent } from '../../../shared/components/dettagli-game.component';
+import { GitHubService } from '../../../../../shared/services/api/github.service';
+import {
+  Quiz,
+  Risposta,
+} from '../../../../../shared/interfaces/github.interface';
 
 @Component({
   selector: 'app-quiz',
@@ -25,7 +25,7 @@ export class QuizComponent extends GamesBase implements OnInit {
   public rispostaConfermata: boolean = false;
   public numDomanda: number = 1;
 
-  private quizService = inject(QuizService);
+  private gitHubService = inject(GitHubService);
   private loadinService = inject(LoadingService);
 
   ngOnInit(): void {
@@ -34,8 +34,8 @@ export class QuizComponent extends GamesBase implements OnInit {
   }
 
   private loadQuiz(): void {
-    if (this.quizService.quiz.length == 0) {
-      this.quizService
+    if (this.gitHubService.quiz.length == 0) {
+      this.gitHubService
         .getGistFormGithub(
           'AngeloDavideGe',
           'c4a646a0fbe86f97fbcf4520af119386',
@@ -44,8 +44,8 @@ export class QuizComponent extends GamesBase implements OnInit {
         .pipe(take(1))
         .subscribe({
           next: (quiz) => {
-            this.quizService.quiz = quiz;
-            this.quizService.quizFilter = structuredClone(quiz);
+            this.gitHubService.quiz = quiz as Quiz[];
+            this.gitHubService.quizFilter = structuredClone(quiz as Quiz[]);
             this.loadinService.hide();
           },
           error: (err) => {
@@ -59,17 +59,17 @@ export class QuizComponent extends GamesBase implements OnInit {
     this.rispostaSelezionata = null;
     this.rispostaConfermata = false;
 
-    if (this.numDomanda == 1 && this.quizService.quiz.length == 0) {
+    if (this.numDomanda == 1 && this.gitHubService.quiz.length == 0) {
       this.loadinService.show();
     } else if (this.numDomanda < 5) {
       this.selectDomanda(
-        getCasualQuiz(this.quizService.quizFilter) as CasualQuiz
+        getCasualQuiz(this.gitHubService.quizFilter) as CasualQuiz
       );
     }
   }
 
   private selectDomanda(casualQuiz: CasualQuiz) {
-    this.quizService.restoreQuizFilter(casualQuiz, this.numDomanda !== 1);
+    this.gitHubService.restoreQuizFilter(casualQuiz, this.numDomanda !== 1);
     this.domandaCurrent = casualQuiz.quiz;
     this.numDomanda++;
   }

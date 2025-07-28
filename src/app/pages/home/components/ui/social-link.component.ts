@@ -1,8 +1,8 @@
 import { NgClass, NgStyle } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import { take } from 'rxjs';
-import { Social } from '../../interfaces/profilo.interface';
-import { HomeService } from '../../services/home.service';
+import { GitHubService } from '../../../../shared/services/api/github.service';
+import { Social } from '../../../../shared/interfaces/github.interface';
 
 @Component({
   selector: 'app-social-link',
@@ -15,7 +15,7 @@ import { HomeService } from '../../services/home.service';
           <h6 class="fw-bold display-6">Seguiteci su</h6>
         </div>
         <div class="row g-4">
-          @if(homeService.social.length > 0) { @for(s of homeService.social;
+          @if(gitHubService.social.length > 0) { @for(s of gitHubService.social;
           track s.nome) {
           <div class="col-12 col-md-6 col-lg-4 d-flex align-items-center">
             <i
@@ -53,15 +53,15 @@ import { HomeService } from '../../services/home.service';
   ],
 })
 export class SocialLinkComponent implements OnInit {
-  public homeService = inject(HomeService);
+  public gitHubService = inject(GitHubService);
 
   ngOnInit(): void {
     this.loadSocial();
   }
 
   private loadSocial(): void {
-    if (this.homeService.social.length == 0) {
-      this.homeService
+    if (this.gitHubService.social.length == 0) {
+      this.gitHubService
         .getGistFormGithub(
           'AngeloDavideGe',
           '831668ef76a20e1c4cbf88666215fcfa',
@@ -69,7 +69,7 @@ export class SocialLinkComponent implements OnInit {
         )
         .pipe(take(1))
         .subscribe({
-          next: (data) => (this.homeService.social = data),
+          next: (data) => (this.gitHubService.social = data as Social[]),
           error: (err) => console.error('errore recupero social', err),
         });
     }

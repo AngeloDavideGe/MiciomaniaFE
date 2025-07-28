@@ -12,14 +12,6 @@ export interface Tweet {
   idUtente: number;
 }
 
-export interface Social {
-  nome: string;
-  descrizione: string;
-  icona: string;
-  colore: string;
-  link: string;
-}
-
 export interface EditableSocial {
   key: string;
   link: string;

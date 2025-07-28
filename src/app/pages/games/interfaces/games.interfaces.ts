@@ -1,3 +1,5 @@
+import { Quiz } from '../../../shared/interfaces/github.interface';
+
 export type EsitoGame = 'vittoria' | 'sconfitta' | 'pareggio';
 export type Turno = 'Player' | 'Bot';
 
@@ -34,16 +36,6 @@ export interface Forza4 {
 export interface CasualQuiz {
   quiz: Quiz;
   index: number;
-}
-
-export interface Quiz {
-  domanda: string;
-  risposte: Risposta[];
-}
-
-export interface Risposta {
-  testo: string;
-  soluzione: boolean;
 }
 
 // BATTAGLIA NAVALE

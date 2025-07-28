@@ -1,12 +1,12 @@
 import { inject } from '@angular/core';
+import { ProfiloHandler } from '../../pages/home/handlers/profilo.handler';
+import { MangaHandler } from '../../pages/manga/handlers/manga.handler';
 import { MangaMiciomaniService } from '../../pages/manga/services/mangaMiciomani.service';
 import { SongService } from '../../pages/song/services/song.service';
 import { AuthHandler } from '../../shared/handlers/auth.handler';
-import { ElementiUtenteService } from '../../shared/services/api/elementiUtente.service';
-import { HomeService } from '../../pages/home/services/home.service';
 import { SquadreHandler } from '../../shared/handlers/squadre.handler';
-import { MangaHandler } from '../../pages/manga/handlers/manga.handler';
-import { ProfiloHandler } from '../../pages/home/handlers/profilo.handler';
+import { ElementiUtenteService } from '../../shared/services/api/elementiUtente.service';
+import { GitHubService } from '../../shared/services/api/github.service';
 
 export class StorageClass {
   private authHandler = inject(AuthHandler);
@@ -14,7 +14,7 @@ export class StorageClass {
   private mangaHandler = inject(MangaHandler);
   private squadreHandler = inject(SquadreHandler);
   private songService = inject(SongService);
-  private homeService = inject(HomeService);
+  private gitHubService = inject(GitHubService);
   private mangaMiciomaniService = inject(MangaMiciomaniService);
   private elementiUtenteService = inject(ElementiUtenteService);
 
@@ -57,7 +57,7 @@ export class StorageClass {
     );
     sessionStorage.setItem(
       'socialLinks',
-      JSON.stringify(this.homeService.social)
+      JSON.stringify(this.gitHubService.social)
     );
     sessionStorage.setItem(
       'punteggioOttenuto',
