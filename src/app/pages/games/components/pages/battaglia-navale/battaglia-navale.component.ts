@@ -12,6 +12,7 @@ import { GamesBase } from '../../../shared/base/games.base';
 import { DettagliGameComponent } from '../../../shared/components/dettagli-game.component';
 import { BotBattagliaNavale } from './bot/battaglia-navale.bot';
 import { BattagliaNavaleUtilities } from './utilities/battaglia-navale.utilities';
+import { setPunteggioOttenuto } from '../../../../../shared/handlers/squadre.handler';
 
 @Component({
   selector: 'app-battaglia-navale',
@@ -137,7 +138,7 @@ export class BattagliaNavaleComponent extends GamesBase implements OnInit {
       this.naviRimanenti.Bot--;
       if (this.naviRimanenti.Bot == 0) {
         this.alertGameService.alert('vittoria');
-        this.squadreService.setPunteggioOttenuto = 3;
+        setPunteggioOttenuto(3);
         this.iniziaGioco();
         return;
       }
@@ -164,7 +165,7 @@ export class BattagliaNavaleComponent extends GamesBase implements OnInit {
     this.botBN.botHaColpito = { i, j };
     if (this.naviRimanenti.Player == 0) {
       this.alertGameService.alert('sconfitta');
-      this.squadreService.setPunteggioOttenuto = -2;
+      setPunteggioOttenuto(-2);
       this.iniziaGioco();
     }
   }

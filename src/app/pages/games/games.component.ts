@@ -8,12 +8,17 @@ import {
 import { NavigationEnd, Router } from '@angular/router';
 import { filter, map, Observable, startWith } from 'rxjs';
 import { environment } from '../../../environments/environment';
-import { SquadreHandler } from '../../shared/handlers/squadre.handler';
+import {
+  loadSquadre,
+  setPunteggioOttenuto,
+  updatePunteggioSquadra,
+} from '../../shared/handlers/squadre.handler';
 import { User } from '../../shared/interfaces/users.interface';
 import { games_imports } from './imports/games.import';
 import { SquadreGiocatore } from './interfaces/games.interfaces';
 import { DeckCardService } from './services/deck-card.service';
 import { DataHttp } from '../../core/api/http.data';
+import { SquadreService } from '../../shared/services/api/squadre.service';
 
 @Component({
   selector: 'app-games',
@@ -29,7 +34,7 @@ export class GamesComponent implements OnInit, OnDestroy {
     avversario: [],
   } as SquadreGiocatore;
 
-  public sc = inject(SquadreHandler);
+  public squadreService = inject(SquadreService);
   public router = inject(Router);
   private deckCardService = inject(DeckCardService);
 
@@ -42,7 +47,8 @@ export class GamesComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.setPunteggioGiocatore();
     this.deckCardService.setAllCards();
-    this.sc.loadSquadre({
+    loadSquadre({
+      squadreService: this.squadreService,
       ifCall: () => this.ifCallLoadSquadre(),
       elseCall: () => this.elseCallLoadSquadre(),
       nextCall: () => this.nextCallLoadSquadre(),
@@ -88,9 +94,10 @@ export class GamesComponent implements OnInit, OnDestroy {
     const user: User | null = DataHttp.user();
     if (user) {
       environment.team.forEach((nomeTeam) => {
-        const punteggioFind: number | undefined = this.sc.squadre.find(
-          (squadra) => squadra.id == nomeTeam
-        )?.punteggio;
+        const punteggioFind: number | undefined =
+          this.squadreService.squadre.find(
+            (squadra) => squadra.id == nomeTeam
+          )?.punteggio;
 
         if (user.iscrizione.team?.includes(nomeTeam)) {
           this.squadre.personale.push({
@@ -111,16 +118,18 @@ export class GamesComponent implements OnInit, OnDestroy {
     const user: User | null = DataHttp.user();
     if (user) {
       this.squadre.personale.forEach((squadra) => {
-        const punteggioFind: number | undefined = this.sc.squadre.find(
-          (squadraFind) => squadraFind.id == squadra.nome
-        )?.punteggio;
+        const punteggioFind: number | undefined =
+          this.squadreService.squadre.find(
+            (squadraFind) => squadraFind.id == squadra.nome
+          )?.punteggio;
         squadra.punteggio = punteggioFind || 'non disponibile';
       });
 
       this.squadre.avversario.forEach((squadra) => {
-        const punteggioFind: number | undefined = this.sc.squadre.find(
-          (squadraFind) => squadraFind.id == squadra.nome
-        )?.punteggio;
+        const punteggioFind: number | undefined =
+          this.squadreService.squadre.find(
+            (squadraFind) => squadraFind.id == squadra.nome
+          )?.punteggio;
         squadra.punteggio = punteggioFind || 'non disponibile';
       });
     }
@@ -128,16 +137,19 @@ export class GamesComponent implements OnInit, OnDestroy {
 
   private updatePunteggioSquadra($event: BeforeUnloadEvent | null): void {
     const user: User | null = DataHttp.user();
-    const punteggio: number = this.sc.punteggioOttenuto;
+    const punteggio: number = DataHttp.punteggioOttenuto;
 
     if (user && punteggio != 0) {
       $event ? $event.preventDefault() : null;
       const squadre: string[] = this.squadre.personale.map(
         (squadra) => squadra.nome
       );
-      this.sc.updatePunteggioSquadra(user.id, squadre, () =>
-        this.nextUpdatePunteggio(squadre, punteggio)
-      );
+      updatePunteggioSquadra({
+        squadreService: this.squadreService,
+        userId: user.id,
+        nomeSquadra: squadre,
+        nextUpdatePunteggio: () => this.nextUpdatePunteggio(squadre, punteggio),
+      });
     }
   }
 
@@ -151,12 +163,12 @@ export class GamesComponent implements OnInit, OnDestroy {
 
     const idSet = new Set(squadre.map((id) => id.toLowerCase()));
 
-    for (const squadra of this.sc.squadre) {
+    for (const squadra of this.squadreService.squadre) {
       if (idSet.has(squadra.id.toLowerCase())) {
         squadra.punteggio += punteggio;
       }
     }
 
-    this.sc.setPunteggioOttenuto = 0;
+    setPunteggioOttenuto(0);
   }
 }

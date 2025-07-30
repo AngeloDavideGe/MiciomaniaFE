@@ -5,6 +5,7 @@ import { CardDeck } from '../../../interfaces/games.interfaces';
 import { DeckCardService } from '../../../services/deck-card.service';
 import { GamesBase } from '../../../shared/base/games.base';
 import { DettagliGameComponent } from '../../../shared/components/dettagli-game.component';
+import { setPunteggioOttenuto } from '../../../../../shared/handlers/squadre.handler';
 
 @Component({
   selector: 'app-memory',
@@ -70,7 +71,7 @@ export class MemoryComponent extends GamesBase implements OnInit {
       if (fineGioco) {
         this.restartGioco();
         this.alertGameService.alert('vittoria');
-        this.squadreService.setPunteggioOttenuto = 2;
+        setPunteggioOttenuto(2);
       }
       this.firstCardSelect = null;
       this.nextMove = true;

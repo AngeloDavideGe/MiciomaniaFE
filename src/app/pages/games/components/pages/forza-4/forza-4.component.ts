@@ -3,6 +3,7 @@ import { Forza4, Turno } from '../../../interfaces/games.interfaces';
 import { GamesBase } from '../../../shared/base/games.base';
 import { DettagliGameComponent } from '../../../shared/components/dettagli-game.component';
 import { Forza4BotClass } from './bot/forza-4.bot';
+import { setPunteggioOttenuto } from '../../../../../shared/handlers/squadre.handler';
 
 @Component({
   selector: 'app-forza-4',
@@ -50,7 +51,7 @@ export class Forza4Component extends GamesBase implements OnInit {
 
         if (this.gameOver) {
           alert('vittoria');
-          this.squadreService.setPunteggioOttenuto = 2;
+          setPunteggioOttenuto(2);
           this.resetGame();
         } else {
           setTimeout(() => this.turnoBot(), 350);
@@ -71,7 +72,7 @@ export class Forza4Component extends GamesBase implements OnInit {
 
         if (this.gameOver) {
           alert('sconfitta');
-          this.squadreService.setPunteggioOttenuto = -3;
+          setPunteggioOttenuto(-3);
           this.resetGame();
         } else {
           this.turno = 'Player';

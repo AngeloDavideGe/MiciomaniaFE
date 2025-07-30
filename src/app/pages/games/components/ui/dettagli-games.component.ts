@@ -1,5 +1,5 @@
-import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
-import { SquadreHandler } from '../../../../shared/handlers/squadre.handler';
+import { Component, Input } from '@angular/core';
+import { DataHttp } from '../../../../core/api/http.data';
 import { SquadreGiocatore } from '../../interfaces/games.interfaces';
 
 @Component({
@@ -34,7 +34,7 @@ import { SquadreGiocatore } from '../../interfaces/games.interfaces';
       <div class="mb-2">
         Punteggio in fase di valutazione:
         <strong class="ms-2 fs-5 badge" style="color: black">
-          {{ sc.punteggioOttenuto }}
+          {{ punteggioOttenuto }}
         </strong>
       </div>
 
@@ -64,7 +64,7 @@ import { SquadreGiocatore } from '../../interfaces/games.interfaces';
   styles: [``],
 })
 export class PunteggiGamesComponent {
-  public sc = inject(SquadreHandler);
+  public punteggioOttenuto = DataHttp.punteggioOttenuto;
   @Input() punteggioPersonale!: number;
   @Input() squadre!: SquadreGiocatore;
 }

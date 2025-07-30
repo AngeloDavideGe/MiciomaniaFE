@@ -8,6 +8,8 @@ import { Injectable } from '@angular/core';
   providedIn: 'root',
 })
 export class SquadreService {
+  public squadre: Squadre[] = [];
+
   constructor(private http: HttpClient) {}
 
   getSquadre(): Observable<Squadre[]> {

@@ -1,10 +1,10 @@
 import { signal, WritableSignal } from '@angular/core';
-import { User, UserParams } from '../../shared/interfaces/users.interface';
 import {
   ListaManga,
-  MangaUtente,
   MangaAperto,
+  MangaUtente,
 } from '../../pages/manga/interfaces/manga.interface';
+import { User, UserParams } from '../../shared/interfaces/users.interface';
 
 export class DataHttp {
   public static user: WritableSignal<User | null> = signal<User | null>(null);
@@ -15,6 +15,8 @@ export class DataHttp {
   public static initialMangaUtente: MangaUtente = {} as MangaUtente;
   public static mangaScaricati: boolean = false;
   public static mangaAperti: MangaAperto[] = [];
+
+  public static punteggioOttenuto: number = 0;
 
   static loadDataHttp(): void {
     const userData = localStorage.getItem('user');
@@ -46,6 +48,11 @@ export class DataHttp {
     const mangaAperti = sessionStorage.getItem('mangaAperti');
     if (mangaAperti) {
       this.mangaAperti = JSON.parse(mangaAperti);
+    }
+
+    const punteggioOttenuto = sessionStorage.getItem('punteggioOttenuto');
+    if (punteggioOttenuto) {
+      this.punteggioOttenuto = JSON.parse(punteggioOttenuto);
     }
   }
 }

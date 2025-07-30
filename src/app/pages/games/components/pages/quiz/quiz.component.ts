@@ -12,6 +12,7 @@ import {
   Quiz,
   Risposta,
 } from '../../../../../shared/interfaces/github.interface';
+import { setPunteggioOttenuto } from '../../../../../shared/handlers/squadre.handler';
 
 @Component({
   selector: 'app-quiz',
@@ -77,9 +78,9 @@ export class QuizComponent extends GamesBase implements OnInit {
   confermaRisposta(): void {
     this.rispostaConfermata = true;
     if (this.rispostaSelezionata?.soluzione) {
-      this.squadreService.setPunteggioOttenuto = 1;
+      setPunteggioOttenuto(1);
     } else {
-      this.squadreService.setPunteggioOttenuto = -1;
+      setPunteggioOttenuto(-1);
     }
   }
 

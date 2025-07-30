@@ -1,8 +1,9 @@
 import { Component, HostListener, inject, NgZone, OnInit } from '@angular/core';
-import { SquadreHandler } from '../../../../../shared/handlers/squadre.handler';
+import { loadSquadre } from '../../../../../shared/handlers/squadre.handler';
+import { SquadreService } from '../../../../../shared/services/api/squadre.service';
 import { LoadingService } from '../../../../../shared/services/template/loading.service';
-import { ListaSquadreComponent } from './components/lista-squadre.component';
 import { BottoniSquadreComponent } from './components/bottoni-squadre.component';
+import { ListaSquadreComponent } from './components/lista-squadre.component';
 import { chartOptions } from './options/squadre.option';
 
 declare var google: any;
@@ -14,7 +15,7 @@ declare var google: any;
   templateUrl: './squadre.component.html',
 })
 export class SquadreComponent implements OnInit {
-  private sc = inject(SquadreHandler);
+  private squadreService = inject(SquadreService);
   private resizeTimeout: any;
   private printListener: any;
   public stampa: boolean = false;
@@ -23,7 +24,8 @@ export class SquadreComponent implements OnInit {
   private loadingService = inject(LoadingService);
 
   ngOnInit(): void {
-    this.sc.loadSquadre({
+    loadSquadre({
+      squadreService: this.squadreService,
       ifCall: () => this.loadingService.show(),
       elseCall: () => this.drawChart(),
       nextCall: () => {
@@ -49,7 +51,9 @@ export class SquadreComponent implements OnInit {
     data.addColumn('string', 'Squadra');
     data.addColumn('number', 'Punteggio');
 
-    this.sc.squadre.forEach((s) => data.addRow([s.id, s.punteggio]));
+    this.squadreService.squadre.forEach((s) =>
+      data.addRow([s.id, s.punteggio])
+    );
 
     const chartContainer: HTMLElement | null = document.getElementById(idChart);
     if (!chartContainer) return;

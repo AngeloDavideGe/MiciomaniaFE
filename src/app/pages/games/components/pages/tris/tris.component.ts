@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { EsitoGame, TrisCell } from '../../../interfaces/games.interfaces';
 import { GamesBase } from '../../../shared/base/games.base';
 import { DettagliGameComponent } from '../../../shared/components/dettagli-game.component';
+import { setPunteggioOttenuto } from '../../../../../shared/handlers/squadre.handler';
 
 @Component({
   selector: 'app-tris',
@@ -20,7 +21,7 @@ export class TrisComponent extends GamesBase {
     if (!this.cellaOccupata(i, j)) {
       this.tabella[i][j].player = true;
       if (this.controllaTris('player')) {
-        this.squadreService.setPunteggioOttenuto = 1;
+        setPunteggioOttenuto(1);
         this.finePartita('vittoria');
       } else {
         this.turnoDelBot();
@@ -40,7 +41,7 @@ export class TrisComponent extends GamesBase {
     if (celleLibere.length > 0) {
       this.botSelect(celleLibere);
     } else {
-      this.squadreService.setPunteggioOttenuto = -2;
+      setPunteggioOttenuto(-2);
       this.finePartita('pareggio');
     }
   }
@@ -50,7 +51,7 @@ export class TrisComponent extends GamesBase {
     const { i, j } = celleLibere[randomIndex];
     this.tabella[i][j].bot = true;
     if (this.controllaTris('bot')) {
-      this.squadreService.setPunteggioOttenuto = -4;
+      setPunteggioOttenuto(-4);
       this.finePartita('sconfitta');
     }
   }
