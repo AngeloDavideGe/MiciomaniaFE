@@ -5,6 +5,7 @@ import {
   MangaUtente,
   MangaAperto,
 } from '../../shared/interfaces/http.interface';
+import { Profilo } from '../../pages/home/interfaces/profilo.interface';
 
 export class DataHttp {
   public static user: WritableSignal<User | null> = signal<User | null>(null);
@@ -16,6 +17,7 @@ export class DataHttp {
   public static mangaAperti: MangaAperto[] = [];
   public static mangaScaricati: boolean = false;
 
+  public static profiloPersonale: Profilo | null = null;
   public static punteggioOttenuto: number = 0;
 
   static loadDataHttp(): void {
@@ -48,6 +50,11 @@ export class DataHttp {
     const mangaAperti = sessionStorage.getItem('mangaAperti');
     if (mangaAperti) {
       this.mangaAperti = JSON.parse(mangaAperti);
+    }
+
+    const pubblicazioniJSON = sessionStorage.getItem('pubblicazioni');
+    if (pubblicazioniJSON) {
+      this.profiloPersonale = JSON.parse(pubblicazioniJSON);
     }
 
     const punteggioOttenuto = sessionStorage.getItem('punteggioOttenuto');

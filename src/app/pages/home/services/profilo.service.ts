@@ -8,6 +8,8 @@ import { Profilo, Tweet } from '../interfaces/profilo.interface';
   providedIn: 'root',
 })
 export class ProfiloService {
+  public aggiornamentoPic: boolean = false;
+
   constructor(private http: HttpClient) {}
 
   getProfiloById(userId: string): Observable<Profilo> {

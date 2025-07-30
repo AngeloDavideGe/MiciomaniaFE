@@ -1,8 +1,10 @@
 import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { DataHttp } from '../../../../../../../core/api/http.data';
 import { formatDataCustom } from '../../../../../../../shared/functions/utilities.function';
-import { ProfiloHandler } from '../../../../../handlers/profilo.handler';
+import { postPubblicazioni } from '../../../../../handlers/profilo.handler';
 import { Tweet } from '../../../../../interfaces/profilo.interface';
+import { ProfiloService } from '../../../../../services/profilo.service';
 
 @Component({
   selector: 'app-new-tweet',
@@ -13,7 +15,7 @@ import { Tweet } from '../../../../../interfaces/profilo.interface';
 export class NewTweetComponent {
   public nuovoTweet: any;
   public testo: string = '';
-  private profiloHandler = inject(ProfiloHandler);
+  private profiloService = inject(ProfiloService);
 
   @Input() idUtente!: string;
   @Output() chiudi = new EventEmitter<void>();
@@ -35,10 +37,10 @@ export class NewTweetComponent {
   }
 
   private inviaTweetDb(tweet: Tweet): void {
-    this.profiloHandler.postPubblicazioni({
+    postPubblicazioni({
+      profiloService: this.profiloService,
       tweet: tweet,
-      nextCall: () =>
-        this.profiloHandler.profiloPersonale?.tweets.unshift(tweet),
+      nextCall: () => DataHttp.profiloPersonale?.tweets.unshift(tweet),
     });
   }
 }

@@ -1,19 +1,23 @@
 import { Component, effect, inject, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subject, takeUntil } from 'rxjs';
+import { DataHttp } from '../../../../../core/api/http.data';
+import { getVoidUser } from '../../../../../shared/handlers/functions/user.function';
 import { User } from '../../../../../shared/interfaces/users.interface';
+import { ConfirmService } from '../../../../../shared/services/template/confirm.service';
 import { LoadingService } from '../../../../../shared/services/template/loading.service';
-import { ProfiloHandler } from '../../../handlers/profilo.handler';
+import {
+  deletePubblicazioneById,
+  getProfiloById,
+} from '../../../handlers/profilo.handler';
 import {
   EditableSocial,
   Profilo,
   Tweet,
 } from '../../../interfaces/profilo.interface';
+import { ProfiloService } from '../../../services/profilo.service';
 import { profilo_imports } from './imports/profilo.imports';
 import { modaleApertaType } from './types/profilo.type';
-import { ConfirmService } from '../../../../../shared/services/template/confirm.service';
-import { getVoidUser } from '../../../../../shared/handlers/functions/user.function';
-import { DataHttp } from '../../../../../core/api/http.data';
 
 @Component({
   selector: 'app-profilo',
@@ -25,7 +29,7 @@ export class ProfiloComponent implements OnInit, OnDestroy {
   private route = inject(ActivatedRoute);
   public router = inject(Router);
   private loaderService = inject(LoadingService);
-  public profiloHandler = inject(ProfiloHandler);
+  public profiloService = inject(ProfiloService);
   private confirmService = inject(ConfirmService);
 
   private destroy$ = new Subject<void>();
@@ -80,8 +84,8 @@ export class ProfiloComponent implements OnInit, OnDestroy {
   private caricaDatiUser(user: User | null): void {
     if (user && user.id) {
       this.profiloPersonale = this.idUtente == user.id;
-      if (this.profiloHandler.profiloPersonale && this.profiloPersonale) {
-        this.profilo = this.profiloHandler.profiloPersonale;
+      if (DataHttp.profiloPersonale && this.profiloPersonale) {
+        this.profilo = DataHttp.profiloPersonale;
         this.caricamentoCompletato();
       } else {
         this.sottoscrizioneProfilo(this.idUtente!);
@@ -92,7 +96,8 @@ export class ProfiloComponent implements OnInit, OnDestroy {
   }
 
   private sottoscrizioneProfilo(userId: string): void {
-    this.profiloHandler.getProfiloById({
+    getProfiloById({
+      profiloService: this.profiloService,
       userId: userId,
       setLocalStorage: (profilo: Profilo) => this.setLocalStorage(profilo),
       caricamentoCompletato: () => this.caricamentoCompletato(),
@@ -114,7 +119,7 @@ export class ProfiloComponent implements OnInit, OnDestroy {
   private setLocalStorage(data: Profilo): void {
     this.profilo = data;
     if (this.profiloPersonale) {
-      this.profiloHandler.profiloPersonale = data;
+      DataHttp.profiloPersonale = data;
     }
   }
 
@@ -140,7 +145,8 @@ export class ProfiloComponent implements OnInit, OnDestroy {
 
   private confirmEliminaTweet(tweetId: number): void {
     this.loaderService.show();
-    this.profiloHandler.deletePubblicazioneById({
+    deletePubblicazioneById({
+      profiloService: this.profiloService,
       tweetId: tweetId,
       finalizeCall: () => this.loaderService.hide(),
       nextCall: () => {

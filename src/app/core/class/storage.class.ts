@@ -1,5 +1,4 @@
 import { inject } from '@angular/core';
-import { ProfiloHandler } from '../../pages/home/handlers/profilo.handler';
 import { MangaMiciomaniService } from '../../pages/manga/services/mangaMiciomani.service';
 import { SongService } from '../../pages/song/services/song.service';
 import { ElementiUtenteService } from '../../shared/services/api/elementiUtente.service';
@@ -7,7 +6,6 @@ import { GitHubService } from '../../shared/services/api/github.service';
 import { DataHttp } from '../api/http.data';
 
 export class StorageClass {
-  public profiloHandler = inject(ProfiloHandler);
   private songService = inject(SongService);
   private gitHubService = inject(GitHubService);
   private mangaMiciomaniService = inject(MangaMiciomaniService);
@@ -51,7 +49,7 @@ export class StorageClass {
     );
     sessionStorage.setItem(
       'pubblicazioni',
-      JSON.stringify(this.profiloHandler.profiloPersonale)
+      JSON.stringify(DataHttp.profiloPersonale)
     );
     sessionStorage.setItem('users', JSON.stringify(DataHttp.users()));
   }

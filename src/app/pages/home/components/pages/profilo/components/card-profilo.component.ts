@@ -7,11 +7,11 @@ import {
   Output,
   TemplateRef,
 } from '@angular/core';
-import { ProfiloHandler } from '../../../../handlers/profilo.handler';
 import {
   EditableSocial,
   Profilo,
 } from '../../../../interfaces/profilo.interface';
+import { ProfiloService } from '../../../../services/profilo.service';
 import { modaleApertaType } from '../types/profilo.type';
 
 @Component({
@@ -31,7 +31,7 @@ import { modaleApertaType } from '../types/profilo.type';
             padding-top: 7rem;
           "
       >
-        @if (!profiloHandler.aggiornamentoPic) {
+        @if (!profiloService.aggiornamentoPic) {
         <img
           [src]="
             profilo.user.credenziali.profilePic ||
@@ -127,7 +127,7 @@ import { modaleApertaType } from '../types/profilo.type';
   `,
 })
 export class CardProfiloComponent {
-  public profiloHandler = inject(ProfiloHandler);
+  public profiloService = inject(ProfiloService);
   @Input() socialArray!: EditableSocial[];
   @Input() profilo!: Profilo;
   @Input() spinnerTemplate!: TemplateRef<any>;

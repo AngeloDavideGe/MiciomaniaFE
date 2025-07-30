@@ -7,7 +7,6 @@ import {
   User,
 } from '../../../../shared/interfaces/users.interface';
 import { AuthService } from '../../../../shared/services/api/auth.service';
-import { ProfiloHandler } from '../../../home/handlers/profilo.handler';
 import { Ruolo } from '../../enums/users.enum';
 import { FormWizard } from '../../interfaces/wizard.interface';
 import { stepType, WizardBase } from './base/wizard.base';
@@ -26,7 +25,6 @@ export class IscrizioneComponent extends WizardBase {
   public viewSuccespage: boolean = true;
   public wizardData: FormWizard = {} as FormWizard;
 
-  private profiloHandler = inject(ProfiloHandler);
   private authService = inject(AuthService);
 
   constructor() {
@@ -99,8 +97,8 @@ export class IscrizioneComponent extends WizardBase {
   }
 
   private setLocalStorage(): void {
-    if (this.profiloHandler.profiloPersonale) {
-      this.profiloHandler.profiloPersonale.user = this.user;
+    if (DataHttp.profiloPersonale) {
+      DataHttp.profiloPersonale.user = this.user;
     }
   }
 

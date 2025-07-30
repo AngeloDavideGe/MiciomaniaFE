@@ -4,6 +4,7 @@ import { compareObjectCustom } from '../../../../../../../../shared/functions/ut
 import { StatoPersona } from '../../../../../../../auth/enums/users.enum';
 import { User } from '../../../../../../../../shared/interfaces/users.interface';
 import { TabProfiloBase } from '../../../base/tab-profilo.base';
+import { DataHttp } from '../../../../../../../../core/api/http.data';
 
 @Component({
   selector: 'tab-info-profilo',
@@ -58,8 +59,8 @@ export class TabInfoComponent extends TabProfiloBase {
   }
 
   private completeEdit(user: User): void {
-    if (this.profiloHandler.profiloPersonale) {
-      this.profiloHandler.profiloPersonale.user = user;
+    if (DataHttp.profiloPersonale) {
+      DataHttp.profiloPersonale.user = user;
       this.bottoneDisabilitato = true;
       this.chiudi.emit();
     }

@@ -2,8 +2,9 @@ import { Component, EventEmitter, inject, Output } from '@angular/core';
 import { DataHttp } from '../../../../../../core/api/http.data';
 import { updateUserCustom } from '../../../../../../shared/handlers/auth.handler';
 import { User } from '../../../../../../shared/interfaces/users.interface';
-import { ProfiloHandler } from '../../../../handlers/profilo.handler';
 import { AuthService } from '../../../../../../shared/services/api/auth.service';
+import { ProfiloService } from '../../../../services/profilo.service';
+import { uploadProfileImage } from '../../../../handlers/profilo.handler';
 
 @Component({
   selector: 'app-change-pic',
@@ -89,7 +90,7 @@ export class ChangePicComponent {
   public previewUrl: string | ArrayBuffer | null = null;
   public selectedFile: File | null = null;
   private authService = inject(AuthService);
-  public profiloHandler = inject(ProfiloHandler);
+  public profiloService = inject(ProfiloService);
 
   @Output() chiudi = new EventEmitter();
 
@@ -140,10 +141,11 @@ export class ChangePicComponent {
 
   onUpload() {
     let user = structuredClone(DataHttp.user()) || ({} as User);
-    this.profiloHandler.aggiornamentoPic = true;
+    this.profiloService.aggiornamentoPic = true;
     this.chiudi.emit();
 
-    this.profiloHandler.uploadProfileImage({
+    uploadProfileImage({
+      profiloService: this.profiloService,
       selectedFile: this.selectedFile,
       user: user,
       tapCall: (url: string) => (user.credenziali.profilePic = url),
@@ -158,15 +160,15 @@ export class ChangePicComponent {
   }
 
   private completeEdit(user: User): void {
-    if (this.profiloHandler.profiloPersonale) {
-      this.profiloHandler.profiloPersonale.user = user;
+    if (DataHttp.profiloPersonale) {
+      DataHttp.profiloPersonale.user = user;
     }
-    this.profiloHandler.aggiornamentoPic = false;
+    this.profiloService.aggiornamentoPic = false;
   }
 
   private errorEdit(err: Error): void {
     console.error('Errore chiamata:', err);
     alert("Errore durante il caricamento dell'immagine");
-    this.profiloHandler.aggiornamentoPic = false;
+    this.profiloService.aggiornamentoPic = false;
   }
 }

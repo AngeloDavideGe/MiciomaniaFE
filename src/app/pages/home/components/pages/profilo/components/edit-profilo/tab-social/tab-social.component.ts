@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { User } from '../../../../../../../../shared/interfaces/users.interface';
 import { EditableSocial } from '../../../../../../interfaces/profilo.interface';
 import { TabProfiloBase } from '../../../base/tab-profilo.base';
+import { DataHttp } from '../../../../../../../../core/api/http.data';
 
 @Component({
   selector: 'tab-social-profilo',
@@ -75,9 +76,7 @@ export class TabSocialComponent extends TabProfiloBase implements OnInit {
       return acc;
     }, {} as Record<string, string>);
 
-    const userTemp: User = structuredClone(
-      this.profiloHandler.profiloPersonale!.user
-    );
+    const userTemp: User = structuredClone(DataHttp.profiloPersonale!.user);
 
     userTemp.profile!.social = updatedSocials as unknown as JSON;
 
@@ -85,8 +84,8 @@ export class TabSocialComponent extends TabProfiloBase implements OnInit {
   }
 
   private completeEdit(user: User): void {
-    if (this.profiloHandler.profiloPersonale) {
-      this.profiloHandler.profiloPersonale.user = user;
+    if (DataHttp.profiloPersonale) {
+      DataHttp.profiloPersonale.user = user;
       this.chiudi.emit();
     }
   }
