@@ -20,9 +20,12 @@ import {
 } from './handlers/manga.handler';
 import { manga_imports } from './imports/manga.imports';
 import { PulsantiManga, TabsManga } from './interfaces/filtri.interface';
-import { ListaManga, MangaUtente } from './interfaces/manga.interface';
 import { DataHttp } from '../../core/api/http.data';
 import { MangaService } from './services/manga.service';
+import {
+  ListaManga,
+  MangaUtente,
+} from '../../shared/interfaces/http.interface';
 
 @Component({
   selector: 'app-manga',

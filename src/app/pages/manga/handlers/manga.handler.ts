@@ -1,8 +1,11 @@
 import { take } from 'rxjs';
 import { DataHttp } from '../../../core/api/http.data';
-import { ListaManga, MangaUtente } from '../interfaces/manga.interface';
 import { MangaService } from '../services/manga.service';
 import { caricaMangaEPreferiti } from './functions/manga.function';
+import {
+  MangaUtente,
+  ListaManga,
+} from '../../../shared/interfaces/http.interface';
 
 export function inizializzaLista(params: {
   mangaService: MangaService;

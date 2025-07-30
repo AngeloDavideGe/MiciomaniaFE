@@ -2,13 +2,11 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '../../../../environments/environment';
+import { ListaEUtenti, MangaENome } from '../interfaces/manga.interface';
 import {
-  ListaEUtenti,
   ListaManga,
-  MangaENome,
   MangaUtente,
-  MangaVolume,
-} from '../interfaces/manga.interface';
+} from '../../../shared/interfaces/http.interface';
 
 @Injectable({
   providedIn: 'root',

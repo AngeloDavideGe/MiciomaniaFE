@@ -1,12 +1,14 @@
 import { finalize, Observable, take } from 'rxjs';
 import { TabsManga } from '../interfaces/filtri.interface';
 import {
-  ListaManga,
   MangaENome,
-  MangaUtente,
   SezioniMangaUtente,
   SplitMangaUtente,
 } from '../interfaces/manga.interface';
+import {
+  MangaUtente,
+  ListaManga,
+} from '../../../shared/interfaces/http.interface';
 
 export function getTabsManga(clickCalls: Function[]): TabsManga[] {
   return [

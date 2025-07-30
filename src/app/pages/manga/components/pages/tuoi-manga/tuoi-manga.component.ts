@@ -19,14 +19,16 @@ import { inizializzaLista } from '../../../handlers/manga.handler';
 import { PulsantiManga } from '../../../interfaces/filtri.interface';
 import {
   keyofMangaUtente,
-  ListaManga,
-  MangaUtente,
   SezioniMangaUtente,
   SplitMangaUtente,
 } from '../../../interfaces/manga.interface';
 import { tuoi_manga_imports } from './imports/tuoi-manga.import';
 import { DataHttp } from '../../../../../core/api/http.data';
 import { MangaService } from '../../../services/manga.service';
+import {
+  ListaManga,
+  MangaUtente,
+} from '../../../../../shared/interfaces/http.interface';
 
 @Component({
   selector: 'app-tuoi-manga',

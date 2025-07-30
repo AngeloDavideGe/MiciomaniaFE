@@ -6,11 +6,9 @@ import {
   Signal,
   WritableSignal,
 } from '@angular/core';
-import {
-  keyofMangaUtente,
-  ListaManga,
-} from '../../../../interfaces/manga.interface';
+import { keyofMangaUtente } from '../../../../interfaces/manga.interface';
 import { FormsModule } from '@angular/forms';
+import { ListaManga } from '../../../../../../shared/interfaces/http.interface';
 
 @Component({
   selector: 'app-input-tuoi-manga',

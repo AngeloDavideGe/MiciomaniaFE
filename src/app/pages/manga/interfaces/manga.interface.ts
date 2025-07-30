@@ -1,25 +1,15 @@
+import {
+  ListaManga,
+  MangaUtente,
+} from '../../../shared/interfaces/http.interface';
+
 export interface ListaEUtenti {
   lista_manga: ListaManga[];
   manga_utente: MangaUtente[];
 }
 
-export interface ListaManga {
-  id: number;
-  nome: string;
-  autore: string;
-  genere: string;
-  copertina: string;
-  path: string;
-  completato: boolean;
-}
-
 export interface MangaENome {
   info_manga: InfoManga;
-  volumi: MangaVolume[];
-}
-
-export interface MangaAperto {
-  nome: string;
   volumi: MangaVolume[];
 }
 
@@ -31,12 +21,6 @@ export interface MangaVolume {
 export interface InfoManga {
   nome: string;
   completato: boolean;
-}
-
-export interface MangaUtente {
-  preferiti: string;
-  letti: string;
-  completati: string;
 }
 
 export interface SplitMangaUtente {
