@@ -10,14 +10,11 @@ import {
   deletePubblicazioneById,
   getProfiloById,
 } from '../../../handlers/profilo.handler';
-import {
-  EditableSocial,
-  Profilo,
-  Tweet,
-} from '../../../interfaces/profilo.interface';
+import { EditableSocial, Tweet } from '../../../interfaces/profilo.interface';
 import { ProfiloService } from '../../../services/profilo.service';
 import { profilo_imports } from './imports/profilo.imports';
 import { modaleApertaType } from './types/profilo.type';
+import { Profilo } from '../../../../../shared/interfaces/http.interface';
 
 @Component({
   selector: 'app-profilo',

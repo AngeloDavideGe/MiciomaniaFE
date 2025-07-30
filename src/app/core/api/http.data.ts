@@ -5,7 +5,7 @@ import {
   MangaUtente,
   MangaAperto,
 } from '../../shared/interfaces/http.interface';
-import { Profilo } from '../../pages/home/interfaces/profilo.interface';
+import { Profilo } from '../../shared/interfaces/http.interface';
 
 export class DataHttp {
   public static user: WritableSignal<User | null> = signal<User | null>(null);

@@ -1,4 +1,6 @@
+import { Tweet } from '../../pages/home/interfaces/profilo.interface';
 import { MangaVolume } from '../../pages/manga/interfaces/manga.interface';
+import { User } from './users.interface';
 
 export interface ListaManga {
   id: number;
@@ -19,4 +21,9 @@ export interface MangaUtente {
 export interface MangaAperto {
   nome: string;
   volumi: MangaVolume[];
+}
+
+export interface Profilo {
+  user: User;
+  tweets: Tweet[];
 }

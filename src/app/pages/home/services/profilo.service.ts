@@ -2,7 +2,8 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, from, Observable, of, switchMap, throwError } from 'rxjs';
 import { environment } from '../../../../environments/environment';
-import { Profilo, Tweet } from '../interfaces/profilo.interface';
+import { Tweet } from '../interfaces/profilo.interface';
+import { Profilo } from '../../../shared/interfaces/http.interface';
 
 @Injectable({
   providedIn: 'root',

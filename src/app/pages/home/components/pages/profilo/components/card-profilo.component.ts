@@ -7,12 +7,10 @@ import {
   Output,
   TemplateRef,
 } from '@angular/core';
-import {
-  EditableSocial,
-  Profilo,
-} from '../../../../interfaces/profilo.interface';
+import { EditableSocial } from '../../../../interfaces/profilo.interface';
 import { ProfiloService } from '../../../../services/profilo.service';
 import { modaleApertaType } from '../types/profilo.type';
+import { Profilo } from '../../../../../../shared/interfaces/http.interface';
 
 @Component({
   selector: 'app-card-profilo',

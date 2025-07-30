@@ -1,10 +1,3 @@
-import { User } from '../../../shared/interfaces/users.interface';
-
-export interface Profilo {
-  user: User;
-  tweets: Tweet[];
-}
-
 export interface Tweet {
   id: number;
   testo: string;

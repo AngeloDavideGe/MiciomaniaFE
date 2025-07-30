@@ -1,8 +1,9 @@
 import { finalize, map, switchMap, take, tap } from 'rxjs';
 import { User } from '../../../shared/interfaces/users.interface';
 import { mapToProfilo } from '../functions/profilo.function';
-import { Profilo, Tweet } from '../interfaces/profilo.interface';
+import { Tweet } from '../interfaces/profilo.interface';
 import { ProfiloService } from '../services/profilo.service';
+import { Profilo } from '../../../shared/interfaces/http.interface';
 
 export function getProfiloById(params: {
   profiloService: ProfiloService;
