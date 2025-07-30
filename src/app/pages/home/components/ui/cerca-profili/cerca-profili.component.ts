@@ -2,6 +2,7 @@ import { Component, Input, OnDestroy, OnInit, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { debounceTime, Subject, takeUntil } from 'rxjs';
 import { UserParams } from '../../../../../shared/interfaces/users.interface';
+import { DataHttp } from '../../../../../core/api/http.data';
 
 @Component({
   selector: 'app-cerca-profili',
@@ -18,13 +19,13 @@ export class CercaProfiliComponent implements OnInit, OnDestroy {
   public searchQuery: string = '';
   public searchQuery$ = new Subject<string>();
   private destroy$ = new Subject<void>();
+  public users: UserParams[] = DataHttp.users();
 
   @Input() goToProfilo!: Function;
   @Input() chiudiComponente!: Function;
-  @Input() users: UserParams[] = [];
 
   ngOnInit(): void {
-    this.filteredUsers = structuredClone(this.users);
+    this.filteredUsers = structuredClone(DataHttp.users());
     this.setUserSlice();
     this.sottoscrizioneFiltroUtenti();
   }
@@ -41,7 +42,7 @@ export class CercaProfiliComponent implements OnInit, OnDestroy {
   }
 
   private applicaFiltroUtenti(searchQuery: string): void {
-    this.filteredUsers = this.users.filter((user) => {
+    this.filteredUsers = DataHttp.users().filter((user) => {
       const nome: string = user.nome ? user.nome.toLowerCase() : '';
       const query: string = searchQuery.toLowerCase();
       return nome.includes(query);
@@ -58,7 +59,7 @@ export class CercaProfiliComponent implements OnInit, OnDestroy {
   clearSearch(): void {
     if (this.searchQuery) {
       this.editFiltro('');
-      this.filteredUsers = structuredClone(this.users);
+      this.filteredUsers = structuredClone(DataHttp.users());
       this.setUserSlice();
     }
   }

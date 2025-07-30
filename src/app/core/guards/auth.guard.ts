@@ -1,12 +1,11 @@
 import { inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
-import { AuthHandler } from '../../shared/handlers/auth.handler';
+import { DataHttp } from '../api/http.data';
 
 export const authGuard: CanActivateFn = () => {
   const router = inject(Router);
-  const authHandler = inject(AuthHandler);
 
-  if (authHandler.user()) {
+  if (DataHttp.user()) {
     return true;
   } else {
     router.navigate(['/home']);
@@ -16,9 +15,8 @@ export const authGuard: CanActivateFn = () => {
 
 export const notAuthGuard: CanActivateFn = () => {
   const router = inject(Router);
-  const authHandler = inject(AuthHandler);
 
-  if (!authHandler.user()) {
+  if (!DataHttp.user()) {
     return true;
   } else {
     router.navigate(['/home']);

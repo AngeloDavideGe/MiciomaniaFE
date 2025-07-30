@@ -1,7 +1,9 @@
 import { Component, EventEmitter, inject, Output } from '@angular/core';
-import { AuthHandler } from '../../../../../../shared/handlers/auth.handler';
+import { DataHttp } from '../../../../../../core/api/http.data';
+import { updateUserCustom } from '../../../../../../shared/handlers/auth.handler';
 import { User } from '../../../../../../shared/interfaces/users.interface';
 import { ProfiloHandler } from '../../../../handlers/profilo.handler';
+import { AuthService } from '../../../../../../shared/services/api/auth.service';
 
 @Component({
   selector: 'app-change-pic',
@@ -86,7 +88,7 @@ import { ProfiloHandler } from '../../../../handlers/profilo.handler';
 export class ChangePicComponent {
   public previewUrl: string | ArrayBuffer | null = null;
   public selectedFile: File | null = null;
-  private authHandler = inject(AuthHandler);
+  private authService = inject(AuthService);
   public profiloHandler = inject(ProfiloHandler);
 
   @Output() chiudi = new EventEmitter();
@@ -137,7 +139,7 @@ export class ChangePicComponent {
   }
 
   onUpload() {
-    let user = structuredClone(this.authHandler.user()) || ({} as User);
+    let user = structuredClone(DataHttp.user()) || ({} as User);
     this.profiloHandler.aggiornamentoPic = true;
     this.chiudi.emit();
 
@@ -145,7 +147,11 @@ export class ChangePicComponent {
       selectedFile: this.selectedFile,
       user: user,
       tapCall: (url: string) => (user.credenziali.profilePic = url),
-      switcMapCall: (user: User) => this.authHandler.updateUser(user),
+      switcMapCall: (user: User) =>
+        updateUserCustom({
+          authService: this.authService,
+          user: user,
+        }),
       nextCall: (data: User) => this.completeEdit(data),
       errorCall: (err: Error) => this.errorEdit(err),
     });

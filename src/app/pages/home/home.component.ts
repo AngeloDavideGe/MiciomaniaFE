@@ -2,17 +2,18 @@ import { Component, effect, inject, OnInit, signal } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import 'bootstrap'; // Importa Bootstrap JS (incluso Popper.js)
 import { filter, map, Observable, startWith, take, tap } from 'rxjs';
-import { AuthHandler } from '../../shared/handlers/auth.handler';
+import { DataHttp } from '../../core/api/http.data';
+import { sottoscrizioneUtenti } from '../../shared/handlers/auth.handler';
+import { getVoidUser } from '../../shared/handlers/functions/user.function';
 import { User, UserParams } from '../../shared/interfaces/users.interface';
+import { AuthService } from '../../shared/services/api/auth.service';
+import { ConfirmService } from '../../shared/services/template/confirm.service';
 import { ElementiUtenteUtilities } from '../../shared/utilities/elementiUtente.utilities';
-import { getConfirmParams } from './functions/home.functions';
+import { MangaHandler } from '../manga/handlers/manga.handler';
+import { converUserParams, getConfirmParams } from './functions/home.functions';
+import { ProfiloHandler } from './handlers/profilo.handler';
 import { home_imports } from './imports/home.imports';
 import { componenteApertoType } from './interfaces/profilo.interface';
-import { MangaHandler } from '../manga/handlers/manga.handler';
-import { ProfiloHandler } from './handlers/profilo.handler';
-import { converUserParams } from './functions/home.functions';
-import { ConfirmService } from '../../shared/services/template/confirm.service';
-import { getVoidUser } from '../../shared/handlers/functions/user.function';
 
 @Component({
   selector: 'app-home',
@@ -21,7 +22,7 @@ import { getVoidUser } from '../../shared/handlers/functions/user.function';
   templateUrl: './home.component.html',
 })
 export class HomeComponent implements OnInit {
-  public authHandler = inject(AuthHandler);
+  public authService = inject(AuthService);
   public profiloHandler = inject(ProfiloHandler);
   private mangaHandler = inject(MangaHandler);
   private confirmService = inject(ConfirmService);
@@ -47,21 +48,22 @@ export class HomeComponent implements OnInit {
 
   constructor() {
     effect(() => {
-      const user: User | null = this.authHandler.user();
+      const user: User | null = DataHttp.user();
       this.handleUserSubscription(user);
     });
   }
 
   ngOnInit(): void {
-    const user: User | null = this.authHandler.user();
+    const user: User | null = DataHttp.user();
     if (user && user.id) {
       this.loadElementiUtente(user.id);
     }
   }
 
   private loadUsers(): void {
-    if (this.authHandler.users().length === 0) {
-      this.authHandler.sottoscrizioneUtenti({
+    if (DataHttp.users().length === 0) {
+      sottoscrizioneUtenti({
+        authService: this.authService,
         nextCall: (data) => this.handleUsersSubscription(data),
       });
     }
@@ -89,15 +91,12 @@ export class HomeComponent implements OnInit {
     this.usersLogout();
     this.mangaHandler.mangaUtente = {} as any;
     this.profiloHandler.profiloPersonale = null;
-    this.authHandler.user.set(null);
+    DataHttp.user.set(null);
     this.setAnonymousUser();
   }
 
   private usersLogout(): void {
-    this.authHandler.users.update((users) => [
-      ...users,
-      converUserParams(this.user),
-    ]);
+    DataHttp.users.update((users) => [...users, converUserParams(this.user)]);
   }
 
   private handleUserSubscription(user: User | null): void {
@@ -136,7 +135,7 @@ export class HomeComponent implements OnInit {
       }
     }
 
-    this.authHandler.users.set(otherUsers);
+    DataHttp.users.set(otherUsers);
   }
 
   public controlloPunteggio(): void {

@@ -1,5 +1,4 @@
 import { Component, inject, signal } from '@angular/core';
-import { AuthHandler } from '../../../shared/handlers/auth.handler';
 import { ChatGroupComponent } from './chat-group/chat-group.component';
 import { ChatGroupService } from './services/chat-group.service';
 
@@ -46,7 +45,6 @@ import { ChatGroupService } from './services/chat-group.service';
 })
 export class ChatComponent {
   public chatAperta = signal<boolean>(false);
-  public authHandler = inject(AuthHandler);
   public chatService = inject(ChatGroupService);
 
   public apriChat(): void {

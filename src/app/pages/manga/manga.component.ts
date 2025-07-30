@@ -11,7 +11,6 @@ import {
 import { NavigationEnd, Router } from '@angular/router';
 import { filter, map, Observable, startWith, tap } from 'rxjs';
 import { compareObjectCustom } from '../../shared/functions/utilities.function';
-import { AuthHandler } from '../../shared/handlers/auth.handler';
 import { LoadingService } from '../../shared/services/template/loading.service';
 import { generiManga } from './constants/genere.constant';
 import { getTabsManga } from './functions/manga.functions';
@@ -19,6 +18,7 @@ import { MangaHandler } from './handlers/manga.handler';
 import { manga_imports } from './imports/manga.imports';
 import { PulsantiManga, TabsManga } from './interfaces/filtri.interface';
 import { ListaManga, MangaUtente } from './interfaces/manga.interface';
+import { DataHttp } from '../../core/api/http.data';
 
 @Component({
   selector: 'app-manga',
@@ -27,7 +27,6 @@ import { ListaManga, MangaUtente } from './interfaces/manga.interface';
   templateUrl: './manga.component.html',
 })
 export class MangaComponent implements OnDestroy {
-  public authHandler = inject(AuthHandler);
   public mangaHandler = inject(MangaHandler);
   private loadingService = inject(LoadingService);
   private router = inject(Router);
@@ -105,13 +104,13 @@ export class MangaComponent implements OnDestroy {
       },
       {
         click: () => this.router.navigate(['/manga/tuoi-manga']),
-        disabled: !this.authHandler.user(),
+        disabled: !DataHttp.user(),
         titolo: 'I tuoi Manga',
         icona: 'bi bi-book me-2',
       },
       {
         click: () => this.router.navigate(['/manga/manga-miciomani']),
-        disabled: !this.authHandler.user(),
+        disabled: !DataHttp.user(),
         titolo: 'Manga Miciomani',
         icona: 'bi bi-emoji-sunglasses me-2',
       },
@@ -152,7 +151,7 @@ export class MangaComponent implements OnDestroy {
     if (ms.listaManga.length > 0 && ms.mangaScaricati) {
       this.filterSelect.nome.set('');
       this.identificaPreferiti(this.mangaHandler.mangaUtente);
-      this.idUtente = this.authHandler.user()?.id || null;
+      this.idUtente = DataHttp.user()?.id || null;
     } else {
       ms.listaManga.length > 0 ? null : this.loadingService.show();
       this.aggiornamentoManga = true;
@@ -161,7 +160,7 @@ export class MangaComponent implements OnDestroy {
   }
 
   private sottoscrizioneUtente(): void {
-    const user = this.authHandler.user();
+    const user = DataHttp.user();
     this.idUtente = user ? user.id : null;
 
     this.mangaHandler.inizializzaLista({

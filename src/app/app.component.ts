@@ -6,6 +6,7 @@ import { StorageClass } from './core/class/storage.class';
 import { ChatComponent } from './core/components/chat/chat.component';
 import { MiniPlayerComponent } from './core/components/mini-player/mini-player.component';
 import { CursorUtilities } from './shared/utilities/cursor.utilities';
+import { DataHttp } from './core/api/http.data';
 
 @Component({
   selector: 'app-root',
@@ -34,6 +35,7 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     this.cursorUtilities.setCursoreByStorage();
+    DataHttp.loadDataHttp();
   }
 
   @HostListener('window:beforeunload', ['$event'])

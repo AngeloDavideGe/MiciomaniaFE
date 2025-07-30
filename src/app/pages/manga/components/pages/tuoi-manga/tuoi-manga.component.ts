@@ -9,7 +9,6 @@ import {
   signal,
 } from '@angular/core';
 import { Router } from '@angular/router';
-import { AuthHandler } from '../../../../../shared/handlers/auth.handler';
 import { User } from '../../../../../shared/interfaces/users.interface';
 import { LoadingService } from '../../../../../shared/services/template/loading.service';
 import {
@@ -26,6 +25,7 @@ import {
   SplitMangaUtente,
 } from '../../../interfaces/manga.interface';
 import { tuoi_manga_imports } from './imports/tuoi-manga.import';
+import { DataHttp } from '../../../../../core/api/http.data';
 
 @Component({
   selector: 'app-tuoi-manga',
@@ -35,7 +35,6 @@ import { tuoi_manga_imports } from './imports/tuoi-manga.import';
 })
 export class TuoiMangaComponent implements OnInit, OnDestroy {
   public mangaHandler = inject(MangaHandler);
-  private authHandler = inject(AuthHandler);
   private loadingService = inject(LoadingService);
   private router = inject(Router);
 
@@ -73,7 +72,7 @@ export class TuoiMangaComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    const user: User | null = this.authHandler.user();
+    const user: User | null = DataHttp.user();
     if (user) {
       this.loadListaManga(user.id);
     } else {

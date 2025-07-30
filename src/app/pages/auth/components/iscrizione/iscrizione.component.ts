@@ -1,10 +1,12 @@
 import { Component, inject } from '@angular/core';
 import { take } from 'rxjs';
-import { AuthHandler } from '../../../../shared/handlers/auth.handler';
+import { DataHttp } from '../../../../core/api/http.data';
+import { updateUserCustom } from '../../../../shared/handlers/auth.handler';
 import {
   Iscrizione,
   User,
 } from '../../../../shared/interfaces/users.interface';
+import { AuthService } from '../../../../shared/services/api/auth.service';
 import { ProfiloHandler } from '../../../home/handlers/profilo.handler';
 import { Ruolo } from '../../enums/users.enum';
 import { FormWizard } from '../../interfaces/wizard.interface';
@@ -25,7 +27,7 @@ export class IscrizioneComponent extends WizardBase {
   public wizardData: FormWizard = {} as FormWizard;
 
   private profiloHandler = inject(ProfiloHandler);
-  private authHandler = inject(AuthHandler);
+  private authService = inject(AuthService);
 
   constructor() {
     super();
@@ -33,15 +35,17 @@ export class IscrizioneComponent extends WizardBase {
   }
 
   iscrizioneUser(): void {
-    this.user = this.authHandler.user() ?? ({} as User);
+    this.user = DataHttp.user() ?? ({} as User);
     this.caricaPersona = true;
   }
 
   inviaIscrizione(): void {
     this.setUserPerInvio();
 
-    this.authHandler
-      .updateUser(this.user)
+    updateUserCustom({
+      authService: this.authService,
+      user: this.user,
+    })
       .pipe(take(1))
       .subscribe({
         next: () => {

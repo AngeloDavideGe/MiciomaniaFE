@@ -15,7 +15,6 @@ import {
 } from '@angular/forms';
 import { Subject, takeUntil } from 'rxjs';
 import { environment } from '../../../../../../../environments/environment';
-import { AuthHandler } from '../../../../../../shared/handlers/auth.handler';
 import { User } from '../../../../../../shared/interfaces/users.interface';
 import { StatoPersona } from '../../../../enums/users.enum';
 import { Provincia } from '../../../../interfaces/region.interface';
@@ -23,6 +22,7 @@ import { FormWizard } from '../../../../interfaces/wizard.interface';
 import { WizardService } from '../../../../services/wizard.service';
 import { arrayNotEmptyValidator } from '../../../../validators/checkbox.validator';
 import { Region } from '../../class/region.class';
+import { DataHttp } from '../../../../../../core/api/http.data';
 
 @Component({
   selector: 'app-step2',
@@ -46,7 +46,6 @@ export class Step2Component implements OnInit, OnDestroy {
 
   private fb = inject(FormBuilder);
   private wizardService = inject(WizardService);
-  private atuthHandler = inject(AuthHandler);
 
   get f() {
     return this.profileForm.controls;
@@ -54,7 +53,7 @@ export class Step2Component implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.inizializzaForm();
-    this.associaUtenteFunc(this.atuthHandler.user());
+    this.associaUtenteFunc(DataHttp.user());
 
     this.profileForm.get('team')?.updateValueAndValidity();
   }

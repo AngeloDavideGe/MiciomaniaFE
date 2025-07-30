@@ -7,17 +7,19 @@ import {
   Signal,
 } from '@angular/core';
 import { Router } from '@angular/router';
-import { AuthHandler } from '../../../../../shared/handlers/auth.handler';
+import { DataHttp } from '../../../../../core/api/http.data';
+import { sottoscrizioneUtenti } from '../../../../../shared/handlers/auth.handler';
 import {
   User,
   UserParams,
 } from '../../../../../shared/interfaces/users.interface';
+import { AuthService } from '../../../../../shared/services/api/auth.service';
 import { LoadingService } from '../../../../../shared/services/template/loading.service';
 import { Ruolo } from '../../../../auth/enums/users.enum';
+import { converUserParams } from '../../../functions/home.functions';
 import { AdminService } from '../../../services/admin.service';
 import { admin_imports } from './imports/admin.imports';
 import { CambioRuoloUtente } from './interfaces/admin.interface';
-import { converUserParams } from '../../../functions/home.functions';
 
 @Component({
   selector: 'app-admin',
@@ -35,7 +37,7 @@ export class AdminComponent implements OnInit {
 
   private loadingService = inject(LoadingService);
   public adminService = inject(AdminService);
-  public authHandler = inject(AuthHandler);
+  public authService = inject(AuthService);
   public router = inject(Router);
 
   ngOnInit(): void {
@@ -47,10 +49,11 @@ export class AdminComponent implements OnInit {
 
   private loadUtenti(): void {
     {
-      this.user = this.authHandler.user();
-      if (this.authHandler.users().length === 0) {
+      this.user = DataHttp.user();
+      if (DataHttp.users().length === 0) {
         this.loadingService.show();
-        this.authHandler.sottoscrizioneUtenti({
+        sottoscrizioneUtenti({
+          authService: this.authService,
           nextCall: (data) => {
             this.saveUsers(data);
             this.mapUsersByRuolo();
@@ -64,13 +67,11 @@ export class AdminComponent implements OnInit {
   }
 
   private saveUsers(data: UserParams[]): void {
-    this.authHandler.users.update(() =>
-      data.filter((x) => x.id !== this.user?.id)
-    );
+    DataHttp.users.update(() => data.filter((x) => x.id !== this.user?.id));
   }
 
   private mapUsersByRuolo(): void {
-    const users: UserParams[] = this.authHandler.users();
+    const users: UserParams[] = DataHttp.users();
     const newMap: { [ruolo: string]: UserParams[] } = {};
 
     this.ruoli.forEach((ruolo) => (newMap[ruolo] = []));
@@ -105,13 +106,13 @@ export class AdminComponent implements OnInit {
   }
 
   ruoloModificato(user: CambioRuoloUtente): void {
-    const globalUserIndex: number = this.authHandler
-      .users()
-      .findIndex((u) => u.id === user.id);
+    const globalUserIndex: number = DataHttp.users().findIndex(
+      (u) => u.id === user.id
+    );
     if (globalUserIndex !== -1) {
-      const allUsers: UserParams[] = this.authHandler.users();
+      const allUsers: UserParams[] = DataHttp.users();
       allUsers[globalUserIndex].ruolo = user.nuovoRuolo;
-      this.authHandler.users.set(allUsers);
+      DataHttp.users.set(allUsers);
     }
 
     this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {

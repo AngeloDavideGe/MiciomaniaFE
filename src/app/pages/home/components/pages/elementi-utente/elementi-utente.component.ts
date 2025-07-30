@@ -1,7 +1,6 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { take } from 'rxjs';
-import { AuthHandler } from '../../../../../shared/handlers/auth.handler';
 import {
   CanzoniMiciomania,
   ElementiUtente,
@@ -11,6 +10,7 @@ import {
 import { User } from '../../../../../shared/interfaces/users.interface';
 import { ElementiUtenteUtilities } from '../../../../../shared/utilities/elementiUtente.utilities';
 import { elementi_utente_imports } from './imports/elementi-utente.imports';
+import { DataHttp } from '../../../../../core/api/http.data';
 
 @Component({
   selector: 'app-elementi-utente',
@@ -33,10 +33,8 @@ export class ElementiUtenteComponent implements OnInit {
   public userPunteggio: number = 0;
   public punteggioNecessario: number = 10;
   public tornaAllaHome: Function = () => this.router.navigate(['/home']);
-
   public elemUti = new ElementiUtenteUtilities();
 
-  private authHandler = inject(AuthHandler);
   public router = inject(Router);
 
   ngOnInit(): void {
@@ -45,7 +43,7 @@ export class ElementiUtenteComponent implements OnInit {
   }
 
   private loadElementiUtente(): void {
-    const user: User | null = this.authHandler.user();
+    const user: User | null = DataHttp.user();
 
     if (user) {
       this.userId = user.id;

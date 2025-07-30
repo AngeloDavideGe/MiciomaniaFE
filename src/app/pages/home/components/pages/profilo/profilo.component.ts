@@ -1,7 +1,6 @@
 import { Component, effect, inject, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subject, takeUntil } from 'rxjs';
-import { AuthHandler } from '../../../../../shared/handlers/auth.handler';
 import { User } from '../../../../../shared/interfaces/users.interface';
 import { LoadingService } from '../../../../../shared/services/template/loading.service';
 import { ProfiloHandler } from '../../../handlers/profilo.handler';
@@ -14,6 +13,7 @@ import { profilo_imports } from './imports/profilo.imports';
 import { modaleApertaType } from './types/profilo.type';
 import { ConfirmService } from '../../../../../shared/services/template/confirm.service';
 import { getVoidUser } from '../../../../../shared/handlers/functions/user.function';
+import { DataHttp } from '../../../../../core/api/http.data';
 
 @Component({
   selector: 'app-profilo',
@@ -25,7 +25,6 @@ export class ProfiloComponent implements OnInit, OnDestroy {
   private route = inject(ActivatedRoute);
   public router = inject(Router);
   private loaderService = inject(LoadingService);
-  public authHandler = inject(AuthHandler);
   public profiloHandler = inject(ProfiloHandler);
   private confirmService = inject(ConfirmService);
 
@@ -72,7 +71,7 @@ export class ProfiloComponent implements OnInit, OnDestroy {
     this.route.params.pipe(takeUntil(this.destroy$)).subscribe((params) => {
       this.idUtente = params['id'];
       effect(() => {
-        const user: User | null = this.authHandler.user();
+        const user: User | null = DataHttp.user();
         this.caricaDatiUser(user);
       });
     });

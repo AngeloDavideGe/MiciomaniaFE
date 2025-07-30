@@ -3,10 +3,11 @@ import { finalize, take } from 'rxjs';
 import { User } from '../../../../../../shared/interfaces/users.interface';
 import { LoadingService } from '../../../../../../shared/services/template/loading.service';
 import { ProfiloHandler } from '../../../../handlers/profilo.handler';
-import { AuthHandler } from '../../../../../../shared/handlers/auth.handler';
+import { AuthService } from '../../../../../../shared/services/api/auth.service';
+import { updateUserCustom } from '../../../../../../shared/handlers/auth.handler';
 
 export abstract class TabProfiloBase {
-  protected authHandler = inject(AuthHandler);
+  protected authService = inject(AuthService);
   protected profiloHandler = inject(ProfiloHandler);
   private loadingService = inject(LoadingService);
 
@@ -15,15 +16,18 @@ export abstract class TabProfiloBase {
     updateCall: (user: User) => void;
   }): void {
     this.loadingService.show();
-    this.authHandler
-      .updateUser(params.user)
+    updateUserCustom({
+      authService: this.authService,
+      user: params.user,
+    })
       .pipe(
         take(1),
         finalize(() => this.loadingService.hide())
       )
       .subscribe({
         next: () => params.updateCall(params.user),
-        error: (err) => this.errorEdit(err, 'Errore modifica del profilo'),
+        error: (err: string) =>
+          this.errorEdit(err, 'Errore modifica del profilo'),
       });
   }
 

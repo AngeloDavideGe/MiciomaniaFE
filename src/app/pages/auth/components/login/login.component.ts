@@ -1,10 +1,12 @@
 import { Component, inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { take } from 'rxjs';
-import { AuthHandler } from '../../../../shared/handlers/auth.handler';
+import { map, Observable, take } from 'rxjs';
+import { AuthService } from '../../../../shared/services/api/auth.service';
 import { MangaHandler } from '../../../manga/handlers/manga.handler';
 import { auth_shared_imports } from '../../shared/auth-shared.import';
+import { mapUserByDb } from '../../../../shared/handlers/functions/user.function';
+import { DataHttp } from '../../../../core/api/http.data';
 
 @Component({
   selector: 'app-login',
@@ -17,7 +19,7 @@ export class LoginComponent {
   public loginError = false;
 
   private mangaHandler = inject(MangaHandler);
-  private authHandler = inject(AuthHandler);
+  private authService = inject(AuthService);
   public router = inject(Router);
 
   constructor(private formBuilder: FormBuilder) {
@@ -39,16 +41,13 @@ export class LoginComponent {
       return;
     }
 
-    this.authHandler
-      .login(this.f['email'].value, this.f['password'].value)
-      .pipe(take(1))
-      .subscribe({
-        next: (data) => this.provaLogin(data),
-        error: (error) => {
-          this.loginError = true;
-          console.error('errore nel login', error);
-        },
-      });
+    this.login(this.f['email'].value, this.f['password'].value).subscribe({
+      next: (data) => this.provaLogin(data),
+      error: (error) => {
+        this.loginError = true;
+        console.error('errore nel login', error);
+      },
+    });
   }
 
   private provaLogin(data: boolean): void {
@@ -64,6 +63,22 @@ export class LoginComponent {
   private getEmailRegistrata(): string | null {
     return (
       this.router.getCurrentNavigation()?.extras.state?.['message'] ?? null
+    );
+  }
+
+  private login(email: string, password: string): Observable<boolean> {
+    return this.authService.getUserByEmailAndPassword(email, password).pipe(
+      take(1),
+      map((data) => {
+        if (data.length === 1) {
+          const user = mapUserByDb(data[0]);
+          DataHttp.users.set(DataHttp.users().filter((x) => x.id != user.id));
+          DataHttp.user.set(user);
+          return true;
+        } else {
+          return false;
+        }
+      })
     );
   }
 }

@@ -3,8 +3,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Subject, take, takeUntil } from 'rxjs';
 import { auth_shared_imports } from '../../shared/auth-shared.import';
 import { usernameValidator } from '../../validators/username.validator';
-import { AuthHandler } from '../../../../shared/handlers/auth.handler';
 import { Router } from '@angular/router';
+import { AuthService } from '../../../../shared/services/api/auth.service';
 
 @Component({
   selector: 'app-sign-in',
@@ -17,7 +17,7 @@ export class SignInComponent implements AfterViewInit, OnDestroy {
   public clickRegistrati: boolean = false;
   private destroy$ = new Subject<void>();
 
-  private authHandler = inject(AuthHandler);
+  private authService = inject(AuthService);
   private router = inject(Router);
 
   constructor(private fb: FormBuilder) {
@@ -47,7 +47,7 @@ export class SignInComponent implements AfterViewInit, OnDestroy {
 
   onSubmit(): void {
     if (this.signInForm.valid) {
-      this.authHandler.authService
+      this.authService
         .postUser(
           this.f['nome'].value,
           this.f['username'].value,

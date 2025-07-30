@@ -3,13 +3,12 @@ import { ProfiloHandler } from '../../pages/home/handlers/profilo.handler';
 import { MangaHandler } from '../../pages/manga/handlers/manga.handler';
 import { MangaMiciomaniService } from '../../pages/manga/services/mangaMiciomani.service';
 import { SongService } from '../../pages/song/services/song.service';
-import { AuthHandler } from '../../shared/handlers/auth.handler';
 import { SquadreHandler } from '../../shared/handlers/squadre.handler';
 import { ElementiUtenteService } from '../../shared/services/api/elementiUtente.service';
 import { GitHubService } from '../../shared/services/api/github.service';
+import { DataHttp } from '../api/http.data';
 
 export class StorageClass {
-  private authHandler = inject(AuthHandler);
   public profiloHandler = inject(ProfiloHandler);
   private mangaHandler = inject(MangaHandler);
   private squadreHandler = inject(SquadreHandler);
@@ -35,7 +34,7 @@ export class StorageClass {
       'mangaUtente',
       JSON.stringify(this.mangaHandler.mangaUtente)
     );
-    localStorage.setItem('user', JSON.stringify(this.authHandler.user()));
+    localStorage.setItem('user', JSON.stringify(DataHttp.user()));
   }
 
   public refreshSessionStorage(): void {
@@ -67,6 +66,6 @@ export class StorageClass {
       'pubblicazioni',
       JSON.stringify(this.profiloHandler.profiloPersonale)
     );
-    sessionStorage.setItem('users', JSON.stringify(this.authHandler.users()));
+    sessionStorage.setItem('users', JSON.stringify(DataHttp.users()));
   }
 }
