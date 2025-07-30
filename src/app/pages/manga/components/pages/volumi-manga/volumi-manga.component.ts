@@ -3,13 +3,14 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { take } from 'rxjs';
 import { LoadingService } from '../../../../../shared/services/template/loading.service';
 import { loadMangaVolumiENome } from '../../../functions/manga.functions';
-import { MangaHandler } from '../../../handlers/manga.handler';
 import {
   InfoManga,
   MangaENome,
   MangaVolume,
 } from '../../../interfaces/manga.interface';
 import { PadZeroVolumePipe } from '../../../pipes/padZeroVolume.pipe';
+import { DataHttp } from '../../../../../core/api/http.data';
+import { MangaService } from '../../../services/manga.service';
 
 @Component({
   selector: 'app-volumi-manga',
@@ -27,7 +28,7 @@ export class VolumiMangaComponent implements OnInit {
 
   public router = inject(Router);
   private route = inject(ActivatedRoute);
-  private mangaHandler = inject(MangaHandler);
+  private mangaService = inject(MangaService);
   private loadingService = inject(LoadingService);
 
   constructor() {
@@ -62,7 +63,7 @@ export class VolumiMangaComponent implements OnInit {
   }
 
   private loadVolumiENome(): void {
-    const index: number = this.mangaHandler.mangaAperti.findIndex(
+    const index: number = DataHttp.mangaAperti.findIndex(
       (x) => x.nome == this.pathOpera
     );
     if (index > -1) {
@@ -72,7 +73,7 @@ export class VolumiMangaComponent implements OnInit {
         pathOpera: this.pathOpera,
         loadingFunction: () => this.loadingService.show(),
         loadVolumiFunc: (pathOpera) =>
-          this.mangaHandler.mangaService.getNomeEVolumiMangaByPath(pathOpera),
+          this.mangaService.getNomeEVolumiMangaByPath(pathOpera),
         finalizeFunction: () => this.completeLoading(),
         nextCallback: (data) => this.handleNomeEVolumiSuccess(data),
       });
@@ -80,7 +81,7 @@ export class VolumiMangaComponent implements OnInit {
   }
 
   private loadNoHttp(index: number): void {
-    const volumi: MangaVolume[] = this.mangaHandler.mangaAperti[index].volumi;
+    const volumi: MangaVolume[] = DataHttp.mangaAperti[index].volumi;
     const info_manga: InfoManga = {
       nome: this.pathOpera,
       completato: false,
@@ -103,7 +104,7 @@ export class VolumiMangaComponent implements OnInit {
     this.nomeOpera = opera.info_manga.nome;
     this.operaCompletata = opera.info_manga.completato;
     this.volumiOpera = opera.volumi;
-    this.mangaHandler.mangaAperti.push({
+    DataHttp.mangaAperti.push({
       nome: this.pathOpera,
       volumi: this.volumiOpera,
     });

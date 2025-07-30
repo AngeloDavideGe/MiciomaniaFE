@@ -14,11 +14,15 @@ import { compareObjectCustom } from '../../shared/functions/utilities.function';
 import { LoadingService } from '../../shared/services/template/loading.service';
 import { generiManga } from './constants/genere.constant';
 import { getTabsManga } from './functions/manga.functions';
-import { MangaHandler } from './handlers/manga.handler';
+import {
+  inizializzaLista,
+  postOrUpdateMangaUtente,
+} from './handlers/manga.handler';
 import { manga_imports } from './imports/manga.imports';
 import { PulsantiManga, TabsManga } from './interfaces/filtri.interface';
 import { ListaManga, MangaUtente } from './interfaces/manga.interface';
 import { DataHttp } from '../../core/api/http.data';
+import { MangaService } from './services/manga.service';
 
 @Component({
   selector: 'app-manga',
@@ -27,7 +31,7 @@ import { DataHttp } from '../../core/api/http.data';
   templateUrl: './manga.component.html',
 })
 export class MangaComponent implements OnDestroy {
-  public mangaHandler = inject(MangaHandler);
+  public mangaService = inject(MangaService);
   private loadingService = inject(LoadingService);
   private router = inject(Router);
 
@@ -127,7 +131,7 @@ export class MangaComponent implements OnDestroy {
   }
 
   private logFilterChanges(): ListaManga[] {
-    return this.mangaHandler.listaManga.filter((manga) => {
+    return DataHttp.listaManga.filter((manga) => {
       return (
         (this.filterSelect.genere() === 'Qualsiasi' ||
           manga.genere.includes(this.filterSelect.genere())) &&
@@ -147,13 +151,12 @@ export class MangaComponent implements OnDestroy {
   }
 
   private loadFilteredManga(): void {
-    const ms = this.mangaHandler;
-    if (ms.listaManga.length > 0 && ms.mangaScaricati) {
+    if (DataHttp.listaManga.length > 0 && DataHttp.mangaScaricati) {
       this.filterSelect.nome.set('');
-      this.identificaPreferiti(this.mangaHandler.mangaUtente);
+      this.identificaPreferiti(DataHttp.mangaUtente);
       this.idUtente = DataHttp.user()?.id || null;
     } else {
-      ms.listaManga.length > 0 ? null : this.loadingService.show();
+      DataHttp.listaManga.length > 0 ? null : this.loadingService.show();
       this.aggiornamentoManga = true;
       this.sottoscrizioneUtente();
     }
@@ -163,11 +166,12 @@ export class MangaComponent implements OnDestroy {
     const user = DataHttp.user();
     this.idUtente = user ? user.id : null;
 
-    this.mangaHandler.inizializzaLista({
+    inizializzaLista({
+      mangaService: this.mangaService,
       idUtente: this.idUtente,
       caricaMangaUtente: (manga_utente: MangaUtente) => {
         this.identificaPreferiti(manga_utente);
-        this.mangaHandler.initialMangaUtente = manga_utente;
+        DataHttp.initialMangaUtente = manga_utente;
       },
       caricaListaManga: (lista_manga: ListaManga[]) =>
         this.caricaManga(lista_manga),
@@ -176,7 +180,7 @@ export class MangaComponent implements OnDestroy {
   }
 
   private caricaManga(lista: ListaManga[]): void {
-    this.mangaHandler.listaManga = lista;
+    DataHttp.listaManga = lista;
     this.filterSelect.nome.set('');
     this.aggiornamentoManga = false;
     this.loadingService.hide();
@@ -184,7 +188,7 @@ export class MangaComponent implements OnDestroy {
 
   private identificaPreferiti(mangaUtente: MangaUtente): void {
     if (mangaUtente?.preferiti) {
-      this.mangaHandler.mangaUtente = mangaUtente;
+      DataHttp.mangaUtente = mangaUtente;
       const arrayIdPreferiti: number[] = mangaUtente.preferiti
         .split(',')
         .map(Number);
@@ -206,19 +210,19 @@ export class MangaComponent implements OnDestroy {
   }
 
   private upsertOnDestroy($event: BeforeUnloadEvent | null): void {
-    const ma = this.mangaHandler;
-
     const condEquals: boolean = !compareObjectCustom(
-      ma.mangaUtente,
-      ma.initialMangaUtente
+      DataHttp.mangaUtente,
+      DataHttp.initialMangaUtente
     );
 
     if (this.idUtente && condEquals) {
       $event ? $event.preventDefault() : null;
-      this.mangaHandler.postOrUpdateMangaUtente(
-        ma.mangaUtente,
-        this.idUtente || ''
-      );
+
+      postOrUpdateMangaUtente({
+        mangaService: this.mangaService,
+        mangaUtente: DataHttp.mangaUtente,
+        idUtente: this.idUtente || '',
+      });
     }
   }
 

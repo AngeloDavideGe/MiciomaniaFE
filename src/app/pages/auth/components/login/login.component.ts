@@ -2,11 +2,10 @@ import { Component, inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { map, Observable, take } from 'rxjs';
-import { AuthService } from '../../../../shared/services/api/auth.service';
-import { MangaHandler } from '../../../manga/handlers/manga.handler';
-import { auth_shared_imports } from '../../shared/auth-shared.import';
-import { mapUserByDb } from '../../../../shared/handlers/functions/user.function';
 import { DataHttp } from '../../../../core/api/http.data';
+import { mapUserByDb } from '../../../../shared/handlers/functions/user.function';
+import { AuthService } from '../../../../shared/services/api/auth.service';
+import { auth_shared_imports } from '../../shared/auth-shared.import';
 
 @Component({
   selector: 'app-login',
@@ -18,7 +17,6 @@ export class LoginComponent {
   public loginForm: FormGroup;
   public loginError = false;
 
-  private mangaHandler = inject(MangaHandler);
   private authService = inject(AuthService);
   public router = inject(Router);
 
@@ -53,7 +51,7 @@ export class LoginComponent {
   private provaLogin(data: boolean): void {
     if (data) {
       this.loginError = false;
-      this.mangaHandler.listaManga = [];
+      DataHttp.listaManga = [];
       this.router.navigate(['/home']);
     } else {
       this.loginError = true;

@@ -1,6 +1,5 @@
 import { inject } from '@angular/core';
 import { ProfiloHandler } from '../../pages/home/handlers/profilo.handler';
-import { MangaHandler } from '../../pages/manga/handlers/manga.handler';
 import { MangaMiciomaniService } from '../../pages/manga/services/mangaMiciomani.service';
 import { SongService } from '../../pages/song/services/song.service';
 import { SquadreHandler } from '../../shared/handlers/squadre.handler';
@@ -10,7 +9,6 @@ import { DataHttp } from '../api/http.data';
 
 export class StorageClass {
   public profiloHandler = inject(ProfiloHandler);
-  private mangaHandler = inject(MangaHandler);
   private squadreHandler = inject(SquadreHandler);
   private songService = inject(SongService);
   private gitHubService = inject(GitHubService);
@@ -22,18 +20,12 @@ export class StorageClass {
       'canzoniMiciomani',
       JSON.stringify(this.songService.canzoniMiciomani)
     );
-    localStorage.setItem(
-      'listaManga',
-      JSON.stringify(this.mangaHandler.listaManga)
-    );
+    localStorage.setItem('listaManga', JSON.stringify(DataHttp.listaManga));
     localStorage.setItem(
       'mangaMiciomani',
       JSON.stringify(this.mangaMiciomaniService.mangaMiciomani)
     );
-    localStorage.setItem(
-      'mangaUtente',
-      JSON.stringify(this.mangaHandler.mangaUtente)
-    );
+    localStorage.setItem('mangaUtente', JSON.stringify(DataHttp.mangaUtente));
     localStorage.setItem('user', JSON.stringify(DataHttp.user()));
   }
 
@@ -44,12 +36,9 @@ export class StorageClass {
     );
     sessionStorage.setItem(
       'mangaCaricati',
-      JSON.stringify(this.mangaHandler.mangaScaricati)
+      JSON.stringify(DataHttp.mangaScaricati)
     );
-    sessionStorage.setItem(
-      'mangaAperti',
-      JSON.stringify(this.mangaHandler.mangaAperti)
-    );
+    sessionStorage.setItem('mangaAperti', JSON.stringify(DataHttp.mangaAperti));
     sessionStorage.setItem(
       'mangaMiciomaniLoaded',
       JSON.stringify(this.mangaMiciomaniService.mangaMiciomaniLoaded)

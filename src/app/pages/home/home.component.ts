@@ -9,7 +9,6 @@ import { User, UserParams } from '../../shared/interfaces/users.interface';
 import { AuthService } from '../../shared/services/api/auth.service';
 import { ConfirmService } from '../../shared/services/template/confirm.service';
 import { ElementiUtenteUtilities } from '../../shared/utilities/elementiUtente.utilities';
-import { MangaHandler } from '../manga/handlers/manga.handler';
 import { converUserParams, getConfirmParams } from './functions/home.functions';
 import { ProfiloHandler } from './handlers/profilo.handler';
 import { home_imports } from './imports/home.imports';
@@ -24,7 +23,6 @@ import { componenteApertoType } from './interfaces/profilo.interface';
 export class HomeComponent implements OnInit {
   public authService = inject(AuthService);
   public profiloHandler = inject(ProfiloHandler);
-  private mangaHandler = inject(MangaHandler);
   private confirmService = inject(ConfirmService);
   public router = inject(Router);
 
@@ -89,7 +87,7 @@ export class HomeComponent implements OnInit {
 
   private confirmLogout(): void {
     this.usersLogout();
-    this.mangaHandler.mangaUtente = {} as any;
+    DataHttp.mangaUtente = {} as any;
     this.profiloHandler.profiloPersonale = null;
     DataHttp.user.set(null);
     this.setAnonymousUser();

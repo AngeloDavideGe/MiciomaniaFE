@@ -15,7 +15,7 @@ import {
   createSezioneMangaUtente,
   voidSplitManga,
 } from '../../../functions/manga.functions';
-import { MangaHandler } from '../../../handlers/manga.handler';
+import { inizializzaLista } from '../../../handlers/manga.handler';
 import { PulsantiManga } from '../../../interfaces/filtri.interface';
 import {
   keyofMangaUtente,
@@ -26,6 +26,7 @@ import {
 } from '../../../interfaces/manga.interface';
 import { tuoi_manga_imports } from './imports/tuoi-manga.import';
 import { DataHttp } from '../../../../../core/api/http.data';
+import { MangaService } from '../../../services/manga.service';
 
 @Component({
   selector: 'app-tuoi-manga',
@@ -34,7 +35,7 @@ import { DataHttp } from '../../../../../core/api/http.data';
   templateUrl: './tuoi-manga.component.html',
 })
 export class TuoiMangaComponent implements OnInit, OnDestroy {
-  public mangaHandler = inject(MangaHandler);
+  public mangaService = inject(MangaService);
   private loadingService = inject(LoadingService);
   private router = inject(Router);
 
@@ -92,13 +93,13 @@ export class TuoiMangaComponent implements OnInit, OnDestroy {
         .completati.map((x) => x.id)
         .join(', '),
     } as MangaUtente;
-    this.mangaHandler.mangaUtente = mangaUtente;
+    DataHttp.mangaUtente = mangaUtente;
   }
 
   private computedallMangaSearch(): ListaManga[] {
     const search: string = this.debouncedSearchQuery().toLowerCase().trim();
     if (search) {
-      return this.mangaHandler.listaManga.filter((manga) =>
+      return DataHttp.listaManga.filter((manga) =>
         manga.nome.toLowerCase().includes(search)
       );
     } else {
@@ -107,14 +108,14 @@ export class TuoiMangaComponent implements OnInit, OnDestroy {
   }
 
   private loadListaManga(idUtente: string | null): void {
-    const ms = this.mangaHandler;
-    if (!ms.mangaScaricati) {
-      ms.listaManga.length == 0 ? this.loadingService.show() : null;
+    if (!DataHttp.mangaScaricati) {
+      DataHttp.listaManga.length == 0 ? this.loadingService.show() : null;
 
-      this.mangaHandler.inizializzaLista({
+      inizializzaLista({
+        mangaService: this.mangaService,
         idUtente: idUtente,
         caricaMangaUtente: (manga_utente: MangaUtente) =>
-          (this.mangaHandler.mangaUtente = manga_utente),
+          (DataHttp.mangaUtente = manga_utente),
         caricaListaManga: (lista_manga: ListaManga[]) =>
           this.caricaManga(lista_manga),
         caricamentoFallito: () => this.caricamentoFallito(),
@@ -132,7 +133,7 @@ export class TuoiMangaComponent implements OnInit, OnDestroy {
   }
 
   private caricaManga(lista: ListaManga[]): void {
-    this.mangaHandler.listaManga = lista;
+    DataHttp.listaManga = lista;
     this.copiaSplitUtente();
     this.filterMangaFunc('preferiti');
     this.loadingService.hide();
@@ -140,10 +141,7 @@ export class TuoiMangaComponent implements OnInit, OnDestroy {
 
   private copiaSplitUtente(): void {
     this.sezioneListaManga.set(
-      createSezioneMangaUtente(
-        this.mangaHandler.mangaUtente,
-        this.mangaHandler.listaManga
-      )
+      createSezioneMangaUtente(DataHttp.mangaUtente, DataHttp.listaManga)
     );
   }
 
@@ -168,8 +166,9 @@ export class TuoiMangaComponent implements OnInit, OnDestroy {
         [this.selectedTab].map((x) => x.id)
         .includes(idManga)
     ) {
-      const mangaTrovato: ListaManga | undefined =
-        this.mangaHandler.listaManga.find((x) => x.id == idManga);
+      const mangaTrovato: ListaManga | undefined = DataHttp.listaManga.find(
+        (x) => x.id == idManga
+      );
 
       if (mangaTrovato) {
         this.sezioneListaManga.update((sezioni) => ({
@@ -218,7 +217,7 @@ export class TuoiMangaComponent implements OnInit, OnDestroy {
     tabPush: keyofMangaUtente
   ): void {
     const valoriDaSpostare: number[] = this.checkSplitManga[tabRemove];
-    const mangaDaAggiungere: ListaManga[] = this.mangaHandler.listaManga.filter(
+    const mangaDaAggiungere: ListaManga[] = DataHttp.listaManga.filter(
       (manga) => valoriDaSpostare.includes(manga.id)
     );
 
