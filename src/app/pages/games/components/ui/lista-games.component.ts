@@ -1,6 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
-import { GamesClass } from '../../class/games.class';
+import { gamesConstant } from '../../constants/games.constant';
+import { CardGioco } from '../../interfaces/games.interfaces';
 
 @Component({
   selector: 'app-lista-games',
@@ -8,7 +9,7 @@ import { GamesClass } from '../../class/games.class';
   imports: [],
   template: `
     <div class="row justify-content-center mt-5 g-3">
-      @for (gioco of gamesClass.giochiList; track gioco.nome) {
+      @for (gioco of gamesConstant; track gioco.nome) {
       <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4">
         <div class="card h-100 shadow-sm border-0" style="border-radius: 12px">
           <img
@@ -49,5 +50,5 @@ import { GamesClass } from '../../class/games.class';
 })
 export class ListaGamesComponent {
   public router = inject(Router);
-  public gamesClass = new GamesClass();
+  public gamesConstant: CardGioco[] = gamesConstant;
 }

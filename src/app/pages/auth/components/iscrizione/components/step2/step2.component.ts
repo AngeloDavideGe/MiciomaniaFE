@@ -21,8 +21,11 @@ import { Provincia } from '../../../../interfaces/region.interface';
 import { FormWizard } from '../../../../interfaces/wizard.interface';
 import { WizardService } from '../../../../services/wizard.service';
 import { arrayNotEmptyValidator } from '../../../../validators/checkbox.validator';
-import { Region } from '../../class/region.class';
 import { DataHttp } from '../../../../../../core/api/http.data';
+import {
+  getProvinceByRegione,
+  getRegioniMap,
+} from '../../functions/region.function';
 
 @Component({
   selector: 'app-step2',
@@ -32,7 +35,6 @@ import { DataHttp } from '../../../../../../core/api/http.data';
 })
 export class Step2Component implements OnInit, OnDestroy {
   public profileForm!: FormGroup;
-  private regionClass = new Region();
   private destroy$ = new Subject<void>();
   public statiPersona = Object.values(StatoPersona);
   public team = environment.team;
@@ -40,7 +42,7 @@ export class Step2Component implements OnInit, OnDestroy {
   public province: Provincia[] = [];
   public nomeUtente: string = '';
   public email: string = '';
-  public regioni = this.regionClass.getRegioniMap();
+  public regioni = getRegioniMap();
 
   @Output() formValido = new EventEmitter<boolean>();
 
@@ -115,7 +117,7 @@ export class Step2Component implements OnInit, OnDestroy {
 
   onRegioneChange(event: any): void {
     const codiceRegione = event.target.value;
-    this.province = this.regionClass.getProvinceByRegione(codiceRegione);
+    this.province = getProvinceByRegione(codiceRegione);
   }
 
   private associaUtenteFunc(user: User | null): void {
