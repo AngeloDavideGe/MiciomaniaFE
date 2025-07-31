@@ -7,14 +7,10 @@ import { CasualQuiz } from '../../../pages/games/interfaces/games.interfaces';
   providedIn: 'root',
 })
 export class GitHubService {
-  public social: Social[] = [];
-
   public quiz: Quiz[] = [];
   public quizFilter: Quiz[] = [];
 
-  constructor() {
-    this.loadDataFromStorage();
-  }
+  constructor() {}
 
   getGistFormGithub(
     nome: string,
@@ -43,13 +39,6 @@ export class GitHubService {
       if (this.quizFilter.length == 0) {
         this.quizFilter = structuredClone(this.quiz);
       }
-    }
-  }
-
-  private loadDataFromStorage(): void {
-    const social = sessionStorage.getItem('socialLinks');
-    if (social) {
-      this.social = JSON.parse(social);
     }
   }
 }

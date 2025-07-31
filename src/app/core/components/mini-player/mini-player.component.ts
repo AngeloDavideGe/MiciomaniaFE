@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { MiniPlayerClass } from '../../class/mini-player.class';
+import { MiniPlayerService } from '../../../shared/services/template/mini-player.service';
 
 @Component({
   selector: 'app-mini-player',
@@ -15,13 +15,13 @@ import { MiniPlayerClass } from '../../class/mini-player.class';
         class="btn-close btn-close-white position-absolute"
         aria-label="Close"
         style="top: 10px; right: 14px;"
-        (click)="miniPlayerClass.stopSong()"
+        (click)="miniPlayerService.stopSong()"
       ></button>
       <!-- Info Canzone -->
       <div class="d-flex align-items-center">
         <img
           [src]="
-            miniPlayerClass.currentCanzone()?.copertina ||
+            miniPlayerService.currentCanzone()?.copertina ||
             'https://i.postimg.cc/NfmNs2FC/Miku.png'
           "
           alt="Copertina"
@@ -30,11 +30,11 @@ import { MiniPlayerClass } from '../../class/mini-player.class';
         />
         <div>
           <div class="fw-semibold" style="font-size: 1.1rem;">
-            {{ miniPlayerClass.currentCanzone()?.nome || 'Nessun titolo' }}
+            {{ miniPlayerService.currentCanzone()?.nome || 'Nessun titolo' }}
           </div>
           <div class="text-white-50" style="font-size: 0.85rem;">
             {{
-              miniPlayerClass.currentCanzone()?.genere || 'Genere sconosciuto'
+              miniPlayerService.currentCanzone()?.genere || 'Genere sconosciuto'
             }}
           </div>
         </div>
@@ -45,21 +45,21 @@ import { MiniPlayerClass } from '../../class/mini-player.class';
         <button
           class="btn btn-link text-white p-1 mx-2"
           style="font-size: 1.5rem;"
-          (click)="miniPlayerClass.prevSong()"
+          (click)="miniPlayerService.prevSong()"
         >
           ⏮️
         </button>
         <button
           class="btn btn-link text-white p-1 mx-2"
           style="font-size: 2rem;"
-          (click)="miniPlayerClass.isPlayngFunc()"
+          (click)="miniPlayerService.isPlayngFunc()"
         >
-          {{ miniPlayerClass.isPlaying ? '⏸️' : '▶️' }}
+          {{ miniPlayerService.isPlaying ? '⏸️' : '▶️' }}
         </button>
         <button
           class="btn btn-link text-white p-1 mx-2"
           style="font-size: 1.5rem;"
-          (click)="miniPlayerClass.nextSong()"
+          (click)="miniPlayerService.nextSong()"
         >
           ⏭️
         </button>
@@ -69,5 +69,5 @@ import { MiniPlayerClass } from '../../class/mini-player.class';
   styles: ``,
 })
 export class MiniPlayerComponent {
-  @Input() miniPlayerClass!: MiniPlayerClass;
+  @Input() miniPlayerService!: MiniPlayerService;
 }

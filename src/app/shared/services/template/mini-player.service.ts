@@ -1,10 +1,10 @@
 import { Injectable, signal } from '@angular/core';
-import { CanzoniMiciomania } from '../../shared/interfaces/elementiUtente.interface';
+import { CanzoniMiciomania } from '../../interfaces/elementiUtente.interface';
 
 @Injectable({
   providedIn: 'root',
 })
-export class MiniPlayerClass {
+export class MiniPlayerService {
   public allCanzoni: CanzoniMiciomania[] = [];
   public currentAudio: HTMLAudioElement | null = null;
   public currentCanzone = signal<CanzoniMiciomania | null>(null);

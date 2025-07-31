@@ -23,6 +23,7 @@ import {
   Proposta,
 } from '../../../../../../../shared/interfaces/elementiUtente.interface';
 import { ProposaPrePost } from '../../interfaces/dropbox.interface';
+import { DataHttp } from '../../../../../../../core/api/http.data';
 
 @Component({
   selector: 'app-crea-proposta',
@@ -56,7 +57,7 @@ export class CreaPropostaComponent implements OnInit {
 
   private setProposteDisponibili(): void {
     const elemUtente: ElementiUtente =
-      this.elementiUtenteService.elementiUtente || ({} as ElementiUtente);
+      DataHttp.elementiUtente || ({} as ElementiUtente);
     this.optionManga = !!elemUtente.manga.id_autore;
     this.optionCanzone = !!elemUtente.canzone.id_autore;
   }
@@ -157,9 +158,8 @@ export class CreaPropostaComponent implements OnInit {
       )
       .subscribe({
         next: (data) => {
-          this.elementiUtenteService.elementiUtente = {
-            ...(this.elementiUtenteService.elementiUtente ||
-              ({} as ElementiUtente)),
+          DataHttp.elementiUtente = {
+            ...(DataHttp.elementiUtente || ({} as ElementiUtente)),
             proposta: data,
           };
         },

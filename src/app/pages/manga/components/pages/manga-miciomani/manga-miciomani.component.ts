@@ -4,10 +4,11 @@ import { take } from 'rxjs';
 import { MangaMiciomania } from '../../../../../shared/interfaces/elementiUtente.interface';
 import { LoadingService } from '../../../../../shared/services/template/loading.service';
 import { MangaSongUtilities } from '../../../../../shared/utilities/mangaSong.utilities';
-import { MangaMiciomaniService } from '../../../services/mangaMiciomani.service';
 import { DettagliMangaComponent } from '../../../shared/dettagli-manga.component';
 import { PulsantiManga } from '../../../interfaces/filtri.interface';
 import { CardMangaMiciomaniaComponent } from './components/card-mangaMiciomania.component';
+import { ElementiUtenteService } from '../../../../../shared/services/api/elementiUtente.service';
+import { DataHttp } from '../../../../../core/api/http.data';
 
 @Component({
   selector: 'app-manga-miciomani',
@@ -17,10 +18,12 @@ import { CardMangaMiciomaniaComponent } from './components/card-mangaMiciomania.
   styles: ``,
 })
 export class MangaMiciomaniComponent implements OnInit {
-  public mms = inject(MangaMiciomaniService);
+  public elementiUtenteService = inject(ElementiUtenteService);
   public router = inject(Router);
   private loadingService = inject(LoadingService);
+
   public mangaSongUtilities = new MangaSongUtilities();
+  public mangaMiciomani: MangaMiciomania[] = DataHttp.mangaMiciomani;
   public pulsanti: PulsantiManga[] = [
     {
       click: () => this.router.navigate(['/manga']),
@@ -31,15 +34,15 @@ export class MangaMiciomaniComponent implements OnInit {
   ];
 
   ngOnInit(): void {
-    if (!this.mms.mangaMiciomaniLoaded || this.mms.mangaMiciomani.length == 0) {
+    if (!DataHttp.mangaMiciomaniLoaded || DataHttp.mangaMiciomani.length == 0) {
       this.loadMangaMiciomani();
     }
   }
 
   private loadMangaMiciomani(): void {
-    this.mms.mangaMiciomani.length == 0 ? this.loadingService.show() : null;
+    DataHttp.mangaMiciomani.length == 0 ? this.loadingService.show() : null;
 
-    this.mms
+    this.elementiUtenteService
       .getListaMangaMiciomani()
       .pipe(take(1))
       .subscribe({
@@ -51,8 +54,8 @@ export class MangaMiciomaniComponent implements OnInit {
   }
 
   private nextGetListaMangaMiciomani(data: MangaMiciomania[]): void {
-    this.mms.mangaMiciomani = data;
-    this.mms.mangaMiciomaniLoaded = true;
+    DataHttp.mangaMiciomani = data;
+    DataHttp.mangaMiciomaniLoaded = true;
     this.loadingService.hide();
   }
 }

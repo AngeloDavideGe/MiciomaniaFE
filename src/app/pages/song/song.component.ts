@@ -4,8 +4,9 @@ import { CanzoniMiciomania } from '../../shared/interfaces/elementiUtente.interf
 import { LoadingService } from '../../shared/services/template/loading.service';
 import { MangaSongUtilities } from '../../shared/utilities/mangaSong.utilities';
 import { HeaderSongComponent } from './components/header-song.component';
-import { SongService } from './services/song.service';
 import { CardSongComponent } from './components/card-song.component';
+import { DataHttp } from '../../core/api/http.data';
+import { ElementiUtenteService } from '../../shared/services/api/elementiUtente.service';
 
 @Component({
   selector: 'app-song',
@@ -17,23 +18,23 @@ import { CardSongComponent } from './components/card-song.component';
 export class SongComponent implements OnInit {
   public msu = new MangaSongUtilities();
   private loadingService = inject(LoadingService);
-  public songService = inject(SongService);
+  public elementiUtenteService = inject(ElementiUtenteService);
+
+  public canzoniMiciomani: CanzoniMiciomania[] = DataHttp.canzoniMiciomani;
 
   ngOnInit(): void {
     if (
-      !this.songService.canzoniMiciomaniLoaded ||
-      this.songService.canzoniMiciomani.length == 0
+      !DataHttp.canzoniMiciomaniLoaded ||
+      DataHttp.canzoniMiciomani.length == 0
     ) {
       this.loadCanzoniMiciomani();
     }
   }
 
   private loadCanzoniMiciomani(): void {
-    this.songService.canzoniMiciomani.length == 0
-      ? this.loadingService.show()
-      : null;
+    DataHttp.canzoniMiciomani.length == 0 ? this.loadingService.show() : null;
 
-    this.songService
+    this.elementiUtenteService
       .getListaCanzoniMiciomani()
       .pipe(take(1))
       .subscribe({
@@ -45,8 +46,8 @@ export class SongComponent implements OnInit {
   }
 
   private nextGetListaMangaMiciomani(data: CanzoniMiciomania[]): void {
-    this.songService.canzoniMiciomani = data;
-    this.songService.canzoniMiciomaniLoaded = true;
+    DataHttp.canzoniMiciomani = data;
+    DataHttp.canzoniMiciomaniLoaded = true;
     this.loadingService.hide();
   }
 }

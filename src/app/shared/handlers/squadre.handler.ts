@@ -1,4 +1,3 @@
-import { Injectable } from '@angular/core';
 import { take } from 'rxjs';
 import { DataHttp } from '../../core/api/http.data';
 import { SquadreService } from '../services/api/squadre.service';
@@ -21,6 +20,7 @@ export function updatePunteggioSquadra(params: {
       error: (err) => console.error('errore nel update punteggio', err),
     });
 }
+
 export function loadSquadre(params: {
   squadreService: SquadreService;
   ifCall: Function;

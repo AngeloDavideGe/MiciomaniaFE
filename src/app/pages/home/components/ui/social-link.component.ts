@@ -3,6 +3,7 @@ import { Component, inject, OnInit } from '@angular/core';
 import { take } from 'rxjs';
 import { GitHubService } from '../../../../shared/services/api/github.service';
 import { Social } from '../../../../shared/interfaces/github.interface';
+import { DataHttp } from '../../../../core/api/http.data';
 
 @Component({
   selector: 'app-social-link',
@@ -15,8 +16,7 @@ import { Social } from '../../../../shared/interfaces/github.interface';
           <h6 class="fw-bold display-6">Seguiteci su</h6>
         </div>
         <div class="row g-4">
-          @if(gitHubService.social.length > 0) { @for(s of gitHubService.social;
-          track s.nome) {
+          @if(social.length > 0) { @for(s of social; track s.nome) {
           <div class="col-12 col-md-6 col-lg-4 d-flex align-items-center">
             <i
               class="bi fs-1 me-3"
@@ -54,13 +54,14 @@ import { Social } from '../../../../shared/interfaces/github.interface';
 })
 export class SocialLinkComponent implements OnInit {
   public gitHubService = inject(GitHubService);
+  public social: Social[] = DataHttp.social;
 
   ngOnInit(): void {
     this.loadSocial();
   }
 
   private loadSocial(): void {
-    if (this.gitHubService.social.length == 0) {
+    if (DataHttp.social.length == 0) {
       this.gitHubService
         .getGistFormGithub(
           'AngeloDavideGe',
@@ -69,7 +70,7 @@ export class SocialLinkComponent implements OnInit {
         )
         .pipe(take(1))
         .subscribe({
-          next: (data) => (this.gitHubService.social = data as Social[]),
+          next: (data) => (DataHttp.social = data as Social[]),
           error: (err) => console.error('errore recupero social', err),
         });
     }

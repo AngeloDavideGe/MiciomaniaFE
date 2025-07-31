@@ -4,11 +4,11 @@ import {
   MangaMiciomania,
   Proposta,
 } from '../interfaces/elementiUtente.interface';
-import { MiniPlayerClass } from '../../core/class/mini-player.class';
+import { MiniPlayerService } from '../services/template/mini-player.service';
 
 export class MangaSongUtilities {
   private loading = false;
-  public sc = inject(MiniPlayerClass);
+  public sc = inject(MiniPlayerService);
 
   playSong(
     song: CanzoniMiciomania | Proposta,

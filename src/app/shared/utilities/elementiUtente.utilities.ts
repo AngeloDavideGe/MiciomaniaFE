@@ -3,6 +3,7 @@ import { ElementiUtenteService } from '../services/api/elementiUtente.service';
 import { Observable, of, take, tap } from 'rxjs';
 import { ElementiUtente } from '../interfaces/elementiUtente.interface';
 import { LoadingService } from '../services/template/loading.service';
+import { DataHttp } from '../../core/api/http.data';
 
 export class ElementiUtenteUtilities {
   public elementiUtenteService = inject(ElementiUtenteService);
@@ -12,8 +13,7 @@ export class ElementiUtenteUtilities {
     idUtente: string,
     loading: boolean
   ): Observable<ElementiUtente> {
-    const elementiUtente: ElementiUtente | null =
-      this.elementiUtenteService.elementiUtente;
+    const elementiUtente: ElementiUtente | null = DataHttp.elementiUtente;
 
     if (elementiUtente) {
       return of(elementiUtente);
@@ -31,7 +31,7 @@ export class ElementiUtenteUtilities {
   }
 
   private nextGetElemUtenti(elementiUtente: ElementiUtente): void {
-    this.elementiUtenteService.elementiUtente = elementiUtente;
+    DataHttp.elementiUtente = elementiUtente;
     this.loadingService.hide();
   }
 }
