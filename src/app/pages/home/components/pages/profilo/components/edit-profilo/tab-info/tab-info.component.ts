@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { compareObjectCustom } from '../../../../../../../../shared/functions/utilities.function';
-import { StatoPersona } from '../../../../../../../auth/enums/users.enum';
+import { StatoPersona } from '../../../../../../../../shared/enums/users.enum';
 import { User } from '../../../../../../../../shared/interfaces/users.interface';
 import { TabProfiloBase } from '../../../base/tab-profilo.base';
 import { DataHttp } from '../../../../../../../../core/api/http.data';

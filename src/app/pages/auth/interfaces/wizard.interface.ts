@@ -1,4 +1,4 @@
-import { StatoPersona } from '../../auth/enums/users.enum';
+import { StatoPersona } from '../../../shared/enums/users.enum';
 
 export interface DTO_Wizard {
   step: number;
