@@ -27,7 +27,7 @@ import { CursorUtilities } from './shared/utilities/cursor.utilities';
 
     <app-chat></app-chat>
     @if (miniPlayerService.currentCanzone()) {
-    <app-mini-player [miniPlayerService]="miniPlayerService"> </app-mini-player>
+    <app-mini-player> </app-mini-player>
     }
   `,
 })

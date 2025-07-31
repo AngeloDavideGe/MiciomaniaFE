@@ -1,7 +1,7 @@
 import { AsyncPipe, NgClass } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
-import { filter, map, Observable, startWith } from 'rxjs';
+import { filter, map, Observable, startWith, tap } from 'rxjs';
 
 @Component({
   selector: 'app-auth',
@@ -27,8 +27,20 @@ export class AuthComponent {
   public colClass$: Observable<string> = this.router.events.pipe(
     filter((event): event is NavigationEnd => event instanceof NavigationEnd),
     startWith({ url: this.router.url }),
-    map((event) =>
-      event.url === '/auth/iscrizione' ? 'col-md-12' : 'col-md-6'
-    )
+    map((event) => this.mapColClass(event.url)),
+    tap((colMd) => {
+      colMd === 'col-md-1' ? this.router.navigate(['/home']) : null;
+    })
   );
+
+  private mapColClass(url: string): string {
+    switch (url) {
+      case '/auth':
+        return 'col-md-1';
+      case '/auth/iscrizione':
+        return 'col-md-12';
+      default:
+        return 'col-md-6';
+    }
+  }
 }

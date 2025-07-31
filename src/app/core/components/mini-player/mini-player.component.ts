@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, inject, Input } from '@angular/core';
 import { MiniPlayerService } from '../../../shared/services/template/mini-player.service';
 
 @Component({
@@ -69,5 +69,5 @@ import { MiniPlayerService } from '../../../shared/services/template/mini-player
   styles: ``,
 })
 export class MiniPlayerComponent {
-  @Input() miniPlayerService!: MiniPlayerService;
+  public miniPlayerService = inject(MiniPlayerService);
 }

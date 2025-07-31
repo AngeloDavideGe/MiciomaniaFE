@@ -27,16 +27,16 @@ import { SquadreService } from '../../shared/services/api/squadre.service';
   templateUrl: './games.component.html',
 })
 export class GamesComponent implements OnInit, OnDestroy {
+  public squadreService = inject(SquadreService);
+  private deckCardService = inject(DeckCardService);
+  public router = inject(Router);
+
   public showDetails: boolean = false;
   public punteggioPersonale: number = 0;
   public squadre: SquadreGiocatore = {
     personale: [],
     avversario: [],
   } as SquadreGiocatore;
-
-  public squadreService = inject(SquadreService);
-  public router = inject(Router);
-  private deckCardService = inject(DeckCardService);
 
   public isGames$: Observable<boolean> = this.router.events.pipe(
     filter((event): event is NavigationEnd => event instanceof NavigationEnd),
