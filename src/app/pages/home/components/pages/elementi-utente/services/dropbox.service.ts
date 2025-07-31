@@ -3,8 +3,11 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { environment } from '../../../../../../../environments/environment';
-import { DropboxUtilities } from '../utilities/dropbox.utilities';
 import { DropboxResponse } from '../interfaces/dropbox.interface';
+import {
+  createHeaders,
+  readFileAsArrayBuffer,
+} from '../utilities/dropbox.utilities';
 
 @Injectable({
   providedIn: 'root',
@@ -12,7 +15,6 @@ import { DropboxResponse } from '../interfaces/dropbox.interface';
 export class DropboxService {
   public dropboxResponse: DropboxResponse = {} as DropboxResponse;
   private readonly UPLOAD_URL = 'https://content.dropboxapi.com/2/files/upload';
-  private dropboxUtilities = new DropboxUtilities();
 
   constructor(private http: HttpClient) {}
 
@@ -30,12 +32,12 @@ export class DropboxService {
   ): Observable<any> {
     const normalizedPath = `/${folderPath}/${userId}/${file.name}`;
 
-    const headers = this.dropboxUtilities.createHeaders(
+    const headers = createHeaders(
       normalizedPath,
       this.dropboxResponse.access_token
     );
 
-    return this.dropboxUtilities.readFileAsArrayBuffer(file).pipe(
+    return readFileAsArrayBuffer(file).pipe(
       switchMap((fileContent) => {
         return this.http.post(this.UPLOAD_URL, fileContent, { headers });
       }),

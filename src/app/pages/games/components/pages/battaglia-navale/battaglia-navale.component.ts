@@ -11,8 +11,11 @@ import {
 import { GamesBase } from '../../../shared/base/games.base';
 import { DettagliGameComponent } from '../../../shared/components/dettagli-game.component';
 import { BotBattagliaNavale } from './bot/battaglia-navale.bot';
-import { BattagliaNavaleUtilities } from './utilities/battaglia-navale.utilities';
 import { setPunteggioOttenuto } from '../../../../../shared/handlers/squadre.handler';
+import {
+  cellaOccupata,
+  controlloCasuale,
+} from './utilities/battaglia-navale.utilities';
 
 @Component({
   selector: 'app-battaglia-navale',
@@ -22,7 +25,6 @@ import { setPunteggioOttenuto } from '../../../../../shared/handlers/squadre.han
 })
 export class BattagliaNavaleComponent extends GamesBase implements OnInit {
   public keysCelle: (keyof CelleBattaglia)[] = ['cellaPlayer', 'cellaBot'];
-  private utilitiesBN = new BattagliaNavaleUtilities();
   private botBN = new BotBattagliaNavale();
   private dimGriglia: number = 6;
   public celle: CelleBattaglia;
@@ -103,7 +105,7 @@ export class BattagliaNavaleComponent extends GamesBase implements OnInit {
           nave: nave,
         };
 
-        posizioneValida = this.utilitiesBN.controlloCasuale(pn);
+        posizioneValida = controlloCasuale(pn);
         tentativi++;
       }
     }
@@ -134,7 +136,7 @@ export class BattagliaNavaleComponent extends GamesBase implements OnInit {
 
     this.celle.cellaBot[i][j].cellaColpita = true;
 
-    if (this.utilitiesBN.cellaOccupata(this.pn(cellOcc))) {
+    if (cellaOccupata(this.pn(cellOcc))) {
       this.naviRimanenti.Bot--;
       if (this.naviRimanenti.Bot == 0) {
         this.alertGameService.alert('vittoria');
@@ -155,7 +157,7 @@ export class BattagliaNavaleComponent extends GamesBase implements OnInit {
     const cellOcc: CellaOccupata = { i, j, key: 'cellaPlayer' };
     this.celle.cellaPlayer[i][j].cellaColpita = true;
 
-    if (this.utilitiesBN.cellaOccupata(this.pn(cellOcc))) {
+    if (cellaOccupata(this.pn(cellOcc))) {
       this.controlloSconfitta(i, j);
     }
   }
