@@ -1,19 +1,23 @@
 import { CardDeck } from '../interfaces/games.interfaces';
 
-export function getCardsDisponibili(
+export function get2NCasualCard(
   cardDeck: CardDeck[],
   numCards: number
 ): CardDeck[] {
   const baseCards: CardDeck[] = [];
-  const deckCopy: CardDeck[] = [...cardDeck];
+  let indexUsed: Set<number> = new Set();
+  let deckLength: number = cardDeck.length;
 
-  for (let i = 0; i < numCards && deckCopy.length > 0; i++) {
-    // Prende un indice casuale da dove prelevare la carta dal deck di copia
-    const randomIndex: number = Math.floor(Math.random() * deckCopy.length);
-    const selectedCard: CardDeck = deckCopy[randomIndex];
-    // Aggiunge la carta al nuovo deck e a toglie dal deck di copia
+  for (let i = 0; i < numCards && deckLength > 0; i++) {
+    let randomIndex: number;
+
+    do {
+      randomIndex = Math.floor(Math.random() * cardDeck.length);
+    } while (indexUsed.has(randomIndex));
+
+    const selectedCard: CardDeck = cardDeck[randomIndex];
     baseCards.push(selectedCard, selectedCard);
-    deckCopy.splice(randomIndex, 1);
+    deckLength -= 1;
   }
 
   return shuffleArray(baseCards);

@@ -101,7 +101,7 @@ export class TuoiMangaComponent implements OnInit, OnDestroy {
   private computedallMangaSearch(): ListaManga[] {
     const search: string = this.debouncedSearchQuery().toLowerCase().trim();
     if (search) {
-      return DataHttp.listaManga.filter((manga) =>
+      return DataHttp.listaManga().filter((manga) =>
         manga.nome.toLowerCase().includes(search)
       );
     } else {
@@ -111,7 +111,7 @@ export class TuoiMangaComponent implements OnInit, OnDestroy {
 
   private loadListaManga(idUtente: string | null): void {
     if (!DataHttp.mangaScaricati) {
-      DataHttp.listaManga.length == 0 ? this.loadingService.show() : null;
+      DataHttp.listaManga().length == 0 ? this.loadingService.show() : null;
 
       inizializzaLista({
         mangaService: this.mangaService,
@@ -135,7 +135,7 @@ export class TuoiMangaComponent implements OnInit, OnDestroy {
   }
 
   private caricaManga(lista: ListaManga[]): void {
-    DataHttp.listaManga = lista;
+    DataHttp.listaManga.set(lista);
     this.copiaSplitUtente();
     this.filterMangaFunc('preferiti');
     this.loadingService.hide();
@@ -143,7 +143,7 @@ export class TuoiMangaComponent implements OnInit, OnDestroy {
 
   private copiaSplitUtente(): void {
     this.sezioneListaManga.set(
-      createSezioneMangaUtente(DataHttp.mangaUtente, DataHttp.listaManga)
+      createSezioneMangaUtente(DataHttp.mangaUtente, DataHttp.listaManga())
     );
   }
 
@@ -168,7 +168,7 @@ export class TuoiMangaComponent implements OnInit, OnDestroy {
         [this.selectedTab].map((x) => x.id)
         .includes(idManga)
     ) {
-      const mangaTrovato: ListaManga | undefined = DataHttp.listaManga.find(
+      const mangaTrovato: ListaManga | undefined = DataHttp.listaManga().find(
         (x) => x.id == idManga
       );
 
@@ -219,7 +219,7 @@ export class TuoiMangaComponent implements OnInit, OnDestroy {
     tabPush: keyofMangaUtente
   ): void {
     const valoriDaSpostare: number[] = this.checkSplitManga[tabRemove];
-    const mangaDaAggiungere: ListaManga[] = DataHttp.listaManga.filter(
+    const mangaDaAggiungere: ListaManga[] = DataHttp.listaManga().filter(
       (manga) => valoriDaSpostare.includes(manga.id)
     );
 

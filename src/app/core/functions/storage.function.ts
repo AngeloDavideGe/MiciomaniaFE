@@ -5,7 +5,7 @@ export function refreshLocalStorage(): void {
     'canzoniMiciomani',
     JSON.stringify(DataHttp.canzoniMiciomani)
   );
-  localStorage.setItem('listaManga', JSON.stringify(DataHttp.listaManga));
+  localStorage.setItem('listaManga', JSON.stringify(DataHttp.listaManga()));
   localStorage.setItem(
     'mangaMiciomani',
     JSON.stringify(DataHttp.mangaMiciomani)

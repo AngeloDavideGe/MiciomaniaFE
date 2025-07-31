@@ -134,7 +134,7 @@ export class MangaComponent implements OnDestroy {
   }
 
   private logFilterChanges(): ListaManga[] {
-    return DataHttp.listaManga.filter((manga) => {
+    return DataHttp.listaManga().filter((manga) => {
       return (
         (this.filterSelect.genere() === 'Qualsiasi' ||
           manga.genere.includes(this.filterSelect.genere())) &&
@@ -154,12 +154,12 @@ export class MangaComponent implements OnDestroy {
   }
 
   private loadFilteredManga(): void {
-    if (DataHttp.listaManga.length > 0 && DataHttp.mangaScaricati) {
+    if (DataHttp.listaManga().length > 0 && DataHttp.mangaScaricati) {
       this.filterSelect.nome.set('');
       this.identificaPreferiti(DataHttp.mangaUtente);
       this.idUtente = DataHttp.user()?.id || null;
     } else {
-      DataHttp.listaManga.length > 0 ? null : this.loadingService.show();
+      DataHttp.listaManga().length > 0 ? null : this.loadingService.show();
       this.aggiornamentoManga = true;
       this.sottoscrizioneUtente();
     }
@@ -183,7 +183,7 @@ export class MangaComponent implements OnDestroy {
   }
 
   private caricaManga(lista: ListaManga[]): void {
-    DataHttp.listaManga = lista;
+    DataHttp.listaManga.set(lista);
     this.filterSelect.nome.set('');
     this.aggiornamentoManga = false;
     this.loadingService.hide();

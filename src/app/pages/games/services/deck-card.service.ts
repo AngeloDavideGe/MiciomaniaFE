@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { CardDeck, DrawDeck } from '../interfaces/games.interfaces';
-import { environment } from '../../../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -9,6 +8,7 @@ export class DeckCardService {
   public pescataNoHttp: DrawDeck = {} as DrawDeck;
 
   public setAllCards(): void {
+    const urlCardFrancesi: string = 'https://deckofcardsapi.com/static/img/';
     let frenchDeck: CardDeck[] = [];
 
     for (const suit of ['H', 'D', 'C', 'S']) {
@@ -29,10 +29,15 @@ export class DeckCardService {
       ]) {
         frenchDeck.push({
           code: value + suit,
-          image: environment.urlCardFrancesi + value + suit + '.png',
+          image: urlCardFrancesi + value + suit + '.png',
         });
       }
     }
-    this.pescataNoHttp.cards = frenchDeck;
+
+    this.pescataNoHttp = {
+      deck_id: 'french-deck',
+      cards: frenchDeck,
+      remaining: frenchDeck.length,
+    } as DrawDeck;
   }
 }

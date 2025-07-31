@@ -1,6 +1,5 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { DeckCardClass } from '../../../class/deck-card.class';
-import { getCardsDisponibili } from '../../../functions/deck-card.function';
+import { get2NCasualCard } from '../../../functions/deck-card.function';
 import { CardDeck } from '../../../interfaces/games.interfaces';
 import { DeckCardService } from '../../../services/deck-card.service';
 import { GamesBase } from '../../../shared/base/games.base';
@@ -20,12 +19,11 @@ export class MemoryComponent extends GamesBase implements OnInit {
   private firstCardSelect: { id: string; index: number } | null = null;
   public nextMove: boolean = true;
   public numeroCoppie: number = 6;
-  public deckCardClass = new DeckCardClass();
 
   private deckCardService = inject(DeckCardService);
 
   ngOnInit(): void {
-    this.cards = getCardsDisponibili(
+    this.cards = get2NCasualCard(
       this.deckCardService.pescataNoHttp.cards,
       this.numeroCoppie
     );
@@ -90,7 +88,7 @@ export class MemoryComponent extends GamesBase implements OnInit {
 
   private restartGioco(): void {
     this.selectedCards = new Map();
-    this.cards = getCardsDisponibili(
+    this.cards = get2NCasualCard(
       this.deckCardService.pescataNoHttp.cards,
       this.numeroCoppie
     );

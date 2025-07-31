@@ -14,11 +14,11 @@ import {
 import { Social } from '../../shared/interfaces/github.interface';
 
 export class DataHttp {
-  public static user: WritableSignal<User | null> = signal<User | null>(null);
-  public static users: WritableSignal<UserParams[]> = signal<UserParams[]>([]);
+  public static user: WritableSignal<User | null> = signal(null);
+  public static users: WritableSignal<UserParams[]> = signal([]);
   public static social: Social[] = [];
 
-  public static listaManga: ListaManga[] = [];
+  public static listaManga: WritableSignal<ListaManga[]> = signal([]);
   public static mangaUtente: MangaUtente = {} as MangaUtente;
   public static initialMangaUtente: MangaUtente = {} as MangaUtente;
   public static mangaAperti: MangaAperto[] = [];
@@ -51,7 +51,7 @@ export class DataHttp {
 
     const listaManga = localStorage.getItem('listaManga');
     if (listaManga) {
-      this.listaManga = JSON.parse(listaManga);
+      this.listaManga.set(JSON.parse(listaManga));
     }
 
     const mangaUtente = localStorage.getItem('mangaUtente');
