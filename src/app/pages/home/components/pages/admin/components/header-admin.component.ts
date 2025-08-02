@@ -1,21 +1,18 @@
 import { Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
+import { BottonCustomComponent } from '../../../../../../shared/components/custom/botton-custom.component';
 
 @Component({
   selector: 'app-header-admin',
   standalone: true,
-  imports: [],
+  imports: [BottonCustomComponent],
   template: `
     <!-- Pulsante per tornare indietro -->
-    <div class="mb-3">
-      <button
-        class="btn btn-secondary"
-        style="display: inline-flex; align-items: center; gap: 0.5rem"
-        (click)="router.navigate(['home'])"
-      >
-        <i class="bi bi-arrow-left"></i> Indietro
-      </button>
-    </div>
+    <app-botton-custom
+      [text]="'Torna indietro'"
+      [icon]="'bi bi-arrow-left'"
+      (clickBotton)="router.navigate(['/home'])"
+    ></app-botton-custom>
 
     <!-- Header -->
     <div

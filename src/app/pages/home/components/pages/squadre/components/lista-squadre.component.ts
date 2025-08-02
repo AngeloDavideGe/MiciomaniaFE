@@ -1,29 +1,17 @@
 import { Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
+import { BottonCustomComponent } from '../../../../../../shared/components/custom/botton-custom.component';
 
 @Component({
   selector: 'app-lista-squadre',
   standalone: true,
-  imports: [],
+  imports: [BottonCustomComponent],
   template: `
-    <div class="row mb-3">
-      <div class="col-12">
-        <button
-          class="btn btn-outline-secondary d-flex align-items-center"
-          style="
-          margin-bottom: 15px;
-          font-size: 1.1rem;
-          padding: 10px 15px;
-          border-radius: 8px;
-          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        "
-          (click)="this.router.navigate(['/home'])"
-        >
-          <span style="font-size: 1.5rem; margin-right: 8px">🏠</span>
-          <i class="fas fa-arrow-left me-2"></i>Torna Indietro
-        </button>
-      </div>
-    </div>
+    <app-botton-custom
+      [text]="'Torna indietro'"
+      [icon]="'bi bi-arrow-left'"
+      (clickBotton)="router.navigate(['/home'])"
+    ></app-botton-custom>
 
     <div class="row mb-4">
       <div class="col-12 text-center">

@@ -1,9 +1,11 @@
 import { Component, Input } from '@angular/core';
 import { User } from '../../../../../../shared/interfaces/users.interface';
+import { BottonCustomComponent } from '../../../../../../shared/components/custom/botton-custom.component';
 
 @Component({
   standalone: true,
   selector: 'app-success-page',
+  imports: [BottonCustomComponent],
   template: `
     <div
       class="container text-center mt-5 px-3 px-md-4 px-lg-5"
@@ -58,23 +60,17 @@ import { User } from '../../../../../../shared/interfaces/users.interface';
 
       <!-- Button Container -->
       <div class="d-flex justify-content-center gap-3 mt-4">
-        <button
-          class="btn btn-primary stile-bottoni"
-          (click)="navigateToHome()"
-          onmouseover="this.style.transform='scale(1.05)';"
-          onmouseout="this.style.transform='scale(1)';"
-        >
-          🏠 Torna alla Home
-        </button>
+        <app-botton-custom
+          [text]="'Torna alla Home'"
+          [icon]="'bi bi-arrow-left'"
+          (clickBotton)="navigateToHome()"
+        ></app-botton-custom>
 
-        <button
-          class="btn btn-outline-primary stile-bottoni"
-          (click)="editInfo()"
-          onmouseover="this.style.transform='scale(1.05)';"
-          onmouseout="this.style.transform='scale(1)';"
-        >
-          ✏️ Modifica Info
-        </button>
+        <app-botton-custom
+          [text]="'Modifica Info'"
+          [icon]="'bi bi-pencil'"
+          (clickBotton)="editInfo()"
+        ></app-botton-custom>
       </div>
     </div>
   `,

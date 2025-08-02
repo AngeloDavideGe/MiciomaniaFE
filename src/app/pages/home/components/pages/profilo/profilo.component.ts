@@ -15,6 +15,7 @@ import { ProfiloService } from '../../../services/profilo.service';
 import { profilo_imports } from './imports/profilo.imports';
 import { modaleApertaType } from './types/profilo.type';
 import { Profilo } from '../../../../../shared/interfaces/http.interface';
+import { BottonCustomComponent } from '../../../../../shared/components/custom/botton-custom.component';
 
 @Component({
   selector: 'app-profilo',

@@ -1,10 +1,11 @@
 import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
 import { Router } from '@angular/router';
+import { BottonCustomComponent } from '../../../../shared/components/custom/botton-custom.component';
 
 @Component({
   selector: 'app-presentazione-games',
   standalone: true,
-  imports: [],
+  imports: [BottonCustomComponent],
   template: `
     <h1
       class="display-4 fw-bold text-primary"
@@ -26,26 +27,17 @@ import { Router } from '@angular/router';
       con passione e scopri chi dominerà la classifica! Te la senti?
     </p>
 
-    <div
-      class="d-flex justify-content-center align-items-center gap-3 mt-3"
-      style="flex-wrap: wrap"
-    >
-      <button
-        class="btn btn-outline-danger"
-        style="font-size: 1.1rem; padding: 0.5rem 1.5rem; border-radius: 30px"
-        (click)="this.router.navigate(['/home'])"
-      >
-        Torna Indietro
-      </button>
+    <app-botton-custom
+      [text]="'Torna indietro'"
+      [icon]="'bi bi-arrow-left'"
+      (clickBotton)="router.navigate(['/home'])"
+    ></app-botton-custom>
 
-      <button
-        class="btn btn-outline-primary"
-        style="font-size: 1.1rem; padding: 0.5rem 1.5rem; border-radius: 30px"
-        (click)="showDetailsFunc.emit()"
-      >
-        {{ showDetails ? 'Nascondi Dettagli' : 'Mostra Dettagli' }}
-      </button>
-    </div>
+    <app-botton-custom
+      [text]="showDetails ? 'Nascondi Dettagli' : 'Mostra Dettagli'"
+      [icon]="'bi bi-arrow-left'"
+      (clickBotton)="showDetailsFunc.emit()"
+    ></app-botton-custom>
   `,
   styles: [``],
 })

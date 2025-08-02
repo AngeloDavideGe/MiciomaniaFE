@@ -5,6 +5,7 @@ import { ChangePicComponent } from '../components/change-pic.component';
 import { EditProfiloComponent } from '../components/edit-profilo/edit-profilo.component';
 import { NewTweetComponent } from '../components/new-tweet/new-tweet.component';
 import { SezioneTweetComponent } from '../components/sezione-tweet.component';
+import { BottonCustomComponent } from '../../../../../../shared/components/custom/botton-custom.component';
 
 export const profilo_imports: Type<any>[] = [
   NewTweetComponent,
@@ -13,4 +14,5 @@ export const profilo_imports: Type<any>[] = [
   ErrorHttpComponent,
   CardProfiloComponent,
   SezioneTweetComponent,
+  BottonCustomComponent,
 ];

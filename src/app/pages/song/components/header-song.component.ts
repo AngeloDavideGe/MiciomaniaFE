@@ -1,10 +1,11 @@
 import { Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
+import { BottonCustomComponent } from '../../../shared/components/custom/botton-custom.component';
 
 @Component({
   selector: 'app-header-song',
   standalone: true,
-  imports: [],
+  imports: [BottonCustomComponent],
   template: `
     <div
       class="text-center mb-5 p-4"
@@ -48,18 +49,11 @@ import { Router } from '@angular/router';
         Lasciati conquistare da playlist create per scaldare il cuore e farti
         ballare.
       </p>
-      <button
-        class="btn btn-light btn-lg mt-3"
-        style="
-        font-weight: 500;
-        border-radius: 24px;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-      "
-        (click)="this.router.navigate(['/home'])"
-      >
-        <i class="bi bi-house-door me-2"></i>
-        Torna alla home
-      </button>
+      <app-botton-custom
+        [text]="'Torna indietro'"
+        [icon]="'bi bi-arrow-left'"
+        (clickBotton)="router.navigate(['/home'])"
+      ></app-botton-custom>
     </div>
   `,
   styles: [``],

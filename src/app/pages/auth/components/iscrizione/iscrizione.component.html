@@ -36,18 +36,20 @@
 
 <!-- Pulsanti -->
 @if (user.id || currentStep()!=2) {
-<div class="d-flex justify-content-center mt-4">
-  <div
-    class="d-flex justify-content-between"
-    style="max-width: 70rem; width: 100%"
-  >
-    <button class="btn btn-primary btn-lg mx-3" (click)="prevStep()">
-      Indietro
-    </button>
-    <button class="btn btn-success btn-lg mx-3" (click)="nextStep()">
-      {{ currentStep() == 3 ? "Invia" : "Avanti" }}
-    </button>
-  </div>
+<div class="d-flex justify-content-between px-5">
+  <app-botton-custom
+    [text]="'Indietro'"
+    [icon]="'bi bi-arrow-left'"
+    (clickBotton)="prevStep()"
+    style="order: 1"
+  ></app-botton-custom>
+
+  <app-botton-custom
+    [text]="currentStep() == 3 ? 'Invia' : 'Avanti'"
+    [icon]="'bi bi-arrow-right'"
+    (clickBotton)="nextStep()"
+    style="order: 2"
+  ></app-botton-custom>
 </div>
 }
 <br />
