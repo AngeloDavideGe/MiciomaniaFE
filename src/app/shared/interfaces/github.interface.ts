@@ -1,3 +1,5 @@
+export type GitHubType = Social[] | Quiz[] | MN[];
+
 export interface Social {
   nome: string;
   descrizione: string;
@@ -14,4 +16,12 @@ export interface Quiz {
 export interface Risposta {
   testo: string;
   soluzione: boolean;
+}
+
+export interface MN {
+  valore: string | number;
+  descrizione: string;
+  consiglio: string;
+  esempi: string[];
+  colore: string;
 }

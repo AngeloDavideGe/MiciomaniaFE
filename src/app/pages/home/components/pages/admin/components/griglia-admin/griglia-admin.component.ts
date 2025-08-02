@@ -3,7 +3,7 @@ import {
   User,
   UserParams,
 } from '../../../../../../../shared/interfaces/users.interface';
-import { Ruolo } from '../../../../../../auth/enums/users.enum';
+import { Ruolo } from '../../../../../../../shared/enums/users.enum';
 import { CapitalizeFirstLetterPipe } from '../../pipes/capitalize.pipe';
 import { TableUserParamsComponent } from './table-user-params/table-user-params.component';
 

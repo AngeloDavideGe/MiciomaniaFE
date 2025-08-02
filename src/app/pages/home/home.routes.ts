@@ -32,6 +32,13 @@ export const HOME_ROUTES: Routes = [
             (m) => m.SquadreComponent
           ),
       },
+      {
+        path: 'm&n',
+        loadComponent: () =>
+          import('./components/pages/m-n/m-n.component').then(
+            (m) => m.MNComponent
+          ),
+      },
     ],
   },
 ];

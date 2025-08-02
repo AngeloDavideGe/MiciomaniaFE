@@ -1,11 +1,9 @@
-import { WritableSignal } from '@angular/core';
-import { Ruolo } from '../../../pages/auth/enums/users.enum';
+import { Ruolo } from '../../enums/users.enum';
 import {
   Credenziali,
   Iscrizione,
   Profile,
   User,
-  UserParams,
 } from '../../interfaces/users.interface';
 
 export function mapUserByDb(db: any): User {

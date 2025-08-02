@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { finalize, Observable, take } from 'rxjs';
 import { environment } from '../../../../environments/environment';
 import { User } from '../../../shared/interfaces/users.interface';
-import { Ruolo } from '../../auth/enums/users.enum';
+import { Ruolo } from '../../../shared/enums/users.enum';
 import { LoadingService } from '../../../shared/services/template/loading.service';
 
 @Injectable({

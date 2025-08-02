@@ -16,7 +16,7 @@ import {
 import { Subject, takeUntil } from 'rxjs';
 import { environment } from '../../../../../../../environments/environment';
 import { User } from '../../../../../../shared/interfaces/users.interface';
-import { StatoPersona } from '../../../../enums/users.enum';
+import { StatoPersona } from '../../../../../../shared/enums/users.enum';
 import { Provincia } from '../../../../interfaces/region.interface';
 import { FormWizard } from '../../../../interfaces/wizard.interface';
 import { WizardService } from '../../../../services/wizard.service';

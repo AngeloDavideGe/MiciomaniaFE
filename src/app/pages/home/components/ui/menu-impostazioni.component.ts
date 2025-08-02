@@ -20,6 +20,12 @@ import { User } from '../../../../shared/interfaces/users.interface';
           Squadre
         </a>
       </li>
+      <li>
+        <a class="dropdown-item" routerLink="/home/m&n">
+          <i class="bi bi-people-fill me-2"></i>
+          MN
+        </a>
+      </li>
       @if(user.id) {
       <li>
         <a class="dropdown-item" routerLink="/home/elementi-utente">

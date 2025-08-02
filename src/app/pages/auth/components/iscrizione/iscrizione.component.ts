@@ -7,7 +7,7 @@ import {
   User,
 } from '../../../../shared/interfaces/users.interface';
 import { AuthService } from '../../../../shared/services/api/auth.service';
-import { Ruolo } from '../../enums/users.enum';
+import { Ruolo } from '../../../../shared/enums/users.enum';
 import { FormWizard } from '../../interfaces/wizard.interface';
 import { stepType, WizardBase } from './base/wizard.base';
 import { iscrizione_imports } from './imports/iscrizione.import';

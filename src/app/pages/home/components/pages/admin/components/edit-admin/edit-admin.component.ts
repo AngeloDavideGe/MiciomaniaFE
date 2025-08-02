@@ -8,7 +8,7 @@ import {
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { UserParams } from '../../../../../../../shared/interfaces/users.interface';
-import { Ruolo } from '../../../../../../auth/enums/users.enum';
+import { Ruolo } from '../../../../../../../shared/enums/users.enum';
 import { AdminService } from '../../../../../services/admin.service';
 import { CambioRuoloUtente } from '../../interfaces/admin.interface';
 import { CapitalizeFirstLetterPipe } from '../../pipes/capitalize.pipe';

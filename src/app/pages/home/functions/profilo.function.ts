@@ -1,4 +1,4 @@
-import { Ruolo } from '../../auth/enums/users.enum';
+import { Ruolo } from '../../../shared/enums/users.enum';
 import { User } from '../../../shared/interfaces/users.interface';
 import { Tweet } from '../interfaces/profilo.interface';
 import { Profilo } from '../../../shared/interfaces/http.interface';

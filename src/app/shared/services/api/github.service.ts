@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { from, Observable } from 'rxjs';
-import { Quiz, Social } from '../../interfaces/github.interface';
 import { CasualQuiz } from '../../../pages/games/interfaces/games.interfaces';
+import { GitHubType, MN, Quiz } from '../../interfaces/github.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -10,16 +10,16 @@ export class GitHubService {
   public quiz: Quiz[] = [];
   public quizFilter: Quiz[] = [];
 
-  constructor() {}
+  public mn: MN[] = [];
 
   getGistFormGithub(
     nome: string,
     id: string,
     nomeJson: string
-  ): Observable<Social[] | Quiz[]> {
+  ): Observable<GitHubType> {
     const jsonUrl = `https://gist.githubusercontent.com/${nome}/${id}/raw/${nomeJson}?t=${new Date().getTime()}`;
 
-    const fetchPromise: Promise<Social[] | Quiz[]> = fetch(jsonUrl, {
+    const fetchPromise: Promise<GitHubType> = fetch(jsonUrl, {
       cache: 'no-store',
     }).then((response) => {
       if (response.ok) {
