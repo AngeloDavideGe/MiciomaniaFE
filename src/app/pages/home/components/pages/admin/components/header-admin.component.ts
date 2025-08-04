@@ -10,7 +10,7 @@ import { BottonCustomComponent } from '../../../../../../shared/components/custo
     <!-- Pulsante per tornare indietro -->
     <app-botton-custom
       [text]="'Torna indietro'"
-      [icon]="'bi bi-arrow-left'"
+      [icon1]="'bi bi-arrow-left'"
       (clickBotton)="router.navigate(['/home'])"
     ></app-botton-custom>
 

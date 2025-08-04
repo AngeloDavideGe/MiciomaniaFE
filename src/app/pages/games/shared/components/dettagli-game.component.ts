@@ -48,7 +48,7 @@ import { BottonCustomComponent } from '../../../../shared/components/custom/bott
       Hai il coraggio di sfidarci?
       <app-botton-custom
         [text]="'Torna indietro'"
-        [icon]="'bi bi-arrow-left'"
+        [icon1]="'bi bi-arrow-left'"
         (clickBotton)="router.navigate(['/games'])"
       ></app-botton-custom>
     </p>

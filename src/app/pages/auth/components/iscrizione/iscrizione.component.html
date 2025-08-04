@@ -39,16 +39,14 @@
 <div class="d-flex justify-content-between px-5">
   <app-botton-custom
     [text]="'Indietro'"
-    [icon]="'bi bi-arrow-left'"
+    [icon1]="'bi bi-arrow-left'"
     (clickBotton)="prevStep()"
-    style="order: 1"
   ></app-botton-custom>
 
   <app-botton-custom
     [text]="currentStep() == 3 ? 'Invia' : 'Avanti'"
-    [icon]="'bi bi-arrow-right'"
+    [icon2]="'bi bi-arrow-right'"
     (clickBotton)="nextStep()"
-    style="order: 2"
   ></app-botton-custom>
 </div>
 }

@@ -9,7 +9,7 @@ import { BottonCustomComponent } from '../../../../../../shared/components/custo
   template: `
     <app-botton-custom
       [text]="'Torna indietro'"
-      [icon]="'bi bi-arrow-left'"
+      [icon1]="'bi bi-arrow-left'"
       (clickBotton)="router.navigate(['/home'])"
     ></app-botton-custom>
 

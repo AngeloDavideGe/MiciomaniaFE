@@ -62,13 +62,13 @@ import { BottonCustomComponent } from '../../../../../../shared/components/custo
       <div class="d-flex justify-content-center gap-3 mt-4">
         <app-botton-custom
           [text]="'Torna alla Home'"
-          [icon]="'bi bi-arrow-left'"
+          [icon1]="'bi bi-arrow-left'"
           (clickBotton)="navigateToHome()"
         ></app-botton-custom>
 
         <app-botton-custom
           [text]="'Modifica Info'"
-          [icon]="'bi bi-pencil'"
+          [icon1]="'bi bi-pencil'"
           (clickBotton)="editInfo()"
         ></app-botton-custom>
       </div>

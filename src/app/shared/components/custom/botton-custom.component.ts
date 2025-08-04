@@ -10,8 +10,9 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
       style="border-radius: 20px; padding: 8px 16px"
       (click)="clickBotton.emit()"
     >
-      <i [class]="icon"></i>
+      <i [class]="icon1"></i>
       {{ text }}
+      <i [class]="icon2"></i>
     </button>
   `,
   styles: [``],
@@ -19,5 +20,6 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 export class BottonCustomComponent {
   @Output() clickBotton = new EventEmitter<void>();
   @Input() text!: string;
-  @Input() icon!: string;
+  @Input() icon1: string = '';
+  @Input() icon2: string = '';
 }
