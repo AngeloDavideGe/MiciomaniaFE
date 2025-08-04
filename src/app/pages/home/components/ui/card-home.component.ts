@@ -1,11 +1,10 @@
-import { NgClass } from '@angular/common';
 import { Component, EventEmitter, Output } from '@angular/core';
 import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-card-home',
   standalone: true,
-  imports: [RouterLink, NgClass],
+  imports: [RouterLink],
   template: `
     <section
       data-bs-version="5.1"
@@ -21,7 +20,7 @@ import { RouterLink } from '@angular/router';
           <div class="col-12 col-md-6 col-lg-4">
             <div class="card h-100">
               <img [src]="card.link" class="card-img-top" alt="..." />
-              <div class="card-body" [ngClass]="card.bgClass">
+              <div class="card-body" [class]="card.bgClass">
                 <h5 class="card-title fw-bold">{{ card.titolo }}</h5>
                 <p class="card-text">{{ card.descrizione }}</p>
                 @if(!card.func) {

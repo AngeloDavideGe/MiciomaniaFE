@@ -1,14 +1,13 @@
-import { NgClass, NgStyle } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import { take } from 'rxjs';
-import { GitHubService } from '../../../../shared/services/api/github.service';
-import { Social } from '../../../../shared/interfaces/github.interface';
 import { DataHttp } from '../../../../core/api/http.data';
+import { Social } from '../../../../shared/interfaces/github.interface';
+import { GitHubService } from '../../../../shared/services/api/github.service';
 
 @Component({
   selector: 'app-social-link',
   standalone: true,
-  imports: [NgClass, NgStyle],
+  imports: [],
   template: `
     <section data-bs-version="5.1" class="social02 py-5" id="social02-2">
       <div class="container">
@@ -20,8 +19,8 @@ import { DataHttp } from '../../../../core/api/http.data';
           <div class="col-12 col-md-6 col-lg-4 d-flex align-items-center">
             <i
               class="bi fs-1 me-3"
-              [ngClass]="s.icona"
-              [ngStyle]="{ color: s.colore }"
+              [class]="s.icona"
+              [style]="{ color: s.colore }"
             ></i>
             <div (click)="openLink(s.link)" style="cursor: pointer;">
               <h4 class="fw-bold">{{ s.nome }}</h4>
