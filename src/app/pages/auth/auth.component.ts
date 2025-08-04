@@ -38,7 +38,7 @@ export class AuthComponent {
       case '/auth':
         return 'col-md-1';
       case '/auth/iscrizione':
-        return 'col-md-12';
+        return 'col-md-12 mb-5';
       default:
         return 'col-md-6';
     }

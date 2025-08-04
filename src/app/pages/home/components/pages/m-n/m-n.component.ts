@@ -5,16 +5,26 @@ import { MN } from '../../../../../shared/interfaces/github.interface';
 import { LoadingService } from '../../../../../shared/services/template/loading.service';
 import { HeaderMNComponent } from './components/header-mn.component';
 import { CardLetteraComponent } from './components/card-lettera.component';
+import { NgClass } from '@angular/common';
+import { IconeListaComponent } from './components/icone-lista.component';
 
 @Component({
   selector: 'app-m-n',
-  imports: [HeaderMNComponent, CardLetteraComponent],
+  imports: [
+    HeaderMNComponent,
+    CardLetteraComponent,
+    NgClass,
+    IconeListaComponent,
+  ],
   templateUrl: './m-n.component.html',
   styles: ``,
 })
 export class MNComponent implements OnInit {
   public gitHubService = inject(GitHubService);
   private loadService = inject(LoadingService);
+
+  public classMN: string = 'row-cols-1 row-cols-md-2 row-cols-lg-3 g-4';
+  // public classListaMN: string = 'd-flex flex-column gap-3 mb-5';
 
   ngOnInit(): void {
     this.loadMN();

@@ -1,10 +1,17 @@
-<div class="container mt-5" style="max-width: 1400px">
+<div class="container mt-5" style="max-width: 80rem">
+  <!-- Header -->
   <app-header-mn></app-header-mn>
 
-  <div
-    class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4"
-    style="margin-bottom: 8rem"
-  >
+  <!-- Icone visualizzazione -->
+  <app-icone-lista
+    [classNG]="classMN"
+    [ngClass1]="'row-cols-1 row-cols-md-2 row-cols-lg-3 g-4'"
+    [ngClass2]="'d-flex flex-column gap-3 mb-5'"
+    (classNGChange)="classMN = $event"
+  ></app-icone-lista>
+
+  <!-- Lista -->
+  <div class="row" [ngClass]="classMN" style="margin-bottom: 8rem">
     @for (mn of gitHubService.mn; track $index) {
     <app-card-lettera [mn]="mn"></app-card-lettera>
     }
