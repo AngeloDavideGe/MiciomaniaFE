@@ -69,7 +69,6 @@ import {
       </div>
     </div>
   `,
-  styles: ``,
 })
 export class MangaMiciomaniaCardComponent {
   @Input() manga!: MangaMiciomania | Proposta;

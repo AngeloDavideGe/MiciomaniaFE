@@ -31,7 +31,6 @@ import { BottonCustomComponent } from '../../../../../../shared/components/custo
       />
     </div>
   `,
-  styles: [``],
 })
 export class HeaderElementiComponent {
   public router = inject(Router);

@@ -25,7 +25,6 @@ import { BottonCustomComponent } from '../../../../../../shared/components/custo
       </p>
     </div>
   `,
-  styles: [``],
 })
 export class HeaderAdminComponent {
   public router = inject(Router);

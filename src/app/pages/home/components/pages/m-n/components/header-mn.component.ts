@@ -25,7 +25,6 @@ import { BottonCustomComponent } from '../../../../../../shared/components/custo
       <!-- Spaziatura bilanciata -->
     </div>
   `,
-  styles: [``],
 })
 export class HeaderMNComponent {
   public router = inject(Router);

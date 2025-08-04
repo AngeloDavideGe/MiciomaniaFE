@@ -65,7 +65,6 @@ import { generiManga } from '../../constants/genere.constant';
       </div>
     </div>
   `,
-  styles: [``],
 })
 export class FiltriMangaComponent {
   public mangaGeneri = generiManga;

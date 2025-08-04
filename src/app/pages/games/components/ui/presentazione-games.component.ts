@@ -38,7 +38,6 @@ import { BottonCustomComponent } from '../../../../shared/components/custom/bott
       (clickBotton)="showDetailsFunc.emit()"
     ></app-botton-custom>
   `,
-  styles: [``],
 })
 export class PresentazioneGamesComponent {
   public router = inject(Router);

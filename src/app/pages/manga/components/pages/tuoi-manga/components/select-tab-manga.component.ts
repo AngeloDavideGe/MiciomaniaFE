@@ -17,7 +17,6 @@ import { Component, EventEmitter, Output } from '@angular/core';
       <option value="Elimina">🗑️ Cestino</option>
     </select>
   `,
-  styles: [``],
 })
 export class SelectTabMangaComponent {
   @Output() spostaMangaSelezionati = new EventEmitter<Event>();

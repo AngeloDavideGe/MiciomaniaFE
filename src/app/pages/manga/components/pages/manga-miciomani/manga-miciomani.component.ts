@@ -15,7 +15,6 @@ import { DataHttp } from '../../../../../core/api/http.data';
   standalone: true,
   imports: [DettagliMangaComponent, CardMangaMiciomaniaComponent],
   templateUrl: './manga-miciomani.component.html',
-  styles: ``,
 })
 export class MangaMiciomaniComponent implements OnInit {
   public elementiUtenteService = inject(ElementiUtenteService);

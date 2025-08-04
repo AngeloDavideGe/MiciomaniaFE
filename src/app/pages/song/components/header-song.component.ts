@@ -56,7 +56,6 @@ import { BottonCustomComponent } from '../../../shared/components/custom/botton-
       ></app-botton-custom>
     </div>
   `,
-  styles: [``],
 })
 export class HeaderSongComponent {
   public router = inject(Router);

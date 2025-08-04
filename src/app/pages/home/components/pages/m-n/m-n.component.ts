@@ -1,23 +1,14 @@
-import { NgClass } from '@angular/common';
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { finalize, take } from 'rxjs';
 import { MN } from '../../../../../shared/interfaces/github.interface';
 import { GitHubService } from '../../../../../shared/services/api/github.service';
 import { LoadingService } from '../../../../../shared/services/template/loading.service';
-import { CardLetteraComponent } from './components/card-lettera.component';
-import { HeaderMNComponent } from './components/header-mn.component';
-import { IconeListaComponent } from './components/icone-lista.component';
+import { mn_imports } from './imports/m-n.import';
 
 @Component({
   selector: 'app-m-n',
-  imports: [
-    HeaderMNComponent,
-    CardLetteraComponent,
-    NgClass,
-    IconeListaComponent,
-  ],
+  imports: mn_imports,
   templateUrl: './m-n.component.html',
-  styles: ``,
 })
 export class MNComponent implements OnInit {
   public gitHubService = inject(GitHubService);

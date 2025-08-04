@@ -38,7 +38,6 @@ import { BottonCustomComponent } from '../../../../../../shared/components/custo
       </div>
     </div>
   `,
-  styles: [``],
 })
 export class ListaSquadreComponent {
   public router = inject(Router);

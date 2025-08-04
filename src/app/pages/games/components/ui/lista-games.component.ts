@@ -46,7 +46,6 @@ import { CardGioco } from '../../interfaces/games.interfaces';
       }
     </div>
   `,
-  styles: [``],
 })
 export class ListaGamesComponent {
   public router = inject(Router);

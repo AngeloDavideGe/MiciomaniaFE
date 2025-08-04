@@ -40,7 +40,6 @@ import { NgClass, NgStyle } from '@angular/common';
       </div>
     </div>
   `,
-  styles: [``],
 })
 export class AlertsGameComponent {
   @Input() esito: EsitoGame = 'vittoria';

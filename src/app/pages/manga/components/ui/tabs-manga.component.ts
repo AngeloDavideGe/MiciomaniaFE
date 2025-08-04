@@ -22,7 +22,6 @@ import { TabsManga } from '../../interfaces/filtri.interface';
       }
     </ul>
   `,
-  styles: [``],
 })
 export class TabsMangaComponent {
   @Input() tabs!: TabsManga[];

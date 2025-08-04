@@ -13,7 +13,6 @@ import { ElementiUtenteService } from '../../shared/services/api/elementiUtente.
   standalone: true,
   imports: [HeaderSongComponent, CardSongComponent],
   templateUrl: './song.component.html',
-  styles: ``,
 })
 export class SongComponent implements OnInit {
   public msu = new MangaSongUtilities();

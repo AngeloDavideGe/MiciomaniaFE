@@ -119,7 +119,6 @@ import { MangaSongUtilities } from '../../../../../../../shared/utilities/mangaS
       }
     </div>
   `,
-  styles: [``],
 })
 export class GrigliaElementiComponent {
   public mangaSongUtilities = new MangaSongUtilities();

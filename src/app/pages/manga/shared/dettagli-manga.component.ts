@@ -31,7 +31,6 @@ import {
       </div>
     </div>
   `,
-  styles: [``],
 })
 export class DettagliMangaComponent {
   @Input() titolo!: string;

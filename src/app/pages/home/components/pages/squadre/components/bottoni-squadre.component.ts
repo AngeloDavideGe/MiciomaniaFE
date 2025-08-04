@@ -18,7 +18,6 @@ import { Component, EventEmitter, Output } from '@angular/core';
       </div>
     </div>
   `,
-  styles: [``],
 })
 export class BottoniSquadreComponent {
   @Output() captureElement = new EventEmitter<void>();

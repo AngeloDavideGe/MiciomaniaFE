@@ -67,7 +67,6 @@ import { MangaMiciomania } from '../../../../../../shared/interfaces/elementiUte
       </div>
     </div>
   `,
-  styles: [``],
 })
 export class CardMangaMiciomaniaComponent {
   @Input() manga!: MangaMiciomania;

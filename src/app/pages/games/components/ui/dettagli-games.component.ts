@@ -61,7 +61,6 @@ import { SquadreGiocatore } from '../../interfaces/games.interfaces';
       </div>
     </div>
   `,
-  styles: [``],
 })
 export class PunteggiGamesComponent {
   public punteggioOttenuto = DataHttp.punteggioOttenuto;

@@ -7,7 +7,6 @@ import { DettagliGameComponent } from '../../../shared/components/dettagli-game.
   standalone: true,
   imports: [DettagliGameComponent],
   templateUrl: './trova-sequenza.component.html',
-  styles: ``,
 })
 export class TrovaSequenzaComponent implements OnInit {
   public valueGame = ValueSequenza;

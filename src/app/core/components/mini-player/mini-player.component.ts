@@ -66,7 +66,6 @@ import { MiniPlayerService } from '../../../shared/services/template/mini-player
       </div>
     </div>
   `,
-  styles: ``,
 })
 export class MiniPlayerComponent {
   public miniPlayerService = inject(MiniPlayerService);

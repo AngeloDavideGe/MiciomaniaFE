@@ -74,7 +74,6 @@ import { MN } from '../../../../../../shared/interfaces/github.interface';
       </div>
     </div>
   `,
-  styles: [``],
 })
 export class CardLetteraComponent {
   @Input() mn!: MN;

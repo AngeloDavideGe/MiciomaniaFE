@@ -77,7 +77,6 @@ import {
       </div>
     </div>
   `,
-  styles: ``,
 })
 export class CanzoniMiciomaniaCardComponent {
   @Input() canzone!: CanzoniMiciomania | Proposta | any;

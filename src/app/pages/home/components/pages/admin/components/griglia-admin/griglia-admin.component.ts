@@ -45,7 +45,6 @@ import { TableUserParamsComponent } from './table-user-params/table-user-params.
       }
     </div>
   `,
-  styles: [``],
 })
 export class GrigliaAdminComponent {
   public ruoli = Object.values(Ruolo);

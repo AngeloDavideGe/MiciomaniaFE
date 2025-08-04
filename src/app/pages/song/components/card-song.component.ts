@@ -68,7 +68,6 @@ import { CanzoniMiciomania } from '../../../shared/interfaces/elementiUtente.int
       </div>
     </div>
   `,
-  styles: [``],
 })
 export class CardSongComponent {
   @Input() canzone!: CanzoniMiciomania;

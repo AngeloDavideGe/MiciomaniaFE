@@ -15,7 +15,6 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
       <i [class]="icon2"></i>
     </button>
   `,
-  styles: [``],
 })
 export class BottonCustomComponent {
   @Output() clickBotton = new EventEmitter<void>();
