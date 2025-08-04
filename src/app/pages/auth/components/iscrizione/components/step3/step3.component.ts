@@ -1,4 +1,3 @@
-import { NgClass } from '@angular/common';
 import {
   AfterViewInit,
   Component,
@@ -9,12 +8,12 @@ import {
 } from '@angular/core';
 import { BehaviorSubject, Subject, takeUntil } from 'rxjs';
 import { FormWizard } from '../../../../interfaces/wizard.interface';
-import { LineeGuidaComponent } from './linee-guida/linee-guida.component';
+import { LineeGuidaComponent } from './components/linee-guida.component';
 
 @Component({
   selector: 'app-step3',
   standalone: true,
-  imports: [NgClass, LineeGuidaComponent],
+  imports: [LineeGuidaComponent],
   templateUrl: './step3.component.html',
 })
 export class Step3Component implements AfterViewInit, OnDestroy {
@@ -33,17 +32,5 @@ export class Step3Component implements AfterViewInit, OnDestroy {
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
-  }
-
-  getStatusClass(status: string | undefined): string {
-    if (!status) return 'text-muted';
-    switch (status) {
-      case 'Attivo':
-        return 'text-success';
-      case 'Inattivo':
-        return 'text-danger';
-      default:
-        return 'text-secondary';
-    }
   }
 }
