@@ -11,7 +11,7 @@
   ></app-icone-lista>
 
   <!-- Lista -->
-  <div class="row" [ngClass]="classMN()" style="margin-bottom: 8rem">
+  <div class="row" [class]="classMN()" style="margin-bottom: 8rem">
     @for (mn of gitHubService.mn; track $index) {
     <app-card-lettera [mn]="mn"></app-card-lettera>
     }

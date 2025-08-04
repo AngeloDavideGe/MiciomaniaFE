@@ -1,8 +1,5 @@
 import { Component, Input } from '@angular/core';
-import {
-  DettagliMangaInterface,
-  PulsantiManga,
-} from '../interfaces/filtri.interface';
+import { PulsantiManga } from '../interfaces/filtri.interface';
 
 @Component({
   selector: 'app-dettagli-manga',
