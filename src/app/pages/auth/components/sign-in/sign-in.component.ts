@@ -5,6 +5,7 @@ import { auth_shared_imports } from '../../shared/auth-shared.import';
 import { usernameValidator } from '../../validators/username.validator';
 import { Router } from '@angular/router';
 import { AuthService } from '../../../../shared/services/api/auth.service';
+import { User } from '../../../../shared/interfaces/users.interface';
 
 @Component({
   selector: 'app-sign-in',
@@ -56,7 +57,7 @@ export class SignInComponent implements AfterViewInit, OnDestroy {
         )
         .pipe(take(1))
         .subscribe({
-          next: (data) => this.nextSignIn(data),
+          next: (data: User) => this.nextSignIn(data),
           error: (error) => console.error('errore nel sign-in', error),
         });
     } else {

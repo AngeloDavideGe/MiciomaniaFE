@@ -52,7 +52,7 @@ export class ElementiUtenteComponent implements OnInit {
         .getElementiUtente(user.id, true)
         .pipe(take(1))
         .subscribe({
-          next: (elementiUtente) => {
+          next: (elementiUtente: ElementiUtente) => {
             this.eu = {
               manga: elementiUtente.manga,
               canzone: elementiUtente.canzone,

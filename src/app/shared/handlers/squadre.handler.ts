@@ -1,6 +1,7 @@
 import { take } from 'rxjs';
 import { DataHttp } from '../../core/api/http.data';
 import { SquadreService } from '../services/api/squadre.service';
+import { Squadre } from '../../pages/home/interfaces/profilo.interface';
 
 export function updatePunteggioSquadra(params: {
   squadreService: SquadreService;
@@ -33,7 +34,7 @@ export function loadSquadre(params: {
       .getSquadre()
       .pipe(take(1))
       .subscribe({
-        next: (data) => {
+        next: (data: Squadre[]) => {
           params.squadreService.squadre = data;
           params.nextCall();
         },

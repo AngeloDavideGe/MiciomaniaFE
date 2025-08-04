@@ -40,7 +40,7 @@ export class LoginComponent {
     }
 
     this.login(this.f['email'].value, this.f['password'].value).subscribe({
-      next: (data) => this.provaLogin(data),
+      next: (data: boolean) => this.provaLogin(data),
       error: (error) => {
         this.loginError = true;
         console.error('errore nel login', error);

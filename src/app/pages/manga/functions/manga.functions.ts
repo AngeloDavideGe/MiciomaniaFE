@@ -52,7 +52,7 @@ export function loadMangaVolumiENome(params: {
       finalize(() => params.finalizeFunction())
     )
     .subscribe({
-      next: (data) => params.nextCallback(data),
+      next: (data: MangaENome) => params.nextCallback(data),
       error: () => console.error('Si è verificato un errore'),
     });
 }

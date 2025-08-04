@@ -12,7 +12,7 @@ export function sottoscrizioneUtenti(params: {
     .getAllUsersHttp()
     .pipe(take(1))
     .subscribe({
-      next: (data) => params.nextCall(data),
+      next: (data: UserParams[]) => params.nextCall(data),
       error: (error) => console.error('errore nella lista utenti', error),
     });
 }

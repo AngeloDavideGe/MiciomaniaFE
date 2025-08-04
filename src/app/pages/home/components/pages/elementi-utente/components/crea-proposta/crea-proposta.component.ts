@@ -157,7 +157,7 @@ export class CreaPropostaComponent implements OnInit {
         finalize(() => (this.elementiUtenteService.propostaCaricata = true))
       )
       .subscribe({
-        next: (data) => {
+        next: (data: Proposta) => {
           DataHttp.elementiUtente = {
             ...(DataHttp.elementiUtente || ({} as ElementiUtente)),
             proposta: data,

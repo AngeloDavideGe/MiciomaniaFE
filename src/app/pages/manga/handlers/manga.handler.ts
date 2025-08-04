@@ -6,6 +6,7 @@ import {
   MangaUtente,
   ListaManga,
 } from '../../../shared/interfaces/http.interface';
+import { ListaEUtenti } from '../interfaces/manga.interface';
 
 export function inizializzaLista(params: {
   mangaService: MangaService;
@@ -18,7 +19,7 @@ export function inizializzaLista(params: {
     .getListaManga(params.idUtente)
     .pipe(take(1))
     .subscribe({
-      next: (data) => {
+      next: (data: ListaEUtenti) => {
         DataHttp.mangaScaricati = true;
         caricaMangaEPreferiti({
           data: data,
