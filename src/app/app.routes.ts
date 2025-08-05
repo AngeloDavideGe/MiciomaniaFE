@@ -1,9 +1,4 @@
 import { Routes } from '@angular/router';
-import { AuthComponent } from './pages/auth/auth.component';
-import { GamesComponent } from './pages/games/games.component';
-import { HomeComponent } from './pages/home/home.component';
-import { MangaComponent } from './pages/manga/manga.component';
-import { SongComponent } from './pages/song/song.component';
 
 export const routes: Routes = [
   {
@@ -13,31 +8,36 @@ export const routes: Routes = [
   },
   {
     path: 'home',
-    component: HomeComponent,
+    loadComponent: () =>
+      import('./pages/home/home.component').then((m) => m.HomeComponent),
     loadChildren: () =>
       import('./pages/home/home.routes').then((m) => m.HOME_ROUTES),
   },
   {
     path: 'auth',
-    component: AuthComponent,
+    loadComponent: () =>
+      import('./pages/auth/auth.component').then((m) => m.AuthComponent),
     loadChildren: () =>
       import('./pages/auth/auth.routes').then((m) => m.AUTH_ROUTES),
   },
   {
     path: 'manga',
-    component: MangaComponent,
+    loadComponent: () =>
+      import('./pages/manga/manga.component').then((m) => m.MangaComponent),
     loadChildren: () =>
       import('./pages/manga/manga.routes').then((m) => m.MANGA_ROUTES),
   },
   {
     path: 'games',
-    component: GamesComponent,
+    loadComponent: () =>
+      import('./pages/games/games.component').then((m) => m.GamesComponent),
     loadChildren: () =>
       import('./pages/games/games.routes').then((m) => m.GAMES_ROUTES),
   },
   {
     path: 'canzoni',
-    component: SongComponent,
+    loadComponent: () =>
+      import('./pages/song/song.component').then((m) => m.SongComponent),
   },
   {
     path: '**',

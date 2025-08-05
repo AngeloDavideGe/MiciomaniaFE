@@ -27,14 +27,6 @@ import { ChatGroupService } from './services/chat-group.service';
       <!-- icona Bootstrap Icons (opzionale) -->
       <div class="position-relative me-2">
         <i class="bi bi-chat-dots-fill fs-4"></i>
-        @if(chatService.newMessages() > 0){
-        <span
-          class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
-          style="font-size: 0.75rem; padding: 0.35em 0.6em;"
-        >
-          {{ chatService.newMessages() }}
-        </span>
-        }
       </div>
 
       <span>Visualizza chat&nbsp;Miciomane</span>
@@ -49,6 +41,5 @@ export class ChatComponent {
 
   public apriChat(): void {
     this.chatAperta.set(true);
-    this.chatService.newMessages.set(0);
   }
 }
