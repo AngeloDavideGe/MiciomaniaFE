@@ -11,7 +11,7 @@ import { ChatGroupService } from './services/chat-group.service';
     @if (chatAperta()) {
     <div
       class="position-fixed bottom-0 end-0 mb-3 me-3"
-      style="width: 360px; height: 520px; z-index: 1080;"
+      style="width: 55vh; height: 65vh; z-index: 1080;"
     >
       <app-chat-group (chiudiChat)="chatAperta.set(false)"> </app-chat-group>
     </div>

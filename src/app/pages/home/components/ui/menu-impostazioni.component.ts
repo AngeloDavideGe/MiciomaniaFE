@@ -22,7 +22,7 @@ import { User } from '../../../../shared/interfaces/users.interface';
       </li>
       <li>
         <a class="dropdown-item" routerLink="/home/m&n">
-          <i class="bi bi-people-fill me-2"></i>
+          <i class="bi bi-7-circle-fill me-2"></i>
           MN
         </a>
       </li>
