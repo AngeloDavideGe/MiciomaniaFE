@@ -26,6 +26,12 @@ import { User } from '../../../../shared/interfaces/users.interface';
           MN
         </a>
       </li>
+      <li class="pc-only">
+        <a class="dropdown-item" (click)="cursore.emit()">
+          <i class="bi bi-cursor me-2"></i>
+          Cursore
+        </a>
+      </li>
       @if(user.id) {
       <li>
         <a class="dropdown-item" routerLink="/home/elementi-utente">
@@ -41,13 +47,6 @@ import { User } from '../../../../shared/interfaces/users.interface';
         </span>
       </li>
       }
-
-      <li class="pc-only">
-        <a class="dropdown-item" (click)="cursore.emit()">
-          <i class="bi bi-cursor me-2"></i>
-          Cursore
-        </a>
-      </li>
     </div>
   `,
   styles: [
@@ -66,12 +65,6 @@ import { User } from '../../../../shared/interfaces/users.interface';
             margin-bottom: 3px;
             border-bottom: 1px solid #e0e0e0;
           }
-        }
-      }
-
-      @media (max-width: 767.98px) {
-        .pc-only {
-          display: none;
         }
       }
     `,

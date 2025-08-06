@@ -62,7 +62,9 @@ export class MangaComponent implements OnDestroy {
     this.logFilterChanges()
   );
   public tabs: TabsManga[] = getTabsManga(
-    [null, false, true].map((condition) => this.getTabClickHandler(condition))
+    [null, false, true].map((condition, index) =>
+      this.getTabClickHandler(condition, index)
+    )
   );
 
   public isManga$: Observable<boolean> = this.router.events.pipe(
@@ -124,10 +126,16 @@ export class MangaComponent implements OnDestroy {
     ];
   }
 
-  private getTabClickHandler(condition: boolean | null): Function {
+  private getTabClickHandler(
+    condition: boolean | null,
+    index: number
+  ): Function {
     return () => {
       if (this.filterSelect.tabBoolean() !== condition) {
         this.filterSelect.tabBoolean.set(condition);
+        this.tabs.forEach((tab, i) => {
+          tab.class = i === index ? 'active' : '';
+        });
         this.logFilterChanges();
       }
     };

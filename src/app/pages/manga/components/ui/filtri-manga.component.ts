@@ -13,36 +13,43 @@ import { generiManga } from '../../constants/genere.constant';
   standalone: true,
   imports: [FormsModule],
   template: `
-    <div class="row mb-4">
+    <div
+      class="row g-3 mb-4 p-2 shadow-sm rounded-4 overflow-hidden"
+      style="background: #f8f9fa; width: 100%;"
+    >
       <!-- Dropdown -->
-      <div class="col-md-4">
-        <label for="dropdownSelect" class="form-label text-primary fw-bold"
+      <div class="col-12 col-md-4">
+        <label
+          for="dropdownSelect"
+          class="form-label text-primary fw-bold"
+          style="font-size: 1.1rem;"
           >Seleziona Genere</label
         >
         <select
-          id="dropdownSelect"
-          class="form-select bg-light border-primary"
+          class="form-select bg-light border-primary rounded-3 w-100"
           aria-label="Select an option"
+          style="min-height: 44px; font-size: 1rem; max-width: 100%;"
           (change)="onGenreChange.emit($event)"
         >
           <option selected>Qualsiasi</option>
-          @for(genere of mangaGeneri; track $index){
-          <option [value]="genere">
-            {{ genere }}
-          </option>
+          @for (genere of mangaGeneri; track $index) {
+          <option [value]="genere">{{ genere }}</option>
           }
         </select>
       </div>
 
       <!-- Name Input -->
-      <div class="col-md-4">
-        <label for="nome" class="form-label text-danger fw-bold"
+      <div class="col-12 col-md-4">
+        <label
+          for="nome"
+          class="form-label text-danger fw-bold"
+          style="font-size: 1.1rem;"
           >Cerca per Nome</label
         >
         <input
           type="text"
-          id="nome"
-          class="form-control bg-light border-danger"
+          class="form-control bg-light border-danger rounded-3 w-100"
+          style="min-height: 44px; font-size: 1rem; max-width: 100%;"
           placeholder="Cerca per Nome"
           [(ngModel)]="filterSelect.nome"
           (ngModelChange)="filterSelect.nome.set($event)"
@@ -50,14 +57,17 @@ import { generiManga } from '../../constants/genere.constant';
       </div>
 
       <!-- Author Input -->
-      <div class="col-md-4">
-        <label for="autore" class="form-label text-success fw-bold"
+      <div class="col-12 col-md-4">
+        <label
+          for="autore"
+          class="form-label text-success fw-bold"
+          style="font-size: 1.1rem;"
           >Cerca per Autore</label
         >
         <input
           type="text"
-          id="autore"
-          class="form-control bg-light border-success"
+          class="form-control bg-light border-success rounded-3 w-100"
+          style="min-height: 44px; font-size: 1rem; max-width: 100%;"
           placeholder="Cerca per Autore"
           [(ngModel)]="filterSelect.autore"
           (ngModelChange)="filterSelect.autore.set($event)"

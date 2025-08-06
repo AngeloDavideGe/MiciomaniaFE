@@ -6,13 +6,12 @@ import { TabsManga } from '../../interfaces/filtri.interface';
   standalone: true,
   imports: [],
   template: `
-    <ul class="nav nav-tabs" style="margin-bottom: 20px">
+    <ul class="nav nav-tabs">
       @for (tab of tabs; track $index) {
       <li class="nav-item">
         <a
+          style="cursor: pointer;"
           class="nav-link {{ tab.class }}"
-          data-bs-toggle="tab"
-          [href]="tab.href"
           [style.fontWeight]="'bold'"
           [style.color]="tab.color"
           (click)="tab.clickCall()"

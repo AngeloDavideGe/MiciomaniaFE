@@ -7,10 +7,7 @@ import { BottonCustomComponent } from '../../../../../../shared/components/custo
   selector: 'app-success-page',
   imports: [BottonCustomComponent],
   template: `
-    <div
-      class="container text-center mt-5 px-3 px-md-4 px-lg-5"
-      style="padding-top: 0rem; padding: 3rem"
-    >
+    <div class="text-center mt-3 px-3 px-md-4 px-lg-5" style="padding: 1rem">
       <h1 style="color: green; font-size: 3rem;">Operazione Completata!</h1>
       <p style="font-size: 1.5rem;">
         La tua iscrizione è avvenuta con successo. Ecco i dettagli:

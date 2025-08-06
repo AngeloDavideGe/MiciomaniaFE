@@ -69,7 +69,10 @@ export class SocialLinkComponent implements OnInit {
         )
         .pipe(take(1))
         .subscribe({
-          next: (data) => (this.social = data as Social[]),
+          next: (data) => {
+            DataHttp.social = data as Social[];
+            this.social = data as Social[];
+          },
           error: (err) => console.error('errore recupero social', err),
         });
     }

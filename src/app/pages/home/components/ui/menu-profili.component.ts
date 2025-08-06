@@ -72,12 +72,6 @@ import { User } from '../../../../shared/interfaces/users.interface';
           }
         }
       }
-
-      @media (max-width: 767.98px) {
-        .pc-only {
-          display: none;
-        }
-      }
     `,
   ],
 })
