@@ -7,7 +7,7 @@ import { BottonCustomComponent } from '../../../../../../shared/components/custo
   standalone: true,
   imports: [BottonCustomComponent],
   template: `
-    <div class="d-flex justify-content-between align-items-center mb-5">
+    <div class="d-flex justify-content-between align-items-center">
       <app-botton-custom
         [text]="'Torna indietro'"
         [icon1]="'bi bi-arrow-left'"
@@ -21,7 +21,6 @@ import { BottonCustomComponent } from '../../../../../../shared/components/custo
         Classifica MN
       </h2>
 
-      <div style="width: 120px"></div>
       <!-- Spaziatura bilanciata -->
     </div>
   `,
