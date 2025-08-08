@@ -11,11 +11,12 @@ import {
 import { PadZeroVolumePipe } from '../../../pipes/padZeroVolume.pipe';
 import { DataHttp } from '../../../../../core/api/http.data';
 import { MangaService } from '../../../services/manga.service';
+import { BottonCustomComponent } from '../../../../../shared/components/custom/botton-custom.component';
 
 @Component({
   selector: 'app-volumi-manga',
   standalone: true,
-  imports: [PadZeroVolumePipe],
+  imports: [PadZeroVolumePipe, BottonCustomComponent],
   templateUrl: './volumi-manga.component.html',
 })
 export class VolumiMangaComponent implements OnInit {

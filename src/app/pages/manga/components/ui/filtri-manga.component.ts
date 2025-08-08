@@ -14,7 +14,7 @@ import { generiManga } from '../../constants/genere.constant';
   imports: [FormsModule],
   template: `
     <div
-      class="row g-3 mb-4 p-2 shadow-sm rounded-4 overflow-hidden"
+      class="row g-1 mb-2 p-2 shadow-sm rounded-4 overflow-hidden"
       style="background: #f8f9fa; width: 100%;"
     >
       <!-- Dropdown -->

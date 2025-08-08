@@ -16,13 +16,15 @@ import { CursorUtilities } from './shared/utilities/cursor.utilities';
   standalone: true,
   imports: [RouterOutlet, MiniPlayerComponent, NgStyle, ChatComponent],
   template: `
-    <div
-      class="app-router-outlet-container"
-      [ngStyle]="{
-        'margin-bottom': miniPlayerService.currentCanzone() ? '8rem' : '0rem'
-      }"
-    >
+    <div class="app-router-outlet-container">
+      <!-- Componenti delle rotte -->
       <router-outlet></router-outlet>
+      <!-- Spacer per il mini-player -->
+      <div
+        [ngStyle]="{
+          height: miniPlayerService.currentCanzone() ? '13rem' : '5rem'
+        }"
+      ></div>
     </div>
 
     <app-chat></app-chat>
