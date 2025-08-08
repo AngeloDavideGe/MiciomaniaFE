@@ -19,18 +19,22 @@ import { CursorUtilities } from './shared/utilities/cursor.utilities';
     <div class="app-router-outlet-container">
       <!-- Componenti delle rotte -->
       <router-outlet></router-outlet>
-      <!-- Spacer per il mini-player -->
+
+      <!-- Spaczio Vuoto-->
       <div
         [ngStyle]="{
           height: miniPlayerService.currentCanzone() ? '13rem' : '5rem'
         }"
       ></div>
-    </div>
 
-    <app-chat></app-chat>
-    @if (miniPlayerService.currentCanzone()) {
-    <app-mini-player> </app-mini-player>
-    }
+      <!-- Chat -->
+      <app-chat></app-chat>
+
+      <!-- Mini Player -->
+      @if (miniPlayerService.currentCanzone()) {
+      <app-mini-player> </app-mini-player>
+      }
+    </div>
   `,
 })
 export class AppComponent implements OnInit {

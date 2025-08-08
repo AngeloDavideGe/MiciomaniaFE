@@ -1,10 +1,9 @@
 import { Component } from '@angular/core';
-import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-error-http',
   standalone: true,
-  imports: [RouterModule],
+  imports: [],
   template: `
     <div
       class="d-flex flex-column align-items-center justify-content-center vh-100 text-center bg-light"

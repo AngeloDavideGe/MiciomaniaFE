@@ -1,5 +1,5 @@
 import { Type } from '@angular/core';
-import { ErrorHttpComponent } from '../../../../../../shared/components/errorhttp.component';
+import { ErrorHttpComponent } from '../../../../../../shared/components/custom/errorhttp.component';
 import { CardProfiloComponent } from '../components/card-profilo.component';
 import { ChangePicComponent } from '../components/change-pic.component';
 import { EditProfiloComponent } from '../components/edit-profilo/edit-profilo.component';

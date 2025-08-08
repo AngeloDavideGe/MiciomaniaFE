@@ -1,5 +1,5 @@
 import { Type } from '@angular/core';
-import { ErrorHttpComponent } from '../../../../../../shared/components/errorhttp.component';
+import { ErrorHttpComponent } from '../../../../../../shared/components/custom/errorhttp.component';
 import { CardMangaComponent } from '../../../../shared/card-manga.component';
 import { DettagliMangaComponent } from '../../../../shared/dettagli-manga.component';
 import { InputTuoiMangaComponent } from '../components/input-tuoi-manga.component';
