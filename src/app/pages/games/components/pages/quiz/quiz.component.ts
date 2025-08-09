@@ -49,9 +49,7 @@ export class QuizComponent extends GamesBase implements OnInit {
             this.gitHubService.quizFilter = structuredClone(quiz as Quiz[]);
             this.loadinService.hide();
           },
-          error: (err) => {
-            console.error('errore nel recupero domande', err);
-          },
+          error: (err) => console.error('errore nel recupero domande', err),
         });
     }
   }

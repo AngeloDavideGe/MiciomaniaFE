@@ -46,10 +46,7 @@ export class IscrizioneComponent extends WizardBase {
     })
       .pipe(take(1))
       .subscribe({
-        next: () => {
-          this.setLocalStorage();
-          this.nextCallIscrizione();
-        },
+        next: () => this.nextCallIscrizione(),
         error: (err) =>
           this.errorUpdateUtente(err, 'Errore modifica dell utente'),
       });
@@ -96,15 +93,13 @@ export class IscrizioneComponent extends WizardBase {
     }
   }
 
-  private setLocalStorage(): void {
-    if (DataHttp.profiloPersonale) {
-      DataHttp.profiloPersonale.user = this.user;
-    }
-  }
-
   private nextCallIscrizione(): void {
     this.loadingService.hide();
     this.wizardService.setWizardForm({} as FormWizard);
+
+    if (DataHttp.profiloPersonale) {
+      DataHttp.profiloPersonale.user = this.user;
+    }
 
     this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
       this.router.navigate(['/auth/iscrizione']);

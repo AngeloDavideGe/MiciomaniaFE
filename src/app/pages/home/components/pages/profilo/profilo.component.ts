@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Subject, takeUntil } from 'rxjs';
 import { DataHttp } from '../../../../../core/api/http.data';
 import { getVoidUser } from '../../../../../shared/handlers/functions/user.function';
+import { Profilo } from '../../../../../shared/interfaces/http.interface';
 import { User } from '../../../../../shared/interfaces/users.interface';
 import { ConfirmService } from '../../../../../shared/services/template/confirm.service';
 import { LoadingService } from '../../../../../shared/services/template/loading.service';
@@ -14,8 +15,6 @@ import { EditableSocial, Tweet } from '../../../interfaces/profilo.interface';
 import { ProfiloService } from '../../../services/profilo.service';
 import { profilo_imports } from './imports/profilo.imports';
 import { modaleApertaType } from './types/profilo.type';
-import { Profilo } from '../../../../../shared/interfaces/http.interface';
-import { BottonCustomComponent } from '../../../../../shared/components/custom/botton-custom.component';
 
 @Component({
   selector: 'app-profilo',
@@ -23,7 +22,7 @@ import { BottonCustomComponent } from '../../../../../shared/components/custom/b
   imports: profilo_imports,
   templateUrl: './profilo.component.html',
 })
-export class ProfiloComponent implements OnInit, OnDestroy {
+export class ProfiloComponent implements OnDestroy {
   private route = inject(ActivatedRoute);
   public router = inject(Router);
   private loaderService = inject(LoadingService);
@@ -48,10 +47,6 @@ export class ProfiloComponent implements OnInit, OnDestroy {
     this.setTornaIndietroPath();
   }
 
-  ngOnInit(): void {
-    this.loaderService.show();
-  }
-
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
@@ -72,17 +67,16 @@ export class ProfiloComponent implements OnInit, OnDestroy {
   private sottoscrizioneParam(): void {
     this.route.params.pipe(takeUntil(this.destroy$)).subscribe((params) => {
       this.idUtente = params['id'];
-      effect(() => {
-        const user: User | null = DataHttp.user();
-        this.caricaDatiUser(user);
-      });
+      const user: User | null = DataHttp.user();
+      this.caricaDatiUser(user);
     });
   }
 
   private caricaDatiUser(user: User | null): void {
-    if (user && user.id) {
-      this.profiloPersonale = this.idUtente == user.id;
-      if (DataHttp.profiloPersonale && this.profiloPersonale) {
+    this.profiloPersonale = this.idUtente == user?.id;
+
+    if (this.profiloPersonale) {
+      if (DataHttp.profiloPersonale) {
         this.profilo = DataHttp.profiloPersonale;
         this.caricamentoCompletato();
       } else {
@@ -94,6 +88,7 @@ export class ProfiloComponent implements OnInit, OnDestroy {
   }
 
   private sottoscrizioneProfilo(userId: string): void {
+    this.loaderService.show();
     getProfiloById({
       profiloService: this.profiloService,
       userId: userId,
