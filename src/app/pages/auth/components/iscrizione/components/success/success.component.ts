@@ -57,17 +57,21 @@ import { BottonCustomComponent } from '../../../../../../shared/components/custo
 
       <!-- Button Container -->
       <div class="d-flex justify-content-center gap-3 mt-4">
-        <app-botton-custom
-          [text]="'Torna alla Home'"
-          [icon1]="'bi bi-arrow-left'"
-          (clickBotton)="navigateToHome()"
-        ></app-botton-custom>
+        <div class="d-flex gap-3 justify-content-center mt-4">
+          <app-botton-custom
+            [text]="'Torna alla Home'"
+            [icon1]="'bi bi-arrow-left'"
+            [color]="'#e9ecef'"
+            (clickBotton)="navigateToHome()"
+          ></app-botton-custom>
 
-        <app-botton-custom
-          [text]="'Modifica Info'"
-          [icon1]="'bi bi-pencil'"
-          (clickBotton)="editInfo()"
-        ></app-botton-custom>
+          <app-botton-custom
+            [text]="'Modifica Info'"
+            [icon1]="'bi bi-pencil'"
+            [color]="'#20c997'"
+            (clickBotton)="editInfo()"
+          ></app-botton-custom>
+        </div>
       </div>
     </div>
   `,

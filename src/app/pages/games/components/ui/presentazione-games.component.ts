@@ -30,11 +30,13 @@ import { BottonCustomComponent } from '../../../../shared/components/custom/bott
     <app-botton-custom
       [text]="'Torna indietro'"
       [icon1]="'bi bi-arrow-left'"
+      [color]="'#e9ecef'"
       (clickBotton)="router.navigate(['/home'])"
     ></app-botton-custom>
 
     <app-botton-custom
       [text]="showDetails ? 'Nascondi Dettagli' : 'Mostra Dettagli'"
+      [color]="'#0d6efd'"
       (clickBotton)="showDetailsFunc.emit()"
     ></app-botton-custom>
   `,

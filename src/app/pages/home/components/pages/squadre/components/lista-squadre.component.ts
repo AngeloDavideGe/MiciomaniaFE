@@ -10,6 +10,7 @@ import { BottonCustomComponent } from '../../../../../../shared/components/custo
     <app-botton-custom
       [text]="'Torna indietro'"
       [icon1]="'bi bi-arrow-left'"
+      [color]="'#e9ecef'"
       (clickBotton)="router.navigate(['/home'])"
     ></app-botton-custom>
 
