@@ -13,7 +13,6 @@ import { filter, map, Observable, startWith, tap } from 'rxjs';
 import { compareObjectCustom } from '../../shared/functions/utilities.function';
 import { LoadingService } from '../../shared/services/template/loading.service';
 import { generiManga } from './constants/genere.constant';
-import { getTabsManga } from './functions/manga.functions';
 import {
   inizializzaLista,
   postOrUpdateMangaUtente,
@@ -26,6 +25,10 @@ import {
   ListaManga,
   MangaUtente,
 } from '../../shared/interfaces/http.interface';
+import {
+  getPulsanti,
+  getTabsManga,
+} from './functions/pulsanti-manga.functions';
 
 @Component({
   selector: 'app-manga',
@@ -43,7 +46,9 @@ export class MangaComponent implements OnDestroy {
   public aggiornamentoManga: boolean = false;
   public mangaGeneri = generiManga;
   public idUtente: string | null = null;
-  public pulsanti: PulsantiManga[] = this.getPulsanti();
+  public pulsanti: PulsantiManga[] = getPulsanti((path: string) =>
+    this.router.navigate([path])
+  );
 
   private debounce = {
     autore: signal(''),
@@ -62,9 +67,8 @@ export class MangaComponent implements OnDestroy {
     this.logFilterChanges()
   );
   public tabs: TabsManga[] = getTabsManga(
-    [null, false, true].map((condition, index) =>
-      this.getTabClickHandler(condition, index)
-    )
+    (cond: boolean | null, index: number) =>
+      this.getTabClickHandler(cond, index)
   );
 
   public isManga$: Observable<boolean> = this.router.events.pipe(
@@ -78,7 +82,7 @@ export class MangaComponent implements OnDestroy {
 
   constructor() {
     effect(() => {
-      const value = this.filterSelect.autore();
+      const value: string = this.filterSelect.autore();
       clearTimeout(this.debounce.autoreTimeout);
       this.debounce.autoreTimeout = setTimeout(() => {
         this.debounce.autore.set(value);
@@ -86,7 +90,7 @@ export class MangaComponent implements OnDestroy {
     });
 
     effect(() => {
-      const value = this.filterSelect.nome();
+      const value: string = this.filterSelect.nome();
       clearTimeout(this.debounce.nomeTimeout);
       this.debounce.nomeTimeout = setTimeout(() => {
         this.debounce.nome.set(value);
@@ -101,29 +105,6 @@ export class MangaComponent implements OnDestroy {
   @HostListener('window:beforeunload', ['$event'])
   unloadNotification($event: BeforeUnloadEvent): void {
     this.upsertOnDestroy($event);
-  }
-
-  private getPulsanti(): PulsantiManga[] {
-    return [
-      {
-        click: () => this.router.navigate(['/home']),
-        disabled: false,
-        titolo: 'Torna alla Home',
-        icona: 'bi bi-house-door me-2',
-      },
-      {
-        click: () => this.router.navigate(['/manga/tuoi-manga']),
-        disabled: !DataHttp.user(),
-        titolo: 'I tuoi Manga',
-        icona: 'bi bi-book me-2',
-      },
-      {
-        click: () => this.router.navigate(['/manga/manga-miciomani']),
-        disabled: !DataHttp.user(),
-        titolo: 'Manga Miciomani',
-        icona: 'bi bi-emoji-sunglasses me-2',
-      },
-    ];
   }
 
   private getTabClickHandler(

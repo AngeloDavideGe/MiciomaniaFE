@@ -36,10 +36,7 @@ export class HomeComponent implements OnInit {
     filter((event): event is NavigationEnd => event instanceof NavigationEnd),
     startWith({ url: this.router.url }),
     map((event) => event.url == '/home'),
-    tap(() => {
-      this.componenteAperto.set('');
-      this.loadUsers();
-    })
+    tap(() => this.loadUsers())
   );
 
   constructor() {
@@ -57,6 +54,7 @@ export class HomeComponent implements OnInit {
   }
 
   private loadUsers(): void {
+    this.componenteAperto.set('');
     if (DataHttp.users().length === 0) {
       sottoscrizioneUtenti({
         authService: this.authService,
@@ -85,9 +83,10 @@ export class HomeComponent implements OnInit {
 
   private confirmLogout(): void {
     DataHttp.users.update((users) => [...users, converUserParams(this.user)]);
-    DataHttp.mangaUtente = {} as any;
-    DataHttp.profiloPersonale = null;
     DataHttp.user.set(null);
+    DataHttp.profiloPersonale = null;
+    DataHttp.mangaUtente = {} as any;
+    DataHttp.elementiUtente = {} as any;
     this.setAnonymousUser();
   }
 

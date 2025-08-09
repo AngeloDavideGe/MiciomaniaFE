@@ -1,40 +1,13 @@
 import { finalize, Observable, take } from 'rxjs';
-import { TabsManga } from '../interfaces/filtri.interface';
+import {
+  ListaManga,
+  MangaUtente,
+} from '../../../shared/interfaces/http.interface';
 import {
   MangaENome,
   SezioniMangaUtente,
   SplitMangaUtente,
 } from '../interfaces/manga.interface';
-import {
-  MangaUtente,
-  ListaManga,
-} from '../../../shared/interfaces/http.interface';
-
-export function getTabsManga(clickCalls: Function[]): TabsManga[] {
-  return [
-    {
-      class: 'active',
-      href: '#tutti',
-      color: '#6c5ce7',
-      testo: 'Tutti',
-      clickCall: clickCalls[0],
-    },
-    {
-      class: '',
-      href: '#in-corso',
-      color: '#00b894',
-      testo: 'In corso',
-      clickCall: clickCalls[1],
-    },
-    {
-      class: '',
-      href: '#terminati',
-      color: '#e84393',
-      testo: 'Terminati',
-      clickCall: clickCalls[2],
-    },
-  ];
-}
 
 export function loadMangaVolumiENome(params: {
   pathOpera: string;
@@ -62,7 +35,7 @@ export function voidSplitManga(): SplitMangaUtente {
     preferiti: [],
     letti: [],
     completati: [],
-  };
+  } as SplitMangaUtente;
 }
 
 export function createSezioneMangaUtente(
