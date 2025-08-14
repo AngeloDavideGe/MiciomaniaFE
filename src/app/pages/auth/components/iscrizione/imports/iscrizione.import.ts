@@ -5,11 +5,13 @@ import { Step2Component } from '../components/step2/step2.component';
 import { Step3Component } from '../components/step3/step3.component';
 import { SuccessPageComponent } from '../components/success/success.component';
 import { BottonCustomComponent } from '../../../../../shared/components/custom/botton-custom.component';
+import { NgStyle } from '@angular/common';
 
 export const iscrizione_imports: Type<any>[] = [
   Step1Component,
   Step2Component,
   Step3Component,
+  NgStyle,
   ErrorIscrizioneComponent,
   SuccessPageComponent,
   BottonCustomComponent,

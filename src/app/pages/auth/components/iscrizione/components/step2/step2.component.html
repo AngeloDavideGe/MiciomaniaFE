@@ -1,210 +1,194 @@
-<div class="card-header bg-gradient text-center">
-  <h5 class="card-title">Modulo di Aggiornamento Profilo</h5>
-</div>
-<div class="card-body">
-  <form [formGroup]="profileForm" (ngSubmit)="onSubmit()">
-    <!-- Nome Utente (Senza Validazione, Solo Lettura) -->
-    <div class="mb-4">
-      <label for="nomeUtente" class="form-label fs-5">Nome Utente</label>
-      <input
-        type="text"
-        id="nomeUtente"
-        class="form-control form-control-lg border-info shadow-sm"
-        [value]="nomeUtente"
-        readonly
-        style="background-color: #f4f4f9"
-      />
-    </div>
+<div class="card shadow-lg border-0" style="overflow: hidden">
+  <div
+    class="card-header text-white text-center"
+    style="background: linear-gradient(90deg, #0d6efd, #0b5ed7)"
+  >
+    <h5 class="card-title mb-0">Modulo di Aggiornamento Profilo</h5>
+  </div>
 
-    <!-- Email (Senza Validazione, Solo Lettura) -->
-    <div class="mb-4">
-      <label for="email" class="form-label fs-5">Email</label>
-      <input
-        type="email"
-        id="email"
-        class="form-control form-control-lg border-info shadow-sm"
-        [value]="email"
-        readonly
-        style="background-color: #f4f4f9"
-      />
-    </div>
+  <div class="card-body p-4" style="background-color: #f8f9fa">
+    <form [formGroup]="profileForm" (ngSubmit)="onSubmit()">
+      <!-- Nome Utente -->
+      <div class="mb-4">
+        <label for="nomeUtente" class="form-label fw-semibold"
+          >Nome Utente</label
+        >
+        <input
+          type="text"
+          id="nomeUtente"
+          class="form-control form-control-lg border-0 shadow-sm"
+          style="background-color: #e9ecef"
+          [value]="nomeUtente"
+          readonly
+        />
+      </div>
 
-    <!-- Team (Checkbox) -->
-    <div class="mb-4">
-      <label for="team" class="form-label fs-5">Team</label>
-      <div
-        id="team"
-        class="form-check-group border-info shadow-sm p-3 rounded"
-        [ngClass]="{
-          'border-danger':
-            ((f['team'].touched && f['team'].invalid) || pulsantePremuto) &&
-            f['team'].invalid,
-          'border-success': pulsantePremuto && f['team'].valid
-        }"
-        style="background-color: #e7f3fe"
-      >
-        @for (t of team; track $index) {
-        <div class="form-check">
-          <input
-            type="checkbox"
-            [id]="'team-' + $index"
-            class="form-check-input"
-            [value]="t"
-            [checked]="profileForm.get('team')?.value?.includes(t)"
-            (change)="onTeamChange($event)"
-          />
-          <label [for]="'team-' + $index" class="form-check-label">
-            {{ t }}
-          </label>
+      <!-- Email -->
+      <div class="mb-4">
+        <label for="email" class="form-label fw-semibold">Email</label>
+        <input
+          type="email"
+          id="email"
+          class="form-control form-control-lg border-0 shadow-sm"
+          style="background-color: #e9ecef"
+          [value]="email"
+          readonly
+        />
+      </div>
+
+      <!-- Team -->
+      <div class="mb-4">
+        <label class="form-label fw-semibold">Team</label>
+        <div
+          id="team"
+          class="p-3 rounded shadow-sm"
+          [ngClass]="{
+            'border border-danger':
+              ((f['team'].touched && f['team'].invalid) || pulsantePremuto) &&
+              f['team'].invalid,
+            'border border-success': pulsantePremuto && f['team'].valid
+          }"
+          style="background-color: #e7f3fe"
+        >
+          @for (t of team; track $index) {
+          <div class="form-check mb-2">
+            <input
+              type="checkbox"
+              [id]="'team-' + $index"
+              class="form-check-input"
+              [value]="t"
+              [checked]="profileForm.get('team')?.value?.includes(t)"
+              (change)="onTeamChange($event)"
+            />
+            <label [for]="'team-' + $index" class="form-check-label">
+              {{ t }}
+            </label>
+          </div>
+          }
         </div>
+
+        @if (((f['team'].touched && f['team'].invalid) || pulsantePremuto) &&
+        f['team'].invalid) {
+        <div class="invalid-feedback d-block mt-1">Il team è obbligatorio.</div>
+        } @if (pulsantePremuto && f['team'].valid) {
+        <div class="valid-feedback d-block mt-1">Selezione valida!</div>
         }
       </div>
 
-      <!-- Messaggio di errore -->
-      @if (((f['team'].touched && f['team'].invalid) || pulsantePremuto) &&
-      f['team'].invalid) {
-      <div class="invalid-feedback d-block">Il team è obbligatorio.</div>
-      }
-
-      <!-- Messaggio di successo -->
-      @if (pulsantePremuto && f['team'].valid) {
-      <div class="valid-feedback d-block">Selezione valida!</div>
-      }
-    </div>
-
-    <!-- Stato (Dropdown) -->
-    <div class="mb-4">
-      <label for="stato" class="form-label fs-5">Stato</label>
-      <select
-        id="stato"
-        class="form-select form-select-lg border-info shadow-sm"
-        formControlName="stato"
-        [ngClass]="{
-          'is-invalid':
-            ((f['stato'].touched && f['stato'].invalid) || pulsantePremuto) &&
-            f['stato'].invalid,
-          'is-valid': pulsantePremuto && f['stato'].valid
-        }"
-        style="background-color: #e7f3fe"
-      >
-        @for (stato of statiPersona; track $index) {
-        <option [value]="stato">
-          {{ stato }}
-        </option>
-        }
-      </select>
-
-      @if ((f['stato'].touched && f['stato'].invalid) || pulsantePremuto) {
-      <div class="invalid-feedback">Lo stato è obbligatorio.</div>
-      } @if (pulsantePremuto && f['stato'].valid) {
-      <div class="valid-feedback">Campo valido!</div>
-      }
-    </div>
-
-    <div class="row mb-4">
-      <!-- Regione -->
-      <div class="col-md-6 mb-3 mb-md-0">
-        <label for="regione" class="form-label fs-5">Regione</label>
+      <!-- Stato -->
+      <div class="mb-4">
+        <label for="stato" class="form-label fw-semibold">Stato</label>
         <select
-          id="regione"
-          class="form-select form-select-lg border-info shadow-sm"
-          formControlName="regione"
+          id="stato"
+          class="form-select form-select-lg border-0 shadow-sm"
+          style="background-color: #e7f3fe"
+          formControlName="stato"
           [ngClass]="{
             'is-invalid':
-              ((f['regione'].touched && f['regione'].invalid) ||
-                pulsantePremuto) &&
-              f['regione'].invalid,
-            'is-valid': pulsantePremuto && f['regione'].valid
+              ((f['stato'].touched && f['stato'].invalid) || pulsantePremuto) &&
+              f['stato'].invalid,
+            'is-valid': pulsantePremuto && f['stato'].valid
           }"
-          (change)="onRegioneChange($event)"
-          style="background-color: #e7f3fe"
         >
-          @for (regione of regioni; track regione.codice) {
-          <option [value]="regione.codice">
-            {{ regione.nome }}
-          </option>
+          @for (stato of statiPersona; track $index) {
+          <option [value]="stato">{{ stato }}</option>
           }
         </select>
 
-        <!-- Messaggio di errore -->
-        @if (((f['regione'].touched && f['regione'].invalid) || pulsantePremuto)
-        && f['regione'].invalid) {
-        <div class="invalid-feedback">La regione è obbligatoria.</div>
-        }
-
-        <!-- Messaggio di successo -->
-        @if (pulsantePremuto && f['regione'].valid) {
-        <div class="valid-feedback">Regione selezionata correttamente!</div>
+        @if ((f['stato'].touched && f['stato'].invalid) || pulsantePremuto) {
+        <div class="invalid-feedback">Lo stato è obbligatorio.</div>
+        } @if (pulsantePremuto && f['stato'].valid) {
+        <div class="valid-feedback">Campo valido!</div>
         }
       </div>
 
-      <!-- Provincia -->
-      <div class="col-md-6">
-        <label for="provincia" class="form-label fs-5">Provincia</label>
-        <select
-          id="provincia"
-          class="form-select form-select-lg border-info shadow-sm"
-          formControlName="provincia"
+      <div class="row mb-4">
+        <!-- Regione -->
+        <div class="col-md-6 mb-3 mb-md-0">
+          <label for="regione" class="form-label fw-semibold">Regione</label>
+          <select
+            id="regione"
+            class="form-select form-select-lg border-0 shadow-sm"
+            style="background-color: #e7f3fe"
+            formControlName="regione"
+            (change)="onRegioneChange($event)"
+            [ngClass]="{
+              'is-invalid':
+                ((f['regione'].touched && f['regione'].invalid) ||
+                  pulsantePremuto) &&
+                f['regione'].invalid,
+              'is-valid': pulsantePremuto && f['regione'].valid
+            }"
+          >
+            @for (regione of regioni; track regione.codice) {
+            <option [value]="regione.codice">{{ regione.nome }}</option>
+            }
+          </select>
+
+          @if (((f['regione'].touched && f['regione'].invalid) ||
+          pulsantePremuto) && f['regione'].invalid) {
+          <div class="invalid-feedback">La regione è obbligatoria.</div>
+          } @if (pulsantePremuto && f['regione'].valid) {
+          <div class="valid-feedback">Regione selezionata correttamente!</div>
+          }
+        </div>
+
+        <!-- Provincia -->
+        <div class="col-md-6">
+          <label for="provincia" class="form-label fw-semibold"
+            >Provincia</label
+          >
+          <select
+            id="provincia"
+            class="form-select form-select-lg border-0 shadow-sm"
+            style="background-color: #e7f3fe"
+            formControlName="provincia"
+            [disabled]="f['regione'].invalid"
+            [ngClass]="{
+              'is-invalid':
+                ((f['provincia'].touched && f['provincia'].invalid) ||
+                  pulsantePremuto) &&
+                f['provincia'].invalid,
+              'is-valid': pulsantePremuto && f['provincia'].valid
+            }"
+          >
+            @for (provincia of province; track provincia.codice) {
+            <option [value]="provincia.nome">{{ provincia.nome }}</option>
+            }
+          </select>
+
+          @if (((f['provincia'].touched && f['provincia'].invalid) ||
+          pulsantePremuto) && f['provincia'].invalid) {
+          <div class="invalid-feedback">La provincia è obbligatoria.</div>
+          } @if (pulsantePremuto && f['provincia'].valid) {
+          <div class="valid-feedback">Provincia selezionata correttamente!</div>
+          }
+        </div>
+      </div>
+
+      <!-- Città -->
+      <div class="mb-4">
+        <label for="citta" class="form-label fw-semibold">Città</label>
+        <input
+          type="text"
+          id="citta"
+          class="form-control form-control-lg border-0 shadow-sm"
+          style="background-color: #e7f3fe"
+          formControlName="citta"
           [ngClass]="{
             'is-invalid':
-              ((f['provincia'].touched && f['provincia'].invalid) ||
-                pulsantePremuto) &&
-              f['provincia'].invalid,
-            'is-valid': pulsantePremuto && f['provincia'].valid
+              ((f['citta'].touched && f['citta'].invalid) || pulsantePremuto) &&
+              f['citta'].invalid,
+            'is-valid': pulsantePremuto && f['citta'].valid
           }"
-          style="background-color: #e7f3fe"
-          [disabled]="f['regione'].invalid"
-        >
-          @for (provincia of province; track provincia.codice) {
-          <option [value]="provincia.nome">
-            {{ provincia.nome }}
-          </option>
-          }
-        </select>
-
-        <!-- Messaggio di errore -->
-        @if (((f['provincia'].touched && f['provincia'].invalid) ||
-        pulsantePremuto) && f['provincia'].invalid) {
-
-        <div class="invalid-feedback">La provincia è obbligatoria.</div>
-        }
-
-        <!-- Messaggio di successo -->
-        @if (pulsantePremuto && f['provincia'].valid) {
-        <div class="valid-feedback">Provincia selezionata correttamente!</div>
+        />
+        @if (((f['citta'].touched && f['citta'].invalid) || pulsantePremuto) &&
+        f['citta'].invalid) {
+        <div class="invalid-feedback">La città è obbligatoria.</div>
+        } @if (pulsantePremuto && f['citta'].valid) {
+        <div class="valid-feedback">Città inserita correttamente!</div>
         }
       </div>
-    </div>
-
-    <!-- Città -->
-    <div class="mb-4">
-      <label for="citta" class="form-label fs-5">Città</label>
-      <input
-        type="text"
-        id="citta"
-        class="form-control form-control-lg border-info shadow-sm"
-        formControlName="citta"
-        [ngClass]="{
-          'is-invalid':
-            ((f['citta'].touched && f['citta'].invalid) || pulsantePremuto) &&
-            f['citta'].invalid,
-          'is-valid': pulsantePremuto && f['citta'].valid
-        }"
-        style="background-color: #e7f3fe"
-      />
-
-      <!-- Messaggio di errore -->
-      @if (((f['citta'].touched && f['citta'].invalid) || pulsantePremuto) &&
-      f['citta'].invalid) {
-      <div class="invalid-feedback">La città è obbligatoria.</div>
-      }
-
-      <!-- Messaggio di successo -->
-      @if (pulsantePremuto && f['citta'].valid) {
-      <div class="valid-feedback">Città inserita correttamente!</div>
-      }
-    </div>
-  </form>
+    </form>
+  </div>
 </div>
-<!-- </div>
-</div> -->

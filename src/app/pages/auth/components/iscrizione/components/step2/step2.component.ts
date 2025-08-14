@@ -73,6 +73,7 @@ export class Step2Component implements OnInit, OnDestroy {
 
   private inizializzaForm(): void {
     const wizardFormData: FormWizard = this.wizardService.getWizardForm();
+    this.formValido.emit(false);
     this.profileForm = this.fb.group({
       team: [[], arrayNotEmptyValidator()],
       stato: [wizardFormData.stato || '', Validators.required],

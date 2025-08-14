@@ -1,42 +1,62 @@
 @if (caricaPersona) {
-<!-- Success Page -->
+<!-- Wizard Container -->
 @if (!(user.iscrizione.team && viewSuccespage)) {
-<div class="wizard-header">
+<div
+  class="wizard-header d-flex justify-content-center align-items-center mb-4 p-3"
+>
   @for (step of wizard; track $index) {
-  <div class="wizard-step" [class.active]="currentStep() === step.step">
-    <div class="circle">{{ step.step }}</div>
-    <div class="label">{{ step.titolo }}</div>
+  <div
+    class="wizard-step text-center mx-3 position-relative"
+    [class.active]="currentStep() === step.step"
+  >
+    <!-- Cerchio -->
+    <div
+      class="circle mx-auto mb-1 d-flex justify-content-center align-items-center"
+      [ngStyle]="{
+        'background-color': currentStep() === step.step ? '#0d6efd' : '#dee2e6',
+        color: currentStep() === step.step ? '#fff' : '#495057'
+      }"
+      style="width: 40px; height: 40px; border-radius: 50%; font-weight: bold"
+    >
+      {{ step.step }}
+    </div>
+    <!-- Titolo -->
+    <div
+      class="label fw-semibold"
+      [ngStyle]="{ color: currentStep() === step.step ? '#0d6efd' : '#6c757d' }"
+    >
+      {{ step.titolo }}
+    </div>
+    <!-- Linea di collegamento (se non ultimo step) -->
+    @if ($index < wizard.length - 1) {
+    <div
+      class="position-absolute top-50 start-100 translate-middle-y"
+      style="width: 50px; height: 2px; background-color: #dee2e6"
+    ></div>
+    }
   </div>
-
   }
 </div>
 
-@switch (currentStep()) {
-<!-- Step 1 -->
-@case (1) {
-<app-step1></app-step1>
-}
-
-<!-- Step 2 -->
-@case (2) { @if (user.id) {
-<app-step2 (formValido)="formValido = $event"></app-step2>
-} @else {
-<app-error-iscrizione></app-error-iscrizione>
-
-} }
-
-<!-- Step 3 -->
-@case (3) {
-<app-step3
-  [wizardData]="wizardService.getWizardForm()"
-  (lineeGuidaEvent)="lineeGuidaAccettate = $event"
->
-</app-step3>
-} }
+<!-- Step Content -->
+<div class="border-0 p-4" style="background-color: #ffffff">
+  @switch (currentStep()) { @case (1) {
+  <app-step1></app-step1>
+  } @case (2) { @if (user.id) {
+  <app-step2 (formValido)="formValido = $event"></app-step2>
+  } @else {
+  <app-error-iscrizione></app-error-iscrizione>
+  } } @case (3) {
+  <app-step3
+    [wizardData]="wizardService.getWizardForm()"
+    (lineeGuidaEvent)="lineeGuidaAccettate = $event"
+  ></app-step3>
+  } }
+</div>
 
 <!-- Pulsanti -->
 @if (user.id || currentStep()!=2) {
-<div class="d-flex justify-content-between px-5">
+<div class="d-flex justify-content-between px-5 mt-3">
   <app-botton-custom
     [text]="'Indietro'"
     [icon1]="'bi bi-arrow-left'"

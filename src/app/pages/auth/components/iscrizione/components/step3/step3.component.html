@@ -1,106 +1,78 @@
-<div class="card-header bg-gradient">
-  <div class="d-flex justify-content-between align-items-center">
-    <h5 class="card-title mb-0 fs-2">Riepilogo Dati Profilo</h5>
+<div class="card shadow-lg border-0" style="overflow: hidden">
+  <div
+    class="card-header text-white"
+    style="background: linear-gradient(90deg, #0d6efd, #0b5ed7)"
+  >
+    <div class="d-flex justify-content-between align-items-center">
+      <h5 class="card-title mb-0 fs-2">Riepilogo Dati Profilo</h5>
+    </div>
   </div>
-</div>
-<div class="card-body">
-  <div class="row g-4">
-    <!-- Nome Utente -->
-    <div class="col-lg-4 col-md-6 col-sm-12">
-      <div class="d-flex flex-column">
-        <label
-          class="form-label fs-4 fw-bold text-info mb-0"
-          style="min-width: 120px"
-          >Utente:</label
-        >
+
+  <div class="card-body p-4" style="background-color: #f8f9fa">
+    <div class="row g-4">
+      <!-- Nome Utente -->
+      <div class="col-lg-4 col-md-6 col-sm-12">
+        <label class="form-label fw-semibold text-primary mb-1">Utente</label>
         <p
-          class="form-control-plaintext text-dark bg-light rounded-3 px-3 py-2 fs-4 mb-0"
-          style="overflow-wrap: break-word; word-wrap: break-word"
+          class="form-control-plaintext text-dark bg-light rounded-3 px-3 py-2 shadow-sm mb-0 fs-5"
+          style="overflow-wrap: break-word"
         >
           {{ wizardData?.nome }}
         </p>
       </div>
-    </div>
 
-    <!-- Email -->
-    <div class="col-lg-4 col-md-6 col-sm-12">
-      <div class="d-flex flex-column">
-        <label
-          class="form-label fs-4 fw-bold text-info mb-0"
-          style="min-width: 120px"
-          >Email:</label
-        >
+      <!-- Email -->
+      <div class="col-lg-4 col-md-6 col-sm-12">
+        <label class="form-label fw-semibold text-primary mb-1">Email</label>
         <p
-          class="form-control-plaintext text-dark bg-light rounded-3 px-3 py-2 fs-4 mb-0"
-          style="overflow-wrap: break-word; word-wrap: break-word"
+          class="form-control-plaintext text-dark bg-light rounded-3 px-3 py-2 shadow-sm mb-0 fs-5"
+          style="overflow-wrap: break-word"
         >
           {{ wizardData?.email }}
         </p>
       </div>
-    </div>
 
-    <!-- Stato -->
-    <div class="col-lg-4 col-md-6 col-sm-12">
-      <div class="d-flex flex-column">
-        <label
-          class="form-label fs-4 fw-bold text-info mb-0"
-          style="min-width: 120px"
-          >Stato:</label
-        >
+      <!-- Stato -->
+      <div class="col-lg-4 col-md-6 col-sm-12">
+        <label class="form-label fw-semibold text-primary mb-1">Stato</label>
         <p
-          class="form-control-plaintext text-dark bg-light rounded-3 px-3 py-2 fs-4 mb-0"
-          style="overflow-wrap: break-word; word-wrap: break-word"
+          class="form-control-plaintext text-dark bg-light rounded-3 px-3 py-2 shadow-sm mb-0 fs-5"
+          style="overflow-wrap: break-word"
         >
           {{ wizardData?.stato || "N/A" }}
         </p>
       </div>
-    </div>
 
-    <!-- Città -->
-    <div class="col-lg-4 col-md-6 col-sm-12">
-      <div class="d-flex flex-column">
-        <label
-          class="form-label fs-4 fw-bold text-info mb-0"
-          style="min-width: 120px"
-          >Città:</label
-        >
+      <!-- Città -->
+      <div class="col-lg-4 col-md-6 col-sm-12">
+        <label class="form-label fw-semibold text-primary mb-1">Città</label>
         <p
-          class="form-control-plaintext text-dark bg-light rounded-3 px-3 py-2 fs-4 mb-0"
-          style="overflow-wrap: break-word; word-wrap: break-word"
+          class="form-control-plaintext text-dark bg-light rounded-3 px-3 py-2 shadow-sm mb-0 fs-5"
+          style="overflow-wrap: break-word"
         >
           {{ wizardData?.citta || "N/A" }}
         </p>
       </div>
-    </div>
 
-    <!-- Provincia -->
-    <div class="col-lg-4 col-md-6 col-sm-12">
-      <div class="d-flex flex-column">
-        <label
-          class="form-label fs-4 fw-bold text-info mb-0"
-          style="min-width: 120px"
-          >Provincia:</label
+      <!-- Provincia -->
+      <div class="col-lg-4 col-md-6 col-sm-12">
+        <label class="form-label fw-semibold text-primary mb-1"
+          >Provincia</label
         >
         <p
-          class="form-control-plaintext text-dark bg-light rounded-3 px-3 py-2 fs-4 mb-0"
-          style="overflow-wrap: break-word; word-wrap: break-word"
+          class="form-control-plaintext text-dark bg-light rounded-3 px-3 py-2 shadow-sm mb-0 fs-5"
+          style="overflow-wrap: break-word"
         >
           {{ wizardData?.provincia + " (" + wizardData?.regione + ")" }}
         </p>
       </div>
-    </div>
 
-    <!-- Team -->
-    <div class="col-lg-4 col-md-6 col-sm-12">
-      <div class="d-flex flex-column">
-        <label
-          class="form-label fs-4 fw-bold text-info mb-0"
-          style="min-width: 120px"
-          >Team:</label
-        >
+      <!-- Team -->
+      <div class="col-lg-4 col-md-6 col-sm-12">
+        <label class="form-label fw-semibold text-primary mb-1">Team</label>
         <p
-          class="form-control-plaintext text-dark bg-light rounded-3 px-3 py-2 fs-4 mb-0"
-          style="overflow-wrap: break-word; word-wrap: break-word"
+          class="form-control-plaintext text-dark bg-light rounded-3 px-3 py-2 shadow-sm mb-0 fs-5"
+          style="overflow-wrap: break-word"
         >
           {{ wizardData?.team || "N/A" }}
         </p>
@@ -108,10 +80,7 @@
     </div>
   </div>
 </div>
-
 <!-- Linee Guida Section -->
-<div class="mt-4">
-  <app-linee-guida
-    (lineeGuidaChanged)="lineeGuidaAccettate.next($event)"
-  ></app-linee-guida>
-</div>
+<app-linee-guida
+  (lineeGuidaChanged)="lineeGuidaAccettate.next($event)"
+></app-linee-guida>
