@@ -10,6 +10,7 @@ import {
 } from './core/functions/storage.function';
 import { MiniPlayerService } from './shared/services/template/mini-player.service';
 import { CursorUtilities } from './shared/utilities/cursor.utilities';
+import { ChatGroupService } from './core/components/chat/services/chat-group.service';
 
 @Component({
   selector: 'app-root',
@@ -28,7 +29,9 @@ import { CursorUtilities } from './shared/utilities/cursor.utilities';
       ></div>
 
       <!-- Chat -->
+      @if (chatService.chatVisibile()) {
       <app-chat></app-chat>
+      }
 
       <!-- Mini Player -->
       @if (miniPlayerService.currentCanzone()) {
@@ -40,6 +43,7 @@ import { CursorUtilities } from './shared/utilities/cursor.utilities';
 export class AppComponent implements OnInit {
   private cursorUtilities = new CursorUtilities();
   public miniPlayerService = inject(MiniPlayerService);
+  public chatService = inject(ChatGroupService);
 
   ngOnInit(): void {
     this.cursorUtilities.setCursoreByStorage();

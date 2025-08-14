@@ -1,4 +1,5 @@
-import { Component, HostListener, inject, NgZone, OnInit } from '@angular/core';
+import { Component, HostListener, inject, OnInit, signal } from '@angular/core';
+import { ChatGroupService } from '../../../../../core/components/chat/services/chat-group.service';
 import { loadSquadre } from '../../../../../shared/handlers/squadre.handler';
 import { SquadreService } from '../../../../../shared/services/api/squadre.service';
 import { LoadingService } from '../../../../../shared/services/template/loading.service';
@@ -18,10 +19,10 @@ export class SquadreComponent implements OnInit {
   private squadreService = inject(SquadreService);
   private resizeTimeout: any;
   private printListener: any;
-  public stampa: boolean = false;
+  public stampa = signal<boolean>(false);
 
-  private ngZone = inject(NgZone);
   private loadingService = inject(LoadingService);
+  private chatService = inject(ChatGroupService);
 
   ngOnInit(): void {
     loadSquadre({
@@ -63,34 +64,20 @@ export class SquadreComponent implements OnInit {
   }
 
   captureElement() {
-    this.ngZone.run(() => {
-      this.stampa = true;
+    this.chatService.chatVisibile.set(false);
+    this.stampa.set(true);
+
+    setTimeout(() => {
+      this.renderChartCustom('chart_div_print');
+      window.print();
+
+      this.stampa.set(false);
+      this.chatService.chatVisibile.set(true);
 
       setTimeout(() => {
-        this.renderChartCustom('chart_div_print');
-
-        this.printListener = window.matchMedia('print');
-        this.printListener.addListener((mql: MediaQueryList) => {
-          if (!mql.matches) {
-            this.cleanUpAfterPrint();
-          }
-        });
-
-        setTimeout(() => window.print(), 10);
+        this.drawChart();
       }, 10);
-    });
-  }
-
-  private cleanUpAfterPrint() {
-    this.ngZone.run(() => {
-      this.stampa = false;
-      setTimeout(() => {
-        google.charts.load('current', {
-          packages: ['corechart', 'bar'],
-          callback: () => this.renderChartCustom('chart_div'),
-        });
-      }, 10);
-    });
+    }, 10);
   }
 
   @HostListener('window:resize')

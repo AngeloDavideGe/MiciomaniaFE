@@ -9,6 +9,7 @@ import { environment } from '../../../../../environments/environment';
 export class ChatGroupService {
   public messaggiCaricatiBool: boolean = false;
   public messages = signal<any[]>([]);
+  public chatVisibile = signal<boolean>(true);
   private readonly maxMessages = 10;
 
   constructor() {

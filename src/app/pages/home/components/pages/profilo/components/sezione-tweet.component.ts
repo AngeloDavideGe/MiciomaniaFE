@@ -34,6 +34,7 @@ import { Profilo } from '../../../../../../shared/interfaces/http.interface';
           class="btn btn-primary btn-sm"
           (click)="modaleAperta.emit('new-tweet')"
           style="font-size: 14px; font-weight: bold; border-radius: 8px"
+          title="Nuovo Tweet"
         >
           ✍️
         </button>

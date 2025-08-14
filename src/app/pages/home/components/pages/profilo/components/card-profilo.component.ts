@@ -17,7 +17,7 @@ import { Profilo } from '../../../../../../shared/interfaces/http.interface';
   standalone: true,
   imports: [NgTemplateOutlet, DatePipe, TitleCasePipe],
   template: `
-    <div class="card shadow-sm border-0">
+    <div class="card shadow-sm border-0 mt-3">
       <!-- Immagine di copertina -->
       <div
         class="position-relative bg-light d-flex align-items-center"
@@ -81,6 +81,7 @@ import { Profilo } from '../../../../../../shared/interfaces/http.interface';
             class="btn btn-outline-secondary btn-sm"
             (click)="modaleAperta.emit('edit-profilo')"
             style="font-size: 14px; font-weight: bold; border-radius: 8px"
+            title="Modifica dati profilo"
           >
             ✏️
           </button>
