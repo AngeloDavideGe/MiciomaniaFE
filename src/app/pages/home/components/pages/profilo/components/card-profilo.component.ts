@@ -95,13 +95,12 @@ import { Profilo } from '../../../../../../shared/interfaces/http.interface';
           @if (profilo.user.iscrizione.citta &&
           profilo.user.iscrizione.provincia) {
           <span class="me-3">
-            <i class="fas fa-map-marker-alt"></i>
             {{ profilo.user.iscrizione.citta }},
             {{ profilo.user.iscrizione.provincia }}
           </span>
           } @if (profilo.user.profile.compleanno) {
           <span class="me-3">
-            <i class="fas fa-birthday-cake"></i> Nato il
+            Nato il
             {{ profilo.user.profile.compleanno | date : 'dd/MM/yyyy' }}
           </span>
           }

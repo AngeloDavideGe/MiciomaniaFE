@@ -26,7 +26,7 @@ import { BottonCustomComponent } from '../../../../../../shared/components/custo
     <div class="row align-items-center mb-3">
       <div class="col-md-5 text-end">
         <span class="badge bg-danger fs-5 p-2 rounded-pill shadow">
-          <i class="fas fa-users me-2"></i>Miciomania
+          Miciomania
         </span>
       </div>
       <div class="col-md-2 text-center">
@@ -34,7 +34,7 @@ import { BottonCustomComponent } from '../../../../../../shared/components/custo
       </div>
       <div class="col-md-5">
         <span class="badge bg-primary fs-5 p-2 rounded-pill shadow">
-          <i class="fas fa-users me-2"></i>Alcamo
+          Alcamo
         </span>
       </div>
     </div>

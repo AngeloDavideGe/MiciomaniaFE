@@ -9,7 +9,7 @@ import { Component, EventEmitter, Output } from '@angular/core';
       <div class="col-12 text-center">
         <div class="btn-group" role="group">
           <button class="btn btn-outline-primary">
-            <i class="fas fa-share-alt me-2"></i>Condividi
+            <i class="bi bi-share me-2"></i>
           </button>
           <button class="btn btn-outline-success">
             <i class="bi bi-download me-2" (click)="captureElement.emit()"></i>

@@ -18,8 +18,11 @@ declare var google: any;
 export class SquadreComponent implements OnInit {
   private squadreService = inject(SquadreService);
   private resizeTimeout: any;
-  private printListener: any;
   public stampa = signal<boolean>(false);
+  private renderChart: Function = this.renderChartCustom.bind(
+    this,
+    'chart_div'
+  );
 
   private loadingService = inject(LoadingService);
   private chatService = inject(ChatGroupService);
@@ -39,12 +42,8 @@ export class SquadreComponent implements OnInit {
   private drawChart(): void {
     google.charts.load('current', {
       packages: ['corechart', 'bar'],
-      callback: this.renderChart.bind(this),
+      callback: this.renderChart,
     });
-  }
-
-  private renderChart(): void {
-    this.renderChartCustom('chart_div');
   }
 
   private renderChartCustom(idChart: string): void {
@@ -69,13 +68,13 @@ export class SquadreComponent implements OnInit {
 
     setTimeout(() => {
       this.renderChartCustom('chart_div_print');
-      window.print();
-
-      this.stampa.set(false);
-      this.chatService.chatVisibile.set(true);
 
       setTimeout(() => {
-        this.drawChart();
+        window.print();
+        this.stampa.set(false);
+        this.chatService.chatVisibile.set(true);
+
+        setTimeout(() => this.renderChartCustom('chart_div'), 10);
       }, 10);
     }, 10);
   }
@@ -83,6 +82,9 @@ export class SquadreComponent implements OnInit {
   @HostListener('window:resize')
   onResize() {
     clearTimeout(this.resizeTimeout);
-    this.resizeTimeout = setTimeout(() => this.drawChart(), 200);
+    this.resizeTimeout = setTimeout(
+      () => this.renderChartCustom('chart_div'),
+      200
+    );
   }
 }
