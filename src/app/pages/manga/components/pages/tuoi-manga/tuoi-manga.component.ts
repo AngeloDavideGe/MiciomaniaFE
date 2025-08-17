@@ -1,7 +1,6 @@
 import {
   Component,
   computed,
-  effect,
   inject,
   OnDestroy,
   OnInit,
@@ -9,6 +8,12 @@ import {
   signal,
 } from '@angular/core';
 import { Router } from '@angular/router';
+import { DataHttp } from '../../../../../core/api/http.data';
+import { effectTimeoutCustom } from '../../../../../shared/functions/utilities.function';
+import {
+  ListaManga,
+  MangaUtente,
+} from '../../../../../shared/interfaces/http.interface';
 import { User } from '../../../../../shared/interfaces/users.interface';
 import { LoadingService } from '../../../../../shared/services/template/loading.service';
 import {
@@ -22,13 +27,8 @@ import {
   SezioniMangaUtente,
   SplitMangaUtente,
 } from '../../../interfaces/manga.interface';
-import { tuoi_manga_imports } from './imports/tuoi-manga.import';
-import { DataHttp } from '../../../../../core/api/http.data';
 import { MangaService } from '../../../services/manga.service';
-import {
-  ListaManga,
-  MangaUtente,
-} from '../../../../../shared/interfaces/http.interface';
+import { tuoi_manga_imports } from './imports/tuoi-manga.import';
 
 @Component({
   selector: 'app-tuoi-manga',
@@ -44,7 +44,6 @@ export class TuoiMangaComponent implements OnInit, OnDestroy {
   public selectedTab: keyofMangaUtente = 'preferiti';
   public erroreHttp: boolean = false;
   private checkSplitManga: SplitMangaUtente = voidSplitManga();
-  private searchTimeout: any;
   public searchQuery = signal<string>('');
   private debouncedSearchQuery = signal<string>('');
   public allMangaSearch: Signal<ListaManga[]> = computed(() =>
@@ -65,13 +64,9 @@ export class TuoiMangaComponent implements OnInit, OnDestroy {
   ];
 
   constructor() {
-    effect(() => {
-      const value: string = this.searchQuery();
-      clearTimeout(this.searchTimeout);
-      this.searchTimeout = setTimeout(() => {
-        this.debouncedSearchQuery.set(value);
-      }, 300);
-    });
+    effectTimeoutCustom<string>(this.searchQuery, (value: string) =>
+      this.debouncedSearchQuery.set(value)
+    );
   }
 
   ngOnInit(): void {

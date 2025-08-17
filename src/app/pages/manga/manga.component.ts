@@ -1,7 +1,6 @@
 import {
   Component,
   computed,
-  effect,
   HostListener,
   inject,
   OnDestroy,
@@ -12,8 +11,8 @@ import { NavigationEnd, Router } from '@angular/router';
 import { filter, map, Observable, startWith, tap } from 'rxjs';
 import { DataHttp } from '../../core/api/http.data';
 import {
-  clearTimeoutCustom,
   compareObjectCustom,
+  effectTimeoutCustom,
 } from '../../shared/functions/utilities.function';
 import {
   ListaManga,
@@ -56,9 +55,8 @@ export class MangaComponent implements OnDestroy {
   private debounce = {
     autore: signal(''),
     nome: signal(''),
-    autoreTimeout: {} as any,
-    nomeTimeout: {} as any,
   };
+
   public filterSelect = {
     genere: signal<string>(''),
     autore: signal<string>(''),
@@ -84,21 +82,13 @@ export class MangaComponent implements OnDestroy {
   );
 
   constructor() {
-    effect(() => {
-      const value: string = this.filterSelect.autore();
-      this.debounce.autoreTimeout = clearTimeoutCustom(
-        this.debounce.autoreTimeout,
-        () => this.debounce.autore.set(value)
-      );
-    });
+    effectTimeoutCustom(this.filterSelect.autore, (value: string) =>
+      this.debounce.autore.set(value)
+    );
 
-    effect(() => {
-      const value: string = this.filterSelect.nome();
-      this.debounce.nomeTimeout = clearTimeoutCustom(
-        this.debounce.nomeTimeout,
-        () => this.debounce.nome.set(value)
-      );
-    });
+    effectTimeoutCustom(this.filterSelect.nome, (value: string) =>
+      this.debounce.nome.set(value)
+    );
   }
 
   ngOnDestroy(): void {
