@@ -27,18 +27,21 @@ import { BottonCustomComponent } from '../../../../shared/components/custom/bott
       con passione e scopri chi dominerà la classifica! Te la senti?
     </p>
 
-    <app-botton-custom
-      [text]="'Torna indietro'"
-      [icon1]="'bi bi-arrow-left'"
-      [color]="'#e9ecef'"
-      (clickBotton)="router.navigate(['/home'])"
-    ></app-botton-custom>
+    <div class=" d-flex justify-content-center gap-3 mt-4">
+      <app-botton-custom
+        [text]="'Torna indietro'"
+        [icon1]="'bi bi-arrow-left'"
+        [color]="'#e9ecef'"
+        (clickBotton)="router.navigate(['/home'])"
+      ></app-botton-custom>
 
-    <app-botton-custom
-      [text]="showDetails ? 'Nascondi Dettagli' : 'Mostra Dettagli'"
-      [color]="'#0d6efd'"
-      (clickBotton)="showDetailsFunc.emit()"
-    ></app-botton-custom>
+      <app-botton-custom
+        [text]="showDetails ? 'Nascondi Dettagli' : 'Mostra Dettagli'"
+        [icon1]="showDetails ? 'bi bi-eye-slash' : 'bi bi-eye'"
+        [color]="'#0d6efd'"
+        (clickBotton)="showDetailsFunc.emit()"
+      ></app-botton-custom>
+    </div>
   `,
 })
 export class PresentazioneGamesComponent {

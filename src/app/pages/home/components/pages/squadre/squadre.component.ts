@@ -1,5 +1,6 @@
 import { Component, HostListener, inject, OnInit, signal } from '@angular/core';
 import { ChatGroupService } from '../../../../../core/components/chat/services/chat-group.service';
+import { clearTimeoutCustom } from '../../../../../shared/functions/utilities.function';
 import { loadSquadre } from '../../../../../shared/handlers/squadre.handler';
 import { SquadreService } from '../../../../../shared/services/api/squadre.service';
 import { LoadingService } from '../../../../../shared/services/template/loading.service';
@@ -81,10 +82,8 @@ export class SquadreComponent implements OnInit {
 
   @HostListener('window:resize')
   onResize() {
-    clearTimeout(this.resizeTimeout);
-    this.resizeTimeout = setTimeout(
-      () => this.renderChartCustom('chart_div'),
-      200
+    this.resizeTimeout = clearTimeoutCustom(this.resizeTimeout, () =>
+      this.renderChartCustom('chart_div')
     );
   }
 }

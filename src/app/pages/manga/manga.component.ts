@@ -10,25 +10,28 @@ import {
 } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { filter, map, Observable, startWith, tap } from 'rxjs';
-import { compareObjectCustom } from '../../shared/functions/utilities.function';
+import { DataHttp } from '../../core/api/http.data';
+import {
+  clearTimeoutCustom,
+  compareObjectCustom,
+} from '../../shared/functions/utilities.function';
+import {
+  ListaManga,
+  MangaUtente,
+} from '../../shared/interfaces/http.interface';
 import { LoadingService } from '../../shared/services/template/loading.service';
 import { generiManga } from './constants/genere.constant';
+import {
+  getPulsanti,
+  getTabsManga,
+} from './functions/pulsanti-manga.functions';
 import {
   inizializzaLista,
   postOrUpdateMangaUtente,
 } from './handlers/manga.handler';
 import { manga_imports } from './imports/manga.imports';
 import { PulsantiManga, TabsManga } from './interfaces/filtri.interface';
-import { DataHttp } from '../../core/api/http.data';
 import { MangaService } from './services/manga.service';
-import {
-  ListaManga,
-  MangaUtente,
-} from '../../shared/interfaces/http.interface';
-import {
-  getPulsanti,
-  getTabsManga,
-} from './functions/pulsanti-manga.functions';
 
 @Component({
   selector: 'app-manga',
@@ -83,18 +86,18 @@ export class MangaComponent implements OnDestroy {
   constructor() {
     effect(() => {
       const value: string = this.filterSelect.autore();
-      clearTimeout(this.debounce.autoreTimeout);
-      this.debounce.autoreTimeout = setTimeout(() => {
-        this.debounce.autore.set(value);
-      }, 300);
+      this.debounce.autoreTimeout = clearTimeoutCustom(
+        this.debounce.autoreTimeout,
+        () => this.debounce.autore.set(value)
+      );
     });
 
     effect(() => {
       const value: string = this.filterSelect.nome();
-      clearTimeout(this.debounce.nomeTimeout);
-      this.debounce.nomeTimeout = setTimeout(() => {
-        this.debounce.nome.set(value);
-      }, 300);
+      this.debounce.nomeTimeout = clearTimeoutCustom(
+        this.debounce.nomeTimeout,
+        () => this.debounce.nome.set(value)
+      );
     });
   }
 

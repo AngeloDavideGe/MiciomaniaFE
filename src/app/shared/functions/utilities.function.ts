@@ -7,3 +7,8 @@ export function formatDataCustom(date: Date): Date {
   date.setMilliseconds(0);
   return date;
 }
+
+export function clearTimeoutCustom(timeout: any, func: Function): any {
+  clearTimeout(timeout);
+  return setTimeout(func, 300);
+}
