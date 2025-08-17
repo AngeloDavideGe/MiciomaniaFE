@@ -1,6 +1,6 @@
 import { Component, HostListener, inject, OnInit, signal } from '@angular/core';
 import { ChatGroupService } from '../../../../../core/components/chat/services/chat-group.service';
-import { clearTimeoutCustom } from '../../../../../shared/functions/utilities.function';
+import { debounceTimeoutCustom } from '../../../../../shared/functions/utilities.function';
 import { loadSquadre } from '../../../../../shared/handlers/squadre.handler';
 import { SquadreService } from '../../../../../shared/services/api/squadre.service';
 import { LoadingService } from '../../../../../shared/services/template/loading.service';
@@ -18,7 +18,6 @@ declare var google: any;
 })
 export class SquadreComponent implements OnInit {
   private squadreService = inject(SquadreService);
-  private resizeTimeout: any;
   public stampa = signal<boolean>(false);
   private renderChart: Function = this.renderChartCustom.bind(
     this,
@@ -81,9 +80,5 @@ export class SquadreComponent implements OnInit {
   }
 
   @HostListener('window:resize')
-  onResize() {
-    this.resizeTimeout = clearTimeoutCustom(this.resizeTimeout, () =>
-      this.renderChartCustom('chart_div')
-    );
-  }
+  onResize = debounceTimeoutCustom(() => this.renderChartCustom('chart_div'));
 }

@@ -10,7 +10,7 @@
   ></app-dettagli-game>
 
   <div class="row no-gutters justify-content-center">
-    @for (card of cards; track $index) {
+    @for (card of cards(); track $index) {
     <div class="col-auto p-1">
       <!-- Selezionata -->
       @if (selectedCards.has($index) && selectedCards.get($index) &&

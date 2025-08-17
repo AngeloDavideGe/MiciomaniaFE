@@ -42,7 +42,7 @@ export class CercaProfiliComponent implements OnInit, OnDestroy {
   }
 
   private applicaFiltroUtenti(searchQuery: string): void {
-    this.filteredUsers = DataHttp.users().filter((user) => {
+    this.filteredUsers = DataHttp.users().filter((user: UserParams) => {
       const nome: string = user.nome ? user.nome.toLowerCase() : '';
       const query: string = searchQuery.toLowerCase();
       return nome.includes(query);

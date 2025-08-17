@@ -6,6 +6,7 @@ import { DataHttp } from '../../../../core/api/http.data';
 import { mapUserByDb } from '../../../../shared/handlers/functions/user.function';
 import { AuthService } from '../../../../shared/services/api/auth.service';
 import { auth_shared_imports } from '../../shared/auth-shared.import';
+import { UserParams } from '../../../../shared/interfaces/users.interface';
 
 @Component({
   selector: 'app-login',
@@ -70,7 +71,9 @@ export class LoginComponent {
       map((data) => {
         if (data.length === 1) {
           const user = mapUserByDb(data[0]);
-          DataHttp.users.set(DataHttp.users().filter((x) => x.id != user.id));
+          DataHttp.users.set(
+            DataHttp.users().filter((x: UserParams) => x.id != user.id)
+          );
           DataHttp.user.set(user);
           return true;
         } else {

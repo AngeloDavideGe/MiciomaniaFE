@@ -67,7 +67,9 @@ export class AdminComponent implements OnInit {
   }
 
   private saveUsers(data: UserParams[]): void {
-    DataHttp.users.update(() => data.filter((x) => x.id !== this.user?.id));
+    DataHttp.users.update(() =>
+      data.filter((x: UserParams) => x.id !== this.user?.id)
+    );
   }
 
   private mapUsersByRuolo(): void {

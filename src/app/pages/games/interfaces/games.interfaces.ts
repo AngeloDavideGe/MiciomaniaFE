@@ -105,3 +105,8 @@ export interface CardDeck {
   code: string;
   image: string;
 }
+
+export interface PescataDeck {
+  drawnCards: CardDeck[];
+  remainingDeck: CardDeck[];
+}

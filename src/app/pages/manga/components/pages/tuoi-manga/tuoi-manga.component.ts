@@ -96,7 +96,7 @@ export class TuoiMangaComponent implements OnInit, OnDestroy {
   private computedallMangaSearch(): ListaManga[] {
     const search: string = this.debouncedSearchQuery().toLowerCase().trim();
     if (search) {
-      return DataHttp.listaManga().filter((manga) =>
+      return DataHttp.listaManga().filter((manga: ListaManga) =>
         manga.nome.toLowerCase().includes(search)
       );
     } else {
@@ -184,7 +184,7 @@ export class TuoiMangaComponent implements OnInit, OnDestroy {
     } else {
       this.checkSplitManga[this.selectedTab] = this.checkSplitManga[
         this.selectedTab
-      ].filter((x) => x != idManga);
+      ].filter((x: number) => x != idManga);
     }
   }
 
@@ -215,7 +215,7 @@ export class TuoiMangaComponent implements OnInit, OnDestroy {
   ): void {
     const valoriDaSpostare: number[] = this.checkSplitManga[tabRemove];
     const mangaDaAggiungere: ListaManga[] = DataHttp.listaManga().filter(
-      (manga) => valoriDaSpostare.includes(manga.id)
+      (manga: ListaManga) => valoriDaSpostare.includes(manga.id)
     );
 
     mangaDaAggiungere.forEach((manga) => {
@@ -236,7 +236,7 @@ export class TuoiMangaComponent implements OnInit, OnDestroy {
     this.sezioneListaManga.update((sezione) => ({
       ...sezione,
       [tabRemove]: sezione[tabRemove].filter(
-        (x) => !checkSplitMangaSet.has(x.id)
+        (x: ListaManga) => !checkSplitMangaSet.has(x.id)
       ),
     }));
 

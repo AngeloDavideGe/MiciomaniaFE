@@ -1,5 +1,5 @@
-import { Component, inject, OnInit } from '@angular/core';
-import { get2NCasualCard } from '../../../functions/deck-card.function';
+import { Component, inject, OnInit, signal } from '@angular/core';
+import { getCasualCard } from '../../../functions/deck-card.function';
 import { CardDeck } from '../../../interfaces/games.interfaces';
 import { DeckCardService } from '../../../services/deck-card.service';
 import { GamesBase } from '../../../shared/base/games.base';
@@ -13,7 +13,7 @@ import { setPunteggioOttenuto } from '../../../../../shared/handlers/squadre.han
   templateUrl: './memory.component.html',
 })
 export class MemoryComponent extends GamesBase implements OnInit {
-  public cards: CardDeck[] = [];
+  public cards = signal<CardDeck[]>([]);
   public coppieTrovate: string[] = [];
   public selectedCards: Map<number, boolean> = new Map();
   private firstCardSelect: { id: string; index: number } | null = null;
@@ -23,9 +23,13 @@ export class MemoryComponent extends GamesBase implements OnInit {
   private deckCardService = inject(DeckCardService);
 
   ngOnInit(): void {
-    this.cards = get2NCasualCard(
-      this.deckCardService.pescataNoHttp.cards,
-      this.numeroCoppie
+    this.cards.set(
+      getCasualCard(
+        this.deckCardService.pescataNoHttp.cards,
+        this.numeroCoppie,
+        2,
+        false
+      ) as CardDeck[]
     );
   }
 
@@ -83,14 +87,18 @@ export class MemoryComponent extends GamesBase implements OnInit {
       isSelected ? selectedCount++ : null
     );
 
-    return selectedCount === this.cards.length;
+    return selectedCount === this.cards().length;
   }
 
   private restartGioco(): void {
     this.selectedCards = new Map();
-    this.cards = get2NCasualCard(
-      this.deckCardService.pescataNoHttp.cards,
-      this.numeroCoppie
+    this.cards.set(
+      getCasualCard(
+        this.deckCardService.pescataNoHttp.cards,
+        this.numeroCoppie,
+        2,
+        false
+      ) as CardDeck[]
     );
   }
 }

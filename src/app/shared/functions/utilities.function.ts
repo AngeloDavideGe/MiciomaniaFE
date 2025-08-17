@@ -10,19 +10,29 @@ export function formatDataCustom(date: Date): Date {
   return date;
 }
 
-export function clearTimeoutCustom(timeout: any, func: Function): any {
-  clearTimeout(timeout);
-  return setTimeout(func, 300);
+export function debounceTimeoutCustom<T extends (...args: any[]) => void>(
+  func: T
+): Function {
+  let timeoutId: ReturnType<typeof setTimeout>;
+
+  return (...args: Parameters<T>) => {
+    timeoutId = clearTimeoutCustom(timeoutId, () => func(...args));
+  };
 }
 
 export function effectTimeoutCustom<T>(
   signalVar: WritableSignal<T>,
   func: (value: T) => void
 ): void {
-  let timeout: any;
+  let timeout: ReturnType<typeof setTimeout>;
 
   effect(() => {
     const value: T = signalVar();
     timeout = clearTimeoutCustom(timeout, () => func(value));
   });
+}
+
+function clearTimeoutCustom(timeout: any, func: Function): any {
+  clearTimeout(timeout);
+  return setTimeout(func, 300);
 }
