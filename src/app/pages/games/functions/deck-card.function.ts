@@ -7,7 +7,7 @@ export function getCasualCard(
   rimuoviCarte: boolean
 ): PescataDeck | CardDeck[] {
   const baseCards: CardDeck[] = [];
-  let indexUsed: Set<number> = new Set();
+  let indexUsed = new Set<number>();
   let deckLength: number = cardsDeck.length;
 
   for (let i = 0; i < numCards && deckLength > 0; i++) {

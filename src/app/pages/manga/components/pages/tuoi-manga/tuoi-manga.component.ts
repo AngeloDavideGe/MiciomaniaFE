@@ -231,7 +231,7 @@ export class TuoiMangaComponent implements OnInit, OnDestroy {
   }
 
   private deleteCheckManga(tabRemove: keyofMangaUtente): void {
-    const checkSplitMangaSet = new Set(this.checkSplitManga[tabRemove]);
+    const checkSplitMangaSet = new Set<number>(this.checkSplitManga[tabRemove]);
 
     this.sezioneListaManga.update((sezione) => ({
       ...sezione,

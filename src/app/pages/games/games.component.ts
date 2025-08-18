@@ -161,7 +161,7 @@ export class GamesComponent implements OnInit, OnDestroy {
       DataHttp.user.set(user);
     }
 
-    const idSet = new Set(squadre.map((id) => id.toLowerCase()));
+    const idSet = new Set<string>(squadre.map((id) => id.toLowerCase()));
 
     for (const squadra of this.squadreService.squadre) {
       if (idSet.has(squadra.id.toLowerCase())) {
