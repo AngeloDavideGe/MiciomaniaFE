@@ -71,7 +71,7 @@ export class ChatGroupComponent implements OnInit, AfterViewChecked {
   private inizializeChat(): void {
     this.user = DataHttp.user();
     this.idUtente = this.user ? this.user.id : '';
-    this.loadMessaggiEUtenti();
+    this.loadMessaggi();
   }
 
   private changeUserSubscription(): void {
@@ -89,10 +89,6 @@ export class ChatGroupComponent implements OnInit, AfterViewChecked {
     } catch (err) {
       console.error('Errore durante lo scorrimento:', err);
     }
-  }
-
-  private loadMessaggiEUtenti(): void {
-    this.loadMessaggi();
   }
 
   sendMessage() {

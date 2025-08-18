@@ -10,18 +10,32 @@
   ></app-dettagli-game>
 
   <!-- Domanda corrente -->
-  <div class="card shadow" style="border-radius: 10px">
-    <div class="card-body">
-      <h4 class="card-title text-center" style="font-weight: bold">
+  <div
+    class="card shadow"
+    style="
+      border-radius: 15px;
+      max-width: 600px;
+      margin: 40px auto;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    "
+  >
+    <div class="card-body p-4">
+      <h4
+        class="card-title text-center"
+        style="font-weight: 700; font-size: 1.6rem; margin-bottom: 1.8rem"
+      >
         {{ domandaCurrent.domanda }}
       </h4>
 
       <!-- Opzioni di risposta -->
-      <div class="list-group mt-3">
+      <div class="list-group">
         @for (risposta of domandaCurrent.risposte; track $index) {
-        <label class="list-group-item">
+        <label
+          class="list-group-item p-0 mb-2"
+          style="border: none; cursor: pointer"
+        >
           <div
-            class="d-flex align-items-center p-2"
+            class="d-flex align-items-center p-3"
             [ngClass]="{
               'bg-success text-white':
                 risposta.soluzione &&
@@ -33,19 +47,23 @@
                 risposta.testo == rispostaSelezionata?.testo
             }"
             style="
-              border-radius: 8px;
-              margin-bottom: 8px;
-              transition: background 0.3s ease-in-out;
+              border-radius: 12px;
+              transition: all 0.3s ease;
+              background-color: #f8f9fa;
             "
+            onmouseover="if(!this.classList.contains('bg-success') && !this.classList.contains('bg-danger')) this.style.backgroundColor='#e2e6ea'; this.style.boxShadow='0 4px 12px rgba(0,0,0,0.1)';"
+            onmouseout="if(!this.classList.contains('bg-success') && !this.classList.contains('bg-danger')) this.style.backgroundColor='#f8f9fa'; this.style.boxShadow='none';"
           >
             <input
               type="radio"
               name="risposta"
               [(ngModel)]="rispostaSelezionata"
               [value]="risposta"
-              style="margin-right: 12px; transform: scale(1.2)"
+              style="margin-right: 15px; transform: scale(1.2); cursor: pointer"
             />
-            <p class="m-0" style="font-size: 16px">{{ risposta.testo }}</p>
+            <p class="m-0" style="font-size: 16px; flex: 1">
+              {{ risposta.testo }}
+            </p>
           </div>
         </label>
         }
@@ -57,7 +75,16 @@
           class="btn btn-success"
           (click)="confermaRisposta()"
           [disabled]="!rispostaSelezionata || rispostaConfermata"
-          style="padding: 10px 20px; font-size: 16px; border-radius: 8px"
+          style="
+            padding: 12px 25px;
+            font-size: 16px;
+            border-radius: 12px;
+            font-weight: 500;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            transition: all 0.2s;
+          "
+          onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 15px rgba(0,0,0,0.15)';"
+          onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 10px rgba(0,0,0,0.1)';"
         >
           ✅ Conferma
         </button>
@@ -69,7 +96,16 @@
           class="btn btn-primary"
           (click)="domandaNext()"
           [disabled]="!rispostaConfermata"
-          style="padding: 10px 20px; font-size: 16px; border-radius: 8px"
+          style="
+            padding: 12px 25px;
+            font-size: 16px;
+            border-radius: 12px;
+            font-weight: 500;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            transition: all 0.2s;
+          "
+          onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 15px rgba(0,0,0,0.15)';"
+          onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 10px rgba(0,0,0,0.1)';"
         >
           ➡️ Avanti
         </button>
@@ -79,11 +115,15 @@
           (click)="ricomincia()"
           [disabled]="!rispostaConfermata"
           style="
-            padding: 10px 20px;
+            padding: 12px 25px;
             font-size: 16px;
-            border-radius: 8px;
-            font-weight: bold;
+            border-radius: 12px;
+            font-weight: 600;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            transition: all 0.2s;
           "
+          onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 15px rgba(0,0,0,0.15)';"
+          onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 10px rgba(0,0,0,0.1)';"
         >
           🔄 Ricomincia
         </button>

@@ -1,8 +1,15 @@
 import { NgStyle } from '@angular/common';
-import { Component, HostListener, inject, OnInit } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  HostListener,
+  inject,
+  OnInit,
+} from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { DataHttp } from './core/api/http.data';
 import { ChatComponent } from './core/components/chat/chat.component';
+import { ChatGroupService } from './core/components/chat/services/chat-group.service';
 import { MiniPlayerComponent } from './core/components/mini-player/mini-player.component';
 import {
   refreshLocalStorage,
@@ -10,7 +17,6 @@ import {
 } from './core/functions/storage.function';
 import { MiniPlayerService } from './shared/services/template/mini-player.service';
 import { CursorUtilities } from './shared/utilities/cursor.utilities';
-import { ChatGroupService } from './core/components/chat/services/chat-group.service';
 
 @Component({
   selector: 'app-root',
@@ -40,14 +46,17 @@ import { ChatGroupService } from './core/components/chat/services/chat-group.ser
     </div>
   `,
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, AfterViewInit {
   private cursorUtilities = new CursorUtilities();
   public miniPlayerService = inject(MiniPlayerService);
   public chatService = inject(ChatGroupService);
 
   ngOnInit(): void {
-    this.cursorUtilities.setCursoreByStorage();
     DataHttp.loadDataHttp();
+  }
+
+  ngAfterViewInit(): void {
+    this.cursorUtilities.setCursoreByStorage();
   }
 
   @HostListener('window:beforeunload', ['$event'])

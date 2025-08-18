@@ -20,7 +20,8 @@ export class MemoryComponent extends GamesBase implements OnInit {
   public selectedCards = new Map<number, boolean>();
   private firstCardSelect: { id: string; index: number } | null = null;
   private nextMove: boolean = true;
-  private numeroCoppie: number = 6;
+  private numCoppieTrovate: number = 0;
+  private readonly numeroCoppie: number = 6;
 
   ngOnInit(): void {
     this.cards.set(
@@ -61,38 +62,30 @@ export class MemoryComponent extends GamesBase implements OnInit {
   }
 
   private controlloCoppia(card: CardDeck, index: number): void {
-    const fineGioco: boolean = this.fineGioco();
-
     setTimeout(() => {
       if (this.firstCardSelect?.id !== card.code) {
         this.selectedCards.delete(index);
         this.selectedCards.delete(this.firstCardSelect!.index);
       } else {
         this.coppieTrovate.update((coppie) => [...coppie, card.code]);
+        this.numCoppieTrovate++;
       }
-      if (fineGioco) {
+
+      if (this.numCoppieTrovate == this.numeroCoppie) {
         this.restartGioco();
         this.alertGameService.alert('vittoria');
         setPunteggioOttenuto(2);
       }
+
       this.firstCardSelect = null;
       this.nextMove = true;
     }, 1000);
   }
 
-  private fineGioco(): boolean {
-    let selectedCount: number = 0;
-
-    this.selectedCards.forEach((isSelected) =>
-      isSelected ? selectedCount++ : null
-    );
-
-    return selectedCount === this.cards().length;
-  }
-
   private restartGioco(): void {
     this.selectedCards = new Map<number, boolean>();
     this.coppieTrovate.set([]);
+    this.numCoppieTrovate = 0;
     this.cards.set(
       getCasualCard(
         this.deckCardService.pescataNoHttp.cards,

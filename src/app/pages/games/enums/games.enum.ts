@@ -4,6 +4,7 @@ export enum NumNavi {
 }
 
 export enum ValueSequenza {
-  gridSize = 3,
-  tentativi = 6,
+  gridSizeX = 2,
+  gridSizeY = 3,
+  tentativi = 5,
 }

@@ -25,13 +25,13 @@ export class TrovaSequenzaComponent implements OnInit {
     const uniqueNumbers: number[] = this.generateUniqueNumbers(
       1,
       50,
-      this.valueGame.gridSize * this.valueGame.gridSize
+      this.valueGame.gridSizeX * this.valueGame.gridSizeY
     );
 
-    for (let i = 0; i < this.valueGame.gridSize; i++) {
+    for (let i = 0; i < this.valueGame.gridSizeX; i++) {
       const row = [];
-      for (let j = 0; j < this.valueGame.gridSize; j++) {
-        row.push(uniqueNumbers[i * this.valueGame.gridSize + j]);
+      for (let j = 0; j < this.valueGame.gridSizeY; j++) {
+        row.push(uniqueNumbers[i * this.valueGame.gridSizeY + j]);
       }
       this.numbers.push(row);
     }
@@ -58,7 +58,7 @@ export class TrovaSequenzaComponent implements OnInit {
 
     if (
       this.selectedNumbers.length ===
-      this.valueGame.gridSize * this.valueGame.gridSize
+      this.valueGame.gridSizeX * this.valueGame.gridSizeY
     ) {
       const correctSequence: number[] = this.numbers
         .flat()
