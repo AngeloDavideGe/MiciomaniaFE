@@ -13,14 +13,14 @@ import { setPunteggioOttenuto } from '../../../../../shared/handlers/squadre.han
   templateUrl: './memory.component.html',
 })
 export class MemoryComponent extends GamesBase implements OnInit {
-  public cards = signal<CardDeck[]>([]);
-  public coppieTrovate: string[] = [];
-  public selectedCards: Map<number, boolean> = new Map();
-  private firstCardSelect: { id: string; index: number } | null = null;
-  public nextMove: boolean = true;
-  public numeroCoppie: number = 6;
-
   private deckCardService = inject(DeckCardService);
+
+  public cards = signal<CardDeck[]>([]);
+  public coppieTrovate = signal<string[]>([]);
+  public selectedCards = new Map<number, boolean>();
+  private firstCardSelect: { id: string; index: number } | null = null;
+  private nextMove: boolean = true;
+  private numeroCoppie: number = 6;
 
   ngOnInit(): void {
     this.cards.set(
@@ -61,14 +61,14 @@ export class MemoryComponent extends GamesBase implements OnInit {
   }
 
   private controlloCoppia(card: CardDeck, index: number): void {
-    const fineGioco = this.fineGioco();
+    const fineGioco: boolean = this.fineGioco();
 
     setTimeout(() => {
       if (this.firstCardSelect?.id !== card.code) {
         this.selectedCards.delete(index);
         this.selectedCards.delete(this.firstCardSelect!.index);
       } else {
-        this.coppieTrovate.push(card.code);
+        this.coppieTrovate.update((coppie) => [...coppie, card.code]);
       }
       if (fineGioco) {
         this.restartGioco();
@@ -91,7 +91,8 @@ export class MemoryComponent extends GamesBase implements OnInit {
   }
 
   private restartGioco(): void {
-    this.selectedCards = new Map();
+    this.selectedCards = new Map<number, boolean>();
+    this.coppieTrovate.set([]);
     this.cards.set(
       getCasualCard(
         this.deckCardService.pescataNoHttp.cards,
