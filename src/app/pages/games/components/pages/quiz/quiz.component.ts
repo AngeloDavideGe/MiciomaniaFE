@@ -17,7 +17,7 @@ import { setPunteggioOttenuto } from '../../../../../shared/handlers/squadre.han
 @Component({
   selector: 'app-quiz',
   standalone: true,
-  imports: [NgClass, FormsModule, DettagliGameComponent],
+  imports: [FormsModule, DettagliGameComponent],
   templateUrl: './quiz.component.html',
 })
 export class QuizComponent extends GamesBase implements OnInit {

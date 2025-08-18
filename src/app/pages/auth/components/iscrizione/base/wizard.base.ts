@@ -9,6 +9,11 @@ import { AuthService } from '../../../../../shared/services/api/auth.service';
 export type stepType = 1 | 2 | 3;
 
 export abstract class WizardBase {
+  protected router = inject(Router);
+  protected authService = inject(AuthService);
+  protected wizardService = inject(WizardService);
+  protected loadingService = inject(LoadingService);
+
   protected currentStep: WritableSignal<stepType>;
   protected wizard: DTO_Wizard[];
   protected formValido: boolean;
@@ -18,11 +23,6 @@ export abstract class WizardBase {
   public caricaPersona: boolean = false;
   public viewSuccespage: boolean = true;
   public wizardData: FormWizard = {} as FormWizard;
-
-  protected router = inject(Router);
-  protected authService = inject(AuthService);
-  protected wizardService = inject(WizardService);
-  protected loadingService = inject(LoadingService);
 
   constructor() {
     this.scrollTopNextStep();

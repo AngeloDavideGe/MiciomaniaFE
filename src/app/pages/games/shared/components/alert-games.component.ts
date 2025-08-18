@@ -1,11 +1,10 @@
-import { NgClass } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { EsitoGame } from '../../interfaces/games.interfaces';
 
 @Component({
   selector: 'app-alerts-game',
   standalone: true,
-  imports: [NgClass],
+  imports: [],
   template: `
     <div
       class="alert-container d-flex justify-content-center"
@@ -18,7 +17,7 @@ import { EsitoGame } from '../../interfaces/games.interfaces';
     >
       <div
         class="alert"
-        [ngClass]="{
+        [class]="{
           'bg-success': esito === 'vittoria',
           'bg-danger': esito === 'sconfitta',
           'bg-warning': esito === 'pareggio'

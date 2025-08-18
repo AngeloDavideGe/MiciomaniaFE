@@ -31,7 +31,7 @@
               id="tipo"
               formControlName="tipo"
               class="form-control form-control-lg"
-              [ngClass]="{
+              [class]="{
                 'is-invalid': f['tipo'].touched && f['tipo'].invalid
               }"
             >
@@ -63,7 +63,7 @@
               id="nome"
               class="form-control form-control-lg"
               formControlName="nome"
-              [ngClass]="{
+              [class]="{
                 'is-invalid': f['nome'].touched && f['nome'].invalid
               }"
             />
@@ -87,7 +87,7 @@
               class="form-control form-control-lg"
               formControlName="descrizione"
               rows="3"
-              [ngClass]="{
+              [class]="{
                 'is-invalid':
                   f['descrizione'].touched && f['descrizione'].invalid
               }"
@@ -111,7 +111,7 @@
               class="form-control form-control-lg"
               (change)="onFileSelected($event)"
               accept=".pdf,.mp3"
-              [ngClass]="{
+              [class]="{
                 'is-invalid': f['file'].touched && f['file'].invalid
               }"
             />

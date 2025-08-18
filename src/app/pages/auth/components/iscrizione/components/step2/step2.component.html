@@ -42,7 +42,7 @@
         <div
           id="team"
           class="p-3 rounded shadow-sm"
-          [ngClass]="{
+          [class]="{
             'border border-danger':
               ((f['team'].touched && f['team'].invalid) || pulsantePremuto) &&
               f['team'].invalid,
@@ -83,7 +83,7 @@
           class="form-select form-select-lg border-0 shadow-sm"
           style="background-color: #e7f3fe"
           formControlName="stato"
-          [ngClass]="{
+          [class]="{
             'is-invalid':
               ((f['stato'].touched && f['stato'].invalid) || pulsantePremuto) &&
               f['stato'].invalid,
@@ -112,7 +112,7 @@
             style="background-color: #e7f3fe"
             formControlName="regione"
             (change)="onRegioneChange($event)"
-            [ngClass]="{
+            [class]="{
               'is-invalid':
                 ((f['regione'].touched && f['regione'].invalid) ||
                   pulsantePremuto) &&
@@ -144,7 +144,7 @@
             style="background-color: #e7f3fe"
             formControlName="provincia"
             [disabled]="f['regione'].invalid"
-            [ngClass]="{
+            [class]="{
               'is-invalid':
                 ((f['provincia'].touched && f['provincia'].invalid) ||
                   pulsantePremuto) &&
@@ -175,7 +175,7 @@
           class="form-control form-control-lg border-0 shadow-sm"
           style="background-color: #e7f3fe"
           formControlName="citta"
-          [ngClass]="{
+          [class]="{
             'is-invalid':
               ((f['citta'].touched && f['citta'].invalid) || pulsantePremuto) &&
               f['citta'].invalid,

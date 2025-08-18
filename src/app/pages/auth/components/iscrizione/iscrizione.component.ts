@@ -19,8 +19,6 @@ import { iscrizione_imports } from './imports/iscrizione.import';
   styleUrl: './iscrizione.component.scss',
 })
 export class IscrizioneComponent extends WizardBase {
-  public editInfo: Function = () => (this.viewSuccespage = false);
-
   constructor() {
     super();
     this.iscrizioneUser();

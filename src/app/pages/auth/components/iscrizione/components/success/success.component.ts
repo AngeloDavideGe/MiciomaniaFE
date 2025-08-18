@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { User } from '../../../../../../shared/interfaces/users.interface';
 import { BottonCustomComponent } from '../../../../../../shared/components/custom/botton-custom.component';
 
@@ -69,7 +69,7 @@ import { BottonCustomComponent } from '../../../../../../shared/components/custo
             [text]="'Modifica Info'"
             [icon1]="'bi bi-pencil'"
             [color]="'#20c997'"
-            (clickBotton)="editInfo()"
+            (clickBotton)="editInfo.emit()"
           ></app-botton-custom>
         </div>
       </div>
@@ -90,5 +90,5 @@ import { BottonCustomComponent } from '../../../../../../shared/components/custo
 export class SuccessPageComponent {
   @Input() user: User = {} as User;
   @Input() navigateToHome: Function = () => {};
-  @Input() editInfo: Function = () => {};
+  @Output() editInfo = new EventEmitter<void>();
 }

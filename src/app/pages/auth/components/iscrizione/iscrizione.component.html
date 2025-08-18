@@ -77,6 +77,6 @@
 <app-success-page
   [user]="user!"
   [navigateToHome]="navigateToHome"
-  [editInfo]="editInfo()"
+  (editInfo)="viewSuccespage = false"
 ></app-success-page>
 } }

@@ -30,7 +30,7 @@ import {
 @Component({
   selector: 'app-step2',
   standalone: true,
-  imports: [ReactiveFormsModule, NgClass],
+  imports: [ReactiveFormsModule],
   templateUrl: './step2.component.html',
 })
 export class Step2Component implements OnInit, OnDestroy {
