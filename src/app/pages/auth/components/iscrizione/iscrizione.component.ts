@@ -1,13 +1,12 @@
-import { Component, inject } from '@angular/core';
+import { Component } from '@angular/core';
 import { take } from 'rxjs';
 import { DataHttp } from '../../../../core/api/http.data';
+import { Ruolo } from '../../../../shared/enums/users.enum';
 import { updateUserCustom } from '../../../../shared/handlers/auth.handler';
 import {
   Iscrizione,
   User,
 } from '../../../../shared/interfaces/users.interface';
-import { AuthService } from '../../../../shared/services/api/auth.service';
-import { Ruolo } from '../../../../shared/enums/users.enum';
 import { FormWizard } from '../../interfaces/wizard.interface';
 import { stepType, WizardBase } from './base/wizard.base';
 import { iscrizione_imports } from './imports/iscrizione.import';
@@ -20,24 +19,19 @@ import { iscrizione_imports } from './imports/iscrizione.import';
   styleUrl: './iscrizione.component.scss',
 })
 export class IscrizioneComponent extends WizardBase {
-  public user: User = {} as User;
-  public caricaPersona: boolean = false;
-  public viewSuccespage: boolean = true;
-  public wizardData: FormWizard = {} as FormWizard;
-
-  private authService = inject(AuthService);
+  public editInfo: Function = () => (this.viewSuccespage = false);
 
   constructor() {
     super();
     this.iscrizioneUser();
   }
 
-  iscrizioneUser(): void {
+  private iscrizioneUser(): void {
     this.user = DataHttp.user() ?? ({} as User);
     this.caricaPersona = true;
   }
 
-  inviaIscrizione(): void {
+  private inviaIscrizione(): void {
     this.setUserPerInvio();
 
     updateUserCustom({
@@ -105,8 +99,4 @@ export class IscrizioneComponent extends WizardBase {
       this.router.navigate(['/auth/iscrizione']);
     });
   }
-
-  editInfo = () => {
-    this.viewSuccespage = false;
-  };
 }

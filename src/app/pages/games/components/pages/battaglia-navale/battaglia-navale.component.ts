@@ -1,5 +1,5 @@
-import { NgStyle } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
+import { setPunteggioOttenuto } from '../../../../../shared/handlers/squadre.handler';
 import { NumNavi } from '../../../enums/games.enum';
 import {
   CellaOccupata,
@@ -11,7 +11,6 @@ import {
 import { GamesBase } from '../../../shared/base/games.base';
 import { DettagliGameComponent } from '../../../shared/components/dettagli-game.component';
 import { BotBattagliaNavale } from './bot/battaglia-navale.bot';
-import { setPunteggioOttenuto } from '../../../../../shared/handlers/squadre.handler';
 import {
   cellaOccupata,
   controlloCasuale,
@@ -20,7 +19,7 @@ import {
 @Component({
   selector: 'app-battaglia-navale',
   standalone: true,
-  imports: [DettagliGameComponent, NgStyle],
+  imports: [DettagliGameComponent],
   templateUrl: './battaglia-navale.component.html',
 })
 export class BattagliaNavaleComponent extends GamesBase implements OnInit {

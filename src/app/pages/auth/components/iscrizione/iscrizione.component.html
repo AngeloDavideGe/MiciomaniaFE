@@ -12,7 +12,7 @@
     <!-- Cerchio -->
     <div
       class="circle mx-auto mb-1 d-flex justify-content-center align-items-center"
-      [ngStyle]="{
+      [style]="{
         'background-color': currentStep() === step.step ? '#0d6efd' : '#dee2e6',
         color: currentStep() === step.step ? '#fff' : '#495057'
       }"
@@ -23,7 +23,7 @@
     <!-- Titolo -->
     <div
       class="label fw-semibold"
-      [ngStyle]="{ color: currentStep() === step.step ? '#0d6efd' : '#6c757d' }"
+      [style]="{ color: currentStep() === step.step ? '#0d6efd' : '#6c757d' }"
     >
       {{ step.titolo }}
     </div>
@@ -77,6 +77,6 @@
 <app-success-page
   [user]="user!"
   [navigateToHome]="navigateToHome"
-  [editInfo]="editInfo"
+  [editInfo]="editInfo()"
 ></app-success-page>
 } }

@@ -1,4 +1,3 @@
-import { NgStyle } from '@angular/common';
 import {
   AfterViewInit,
   Component,
@@ -21,7 +20,7 @@ import { CursorUtilities } from './shared/utilities/cursor.utilities';
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, MiniPlayerComponent, NgStyle, ChatComponent],
+  imports: [RouterOutlet, MiniPlayerComponent, ChatComponent],
   template: `
     <div class="app-router-outlet-container">
       <!-- Componenti delle rotte -->
@@ -29,7 +28,7 @@ import { CursorUtilities } from './shared/utilities/cursor.utilities';
 
       <!-- Spaczio Vuoto-->
       <div
-        [ngStyle]="{
+        [style]="{
           height: miniPlayerService.currentCanzone() ? '13rem' : '5rem'
         }"
       ></div>

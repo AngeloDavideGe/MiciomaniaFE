@@ -89,6 +89,6 @@ import { BottonCustomComponent } from '../../../../../../shared/components/custo
 })
 export class SuccessPageComponent {
   @Input() user: User = {} as User;
-  @Input() navigateToHome!: () => any;
-  @Input() editInfo!: () => any;
+  @Input() navigateToHome: Function = () => {};
+  @Input() editInfo: Function = () => {};
 }

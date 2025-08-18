@@ -1,15 +1,15 @@
+import { NgClass } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { EsitoGame } from '../../interfaces/games.interfaces';
-import { NgClass, NgStyle } from '@angular/common';
 
 @Component({
   selector: 'app-alerts-game',
   standalone: true,
-  imports: [NgClass, NgStyle],
+  imports: [NgClass],
   template: `
     <div
       class="alert-container d-flex justify-content-center"
-      [ngStyle]="{
+      style="{
         position: 'fixed',
         width: '100%',
         zIndex: '1000',
@@ -23,7 +23,7 @@ import { NgClass, NgStyle } from '@angular/common';
           'bg-danger': esito === 'sconfitta',
           'bg-warning': esito === 'pareggio'
         }"
-        [ngStyle]="{
+        style="{
           padding: '20px',
           borderRadius: '10px',
           border: '2px solid black',
