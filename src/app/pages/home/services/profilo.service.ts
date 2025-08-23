@@ -18,20 +18,17 @@ export class ProfiloService extends BaseService {
   getProfiloById(userId: string): Observable<Profilo> {
     const body = { p_id: userId };
 
-    return this.postCustom<typeof body, Profilo>('rpc/get_profilo_by_id', body);
+    return this.postCustom<Profilo>('rpc/get_profilo_by_id', body);
   }
 
   postPubblicazioni(tweet: Tweet): Observable<Tweet> {
-    return this.postCustom<Tweet, Tweet>('pubblicazioni', tweet);
+    return this.postCustom<Tweet>('pubblicazioni', tweet);
   }
 
   deletePubblicazioni(tweetId: number): Observable<void> {
     const body = { p_id: tweetId };
 
-    return this.postCustom<typeof body, void>(
-      'rpc/delete_pubblicazione_by_id',
-      body
-    );
+    return this.postCustom<void>('rpc/delete_pubblicazione_by_id', body);
   }
 
   uploadProfileImage(file: File, userId: string): Observable<string> {

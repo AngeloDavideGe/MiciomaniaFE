@@ -38,26 +38,20 @@ export abstract class BaseService {
     }
   }
 
-  protected postCustom<T, F>(url: string, item: T): Observable<F> {
-    return this.http.post<F>(`${this.baseUrl}${url}`, item, {
+  protected postCustom<T>(url: string, body: any): Observable<T> {
+    return this.http.post<T>(`${this.baseUrl}${url}`, body, {
       headers: this.headers,
     });
   }
 
-  protected patchCustom<T, F>(
+  protected patchCustom<T>(
     url: string,
-    item: T,
-    params?: HttpParams
-  ): Observable<F> {
-    if (params) {
-      return this.http.patch<F>(`${this.baseUrl}${url}`, item, {
-        headers: this.headers,
-        params: params,
-      });
-    } else {
-      return this.http.patch<F>(`${this.baseUrl}${url}`, item, {
-        headers: this.headers,
-      });
-    }
+    body: any,
+    params: HttpParams
+  ): Observable<T> {
+    return this.http.patch<T>(`${this.baseUrl}${url}`, body, {
+      headers: this.headers,
+      params: params,
+    });
   }
 }

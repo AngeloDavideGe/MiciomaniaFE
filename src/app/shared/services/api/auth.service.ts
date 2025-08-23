@@ -1,11 +1,7 @@
 import { HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import {
-  PostUserForDb,
-  User,
-  UserParams,
-} from '../../interfaces/users.interface';
+import { User, UserParams } from '../../interfaces/users.interface';
 import { BaseService } from '../base/base.service';
 
 @Injectable({
@@ -39,19 +35,19 @@ export class AuthService extends BaseService {
     email: string,
     password: string
   ): Observable<User> {
-    const body: PostUserForDb = {
+    const body = {
       nome_input: nome,
       username_input: username,
       email_input: email,
       password_input: password,
     };
 
-    return this.postCustom<PostUserForDb, User>(`rpc/postsignin`, body);
+    return this.postCustom<User>(`rpc/postsignin`, body);
   }
 
   updateUser(userForDb: any): Observable<User> {
     const params = new HttpParams().set('id', `eq.${userForDb.id}`);
 
-    return this.patchCustom<any, User>(`utenti`, userForDb, params);
+    return this.patchCustom<User>(`utenti`, userForDb, params);
   }
 }

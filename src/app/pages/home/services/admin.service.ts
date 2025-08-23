@@ -20,7 +20,7 @@ export class AdminService extends BaseService {
     const body = { ruolo }; // {ruolo: ruolo} - key: value sono uguali
     const params = new HttpParams().set('id', `eq.${id}`);
 
-    return this.patchCustom<typeof body, User>(`utenti`, body, params);
+    return this.patchCustom<User>(`utenti`, body, params);
   }
 
   updateRuoloUtenteCustom(

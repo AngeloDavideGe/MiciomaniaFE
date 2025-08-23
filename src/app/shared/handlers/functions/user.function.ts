@@ -4,6 +4,7 @@ import {
   Iscrizione,
   Profile,
   User,
+  UserDb,
 } from '../../interfaces/users.interface';
 
 export function mapUserByDb(db: any): User {
@@ -32,7 +33,7 @@ export function mapUserByDb(db: any): User {
   };
 }
 
-export function mapUserToDb(user: User): any {
+export function mapUserToDb(user: User): UserDb {
   return {
     id: user.id,
     nome: user.credenziali.nome,
@@ -52,6 +53,7 @@ export function mapUserToDb(user: User): any {
     team: user.iscrizione.team,
     provincia: user.iscrizione.provincia,
     citta: user.iscrizione.citta,
+    punteggio: user.iscrizione.punteggio,
   };
 }
 

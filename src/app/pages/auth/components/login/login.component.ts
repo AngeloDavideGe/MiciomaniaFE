@@ -4,9 +4,9 @@ import { Router } from '@angular/router';
 import { map, Observable, take } from 'rxjs';
 import { DataHttp } from '../../../../core/api/http.data';
 import { mapUserByDb } from '../../../../shared/handlers/functions/user.function';
+import { User } from '../../../../shared/interfaces/users.interface';
 import { AuthService } from '../../../../shared/services/api/auth.service';
 import { auth_shared_imports } from '../../shared/auth-shared.import';
-import { UserParams } from '../../../../shared/interfaces/users.interface';
 
 @Component({
   selector: 'app-login',
@@ -70,9 +70,9 @@ export class LoginComponent {
       take(1),
       map((data) => {
         if (data.length === 1) {
-          const user = mapUserByDb(data[0]);
-          DataHttp.users.set(
-            DataHttp.users().filter((x: UserParams) => x.id != user.id)
+          const user: User = mapUserByDb(data[0]);
+          DataHttp.users.update((users) =>
+            users.filter((x) => x.id !== user.id)
           );
           DataHttp.user.set(user);
           return true;

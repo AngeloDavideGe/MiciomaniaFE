@@ -1,6 +1,6 @@
 import { catchError, map, Observable, take } from 'rxjs';
 import { DataHttp } from '../../core/api/http.data';
-import { User, UserParams } from '../interfaces/users.interface';
+import { User, UserDb, UserParams } from '../interfaces/users.interface';
 import { AuthService } from '../services/api/auth.service';
 import { mapUserToDb } from './functions/user.function';
 
@@ -21,7 +21,7 @@ export function updateUserCustom(params: {
   authService: AuthService;
   user: User;
 }): Observable<User> {
-  const userForDb = mapUserToDb(params.user);
+  const userForDb: UserDb = mapUserToDb(params.user);
   return params.authService.updateUser(userForDb).pipe(
     map(() => {
       DataHttp.user.set(params.user);

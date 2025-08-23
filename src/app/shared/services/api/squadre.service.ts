@@ -28,9 +28,6 @@ export class SquadreService extends BaseService {
       p_punteggio_squadre: punteggioOttenuto,
     };
 
-    return this.postCustom<typeof body, void>(
-      'rpc/update_punteggio_squadre',
-      body
-    );
+    return this.postCustom<void>('rpc/update_punteggio_squadre', body);
   }
 }

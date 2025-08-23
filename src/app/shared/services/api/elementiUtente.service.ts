@@ -19,11 +19,11 @@ export class ElementiUtenteService extends BaseService {
   }
 
   getListaCanzoniMiciomani(): Observable<CanzoniMiciomania[]> {
-    return this.postCustom<any, CanzoniMiciomania[]>('rpc/get_all_canzoni', {});
+    return this.postCustom<CanzoniMiciomania[]>('rpc/get_all_canzoni', {});
   }
 
   getListaMangaMiciomani(): Observable<MangaMiciomania[]> {
-    return this.postCustom<any, MangaMiciomania[]>('rpc/get_all_manga', {});
+    return this.postCustom<MangaMiciomania[]>('rpc/get_all_manga', {});
   }
 
   getElementiUtente(idUtente: string): Observable<ElementiUtente> {
@@ -31,10 +31,7 @@ export class ElementiUtenteService extends BaseService {
       id_utente: idUtente,
     };
 
-    return this.postCustom<typeof body, ElementiUtente>(
-      'rpc/get_elementi_utente',
-      body
-    );
+    return this.postCustom<ElementiUtente>('rpc/get_elementi_utente', body);
   }
 
   postProposta(proposta: Proposta): Observable<Proposta> {
@@ -46,9 +43,6 @@ export class ElementiUtenteService extends BaseService {
     formData.append('File', proposta.link);
     formData.append('Copertina', '');
 
-    return this.postCustom<FormData, Proposta>(
-      'proposte/invio_proposta',
-      formData
-    );
+    return this.postCustom<Proposta>('proposte/invio_proposta', formData);
   }
 }

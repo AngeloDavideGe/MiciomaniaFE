@@ -14,16 +14,13 @@ export class MangaService extends BaseService {
   getListaManga(idUtente: string | null): Observable<ListaEUtenti> {
     const body = { input_id: idUtente };
 
-    return this.postCustom<typeof body, ListaEUtenti>(
-      'rpc/get_all_manga',
-      body
-    );
+    return this.postCustom<ListaEUtenti>('rpc/get_all_manga', body);
   }
 
   getNomeEVolumiMangaByPath(path: string): Observable<MangaENome> {
     const body = { input_table_name: path };
 
-    return this.postCustom<typeof body, MangaENome>(
+    return this.postCustom<MangaENome>(
       'rpc/get_volumi_e_nome_by_path_wrapper',
       body
     );
@@ -42,6 +39,6 @@ export class MangaService extends BaseService {
       p_manga_completati: completati,
     };
 
-    return this.postCustom<typeof body, void>('rpc/upsert_manga_utente', body);
+    return this.postCustom<void>('rpc/upsert_manga_utente', body);
   }
 }

@@ -37,9 +37,20 @@ export interface UserParams {
   ruolo: Ruolo;
 }
 
-export interface PostUserForDb {
-  nome_input: string;
-  username_input: string;
-  email_input: string;
-  password_input: string;
+export interface UserDb {
+  id: string;
+  nome: string;
+  email: string;
+  password: string;
+  profilePic: string | null;
+  ruolo: Ruolo;
+  stato: StatoPersona | null;
+  team: string | null;
+  provincia: string | null;
+  citta: string | null;
+  punteggio: number | null;
+  bio: string | null;
+  telefono: string | null;
+  compleanno: Date | string | null;
+  social: JSON | null;
 }
