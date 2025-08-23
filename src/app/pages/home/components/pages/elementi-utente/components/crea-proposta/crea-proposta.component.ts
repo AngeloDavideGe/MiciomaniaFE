@@ -1,4 +1,3 @@
-import { NgClass } from '@angular/common';
 import {
   Component,
   EventEmitter,
@@ -14,21 +13,20 @@ import {
   Validators,
 } from '@angular/forms';
 import { finalize, switchMap, take } from 'rxjs';
-import { DropboxService } from '../../services/dropbox.service';
-import { fileValidator } from '../../validators/proposta.validator';
-import { PropostaService } from '../../services/proposta.service';
-import { ElementiUtenteService } from '../../../../../../../shared/services/api/elementiUtente.service';
+import { DataHttp } from '../../../../../../../core/api/http.data';
 import {
   ElementiUtente,
   Proposta,
 } from '../../../../../../../shared/interfaces/elementiUtente.interface';
+import { ElementiUtenteService } from '../../../../../../../shared/services/api/elementiUtente.service';
 import { ProposaPrePost } from '../../interfaces/dropbox.interface';
-import { DataHttp } from '../../../../../../../core/api/http.data';
-
+import { DropboxService } from '../../services/dropbox.service';
+import { PropostaService } from '../../services/proposta.service';
+import { fileValidator } from '../../validators/proposta.validator';
 @Component({
   selector: 'app-crea-proposta',
   standalone: true,
-  imports: [NgClass, ReactiveFormsModule],
+  imports: [ReactiveFormsModule],
   templateUrl: './crea-proposta.component.html',
 })
 export class CreaPropostaComponent implements OnInit {

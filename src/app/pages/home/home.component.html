@@ -35,8 +35,8 @@
 <!-- Cerca profili -->
 @case ('profili') {
 <app-cerca-profili
-  [goToProfilo]="goToProfilo"
-  [chiudiComponente]="chiudiComponente"
+  (goToProfilo)="router.navigate([$event])"
+  (chiudiComponente)="componenteAperto.set('')"
 ></app-cerca-profili>
 } }
 

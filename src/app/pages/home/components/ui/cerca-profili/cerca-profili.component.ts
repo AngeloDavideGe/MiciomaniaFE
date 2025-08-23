@@ -1,8 +1,15 @@
-import { Component, Input, OnDestroy, OnInit, signal } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  OnDestroy,
+  OnInit,
+  Output,
+  signal,
+} from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { debounceTime, Subject, takeUntil } from 'rxjs';
-import { UserParams } from '../../../../../shared/interfaces/users.interface';
 import { DataHttp } from '../../../../../core/api/http.data';
+import { UserParams } from '../../../../../shared/interfaces/users.interface';
 
 @Component({
   selector: 'app-cerca-profili',
@@ -21,8 +28,8 @@ export class CercaProfiliComponent implements OnInit, OnDestroy {
   private destroy$ = new Subject<void>();
   public users: UserParams[] = DataHttp.users();
 
-  @Input() goToProfilo!: Function;
-  @Input() chiudiComponente!: Function;
+  @Output() goToProfilo = new EventEmitter<string>();
+  @Output() chiudiComponente = new EventEmitter<void>();
 
   ngOnInit(): void {
     this.filteredUsers = structuredClone(DataHttp.users());

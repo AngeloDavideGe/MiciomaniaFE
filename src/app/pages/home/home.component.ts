@@ -28,8 +28,6 @@ export class HomeComponent implements OnInit {
   public inizialiUser: string = '';
   private punteggioCanzoni: number = 50;
   public componenteAperto = signal<componenteApertoType>('');
-  public chiudiComponente: Function = () => this.componenteAperto.set('');
-  public goToProfilo: Function = (path: string) => this.router.navigate([path]);
   private elementiUtenteUtilities = new ElementiUtenteUtilities();
 
   public isHome$: Observable<boolean> = this.router.events.pipe(

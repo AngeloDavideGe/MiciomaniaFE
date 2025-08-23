@@ -35,7 +35,7 @@
           type="button"
           class="btn-close"
           aria-label="Close"
-          (click)="chiudiComponente()"
+          (click)="chiudiComponente.emit()"
         ></button>
       </div>
       <div class="modal-body" style="padding: 1.5rem">
@@ -87,7 +87,7 @@
               border-radius: 8px;
               transition: background 0.2s;
             "
-            (click)="goToProfilo('/home/profilo/' + user.id)"
+            (click)="goToProfilo.emit('/home/profilo/' + user.id)"
             onmouseover="this.style.backgroundColor='#e9ecef'"
             onmouseout="this.style.backgroundColor='transparent'"
           >
