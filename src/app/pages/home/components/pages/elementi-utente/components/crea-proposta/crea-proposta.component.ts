@@ -21,7 +21,6 @@ import {
 import { ElementiUtenteService } from '../../../../../../../shared/services/api/elementiUtente.service';
 import { ProposaPrePost } from '../../interfaces/dropbox.interface';
 import { DropboxService } from '../../services/dropbox.service';
-import { PropostaService } from '../../services/proposta.service';
 import { fileValidator } from '../../validators/proposta.validator';
 @Component({
   selector: 'app-crea-proposta',
@@ -36,7 +35,6 @@ export class CreaPropostaComponent implements OnInit {
 
   private fb = inject(FormBuilder);
   private dropboxService = inject(DropboxService);
-  private propostaService = inject(PropostaService);
   private elementiUtenteService = inject(ElementiUtenteService);
 
   @Input() userId!: string;
@@ -67,9 +65,8 @@ export class CreaPropostaComponent implements OnInit {
         .pipe(take(1))
         .subscribe({
           next: (response) => (this.dropboxService.dropboxResponse = response),
-          error: (err) => {
-            console.error('Errore ottenimento token Dropbox:', err);
-          },
+          error: (err) =>
+            console.error('Errore ottenimento token Dropbox:', err),
         });
     }
   }
@@ -150,7 +147,7 @@ export class CreaPropostaComponent implements OnInit {
         take(1),
         switchMap((res) => {
           p.proposta.link = res;
-          return this.propostaService.postProposta(p.proposta);
+          return this.elementiUtenteService.postProposta(p.proposta);
         }),
         finalize(() => (this.elementiUtenteService.propostaCaricata = true))
       )

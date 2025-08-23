@@ -1,22 +1,20 @@
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { environment } from '../../../../environments/environment';
-import { Squadre } from '../../../pages/home/interfaces/profilo.interface';
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { Squadre } from '../../../pages/home/interfaces/profilo.interface';
+import { BaseService } from '../base/base.service';
 
 @Injectable({
   providedIn: 'root',
 })
-export class SquadreService {
+export class SquadreService extends BaseService {
   public squadre: Squadre[] = [];
 
-  constructor(private http: HttpClient) {}
+  constructor() {
+    super('DB1');
+  }
 
   getSquadre(): Observable<Squadre[]> {
-    const url = environment.urlDB1 + 'squadre';
-    return this.http.get<Squadre[]>(url, {
-      headers: environment.headerSupabase,
-    });
+    return this.getCustom<Squadre>('squadre');
   }
 
   updatePunteggioSquadra(
@@ -24,15 +22,15 @@ export class SquadreService {
     nomeSquadra: string[],
     punteggioOttenuto: number
   ): Observable<void> {
-    const url = environment.urlDB1 + 'rpc/update_punteggio_squadre';
     const body = {
       p_id_utente: userId,
       p_id_squadre: nomeSquadra,
       p_punteggio_squadre: punteggioOttenuto,
     };
 
-    return this.http.post<void>(url, body, {
-      headers: environment.headerSupabase,
-    });
+    return this.postCustom<typeof body, void>(
+      'rpc/update_punteggio_squadre',
+      body
+    );
   }
 }

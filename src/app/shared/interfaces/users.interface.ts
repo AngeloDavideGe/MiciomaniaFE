@@ -36,3 +36,10 @@ export interface UserParams {
   profilePic: string | null;
   ruolo: Ruolo;
 }
+
+export interface PostUserForDb {
+  nome_input: string;
+  username_input: string;
+  email_input: string;
+  password_input: string;
+}

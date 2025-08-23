@@ -1,42 +1,37 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, from, Observable, of, switchMap, throwError } from 'rxjs';
 import { environment } from '../../../../environments/environment';
-import { Tweet } from '../interfaces/profilo.interface';
 import { Profilo } from '../../../shared/interfaces/http.interface';
+import { BaseService } from '../../../shared/services/base/base.service';
+import { Tweet } from '../interfaces/profilo.interface';
 
 @Injectable({
   providedIn: 'root',
 })
-export class ProfiloService {
+export class ProfiloService extends BaseService {
   public aggiornamentoPic: boolean = false;
 
-  constructor(private http: HttpClient) {}
+  constructor() {
+    super('DB1');
+  }
 
   getProfiloById(userId: string): Observable<Profilo> {
-    const url = environment.urlDB1 + 'rpc/get_profilo_by_id';
     const body = { p_id: userId };
 
-    return this.http.post<Profilo>(url, body, {
-      headers: environment.headerSupabase,
-    });
+    return this.postCustom<typeof body, Profilo>('rpc/get_profilo_by_id', body);
   }
 
   postPubblicazioni(tweet: Tweet): Observable<Tweet> {
-    const url = environment.urlDB1 + 'pubblicazioni';
-
-    return this.http.post<Tweet>(url, tweet, {
-      headers: environment.headerSupabase,
-    });
+    return this.postCustom<Tweet, Tweet>('pubblicazioni', tweet);
   }
 
   deletePubblicazioni(tweetId: number): Observable<void> {
-    const url = environment.urlDB1 + 'rpc/delete_pubblicazione_by_id';
     const body = { p_id: tweetId };
 
-    return this.http.post<void>(url, body, {
-      headers: environment.headerSupabase,
-    });
+    return this.postCustom<typeof body, void>(
+      'rpc/delete_pubblicazione_by_id',
+      body
+    );
   }
 
   uploadProfileImage(file: File, userId: string): Observable<string> {

@@ -1,49 +1,54 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { environment } from '../../../../environments/environment';
 import {
   CanzoniMiciomania,
   ElementiUtente,
   MangaMiciomania,
+  Proposta,
 } from '../../interfaces/elementiUtente.interface';
+import { BaseService } from '../base/base.service';
 
 @Injectable({
   providedIn: 'root',
 })
-export class ElementiUtenteService {
+export class ElementiUtenteService extends BaseService {
   public propostaCaricata: boolean = true;
 
-  constructor(private http: HttpClient) {
-    this.getElementiFromStorage();
+  constructor() {
+    super('DB2');
   }
 
   getListaCanzoniMiciomani(): Observable<CanzoniMiciomania[]> {
-    const url = environment.urlDB2 + 'rpc/get_all_canzoni';
-
-    return this.http.get<CanzoniMiciomania[]>(url, {
-      headers: environment.headerSupabase2,
-    });
+    return this.postCustom<any, CanzoniMiciomania[]>('rpc/get_all_canzoni', {});
   }
 
   getListaMangaMiciomani(): Observable<MangaMiciomania[]> {
-    const url = environment.urlDB2 + 'rpc/get_all_manga';
-    const body = {};
-    return this.http.post<MangaMiciomania[]>(url, body, {
-      headers: environment.headerSupabase2,
-    });
+    return this.postCustom<any, MangaMiciomania[]>('rpc/get_all_manga', {});
   }
 
   getElementiUtente(idUtente: string): Observable<ElementiUtente> {
-    const apiUrl = `${environment.urlDB2}rpc/get_elementi_utente`;
     const body = {
       id_utente: idUtente,
     };
 
-    return this.http.post<ElementiUtente>(apiUrl, body, {
-      headers: environment.headerSupabase2,
-    });
+    return this.postCustom<typeof body, ElementiUtente>(
+      'rpc/get_elementi_utente',
+      body
+    );
   }
 
-  private getElementiFromStorage(): void {}
+  postProposta(proposta: Proposta): Observable<Proposta> {
+    const formData = new FormData();
+    formData.append('Tipo', proposta.tipo);
+    formData.append('Nome', proposta.nome);
+    formData.append('Descrizione', proposta.genere);
+    formData.append('IdUtente', proposta.id_autore);
+    formData.append('File', proposta.link);
+    formData.append('Copertina', '');
+
+    return this.postCustom<FormData, Proposta>(
+      'proposte/invio_proposta',
+      formData
+    );
+  }
 }
