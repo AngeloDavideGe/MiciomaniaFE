@@ -1,39 +1,32 @@
 import { Component, Input } from '@angular/core';
 import { EsitoGame } from '../../interfaces/games.interfaces';
+import { NgClass } from '@angular/common';
 
 @Component({
   selector: 'app-alerts-game',
   standalone: true,
-  imports: [],
+  imports: [NgClass],
   template: `
     <div
-      class="alert-container d-flex justify-content-center"
-      style="{
-        position: 'fixed',
-        width: '100%',
-        zIndex: '1000',
-        top: '20px'
-      }"
+      class="position-fixed top-0 start-50 translate-middle-x w-100 d-flex justify-content-center"
+      style="z-index: 1050; pointer-events: none; padding-top: 1.5rem;"
     >
       <div
-        class="alert"
-        [class]="{
-          'bg-success': esito === 'vittoria',
-          'bg-danger': esito === 'sconfitta',
-          'bg-warning': esito === 'pareggio'
+        class="alert shadow-lg border-2 px-4 py-3 fw-bold text-center"
+        [ngClass]="{
+          'bg-success border-success': esito === 'vittoria',
+          'bg-danger border-danger': esito === 'sconfitta',
+          'bg-warning border-warning text-dark': esito === 'pareggio'
         }"
-        style="{
-          padding: '20px',
-          borderRadius: '10px',
-          border: '2px solid black',
-          fontSize: '1.5rem',
-          color: 'white',
-          fontWeight: 'bold',
-          boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
-          textAlign: 'center',
-          width: '80%',
-          maxWidth: '600px'
-        }"
+        style="
+          border-radius: 1rem;
+          font-size: 1.3rem;
+          max-width: 500px;
+          width: 80%;
+          color: white;
+          box-shadow: 0 4px 16px rgba(0,0,0,0.18);
+          pointer-events: auto;
+        "
       >
         {{ getMessageByEsito(esito) }}
       </div>

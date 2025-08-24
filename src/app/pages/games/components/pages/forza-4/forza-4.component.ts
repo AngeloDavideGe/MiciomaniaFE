@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
-import { Forza4, Turno } from '../../../interfaces/games.interfaces';
+import { Component, inject, OnInit } from '@angular/core';
+import { setPunteggioOttenuto } from '../../../../../shared/handlers/squadre.handler';
+import { EsitoGame, Forza4, Turno } from '../../../interfaces/games.interfaces';
+import { AlertGamesService } from '../../../services/alert-games.service';
 import { GamesBase } from '../../../shared/base/games.base';
 import { DettagliGameComponent } from '../../../shared/components/dettagli-game.component';
 import { Forza4BotClass } from './bot/forza-4.bot';
-import { setPunteggioOttenuto } from '../../../../../shared/handlers/squadre.handler';
 
 @Component({
   selector: 'app-forza-4',
@@ -12,6 +13,8 @@ import { setPunteggioOttenuto } from '../../../../../shared/handlers/squadre.han
   templateUrl: './forza-4.component.html',
 })
 export class Forza4Component extends GamesBase implements OnInit {
+  private alertService = inject(AlertGamesService);
+
   public campo: Forza4[][] = [];
   public dimCampo: number = 6;
   public gameOver: boolean = false;
@@ -50,9 +53,7 @@ export class Forza4Component extends GamesBase implements OnInit {
         this.gameOver = this.controllaVittoria('player');
 
         if (this.gameOver) {
-          alert('vittoria');
-          setPunteggioOttenuto(2);
-          this.resetGame();
+          this.resetGame(2, 'vittoria');
         } else {
           setTimeout(() => this.turnoBot(), 350);
         }
@@ -71,9 +72,7 @@ export class Forza4Component extends GamesBase implements OnInit {
         this.gameOver = this.controllaVittoria('bot');
 
         if (this.gameOver) {
-          alert('sconfitta');
-          setPunteggioOttenuto(-3);
-          this.resetGame();
+          this.resetGame(-3, 'sconfitta');
         } else {
           this.turno = 'Player';
         }
@@ -127,9 +126,11 @@ export class Forza4Component extends GamesBase implements OnInit {
     return false;
   }
 
-  private resetGame(): void {
+  private resetGame(p: number, e: EsitoGame): void {
     this.gameOver = false;
     this.turno = 'Player';
+    this.alertService.alert(e);
+    setPunteggioOttenuto(p);
     this.inizializzaCampo();
   }
 }

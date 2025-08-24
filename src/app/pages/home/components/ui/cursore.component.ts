@@ -6,7 +6,10 @@ import { CursorUtilities } from '../../../../shared/utilities/cursor.utilities';
   standalone: true,
   imports: [],
   template: `
-    <div class="container mt-5">
+    <div style="height: 1rem">
+      <!-- Spazio Vuoto -->
+    </div>
+    <div class="container">
       <div class="row justify-content-center">
         <!-- Riquadro per il cursore di default -->
         <div class="col-auto">
