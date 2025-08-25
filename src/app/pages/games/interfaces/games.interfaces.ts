@@ -2,6 +2,7 @@ import { Quiz } from '../../../shared/interfaces/github.interface';
 
 export type EsitoGame = 'vittoria' | 'sconfitta' | 'pareggio';
 export type Turno = 'Player' | 'Bot';
+export type SudokuNumber = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | null;
 
 export interface CardGioco {
   nome: string;
@@ -76,37 +77,8 @@ export interface CellaOccupata {
   key: keyof CelleBattaglia;
 }
 
-// DECK
-export interface Deck {
-  deck_id: string;
-  shuffled: boolean;
-  remaining: number;
-}
-
-export class DefaultDeck {
-  deck_id: string;
-  shuffled: boolean;
-  remaining: number;
-
-  constructor(deck_id: string, count: number) {
-    this.deck_id = deck_id;
-    this.shuffled = true;
-    this.remaining = 52 - count;
-  }
-}
-
-export interface DrawDeck {
-  deck_id: string;
-  cards: CardDeck[];
-  remaining: number;
-}
-
-export interface CardDeck {
-  code: string;
-  image: string;
-}
-
-export interface PescataDeck {
-  drawnCards: CardDeck[];
-  remainingDeck: CardDeck[];
+// SUDOKU
+export interface SudokuCell {
+  value: SudokuNumber;
+  isVisible: boolean;
 }

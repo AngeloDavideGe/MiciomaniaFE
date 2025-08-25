@@ -46,6 +46,13 @@ export const GAMES_ROUTES: Routes = [
             (m) => m.MemoryComponent
           ),
       },
+      {
+        path: 'sudoku',
+        loadComponent: () =>
+          import('./components/pages/sudoku/sudoku.component').then(
+            (m) => m.SudokuComponent
+          ),
+      },
     ],
   },
 ];

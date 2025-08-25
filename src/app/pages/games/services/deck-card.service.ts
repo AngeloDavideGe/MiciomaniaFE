@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { CardDeck, DrawDeck } from '../interfaces/games.interfaces';
+import { DrawDeck, CardDeck } from '../interfaces/deck.interface';
 
 @Injectable({
   providedIn: 'root',

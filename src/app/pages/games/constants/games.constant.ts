@@ -49,4 +49,12 @@ export const gamesConstant: CardGioco[] = [
       'https://store-images.s-microsoft.com/image/apps.5303.13834962130662620.16bc9f00-a732-4534-843d-1f42a6785ffe.96587c35-351e-4b22-9cd8-f63fd13cf63f?h=1280',
     routerLink: 'memory',
   },
+  {
+    nome: 'Sudoku',
+    descrizione:
+      'Inserisci i numeri da 1 a 9 in ogni riga, colonna e regione 3x3 senza ripetizioni. Ma attento, se sbagli, Indy Kun ti dirà: "Forse il Sudoku non è il tuo forte, vero?"',
+    linkImg:
+      'https://th.bing.com/th/id/R.bcd32f680832e366bbd152eaa0e6bddd?rik=EhKn0ubH2LygUw&riu=http%3a%2f%2figm.univ-mlv.fr%2f%7edr%2fXPOSE2013%2fsudoku%2fimg%2fsudoku1.jpeg&ehk=d53WwForN1gZLuEbFMh1HYmbXClMiIQYpAeNytmmBdM%3d&risl=&pid=ImgRaw&r=0',
+    routerLink: 'sudoku',
+  },
 ];

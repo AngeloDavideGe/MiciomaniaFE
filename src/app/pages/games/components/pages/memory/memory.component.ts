@@ -1,6 +1,6 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { getCasualCard } from '../../../functions/deck-card.function';
-import { CardDeck } from '../../../interfaces/games.interfaces';
+import { CardDeck } from '../../../interfaces/deck.interface';
 import { DeckCardService } from '../../../services/deck-card.service';
 import { GamesBase } from '../../../shared/base/games.base';
 import { DettagliGameComponent } from '../../../shared/components/dettagli-game.component';

@@ -1,4 +1,4 @@
-import { CardDeck, PescataDeck } from '../interfaces/games.interfaces';
+import { CardDeck, PescataDeck } from '../interfaces/deck.interface';
 
 export function getCasualCard(
   cardsDeck: CardDeck[],
@@ -47,7 +47,7 @@ function rimozioneCard(
   } as PescataDeck;
 }
 
-function shuffleArray<T>(array: T[]): T[] {
+export function shuffleArray<T>(array: T[]): T[] {
   const shuffled: T[] = [...array];
   for (let i = shuffled.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
