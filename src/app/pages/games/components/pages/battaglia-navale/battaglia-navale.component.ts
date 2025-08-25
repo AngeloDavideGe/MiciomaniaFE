@@ -15,6 +15,8 @@ import {
   cellaOccupata,
   controlloCasuale,
 } from './utilities/battaglia-navale.utilities';
+import { boardEmpty } from '../../../functions/games.function';
+import { navaleCellEmpty } from '../../../constants/boardEmpty.const';
 
 @Component({
   selector: 'app-battaglia-navale',
@@ -48,8 +50,8 @@ export class BattagliaNavaleComponent extends GamesBase implements OnInit {
 
   private iniziaGioco(): void {
     this.celle = {
-      cellaPlayer: this.celleVuote(),
-      cellaBot: this.celleVuote(),
+      cellaPlayer: boardEmpty<NavaleCell>(this.dimGriglia, navaleCellEmpty),
+      cellaBot: boardEmpty<NavaleCell>(this.dimGriglia, navaleCellEmpty),
     };
     this.celleCasuali();
     this.inizializzaNaviRimaste();
@@ -108,23 +110,6 @@ export class BattagliaNavaleComponent extends GamesBase implements OnInit {
         tentativi++;
       }
     }
-  }
-
-  private celleVuote(): NavaleCell[][] {
-    let griglia: NavaleCell[][] = [];
-
-    for (let i = 0; i < this.dimGriglia; i++) {
-      griglia[i] = [] as NavaleCell[];
-      for (let j = 0; j < this.dimGriglia; j++) {
-        griglia[i][j] = {
-          navePiccola: false,
-          naveGrande: false,
-          cellaColpita: false,
-        };
-      }
-    }
-
-    return griglia;
   }
 
   colpisciCella(cellOcc: CellaOccupata): void {

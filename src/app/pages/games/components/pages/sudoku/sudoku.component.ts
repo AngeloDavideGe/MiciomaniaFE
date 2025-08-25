@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { SudokuCell, SudokuNumber } from '../../../interfaces/games.interfaces';
 import { shuffleArray } from '../../../functions/deck-card.function';
 import { DettagliGameComponent } from '../../../shared/components/dettagli-game.component';
+import { boardEmpty } from '../../../functions/games.function';
+import { sudokuCellEmpty } from '../../../constants/boardEmpty.const';
 
 @Component({
   selector: 'app-sudoku',
@@ -17,7 +19,7 @@ export class SudokuComponent implements OnInit {
   }
 
   private generateCompleteSudoku(): SudokuCell[][] {
-    const board: SudokuCell[][] = this.sudokuBoardEmpty();
+    const board: SudokuCell[][] = boardEmpty<SudokuCell>(9, sudokuCellEmpty);
 
     const fillCell: Function = (r: number, c: number): boolean => {
       if (r === 9) return true;
@@ -44,20 +46,6 @@ export class SudokuComponent implements OnInit {
 
     fillCell(0, 0);
     return board;
-  }
-
-  private sudokuBoardEmpty(): SudokuCell[][] {
-    const sudokuBoard: SudokuCell[][] = [];
-
-    for (let i = 0; i < 9; i++) {
-      const row: SudokuCell[] = [];
-      for (let j = 0; j < 9; j++) {
-        row.push({ value: null, isVisible: false });
-      }
-      sudokuBoard.push(row);
-    }
-
-    return sudokuBoard;
   }
 
   private isValidMove(

@@ -5,6 +5,8 @@ import { AlertGamesService } from '../../../services/alert-games.service';
 import { GamesBase } from '../../../shared/base/games.base';
 import { DettagliGameComponent } from '../../../shared/components/dettagli-game.component';
 import { Forza4BotClass } from './bot/forza-4.bot';
+import { boardEmpty } from '../../../functions/games.function';
+import { forza4CellEmpty } from '../../../constants/boardEmpty.const';
 
 @Component({
   selector: 'app-forza-4',
@@ -22,25 +24,7 @@ export class Forza4Component extends GamesBase implements OnInit {
   private turno: Turno = 'Player';
 
   ngOnInit(): void {
-    this.inizializzaCampo();
-  }
-
-  private inizializzaCampo(): void {
-    this.forAllCell((i, j) => {
-      this.campo[i][j] = {
-        player: false,
-        bot: false,
-      };
-    });
-  }
-
-  private forAllCell(cellFunc: (i: number, j: number) => void): void {
-    for (let i = 0; i < this.dimCampo; i++) {
-      this.campo[i] = this.campo[i] || [];
-      for (let j = 0; j < this.dimCampo; j++) {
-        cellFunc(i, j);
-      }
-    }
+    this.campo = boardEmpty<Forza4>(this.dimCampo, forza4CellEmpty);
   }
 
   inserisciPedina(j: number): void {
@@ -131,6 +115,6 @@ export class Forza4Component extends GamesBase implements OnInit {
     this.turno = 'Player';
     this.alertService.alert(e);
     setPunteggioOttenuto(p);
-    this.inizializzaCampo();
+    this.campo = boardEmpty<Forza4>(this.dimCampo, forza4CellEmpty);
   }
 }
