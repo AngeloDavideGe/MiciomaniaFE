@@ -15,10 +15,11 @@ import {
 } from '../../shared/handlers/squadre.handler';
 import { User } from '../../shared/interfaces/users.interface';
 import { games_imports } from './imports/games.import';
-import { SquadreGiocatore } from './interfaces/games.interfaces';
+import { SquadraGioco, SquadreGiocatore } from './interfaces/games.interfaces';
 import { DeckCardService } from './services/deck-card.service';
 import { DataHttp } from '../../core/api/http.data';
 import { SquadreService } from '../../shared/services/api/squadre.service';
+import { Squadre } from '../home/interfaces/profilo.interface';
 
 @Component({
   selector: 'app-games',
@@ -74,7 +75,7 @@ export class GamesComponent implements OnInit, OnDestroy {
   private ifCallLoadSquadre(): void {
     const user: User | null = DataHttp.user();
     if (user) {
-      environment.team.forEach((nomeTeam) => {
+      environment.team.forEach((nomeTeam: string) => {
         if (user.iscrizione.team?.includes(nomeTeam)) {
           this.squadre.personale.push({
             nome: nomeTeam,
@@ -93,10 +94,10 @@ export class GamesComponent implements OnInit, OnDestroy {
   private elseCallLoadSquadre(): void {
     const user: User | null = DataHttp.user();
     if (user) {
-      environment.team.forEach((nomeTeam) => {
+      environment.team.forEach((nomeTeam: string) => {
         const punteggioFind: number | undefined =
           this.squadreService.squadre.find(
-            (squadra) => squadra.id == nomeTeam
+            (squadra: Squadre) => squadra.id == nomeTeam
           )?.punteggio;
 
         if (user.iscrizione.team?.includes(nomeTeam)) {
@@ -117,18 +118,18 @@ export class GamesComponent implements OnInit, OnDestroy {
   private nextCallLoadSquadre(): void {
     const user: User | null = DataHttp.user();
     if (user) {
-      this.squadre.personale.forEach((squadra) => {
+      this.squadre.personale.forEach((squadra: SquadraGioco) => {
         const punteggioFind: number | undefined =
           this.squadreService.squadre.find(
-            (squadraFind) => squadraFind.id == squadra.nome
+            (squadraFind: Squadre) => squadraFind.id == squadra.nome
           )?.punteggio;
         squadra.punteggio = punteggioFind || 'non disponibile';
       });
 
-      this.squadre.avversario.forEach((squadra) => {
+      this.squadre.avversario.forEach((squadra: SquadraGioco) => {
         const punteggioFind: number | undefined =
           this.squadreService.squadre.find(
-            (squadraFind) => squadraFind.id == squadra.nome
+            (squadraFind: Squadre) => squadraFind.id == squadra.nome
           )?.punteggio;
         squadra.punteggio = punteggioFind || 'non disponibile';
       });

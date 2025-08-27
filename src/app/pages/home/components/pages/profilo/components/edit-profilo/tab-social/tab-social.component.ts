@@ -71,13 +71,12 @@ export class TabSocialComponent extends TabProfiloBase implements OnInit {
   }
 
   private formatUser(): User {
-    const updatedSocials = this.socialArray.reduce((acc, curr) => {
-      if (curr.link?.trim()) acc[curr.key] = curr.link.trim();
-      return acc;
+    const updatedSocials = this.socialArray.reduce((map, social) => {
+      if (social.link?.trim()) map[social.key] = social.link.trim();
+      return map;
     }, {} as Record<string, string>);
 
     const userTemp: User = structuredClone(DataHttp.profiloPersonale!.user);
-
     userTemp.profile!.social = updatedSocials as unknown as JSON;
 
     return userTemp;

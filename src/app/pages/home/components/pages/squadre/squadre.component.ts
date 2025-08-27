@@ -7,6 +7,7 @@ import { LoadingService } from '../../../../../shared/services/template/loading.
 import { BottoniSquadreComponent } from './components/bottoni-squadre.component';
 import { ListaSquadreComponent } from './components/lista-squadre.component';
 import { chartOptions } from './options/squadre.option';
+import { Squadre } from '../../../interfaces/profilo.interface';
 
 declare var google: any;
 
@@ -51,7 +52,7 @@ export class SquadreComponent implements OnInit {
     data.addColumn('string', 'Squadra');
     data.addColumn('number', 'Punteggio');
 
-    this.squadreService.squadre.forEach((s) =>
+    this.squadreService.squadre.forEach((s: Squadre) =>
       data.addRow([s.id, s.punteggio])
     );
 

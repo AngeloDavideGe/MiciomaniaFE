@@ -41,7 +41,7 @@ export class AdminComponent implements OnInit {
   public router = inject(Router);
 
   ngOnInit(): void {
-    this.ruoli.forEach((ruolo) => {
+    this.ruoli.forEach((ruolo: Ruolo) => {
       this.userMapByRuolo[ruolo] = computed(() => this.userMap()[ruolo] ?? []);
     });
     this.loadUtenti();
@@ -76,8 +76,8 @@ export class AdminComponent implements OnInit {
     const users: UserParams[] = DataHttp.users();
     const newMap: { [ruolo: string]: UserParams[] } = {};
 
-    this.ruoli.forEach((ruolo) => (newMap[ruolo] = []));
-    users.forEach((user) => newMap[user.ruolo].push(user));
+    this.ruoli.forEach((ruolo: Ruolo) => (newMap[ruolo] = []));
+    users.forEach((user: UserParams) => newMap[user.ruolo].push(user));
 
     if (this.user) {
       const ruoloUtente: Ruolo = this.user.credenziali.ruolo;
@@ -109,7 +109,7 @@ export class AdminComponent implements OnInit {
 
   ruoloModificato(user: CambioRuoloUtente): void {
     const globalUserIndex: number = DataHttp.users().findIndex(
-      (u) => u.id === user.id
+      (u: UserParams) => u.id === user.id
     );
     if (globalUserIndex !== -1) {
       const allUsers: UserParams[] = DataHttp.users();

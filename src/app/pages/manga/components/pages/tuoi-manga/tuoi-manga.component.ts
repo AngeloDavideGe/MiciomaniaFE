@@ -164,7 +164,7 @@ export class TuoiMangaComponent implements OnInit, OnDestroy {
         .includes(idManga)
     ) {
       const mangaTrovato: ListaManga | undefined = DataHttp.listaManga().find(
-        (x) => x.id == idManga
+        (x: ListaManga) => x.id == idManga
       );
 
       if (mangaTrovato) {
@@ -218,7 +218,7 @@ export class TuoiMangaComponent implements OnInit, OnDestroy {
       (manga: ListaManga) => valoriDaSpostare.includes(manga.id)
     );
 
-    mangaDaAggiungere.forEach((manga) => {
+    mangaDaAggiungere.forEach((manga: ListaManga) => {
       if (!this.sezioneListaManga()[tabPush].some((x) => x.id == manga.id)) {
         this.sezioneListaManga.update((sezioni) => ({
           ...sezioni,

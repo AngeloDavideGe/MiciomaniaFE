@@ -26,7 +26,6 @@ export class SudokuComponent implements OnInit {
 
   ngOnInit(): void {
     this.sudokuBoard = this.generateCompleteSudoku();
-    console.log(this.celleCorrette);
   }
 
   private generateCompleteSudoku(): SudokuCell[][] {

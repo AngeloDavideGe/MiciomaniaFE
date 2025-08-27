@@ -16,7 +16,7 @@ import {
 import { take } from 'rxjs';
 import { formatDataCustom } from '../../../../shared/functions/utilities.function';
 import { User } from '../../../../shared/interfaces/users.interface';
-import { Messaggio } from './../interfaces/chat-group.interface';
+import { Messaggio, UserReduced } from './../interfaces/chat-group.interface';
 import { ChatGroupService } from './../services/chat-group.service';
 import { FormsModule } from '@angular/forms';
 import { mapUserMessage } from '../functions/user-map.function';
@@ -30,23 +30,20 @@ import { DataHttp } from '../../../api/http.data';
   styleUrl: './chat-group.component.scss',
 })
 export class ChatGroupComponent implements OnInit, AfterViewChecked {
+  private chatService = inject(ChatGroupService);
+
   public idUtente: string = '';
   public newMessage: string = '';
   private evitaSpam: boolean = true;
   private initialLoad: boolean = true;
   public spinner = signal<boolean>(false);
+  public user: User | null = null;
   public messages: Signal<Messaggio[]> = computed(() =>
     this.chatService.messages()
   );
-  public userMessageMap: Signal<{
-    [id: string]: {
-      nome: string;
-      pic: string;
-    };
-  }> = computed(() => mapUserMessage(DataHttp.users()));
-  public user: User | null = null;
-
-  private chatService = inject(ChatGroupService);
+  public userMessageMap: Signal<Record<string, UserReduced>> = computed(() =>
+    mapUserMessage()
+  );
 
   @Output() chiudiChat = new EventEmitter<void>();
   @ViewChild('chatMessages') chatMessagesContainer!: ElementRef;

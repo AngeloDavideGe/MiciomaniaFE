@@ -65,7 +65,7 @@ function convertedIdtoManga(
 
   for (let i = 0; i < idManga.length; i++) {
     const mangaFind: ListaManga | undefined = listaManga.find(
-      (x) => x.id == idManga[i]
+      (x: ListaManga) => x.id == idManga[i]
     );
     if (mangaFind) {
       allManga.push(mangaFind);

@@ -5,3 +5,8 @@ export interface Messaggio {
   content: string;
   created_at: string;
 }
+
+export interface UserReduced {
+  nome: string;
+  pic: string;
+}

@@ -1,9 +1,8 @@
-import { UserParams } from '../../../../shared/interfaces/users.interface';
+import { DataHttp } from '../../../api/http.data';
+import { UserReduced } from '../interfaces/chat-group.interface';
 
-export function mapUserMessage(users: UserParams[]): {
-  [id: string]: { nome: string; pic: string };
-} {
-  return users.reduce((map, utente) => {
+export function mapUserMessage(): Record<string, UserReduced> {
+  return DataHttp.users().reduce((map, utente) => {
     if (utente) {
       map[utente.id] = {
         nome: utente.nome || '',
@@ -16,5 +15,5 @@ export function mapUserMessage(users: UserParams[]): {
       };
     }
     return map;
-  }, {} as { [id: string]: { nome: string; pic: string } });
+  }, {} as Record<string, UserReduced>);
 }

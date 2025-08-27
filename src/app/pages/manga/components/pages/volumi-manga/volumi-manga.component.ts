@@ -12,6 +12,7 @@ import { PadZeroVolumePipe } from '../../../pipes/padZeroVolume.pipe';
 import { DataHttp } from '../../../../../core/api/http.data';
 import { MangaService } from '../../../services/manga.service';
 import { BottonCustomComponent } from '../../../../../shared/components/custom/botton-custom.component';
+import { MangaAperto } from '../../../../../shared/interfaces/http.interface';
 
 @Component({
   selector: 'app-volumi-manga',
@@ -65,7 +66,7 @@ export class VolumiMangaComponent implements OnInit {
 
   private loadVolumiENome(): void {
     const index: number = DataHttp.mangaAperti.findIndex(
-      (x) => x.nome == this.pathOpera
+      (x: MangaAperto) => x.nome == this.pathOpera
     );
     if (index > -1) {
       this.loadNoHttp(index);
