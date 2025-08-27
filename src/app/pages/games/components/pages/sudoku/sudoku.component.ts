@@ -1,9 +1,15 @@
-import { Component, OnInit } from '@angular/core';
-import { SudokuCell, SudokuNumber } from '../../../interfaces/games.interfaces';
+import { Component, inject, OnInit } from '@angular/core';
+import {
+  EsitoGame,
+  SudokuCell,
+  SudokuNumber,
+} from '../../../interfaces/games.interfaces';
 import { shuffleArray } from '../../../functions/deck-card.function';
 import { DettagliGameComponent } from '../../../shared/components/dettagli-game.component';
 import { boardEmpty } from '../../../functions/games.function';
 import { sudokuCellEmpty } from '../../../constants/boardEmpty.const';
+import { setPunteggioOttenuto } from '../../../../../shared/handlers/squadre.handler';
+import { AlertGamesService } from '../../../services/alert-games.service';
 
 @Component({
   selector: 'app-sudoku',
@@ -12,14 +18,21 @@ import { sudokuCellEmpty } from '../../../constants/boardEmpty.const';
   styleUrl: './sudoku.component.scss',
 })
 export class SudokuComponent implements OnInit {
+  private alertService = inject(AlertGamesService);
+
   public sudokuBoard: SudokuCell[][] = [];
+  private celleCorrette: number = 0;
+  private readonly visibleCells: number = 50;
 
   ngOnInit(): void {
     this.sudokuBoard = this.generateCompleteSudoku();
+    console.log(this.celleCorrette);
   }
 
   private generateCompleteSudoku(): SudokuCell[][] {
     const board: SudokuCell[][] = boardEmpty<SudokuCell>(9, sudokuCellEmpty);
+    let visibleCount: number = 0;
+    let celleRimasteDaVedere: number = 81;
 
     const fillCell: Function = (r: number, c: number): boolean => {
       if (r === 9) return true;
@@ -36,8 +49,26 @@ export class SudokuComponent implements OnInit {
       for (const n of numbers) {
         if (this.isValidMove(board, r, c, n)) {
           board[r][c].value = n;
+          const celleMancanti: number = this.visibleCells - visibleCount;
+
+          if (
+            visibleCount < this.visibleCells &&
+            (Math.random() < 0.65 || celleRimasteDaVedere === celleMancanti)
+          ) {
+            board[r][c].isVisible = true;
+            visibleCount++;
+          }
+
+          celleRimasteDaVedere--;
+
           if (fillCell(nextR, nextC)) return true;
+
+          if (board[r][c].isVisible) {
+            visibleCount--;
+            board[r][c].isVisible = false;
+          }
           board[r][c].value = null;
+          celleRimasteDaVedere++;
         }
       }
 
@@ -45,6 +76,8 @@ export class SudokuComponent implements OnInit {
     };
 
     fillCell(0, 0);
+
+    this.celleCorrette = visibleCount;
     return board;
   }
 
@@ -74,7 +107,7 @@ export class SudokuComponent implements OnInit {
     return true;
   }
 
-  inserisciNumero($event: Event, cell: SudokuCell) {
+  inserisciNumero($event: Event, cell: SudokuCell): void {
     const inputElement = $event.target as HTMLInputElement;
     let value: number = parseInt(inputElement.value, 10);
 
@@ -85,9 +118,23 @@ export class SudokuComponent implements OnInit {
 
     if (value == cell.value) {
       cell.isVisible = true;
+      this.celleCorrette++;
+
+      if (this.celleCorrette === 81) {
+        cell.isVisible = false;
+        inputElement.value = '';
+        this.resetGame('vittoria', 5);
+      }
     } else {
       inputElement.value = '';
       alert('Mossa non valida!');
     }
+  }
+
+  private resetGame(e: EsitoGame, p: number): void {
+    this.alertService.alert(e);
+    setPunteggioOttenuto(p);
+    this.sudokuBoard = this.generateCompleteSudoku();
+    this.celleCorrette = this.visibleCells;
   }
 }

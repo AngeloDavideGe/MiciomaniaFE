@@ -1,0 +1,108 @@
+#SudokuTable{
+  .sudoku-container {
+    display: flex;
+    justify-content: center;
+    padding: 2rem;
+  }
+
+  .sudoku-table {
+    border: 3px solid #2c3e50;
+    border-collapse: collapse;
+    background-color: #fff;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    border-radius: 8px;
+    overflow: hidden;
+
+    tr {
+      &:nth-child(3n) {
+        border-bottom: 3px solid #2c3e50;
+      }
+
+      &:last-child {
+        border-bottom: none;
+      }
+    }
+
+    td {
+      padding: 0;
+      border: 1px solid #bdc3c7;
+      position: relative;
+
+      &:nth-child(3n) {
+        border-right: 3px solid #2c3e50;
+      }
+
+      &:last-child {
+        border-right: none;
+      }
+    }
+  }
+
+  .sudoku-input {
+    width: 50px;
+    height: 50px;
+    border: none;
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight: 600;
+    background-color: transparent;
+    color: #2c3e50;
+    transition: all 0.2s ease;
+
+    @media (max-width: 576px) {
+      width: 40px;
+      height: 40px;
+      font-size: 1.2rem;
+    }
+
+    &:focus {
+      outline: none;
+      background-color: #ecf0f1;
+      box-shadow: inset 0 0 0 2px #3498db;
+    }
+
+    &.fixed {
+      color: #2c3e50;
+      font-weight: 700;
+      background-color: #f8f9fa;
+
+      &:focus {
+        background-color: #e8f4fc;
+        box-shadow: inset 0 0 0 2px #2980b9;
+      }
+    }
+
+    &.error {
+      background-color: #ffe6e6;
+      color: #e74c3c;
+
+      &:focus {
+        box-shadow: inset 0 0 0 2px #e74c3c;
+      }
+    }
+
+    &:read-only {
+      cursor: not-allowed;
+    }
+  }
+
+  td:hover .sudoku-input:not(.fixed) {
+    background-color: #f8f9fa;
+  }
+
+  .cell-selected {
+    background-color: #d6eaf8 !important;
+
+    .sudoku-input {
+      background-color: #d6eaf8;
+    }
+  }
+
+  .same-number {
+    background-color: #e8f4fc;
+
+    .sudoku-input {
+      background-color: #e8f4fc;
+    }
+  }
+}

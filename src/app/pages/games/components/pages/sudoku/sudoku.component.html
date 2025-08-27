@@ -11,19 +11,30 @@
   ></app-dettagli-game>
 
   <!-- Tabella -->
-  @for (row of sudokuBoard; track $index) {
-  <div class="d-flex justify-content-center mb-2">
-    @for (cell of row; track $index) {
-    <input
-      type="text"
-      class="form-control text-center mx-1"
-      style="width: 3rem; height: 3rem; font-size: 1.5rem"
-      maxlength="1"
-      [value]="cell.isVisible ? cell.value : ''"
-      [readonly]="cell.isVisible"
-      (input)="inserisciNumero($event, cell)"
-    />
-    }
+  <div id="SudokuTable">
+    <div class="sudoku-container">
+      <table class="sudoku-table">
+        <tbody>
+          @for (row of sudokuBoard; track $index; let x = $index) {
+          <tr>
+            @for (cell of row; track $index; let y = $index) {
+            <td>
+              <input
+                id="{{ 'cell-' + x + '-' + y }}"
+                type="text"
+                class="sudoku-input"
+                [class.fixed]="cell.isVisible"
+                maxlength="1"
+                [value]="cell.isVisible ? cell.value : ''"
+                [readonly]="cell.isVisible"
+                (input)="inserisciNumero($event, cell)"
+              />
+            </td>
+            }
+          </tr>
+          }
+        </tbody>
+      </table>
+    </div>
   </div>
-  }
 </div>
