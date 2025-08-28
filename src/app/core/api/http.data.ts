@@ -4,6 +4,7 @@ import {
   ListaManga,
   MangaUtente,
   MangaAperto,
+  Lingua,
 } from '../../shared/interfaces/http.interface';
 import { Profilo } from '../../shared/interfaces/http.interface';
 import {
@@ -14,7 +15,7 @@ import {
 import { Social } from '../../shared/interfaces/github.interface';
 
 export class DataHttp {
-  public static lingua: WritableSignal<string> = signal('it');
+  public static lingua: WritableSignal<Lingua> = signal(Lingua.it);
 
   public static user: WritableSignal<User | null> = signal(null);
   public static users: WritableSignal<UserParams[]> = signal([]);

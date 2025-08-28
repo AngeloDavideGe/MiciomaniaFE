@@ -3,6 +3,7 @@ import { Credenziali } from '../../../../shared/interfaces/users.interface';
 import { NgTemplateOutlet } from '@angular/common';
 import { HomeLang } from '../../languages/interfaces/home-lang.interface';
 import { DataHttp } from '../../../../core/api/http.data';
+import { Lingua } from '../../../../shared/interfaces/http.interface';
 
 @Component({
   selector: 'app-navbar',
@@ -115,7 +116,7 @@ import { DataHttp } from '../../../../core/api/http.data';
                     <li>
                       <button
                         class="dropdown-item"
-                        (click)="cambiaLingua('it')"
+                        (click)="cambiaLingua(Lingua.it)"
                       >
                         🇮🇹 Italiano
                       </button>
@@ -123,7 +124,7 @@ import { DataHttp } from '../../../../core/api/http.data';
                     <li>
                       <button
                         class="dropdown-item"
-                        (click)="cambiaLingua('en')"
+                        (click)="cambiaLingua(Lingua.en)"
                       >
                         🇬🇧 English
                       </button>
@@ -161,6 +162,8 @@ import { DataHttp } from '../../../../core/api/http.data';
   ],
 })
 export class NavBarComponent {
+  public Lingua = Lingua;
+
   @Input() homeLang!: HomeLang;
   @Input() credenziali!: Credenziali;
   @Input() inizialiUser!: string;
@@ -168,7 +171,7 @@ export class NavBarComponent {
   @Input() settingsMenu!: TemplateRef<any>;
   @Input() profilesMenu!: TemplateRef<any>;
 
-  public cambiaLingua(lang: string): void {
+  public cambiaLingua(lang: Lingua): void {
     DataHttp.lingua.set(lang);
   }
 }

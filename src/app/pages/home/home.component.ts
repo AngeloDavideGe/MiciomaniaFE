@@ -30,7 +30,6 @@ export class HomeComponent implements OnInit {
   private punteggioCanzoni: number = 50;
   public componenteAperto = signal<componenteApertoType>('');
   private elementiUtenteUtilities = new ElementiUtenteUtilities();
-  // public homeLang = computed(() => this.homeLangComputed());
   public homeLang = signal<HomeLang>({} as HomeLang);
 
   public isHome$: Observable<boolean> = this.router.events.pipe(
@@ -47,20 +46,12 @@ export class HomeComponent implements OnInit {
     });
 
     effect(() => {
-      const lingua = DataHttp.lingua();
-
-      switch (lingua) {
-        case 'it':
-          import('./languages/constants/home-it.constant').then((m) =>
-            this.homeLang.set(m.homeLang)
-          );
-          break;
-        case 'en':
-          import('./languages/constants/home-en.constant').then((m) =>
-            this.homeLang.set(m.homeLang)
-          );
-          break;
-      }
+      const lingua: string = DataHttp.lingua();
+      const languageMap: Record<string, () => Promise<any>> = {
+        it: () => import('./languages/constants/home-it.constant'),
+        en: () => import('./languages/constants/home-en.constant'),
+      };
+      languageMap[lingua]().then((m) => this.homeLang.set(m.homeLang));
     });
   }
 

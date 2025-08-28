@@ -10,6 +10,7 @@
 
 <ng-template #menuBarImpostazioni>
   <app-menu-impostazioni
+    [homeLang]="homeLang()"
     [user]="user"
     (cursore)="
       componenteAperto.set(componenteAperto() === 'cursore' ? '' : 'cursore')
@@ -20,6 +21,7 @@
 
 <ng-template #menuBarProfili>
   <app-menu-profili
+    [homeLang]="homeLang()"
     [user]="user"
     (logout)="logout()"
     (cercaProfili)="
@@ -31,12 +33,13 @@
 @switch (componenteAperto()) {
 <!-- cursore -->
 @case ('cursore') {
-<app-cursore class="pc-only"></app-cursore>
+<app-cursore class="pc-only" [homeLang]="homeLang()"></app-cursore>
 }
 
 <!-- Cerca profili -->
 @case ('profili') {
 <app-cerca-profili
+  [homeLang]="homeLang()"
   (goToProfilo)="router.navigate([$event])"
   (chiudiComponente)="componenteAperto.set('')"
 ></app-cerca-profili>

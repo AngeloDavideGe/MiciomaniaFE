@@ -1,6 +1,7 @@
 import {
   Component,
   EventEmitter,
+  Input,
   OnDestroy,
   OnInit,
   Output,
@@ -10,6 +11,7 @@ import { FormsModule } from '@angular/forms';
 import { debounceTime, Subject, takeUntil } from 'rxjs';
 import { DataHttp } from '../../../../../core/api/http.data';
 import { UserParams } from '../../../../../shared/interfaces/users.interface';
+import { HomeLang } from '../../../languages/interfaces/home-lang.interface';
 
 @Component({
   selector: 'app-cerca-profili',
@@ -28,6 +30,7 @@ export class CercaProfiliComponent implements OnInit, OnDestroy {
   private destroy$ = new Subject<void>();
   public users: UserParams[] = DataHttp.users();
 
+  @Input() homeLang!: HomeLang;
   @Output() goToProfilo = new EventEmitter<string>();
   @Output() chiudiComponente = new EventEmitter<void>();
 

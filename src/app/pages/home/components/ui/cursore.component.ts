@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { CursorUtilities } from '../../../../shared/utilities/cursor.utilities';
+import { HomeLang } from '../../languages/interfaces/home-lang.interface';
 
 @Component({
   selector: 'app-cursore',
@@ -25,7 +26,7 @@ import { CursorUtilities } from '../../../../shared/utilities/cursor.utilities';
                 style="font-size: 0.875rem; padding: 0.25rem 0.75rem;"
                 (click)="rimuoviCursore()"
               >
-                Rimuovi
+                {{ homeLang.rimuovi || 'Rimuovi' }}
               </button>
             </div>
           </div>
@@ -48,7 +49,7 @@ import { CursorUtilities } from '../../../../shared/utilities/cursor.utilities';
                 style="font-size: 0.875rem; padding: 0.25rem 0.75rem;"
                 (click)="cambiaCursore(cursore.iconClass)"
               >
-                Seleziona
+                {{ homeLang.seleziona || 'Seleziona' }}
               </button>
             </div>
           </div>
@@ -59,6 +60,7 @@ import { CursorUtilities } from '../../../../shared/utilities/cursor.utilities';
   `,
 })
 export class CursoreComponent {
+  @Input() homeLang!: HomeLang;
   private cursorUtilities = new CursorUtilities();
   public cursori: { nome: string; iconClass: string }[] = [
     {

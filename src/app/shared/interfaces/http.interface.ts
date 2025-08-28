@@ -2,6 +2,11 @@ import { Tweet } from '../../pages/home/interfaces/profilo.interface';
 import { MangaVolume } from '../../pages/manga/interfaces/manga.interface';
 import { User } from './users.interface';
 
+export enum Lingua {
+  it = 'it',
+  en = 'en',
+}
+
 export interface ListaManga {
   id: number;
   nome: string;

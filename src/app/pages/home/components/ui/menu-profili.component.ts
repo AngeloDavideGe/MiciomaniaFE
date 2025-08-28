@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { User } from '../../../../shared/interfaces/users.interface';
+import { HomeLang } from '../../languages/interfaces/home-lang.interface';
 
 @Component({
   selector: 'app-menu-profili',
@@ -12,14 +13,14 @@ import { User } from '../../../../shared/interfaces/users.interface';
       <li>
         <a class="dropdown-item" [routerLink]="'/home/profilo/' + user.id">
           <i class="bi bi-person-circle me-2"></i>
-          Il mio profilo
+          {{ homeLang.mioProfilo || 'Mio Profilo' }}
         </a>
       </li>
       } @else {
       <li>
         <span class="dropdown-item text-muted">
           <i class="bi bi-exclamation-circle me-2"></i>
-          Accedi per vedere il tuo Profilo
+          {{ homeLang.accediVediProfili || 'Accedi per vedere i profili' }}
         </span>
       </li>
       }
@@ -27,13 +28,13 @@ import { User } from '../../../../shared/interfaces/users.interface';
       <li>
         <a class="dropdown-item" (click)="cercaProfili.emit()">
           <i class="bi bi-search me-2"></i>
-          Cerca profili
+          {{ homeLang.cercaProfili || 'Cerca Profili' }}
         </a>
       </li>
       <li>
         <a class="dropdown-item" [routerLink]="'/home/admin'">
           <i class="bi bi-envelope me-2"></i>
-          Contatta Admin
+          {{ homeLang.contattaAdmin || 'Contatta Admin' }}
         </a>
       </li>
 
@@ -76,6 +77,7 @@ import { User } from '../../../../shared/interfaces/users.interface';
   ],
 })
 export class MenuProfiliComponent {
+  @Input() homeLang!: HomeLang;
   @Input() user!: User;
   @Output() logout = new EventEmitter<void>();
   @Output() cercaProfili = new EventEmitter<void>();

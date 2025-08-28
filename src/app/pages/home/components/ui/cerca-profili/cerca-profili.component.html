@@ -42,7 +42,7 @@
           class="modal-title"
           style="font-weight: 600; font-size: 1.25rem; margin: 0"
         >
-          🔍 Cerca Profili
+          🔍 {{ homeLang.cercaProfiliTitolo || "Cerca Profili" }}
         </h5>
         <button
           type="button"
@@ -62,7 +62,9 @@
             type="text"
             [(ngModel)]="searchQuery"
             (ngModelChange)="editFiltro($event)"
-            placeholder="Cerca utenti..."
+            placeholder="{{
+              homeLang.cercaUtentiPlaceholder || 'Cerca utenti...'
+            }}"
             class="form-control"
             style="border-radius: 30px 0 0 30px; padding: 0.75rem"
           />
@@ -98,7 +100,7 @@
             class="no-results"
             style="text-align: center; padding: 2rem; color: #999"
           >
-            Nessun utente trovato.
+            {{ homeLang.nessunProfilo || "Nessun utente trovato." }}
           </div>
           } @else { @for(user of userSlice(); track user.id) {
           <div

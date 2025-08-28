@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { User } from '../../../../shared/interfaces/users.interface';
+import { HomeLang } from '../../languages/interfaces/home-lang.interface';
 
 @Component({
   selector: 'app-menu-impostazioni',
@@ -11,13 +12,13 @@ import { User } from '../../../../shared/interfaces/users.interface';
       <li>
         <a class="dropdown-item" routerLink="/auth/iscrizione">
           <i class="bi bi-person-plus me-2"></i>
-          Iscrizione Team
+          {{ homeLang.iscrizioneTeam || 'Iscrizione Team' }}
         </a>
       </li>
       <li>
         <a class="dropdown-item" routerLink="/home/squadre">
           <i class="bi bi-people-fill me-2"></i>
-          Squadre
+          {{ homeLang.squadre || 'Squadre' }}
         </a>
       </li>
       <li>
@@ -29,21 +30,21 @@ import { User } from '../../../../shared/interfaces/users.interface';
       <li class="pc-only">
         <a class="dropdown-item" (click)="cursore.emit()">
           <i class="bi bi-cursor me-2"></i>
-          Cursore
+          {{ homeLang.cursore || 'Cursore' }}
         </a>
       </li>
       @if(user.id) {
       <li>
         <a class="dropdown-item" routerLink="/home/elementi-utente">
           <i class="bi bi-lightbulb-fill me-2"></i>
-          Proposte
+          {{ homeLang.proposte || 'Proposte' }}
         </a>
       </li>
       } @else {
       <li>
         <span class="dropdown-item text-muted">
           <i class="bi bi-exclamation-circle me-2"></i>
-          Accedi per vedere i tuoi elementi
+          {{ homeLang.accediPerElementi || 'Accedi per Proposte' }}
         </span>
       </li>
       }
@@ -71,6 +72,7 @@ import { User } from '../../../../shared/interfaces/users.interface';
   ],
 })
 export class MenuImpostazioniComponent {
+  @Input() homeLang!: HomeLang;
   @Input() user!: User;
   @Output() cursore = new EventEmitter<void>();
 }
