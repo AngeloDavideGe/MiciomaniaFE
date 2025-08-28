@@ -1,6 +1,8 @@
 import { Component, Input, TemplateRef } from '@angular/core';
 import { Credenziali } from '../../../../shared/interfaces/users.interface';
 import { NgTemplateOutlet } from '@angular/common';
+import { HomeLang } from '../../languages/interfaces/home-lang.interface';
+import { DataHttp } from '../../../../core/api/http.data';
 
 @Component({
   selector: 'app-navbar',
@@ -37,7 +39,7 @@ import { NgTemplateOutlet } from '@angular/common';
             </span>
             } @else {
             <span class="ms-2" style="font-size: 1.2rem; font-weight: bold">
-              Anonimo</span
+              {{ homeLang.anonimo || 'Anonimo' }}</span
             >
             }
           </div>
@@ -64,7 +66,8 @@ import { NgTemplateOutlet } from '@angular/common';
                     data-bs-toggle="dropdown"
                     aria-expanded="false"
                   >
-                    <i class="bi bi-gear"></i> Impostazioni
+                    <i class="bi bi-gear"></i>
+                    {{ homeLang.impostazioni || 'Impostazioni' }}
                   </button>
                   <ul class="dropdown-menu" aria-labelledby="settingsDropdown">
                     <ng-container
@@ -84,12 +87,48 @@ import { NgTemplateOutlet } from '@angular/common';
                     data-bs-toggle="dropdown"
                     aria-expanded="false"
                   >
-                    <i class="bi bi-person"></i> Profili
+                    <i class="bi bi-person"></i>
+                    {{ homeLang.profili || 'Profili' }}
                   </button>
                   <ul class="dropdown-menu" aria-labelledby="profilesDropdown">
                     <ng-container
                       *ngTemplateOutlet="profilesMenu"
                     ></ng-container>
+                  </ul>
+                </div>
+              </li>
+
+              <!-- Cambio Lingua Dropdown -->
+              <li class="nav-item dropdown">
+                <div class="dropdown">
+                  <button
+                    class="btn btn-secondary dropdown-toggle stile-bottoni"
+                    type="button"
+                    id="langDropdown"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false"
+                  >
+                    <i class="bi bi-translate"></i>
+                    {{ homeLang.lingua || 'Lingua' }}
+                  </button>
+                  <ul class="dropdown-menu" aria-labelledby="langDropdown">
+                    <li>
+                      <button
+                        class="dropdown-item"
+                        (click)="cambiaLingua('it')"
+                      >
+                        🇮🇹 Italiano
+                      </button>
+                    </li>
+                    <li>
+                      <button
+                        class="dropdown-item"
+                        (click)="cambiaLingua('en')"
+                      >
+                        🇬🇧 English
+                      </button>
+                    </li>
+                    <!-- Aggiungi altre lingue qui -->
                   </ul>
                 </div>
               </li>
@@ -122,9 +161,14 @@ import { NgTemplateOutlet } from '@angular/common';
   ],
 })
 export class NavBarComponent {
+  @Input() homeLang!: HomeLang;
   @Input() credenziali!: Credenziali;
   @Input() inizialiUser!: string;
 
   @Input() settingsMenu!: TemplateRef<any>;
   @Input() profilesMenu!: TemplateRef<any>;
+
+  public cambiaLingua(lang: string): void {
+    DataHttp.lingua.set(lang);
+  }
 }

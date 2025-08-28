@@ -14,6 +14,8 @@ import {
 import { Social } from '../../shared/interfaces/github.interface';
 
 export class DataHttp {
+  public static lingua: WritableSignal<string> = signal('it');
+
   public static user: WritableSignal<User | null> = signal(null);
   public static users: WritableSignal<UserParams[]> = signal([]);
   public static social: Social[] = [];
@@ -34,6 +36,11 @@ export class DataHttp {
   public static elementiUtente: ElementiUtente | null = null;
 
   static loadDataHttp(): void {
+    const lingua = localStorage.getItem('lingua');
+    if (lingua) {
+      this.lingua.set(JSON.parse(lingua));
+    }
+
     const userData = localStorage.getItem('user');
     if (userData) {
       this.user.set(JSON.parse(userData));

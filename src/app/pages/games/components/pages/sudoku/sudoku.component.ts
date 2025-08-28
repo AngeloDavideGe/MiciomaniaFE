@@ -116,13 +116,12 @@ export class SudokuComponent implements OnInit {
     }
 
     if (value == cell.value) {
-      cell.isVisible = true;
-      this.celleCorrette++;
-
-      if (this.celleCorrette === 81) {
-        cell.isVisible = false;
+      if (this.celleCorrette === 80) {
         inputElement.value = '';
         this.resetGame('vittoria', 5);
+      } else {
+        cell.isVisible = true;
+        this.celleCorrette++;
       }
     } else {
       inputElement.value = '';
@@ -133,7 +132,7 @@ export class SudokuComponent implements OnInit {
   private resetGame(e: EsitoGame, p: number): void {
     this.alertService.alert(e);
     setPunteggioOttenuto(p);
+    this.celleCorrette = 0;
     this.sudokuBoard = this.generateCompleteSudoku();
-    this.celleCorrette = this.visibleCells;
   }
 }

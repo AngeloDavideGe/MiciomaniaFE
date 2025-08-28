@@ -12,6 +12,7 @@ import { ElementiUtenteUtilities } from '../../shared/utilities/elementiUtente.u
 import { converUserParams, getConfirmParams } from './functions/home.functions';
 import { home_imports } from './imports/home.imports';
 import { componenteApertoType } from './interfaces/profilo.interface';
+import { HomeLang } from './languages/interfaces/home-lang.interface';
 
 @Component({
   selector: 'app-home',
@@ -29,6 +30,8 @@ export class HomeComponent implements OnInit {
   private punteggioCanzoni: number = 50;
   public componenteAperto = signal<componenteApertoType>('');
   private elementiUtenteUtilities = new ElementiUtenteUtilities();
+  // public homeLang = computed(() => this.homeLangComputed());
+  public homeLang = signal<HomeLang>({} as HomeLang);
 
   public isHome$: Observable<boolean> = this.router.events.pipe(
     filter((event): event is NavigationEnd => event instanceof NavigationEnd),
@@ -41,6 +44,23 @@ export class HomeComponent implements OnInit {
     effect(() => {
       const user: User | null = DataHttp.user();
       this.handleUserSubscription(user);
+    });
+
+    effect(() => {
+      const lingua = DataHttp.lingua();
+
+      switch (lingua) {
+        case 'it':
+          import('./languages/constants/home-it.constant').then((m) =>
+            this.homeLang.set(m.homeLang)
+          );
+          break;
+        case 'en':
+          import('./languages/constants/home-en.constant').then((m) =>
+            this.homeLang.set(m.homeLang)
+          );
+          break;
+      }
     });
   }
 

@@ -1,6 +1,7 @@
 import { DataHttp } from '../api/http.data';
 
 export function refreshLocalStorage(): void {
+  localStorage.setItem('lingua', JSON.stringify(DataHttp.lingua()));
   localStorage.setItem('listaManga', JSON.stringify(DataHttp.listaManga()));
   localStorage.setItem('mangaUtente', JSON.stringify(DataHttp.mangaUtente));
   localStorage.setItem('user', JSON.stringify(DataHttp.user()));

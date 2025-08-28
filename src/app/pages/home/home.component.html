@@ -1,5 +1,7 @@
 @if (isHome$ | async) {
+<!-- home lang del padre è una prosime, quella del figlio l'interfaccia della promise, sistemamelo -->
 <app-navbar
+  [homeLang]="homeLang()"
   [credenziali]="user.credenziali"
   [inizialiUser]="inizialiUser"
   [profilesMenu]="menuBarProfili"
