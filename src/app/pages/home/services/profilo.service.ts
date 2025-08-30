@@ -4,6 +4,7 @@ import { environment } from '../../../../environments/environment';
 import { Profilo } from '../../../shared/interfaces/http.interface';
 import { BaseService } from '../../../shared/services/base/base.service';
 import { Tweet } from '../interfaces/profilo.interface';
+import { DataHttp } from '../../../core/api/http.data';
 
 @Injectable({
   providedIn: 'root',
@@ -13,6 +14,11 @@ export class ProfiloService extends BaseService {
 
   constructor() {
     super('DB1');
+
+    const pubblicazioniJSON = sessionStorage.getItem('pubblicazioni');
+    if (pubblicazioniJSON) {
+      DataHttp.profiloPersonale = JSON.parse(pubblicazioniJSON);
+    }
   }
 
   getProfiloById(userId: string): Observable<Profilo> {
