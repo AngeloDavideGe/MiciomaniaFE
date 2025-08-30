@@ -15,6 +15,7 @@ import {
   UserParams,
 } from '../../../../../../../../shared/interfaces/users.interface';
 import { Ruolo } from '../../../../../../../../shared/enums/users.enum';
+import { AdminLang } from '../../../languages/interfaces/admin-lang.interface';
 
 @Component({
   selector: 'app-table-user-params',
@@ -23,6 +24,7 @@ import { Ruolo } from '../../../../../../../../shared/enums/users.enum';
   templateUrl: './table-user-params.component.html',
 })
 export class TableUserParamsComponent implements OnInit {
+  @Input() adminLang!: AdminLang;
   @Input() ruolo!: Ruolo;
   @Input() userMap!: Signal<UserParams[]>;
   @Input() user: User | null = null;

@@ -6,6 +6,7 @@ import {
 import { Ruolo } from '../../../../../../../shared/enums/users.enum';
 import { CapitalizeFirstLetterPipe } from '../../pipes/capitalize.pipe';
 import { TableUserParamsComponent } from './table-user-params/table-user-params.component';
+import { AdminLang } from '../../languages/interfaces/admin-lang.interface';
 
 @Component({
   selector: 'app-griglia-admin',
@@ -32,6 +33,7 @@ import { TableUserParamsComponent } from './table-user-params/table-user-params.
           </div>
           <div class="card-body p-0 d-flex flex-column">
             <app-table-user-params
+              [adminLang]="adminLang"
               [ruolo]="ruolo"
               [user]="user"
               [userMap]="userMapByRuolo[ruolo]"
@@ -48,6 +50,7 @@ import { TableUserParamsComponent } from './table-user-params/table-user-params.
 })
 export class GrigliaAdminComponent {
   public ruoli = Object.values(Ruolo);
+  @Input() adminLang!: AdminLang;
   @Input() user!: User | null;
   @Input() userMapByRuolo!: { [ruolo: string]: Signal<UserParams[]> };
   @Output() modificaRuolo = new EventEmitter<UserParams>();

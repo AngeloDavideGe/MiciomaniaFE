@@ -12,6 +12,7 @@ import { Ruolo } from '../../../../../../../shared/enums/users.enum';
 import { AdminService } from '../../../../../services/admin.service';
 import { CambioRuoloUtente } from '../../interfaces/admin.interface';
 import { CapitalizeFirstLetterPipe } from '../../pipes/capitalize.pipe';
+import { AdminLang } from '../../languages/interfaces/admin-lang.interface';
 
 @Component({
   selector: 'app-edit-admin',
@@ -34,7 +35,9 @@ import { CapitalizeFirstLetterPipe } from '../../pipes/capitalize.pipe';
           <div
             class="modal-header d-flex align-items-center justify-content-between border-bottom-0 pb-0"
           >
-            <h5 class="modal-title mb-0">Modifica Ruolo</h5>
+            <h5 class="modal-title mb-0">
+              {{ adminLang.modificaRuolo || 'Modifica Ruolo' }}
+            </h5>
             <button
               type="button"
               class="btn-close"
@@ -47,7 +50,9 @@ import { CapitalizeFirstLetterPipe } from '../../pipes/capitalize.pipe';
           <!-- Modal Body -->
           <div class="modal-body pt-0 mt-2">
             <div class="mb-3">
-              <label for="nome" class="form-label">Nome</label>
+              <label for="nome" class="form-label">{{
+                adminLang.nome || 'Nome'
+              }}</label>
               <input
                 type="text"
                 id="nome"
@@ -57,7 +62,9 @@ import { CapitalizeFirstLetterPipe } from '../../pipes/capitalize.pipe';
               />
             </div>
             <div class="mb-3">
-              <label for="ruolo" class="form-label">Ruolo</label>
+              <label for="ruolo" class="form-label">{{
+                adminLang.ruolo || 'ruolo'
+              }}</label>
               <select id="ruolo" class="form-select" [(ngModel)]="newRuolo">
                 @for (r of availableRoles; track $index) {
                 <option [value]="r">
@@ -75,10 +82,10 @@ import { CapitalizeFirstLetterPipe } from '../../pipes/capitalize.pipe';
               class="btn btn-secondary"
               (click)="chiudiModale.emit()"
             >
-              Annulla
+              {{ adminLang.annulla || 'Annulla' }}
             </button>
             <button type="button" class="btn btn-primary" (click)="onSave()">
-              Salva
+              {{ adminLang.salva || 'Salva' }}
             </button>
           </div>
         </div>
@@ -88,6 +95,8 @@ import { CapitalizeFirstLetterPipe } from '../../pipes/capitalize.pipe';
 })
 export class EditAdminComponent implements OnInit {
   private adminService = inject(AdminService);
+
+  @Input() adminLang!: AdminLang;
   @Input() userEdit!: UserParams;
   @Output() chiudiModale = new EventEmitter<void>();
   @Output() ruoloModificato = new EventEmitter<CambioRuoloUtente>();

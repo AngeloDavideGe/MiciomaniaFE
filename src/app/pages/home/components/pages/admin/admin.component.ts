@@ -1,6 +1,7 @@
 import {
   Component,
   computed,
+  effect,
   inject,
   OnInit,
   signal,
@@ -20,6 +21,7 @@ import { converUserParams } from '../../../functions/home.functions';
 import { AdminService } from '../../../services/admin.service';
 import { admin_imports } from './imports/admin.imports';
 import { CambioRuoloUtente } from './interfaces/admin.interface';
+import { AdminLang } from './languages/interfaces/admin-lang.interface';
 
 @Component({
   selector: 'app-admin',
@@ -28,41 +30,55 @@ import { CambioRuoloUtente } from './interfaces/admin.interface';
   templateUrl: './admin.component.html',
 })
 export class AdminComponent implements OnInit {
-  public user: User | null = null;
-  public editAdmin = signal<boolean>(false);
-  public userEdit: UserParams = {} as UserParams;
-  public ruoli = Object.values(Ruolo);
-  public userMap = signal<{ [ruolo: string]: UserParams[] }>({});
-  public userMapByRuolo: { [ruolo: string]: Signal<UserParams[]> } = {};
-
   private loadingService = inject(LoadingService);
   public adminService = inject(AdminService);
   public authService = inject(AuthService);
   public router = inject(Router);
 
+  public user: User | null = null;
+  public editAdmin = signal<boolean>(false);
+  public userEdit: UserParams = {} as UserParams;
+  public ruoli = Object.values(Ruolo);
+  public userMap = signal<Record<string, UserParams[]>>({});
+  public userMapByRuolo: Record<string, Signal<UserParams[]>> = {};
+  public adminLang: AdminLang = {} as AdminLang;
+
+  constructor() {
+    const lingua: string = DataHttp.lingua();
+    const languageMap: Record<string, () => Promise<any>> = {
+      it: () => import('./languages/constants/admin-it.constant'),
+      en: () => import('./languages/constants/admin-en.constant'),
+    };
+    languageMap[lingua]().then((m) => (this.adminLang = m.adminLang));
+  }
+
   ngOnInit(): void {
-    this.ruoli.forEach((ruolo: Ruolo) => {
-      this.userMapByRuolo[ruolo] = computed(() => this.userMap()[ruolo] ?? []);
-    });
+    this.computedUserMapByRuolo();
     this.loadUtenti();
   }
 
+  private computedUserMapByRuolo(): void {
+    this.ruoli.forEach((ruolo: Ruolo) => {
+      this.userMapByRuolo[ruolo] = computed(() => this.userMap()[ruolo] ?? []);
+    });
+  }
+
   private loadUtenti(): void {
-    {
-      this.user = DataHttp.user();
-      if (DataHttp.users().length === 0) {
-        this.loadingService.show();
-        sottoscrizioneUtenti({
-          authService: this.authService,
-          nextCall: (data) => {
-            this.saveUsers(data);
-            this.mapUsersByRuolo();
-            this.loadingService.hide();
-          },
-        });
-      } else {
-        this.mapUsersByRuolo();
-      }
+    this.user = DataHttp.user();
+    const users: UserParams[] = DataHttp.users();
+
+    if (users.length === 0) {
+      this.loadingService.show();
+      sottoscrizioneUtenti({
+        authService: this.authService,
+        nextCall: (data) => {
+          this.saveUsers(data);
+          this.mapUsersByRuolo();
+          this.loadingService.hide();
+        },
+      });
+    } else {
+      this.mapUsersByRuolo();
     }
   }
 
@@ -74,7 +90,7 @@ export class AdminComponent implements OnInit {
 
   private mapUsersByRuolo(): void {
     const users: UserParams[] = DataHttp.users();
-    const newMap: { [ruolo: string]: UserParams[] } = {};
+    const newMap: Record<string, UserParams[]> = {};
 
     this.ruoli.forEach((ruolo: Ruolo) => (newMap[ruolo] = []));
     users.forEach((user: UserParams) => newMap[user.ruolo].push(user));

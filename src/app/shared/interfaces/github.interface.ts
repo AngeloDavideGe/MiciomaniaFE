@@ -1,8 +1,10 @@
+import { Lingua } from './http.interface';
+
 export type GitHubType = Social[] | Quiz[] | MN[];
 
 export interface Social {
   nome: string;
-  descrizione: string;
+  descrizione: Record<Lingua, string>;
   icona: string;
   colore: string;
   link: string;

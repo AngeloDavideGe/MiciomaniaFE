@@ -1,6 +1,7 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { BottonCustomComponent } from '../../../../../../shared/components/custom/botton-custom.component';
+import { AdminLang } from '../languages/interfaces/admin-lang.interface';
 
 @Component({
   selector: 'app-header-admin',
@@ -12,17 +13,20 @@ import { BottonCustomComponent } from '../../../../../../shared/components/custo
       style="max-width: 60rem; margin: 0 auto;"
     >
       <app-botton-custom
-        [text]="'Torna indietro'"
+        [text]="adminLang.tornaIndietro || 'Torna indietro'"
         [icon1]="'bi bi-arrow-left'"
         [color]="'#e9ecef'"
         (clickBotton)="router.navigate(['/home'])"
       ></app-botton-custom>
       <div class="flex-grow-1 text-center">
         <h1 class="display-5 text-primary fw-bold mb-1">
-          Lista Admin e Utenti
+          {{ adminLang.listaAdminUtenti || 'Lista Admin e Utenti' }}
         </h1>
         <p class="lead text-muted mb-0">
-          Visualizza i ruoli e gli utenti associati in tempo reale
+          {{
+            adminLang.visualizzaRuoli ||
+              'Visualizza i ruoli e gli utenti associati in tempo reale'
+          }}
         </p>
       </div>
       <!-- Spazio per mantenere il titolo centrato -->
@@ -32,4 +36,5 @@ import { BottonCustomComponent } from '../../../../../../shared/components/custo
 })
 export class HeaderAdminComponent {
   public router = inject(Router);
+  @Input() adminLang!: AdminLang;
 }

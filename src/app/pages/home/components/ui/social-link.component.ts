@@ -1,8 +1,9 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, effect, inject, OnInit } from '@angular/core';
 import { take } from 'rxjs';
 import { DataHttp } from '../../../../core/api/http.data';
 import { Social } from '../../../../shared/interfaces/github.interface';
 import { GitHubService } from '../../../../shared/services/api/github.service';
+import { Lingua } from '../../../../shared/interfaces/http.interface';
 
 @Component({
   selector: 'app-social-link',
@@ -24,7 +25,7 @@ import { GitHubService } from '../../../../shared/services/api/github.service';
             ></i>
             <div (click)="openLink(s.link)" style="cursor: pointer;">
               <h4 class="fw-bold">{{ s.nome }}</h4>
-              <p class="mb-0">{{ s.descrizione }}</p>
+              <p class="mb-0">{{ s.descrizione[lingua] }}</p>
             </div>
           </div>
           } } @else {
@@ -54,6 +55,11 @@ import { GitHubService } from '../../../../shared/services/api/github.service';
 export class SocialLinkComponent implements OnInit {
   public gitHubService = inject(GitHubService);
   public social: Social[] = DataHttp.social;
+  public lingua: Lingua = Lingua.it;
+
+  constructor() {
+    effect(() => (this.lingua = DataHttp.lingua()));
+  }
 
   ngOnInit(): void {
     this.loadSocial();

@@ -54,9 +54,7 @@ export class CardHomeComponent {
   @Output() canzone = new EventEmitter<void>();
 
   constructor() {
-    effect(() => {
-      this.lingua = DataHttp.lingua();
-    });
+    effect(() => (this.lingua = DataHttp.lingua()));
   }
 
   public cardElements: CardElement[] = [

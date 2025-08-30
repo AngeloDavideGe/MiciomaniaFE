@@ -1,9 +1,10 @@
 <div class="container py-4">
   <!-- Header -->
-  <app-header-admin></app-header-admin>
+  <app-header-admin [adminLang]="adminLang"></app-header-admin>
 
   <!-- Griglia delle card -->
   <app-griglia-admin
+    [adminLang]="adminLang"
     [user]="user"
     [userMapByRuolo]="userMapByRuolo"
     (eliminaRuolo)="eliminaRuolo($event)"
@@ -13,6 +14,7 @@
   <!-- Modale -->
   @if (editAdmin()) {
   <app-edit-admin
+    [adminLang]="adminLang"
     [userEdit]="userEdit"
     (chiudiModale)="editAdmin.set(false)"
     (ruoloModificato)="ruoloModificato($event)"
