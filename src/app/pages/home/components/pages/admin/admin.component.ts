@@ -1,7 +1,6 @@
 import {
   Component,
   computed,
-  effect,
   inject,
   OnInit,
   signal,
@@ -9,6 +8,7 @@ import {
 } from '@angular/core';
 import { Router } from '@angular/router';
 import { DataHttp } from '../../../../../core/api/http.data';
+import { Ruolo } from '../../../../../shared/enums/users.enum';
 import { sottoscrizioneUtenti } from '../../../../../shared/handlers/auth.handler';
 import {
   User,
@@ -16,12 +16,12 @@ import {
 } from '../../../../../shared/interfaces/users.interface';
 import { AuthService } from '../../../../../shared/services/api/auth.service';
 import { LoadingService } from '../../../../../shared/services/template/loading.service';
-import { Ruolo } from '../../../../../shared/enums/users.enum';
 import { converUserParams } from '../../../functions/home.functions';
 import { AdminService } from '../../../services/admin.service';
 import { admin_imports } from './imports/admin.imports';
 import { CambioRuoloUtente } from './interfaces/admin.interface';
 import { AdminLang } from './languages/interfaces/admin-lang.interface';
+import { Lingua } from '../../../../../shared/interfaces/http.interface';
 
 @Component({
   selector: 'app-admin',
@@ -44,7 +44,7 @@ export class AdminComponent implements OnInit {
   public adminLang: AdminLang = {} as AdminLang;
 
   constructor() {
-    const lingua: string = DataHttp.lingua();
+    const lingua: Lingua = DataHttp.lingua();
     const languageMap: Record<string, () => Promise<any>> = {
       it: () => import('./languages/constants/admin-it.constant'),
       en: () => import('./languages/constants/admin-en.constant'),

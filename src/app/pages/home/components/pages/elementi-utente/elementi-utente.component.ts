@@ -11,6 +11,8 @@ import { User } from '../../../../../shared/interfaces/users.interface';
 import { ElementiUtenteUtilities } from '../../../../../shared/utilities/elementiUtente.utilities';
 import { elementi_utente_imports } from './imports/elementi-utente.imports';
 import { DataHttp } from '../../../../../core/api/http.data';
+import { Lingua } from '../../../../../shared/interfaces/http.interface';
+import { ElemLang } from './languages/interfaces/elem-lang.interface';
 
 @Component({
   selector: 'app-elementi-utente',
@@ -19,6 +21,8 @@ import { DataHttp } from '../../../../../core/api/http.data';
   templateUrl: './elementi-utente.component.html',
 })
 export class ElementiUtenteComponent implements OnInit {
+  public router = inject(Router);
+
   public eu: ElementiUtente = {
     manga: {} as MangaMiciomania,
     canzone: {} as CanzoniMiciomania,
@@ -34,8 +38,16 @@ export class ElementiUtenteComponent implements OnInit {
   public punteggioNecessario: number = 10;
   public tornaAllaHome: Function = () => this.router.navigate(['/home']);
   public elemUti = new ElementiUtenteUtilities();
+  public elemLang: ElemLang = {} as ElemLang;
 
-  public router = inject(Router);
+  constructor() {
+    const lingua: Lingua = DataHttp.lingua();
+    const languageMap: Record<string, () => Promise<any>> = {
+      it: () => import('./languages/constants/elem-it.constant'),
+      en: () => import('./languages/constants/elem-en.constant'),
+    };
+    languageMap[lingua]().then((m) => (this.elemLang = m.elemLang));
+  }
 
   ngOnInit(): void {
     this.loadElementiUtente();

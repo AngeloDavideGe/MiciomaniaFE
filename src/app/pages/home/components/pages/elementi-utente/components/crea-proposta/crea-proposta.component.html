@@ -10,7 +10,9 @@
       <div
         class="modal-header d-flex align-items-center justify-content-between border-bottom-0 pb-0"
       >
-        <h5 class="modal-title mb-0">Modifica Profilo</h5>
+        <h5 class="modal-title mb-0">
+          {{ elemLang.modificaProfilo || "Modifica Profilo" }}
+        </h5>
         <button
           type="button"
           class="btn-close"
@@ -25,7 +27,8 @@
           <!-- Campo tipo -->
           <div class="form-group mb-4">
             <label for="tipo" class="h5"
-              >Tipo <span class="text-danger">*</span></label
+              >{{ elemLang.tipo || "Tipo" }}
+              <span class="text-danger">*</span></label
             >
             <select
               id="tipo"
@@ -35,19 +38,25 @@
                 'is-invalid': f['tipo'].touched && f['tipo'].invalid
               }"
             >
-              <option value="" disabled selected>Seleziona un tipo</option>
+              <option value="" disabled selected>
+                {{ elemLang.selezionaTipo || "Seleziona un tipo" }}
+              </option>
 
               @if (!optionManga) {
-              <option value="manga">Manga</option>
+              <option value="manga">{{ elemLang.manga || "Manga" }}</option>
               } @if (!optionCanzone) {
-              <option value="canzone">Canzone</option>
+              <option value="canzone">
+                {{ elemLang.canzone || "Canzone" }}
+              </option>
               }
             </select>
 
             @if (f['tipo'].touched && f['tipo'].invalid) {
             <div class="invalid-feedback">
               @if (f['tipo'].errors?.['required']) {
-              <div>Il tipo è obbligatorio</div>
+              <div>
+                {{ elemLang.titoloObbligatorio || "Il tipo è obbligatorio" }}
+              </div>
               }
             </div>
             }
@@ -56,7 +65,8 @@
           <!-- Campo nome -->
           <div class="form-group mb-4">
             <label for="nome" class="h5"
-              >Nome <span class="text-danger">*</span></label
+              >{{ elemLang.nome || "Nome" }}
+              <span class="text-danger">*</span></label
             >
             <input
               type="text"
@@ -71,7 +81,9 @@
             @if (f['nome'].touched && f['nome'].invalid) {
             <div class="invalid-feedback">
               @if (f['nome'].errors?.['required']) {
-              <div>Il nome è obbligatorio</div>
+              <div>
+                {{ elemLang.nomeObbligatorio || "Il nome è obbligatorio" }}
+              </div>
               }
             </div>
             }
@@ -80,7 +92,8 @@
           <!-- Campo descrizione -->
           <div class="form-group mb-4">
             <label for="descrizione" class="h5"
-              >Descrizione <span class="text-danger">*</span></label
+              >{{ elemLang.descrizione || "Descrizione" }}
+              <span class="text-danger">*</span></label
             >
             <textarea
               id="descrizione"
@@ -96,7 +109,12 @@
             @if (f['descrizione'].touched && f['descrizione'].invalid) {
             <div class="invalid-feedback">
               @if (f['descrizione'].errors?.['required']) {
-              <div>La descrizione è obbligatoria</div>
+              <div>
+                {{
+                  elemLang.descrizioneObbligatoria ||
+                    "La descrizione è obbligatoria"
+                }}
+              </div>
               }
             </div>
             }
@@ -119,15 +137,22 @@
             @if (f['file'].touched && f['file'].invalid) {
             <div class="invalid-feedback">
               @if (f['file'].errors?.['required']) {
-              <div>Il file è obbligatorio</div>
+              <div>
+                {{ elemLang.fileObbligatorio || "Il file è obbligatorio" }}
+              </div>
               } @if (f['file'].errors?.['invalidFileType']) {
-              <div>Sono accettati solo file PDF o MP3</div>
+              <div>
+                {{
+                  elemLang.fileAccettati || "Sono accettati solo file PDF o MP3"
+                }}
+              </div>
               }
             </div>
             }
-            <small class="text-muted"
-              >Formati accettati: PDF per libri, MP3 per musica</small
-            >
+            <small class="text-muted">{{
+              elemLang.formatiAccettati ||
+                "Formati accettati: PDF per libri, MP3 per musica"
+            }}</small>
           </div>
 
           <div class="modal-footer" style="border-top: none; padding-top: 0">
@@ -138,7 +163,7 @@
               style="border-radius: 8px; padding: 8px 20px; border: none"
               (click)="chiudi.emit()"
             >
-              Annulla
+              {{ elemLang.annulla || "Annulla" }}
             </button>
             <button
               type="submit"
@@ -151,7 +176,7 @@
                 border: none;
               "
             >
-              Invia Proposta
+              {{ elemLang.inviaProposta || "Invia Proposta" }}
             </button>
           </div>
         </form>

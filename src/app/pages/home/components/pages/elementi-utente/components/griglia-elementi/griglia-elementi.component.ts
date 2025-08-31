@@ -3,6 +3,7 @@ import { MangaMiciomaniaCardComponent } from './components/manga-miciomania-card
 import { CanzoniMiciomaniaCardComponent } from './components/canzoni-miciomania-card.component';
 import { ElementiUtente } from '../../../../../../../shared/interfaces/elementiUtente.interface';
 import { MangaSongUtilities } from '../../../../../../../shared/utilities/mangaSong.utilities';
+import { ElemLang } from '../../languages/interfaces/elem-lang.interface';
 
 @Component({
   selector: 'app-griglia-elementi',
@@ -31,7 +32,9 @@ import { MangaSongUtilities } from '../../../../../../../shared/utilities/mangaS
           justify-content: center;
         "
         >
-          <p class="text-muted mb-0">Nessun manga caricato.</p>
+          <p class="text-muted mb-0">
+            {{ elemLang.noManga || 'Nessun manga caricato.' }}
+          </p>
         </div>
       </div>
       }
@@ -56,7 +59,9 @@ import { MangaSongUtilities } from '../../../../../../../shared/utilities/mangaS
           justify-content: center;
         "
         >
-          <p class="text-muted mb-0">Nessuna canzone caricata.</p>
+          <p class="text-muted mb-0">
+            {{ elemLang.noCanzone || 'Nessuna canzone caricata.' }}
+          </p>
         </div>
       </div>
       }
@@ -90,15 +95,16 @@ import { MangaSongUtilities } from '../../../../../../../shared/utilities/mangaS
           <p class="text-muted mb-2">
             {{
               creaProposta.controllo
-                ? 'Non hai proposte in sospeso'
-                : 'Hai gia manga e canzone'
+                ? elemLang.noProposteSospese || 'Non hai proposte in sospeso'
+                : elemLang.haiGiaMangaCanzone || 'Hai gia manga e canzone'
             }}
           </p>
           <p class="text-muted mb-2">
             {{
               creaProposta.punteggio
                 ? ''
-                : 'Non hai abbastanza punti (' +
+                : (elemLang.nonHaiPunti || 'Non hai abbastanza punti') +
+                  '(' +
                   userPunteggio +
                   ' su ' +
                   punteggioNecessario +
@@ -111,7 +117,8 @@ import { MangaSongUtilities } from '../../../../../../../shared/utilities/mangaS
             style="border-radius: 20px"
             (click)="creaProposta.componente = true"
           >
-            <i class="bi bi-plus-circle me-1"></i> Invia una nuova proposta
+            <i class="bi bi-plus-circle me-1"></i>
+            {{ elemLang.inviaProposta || 'Invia una nuova proposta' }}
           </button>
           }
         </div>
@@ -122,6 +129,7 @@ import { MangaSongUtilities } from '../../../../../../../shared/utilities/mangaS
 })
 export class GrigliaElementiComponent {
   public mangaSongUtilities = new MangaSongUtilities();
+  @Input() elemLang!: ElemLang;
   @Input() eu!: ElementiUtente;
   @Input() userPunteggio!: number;
   @Input() punteggioNecessario!: number;

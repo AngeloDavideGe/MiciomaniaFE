@@ -22,6 +22,7 @@ import { ElementiUtenteService } from '../../../../../../../shared/services/api/
 import { ProposaPrePost } from '../../interfaces/dropbox.interface';
 import { DropboxService } from '../../services/dropbox.service';
 import { fileValidator } from '../../validators/proposta.validator';
+import { ElemLang } from '../../languages/interfaces/elem-lang.interface';
 @Component({
   selector: 'app-crea-proposta',
   standalone: true,
@@ -37,6 +38,7 @@ export class CreaPropostaComponent implements OnInit {
   private dropboxService = inject(DropboxService);
   private elementiUtenteService = inject(ElementiUtenteService);
 
+  @Input() elemLang!: ElemLang;
   @Input() userId!: string;
   @Input() tornaAllaHome!: Function;
   @Output() chiudi = new EventEmitter<void>();

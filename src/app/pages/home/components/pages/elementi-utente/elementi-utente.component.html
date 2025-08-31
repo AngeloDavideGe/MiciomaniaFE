@@ -1,7 +1,8 @@
 <div class="container py-4">
-  <app-header-elementi></app-header-elementi>
+  <app-header-elementi [elemLang]="elemLang"></app-header-elementi>
 
   <app-griglia-elementi
+    [elemLang]="elemLang"
     [creaProposta]="creaProposta"
     [eu]="eu"
     [punteggioNecessario]="punteggioNecessario"
@@ -11,7 +12,8 @@
 
 @if (creaProposta.componente) {
 <app-crea-proposta
-  [userId]="this.userId"
+  [elemLang]="elemLang"
+  [userId]="userId"
   [tornaAllaHome]="tornaAllaHome"
   (chiudi)="creaProposta.componente = false"
 ></app-crea-proposta>

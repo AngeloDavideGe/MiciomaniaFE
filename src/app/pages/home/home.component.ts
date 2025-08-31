@@ -13,6 +13,7 @@ import { converUserParams, getConfirmParams } from './functions/home.functions';
 import { home_imports } from './imports/home.imports';
 import { componenteApertoType } from './interfaces/profilo.interface';
 import { HomeLang } from './languages/interfaces/home-lang.interface';
+import { Lingua } from '../../shared/interfaces/http.interface';
 
 @Component({
   selector: 'app-home',
@@ -46,7 +47,7 @@ export class HomeComponent implements OnInit {
     });
 
     effect(() => {
-      const lingua: string = DataHttp.lingua();
+      const lingua: Lingua = DataHttp.lingua();
       const languageMap: Record<string, () => Promise<any>> = {
         it: () => import('./languages/constants/home-it.constant'),
         en: () => import('./languages/constants/home-en.constant'),
