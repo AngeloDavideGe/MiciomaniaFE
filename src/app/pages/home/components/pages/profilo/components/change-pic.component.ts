@@ -1,10 +1,11 @@
-import { Component, EventEmitter, inject, Output } from '@angular/core';
+import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
 import { DataHttp } from '../../../../../../core/api/http.data';
 import { updateUserCustom } from '../../../../../../shared/handlers/auth.handler';
 import { User } from '../../../../../../shared/interfaces/users.interface';
 import { AuthService } from '../../../../../../shared/services/api/auth.service';
 import { ProfiloService } from '../../../../services/profilo.service';
 import { uploadProfileImage } from '../../../../handlers/profilo.handler';
+import { ProfiloLang } from '../languages/interfaces/profilo-lang.interface';
 
 @Component({
   selector: 'app-change-pic',
@@ -23,7 +24,9 @@ import { uploadProfileImage } from '../../../../handlers/profilo.handler';
           <div
             class="modal-header d-flex align-items-center justify-content-between border-bottom-0 pb-0"
           >
-            <h5 class="modal-title mb-0">Modifica Immagine Profilo</h5>
+            <h5 class="modal-title mb-0">
+              {{ profiloLang.modificaImmagine || 'Modifica Immagine Profilo' }}
+            </h5>
             <button
               type="button"
               class="btn-close"
@@ -45,7 +48,10 @@ import { uploadProfileImage } from '../../../../handlers/profilo.handler';
                   style="min-height: 60vh; max-width: 400px; margin: 3rem auto; background: #f8f9fa; border-radius: 16px; box-shadow: 0 4px 24px rgba(0,0,0,0.08); padding: 2rem;"
                 >
                   <h4 class="mb-4 text-primary" style="font-weight: bold;">
-                    Carica la tua immagine profilo
+                    {{
+                      profiloLang.caricaImmagineProfilo ||
+                        'Carica Immagine Profilo'
+                    }}
                   </h4>
                   <div class="mb-4 w-100 d-flex justify-content-center">
                     @if(previewUrl){
@@ -75,7 +81,7 @@ import { uploadProfileImage } from '../../../../handlers/profilo.handler';
                     [disabled]="!selectedFile"
                     (click)="onUpload()"
                   >
-                    Carica Immagine
+                    {{ profiloLang.caricaImmagine || 'Carica Immagine' }}
                   </button>
                 </div>
               </div>
@@ -89,9 +95,11 @@ import { uploadProfileImage } from '../../../../handlers/profilo.handler';
 export class ChangePicComponent {
   public previewUrl: string | ArrayBuffer | null = null;
   public selectedFile: File | null = null;
+
   private authService = inject(AuthService);
   public profiloService = inject(ProfiloService);
 
+  @Input() profiloLang!: ProfiloLang;
   @Output() chiudi = new EventEmitter();
 
   onFileSelected(event: Event) {
@@ -124,7 +132,10 @@ export class ChangePicComponent {
         !allowedExtensions.includes(fileExtension) ||
         !allowedTypes.includes(file.type)
       ) {
-        alert('Formato o tipo immagine non supportato');
+        alert(
+          this.profiloLang.formatoNonSupportato ||
+            'Formato non supportato. Seleziona un file immagine valido.'
+        );
         input.value = '';
         this.selectedFile = null;
         this.previewUrl = null;
@@ -168,7 +179,10 @@ export class ChangePicComponent {
 
   private errorEdit(err: Error): void {
     console.error('Errore chiamata:', err);
-    alert("Errore durante il caricamento dell'immagine");
+    alert(
+      this.profiloLang.erroreCaricamento ||
+        'Errore durante il caricamento. Riprova più tardi.'
+    );
     this.profiloService.aggiornamentoPic = false;
   }
 }

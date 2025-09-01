@@ -5,6 +5,7 @@ import { StatoPersona } from '../../../../../../../../shared/enums/users.enum';
 import { User } from '../../../../../../../../shared/interfaces/users.interface';
 import { TabProfiloBase } from '../../../base/tab-profilo.base';
 import { DataHttp } from '../../../../../../../../core/api/http.data';
+import { ProfiloLang } from '../../../languages/interfaces/profilo-lang.interface';
 
 @Component({
   selector: 'tab-info-profilo',
@@ -17,6 +18,7 @@ export class TabInfoComponent extends TabProfiloBase {
   public profileForm: FormGroup;
   public statiPersona = Object.values(StatoPersona);
 
+  @Input() profiloLang!: ProfiloLang;
   @Input() user: User = {} as User;
   @Output() chiudi = new EventEmitter<void>();
 

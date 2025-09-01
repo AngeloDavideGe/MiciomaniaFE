@@ -50,10 +50,10 @@
     </button>
     <div class="modal-footer">
       <button type="submit" class="btn btn-primary" (click)="saveChanges()">
-        Salva
+        {{ profiloLang.salva || "Salva" }}
       </button>
       <button type="button" class="btn btn-secondary" (click)="chiudi.emit()">
-        Chiudi
+        {{ profiloLang.chiudi || "Chiudi" }}
       </button>
     </div>
   </div>

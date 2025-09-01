@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { User } from '../../../../../../../shared/interfaces/users.interface';
 import { TabInfoComponent } from './tab-info/tab-info.component';
 import { TabSocialComponent } from './tab-social/tab-social.component';
+import { ProfiloLang } from '../../languages/interfaces/profilo-lang.interface';
 
 @Component({
   selector: 'app-edit-profilo',
@@ -20,7 +21,9 @@ import { TabSocialComponent } from './tab-social/tab-social.component';
           <div
             class="modal-header d-flex align-items-center justify-content-between border-bottom-0 pb-0"
           >
-            <h5 class="modal-title mb-0">Modifica Profilo</h5>
+            <h5 class="modal-title mb-0">
+              {{ profiloLang.modificaProfilo || 'Modifica profilo' }}
+            </h5>
             <button
               type="button"
               class="btn-close"
@@ -68,6 +71,7 @@ import { TabSocialComponent } from './tab-social/tab-social.component';
               <!-- Info -->
               @case('info') {
               <tab-info-profilo
+                [profiloLang]="profiloLang"
                 [user]="user"
                 (chiudi)="chiudi.emit()"
               ></tab-info-profilo>
@@ -75,6 +79,7 @@ import { TabSocialComponent } from './tab-social/tab-social.component';
               <!-- Social -->
               @case('social') {
               <tab-social-profilo
+                [profiloLang]="profiloLang"
                 [user]="user"
                 (chiudi)="chiudi.emit()"
               ></tab-social-profilo>
@@ -88,6 +93,7 @@ import { TabSocialComponent } from './tab-social/tab-social.component';
 export class EditProfiloComponent {
   public tab: 'info' | 'social' = 'info';
 
+  @Input() profiloLang!: ProfiloLang;
   @Input() user: User = {} as User;
   @Output() chiudi = new EventEmitter<void>();
 }

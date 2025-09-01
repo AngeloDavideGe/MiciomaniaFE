@@ -1,6 +1,6 @@
 <form [formGroup]="profileForm" (ngSubmit)="onSave()">
   <div class="form-group">
-    <label for="nome">Nome:</label>
+    <label for="nome">{{ profiloLang.nome || "Nome:" }}</label>
     <input id="nome" class="form-control" formControlName="nome" />
   </div>
   <div class="form-group">
@@ -21,11 +21,13 @@
     <textarea id="bio" class="form-control" formControlName="bio"></textarea>
   </div>
   <div class="form-group">
-    <label for="telefono">Telefono:</label>
+    <label for="telefono">{{ profiloLang.telefono || "Telefono:" }}</label>
     <input id="telefono" class="form-control" formControlName="telefono" />
   </div>
   <div class="form-group">
-    <label for="compleanno">Compleanno:</label>
+    <label for="compleanno">{{
+      profiloLang.compleanno || "Compleanno:"
+    }}</label>
     <input
       id="compleanno"
       type="date"
@@ -34,9 +36,11 @@
     />
   </div>
   <div class="modal-footer">
-    <button type="submit" class="btn btn-primary">Salva</button>
+    <button type="submit" class="btn btn-primary">
+      {{ profiloLang.salva || "Salva" }}
+    </button>
     <button type="button" class="btn btn-secondary" (click)="chiudi.emit()">
-      Chiudi
+      {{ profiloLang.chiudi || "Chiudi" }}
     </button>
   </div>
 </form>

@@ -5,6 +5,7 @@ import { User } from '../../../../../../../../shared/interfaces/users.interface'
 import { EditableSocial } from '../../../../../../interfaces/profilo.interface';
 import { TabProfiloBase } from '../../../base/tab-profilo.base';
 import { DataHttp } from '../../../../../../../../core/api/http.data';
+import { ProfiloLang } from '../../../languages/interfaces/profilo-lang.interface';
 
 @Component({
   selector: 'tab-social-profilo',
@@ -25,6 +26,7 @@ export class TabSocialComponent extends TabProfiloBase implements OnInit {
     'facebook',
   ];
 
+  @Input() profiloLang!: ProfiloLang;
   @Input() user: User = {} as User;
   @Output() chiudi = new EventEmitter<void>();
 

@@ -3,7 +3,10 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Subject, takeUntil } from 'rxjs';
 import { DataHttp } from '../../../../../core/api/http.data';
 import { getVoidUser } from '../../../../../shared/handlers/functions/user.function';
-import { Profilo } from '../../../../../shared/interfaces/http.interface';
+import {
+  Lingua,
+  Profilo,
+} from '../../../../../shared/interfaces/http.interface';
 import { User } from '../../../../../shared/interfaces/users.interface';
 import { ConfirmService } from '../../../../../shared/services/template/confirm.service';
 import { LoadingService } from '../../../../../shared/services/template/loading.service';
@@ -15,6 +18,7 @@ import { EditableSocial, Tweet } from '../../../interfaces/profilo.interface';
 import { ProfiloService } from '../../../services/profilo.service';
 import { profilo_imports } from './imports/profilo.imports';
 import { modaleApertaType } from './types/profilo.type';
+import { ProfiloLang } from './languages/interfaces/profilo-lang.interface';
 
 @Component({
   selector: 'app-profilo',
@@ -37,6 +41,7 @@ export class ProfiloComponent implements OnDestroy {
   public modaleAperta: modaleApertaType = '';
   public socialArray: EditableSocial[] = [];
   public tornaIndietroPath: string = '';
+  public profiloLang: ProfiloLang = {} as ProfiloLang;
   public profilo: Profilo = {
     user: getVoidUser(),
     tweets: [] as Tweet[],
@@ -45,11 +50,21 @@ export class ProfiloComponent implements OnDestroy {
   constructor() {
     this.sottoscrizioneParam();
     this.setTornaIndietroPath();
+    this.setLinguage();
   }
 
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
+  }
+
+  private setLinguage(): void {
+    const lingua: Lingua = DataHttp.lingua();
+    const languageMap: Record<string, () => Promise<any>> = {
+      it: () => import('./languages/constants/profilo-it.constant'),
+      en: () => import('./languages/constants/profilo-en.constant'),
+    };
+    languageMap[lingua]().then((m) => (this.profiloLang = m.profiloLang));
   }
 
   private setTornaIndietroPath(): void {

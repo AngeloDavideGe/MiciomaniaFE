@@ -11,6 +11,7 @@ import { EditableSocial } from '../../../../interfaces/profilo.interface';
 import { ProfiloService } from '../../../../services/profilo.service';
 import { modaleApertaType } from '../types/profilo.type';
 import { Profilo } from '../../../../../../shared/interfaces/http.interface';
+import { ProfiloLang } from '../languages/interfaces/profilo-lang.interface';
 
 @Component({
   selector: 'app-card-profilo',
@@ -89,7 +90,11 @@ import { Profilo } from '../../../../../../shared/interfaces/http.interface';
         </div>
 
         <p class="mt-3" style="font-size: 16px; color: #0f1419">
-          {{ profilo.user.profile.bio || 'Nessuna bio disponibile' }}
+          {{
+            profilo.user.profile.bio ||
+              profiloLang.noBio ||
+              'Nessuna bio disponibile'
+          }}
         </p>
         <div class="d-flex text-muted mb-3" style="font-size: 14px">
           @if (profilo.user.iscrizione.citta &&
@@ -100,7 +105,7 @@ import { Profilo } from '../../../../../../shared/interfaces/http.interface';
           </span>
           } @if (profilo.user.profile.compleanno) {
           <span class="me-3">
-            Nato il
+            {{ profiloLang.natoIl || 'Nato il' }}
             {{ profilo.user.profile.compleanno | date : 'dd/MM/yyyy' }}
           </span>
           }
@@ -126,6 +131,7 @@ import { Profilo } from '../../../../../../shared/interfaces/http.interface';
 })
 export class CardProfiloComponent {
   public profiloService = inject(ProfiloService);
+  @Input() profiloLang!: ProfiloLang;
   @Input() socialArray!: EditableSocial[];
   @Input() profilo!: Profilo;
   @Input() spinnerTemplate!: TemplateRef<any>;

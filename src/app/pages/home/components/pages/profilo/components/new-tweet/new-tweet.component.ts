@@ -5,6 +5,7 @@ import { formatDataCustom } from '../../../../../../../shared/functions/utilitie
 import { postPubblicazioni } from '../../../../../handlers/profilo.handler';
 import { Tweet } from '../../../../../interfaces/profilo.interface';
 import { ProfiloService } from '../../../../../services/profilo.service';
+import { ProfiloLang } from '../../languages/interfaces/profilo-lang.interface';
 
 @Component({
   selector: 'app-new-tweet',
@@ -17,6 +18,7 @@ export class NewTweetComponent {
   public testo: string = '';
   private profiloService = inject(ProfiloService);
 
+  @Input() profiloLang!: ProfiloLang;
   @Input() idUtente!: string;
   @Output() chiudi = new EventEmitter<void>();
 
