@@ -15,6 +15,7 @@ import {
   effectTimeoutCustom,
 } from '../../shared/functions/utilities.function';
 import {
+  Lingua,
   ListaManga,
   MangaUtente,
 } from '../../shared/interfaces/http.interface';
@@ -31,6 +32,7 @@ import {
 import { manga_imports } from './imports/manga.imports';
 import { PulsantiManga, TabsManga } from './interfaces/filtri.interface';
 import { MangaService } from './services/manga.service';
+import { MangaLang } from './languages/interfaces/manga-lang.interface';
 
 @Component({
   selector: 'app-manga',
@@ -47,6 +49,7 @@ export class MangaComponent implements OnDestroy {
   public erroreHttp: boolean = false;
   public aggiornamentoManga: boolean = false;
   public mangaGeneri = generiManga;
+  public mangaLang: MangaLang = {} as MangaLang;
   public idUtente: string | null = null;
   public pulsanti: PulsantiManga[] = getPulsanti((path: string) =>
     this.router.navigate([path])
@@ -82,6 +85,8 @@ export class MangaComponent implements OnDestroy {
   );
 
   constructor() {
+    this.loadLanguage();
+
     effectTimeoutCustom(this.filterSelect.autore, (value: string) =>
       this.debounce.autore.set(value)
     );
@@ -98,6 +103,15 @@ export class MangaComponent implements OnDestroy {
   @HostListener('window:beforeunload', ['$event'])
   unloadNotification($event: BeforeUnloadEvent): void {
     this.upsertOnDestroy($event);
+  }
+
+  private loadLanguage(): void {
+    const lingua: Lingua = DataHttp.lingua();
+    const languageMap: Record<string, () => Promise<any>> = {
+      it: () => import('./languages/constants/manga-it.constant'),
+      en: () => import('./languages/constants/manga-en.constant'),
+    };
+    languageMap[lingua]().then((m) => (this.mangaLang = m.mangaLang));
   }
 
   private getTabClickHandler(

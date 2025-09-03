@@ -1,6 +1,7 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { BottonCustomComponent } from '../../../../../../shared/components/custom/botton-custom.component';
+import { SquadreLang } from '../languages/interfaces/squadre-lang.interface';
 
 @Component({
   selector: 'app-lista-squadre',
@@ -16,9 +17,14 @@ import { BottonCustomComponent } from '../../../../../../shared/components/custo
 
     <div class="row mb-4">
       <div class="col-12 text-center">
-        <h2 class="display-6 text-primary fw-bold">Andamento Sfida</h2>
+        <h2 class="display-6 text-primary fw-bold">
+          {{ squadreLang.andamento || 'Andamento Sfida' }}
+        </h2>
         <p class="lead text-muted">
-          Miciomania vs Alcamo - Aggiornamento in tempo reale
+          {{
+            squadreLang.aggiornamento ||
+              'Miciomania vs Alcamo - Aggiornamento in tempo reale'
+          }}
         </p>
       </div>
     </div>
@@ -42,4 +48,5 @@ import { BottonCustomComponent } from '../../../../../../shared/components/custo
 })
 export class ListaSquadreComponent {
   public router = inject(Router);
+  @Input() squadreLang!: SquadreLang;
 }

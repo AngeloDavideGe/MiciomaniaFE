@@ -8,6 +8,9 @@ import { BottoniSquadreComponent } from './components/bottoni-squadre.component'
 import { ListaSquadreComponent } from './components/lista-squadre.component';
 import { chartOptions } from './options/squadre.option';
 import { Squadre } from '../../../interfaces/profilo.interface';
+import { SquadreLang } from './languages/interfaces/squadre-lang.interface';
+import { Lingua } from '../../../../../shared/interfaces/http.interface';
+import { DataHttp } from '../../../../../core/api/http.data';
 
 declare var google: any;
 
@@ -18,15 +21,25 @@ declare var google: any;
   templateUrl: './squadre.component.html',
 })
 export class SquadreComponent implements OnInit {
+  private loadingService = inject(LoadingService);
+  private chatService = inject(ChatGroupService);
   private squadreService = inject(SquadreService);
+
+  public squadreLang: SquadreLang = {} as SquadreLang;
   public stampa = signal<boolean>(false);
   private renderChart: Function = this.renderChartCustom.bind(
     this,
     'chart_div'
   );
 
-  private loadingService = inject(LoadingService);
-  private chatService = inject(ChatGroupService);
+  constructor() {
+    const lingua: Lingua = DataHttp.lingua();
+    const languageMap: Record<string, () => Promise<any>> = {
+      it: () => import('./languages/constants/squadre-it.constant'),
+      en: () => import('./languages/constants/squadre-en.constant'),
+    };
+    languageMap[lingua]().then((m) => (this.squadreLang = m.squadreLang));
+  }
 
   ngOnInit(): void {
     loadSquadre({
