@@ -31,8 +31,8 @@ import {
 } from './handlers/manga.handler';
 import { manga_imports } from './imports/manga.imports';
 import { PulsantiManga, TabsManga } from './interfaces/filtri.interface';
-import { MangaService } from './services/manga.service';
 import { MangaLang } from './languages/interfaces/manga-lang.interface';
+import { MangaService } from './services/manga.service';
 
 @Component({
   selector: 'app-manga',
@@ -132,7 +132,7 @@ export class MangaComponent implements OnDestroy {
   private logFilterChanges(): ListaManga[] {
     return DataHttp.listaManga().filter((manga) => {
       return (
-        (this.filterSelect.genere() === 'Qualsiasi' ||
+        (this.filterSelect.genere() === this.mangaLang.qualsiasi ||
           manga.genere.includes(this.filterSelect.genere())) &&
         (this.debounce.autore() === '' ||
           manga.autore

@@ -1,6 +1,7 @@
 import { MangaLang } from '../interfaces/manga-lang.interface';
 
 export const mangaLang: MangaLang = {
+  aggiornamento: 'Aggiornamento manga...',
   // Dettagli Manga
   titolo: 'Benvenuto nel Mondo dei Manga',
   messaggio:

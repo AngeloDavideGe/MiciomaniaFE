@@ -15,31 +15,107 @@ import {
 import { Social } from '../../shared/interfaces/github.interface';
 
 export class DataHttp {
-  public static lingua: WritableSignal<Lingua> = signal(Lingua.it);
+  static lingua: WritableSignal<Lingua> = signal(Lingua.it);
 
-  public static user: WritableSignal<User | null> = signal(null);
-  public static users: WritableSignal<UserParams[]> = signal([]);
-  public static social: Social[] = [];
+  static user: WritableSignal<User | null> = signal(null);
+  static users: WritableSignal<UserParams[]> = signal([]);
+  static social: Social[] = [];
 
-  public static listaManga: WritableSignal<ListaManga[]> = signal([]);
-  public static mangaUtente: MangaUtente = {} as MangaUtente;
-  public static initialMangaUtente: MangaUtente = {} as MangaUtente;
-  public static mangaAperti: MangaAperto[] = [];
-  public static mangaScaricati: boolean = false;
+  static listaManga: WritableSignal<ListaManga[]> = signal([]);
+  static mangaUtente: MangaUtente = {} as MangaUtente;
+  static initialMangaUtente: MangaUtente = {} as MangaUtente;
+  static mangaAperti: MangaAperto[] = [];
+  static mangaScaricati: boolean = false;
 
-  public static profiloPersonale: Profilo | null = null;
-  public static punteggioOttenuto: number = 0;
+  static profiloPersonale: Profilo | null = null;
+  static punteggioOttenuto: number = 0;
 
-  public static canzoniMiciomani: CanzoniMiciomania[] = [];
-  public static canzoniMiciomaniLoaded = false;
-  public static mangaMiciomani: MangaMiciomania[] = [];
-  public static mangaMiciomaniLoaded = false;
-  public static elementiUtente: ElementiUtente | null = null;
+  static canzoniMiciomani: CanzoniMiciomania[] = [];
+  static canzoniMiciomaniLoaded = false;
+  static mangaMiciomani: MangaMiciomania[] = [];
+  static mangaMiciomaniLoaded = false;
+  static elementiUtente: ElementiUtente | null = null;
 
   static loadDataHttp(): void {
     const lingua = localStorage.getItem('lingua');
     if (lingua) {
       this.lingua.set(JSON.parse(lingua));
+    }
+
+    // Auth Service
+    const userData = localStorage.getItem('user');
+    if (userData) {
+      this.user.set(JSON.parse(userData));
+    }
+
+    const usersData = sessionStorage.getItem('users');
+    if (usersData) {
+      this.users.set(JSON.parse(usersData));
+    }
+
+    const social = sessionStorage.getItem('socialLinks');
+    if (social) {
+      this.social = JSON.parse(social);
+    }
+
+    // Manga Service
+    const listaManga = localStorage.getItem('listaManga');
+    if (listaManga) {
+      this.listaManga.set(JSON.parse(listaManga));
+    }
+
+    const mangaUtente = localStorage.getItem('mangaUtente');
+    if (mangaUtente) {
+      this.mangaUtente = JSON.parse(mangaUtente);
+      this.initialMangaUtente = JSON.parse(mangaUtente);
+    }
+
+    const mangaCaricati = sessionStorage.getItem('mangaCaricati');
+    if (mangaCaricati) {
+      this.mangaScaricati = JSON.parse(mangaCaricati);
+    }
+
+    const mangaAperti = sessionStorage.getItem('mangaAperti');
+    if (mangaAperti) {
+      this.mangaAperti = JSON.parse(mangaAperti);
+    }
+
+    // Profilo Service
+    const pubblicazioniJSON = sessionStorage.getItem('pubblicazioni');
+    if (pubblicazioniJSON) {
+      this.profiloPersonale = JSON.parse(pubblicazioniJSON);
+    }
+
+    // Squadre Service
+    const punteggioOttenuto = sessionStorage.getItem('punteggioOttenuto');
+    if (punteggioOttenuto) {
+      this.punteggioOttenuto = JSON.parse(punteggioOttenuto);
+    }
+
+    // Elementi Utente
+    const canzoniStorage = localStorage.getItem('canzoniMiciomani');
+    if (canzoniStorage) {
+      this.canzoniMiciomani = JSON.parse(canzoniStorage);
+    }
+
+    const canzoniLoaded = sessionStorage.getItem('canzoniMiciomaniLoaded');
+    if (canzoniLoaded) {
+      this.canzoniMiciomaniLoaded = JSON.parse(canzoniLoaded);
+    }
+
+    const mangaStorage = localStorage.getItem('mangaMiciomani');
+    if (mangaStorage) {
+      this.mangaMiciomani = JSON.parse(mangaStorage);
+    }
+
+    const mangaLoaded = sessionStorage.getItem('mangaMiciomaniLoaded');
+    if (mangaLoaded) {
+      this.mangaMiciomaniLoaded = JSON.parse(mangaLoaded);
+    }
+
+    const storageElementiUtente = sessionStorage.getItem('elementiUtente');
+    if (storageElementiUtente) {
+      this.elementiUtente = JSON.parse(storageElementiUtente);
     }
   }
 }

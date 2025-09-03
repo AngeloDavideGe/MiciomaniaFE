@@ -1,5 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { PulsantiManga } from '../interfaces/filtri.interface';
+import { Lingua } from '../../../shared/interfaces/http.interface';
+import { DataHttp } from '../../../core/api/http.data';
 
 @Component({
   selector: 'app-dettagli-manga',
@@ -22,7 +24,7 @@ import { PulsantiManga } from '../interfaces/filtri.interface';
           [disabled]="bottone.disabled"
         >
           <i [class]="bottone.icona"></i>
-          {{ bottone.titolo }}
+          {{ bottone.titolo[lingua] }}
         </button>
         }
       </div>
@@ -30,6 +32,7 @@ import { PulsantiManga } from '../interfaces/filtri.interface';
   `,
 })
 export class DettagliMangaComponent {
+  public lingua: Lingua = DataHttp.lingua();
   @Input() titolo!: string;
   @Input() messaggio!: string;
   @Input() descrizione!: string;

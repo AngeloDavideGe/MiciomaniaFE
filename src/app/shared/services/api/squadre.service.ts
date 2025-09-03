@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Squadre } from '../../../pages/home/interfaces/profilo.interface';
 import { BaseService } from '../base/base.service';
-import { DataHttp } from '../../../core/api/http.data';
 
 @Injectable({
   providedIn: 'root',
@@ -12,11 +11,6 @@ export class SquadreService extends BaseService {
 
   constructor() {
     super('DB1');
-
-    const punteggioOttenuto = sessionStorage.getItem('punteggioOttenuto');
-    if (punteggioOttenuto) {
-      DataHttp.punteggioOttenuto = JSON.parse(punteggioOttenuto);
-    }
   }
 
   getSquadre(): Observable<Squadre[]> {

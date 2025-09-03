@@ -3,7 +3,6 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { User, UserParams } from '../../interfaces/users.interface';
 import { BaseService } from '../base/base.service';
-import { DataHttp } from '../../../core/api/http.data';
 
 @Injectable({
   providedIn: 'root',
@@ -11,21 +10,6 @@ import { DataHttp } from '../../../core/api/http.data';
 export class AuthService extends BaseService {
   constructor() {
     super('DB1');
-
-    const userData = localStorage.getItem('user');
-    if (userData) {
-      DataHttp.user.set(JSON.parse(userData));
-    }
-
-    const usersData = sessionStorage.getItem('users');
-    if (usersData) {
-      DataHttp.users.set(JSON.parse(usersData));
-    }
-
-    const social = sessionStorage.getItem('socialLinks');
-    if (social) {
-      DataHttp.social = JSON.parse(social);
-    }
   }
 
   getAllUsersHttp(): Observable<UserParams[]> {

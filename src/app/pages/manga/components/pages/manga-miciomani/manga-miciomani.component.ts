@@ -27,7 +27,10 @@ export class MangaMiciomaniComponent implements OnInit {
     {
       click: () => this.router.navigate(['/manga']),
       disabled: false,
-      titolo: '📚 Cerca tutti i manga',
+      titolo: {
+        it: '📚 Cerca tutti i manga',
+        en: '📚 Search all manga',
+      },
       icona: '',
     },
   ];

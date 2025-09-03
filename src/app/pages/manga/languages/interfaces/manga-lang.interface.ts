@@ -1,4 +1,5 @@
 export interface MangaLang {
+  aggiornamento: string;
   // Dettagli Manga
   titolo: string;
   messaggio: string;

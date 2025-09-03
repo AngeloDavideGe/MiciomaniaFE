@@ -7,7 +7,6 @@ import {
   Proposta,
 } from '../../interfaces/elementiUtente.interface';
 import { BaseService } from '../base/base.service';
-import { DataHttp } from '../../../core/api/http.data';
 
 @Injectable({
   providedIn: 'root',
@@ -17,31 +16,6 @@ export class ElementiUtenteService extends BaseService {
 
   constructor() {
     super('DB2');
-
-    const canzoniStorage = localStorage.getItem('canzoniMiciomani');
-    if (canzoniStorage) {
-      DataHttp.canzoniMiciomani = JSON.parse(canzoniStorage);
-    }
-
-    const canzoniLoaded = sessionStorage.getItem('canzoniMiciomaniLoaded');
-    if (canzoniLoaded) {
-      DataHttp.canzoniMiciomaniLoaded = JSON.parse(canzoniLoaded);
-    }
-
-    const mangaStorage = localStorage.getItem('mangaMiciomani');
-    if (mangaStorage) {
-      DataHttp.mangaMiciomani = JSON.parse(mangaStorage);
-    }
-
-    const mangaLoaded = sessionStorage.getItem('mangaMiciomaniLoaded');
-    if (mangaLoaded) {
-      DataHttp.mangaMiciomaniLoaded = JSON.parse(mangaLoaded);
-    }
-
-    const storageElementiUtente = sessionStorage.getItem('elementiUtente');
-    if (storageElementiUtente) {
-      DataHttp.elementiUtente = JSON.parse(storageElementiUtente);
-    }
   }
 
   getListaCanzoniMiciomani(): Observable<CanzoniMiciomania[]> {

@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { BaseService } from '../../../shared/services/base/base.service';
 import { ListaEUtenti, MangaENome } from '../interfaces/manga.interface';
-import { DataHttp } from '../../../core/api/http.data';
 
 @Injectable({
   providedIn: 'root',
@@ -10,27 +9,6 @@ import { DataHttp } from '../../../core/api/http.data';
 export class MangaService extends BaseService {
   constructor() {
     super('DB1');
-
-    const listaManga = localStorage.getItem('listaManga');
-    if (listaManga) {
-      DataHttp.listaManga.set(JSON.parse(listaManga));
-    }
-
-    const mangaUtente = localStorage.getItem('mangaUtente');
-    if (mangaUtente) {
-      DataHttp.mangaUtente = JSON.parse(mangaUtente);
-      DataHttp.initialMangaUtente = JSON.parse(mangaUtente);
-    }
-
-    const mangaCaricati = sessionStorage.getItem('mangaCaricati');
-    if (mangaCaricati) {
-      DataHttp.mangaScaricati = JSON.parse(mangaCaricati);
-    }
-
-    const mangaAperti = sessionStorage.getItem('mangaAperti');
-    if (mangaAperti) {
-      DataHttp.mangaAperti = JSON.parse(mangaAperti);
-    }
   }
 
   getListaManga(idUtente: string | null): Observable<ListaEUtenti> {

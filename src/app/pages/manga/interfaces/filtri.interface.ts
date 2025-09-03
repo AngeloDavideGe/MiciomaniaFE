@@ -1,8 +1,10 @@
+import { Lingua } from '../../../shared/interfaces/http.interface';
+
 export interface TabsManga {
   class: string;
   href: string;
   color: string;
-  testo: string;
+  testo: Record<Lingua, string>;
   clickCall: Function;
 }
 
@@ -15,6 +17,6 @@ export interface DettagliMangaInterface {
 export interface PulsantiManga {
   click: Function;
   disabled: boolean;
-  titolo: string;
+  titolo: Record<Lingua, string>;
   icona: string;
 }
