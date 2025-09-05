@@ -16,3 +16,4 @@ export interface Squadre {
 }
 
 export type componenteApertoType = 'cursore' | 'profili' | '';
+export type modaleApertaType = 'new-tweet' | 'edit-profilo' | 'change-pic' | '';

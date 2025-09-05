@@ -17,7 +17,7 @@ import {
 import { EditableSocial, Tweet } from '../../../interfaces/profilo.interface';
 import { ProfiloService } from '../../../services/profilo.service';
 import { profilo_imports } from './imports/profilo.imports';
-import { modaleApertaType } from './types/profilo.type';
+import { modaleApertaType } from '../../../interfaces/profilo.interface';
 import {
   ProfiloLang,
   ProfiloLangType,
