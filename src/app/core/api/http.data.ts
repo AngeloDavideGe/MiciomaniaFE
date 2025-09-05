@@ -24,7 +24,7 @@ export class DataHttp {
   static listaManga: WritableSignal<ListaManga[]> = signal([]);
   static mangaUtente: MangaUtente = {} as MangaUtente;
   static initialMangaUtente: MangaUtente = {} as MangaUtente;
-  static mangaAperti: MangaAperto[] = [];
+  static mangaAperti: Record<string, MangaAperto> = {};
   static mangaScaricati: boolean = false;
 
   static profiloPersonale: Profilo | null = null;

@@ -12,7 +12,14 @@ import { PadZeroVolumePipe } from '../../../pipes/padZeroVolume.pipe';
 import { DataHttp } from '../../../../../core/api/http.data';
 import { MangaService } from '../../../services/manga.service';
 import { BottonCustomComponent } from '../../../../../shared/components/custom/botton-custom.component';
-import { MangaAperto } from '../../../../../shared/interfaces/http.interface';
+import {
+  Lingua,
+  MangaAperto,
+} from '../../../../../shared/interfaces/http.interface';
+import {
+  VolumiLang,
+  VolumiLangType,
+} from './languages/interfaces/volumi-lang.interface';
 
 @Component({
   selector: 'app-volumi-manga',
@@ -21,24 +28,35 @@ import { MangaAperto } from '../../../../../shared/interfaces/http.interface';
   templateUrl: './volumi-manga.component.html',
 })
 export class VolumiMangaComponent implements OnInit {
+  public router = inject(Router);
+  private route = inject(ActivatedRoute);
+  private mangaService = inject(MangaService);
+  private loadingService = inject(LoadingService);
+
   public volumiOpera: MangaVolume[] = [];
   public operaCompletata: boolean = false;
   public volumiCaricati: boolean = false;
   public tornaIndietroPath: string = '';
   public pathOpera: string = '';
   public nomeOpera: string = '';
-
-  public router = inject(Router);
-  private route = inject(ActivatedRoute);
-  private mangaService = inject(MangaService);
-  private loadingService = inject(LoadingService);
+  public volumiLang: VolumiLang = {} as VolumiLang;
 
   constructor() {
+    this.loadLanguage();
     this.setPathTornaIndietro();
   }
 
   ngOnInit(): void {
     this.sottoscrizioneRouterParams();
+  }
+
+  private loadLanguage(): void {
+    const lingua: Lingua = DataHttp.lingua();
+    const languageMap: Record<Lingua, () => Promise<VolumiLangType>> = {
+      it: () => import('./languages/constants/volumi-it.constant'),
+      en: () => import('./languages/constants/volumi-en.constant'),
+    };
+    languageMap[lingua]().then((m) => (this.volumiLang = m.volumiLang));
   }
 
   private setPathTornaIndietro(): void {
@@ -65,11 +83,8 @@ export class VolumiMangaComponent implements OnInit {
   }
 
   private loadVolumiENome(): void {
-    const index: number = DataHttp.mangaAperti.findIndex(
-      (x: MangaAperto) => x.nome == this.pathOpera
-    );
-    if (index > -1) {
-      this.loadNoHttp(index);
+    if (DataHttp.mangaAperti[this.pathOpera]) {
+      this.loadNoHttp();
     } else {
       loadMangaVolumiENome({
         pathOpera: this.pathOpera,
@@ -82,10 +97,11 @@ export class VolumiMangaComponent implements OnInit {
     }
   }
 
-  private loadNoHttp(index: number): void {
-    const volumi: MangaVolume[] = DataHttp.mangaAperti[index].volumi;
+  private loadNoHttp(): void {
+    const mangaAperto: MangaAperto = DataHttp.mangaAperti[this.pathOpera];
+    const volumi: MangaVolume[] = mangaAperto.volumi;
     const info_manga: InfoManga = {
-      nome: this.pathOpera,
+      nome: mangaAperto.nome,
       completato: false,
     };
 
@@ -100,16 +116,16 @@ export class VolumiMangaComponent implements OnInit {
   private completeLoading(): void {
     this.volumiCaricati = true;
     this.loadingService.hide();
+    DataHttp.mangaAperti[this.pathOpera] = {
+      nome: this.nomeOpera,
+      volumi: this.volumiOpera,
+    };
   }
 
   private handleNomeEVolumiSuccess(opera: MangaENome): void {
     this.nomeOpera = opera.info_manga.nome;
     this.operaCompletata = opera.info_manga.completato;
     this.volumiOpera = opera.volumi;
-    DataHttp.mangaAperti.push({
-      nome: this.pathOpera,
-      volumi: this.volumiOpera,
-    });
   }
 
   leggiVolume(link: string): void {

@@ -8,12 +8,14 @@
       (clickBotton)="router.navigate(['/manga'])"
     ></app-botton-custom>
 
-    <h2 class="text-center mb-0 flex-grow-1">Volumi di {{ nomeOpera }}</h2>
+    <h2 class="text-center mb-0 flex-grow-1">
+      {{ volumiLang.volumiDi + " " + nomeOpera }}
+    </h2>
   </div>
 
   @if(volumiOpera.length === 0) {
   <div class="alert alert-warning" role="alert">
-    Non sono stati trovati volumi per questo manga.
+    {{ volumiLang.noVolumi }}
   </div>
   } @if(volumiOpera.length > 0) {
   <div class="table-responsive">
