@@ -6,7 +6,6 @@ export interface AdminLang {
   listaAdminUtenti: string;
   visualizzaRuoli: string;
   // Edit Admin
-  modificaRuolo: string;
   nome: string;
   ruolo: string;
   annulla: string;

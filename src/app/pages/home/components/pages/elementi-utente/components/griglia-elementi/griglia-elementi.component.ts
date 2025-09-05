@@ -33,7 +33,7 @@ import { ElemLang } from '../../languages/interfaces/elem-lang.interface';
         "
         >
           <p class="text-muted mb-0">
-            {{ elemLang.noManga || 'Nessun manga caricato.' }}
+            {{ elemLang.noManga }}
           </p>
         </div>
       </div>
@@ -60,7 +60,7 @@ import { ElemLang } from '../../languages/interfaces/elem-lang.interface';
         "
         >
           <p class="text-muted mb-0">
-            {{ elemLang.noCanzone || 'Nessuna canzone caricata.' }}
+            {{ elemLang.noCanzone }}
           </p>
         </div>
       </div>
@@ -95,15 +95,15 @@ import { ElemLang } from '../../languages/interfaces/elem-lang.interface';
           <p class="text-muted mb-2">
             {{
               creaProposta.controllo
-                ? elemLang.noProposteSospese || 'Non hai proposte in sospeso'
-                : elemLang.haiGiaMangaCanzone || 'Hai gia manga e canzone'
+                ? elemLang.noProposteSospese
+                : elemLang.haiGiaMangaCanzone
             }}
           </p>
           <p class="text-muted mb-2">
             {{
               creaProposta.punteggio
                 ? ''
-                : (elemLang.nonHaiPunti || 'Non hai abbastanza punti') +
+                : elemLang.nonHaiPunti +
                   '(' +
                   userPunteggio +
                   ' su ' +
@@ -118,7 +118,7 @@ import { ElemLang } from '../../languages/interfaces/elem-lang.interface';
             (click)="creaProposta.componente = true"
           >
             <i class="bi bi-plus-circle me-1"></i>
-            {{ elemLang.inviaProposta || 'Invia una nuova proposta' }}
+            {{ elemLang.inviaProposta }}
           </button>
           }
         </div>

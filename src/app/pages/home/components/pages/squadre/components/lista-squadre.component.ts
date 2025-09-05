@@ -18,13 +18,10 @@ import { SquadreLang } from '../languages/interfaces/squadre-lang.interface';
     <div class="row mb-4">
       <div class="col-12 text-center">
         <h2 class="display-6 text-primary fw-bold">
-          {{ squadreLang.andamento || 'Andamento Sfida' }}
+          {{ squadreLang.andamento }}
         </h2>
         <p class="lead text-muted">
-          {{
-            squadreLang.aggiornamento ||
-              'Miciomania vs Alcamo - Aggiornamento in tempo reale'
-          }}
+          {{ squadreLang.aggiornamento }}
         </p>
       </div>
     </div>

@@ -21,7 +21,6 @@ export const homeLang: HomeLang = {
   rimuovi: 'Remove',
   seleziona: 'Select',
   // Cerca Profili
-  cercaProfiliTitolo: 'Search Profiles',
   nessunProfilo: 'No profile found',
   cercaUtentiPlaceholder: 'Search users...',
 };

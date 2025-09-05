@@ -26,7 +26,7 @@ import { HomeLang } from '../../languages/interfaces/home-lang.interface';
                 style="font-size: 0.875rem; padding: 0.25rem 0.75rem;"
                 (click)="rimuoviCursore()"
               >
-                {{ homeLang.rimuovi || 'Rimuovi' }}
+                {{ homeLang.rimuovi }}
               </button>
             </div>
           </div>
@@ -49,7 +49,7 @@ import { HomeLang } from '../../languages/interfaces/home-lang.interface';
                 style="font-size: 0.875rem; padding: 0.25rem 0.75rem;"
                 (click)="cambiaCursore(cursore.iconClass)"
               >
-                {{ homeLang.seleziona || 'Seleziona' }}
+                {{ homeLang.seleziona }}
               </button>
             </div>
           </div>

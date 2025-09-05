@@ -21,7 +21,6 @@ export interface HomeLang {
   rimuovi: string;
   seleziona: string;
   // Cerca Profili
-  cercaProfiliTitolo: string;
   nessunProfilo: string;
   cercaUtentiPlaceholder: string;
 }

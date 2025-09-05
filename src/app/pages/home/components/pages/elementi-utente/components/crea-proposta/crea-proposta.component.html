@@ -11,7 +11,7 @@
         class="modal-header d-flex align-items-center justify-content-between border-bottom-0 pb-0"
       >
         <h5 class="modal-title mb-0">
-          {{ elemLang.modificaProfilo || "Modifica Profilo" }}
+          {{ elemLang.modificaProfilo }}
         </h5>
         <button
           type="button"
@@ -27,8 +27,7 @@
           <!-- Campo tipo -->
           <div class="form-group mb-4">
             <label for="tipo" class="h5"
-              >{{ elemLang.tipo || "Tipo" }}
-              <span class="text-danger">*</span></label
+              >{{ elemLang.tipo }} <span class="text-danger">*</span></label
             >
             <select
               id="tipo"
@@ -39,14 +38,14 @@
               }"
             >
               <option value="" disabled selected>
-                {{ elemLang.selezionaTipo || "Seleziona un tipo" }}
+                {{ elemLang.selezionaTipo }}
               </option>
 
               @if (!optionManga) {
-              <option value="manga">{{ elemLang.manga || "Manga" }}</option>
+              <option value="manga">{{ elemLang.manga }}</option>
               } @if (!optionCanzone) {
               <option value="canzone">
-                {{ elemLang.canzone || "Canzone" }}
+                {{ elemLang.canzone }}
               </option>
               }
             </select>
@@ -55,7 +54,7 @@
             <div class="invalid-feedback">
               @if (f['tipo'].errors?.['required']) {
               <div>
-                {{ elemLang.titoloObbligatorio || "Il tipo è obbligatorio" }}
+                {{ elemLang.titoloObbligatorio }}
               </div>
               }
             </div>
@@ -65,8 +64,7 @@
           <!-- Campo nome -->
           <div class="form-group mb-4">
             <label for="nome" class="h5"
-              >{{ elemLang.nome || "Nome" }}
-              <span class="text-danger">*</span></label
+              >{{ elemLang.nome }} <span class="text-danger">*</span></label
             >
             <input
               type="text"
@@ -82,7 +80,7 @@
             <div class="invalid-feedback">
               @if (f['nome'].errors?.['required']) {
               <div>
-                {{ elemLang.nomeObbligatorio || "Il nome è obbligatorio" }}
+                {{ elemLang.nomeObbligatorio }}
               </div>
               }
             </div>
@@ -92,7 +90,7 @@
           <!-- Campo descrizione -->
           <div class="form-group mb-4">
             <label for="descrizione" class="h5"
-              >{{ elemLang.descrizione || "Descrizione" }}
+              >{{ elemLang.descrizione }}
               <span class="text-danger">*</span></label
             >
             <textarea
@@ -110,10 +108,7 @@
             <div class="invalid-feedback">
               @if (f['descrizione'].errors?.['required']) {
               <div>
-                {{
-                  elemLang.descrizioneObbligatoria ||
-                    "La descrizione è obbligatoria"
-                }}
+                {{ elemLang.descrizioneObbligatoria }}
               </div>
               }
             </div>
@@ -138,21 +133,16 @@
             <div class="invalid-feedback">
               @if (f['file'].errors?.['required']) {
               <div>
-                {{ elemLang.fileObbligatorio || "Il file è obbligatorio" }}
+                {{ elemLang.fileObbligatorio }}
               </div>
               } @if (f['file'].errors?.['invalidFileType']) {
               <div>
-                {{
-                  elemLang.fileAccettati || "Sono accettati solo file PDF o MP3"
-                }}
+                {{ elemLang.fileAccettati }}
               </div>
               }
             </div>
             }
-            <small class="text-muted">{{
-              elemLang.formatiAccettati ||
-                "Formati accettati: PDF per libri, MP3 per musica"
-            }}</small>
+            <small class="text-muted">{{ elemLang.formatiAccettati }}</small>
           </div>
 
           <div class="modal-footer" style="border-top: none; padding-top: 0">
@@ -163,7 +153,7 @@
               style="border-radius: 8px; padding: 8px 20px; border: none"
               (click)="chiudi.emit()"
             >
-              {{ elemLang.annulla || "Annulla" }}
+              {{ elemLang.annulla }}
             </button>
             <button
               type="submit"
@@ -176,7 +166,7 @@
                 border: none;
               "
             >
-              {{ elemLang.inviaProposta || "Invia Proposta" }}
+              {{ elemLang.inviaProposta }}
             </button>
           </div>
         </form>

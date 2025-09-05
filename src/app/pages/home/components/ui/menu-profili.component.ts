@@ -13,14 +13,14 @@ import { HomeLang } from '../../languages/interfaces/home-lang.interface';
       <li>
         <a class="dropdown-item" [routerLink]="'/home/profilo/' + user.id">
           <i class="bi bi-person-circle me-2"></i>
-          {{ homeLang.mioProfilo || 'Mio Profilo' }}
+          {{ homeLang.mioProfilo }}
         </a>
       </li>
       } @else {
       <li>
         <span class="dropdown-item text-muted">
           <i class="bi bi-exclamation-circle me-2"></i>
-          {{ homeLang.accediVediProfili || 'Accedi per vedere i profili' }}
+          {{ homeLang.accediVediProfili }}
         </span>
       </li>
       }
@@ -28,13 +28,13 @@ import { HomeLang } from '../../languages/interfaces/home-lang.interface';
       <li>
         <a class="dropdown-item" (click)="cercaProfili.emit()">
           <i class="bi bi-search me-2"></i>
-          {{ homeLang.cercaProfili || 'Cerca Profili' }}
+          {{ homeLang.cercaProfili }}
         </a>
       </li>
       <li>
         <a class="dropdown-item" [routerLink]="'/home/admin'">
           <i class="bi bi-envelope me-2"></i>
-          {{ homeLang.contattaAdmin || 'Contatta Admin' }}
+          {{ homeLang.contattaAdmin }}
         </a>
       </li>
 

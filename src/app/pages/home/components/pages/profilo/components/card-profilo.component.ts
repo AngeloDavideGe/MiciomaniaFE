@@ -91,11 +91,7 @@ import { errorPageProfilo } from '../error/error.profilo';
         </div>
 
         <p class="mt-3" style="font-size: 16px; color: #0f1419">
-          {{
-            profilo.user.profile.bio ||
-              profiloLang.noBio ||
-              'Nessuna bio disponibile'
-          }}
+          {{ profilo.user.profile.bio || profiloLang.noBio }}
         </p>
         <div class="d-flex text-muted mb-3" style="font-size: 14px">
           @if (profilo.user.iscrizione.citta &&
@@ -106,7 +102,7 @@ import { errorPageProfilo } from '../error/error.profilo';
           </span>
           } @if (profilo.user.profile.compleanno) {
           <span class="me-3">
-            {{ profiloLang.natoIl || 'Nato il' }}
+            {{ profiloLang.natoIl }}
             {{ profilo.user.profile.compleanno | date : 'dd/MM/yyyy' }}
           </span>
           }

@@ -10,21 +10,15 @@ import { ElemLang } from '../languages/interfaces/elem-lang.interface';
   template: `
     <div class="text-center mb-4">
       <h2 class="fw-bold" style="color: #2d8659">
-        {{ elemLang.titolo || 'I tuoi Elementi Miciomania' }}
+        {{ elemLang.titolo }}
       </h2>
       <p class="lead" style="color: #555">
-        {{
-          elemLang.descrizione1 ||
-            'Qui puoi vedere il tuo manga, la tua canzone e la tua proposta inviata. Se non hai nessuna proposta in sospeso, puoi inviarne una nuova.'
-        }}
+        {{ elemLang.descrizione1 }}
         <br />
-        {{
-          elemLang.descrizione2 ||
-            'Con una proposta puoi inviare il tuo manga o la tua canzone, se non ne hai già una associata al tuo profilo.'
-        }}
+        {{ elemLang.descrizione2 }}
       </p>
       <app-botton-custom
-        [text]="elemLang.btnTornaIndietro || 'Torna indietro'"
+        [text]="elemLang.btnTornaIndietro"
         [icon1]="'bi bi-arrow-left'"
         (clickBotton)="router.navigate(['/home'])"
       ></app-botton-custom>

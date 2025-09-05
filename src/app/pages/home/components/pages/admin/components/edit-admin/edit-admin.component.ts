@@ -36,7 +36,7 @@ import { AdminLang } from '../../languages/interfaces/admin-lang.interface';
             class="modal-header d-flex align-items-center justify-content-between border-bottom-0 pb-0"
           >
             <h5 class="modal-title mb-0">
-              {{ adminLang.modificaRuolo || 'Modifica Ruolo' }}
+              {{ adminLang.modifica }}
             </h5>
             <button
               type="button"
@@ -50,9 +50,7 @@ import { AdminLang } from '../../languages/interfaces/admin-lang.interface';
           <!-- Modal Body -->
           <div class="modal-body pt-0 mt-2">
             <div class="mb-3">
-              <label for="nome" class="form-label">{{
-                adminLang.nome || 'Nome'
-              }}</label>
+              <label for="nome" class="form-label">{{ adminLang.nome }}</label>
               <input
                 type="text"
                 id="nome"
@@ -63,7 +61,7 @@ import { AdminLang } from '../../languages/interfaces/admin-lang.interface';
             </div>
             <div class="mb-3">
               <label for="ruolo" class="form-label">{{
-                adminLang.ruolo || 'ruolo'
+                adminLang.ruolo
               }}</label>
               <select id="ruolo" class="form-select" [(ngModel)]="newRuolo">
                 @for (r of availableRoles; track $index) {
@@ -82,10 +80,10 @@ import { AdminLang } from '../../languages/interfaces/admin-lang.interface';
               class="btn btn-secondary"
               (click)="chiudiModale.emit()"
             >
-              {{ adminLang.annulla || 'Annulla' }}
+              {{ adminLang.annulla }}
             </button>
             <button type="button" class="btn btn-primary" (click)="onSave()">
-              {{ adminLang.salva || 'Salva' }}
+              {{ adminLang.salva }}
             </button>
           </div>
         </div>

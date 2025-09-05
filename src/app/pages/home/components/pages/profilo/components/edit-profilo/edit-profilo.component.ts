@@ -22,7 +22,7 @@ import { ProfiloLang } from '../../languages/interfaces/profilo-lang.interface';
             class="modal-header d-flex align-items-center justify-content-between border-bottom-0 pb-0"
           >
             <h5 class="modal-title mb-0">
-              {{ profiloLang.modificaProfilo || 'Modifica profilo' }}
+              {{ profiloLang.modificaProfilo }}
             </h5>
             <button
               type="button"

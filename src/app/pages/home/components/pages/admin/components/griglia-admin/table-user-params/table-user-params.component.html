@@ -21,18 +21,18 @@
                 state: { message: this.constructor.name }
               })
             "
-            [title]="adminLang.vediProfilo || 'Vedi Profilo'"
+            [title]="adminLang.vediProfilo"
           ></i>
           <i
             class="bi bi-pencil-square text-primary me-3"
             (click)="modificaRuoloFunction(user)"
-            [title]="adminLang.modifica || 'Modifica Ruolo'"
+            [title]="adminLang.modifica"
           ></i>
           @if (user.ruolo !== 'user') {
           <i
             class="bi bi-trash3 text-danger"
             (click)="deleteRuoloFunction(user)"
-            [title]="adminLang.elimina || 'Elimina' + ruolo"
+            [title]="adminLang.elimina + ruolo"
           ></i>
           }
         </td>
@@ -73,7 +73,7 @@
   </div>
   } } @else {
   <div>
-    <p>{{ adminLang.nessunUtente || "Nessun utente trovato" }}</p>
+    <p>{{ adminLang.nessunUtente }}</p>
   </div>
   }
 </div>

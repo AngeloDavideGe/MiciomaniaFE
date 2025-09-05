@@ -12,13 +12,13 @@ import { HomeLang } from '../../languages/interfaces/home-lang.interface';
       <li>
         <a class="dropdown-item" routerLink="/auth/iscrizione">
           <i class="bi bi-person-plus me-2"></i>
-          {{ homeLang.iscrizioneTeam || 'Iscrizione Team' }}
+          {{ homeLang.iscrizioneTeam }}
         </a>
       </li>
       <li>
         <a class="dropdown-item" routerLink="/home/squadre">
           <i class="bi bi-people-fill me-2"></i>
-          {{ homeLang.squadre || 'Squadre' }}
+          {{ homeLang.squadre }}
         </a>
       </li>
       <li>
@@ -30,21 +30,21 @@ import { HomeLang } from '../../languages/interfaces/home-lang.interface';
       <li class="pc-only">
         <a class="dropdown-item" (click)="cursore.emit()">
           <i class="bi bi-cursor me-2"></i>
-          {{ homeLang.cursore || 'Cursore' }}
+          {{ homeLang.cursore }}
         </a>
       </li>
       @if(user.id) {
       <li>
         <a class="dropdown-item" routerLink="/home/elementi-utente">
           <i class="bi bi-lightbulb-fill me-2"></i>
-          {{ homeLang.proposte || 'Proposte' }}
+          {{ homeLang.proposte }}
         </a>
       </li>
       } @else {
       <li>
         <span class="dropdown-item text-muted">
           <i class="bi bi-exclamation-circle me-2"></i>
-          {{ homeLang.accediPerElementi || 'Accedi per Proposte' }}
+          {{ homeLang.accediPerElementi }}
         </span>
       </li>
       }

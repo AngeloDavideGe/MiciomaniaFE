@@ -6,7 +6,6 @@ export const adminLang: AdminLang = {
   listaAdminUtenti: 'Admin and User List',
   visualizzaRuoli: 'View roles and associated users in real time',
   // Edit Admin
-  modificaRuolo: 'Edit Role',
   nome: 'Name',
   ruolo: 'Role',
   annulla: 'Cancel',
