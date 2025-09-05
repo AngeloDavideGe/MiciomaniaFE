@@ -48,7 +48,7 @@ export class HomeComponent implements OnInit {
 
     effect(() => {
       const lingua: Lingua = DataHttp.lingua();
-      const languageMap: Record<string, () => Promise<any>> = {
+      const languageMap: Record<Lingua, () => Promise<any>> = {
         it: () => import('./languages/constants/home-it.constant'),
         en: () => import('./languages/constants/home-en.constant'),
       };

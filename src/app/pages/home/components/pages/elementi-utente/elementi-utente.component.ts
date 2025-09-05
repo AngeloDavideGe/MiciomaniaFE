@@ -42,7 +42,7 @@ export class ElementiUtenteComponent implements OnInit {
 
   constructor() {
     const lingua: Lingua = DataHttp.lingua();
-    const languageMap: Record<string, () => Promise<any>> = {
+    const languageMap: Record<Lingua, () => Promise<any>> = {
       it: () => import('./languages/constants/elem-it.constant'),
       en: () => import('./languages/constants/elem-en.constant'),
     };

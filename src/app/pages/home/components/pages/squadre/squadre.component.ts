@@ -34,7 +34,7 @@ export class SquadreComponent implements OnInit {
 
   constructor() {
     const lingua: Lingua = DataHttp.lingua();
-    const languageMap: Record<string, () => Promise<any>> = {
+    const languageMap: Record<Lingua, () => Promise<any>> = {
       it: () => import('./languages/constants/squadre-it.constant'),
       en: () => import('./languages/constants/squadre-en.constant'),
     };

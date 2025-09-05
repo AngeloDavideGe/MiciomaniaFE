@@ -1,15 +1,20 @@
 import { effect, WritableSignal } from '@angular/core';
+import { Lingua } from '../interfaces/http.interface';
+import { DataHttp } from '../../core/api/http.data';
 
+// Confronta Oggetti
 export function compareObjectCustom(obj1: any, obj2: any): boolean {
   if (!obj1 || !obj2) return false;
   else return !Object.keys(obj1).some((key) => obj1[key] !== obj2[key]);
 }
 
+// Formatta Data
 export function formatDataCustom(date: Date): Date {
   date.setMilliseconds(0);
   return date;
 }
 
+// Debounce Custom
 export function debounceTimeoutCustom<T extends (...args: any[]) => void>(
   func: T
 ): Function {

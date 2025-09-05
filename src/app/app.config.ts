@@ -17,7 +17,7 @@ export const appConfig: ApplicationConfig = {
   ],
 };
 
-export const configUrl = require('./app.config.js');
+export const configUrl = require('../assets/data/app.config');
 
 export const headers = {
   Supabase1: new HttpHeaders({
