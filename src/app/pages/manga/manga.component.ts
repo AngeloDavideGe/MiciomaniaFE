@@ -31,7 +31,10 @@ import {
 } from './handlers/manga.handler';
 import { manga_imports } from './imports/manga.imports';
 import { PulsantiManga, TabsManga } from './interfaces/filtri.interface';
-import { MangaLang } from './languages/interfaces/manga-lang.interface';
+import {
+  MangaLang,
+  MangaLangType,
+} from './languages/interfaces/manga-lang.interface';
 import { MangaService } from './services/manga.service';
 
 @Component({
@@ -107,7 +110,7 @@ export class MangaComponent implements OnDestroy {
 
   private loadLanguage(): void {
     const lingua: Lingua = DataHttp.lingua();
-    const languageMap: Record<Lingua, () => Promise<any>> = {
+    const languageMap: Record<Lingua, () => Promise<MangaLangType>> = {
       it: () => import('./languages/constants/manga-it.constant'),
       en: () => import('./languages/constants/manga-en.constant'),
     };

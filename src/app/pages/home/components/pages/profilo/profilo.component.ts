@@ -18,7 +18,10 @@ import { EditableSocial, Tweet } from '../../../interfaces/profilo.interface';
 import { ProfiloService } from '../../../services/profilo.service';
 import { profilo_imports } from './imports/profilo.imports';
 import { modaleApertaType } from './types/profilo.type';
-import { ProfiloLang } from './languages/interfaces/profilo-lang.interface';
+import {
+  ProfiloLang,
+  ProfiloLangType,
+} from './languages/interfaces/profilo-lang.interface';
 
 @Component({
   selector: 'app-profilo',
@@ -60,7 +63,7 @@ export class ProfiloComponent implements OnDestroy {
 
   private setLinguage(): void {
     const lingua: Lingua = DataHttp.lingua();
-    const languageMap: Record<Lingua, () => Promise<any>> = {
+    const languageMap: Record<Lingua, () => Promise<ProfiloLangType>> = {
       it: () => import('./languages/constants/profilo-it.constant'),
       en: () => import('./languages/constants/profilo-en.constant'),
     };

@@ -1,3 +1,5 @@
+export type ProfiloLangType = { profiloLang: ProfiloLang };
+
 export interface ProfiloLang {
   tornaIndietro: string;
   // New Tweet

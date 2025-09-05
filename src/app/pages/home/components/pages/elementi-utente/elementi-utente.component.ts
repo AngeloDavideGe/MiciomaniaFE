@@ -12,7 +12,10 @@ import { ElementiUtenteUtilities } from '../../../../../shared/utilities/element
 import { elementi_utente_imports } from './imports/elementi-utente.imports';
 import { DataHttp } from '../../../../../core/api/http.data';
 import { Lingua } from '../../../../../shared/interfaces/http.interface';
-import { ElemLang } from './languages/interfaces/elem-lang.interface';
+import {
+  ElemLang,
+  ElemLangType,
+} from './languages/interfaces/elem-lang.interface';
 
 @Component({
   selector: 'app-elementi-utente',
@@ -42,7 +45,7 @@ export class ElementiUtenteComponent implements OnInit {
 
   constructor() {
     const lingua: Lingua = DataHttp.lingua();
-    const languageMap: Record<Lingua, () => Promise<any>> = {
+    const languageMap: Record<Lingua, () => Promise<ElemLangType>> = {
       it: () => import('./languages/constants/elem-it.constant'),
       en: () => import('./languages/constants/elem-en.constant'),
     };

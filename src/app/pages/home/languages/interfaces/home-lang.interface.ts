@@ -1,3 +1,5 @@
+export type HomeLangType = { homeLang: HomeLang };
+
 export interface HomeLang {
   // Navbar
   anonimo: string;

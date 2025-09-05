@@ -8,7 +8,10 @@ import { BottoniSquadreComponent } from './components/bottoni-squadre.component'
 import { ListaSquadreComponent } from './components/lista-squadre.component';
 import { chartOptions } from './options/squadre.option';
 import { Squadre } from '../../../interfaces/profilo.interface';
-import { SquadreLang } from './languages/interfaces/squadre-lang.interface';
+import {
+  SquadreLang,
+  SquadreLangType,
+} from './languages/interfaces/squadre-lang.interface';
 import { Lingua } from '../../../../../shared/interfaces/http.interface';
 import { DataHttp } from '../../../../../core/api/http.data';
 
@@ -34,7 +37,7 @@ export class SquadreComponent implements OnInit {
 
   constructor() {
     const lingua: Lingua = DataHttp.lingua();
-    const languageMap: Record<Lingua, () => Promise<any>> = {
+    const languageMap: Record<Lingua, () => Promise<SquadreLangType>> = {
       it: () => import('./languages/constants/squadre-it.constant'),
       en: () => import('./languages/constants/squadre-en.constant'),
     };

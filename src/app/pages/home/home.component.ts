@@ -12,7 +12,10 @@ import { ElementiUtenteUtilities } from '../../shared/utilities/elementiUtente.u
 import { converUserParams, getConfirmParams } from './functions/home.functions';
 import { home_imports } from './imports/home.imports';
 import { componenteApertoType } from './interfaces/profilo.interface';
-import { HomeLang } from './languages/interfaces/home-lang.interface';
+import {
+  HomeLang,
+  HomeLangType,
+} from './languages/interfaces/home-lang.interface';
 import { Lingua } from '../../shared/interfaces/http.interface';
 
 @Component({
@@ -48,7 +51,7 @@ export class HomeComponent implements OnInit {
 
     effect(() => {
       const lingua: Lingua = DataHttp.lingua();
-      const languageMap: Record<Lingua, () => Promise<any>> = {
+      const languageMap: Record<Lingua, () => Promise<HomeLangType>> = {
         it: () => import('./languages/constants/home-it.constant'),
         en: () => import('./languages/constants/home-en.constant'),
       };

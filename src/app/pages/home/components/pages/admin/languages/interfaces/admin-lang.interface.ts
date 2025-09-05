@@ -1,3 +1,5 @@
+export type AdminLangType = { adminLang: AdminLang };
+
 export interface AdminLang {
   // Header Admin
   tornaIndietro: string;

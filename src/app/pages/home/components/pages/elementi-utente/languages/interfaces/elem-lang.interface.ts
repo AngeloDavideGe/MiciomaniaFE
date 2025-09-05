@@ -1,3 +1,5 @@
+export type ElemLangType = { elemLang: ElemLang };
+
 export interface ElemLang {
   // Header Elementi
   titolo: string;

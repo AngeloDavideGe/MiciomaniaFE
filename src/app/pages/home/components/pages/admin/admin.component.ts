@@ -20,7 +20,10 @@ import { converUserParams } from '../../../functions/home.functions';
 import { AdminService } from '../../../services/admin.service';
 import { admin_imports } from './imports/admin.imports';
 import { CambioRuoloUtente } from './interfaces/admin.interface';
-import { AdminLang } from './languages/interfaces/admin-lang.interface';
+import {
+  AdminLang,
+  AdminLangType,
+} from './languages/interfaces/admin-lang.interface';
 import { Lingua } from '../../../../../shared/interfaces/http.interface';
 
 @Component({
@@ -45,7 +48,7 @@ export class AdminComponent implements OnInit {
 
   constructor() {
     const lingua: Lingua = DataHttp.lingua();
-    const languageMap: Record<Lingua, () => Promise<any>> = {
+    const languageMap: Record<Lingua, () => Promise<AdminLangType>> = {
       it: () => import('./languages/constants/admin-it.constant'),
       en: () => import('./languages/constants/admin-en.constant'),
     };
