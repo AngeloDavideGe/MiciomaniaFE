@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { MangaMiciomania } from '../../../../../../shared/interfaces/elementiUtente.interface';
+import { MmicioLang } from '../languages/interfaces/mmicio-lang.interface';
 
 @Component({
   selector: 'app-card-manga-miciomania',
@@ -61,7 +62,7 @@ import { MangaMiciomania } from '../../../../../../shared/interfaces/elementiUte
             style="font-weight: 600; border-radius: 30px"
           >
             <i class="bi bi-download me-2"></i>
-            Scarica Manga
+            {{ mmicioLang.scarica || 'Scarica Manga' }}
           </a>
         </div>
       </div>
@@ -69,6 +70,7 @@ import { MangaMiciomania } from '../../../../../../shared/interfaces/elementiUte
   `,
 })
 export class CardMangaMiciomaniaComponent {
+  @Input() mmicioLang!: MmicioLang;
   @Input() manga!: MangaMiciomania;
   @Output() downloadManga = new EventEmitter<void>();
 }

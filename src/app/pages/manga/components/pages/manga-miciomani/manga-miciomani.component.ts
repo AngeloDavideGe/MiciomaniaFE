@@ -9,6 +9,11 @@ import { PulsantiManga } from '../../../interfaces/filtri.interface';
 import { CardMangaMiciomaniaComponent } from './components/card-mangaMiciomania.component';
 import { ElementiUtenteService } from '../../../../../shared/services/api/elementiUtente.service';
 import { DataHttp } from '../../../../../core/api/http.data';
+import { Lingua } from '../../../../../shared/interfaces/http.interface';
+import {
+  MmicioLang,
+  MmicioLangType,
+} from './languages/interfaces/mmicio-lang.interface';
 
 @Component({
   selector: 'app-manga-miciomani',
@@ -23,6 +28,7 @@ export class MangaMiciomaniComponent implements OnInit {
 
   public mangaSongUtilities = new MangaSongUtilities();
   public mangaMiciomani: MangaMiciomania[] = DataHttp.mangaMiciomani;
+  public mmicioLang: MmicioLang = {} as MmicioLang;
   public pulsanti: PulsantiManga[] = [
     {
       click: () => this.router.navigate(['/manga']),
@@ -34,6 +40,15 @@ export class MangaMiciomaniComponent implements OnInit {
       icona: '',
     },
   ];
+
+  constructor() {
+    const lingua: Lingua = DataHttp.lingua();
+    const languageMap: Record<Lingua, () => Promise<MmicioLangType>> = {
+      it: () => import('./languages/constants/mmicio-it.constant'),
+      en: () => import('./languages/constants/mmicio-en.constant'),
+    };
+    languageMap[lingua]().then((m) => (this.mmicioLang = m.mmicioLang));
+  }
 
   ngOnInit(): void {
     if (!DataHttp.mangaMiciomaniLoaded || DataHttp.mangaMiciomani.length == 0) {

@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { keyofMangaUtente } from '../../../../interfaces/manga.interface';
+import { TuoiMangaLang } from '../languages/interfaces/tuoiManga-lang.interface';
 
 @Component({
   selector: 'app-tabs-tuoi-manga',
@@ -16,7 +17,7 @@ import { keyofMangaUtente } from '../../../../interfaces/manga.interface';
           (click)="filterMangaFunc.emit('preferiti')"
           [disabled]="selectedTab == 'preferiti'"
         >
-          ⭐ Preferiti
+          ⭐ {{ tuoiMangaLang.preferiti }}
         </button>
 
         <button
@@ -27,7 +28,7 @@ import { keyofMangaUtente } from '../../../../interfaces/manga.interface';
           (click)="filterMangaFunc.emit('letti')"
           [disabled]="selectedTab == 'letti'"
         >
-          📖 Leggendo
+          📖 {{ tuoiMangaLang.leggendo }}
         </button>
 
         <button
@@ -38,7 +39,7 @@ import { keyofMangaUtente } from '../../../../interfaces/manga.interface';
           (click)="filterMangaFunc.emit('completati')"
           [disabled]="selectedTab == 'completati'"
         >
-          ✅ Completati
+          ✅ {{ tuoiMangaLang.completati }}
         </button>
       </div>
     </div>
@@ -55,6 +56,7 @@ import { keyofMangaUtente } from '../../../../interfaces/manga.interface';
   ],
 })
 export class TabsTuoiMangaComponent {
+  @Input() tuoiMangaLang!: TuoiMangaLang;
   @Input() selectedTab!: keyofMangaUtente;
   @Output() filterMangaFunc = new EventEmitter<keyofMangaUtente>();
 }

@@ -11,6 +11,7 @@ import { Router } from '@angular/router';
 import { DataHttp } from '../../../../../core/api/http.data';
 import { effectTimeoutCustom } from '../../../../../shared/functions/utilities.function';
 import {
+  Lingua,
   ListaManga,
   MangaUtente,
 } from '../../../../../shared/interfaces/http.interface';
@@ -29,6 +30,10 @@ import {
 } from '../../../interfaces/manga.interface';
 import { MangaService } from '../../../services/manga.service';
 import { tuoi_manga_imports } from './imports/tuoi-manga.import';
+import {
+  TuoiMangaLang,
+  TuoiMangaLangType,
+} from './languages/interfaces/tuoiManga-lang.interface';
 
 @Component({
   selector: 'app-tuoi-manga',
@@ -46,6 +51,7 @@ export class TuoiMangaComponent implements OnInit, OnDestroy {
   private checkSplitManga: SplitMangaUtente = voidSplitManga();
   public searchQuery = signal<string>('');
   private debouncedSearchQuery = signal<string>('');
+  public tuoiMangaLang: TuoiMangaLang = {} as TuoiMangaLang;
   public allMangaSearch: Signal<ListaManga[]> = computed(() =>
     this.computedallMangaSearch()
   );
@@ -67,6 +73,8 @@ export class TuoiMangaComponent implements OnInit, OnDestroy {
   ];
 
   constructor() {
+    this.loadLanguage();
+
     effectTimeoutCustom<string>(this.searchQuery, (value: string) =>
       this.debouncedSearchQuery.set(value)
     );
@@ -94,6 +102,15 @@ export class TuoiMangaComponent implements OnInit, OnDestroy {
         .join(', '),
     } as MangaUtente;
     DataHttp.mangaUtente = mangaUtente;
+  }
+
+  private loadLanguage(): void {
+    const lingua: Lingua = DataHttp.lingua();
+    const languageMap: Record<Lingua, () => Promise<TuoiMangaLangType>> = {
+      it: () => import('./languages/constants/tuoimanga-it.constant'),
+      en: () => import('./languages/constants/tuoimanga-en.constant'),
+    };
+    languageMap[lingua]().then((m) => (this.tuoiMangaLang = m.tuoiMangaLang));
   }
 
   private computedallMangaSearch(): ListaManga[] {

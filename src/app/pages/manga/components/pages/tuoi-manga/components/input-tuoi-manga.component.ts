@@ -9,6 +9,7 @@ import {
 import { keyofMangaUtente } from '../../../../interfaces/manga.interface';
 import { FormsModule } from '@angular/forms';
 import { ListaManga } from '../../../../../../shared/interfaces/http.interface';
+import { TuoiMangaLang } from '../languages/interfaces/tuoiManga-lang.interface';
 
 @Component({
   selector: 'app-input-tuoi-manga',
@@ -22,7 +23,7 @@ import { ListaManga } from '../../../../../../shared/interfaces/http.interface';
       <input
         type="text"
         class="form-control w-100 w-sm-75 w-md-50"
-        [placeholder]="'Aggiungi manga a ' + selectedTab"
+        [placeholder]="tuoiMangaLang.aggiungiManga + ' ' + selectedTab"
         [(ngModel)]="searchQuery"
         style="
       border-radius: 20px;
@@ -100,6 +101,7 @@ import { ListaManga } from '../../../../../../shared/interfaces/http.interface';
   ],
 })
 export class InputTuoiMangaComponent {
+  @Input() tuoiMangaLang!: TuoiMangaLang;
   @Input() allMangaSearch!: Signal<ListaManga[]>;
   @Input() searchQuery!: WritableSignal<string>;
   @Input() selectedTab!: keyofMangaUtente;
