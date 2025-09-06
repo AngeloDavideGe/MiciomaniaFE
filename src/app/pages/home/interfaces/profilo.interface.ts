@@ -10,8 +10,19 @@ export interface EditableSocial {
   link: string;
 }
 
+export interface Classifica {
+  squadre: Squadre[];
+  topUser: TopUser[];
+}
+
 export interface Squadre {
   id: string;
+  punteggio: number;
+}
+
+export interface TopUser {
+  id: string;
+  nome: string;
   punteggio: number;
 }
 

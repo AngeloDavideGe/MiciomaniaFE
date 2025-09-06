@@ -34,10 +34,8 @@ export class VolumiMangaComponent implements OnInit {
   private loadingService = inject(LoadingService);
 
   public volumiOpera: MangaVolume[] = [];
-  public operaCompletata: boolean = false;
   public volumiCaricati: boolean = false;
   public tornaIndietroPath: string = '';
-  public pathOpera: string = '';
   public nomeOpera: string = '';
   public volumiLang: VolumiLang = {} as VolumiLang;
 
@@ -77,28 +75,27 @@ export class VolumiMangaComponent implements OnInit {
 
   private sottoscrizioneRouterParams(): void {
     this.route.params.pipe(take(1)).subscribe((params) => {
-      this.pathOpera = params['nome'];
-      this.loadVolumiENome();
+      this.loadVolumiENome(params['nome']);
     });
   }
 
-  private loadVolumiENome(): void {
-    if (DataHttp.mangaAperti[this.pathOpera]) {
-      this.loadNoHttp();
+  private loadVolumiENome(path: string): void {
+    if (DataHttp.mangaAperti[path]) {
+      this.loadNoHttp(path);
     } else {
       loadMangaVolumiENome({
-        pathOpera: this.pathOpera,
+        pathOpera: path,
         loadingFunction: () => this.loadingService.show(),
         loadVolumiFunc: (pathOpera) =>
           this.mangaService.getNomeEVolumiMangaByPath(pathOpera),
-        finalizeFunction: () => this.completeLoading(),
+        finalizeFunction: () => this.completeLoading(path),
         nextCallback: (data) => this.handleNomeEVolumiSuccess(data),
       });
     }
   }
 
-  private loadNoHttp(): void {
-    const mangaAperto: MangaAperto = DataHttp.mangaAperti[this.pathOpera];
+  private loadNoHttp(path: string): void {
+    const mangaAperto: MangaAperto = DataHttp.mangaAperti[path];
     const volumi: MangaVolume[] = mangaAperto.volumi;
     const info_manga: InfoManga = {
       nome: mangaAperto.nome,
@@ -106,17 +103,17 @@ export class VolumiMangaComponent implements OnInit {
     };
 
     this.handleNomeEVolumiSuccess({
-      info_manga: info_manga,
-      volumi: volumi,
+      info_manga,
+      volumi,
     } as MangaENome);
 
     this.volumiCaricati = true;
   }
 
-  private completeLoading(): void {
+  private completeLoading(path: string): void {
     this.volumiCaricati = true;
     this.loadingService.hide();
-    DataHttp.mangaAperti[this.pathOpera] = {
+    DataHttp.mangaAperti[path] = {
       nome: this.nomeOpera,
       volumi: this.volumiOpera,
     };
@@ -124,7 +121,6 @@ export class VolumiMangaComponent implements OnInit {
 
   private handleNomeEVolumiSuccess(opera: MangaENome): void {
     this.nomeOpera = opera.info_manga.nome;
-    this.operaCompletata = opera.info_manga.completato;
     this.volumiOpera = opera.volumi;
   }
 

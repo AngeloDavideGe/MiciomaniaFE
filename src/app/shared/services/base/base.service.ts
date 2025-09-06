@@ -25,17 +25,11 @@ export abstract class BaseService {
     }
   }
 
-  protected getCustom<T>(url: string, params?: HttpParams): Observable<T[]> {
-    if (params) {
-      return this.http.get<T[]>(`${this.baseUrl}${url}`, {
-        headers: this.headers,
-        params: params,
-      });
-    } else {
-      return this.http.get<T[]>(`${this.baseUrl}${url}`, {
-        headers: this.headers,
-      });
-    }
+  protected getCustom<T>(url: string, params: HttpParams): Observable<T[]> {
+    return this.http.get<T[]>(`${this.baseUrl}${url}`, {
+      headers: this.headers,
+      params: params,
+    });
   }
 
   protected postCustom<T>(url: string, body: any): Observable<T> {

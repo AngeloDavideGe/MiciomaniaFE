@@ -68,7 +68,7 @@ export class SquadreComponent implements OnInit {
     data.addColumn('string', 'Squadra');
     data.addColumn('number', 'Punteggio');
 
-    this.squadreService.squadre.forEach((s: Squadre) =>
+    this.squadreService.classifica.squadre.forEach((s: Squadre) =>
       data.addRow([s.id, s.punteggio])
     );
 

@@ -19,7 +19,7 @@ import { SquadraGioco, SquadreGiocatore } from './interfaces/games.interfaces';
 import { DeckCardService } from './services/deck-card.service';
 import { DataHttp } from '../../core/api/http.data';
 import { SquadreService } from '../../shared/services/api/squadre.service';
-import { Squadre } from '../home/interfaces/profilo.interface';
+import { Squadre, TopUser } from '../home/interfaces/profilo.interface';
 
 @Component({
   selector: 'app-games',
@@ -96,7 +96,7 @@ export class GamesComponent implements OnInit, OnDestroy {
     if (user) {
       environment.team.forEach((nomeTeam: string) => {
         const punteggioFind: number | undefined =
-          this.squadreService.squadre.find(
+          this.squadreService.classifica.squadre.find(
             (squadra: Squadre) => squadra.id == nomeTeam
           )?.punteggio;
 
@@ -120,7 +120,7 @@ export class GamesComponent implements OnInit, OnDestroy {
     if (user) {
       this.squadre.personale.forEach((squadra: SquadraGioco) => {
         const punteggioFind: number | undefined =
-          this.squadreService.squadre.find(
+          this.squadreService.classifica.squadre.find(
             (squadraFind: Squadre) => squadraFind.id == squadra.nome
           )?.punteggio;
         squadra.punteggio = punteggioFind || 'non disponibile';
@@ -128,7 +128,7 @@ export class GamesComponent implements OnInit, OnDestroy {
 
       this.squadre.avversario.forEach((squadra: SquadraGioco) => {
         const punteggioFind: number | undefined =
-          this.squadreService.squadre.find(
+          this.squadreService.classifica.squadre.find(
             (squadraFind: Squadre) => squadraFind.id == squadra.nome
           )?.punteggio;
         squadra.punteggio = punteggioFind || 'non disponibile';
@@ -160,11 +160,21 @@ export class GamesComponent implements OnInit, OnDestroy {
     if (user && user.iscrizione && user.iscrizione.punteggio) {
       user.iscrizione.punteggio += punteggio;
       DataHttp.user.set(user);
+
+      const indexTopUser: number =
+        this.squadreService.classifica.topUser.findIndex(
+          (x: TopUser) => x.id == user.id
+        );
+
+      if (indexTopUser > -1) {
+        this.squadreService.classifica.topUser[indexTopUser].punteggio +=
+          punteggio;
+      }
     }
 
     const idSet = new Set<string>(squadre.map((id) => id.toLowerCase()));
 
-    for (const squadra of this.squadreService.squadre) {
+    for (const squadra of this.squadreService.classifica.squadre) {
       if (idSet.has(squadra.id.toLowerCase())) {
         squadra.punteggio += punteggio;
       }

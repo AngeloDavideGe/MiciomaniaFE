@@ -1,7 +1,7 @@
 import { take } from 'rxjs';
 import { DataHttp } from '../../core/api/http.data';
+import { Classifica } from '../../pages/home/interfaces/profilo.interface';
 import { SquadreService } from '../services/api/squadre.service';
-import { Squadre } from '../../pages/home/interfaces/profilo.interface';
 
 export function updatePunteggioSquadra(params: {
   squadreService: SquadreService;
@@ -28,14 +28,14 @@ export function loadSquadre(params: {
   elseCall: Function;
   nextCall: Function;
 }): void {
-  if (params.squadreService.squadre.length == 0) {
+  if (params.squadreService.classifica.squadre.length == 0) {
     params.ifCall();
     params.squadreService
-      .getSquadre()
+      .getClassifica()
       .pipe(take(1))
       .subscribe({
-        next: (data: Squadre[]) => {
-          params.squadreService.squadre = data;
+        next: (data: Classifica) => {
+          params.squadreService.classifica = data;
           params.nextCall();
         },
         error: (err) => console.error('errore nel recupero squadre', err),

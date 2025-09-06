@@ -1,20 +1,27 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Squadre } from '../../../pages/home/interfaces/profilo.interface';
+import {
+  Classifica,
+  Squadre,
+  TopUser,
+} from '../../../pages/home/interfaces/profilo.interface';
 import { BaseService } from '../base/base.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class SquadreService extends BaseService {
-  public squadre: Squadre[] = [];
+  public classifica: Classifica = {
+    squadre: [] as Squadre[],
+    topUser: [] as TopUser[],
+  } as Classifica;
 
   constructor() {
     super('DB1');
   }
 
-  getSquadre(): Observable<Squadre[]> {
-    return this.getCustom<Squadre>('squadre');
+  getClassifica(): Observable<Classifica> {
+    return this.postCustom<Classifica>('rpc/get_classifica', {});
   }
 
   updatePunteggioSquadra(
