@@ -1,12 +1,13 @@
 import { environment } from '../../../../../../../environments/environment';
 import { Squadre, TopUser } from '../../../../interfaces/profilo.interface';
+import { chartOptionsSquadre } from '../options/squadre.option';
 import { chartOptionsUtenti } from '../options/utenti.option';
 
 declare var google: any;
 
 const mapSquad: Record<string, string> = environment.team.reduce(
   (acc, team, index) => {
-    acc[team] = ['red', 'blue', 'yellow', 'green'][index];
+    acc[team] = environment.colori[index];
     return acc;
   },
   {} as Record<string, string>
@@ -27,7 +28,7 @@ export function renderBarChart(topUser: TopUser[], idChart: string): void {
   if (!chartContainer) return;
 
   const chart = new google.visualization.BarChart(chartContainer);
-  chart.draw(data, chartOptionsUtenti);
+  chart.draw(data, chartOptionsUtenti());
 }
 
 export function renderPieChart(squadre: Squadre[], idChart: string): void {
@@ -47,10 +48,5 @@ export function renderPieChart(squadre: Squadre[], idChart: string): void {
   );
 
   const chart = new google.visualization.PieChart(chartContainer);
-  chart.draw(data, {
-    title: 'Punteggi squadre',
-    pieHole: 0.4,
-    legend: { position: 'bottom' },
-    colors: colors,
-  });
+  chart.draw(data, chartOptionsSquadre(colors));
 }

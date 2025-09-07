@@ -10,5 +10,6 @@ export const environment = {
   headerSupabase1: headers.Supabase1,
   headerSupabase2: headers.Supabase2,
   headerBEMiciomania: headers.BEMiciomania,
-  team: ['Alcamo', 'Miciomania'],
+  team: ['Calandra Hunters', 'Sirius Slayer', 'Bau Boys Carlotta'],
+  colori: ['Red', 'Blue', 'Green'],
 };
