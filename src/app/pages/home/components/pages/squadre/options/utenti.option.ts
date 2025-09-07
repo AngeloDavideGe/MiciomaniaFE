@@ -1,5 +1,5 @@
-export const chartOptions = {
-  title: 'Punteggi Squadre',
+export const chartOptionsUtenti = {
+  title: 'Punteggi Utenti',
   titleTextStyle: {
     fontSize: 32,
     bold: true,

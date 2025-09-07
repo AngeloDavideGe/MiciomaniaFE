@@ -22,7 +22,7 @@ export interface Squadre {
 
 export interface TopUser {
   id: string;
-  nome: string;
+  team: string;
   punteggio: number;
 }
 

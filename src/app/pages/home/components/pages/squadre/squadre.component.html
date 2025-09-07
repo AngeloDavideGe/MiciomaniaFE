@@ -4,20 +4,12 @@
   <app-lista-squadre [squadreLang]="squadreLang"></app-lista-squadre>
 
   <!-- Google Chart -->
-  <div class="row mb-3">
-    <div
-      id="chart_div"
-      style="
-        width: 100%;
-        height: 30rem;
-        border: 1px solid #e0e0e0;
-        border-radius: 12px;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-        background: white;
-        padding: 15px;
-      "
-    ></div>
-  </div>
+  @if (squadreService.classifica.squadre.length > 0) {
+  <app-chart-custom
+    [topUser]="squadreService.classifica.topUser"
+    [squadre]="squadreService.classifica.squadre"
+  ></app-chart-custom>
+  }
 
   <!-- Bottoni -->
   <app-bottoni-squadre
@@ -25,14 +17,8 @@
   ></app-bottoni-squadre>
 </div>
 } @else {
-<div
-  id="chart_div_print"
-  style="
-    width: 65rem;
-    height: 30rem;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-    background: white;
-    padding: 15px;
-  "
-></div>
+<app-chart-print
+  [topUser]="squadreService.classifica.topUser"
+  [squadre]="squadreService.classifica.squadre"
+></app-chart-print>
 }
