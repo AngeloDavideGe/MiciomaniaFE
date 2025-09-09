@@ -2,27 +2,18 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '../../../../environments/environment';
+import { AppConfigService } from '../../../core/api/appConfig.service';
 
 export abstract class BaseService {
   private http = inject(HttpClient);
+  public appConfig = inject(AppConfigService);
+
   private baseUrl: string = '';
   private headers: HttpHeaders = {} as HttpHeaders;
 
   constructor(db: 'DB1' | 'DB2' | 'BE') {
-    switch (db) {
-      case 'DB1':
-        this.baseUrl = environment.urlDB1;
-        this.headers = environment.headerSupabase1;
-        break;
-      case 'DB2':
-        this.baseUrl = environment.urlDB2;
-        this.headers = environment.headerSupabase2;
-        break;
-      case 'BE':
-        this.baseUrl = environment.urlBE;
-        this.headers = environment.headerBEMiciomania;
-        break;
-    }
+    this.baseUrl = environment.urlDB1;
+    this.headers = getHeader(this.appConfig.config[db].KEY);
   }
 
   protected getCustom<T>(url: string, params: HttpParams): Observable<T[]> {
@@ -48,4 +39,12 @@ export abstract class BaseService {
       params: params,
     });
   }
+}
+
+function getHeader(key: string): HttpHeaders {
+  return new HttpHeaders({
+    apikey: key,
+    Authorization: `Bearer ${key}`,
+    'Content-Type': 'application/json',
+  });
 }

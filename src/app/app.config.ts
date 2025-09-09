@@ -1,11 +1,17 @@
-import { HttpHeaders, provideHttpClient } from '@angular/common/http';
-import { ApplicationConfig } from '@angular/core';
+import { provideHttpClient } from '@angular/common/http';
+import {
+  ApplicationConfig,
+  inject,
+  provideAppInitializer,
+} from '@angular/core';
 import { provideRouter, withInMemoryScrolling } from '@angular/router';
 import { createClient } from '@supabase/supabase-js';
 import { routes } from './app.routes';
+import { AppConfigService } from './core/api/appConfig.service';
 
 export const appConfig: ApplicationConfig = {
   providers: [
+    provideHttpClient(),
     provideRouter(
       routes,
       withInMemoryScrolling({
@@ -13,30 +19,14 @@ export const appConfig: ApplicationConfig = {
         anchorScrolling: 'enabled',
       })
     ),
-    provideHttpClient(),
+    provideAppInitializer(() => {
+      const configService = inject(AppConfigService);
+      return configService.loadConfig();
+    }),
   ],
 };
 
 export const configUrl = require('../assets/data/app.config');
-
-export const headers = {
-  Supabase1: new HttpHeaders({
-    apikey: configUrl.ANONKEY_SUPABASE1,
-    Authorization: `Bearer ${configUrl.ANONKEY_SUPABASE1}`,
-    'Content-Type': 'application/json',
-  }),
-
-  Supabase2: new HttpHeaders({
-    apikey: configUrl.ANONKEY_SUPABASE2,
-    Authorization: `Bearer ${configUrl.ANONKEY_SUPABASE2}`,
-    'Content-Type': 'application/json',
-  }),
-
-  BEMiciomania: new HttpHeaders({
-    apikey: configUrl.APIKEY_BE_MICIOMANIA,
-    Authorization: `Bearer ${configUrl.APIKEY_BE_MICIOMANIA}`,
-  }),
-};
 
 export const supabase = {
   client1: createClient(configUrl.URL_SUPABASE1, configUrl.ANONKEY_SUPABASE1, {
