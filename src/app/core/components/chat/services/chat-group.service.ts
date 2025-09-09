@@ -1,7 +1,7 @@
 import { Injectable, signal } from '@angular/core';
 import { from, Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
-import { environment } from '../../../../../environments/environment';
+import { supabase } from '../../../../app.config';
 
 @Injectable({
   providedIn: 'root',
@@ -18,7 +18,7 @@ export class ChatGroupService {
 
   loadMessages(chatId: string): Observable<any[]> {
     return from(
-      environment.supabaseClient2
+      supabase.client2
         .from('messaggi')
         .select('*')
         .eq('chat_id', chatId)
@@ -45,7 +45,7 @@ export class ChatGroupService {
     dateTime: Date
   ): Observable<{ data: any; error: any }> {
     return from(
-      environment.supabaseClient2.from('messaggi').insert([
+      supabase.client2.from('messaggi').insert([
         {
           chat_id: chatId,
           sender,
@@ -63,7 +63,7 @@ export class ChatGroupService {
   }
 
   private listenForMessages() {
-    environment.supabaseClient2
+    supabase.client2
       .channel('messaggi')
       .on(
         'postgres_changes',

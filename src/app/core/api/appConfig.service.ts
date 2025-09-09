@@ -1,9 +1,9 @@
-import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { inject, Injectable } from '@angular/core';
 import { firstValueFrom } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root', // il servizio è disponibile globalmente
+  providedIn: 'root',
 })
 export class AppConfigService {
   private http = inject(HttpClient);

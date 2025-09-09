@@ -1,34 +1,27 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { inject, Injectable } from '@angular/core';
+import { HttpHeaders } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
-import { environment } from '../../../../../../../environments/environment';
+import { BaseService } from '../../../../../../shared/services/base/base.service';
 import { DropboxResponse } from '../interfaces/dropbox.interface';
 import {
   createHeaders,
   readFileAsArrayBuffer,
 } from '../utilities/dropbox.utilities';
-import { AppConfigService } from '../../../../../../core/api/appConfig.service';
 
 @Injectable({
   providedIn: 'root',
 })
-export class DropboxService {
-  private appConfig = inject(AppConfigService);
+export class DropboxService extends BaseService {
   public dropboxResponse: DropboxResponse = {} as DropboxResponse;
   private readonly UPLOAD_URL = 'https://content.dropboxapi.com/2/files/upload';
 
-  constructor(private http: HttpClient) {}
+  constructor() {
+    super('BE');
+  }
 
   getDropboxToken(): Observable<DropboxResponse> {
-    const url = `${environment.urlBE}dropbox/get_access_token`;
-    const header = new HttpHeaders({
-      apikey: this.appConfig.config.BE.key,
-      Authorization: `Bearer ${this.appConfig.config.BE.key}`,
-    });
-    return this.http.get<DropboxResponse>(url, {
-      headers: header,
-    });
+    return this.getCustomBE<DropboxResponse>('dropbox/get_access_token');
   }
 
   uploadFile(
