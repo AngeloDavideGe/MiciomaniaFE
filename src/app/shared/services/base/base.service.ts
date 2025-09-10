@@ -6,20 +6,26 @@ import { AppConfigService } from '../../../core/api/appConfig.service';
 
 export abstract class BaseService {
   protected http = inject(HttpClient);
-  public appConfig = inject(AppConfigService);
+  protected appConfig = inject(AppConfigService);
 
   private baseUrl: string = '';
   private headers: HttpHeaders = {} as HttpHeaders;
 
   constructor(db: 'DB1' | 'DB2' | 'BE') {
-    this.baseUrl = environment[db];
+    this.baseUrl = `${environment[db]}rest/v1/`;
     this.headers = getHeader(this.appConfig.config[db].KEY);
   }
 
-  protected getCustom<T>(url: string, params: HttpParams): Observable<T[]> {
+  protected getAllCustom<T>(url: string, params: HttpParams): Observable<T[]> {
     return this.http.get<T[]>(`${this.baseUrl}${url}`, {
       headers: this.headers,
       params: params,
+    });
+  }
+
+  protected getCustomBe<T>(url: string): Observable<T> {
+    return this.http.get<T>(`${this.baseUrl}${url}`, {
+      headers: this.headers,
     });
   }
 
@@ -37,12 +43,6 @@ export abstract class BaseService {
     return this.http.patch<T>(`${this.baseUrl}${url}`, body, {
       headers: this.headers,
       params: params,
-    });
-  }
-
-  protected getCustomBE<T>(url: string): Observable<T> {
-    return this.http.get<T>(`${this.baseUrl}${url}`, {
-      headers: this.headers,
     });
   }
 }

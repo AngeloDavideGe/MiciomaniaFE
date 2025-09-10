@@ -15,7 +15,7 @@ export class AuthService extends BaseService {
   getAllUsersHttp(): Observable<UserParams[]> {
     const params = new HttpParams().set('select', 'id,nome,profilePic,ruolo');
 
-    return this.getCustom<UserParams>('utenti', params);
+    return this.getAllCustom<UserParams>('utenti', params);
   }
 
   getUserByEmailAndPassword(
@@ -26,7 +26,7 @@ export class AuthService extends BaseService {
       .set('email', `eq.${email}`)
       .set('password', `eq.${password}`);
 
-    return this.getCustom<User>('utenti', params);
+    return this.getAllCustom<User>('utenti', params);
   }
 
   postUser(

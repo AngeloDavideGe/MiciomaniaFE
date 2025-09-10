@@ -3,7 +3,6 @@ import { catchError, from, Observable, of, switchMap, throwError } from 'rxjs';
 import { Profilo } from '../../../shared/interfaces/http.interface';
 import { BaseService } from '../../../shared/services/base/base.service';
 import { Tweet } from '../interfaces/profilo.interface';
-import { supabase } from '../../../app.config';
 
 @Injectable({
   providedIn: 'root',
@@ -37,7 +36,7 @@ export class ProfiloService extends BaseService {
     const filePath = `${fileName}`;
 
     return from(
-      supabase.client1.storage.from('avatar').upload(filePath, file, {
+      this.appConfig.client.c1.storage.from('avatar').upload(filePath, file, {
         upsert: true,
         contentType: file.type,
       })
@@ -53,7 +52,7 @@ export class ProfiloService extends BaseService {
   private getLinkPic(error: any, filePath: string): Observable<string> {
     if (error) return throwError(() => error);
 
-    const { data: publicData } = supabase.client1.storage
+    const { data: publicData } = this.appConfig.client.c1.storage
       .from('avatar')
       .getPublicUrl(filePath);
 

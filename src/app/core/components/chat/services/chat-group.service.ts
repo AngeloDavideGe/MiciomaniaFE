@@ -1,12 +1,14 @@
-import { Injectable, signal } from '@angular/core';
+import { inject, Injectable, signal } from '@angular/core';
 import { from, Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
-import { supabase } from '../../../../app.config';
+import { AppConfigService } from '../../../api/appConfig.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ChatGroupService {
+  private appConfig = inject(AppConfigService);
+
   public messaggiCaricatiBool: boolean = false;
   public messages = signal<any[]>([]);
   public chatVisibile = signal<boolean>(true);
@@ -17,8 +19,9 @@ export class ChatGroupService {
   }
 
   loadMessages(chatId: string): Observable<any[]> {
+    console.log(this.appConfig.client.c2);
     return from(
-      supabase.client2
+      this.appConfig.client.c2
         .from('messaggi')
         .select('*')
         .eq('chat_id', chatId)
@@ -45,7 +48,7 @@ export class ChatGroupService {
     dateTime: Date
   ): Observable<{ data: any; error: any }> {
     return from(
-      supabase.client2.from('messaggi').insert([
+      this.appConfig.client.c2.from('messaggi').insert([
         {
           chat_id: chatId,
           sender,
@@ -63,7 +66,7 @@ export class ChatGroupService {
   }
 
   private listenForMessages() {
-    supabase.client2
+    this.appConfig.client.c2
       .channel('messaggi')
       .on(
         'postgres_changes',

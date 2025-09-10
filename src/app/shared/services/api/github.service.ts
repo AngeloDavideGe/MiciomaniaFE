@@ -21,7 +21,7 @@ export class GitHubService {
 
     const fetchPromise: Promise<GitHubType> = fetch(jsonUrl, {
       cache: 'no-store',
-    }).then((response) => {
+    }).then((response: Response) => {
       if (response.ok) {
         return response.json();
       } else {

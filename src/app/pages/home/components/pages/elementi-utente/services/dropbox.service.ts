@@ -14,14 +14,15 @@ import {
 })
 export class DropboxService extends BaseService {
   public dropboxResponse: DropboxResponse = {} as DropboxResponse;
-  private readonly UPLOAD_URL = 'https://content.dropboxapi.com/2/files/upload';
+  private readonly UPLOAD_URL: string =
+    'https://content.dropboxapi.com/2/files/upload';
 
   constructor() {
     super('BE');
   }
 
   getDropboxToken(): Observable<DropboxResponse> {
-    return this.getCustomBE<DropboxResponse>('dropbox/get_access_token');
+    return this.getCustomBe<DropboxResponse>('dropbox/get_access_token');
   }
 
   uploadFile(
@@ -29,9 +30,9 @@ export class DropboxService extends BaseService {
     folderPath: string = '',
     userId: string
   ): Observable<any> {
-    const normalizedPath = `/${folderPath}/${userId}/${file.name}`;
+    const normalizedPath: string = `/${folderPath}/${userId}/${file.name}`;
 
-    const headers = createHeaders(
+    const headers: HttpHeaders = createHeaders(
       normalizedPath,
       this.dropboxResponse.access_token
     );
@@ -47,7 +48,7 @@ export class DropboxService extends BaseService {
   }
 
   private createSharedLink(path: string): Observable<string> {
-    const url =
+    const url: string =
       'https://api.dropboxapi.com/2/sharing/create_shared_link_with_settings';
 
     const headers = new HttpHeaders({
