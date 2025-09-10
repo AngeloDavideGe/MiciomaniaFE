@@ -14,7 +14,7 @@ declare var google: any;
       <div id="chart_bar" class="charts-class"></div>
     </div>
 
-    <div id="Charts" class="row mb-3">
+    <div id="Charts" class="row">
       <div id="chart_pie" class="charts-class"></div>
     </div>
   `,
@@ -24,10 +24,10 @@ declare var google: any;
         .charts-class {
           width: 100%;
           height: 30rem;
-          border: 1px solid #e0e0e0;
+          border: 1px solid #695555ff;
           border-radius: 12px;
           box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-          background: white;
+          background: #eaeaea;
           padding: 15px;
         }
       }

@@ -9,21 +9,23 @@ declare var google: any;
   standalone: true,
   imports: [],
   template: `
-    <div id="chart_bar_print" class="chart-print-container bar-chart"></div>
+    <div id="ChartsPrint" class="row mb-3">
+      <div id="chart_bar_print" class="charts-class"></div>
+    </div>
 
-    <div id="chart_pie_print" class="chart-print-container"></div>
+    <div id="ChartsPrint" class="row">
+      <div id="chart_pie_print" class="charts-class"></div>
+    </div>
   `,
   styles: [
     `
-      .chart-print-container {
-        width: 65rem;
-        height: 30rem;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-        background: white;
-        padding: 15px;
-
-        &.bar-chart {
-          margin-bottom: 2rem;
+      #ChartsPrint {
+        .charts-class {
+          width: 80rem;
+          height: 50rem;
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+          background: white;
+          padding: 15px;
         }
       }
     `,
