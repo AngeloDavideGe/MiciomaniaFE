@@ -10,25 +10,18 @@ declare var google: any;
   standalone: true,
   imports: [],
   template: `
-    <div class="row mb-3">
-      <div
-        id="chart_bar"
-        style="
-          width: 100%;
-          height: 30rem;
-          border: 1px solid #e0e0e0;
-          border-radius: 12px;
-          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-          background: white;
-          padding: 15px;
-        "
-      ></div>
+    <div id="Charts" class="row mb-3">
+      <div id="chart_bar" class="charts-class"></div>
     </div>
 
-    <div class="row mb-3">
-      <div
-        id="chart_pie"
-        style="
+    <div id="Charts" class="row mb-3">
+      <div id="chart_pie" class="charts-class"></div>
+    </div>
+  `,
+  styles: [
+    `
+      #Charts {
+        .charts-class {
           width: 100%;
           height: 30rem;
           border: 1px solid #e0e0e0;
@@ -36,10 +29,10 @@ declare var google: any;
           box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
           background: white;
           padding: 15px;
-        "
-      ></div>
-    </div>
-  `,
+        }
+      }
+    `,
+  ],
 })
 export class ChartsComponent implements OnInit {
   @Input() topUser!: TopUser[];

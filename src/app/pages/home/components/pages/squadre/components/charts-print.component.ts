@@ -9,29 +9,25 @@ declare var google: any;
   standalone: true,
   imports: [],
   template: `
-    <div
-      id="chart_bar_print"
-      style="
-        width: 65rem;
-        height: 30rem;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-        background: white;
-        padding: 15px;
-        margin-bottom: 2rem;
-      "
-    ></div>
+    <div id="chart_bar_print" class="chart-print-container bar-chart"></div>
 
-    <div
-      id="chart_pie_print"
-      style="
+    <div id="chart_pie_print" class="chart-print-container"></div>
+  `,
+  styles: [
+    `
+      .chart-print-container {
         width: 65rem;
         height: 30rem;
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
         background: white;
         padding: 15px;
-      "
-    ></div>
-  `,
+
+        &.bar-chart {
+          margin-bottom: 2rem;
+        }
+      }
+    `,
+  ],
 })
 export class ChartsPrintComponent implements OnInit {
   @Input() topUser!: TopUser[];

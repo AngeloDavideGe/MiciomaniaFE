@@ -5,10 +5,7 @@ import { loadSquadre } from '../../../../../shared/handlers/squadre.handler';
 import { Lingua } from '../../../../../shared/interfaces/http.interface';
 import { SquadreService } from '../../../../../shared/services/api/squadre.service';
 import { LoadingService } from '../../../../../shared/services/template/loading.service';
-import { BottoniSquadreComponent } from './components/bottoni-squadre.component';
-import { ChartsPrintComponent } from './components/charts-print.component';
-import { ChartsComponent } from './components/charts.component';
-import { ListaSquadreComponent } from './components/lista-squadre.component';
+import { squadreimports } from './imports/squadre.import';
 import {
   SquadreLang,
   SquadreLangType,
@@ -17,12 +14,7 @@ import {
 @Component({
   selector: 'app-squadre',
   standalone: true,
-  imports: [
-    ListaSquadreComponent,
-    BottoniSquadreComponent,
-    ChartsComponent,
-    ChartsPrintComponent,
-  ],
+  imports: squadreimports,
   templateUrl: './squadre.component.html',
 })
 export class SquadreComponent implements OnInit {
