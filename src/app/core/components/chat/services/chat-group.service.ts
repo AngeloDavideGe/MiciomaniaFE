@@ -19,7 +19,6 @@ export class ChatGroupService {
   }
 
   loadMessages(chatId: string): Observable<any[]> {
-    console.log(this.appConfig.client.c2);
     return from(
       this.appConfig.client.c2
         .from('messaggi')

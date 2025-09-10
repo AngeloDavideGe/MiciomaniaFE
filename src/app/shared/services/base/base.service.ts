@@ -12,7 +12,7 @@ export abstract class BaseService {
   private headers: HttpHeaders = {} as HttpHeaders;
 
   constructor(db: 'DB1' | 'DB2' | 'BE') {
-    this.baseUrl = `${environment[db]}rest/v1/`;
+    this.baseUrl = environment[db];
     this.headers = getHeader(this.appConfig.config[db].KEY);
   }
 

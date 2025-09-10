@@ -21,8 +21,9 @@ export interface IClient {
 }
 
 export function getClient(config: IAppConfig): IClient {
+  const rr: Function = (s: string) => s.slice(0, -9);
   return {
-    c1: createClient(environment.DB1, config.DB1.KEY, {
+    c1: createClient(rr(environment.DB1), config.DB1.KEY, {
       auth: {
         storageKey: config.DB1.STORAGE_KEY,
         detectSessionInUrl: false,
@@ -32,7 +33,7 @@ export function getClient(config: IAppConfig): IClient {
       },
     }),
 
-    c2: createClient(environment.DB2, config.DB2.KEY, {
+    c2: createClient(rr(environment.DB2), config.DB2.KEY, {
       auth: {
         storageKey: config.DB2.STORAGE_KEY,
         detectSessionInUrl: false,
