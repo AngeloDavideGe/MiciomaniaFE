@@ -1,4 +1,4 @@
-<div class="chat-container">
+<div class="chat-container" (click)="dropdownAperta().messaggioAperto = 0">
   <div
     class="chat-header d-flex align-items-center justify-content-between p-3"
   >
@@ -15,6 +15,8 @@
     @for (message of messages(); track message.id) {
     <app-messaggio
       [messageComp]="getIMessaggioComponent(message)"
+      [dropdownAperta]="dropdownAperta()"
+      (openDropdown)="changeDropdown($event)"
     ></app-messaggio>
     }
   </div>

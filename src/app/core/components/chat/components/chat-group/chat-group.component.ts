@@ -11,6 +11,7 @@ import {
   Signal,
   signal,
   ViewChild,
+  WritableSignal,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { take } from 'rxjs';
@@ -22,12 +23,16 @@ import {
   mapUserMessage,
 } from '../../functions/user-map.function';
 import {
+  DropDownAperta,
+  DropDownMessaggi,
   IMessaggioComponent,
   Messaggio,
+  OutputDropdown,
   UserReduced,
 } from '../../interfaces/chat-group.interface';
 import { ChatGroupService } from '../../services/chat-group.service';
-import { MessaggioComponent } from '../messaggio.component';
+import { MessaggioComponent } from '../messaggio/messaggio.component';
+import { getDropDown } from '../../functions/messaggi.function';
 
 @Component({
   selector: 'app-chat-group',
@@ -46,6 +51,10 @@ export class ChatGroupComponent implements OnInit, AfterViewChecked {
   public spinner = signal<boolean>(false);
   public user: User | null = null;
   public messagesIdMap: Record<number, Messaggio> = {};
+  public dropdownAperta: WritableSignal<DropDownAperta> = signal({
+    dropdown: [] as DropDownMessaggi[],
+    messaggioAperto: 0,
+  });
   public userMessageMap: Signal<Record<string, UserReduced>> = computed(() =>
     mapUserMessage()
   );
@@ -181,5 +190,12 @@ export class ChatGroupComponent implements OnInit, AfterViewChecked {
       replyText: risposta.text,
       class2: userVar.class2,
     } as IMessaggioComponent;
+  }
+
+  changeDropdown(event: OutputDropdown): void {
+    this.dropdownAperta.set({
+      dropdown: getDropDown(this.user?.id == event.idUser),
+      messaggioAperto: event.idMessaggio,
+    } as DropDownAperta);
   }
 }

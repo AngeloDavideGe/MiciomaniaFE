@@ -20,3 +20,19 @@ export interface IMessaggioComponent {
   urlPic: string;
   class2: 'sent' | 'received';
 }
+
+export interface DropDownAperta {
+  dropdown: DropDownMessaggi[];
+  messaggioAperto: number;
+}
+
+export interface DropDownMessaggi {
+  titolo: string;
+  click: Function;
+  cond: boolean;
+}
+
+export interface OutputDropdown {
+  idMessaggio: number;
+  idUser: string;
+}
