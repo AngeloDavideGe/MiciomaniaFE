@@ -14,18 +14,19 @@ import {
   ViewChild,
 } from '@angular/core';
 import { take } from 'rxjs';
-import { formatDataCustom } from '../../../../shared/functions/utilities.function';
-import { User } from '../../../../shared/interfaces/users.interface';
-import { Messaggio, UserReduced } from './../interfaces/chat-group.interface';
-import { ChatGroupService } from './../services/chat-group.service';
+import { formatDataCustom } from '../../../../../shared/functions/utilities.function';
+import { User } from '../../../../../shared/interfaces/users.interface';
+import { Messaggio, UserReduced } from '../../interfaces/chat-group.interface';
+import { ChatGroupService } from '../../services/chat-group.service';
 import { FormsModule } from '@angular/forms';
-import { mapUserMessage } from '../functions/user-map.function';
-import { DataHttp } from '../../../api/http.data';
+import { mapUserMessage } from '../../functions/user-map.function';
+import { DataHttp } from '../../../../api/http.data';
+import { MessaggioComponent } from '../messaggio.component';
 
 @Component({
   selector: 'app-chat-group',
   standalone: true,
-  imports: [FormsModule, DatePipe],
+  imports: [FormsModule, MessaggioComponent],
   templateUrl: './chat-group.component.html',
   styleUrl: './chat-group.component.scss',
 })

@@ -2,6 +2,7 @@ import { inject, Injectable, signal } from '@angular/core';
 import { from, Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { AppConfigService } from '../../../api/appConfig.service';
+import { Messaggio } from '../interfaces/chat-group.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -10,7 +11,7 @@ export class ChatGroupService {
   private appConfig = inject(AppConfigService);
 
   public messaggiCaricatiBool: boolean = false;
-  public messages = signal<any[]>([]);
+  public messages = signal<Messaggio[]>([]);
   public chatVisibile = signal<boolean>(true);
   private readonly maxMessages = 10;
 
@@ -18,7 +19,7 @@ export class ChatGroupService {
     this.listenForMessages();
   }
 
-  loadMessages(chatId: string): Observable<any[]> {
+  loadMessages(chatId: string): Observable<Messaggio[]> {
     return from(
       this.appConfig.client.c2
         .from('messaggi')
@@ -70,7 +71,7 @@ export class ChatGroupService {
       .on(
         'postgres_changes',
         { event: 'INSERT', schema: 'public', table: 'messaggi' },
-        (payload) => {
+        (payload: any) => {
           const currentMessages = this.messages();
           currentMessages.push(payload.new);
 

@@ -1,5 +1,5 @@
 import { Component, inject, signal } from '@angular/core';
-import { ChatGroupComponent } from './chat-group/chat-group.component';
+import { ChatGroupComponent } from './components/chat-group/chat-group.component';
 import { ChatGroupService } from './services/chat-group.service';
 
 @Component({

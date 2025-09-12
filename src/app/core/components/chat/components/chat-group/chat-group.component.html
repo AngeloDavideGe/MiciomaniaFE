@@ -1,0 +1,77 @@
+<div class="chat-container">
+  <div
+    class="chat-header d-flex align-items-center justify-content-between p-3"
+  >
+    <i class="bi bi-arrow-left fs-3" (click)="chiudiChat.emit()"></i>
+    <h2 class="text-center flex-grow-1">Miciomania Chat</h2>
+  </div>
+
+  @if (!spinner()) {
+  <div
+    #chatMessages
+    class="chat-messages"
+    style="overflow-y: auto; height: 500px"
+  >
+    @for (message of messages(); track message.id) {
+    <!-- Messaggi Inviati -->
+    @if (message.sender == idUtente) {
+    <app-messaggio
+      [message]="message"
+      [name]="
+        (user?.credenziali?.nome || 'N.B') + ' (' + (user?.id || 'N.B') + ')'
+      "
+      [urlPic]="
+        user?.credenziali?.profilePic ||
+        'https://png.pngtree.com/png-vector/20191009/ourlarge/pngtree-user-icon-png-image_1796659.jpg'
+      "
+      [class2]="'sent'"
+    ></app-messaggio>
+    }
+    <!-- Messaggi Ricevuti -->
+    @else {
+    <app-messaggio
+      [message]="message"
+      [name]="
+        userMessageMap()[message.sender].nome + ' (' + message.sender + ')' ||
+        'N.B.'
+      "
+      [urlPic]="
+        userMessageMap()[message.sender].pic ||
+        'https://png.pngtree.com/png-vector/20191009/ourlarge/pngtree-user-icon-png-image_1796659.jpg'
+      "
+      [class2]="'received'"
+    >
+    </app-messaggio>
+    } }
+  </div>
+
+  } @else {
+  <div class="chat-messages">
+    <div
+      class="spinner-border text-dark rounded-circle me-3"
+      role="status"
+      style="
+        width: 50px;
+        height: 50px;
+        margin-top: 10rem;
+        margin-left: 10rem;
+        margin-bottom: 10rem;
+      "
+    >
+      <span class="visually-hidden">Loading...</span>
+    </div>
+  </div>
+  }
+
+  <div class="chat-input">
+    <input
+      [(ngModel)]="newMessage"
+      [placeholder]="
+        idUtente ? 'Scrivi un messaggio' : 'Effettua login per scrivere'
+      "
+      (keyup.enter)="sendMessage()"
+      [disabled]="!idUtente || spinner()"
+    />
+    <button (click)="sendMessage()">Invia</button>
+  </div>
+</div>

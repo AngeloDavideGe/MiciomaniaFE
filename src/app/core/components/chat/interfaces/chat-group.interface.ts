@@ -4,6 +4,7 @@ export interface Messaggio {
   sender: string;
   content: string;
   created_at: string;
+  response: number | null;
 }
 
 export interface UserReduced {
