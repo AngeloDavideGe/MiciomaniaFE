@@ -1,5 +1,12 @@
 import { DataHttp } from '../../../api/http.data';
-import { UserReduced } from '../interfaces/chat-group.interface';
+import { Messaggio, UserReduced } from '../interfaces/chat-group.interface';
+
+export function mapMessageId(messages: Messaggio[]): Record<number, Messaggio> {
+  return messages.reduce((map, message) => {
+    map[message.id] = message;
+    return map;
+  }, {} as Record<number, Messaggio>);
+}
 
 export function mapUserMessage(): Record<string, UserReduced> {
   return DataHttp.users().reduce((map, utente) => {

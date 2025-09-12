@@ -1,4 +1,3 @@
-import { DatePipe } from '@angular/common';
 import {
   AfterViewChecked,
   Component,
@@ -13,14 +12,21 @@ import {
   signal,
   ViewChild,
 } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { take } from 'rxjs';
 import { formatDataCustom } from '../../../../../shared/functions/utilities.function';
 import { User } from '../../../../../shared/interfaces/users.interface';
-import { Messaggio, UserReduced } from '../../interfaces/chat-group.interface';
-import { ChatGroupService } from '../../services/chat-group.service';
-import { FormsModule } from '@angular/forms';
-import { mapUserMessage } from '../../functions/user-map.function';
 import { DataHttp } from '../../../../api/http.data';
+import {
+  mapMessageId,
+  mapUserMessage,
+} from '../../functions/user-map.function';
+import {
+  IMessaggioComponent,
+  Messaggio,
+  UserReduced,
+} from '../../interfaces/chat-group.interface';
+import { ChatGroupService } from '../../services/chat-group.service';
 import { MessaggioComponent } from '../messaggio.component';
 
 @Component({
@@ -39,22 +45,25 @@ export class ChatGroupComponent implements OnInit, AfterViewChecked {
   private initialLoad: boolean = true;
   public spinner = signal<boolean>(false);
   public user: User | null = null;
-  public messages: Signal<Messaggio[]> = computed(() =>
-    this.chatService.messages()
-  );
+  public messagesIdMap: Record<number, Messaggio> = {};
   public userMessageMap: Signal<Record<string, UserReduced>> = computed(() =>
     mapUserMessage()
   );
+  public messages: Signal<Messaggio[]> = computed(() => {
+    const messaggi: Messaggio[] = this.chatService.messages();
+    this.messagesIdMap = mapMessageId(messaggi);
+    return messaggi;
+  });
 
   @Output() chiudiChat = new EventEmitter<void>();
   @ViewChild('chatMessages') chatMessagesContainer!: ElementRef;
 
   constructor() {
-    this.changeUserSubscription();
+    this.changeUserEffect();
   }
 
   ngOnInit(): void {
-    this.inizializeChat();
+    this.loadMessaggi();
   }
 
   ngAfterViewChecked(): void {
@@ -66,13 +75,7 @@ export class ChatGroupComponent implements OnInit, AfterViewChecked {
     }
   }
 
-  private inizializeChat(): void {
-    this.user = DataHttp.user();
-    this.idUtente = this.user ? this.user.id : '';
-    this.loadMessaggi();
-  }
-
-  private changeUserSubscription(): void {
+  private changeUserEffect(): void {
     effect(() => {
       const user: User | null = DataHttp.user();
       this.user = user;
@@ -126,5 +129,57 @@ export class ChatGroupComponent implements OnInit, AfterViewChecked {
           error: (err) => console.error('errore load message', err),
         });
     }
+  }
+
+  getIMessaggioComponent(messaggio: Messaggio): IMessaggioComponent {
+    let userVar: { name: string; urlPic: string; class2: 'sent' | 'received' };
+    let risposta: { sender: string; text: string };
+
+    if (messaggio.sender == this.idUtente) {
+      userVar = {
+        name:
+          (this.user?.credenziali?.nome || 'N.B') +
+          ' (' +
+          (this.user?.id || 'N.B') +
+          ')',
+        urlPic:
+          this.user?.credenziali?.profilePic ||
+          'https://png.pngtree.com/png-vector/20191009/ourlarge/pngtree-user-icon-png-image_1796659.jpg',
+        class2: 'sent',
+      };
+    } else {
+      userVar = {
+        name:
+          this.userMessageMap()[messaggio.sender].nome +
+            ' (' +
+            messaggio.sender +
+            ')' || 'N.B',
+        urlPic:
+          this.userMessageMap()[messaggio.sender].pic ||
+          'https://png.pngtree.com/png-vector/20191009/ourlarge/pngtree-user-icon-png-image_1796659.jpg',
+        class2: 'received',
+      };
+    }
+
+    if (messaggio.response) {
+      risposta = {
+        sender: this.messagesIdMap[messaggio.response].sender,
+        text: this.messagesIdMap[messaggio.response].content,
+      };
+    } else {
+      risposta = {
+        sender: '',
+        text: '',
+      };
+    }
+
+    return {
+      message: messaggio,
+      name: userVar.name,
+      urlPic: userVar.urlPic,
+      replySender: risposta.sender,
+      replyText: risposta.text,
+      class2: userVar.class2,
+    } as IMessaggioComponent;
   }
 }

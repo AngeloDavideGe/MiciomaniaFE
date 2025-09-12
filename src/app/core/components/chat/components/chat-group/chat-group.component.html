@@ -13,36 +13,10 @@
     style="overflow-y: auto; height: 500px"
   >
     @for (message of messages(); track message.id) {
-    <!-- Messaggi Inviati -->
-    @if (message.sender == idUtente) {
     <app-messaggio
-      [message]="message"
-      [name]="
-        (user?.credenziali?.nome || 'N.B') + ' (' + (user?.id || 'N.B') + ')'
-      "
-      [urlPic]="
-        user?.credenziali?.profilePic ||
-        'https://png.pngtree.com/png-vector/20191009/ourlarge/pngtree-user-icon-png-image_1796659.jpg'
-      "
-      [class2]="'sent'"
+      [messageComp]="getIMessaggioComponent(message)"
     ></app-messaggio>
     }
-    <!-- Messaggi Ricevuti -->
-    @else {
-    <app-messaggio
-      [message]="message"
-      [name]="
-        userMessageMap()[message.sender].nome + ' (' + message.sender + ')' ||
-        'N.B.'
-      "
-      [urlPic]="
-        userMessageMap()[message.sender].pic ||
-        'https://png.pngtree.com/png-vector/20191009/ourlarge/pngtree-user-icon-png-image_1796659.jpg'
-      "
-      [class2]="'received'"
-    >
-    </app-messaggio>
-    } }
   </div>
 
   } @else {

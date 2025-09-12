@@ -11,3 +11,12 @@ export interface UserReduced {
   nome: string;
   pic: string;
 }
+
+export interface IMessaggioComponent {
+  message: Messaggio;
+  name: string;
+  replySender: string;
+  replyText: string;
+  urlPic: string;
+  class2: 'sent' | 'received';
+}

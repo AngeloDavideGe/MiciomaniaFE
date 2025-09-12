@@ -1,33 +1,32 @@
-import { Component, Input } from '@angular/core';
-import { Messaggio } from '../interfaces/chat-group.interface';
 import { DatePipe } from '@angular/common';
+import { Component, Input } from '@angular/core';
+import { IMessaggioComponent } from '../interfaces/chat-group.interface';
 
 @Component({
   selector: 'app-messaggio',
   standalone: true,
   imports: [DatePipe],
   template: `
-    <div [class]="class2 + '-messages'"></div>
-    <div class="message" [class]="class2">
-      <img [src]="urlPic" class="profile-pic" />
+    <div class="message" [class]="messageComp.class2">
+      <img [src]="messageComp.urlPic" class="profile-pic" />
 
       <div class="message-content">
         <div class="message-sender">
-          {{ name }}
+          {{ messageComp.name }}
         </div>
 
-        @if (message.response) {
+        @if (messageComp.message.response) {
         <div id="MessaggioRisposta">
-          <div class="reply-sender">ciaoo</div>
-          <div class="reply-text">oleee</div>
+          <div class="reply-sender">{{ messageComp.replySender }}</div>
+          <div class="reply-text">{{ messageComp.replyText }}</div>
         </div>
         }
 
         <!-- MESSAGGIO INVIATO -->
         <div id="MessaggioInviato">
-          <div class="message-text">{{ message.content }}</div>
+          <div class="message-text">{{ messageComp.message.content }}</div>
           <div class="message-timestamp">
-            {{ message.created_at | date : 'HH:mm - dd/MM/yyyy' }}
+            {{ messageComp.message.created_at | date : 'HH:mm - dd/MM/yyyy' }}
           </div>
         </div>
       </div>
@@ -116,8 +115,5 @@ import { DatePipe } from '@angular/common';
   ],
 })
 export class MessaggioComponent {
-  @Input() message!: Messaggio;
-  @Input() name!: string;
-  @Input() urlPic!: string;
-  @Input() class2!: 'sent' | 'received';
+  @Input() messageComp!: IMessaggioComponent;
 }
