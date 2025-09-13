@@ -45,9 +45,9 @@
       [placeholder]="
         idUtente ? 'Scrivi un messaggio' : 'Effettua login per scrivere'
       "
-      (keyup.enter)="sendMessage()"
+      (keyup.enter)="sendMessaggio()"
       [disabled]="!idUtente || spinner()"
     />
-    <button (click)="sendMessage()">Invia</button>
+    <button (click)="sendMessaggio()">Invia</button>
   </div>
 </div>
