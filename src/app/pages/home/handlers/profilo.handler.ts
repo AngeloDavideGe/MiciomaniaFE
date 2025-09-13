@@ -16,7 +16,7 @@ export function getProfiloById(params: {
     .getProfiloById(params.userId)
     .pipe(
       take(1),
-      map((data) => mapToProfilo(data) as Profilo)
+      map((data: Profilo) => mapToProfilo(data) as Profilo)
     )
     .subscribe({
       next: (data) => {

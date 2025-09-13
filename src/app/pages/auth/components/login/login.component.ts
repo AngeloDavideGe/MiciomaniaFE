@@ -68,7 +68,7 @@ export class LoginComponent {
   private login(email: string, password: string): Observable<boolean> {
     return this.authService.getUserByEmailAndPassword(email, password).pipe(
       take(1),
-      map((data) => {
+      map((data: User[]) => {
         if (data.length === 1) {
           const user: User = mapUserByDb(data[0]);
           DataHttp.users.update((users) =>

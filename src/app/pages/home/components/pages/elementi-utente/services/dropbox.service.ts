@@ -38,7 +38,7 @@ export class DropboxService extends BaseService {
     );
 
     return readFileAsArrayBuffer(file).pipe(
-      switchMap((fileContent) => {
+      switchMap((fileContent: ArrayBuffer) => {
         return this.http.post(this.UPLOAD_URL, fileContent, { headers });
       }),
       switchMap(() => {

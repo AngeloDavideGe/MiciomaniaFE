@@ -92,13 +92,13 @@ export class TuoiMangaComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     const mangaUtente: MangaUtente = {
       preferiti: this.sezioneListaManga()
-        .preferiti.map((x) => x.id)
+        .preferiti.map((x: ListaManga) => x.id)
         .join(', '),
       letti: this.sezioneListaManga()
-        .letti.map((x) => x.id)
+        .letti.map((x: ListaManga) => x.id)
         .join(', '),
       completati: this.sezioneListaManga()
-        .completati.map((x) => x.id)
+        .completati.map((x: ListaManga) => x.id)
         .join(', '),
     } as MangaUtente;
     DataHttp.mangaUtente = mangaUtente;
@@ -180,7 +180,7 @@ export class TuoiMangaComponent implements OnInit, OnDestroy {
   aggiungiMangaTab(idManga: number) {
     if (
       !this.sezioneListaManga()
-        [this.selectedTab].map((x) => x.id)
+        [this.selectedTab].map((x: ListaManga) => x.id)
         .includes(idManga)
     ) {
       const mangaTrovato: ListaManga | undefined = DataHttp.listaManga().find(

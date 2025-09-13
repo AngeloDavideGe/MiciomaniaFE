@@ -143,7 +143,7 @@ export class GamesComponent implements OnInit, OnDestroy {
     if (user && punteggio != 0) {
       $event ? $event.preventDefault() : null;
       const squadre: string[] = this.squadre.personale.map(
-        (squadra) => squadra.nome
+        (squadra: SquadraGioco) => squadra.nome
       );
       updatePunteggioSquadra({
         squadreService: this.squadreService,
@@ -172,7 +172,9 @@ export class GamesComponent implements OnInit, OnDestroy {
       }
     }
 
-    const idSet = new Set<string>(squadre.map((id) => id.toLowerCase()));
+    const idSet = new Set<string>(
+      squadre.map((id: string) => id.toLowerCase())
+    );
 
     for (const squadra of this.squadreService.classifica.squadre) {
       if (idSet.has(squadra.id.toLowerCase())) {
