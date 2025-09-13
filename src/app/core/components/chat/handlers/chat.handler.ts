@@ -33,7 +33,6 @@ export function sendMessage(params: {
   ifCond: boolean;
   nextCall: Function;
   newMessage: string;
-  completeCall: Function;
 }): void {
   if (params.ifCond) {
     params.chatService
@@ -47,6 +46,5 @@ export function sendMessage(params: {
       .subscribe({
         next: () => params.nextCall(),
       });
-    params.completeCall();
   }
 }

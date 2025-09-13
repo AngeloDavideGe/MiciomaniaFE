@@ -13,7 +13,6 @@ import {
   ViewChild,
   WritableSignal,
 } from '@angular/core';
-import { FormsModule } from '@angular/forms';
 import { User } from '../../../../../shared/interfaces/users.interface';
 import { DataHttp } from '../../../../api/http.data';
 import { getDropDown } from '../../functions/messaggi.function';
@@ -32,11 +31,12 @@ import {
 } from '../../interfaces/chat-group.interface';
 import { ChatGroupService } from '../../services/chat-group.service';
 import { MessaggioComponent } from '../messaggio/messaggio.component';
+import { ChatInputComponent } from '../chat-input/chat-input.component';
 
 @Component({
   selector: 'app-chat-group',
   standalone: true,
-  imports: [FormsModule, MessaggioComponent],
+  imports: [MessaggioComponent, ChatInputComponent],
   templateUrl: './chat-group.component.html',
   styleUrl: './chat-group.component.scss',
 })
@@ -44,7 +44,6 @@ export class ChatGroupComponent implements OnInit, AfterViewChecked {
   private chatService = inject(ChatGroupService);
 
   public idUtente: string = '';
-  public newMessage: string = '';
   private evitaSpam: boolean = true;
   private initialLoad: boolean = true;
   public spinner = signal<boolean>(false);
@@ -105,13 +104,12 @@ export class ChatGroupComponent implements OnInit, AfterViewChecked {
     }
   }
 
-  sendMessaggio() {
+  sendMessaggio(newMessaggio: string) {
     sendMessage({
       chatService: this.chatService,
-      ifCond: this.newMessage.trim() != ' ' && this.evitaSpam,
+      ifCond: this.evitaSpam,
       nextCall: () => this.evitaSpamFunc(),
-      newMessage: this.newMessage,
-      completeCall: () => (this.newMessage = ''),
+      newMessage: newMessaggio,
     });
   }
 
