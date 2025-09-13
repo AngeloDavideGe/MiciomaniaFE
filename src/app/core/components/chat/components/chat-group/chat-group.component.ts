@@ -27,6 +27,7 @@ import {
   IMessaggioComponent,
   Messaggio,
   OutputDropdown,
+  RispostaInput,
   UserReduced,
 } from '../../interfaces/chat-group.interface';
 import { ChatGroupService } from '../../services/chat-group.service';
@@ -46,8 +47,9 @@ export class ChatGroupComponent implements OnInit, AfterViewChecked {
   public idUtente: string = '';
   private evitaSpam: boolean = true;
   private initialLoad: boolean = true;
-  public spinner = signal<boolean>(false);
   public user: User | null = null;
+  public spinner = signal<boolean>(false);
+  public risposta = signal<RispostaInput | null>(null);
   public messagesIdMap: Record<number, Messaggio> = {};
   public dropdownAperta: WritableSignal<DropDownAperta> = signal({
     dropdown: [] as DropDownMessaggi[],
@@ -110,7 +112,9 @@ export class ChatGroupComponent implements OnInit, AfterViewChecked {
       ifCond: this.evitaSpam,
       nextCall: () => this.evitaSpamFunc(),
       newMessage: newMessaggio,
+      risposta: this.risposta()?.idMessaggio || null,
     });
+    this.risposta.set(null);
   }
 
   private evitaSpamFunc(): void {
@@ -171,10 +175,19 @@ export class ChatGroupComponent implements OnInit, AfterViewChecked {
     } as IMessaggioComponent;
   }
 
-  changeDropdown(event: OutputDropdown): void {
+  changeDropdown(event: OutputDropdown, messaggio: Messaggio): void {
+    const risposta: RispostaInput = {
+      idMessaggio: messaggio.id,
+      idUser: messaggio.sender,
+      content: messaggio.content,
+    };
+
     this.dropdownAperta.set({
-      dropdown: getDropDown(this.user?.id == event.idUser),
       messaggioAperto: event.idMessaggio,
+      dropdown: getDropDown({
+        cond: this.user?.id == event.idUser,
+        rispondiFunc: () => this.risposta.set(risposta),
+      }),
     } as DropDownAperta);
   }
 }

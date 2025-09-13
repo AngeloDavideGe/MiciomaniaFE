@@ -1,16 +1,19 @@
 import { DropDownMessaggi } from '../interfaces/chat-group.interface';
 
-export function getDropDown(cond: boolean): DropDownMessaggi[] {
+export function getDropDown(params: {
+  cond: boolean;
+  rispondiFunc: Function;
+}): DropDownMessaggi[] {
   const dropdown: DropDownMessaggi[] = [
     {
       titolo: 'Rispondi',
-      click: () => console.log('Rispondi'),
+      click: () => params.rispondiFunc(),
       cond: true,
     },
     {
       titolo: 'Elimina',
       click: () => console.log('ELimina'),
-      cond: cond,
+      cond: params.cond,
     },
   ];
 

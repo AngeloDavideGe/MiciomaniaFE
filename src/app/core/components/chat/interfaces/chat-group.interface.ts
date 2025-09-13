@@ -15,6 +15,12 @@ export interface MessaggioSend {
   response: number | null;
 }
 
+export interface RispostaInput {
+  idMessaggio: number;
+  idUser: string;
+  content: string;
+}
+
 export interface UserReduced {
   nome: string;
   pic: string;
@@ -30,8 +36,8 @@ export interface IMessaggioComponent {
 }
 
 export interface DropDownAperta {
-  dropdown: DropDownMessaggi[];
   messaggioAperto: number;
+  dropdown: DropDownMessaggi[];
 }
 
 export interface DropDownMessaggi {

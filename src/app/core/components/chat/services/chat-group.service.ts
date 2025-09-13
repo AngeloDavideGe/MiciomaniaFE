@@ -33,7 +33,8 @@ export class ChatGroupService {
     chatId: string,
     sender: string,
     text: string,
-    dateTime: Date
+    dateTime: Date,
+    risposta: number | null
   ): Observable<any> {
     const message: MessaggioSend[] = [
       {
@@ -41,7 +42,7 @@ export class ChatGroupService {
         sender,
         content: text,
         created_at: dateTime.toISOString(),
-        response: null,
+        response: risposta,
       },
     ];
 

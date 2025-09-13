@@ -16,7 +16,7 @@
     <app-messaggio
       [messageComp]="getIMessaggioComponent(message)"
       [dropdownAperta]="dropdownAperta()"
-      (openDropdown)="changeDropdown($event)"
+      (openDropdown)="changeDropdown($event, message)"
     ></app-messaggio>
     }
   </div>
@@ -32,6 +32,8 @@
   <app-chat-input
     [idUtente]="idUtente"
     [spinner]="spinner()"
+    [risposta]="risposta()"
     (sendMessaggio)="sendMessaggio($event)"
+    (closeRisposta)="risposta.set(null)"
   ></app-chat-input>
 </div>

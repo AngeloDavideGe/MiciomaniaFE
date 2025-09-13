@@ -33,6 +33,7 @@ export function sendMessage(params: {
   ifCond: boolean;
   nextCall: Function;
   newMessage: string;
+  risposta: number | null;
 }): void {
   if (params.ifCond) {
     params.chatService
@@ -40,7 +41,8 @@ export function sendMessage(params: {
         '550e8400-e29b-41d4-a716-446655440000',
         DataHttp.user()!.id,
         params.newMessage,
-        formatDataCustom(new Date())
+        formatDataCustom(new Date()),
+        params.risposta
       )
       .pipe(take(1))
       .subscribe({
