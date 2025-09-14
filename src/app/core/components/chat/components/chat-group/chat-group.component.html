@@ -10,7 +10,7 @@
   <div #chatMessages class="chat-messages">
     @for (message of messages(); track message.id) {
     <app-messaggio
-      [messageComp]="getIMessaggioComponent(message)"
+      [messageComp]="messaggioComp[$index]"
       [dropdownAperta]="dropdownAperta()"
       (openDropdown)="changeDropdown($event, message)"
     ></app-messaggio>

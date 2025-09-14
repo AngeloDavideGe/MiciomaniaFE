@@ -6,7 +6,6 @@ import {
   ElementRef,
   EventEmitter,
   inject,
-  OnDestroy,
   OnInit,
   Output,
   Signal,
@@ -16,10 +15,7 @@ import {
 import { User } from '../../../../../shared/interfaces/users.interface';
 import { DataHttp } from '../../../../api/http.data';
 import { getDropDown } from '../../functions/messaggi.function';
-import {
-  mapMessageId,
-  mapUserMessage,
-} from '../../functions/user-map.function';
+import { mapUserMessage } from '../../functions/user-map.function';
 import { loadMessages, sendMessage } from '../../handlers/chat.handler';
 import {
   DropDownAperta,
@@ -32,6 +28,7 @@ import {
 import { ChatGroupService } from '../../services/chat-group.service';
 import { ChatInputComponent } from '../chat-input/chat-input.component';
 import { MessaggioComponent } from '../messaggio/messaggio.component';
+import { environment } from '../../../../../../environments/environment';
 
 @Component({
   selector: 'app-chat-group',
@@ -46,18 +43,14 @@ export class ChatGroupComponent implements OnInit, AfterViewChecked {
   private evitaSpam: boolean = true;
   private initialLoad: boolean = true;
   public user: User | null = null;
-  public messagesIdMap: Record<number, Messaggio> = {};
+  public messaggioComp: IMessaggioComponent[] = [];
   public spinner = signal<boolean>(false);
   public risposta = signal<RispostaInput | null>(null);
   public dropdownAperta = signal<DropDownAperta | null>(null);
   public userMessageMap: Signal<Record<string, UserReduced>> = computed(() =>
     mapUserMessage()
   );
-  public messages: Signal<Messaggio[]> = computed(() => {
-    const messaggi: Messaggio[] = this.chatService.messages();
-    this.messagesIdMap = mapMessageId(messaggi);
-    return messaggi;
-  });
+  public messages: Signal<Messaggio[]> = computed(() => this.computedMessage());
 
   @Output() chiudiChat = new EventEmitter<void>();
   @ViewChild('chatMessages') chatMessagesContainer!: ElementRef;
@@ -89,6 +82,60 @@ export class ChatGroupComponent implements OnInit, AfterViewChecked {
     }
   }
 
+  private computedMessage(): Messaggio[] {
+    const messaggi: Messaggio[] = this.chatService.messages();
+    const userMessageMap: Record<string, UserReduced> = this.userMessageMap();
+
+    const messagesIdMap: Record<number, Messaggio> = {};
+    const messaggioComp: IMessaggioComponent[] = [];
+    const defaultPic: string = environment.defaultPic;
+
+    for (const message of messaggi) {
+      messagesIdMap[message.id] = message;
+
+      let name: string;
+      let urlPic: string;
+      let class2: 'sent' | 'received';
+      let replySender: string = '';
+      let replyText: string = '';
+
+      if (message.sender === this.user?.id) {
+        name = `${this.user.credenziali?.nome} (${this.user.id})`;
+        urlPic = this.user.credenziali.profilePic || defaultPic;
+        class2 = 'sent';
+      } else {
+        const userInfo: UserReduced = userMessageMap[message.sender];
+
+        if (userInfo) {
+          name = `${userInfo.nome} (${message.sender})`;
+          urlPic = userInfo.pic;
+        } else {
+          name = 'Utente Eliminato';
+          urlPic = defaultPic;
+        }
+        class2 = 'received';
+      }
+
+      if (message.response && messagesIdMap[message.response]) {
+        replySender = messagesIdMap[message.response].sender;
+        replyText = messagesIdMap[message.response].content;
+      }
+
+      messaggioComp.push({
+        message,
+        name,
+        urlPic,
+        replySender,
+        replyText,
+        class2,
+      });
+    }
+
+    this.messaggioComp = messaggioComp;
+
+    return messaggi;
+  }
+
   private scrollToBottom(): void {
     try {
       const element = this.chatMessagesContainer.nativeElement;
@@ -113,58 +160,6 @@ export class ChatGroupComponent implements OnInit, AfterViewChecked {
     this.evitaSpam = false;
     this.initialLoad = true;
     setTimeout(() => (this.evitaSpam = true), 2000);
-  }
-
-  getIMessaggioComponent(messaggio: Messaggio): IMessaggioComponent {
-    let userVar: { name: string; urlPic: string; class2: 'sent' | 'received' };
-    let risposta: { sender: string; text: string };
-
-    if (messaggio.sender == this.user?.id) {
-      userVar = {
-        name:
-          (this.user?.credenziali?.nome || 'N.B') +
-          ' (' +
-          (this.user?.id || 'N.B') +
-          ')',
-        urlPic:
-          this.user?.credenziali?.profilePic ||
-          'https://png.pngtree.com/png-vector/20191009/ourlarge/pngtree-user-icon-png-image_1796659.jpg',
-        class2: 'sent',
-      };
-    } else {
-      userVar = {
-        name:
-          this.userMessageMap()[messaggio.sender].nome +
-            ' (' +
-            messaggio.sender +
-            ')' || 'N.B',
-        urlPic:
-          this.userMessageMap()[messaggio.sender].pic ||
-          'https://png.pngtree.com/png-vector/20191009/ourlarge/pngtree-user-icon-png-image_1796659.jpg',
-        class2: 'received',
-      };
-    }
-
-    if (messaggio.response) {
-      risposta = {
-        sender: this.messagesIdMap[messaggio.response].sender,
-        text: this.messagesIdMap[messaggio.response].content,
-      };
-    } else {
-      risposta = {
-        sender: '',
-        text: '',
-      };
-    }
-
-    return {
-      message: messaggio,
-      name: userVar.name,
-      urlPic: userVar.urlPic,
-      replySender: risposta.sender,
-      replyText: risposta.text,
-      class2: userVar.class2,
-    } as IMessaggioComponent;
   }
 
   changeDropdown(event: OutputDropdown | null, messaggio: Messaggio): void {

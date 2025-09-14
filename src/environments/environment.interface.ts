@@ -5,4 +5,5 @@ export interface IEnvironment {
   BE: string;
   team: string[];
   colori: string[];
+  defaultPic: string;
 }

@@ -7,4 +7,6 @@ export const environment: IEnvironment = {
   BE: 'http://localhost:5019/api/',
   team: ['Calandra Hunters', 'Sirius Slayer', 'Bau Boys Carlotta'],
   colori: ['Red', 'Blue', 'Green'],
+  defaultPic:
+    'https://png.pngtree.com/png-vector/20191009/ourlarge/pngtree-user-icon-png-image_1796659.jpg',
 };
