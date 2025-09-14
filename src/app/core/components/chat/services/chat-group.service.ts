@@ -14,17 +14,13 @@ export class ChatGroupService {
   public chatVisibile = signal<boolean>(true);
   private readonly maxMessages = 10;
 
-  constructor() {
-    this.listenForMessages();
-  }
-
   loadMessages(chatId: string): Observable<any> {
     return from(
       this.appConfig.client.c2
         .from('messaggi')
         .select('*')
         .eq('chat_id', chatId)
-        .order('id', { ascending: false })
+        .order('created_at', { ascending: false })
         .limit(this.maxMessages)
     );
   }
@@ -49,23 +45,23 @@ export class ChatGroupService {
     return from(this.appConfig.client.c2.from('messaggi').insert(message));
   }
 
-  private listenForMessages(): void {
+  activateListener(chatId: string): void {
     this.appConfig.client.c2
       .channel('messaggi')
       .on(
         'postgres_changes',
-        { event: 'INSERT', schema: 'public', table: 'messaggi' },
-        (payload: any) => {
-          const currentMessages = this.messages();
-          currentMessages.push(payload.new);
-
-          if (currentMessages.length > this.maxMessages) {
-            this.messages.set(currentMessages.slice(-this.maxMessages));
-          } else {
-            this.messages.set([...currentMessages]);
-          }
+        {
+          event: 'INSERT',
+          schema: 'public',
+          table: 'messaggi',
+          filter: `chat_id=eq.${chatId}`,
+        },
+        (payload: { new: Messaggio }) => {
+          this.messages.update((current: Messaggio[]) =>
+            [...current, payload.new].slice(-this.maxMessages)
+          );
         }
       )
-      .subscribe(() => {});
+      .subscribe();
   }
 }

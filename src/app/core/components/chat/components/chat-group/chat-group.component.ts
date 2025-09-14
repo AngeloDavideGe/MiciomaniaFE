@@ -6,6 +6,7 @@ import {
   ElementRef,
   EventEmitter,
   inject,
+  OnDestroy,
   OnInit,
   Output,
   Signal,
@@ -72,6 +73,7 @@ export class ChatGroupComponent implements OnInit, AfterViewChecked {
   ngOnInit(): void {
     loadMessages({
       chatService: this.chatService,
+      chatId: '550e8400-e29b-41d4-a716-446655440000',
       ifCall: () => this.spinner.set(true),
       nextCall: () => {
         this.chatService.messaggiCaricatiBool = true;
@@ -178,6 +180,7 @@ export class ChatGroupComponent implements OnInit, AfterViewChecked {
         dropdown: getDropDown({
           cond: this.user.id == event.idUser,
           rispondiFunc: () => this.risposta.set(risposta),
+          eliminaFunc: () => console.log('Elimina'),
         }),
       } as DropDownAperta);
     }
