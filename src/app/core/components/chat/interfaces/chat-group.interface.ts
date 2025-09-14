@@ -36,7 +36,7 @@ export interface IMessaggioComponent {
 }
 
 export interface DropDownAperta {
-  messaggioAperto: number;
+  messaggioAperto: number | null;
   dropdown: DropDownMessaggi[];
 }
 

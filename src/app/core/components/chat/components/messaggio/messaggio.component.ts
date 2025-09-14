@@ -30,7 +30,8 @@ import {
           </div>
 
           <!-- dropdown -->
-          @if(dropdownAperta.messaggioAperto == messageComp.message.id){
+          @if(dropdownAperta && dropdownAperta.messaggioAperto ==
+          messageComp.message.id ){
           <div class="dropdown">
             @for (item of dropdownAperta.dropdown; track $index) {
             <div class="dropdown-item" (click)="item.click()">
@@ -61,22 +62,19 @@ import {
 })
 export class MessaggioComponent {
   @Input() messageComp!: IMessaggioComponent;
-  @Input() dropdownAperta!: DropDownAperta;
-  @Output() openDropdown = new EventEmitter<OutputDropdown>();
+  @Input() dropdownAperta!: DropDownAperta | null;
+  @Output() openDropdown = new EventEmitter<OutputDropdown | null>();
 
   toggleMenu(event: MouseEvent, sender: string) {
     event.stopPropagation();
 
-    if (this.messageComp.message.id != this.dropdownAperta.messaggioAperto) {
+    if (this.messageComp.message.id != this.dropdownAperta?.messaggioAperto) {
       this.openDropdown.emit({
         idMessaggio: this.messageComp.message.id,
         idUser: sender,
       } as OutputDropdown);
     } else {
-      this.openDropdown.emit({
-        idMessaggio: 0,
-        idUser: '',
-      } as OutputDropdown);
+      this.openDropdown.emit(null);
     }
   }
 }

@@ -1,4 +1,4 @@
-<div id="ChatContainer" (click)="dropdownAperta().messaggioAperto = 0">
+<div id="ChatContainer" (click)="dropdownAperta.set(null)">
   <div
     class="chat-header d-flex align-items-center justify-content-between p-3"
   >
@@ -30,7 +30,7 @@
   }
 
   <app-chat-input
-    [idUtente]="idUtente"
+    [idUtente]="user ? user.id : ''"
     [spinner]="spinner()"
     [risposta]="risposta()"
     (sendMessaggio)="sendMessaggio($event)"

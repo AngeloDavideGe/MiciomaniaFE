@@ -11,7 +11,6 @@ import {
   Signal,
   signal,
   ViewChild,
-  WritableSignal,
 } from '@angular/core';
 import { User } from '../../../../../shared/interfaces/users.interface';
 import { DataHttp } from '../../../../api/http.data';
@@ -23,7 +22,6 @@ import {
 import { loadMessages, sendMessage } from '../../handlers/chat.handler';
 import {
   DropDownAperta,
-  DropDownMessaggi,
   IMessaggioComponent,
   Messaggio,
   OutputDropdown,
@@ -31,8 +29,8 @@ import {
   UserReduced,
 } from '../../interfaces/chat-group.interface';
 import { ChatGroupService } from '../../services/chat-group.service';
-import { MessaggioComponent } from '../messaggio/messaggio.component';
 import { ChatInputComponent } from '../chat-input/chat-input.component';
+import { MessaggioComponent } from '../messaggio/messaggio.component';
 
 @Component({
   selector: 'app-chat-group',
@@ -44,17 +42,13 @@ import { ChatInputComponent } from '../chat-input/chat-input.component';
 export class ChatGroupComponent implements OnInit, AfterViewChecked {
   private chatService = inject(ChatGroupService);
 
-  public idUtente: string = '';
   private evitaSpam: boolean = true;
   private initialLoad: boolean = true;
   public user: User | null = null;
+  public messagesIdMap: Record<number, Messaggio> = {};
   public spinner = signal<boolean>(false);
   public risposta = signal<RispostaInput | null>(null);
-  public messagesIdMap: Record<number, Messaggio> = {};
-  public dropdownAperta: WritableSignal<DropDownAperta> = signal({
-    dropdown: [] as DropDownMessaggi[],
-    messaggioAperto: 0,
-  });
+  public dropdownAperta = signal<DropDownAperta | null>(null);
   public userMessageMap: Signal<Record<string, UserReduced>> = computed(() =>
     mapUserMessage()
   );
@@ -68,7 +62,11 @@ export class ChatGroupComponent implements OnInit, AfterViewChecked {
   @ViewChild('chatMessages') chatMessagesContainer!: ElementRef;
 
   constructor() {
-    this.changeUserEffect();
+    effect(() => {
+      this.user = DataHttp.user();
+      this.risposta.set(null);
+      this.dropdownAperta.set(null);
+    });
   }
 
   ngOnInit(): void {
@@ -87,14 +85,6 @@ export class ChatGroupComponent implements OnInit, AfterViewChecked {
       this.scrollToBottom();
       setTimeout(() => (this.initialLoad = false), 200);
     }
-  }
-
-  private changeUserEffect(): void {
-    effect(() => {
-      const user: User | null = DataHttp.user();
-      this.user = user;
-      this.idUtente = user ? user.id : '';
-    });
   }
 
   private scrollToBottom(): void {
@@ -127,7 +117,7 @@ export class ChatGroupComponent implements OnInit, AfterViewChecked {
     let userVar: { name: string; urlPic: string; class2: 'sent' | 'received' };
     let risposta: { sender: string; text: string };
 
-    if (messaggio.sender == this.idUtente) {
+    if (messaggio.sender == this.user?.id) {
       userVar = {
         name:
           (this.user?.credenziali?.nome || 'N.B') +
@@ -175,19 +165,21 @@ export class ChatGroupComponent implements OnInit, AfterViewChecked {
     } as IMessaggioComponent;
   }
 
-  changeDropdown(event: OutputDropdown, messaggio: Messaggio): void {
-    const risposta: RispostaInput = {
-      idMessaggio: messaggio.id,
-      idUser: messaggio.sender,
-      content: messaggio.content,
-    };
+  changeDropdown(event: OutputDropdown | null, messaggio: Messaggio): void {
+    if (this.user && this.user.id && event) {
+      const risposta: RispostaInput = {
+        idMessaggio: messaggio.id,
+        idUser: messaggio.sender,
+        content: messaggio.content,
+      };
 
-    this.dropdownAperta.set({
-      messaggioAperto: event.idMessaggio,
-      dropdown: getDropDown({
-        cond: this.user?.id == event.idUser,
-        rispondiFunc: () => this.risposta.set(risposta),
-      }),
-    } as DropDownAperta);
+      this.dropdownAperta.set({
+        messaggioAperto: event.idMessaggio,
+        dropdown: getDropDown({
+          cond: this.user.id == event.idUser,
+          rispondiFunc: () => this.risposta.set(risposta),
+        }),
+      } as DropDownAperta);
+    }
   }
 }
