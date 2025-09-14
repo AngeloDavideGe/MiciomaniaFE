@@ -5,7 +5,7 @@ import {
   DropDownMessaggi,
   IMessaggioComponent,
   OutputDropdown,
-} from '../../interfaces/chat-group.interface';
+} from '../../../../interfaces/chat-group.interface';
 
 @Component({
   selector: 'app-messaggio',

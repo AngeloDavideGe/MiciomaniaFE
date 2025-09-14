@@ -1,11 +1,11 @@
 import { Component, inject, signal } from '@angular/core';
-import { ChatGroupComponent } from './components/chat-group/chat-group.component';
+import { ChatListComponent } from './components/chat-list/chat-list.component';
 import { ChatGroupService } from './services/chat-group.service';
 
 @Component({
   selector: 'app-chat',
   standalone: true,
-  imports: [ChatGroupComponent],
+  imports: [ChatListComponent],
   template: `
     <!-- Chat aperta -->
     @if (chatAperta()) {
@@ -13,7 +13,7 @@ import { ChatGroupService } from './services/chat-group.service';
       class="position-fixed bottom-0 end-0 mb-3 me-3"
       style="width: 55vh; height: 65vh; z-index: 1080;"
     >
-      <app-chat-group (chiudiChat)="chatAperta.set(false)"> </app-chat-group>
+      <app-chat-list (chiudiChat)="chatAperta.set(false)"> </app-chat-list>
     </div>
     }
     <!-- Chat Chiusa -->

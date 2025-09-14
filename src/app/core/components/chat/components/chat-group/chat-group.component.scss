@@ -1,41 +1,57 @@
 #ChatContainer {
   display: flex;
   flex-direction: column;
-  height: 66vh;
-  max-width: 600px;
-  margin: 0 auto;
-  border: 1px solid #ccc;
-  background-color: #f9f9f9;
-  border-radius: 10px;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  height: 100%;
+  background-color: #e6ddd4;
+  position: relative;
+  overflow: hidden;
+  max-height: 26rem;
 
-  .chat-header {
-    background-color: #128c7e;
-    color: white;
-    padding: 15px;
-    text-align: center;
-    font-weight: bold;
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    opacity: 0.06;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Cg fill='%23000000' fill-opacity='0.1'%3E%3Cpath fill-rule='evenodd' d='M0 0h40v40H0V0zm40 40h40v40H40V40zm0-40h2l-2 2V0zm0 4l4-4h2l-6 6V4zm0 4l8-8h2L40 10V8zm0 4L52 0h2L40 14v-2zm0 4L56 0h2L40 18v-2zm0 4L60 0h2L40 22v-2zm0 4L64 0h2L40 26v-2zm0 4L68 0h2L40 30v-2zm0 4L72 0h2L40 34v-2zm0 4L76 0h2L40 38v-2zm0 4L80 0v2L42 40h-2zm4 0L80 4v2L46 40h-2zm4 0L80 8v2L50 40h-2zm4 0l28-28v2L54 40h-2zm4 0l24-24v2L58 40h-2zm4 0l20-20v2L62 40h-2zm4 0l16-16v2L66 40h-2zm4 0l12-12v2L70 40h-2zm4 0l8-8v2l-6 6h-2zm4 0l4-4v2l-2 2h-2z'/%3E%3C/g%3E%3C/svg%3E");
+    pointer-events: none;
   }
 
   .chat-messages {
     flex: 1;
-    padding: 15px;
+    padding: 16px;
     overflow-y: auto;
-    background-color: #e5ddd5;
-    height: 500px;
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
 
-    .chat-spinner {
-      width: 50px;
-        height: 50px;
-        margin-top: 10rem;
-        margin-left: 10rem;
-        margin-bottom: 10rem;
+    .date-separator {
+      display: flex;
+      justify-content: center;
+      margin: 10px 0;
+
+      span {
+        background-color: rgba(225, 245, 254, 0.92);
+        padding: 5px 12px;
+        border-radius: 15px;
+        font-size: 12.5px;
+        color: #607d8b;
+        font-weight: 500;
+      }
     }
   }
 
-  i {
-    cursor: pointer;
+  .whatsapp-spinner {
+    padding: 20px;
+  }
+}
+
+@media (max-width: 768px) {
+  #ChatContainer {
+    height: 100%;
   }
 }

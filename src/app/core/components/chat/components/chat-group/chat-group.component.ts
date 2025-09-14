@@ -1,21 +1,17 @@
 import {
   AfterViewChecked,
   Component,
-  computed,
   effect,
   ElementRef,
-  EventEmitter,
   inject,
+  Input,
   OnInit,
-  Output,
-  Signal,
   signal,
   ViewChild,
 } from '@angular/core';
 import { User } from '../../../../../shared/interfaces/users.interface';
 import { DataHttp } from '../../../../api/http.data';
 import { getDropDown } from '../../functions/messaggi.function';
-import { mapUserMessage } from '../../functions/user-map.function';
 import { loadMessages, sendMessage } from '../../handlers/chat.handler';
 import {
   DropDownAperta,
@@ -23,12 +19,10 @@ import {
   Messaggio,
   OutputDropdown,
   RispostaInput,
-  UserReduced,
 } from '../../interfaces/chat-group.interface';
 import { ChatGroupService } from '../../services/chat-group.service';
-import { ChatInputComponent } from '../chat-input/chat-input.component';
-import { MessaggioComponent } from '../messaggio/messaggio.component';
-import { environment } from '../../../../../../environments/environment';
+import { ChatInputComponent } from './components/chat-input/chat-input.component';
+import { MessaggioComponent } from './components/messaggio/messaggio.component';
 
 @Component({
   selector: 'app-chat-group',
@@ -40,19 +34,15 @@ import { environment } from '../../../../../../environments/environment';
 export class ChatGroupComponent implements OnInit, AfterViewChecked {
   private chatService = inject(ChatGroupService);
 
+  public user!: User | null;
   private evitaSpam: boolean = true;
   private initialLoad: boolean = true;
-  public user: User | null = null;
-  public messaggioComp: IMessaggioComponent[] = [];
   public spinner = signal<boolean>(false);
   public risposta = signal<RispostaInput | null>(null);
   public dropdownAperta = signal<DropDownAperta | null>(null);
-  public userMessageMap: Signal<Record<string, UserReduced>> = computed(() =>
-    mapUserMessage()
-  );
-  public messages: Signal<Messaggio[]> = computed(() => this.computedMessage());
 
-  @Output() chiudiChat = new EventEmitter<void>();
+  @Input() messages!: Messaggio[];
+  @Input() messaggiComp!: IMessaggioComponent[];
   @ViewChild('chatMessages') chatMessagesContainer!: ElementRef;
 
   constructor() {
@@ -76,64 +66,10 @@ export class ChatGroupComponent implements OnInit, AfterViewChecked {
   }
 
   ngAfterViewChecked(): void {
-    if (this.initialLoad && this.messages().length > 0) {
+    if (this.initialLoad && this.messages.length > 0) {
       this.scrollToBottom();
       setTimeout(() => (this.initialLoad = false), 200);
     }
-  }
-
-  private computedMessage(): Messaggio[] {
-    const messaggi: Messaggio[] = this.chatService.messages();
-    const userMessageMap: Record<string, UserReduced> = this.userMessageMap();
-
-    const messagesIdMap: Record<number, Messaggio> = {};
-    const messaggioComp: IMessaggioComponent[] = [];
-    const defaultPic: string = environment.defaultPic;
-
-    for (const message of messaggi) {
-      messagesIdMap[message.id] = message;
-
-      let name: string;
-      let urlPic: string;
-      let class2: 'sent' | 'received';
-      let replySender: string = '';
-      let replyText: string = '';
-
-      if (message.sender === this.user?.id) {
-        name = `${this.user.credenziali?.nome} (${this.user.id})`;
-        urlPic = this.user.credenziali.profilePic || defaultPic;
-        class2 = 'sent';
-      } else {
-        const userInfo: UserReduced = userMessageMap[message.sender];
-
-        if (userInfo) {
-          name = `${userInfo.nome} (${message.sender})`;
-          urlPic = userInfo.pic;
-        } else {
-          name = 'Utente Eliminato';
-          urlPic = defaultPic;
-        }
-        class2 = 'received';
-      }
-
-      if (message.response && messagesIdMap[message.response]) {
-        replySender = messagesIdMap[message.response].sender;
-        replyText = messagesIdMap[message.response].content;
-      }
-
-      messaggioComp.push({
-        message,
-        name,
-        urlPic,
-        replySender,
-        replyText,
-        class2,
-      });
-    }
-
-    this.messaggioComp = messaggioComp;
-
-    return messaggi;
   }
 
   private scrollToBottom(): void {
