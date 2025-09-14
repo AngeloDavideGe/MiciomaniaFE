@@ -1,6 +1,6 @@
 export interface Messaggio {
   id: number;
-  chat_id: string;
+  chat_id: number;
   sender: string;
   content: string;
   created_at: string;
@@ -8,7 +8,7 @@ export interface Messaggio {
 }
 
 export interface MessaggioSend {
-  chat_id: string;
+  chat_id: number;
   sender: string;
   content: string;
   created_at: string;

@@ -56,7 +56,7 @@ export class ChatGroupComponent implements OnInit, AfterViewChecked {
   ngOnInit(): void {
     loadMessages({
       chatService: this.chatService,
-      chatId: '550e8400-e29b-41d4-a716-446655440000',
+      chatId: 1,
       ifCall: () => this.spinner.set(true),
       nextCall: () => {
         this.chatService.messaggiCaricatiBool = true;

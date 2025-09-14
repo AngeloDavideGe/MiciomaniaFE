@@ -14,7 +14,7 @@ export class ChatGroupService {
   public chatVisibile = signal<boolean>(true);
   private readonly maxMessages = 10;
 
-  loadMessages(chatId: string): Observable<any> {
+  loadMessages(chatId: number): Observable<any> {
     return from(
       this.appConfig.client.c2
         .from('messaggi')
@@ -26,7 +26,7 @@ export class ChatGroupService {
   }
 
   sendMessage(
-    chatId: string,
+    chatId: number,
     sender: string,
     text: string,
     dateTime: Date,
@@ -45,7 +45,7 @@ export class ChatGroupService {
     return from(this.appConfig.client.c2.from('messaggi').insert(message));
   }
 
-  activateListener(chatId: string): void {
+  activateListener(): void {
     this.appConfig.client.c2
       .channel('messaggi')
       .on(
@@ -54,7 +54,7 @@ export class ChatGroupService {
           event: 'INSERT',
           schema: 'public',
           table: 'messaggi',
-          filter: `chat_id=eq.${chatId}`,
+          // filter: `chat_id=eq.${chatId}`,
         },
         (payload: { new: Messaggio }) => {
           this.messages.update((current: Messaggio[]) =>

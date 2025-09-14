@@ -5,10 +5,10 @@ import { DataHttp } from '../../../api/http.data';
 import { Messaggio } from '../interfaces/chat-group.interface';
 
 export function loadMessages(params: {
-  chatService: any;
+  chatService: ChatGroupService;
   ifCall: Function;
   nextCall: Function;
-  chatId: string;
+  chatId: number;
 }): void {
   if (!params.chatService.messaggiCaricatiBool) {
     params.ifCall();
@@ -16,13 +16,15 @@ export function loadMessages(params: {
       .loadMessages(params.chatId)
       .pipe(
         take(1),
-        map((response: { data: Messaggio[] }) => response.data.reverse())
+        map((response: { data: Messaggio[] }) =>
+          (response.data || []).reverse()
+        )
       )
       .subscribe({
         next: (messaggi: Messaggio[]) => {
           params.chatService.messages.set(messaggi);
           params.chatService.messaggiCaricatiBool = true;
-          params.chatService.activateListener(params.chatId);
+          params.chatService.activateListener();
           params.nextCall();
         },
         error: (err: any) => console.error('errore load message', err),
@@ -40,7 +42,7 @@ export function sendMessage(params: {
   if (params.ifCond) {
     params.chatService
       .sendMessage(
-        '550e8400-e29b-41d4-a716-446655440000',
+        1,
         DataHttp.user()!.id,
         params.newMessage,
         formatDataCustom(new Date()),
