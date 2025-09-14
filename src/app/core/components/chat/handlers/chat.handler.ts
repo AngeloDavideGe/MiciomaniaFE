@@ -1,8 +1,8 @@
-import { ChatGroupService } from '../services/chat-group.service';
-import { map, take } from 'rxjs/operators';
+import { take } from 'rxjs/operators';
 import { formatDataCustom } from '../../../../shared/functions/utilities.function';
 import { DataHttp } from '../../../api/http.data';
-import { Messaggio } from '../interfaces/chat-group.interface';
+import { GruppiChat } from '../interfaces/chat-group.interface';
+import { ChatGroupService } from '../services/chat-group.service';
 
 export function loadMessages(params: {
   chatService: ChatGroupService;
@@ -13,16 +13,11 @@ export function loadMessages(params: {
   if (!params.chatService.messaggiCaricatiBool) {
     params.ifCall();
     params.chatService
-      .loadMessages(params.chatId)
-      .pipe(
-        take(1),
-        map((response: { data: Messaggio[] }) =>
-          (response.data || []).reverse()
-        )
-      )
+      .loadChatGruppi()
+      .pipe(take(1))
       .subscribe({
-        next: (messaggi: Messaggio[]) => {
-          params.chatService.messages.set(messaggi);
+        next: (gruppi: GruppiChat) => {
+          params.chatService.gruppiChat = gruppi;
           params.chatService.messaggiCaricatiBool = true;
           params.chatService.activateListener();
           params.nextCall();

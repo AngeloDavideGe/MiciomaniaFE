@@ -32,20 +32,16 @@ import { RispostaInput } from '../../../../interfaces/chat-group.interface';
           [placeholder]="
             idUtente ? 'Scrivi un messaggio' : 'Effettua login per scrivere'
           "
-          [disabled]="!idUtente || spinner"
+          [disabled]="!idUtente"
           (keyup.enter)="sendMessaggioFunc()"
         />
         <button (click)="sendMessaggioFunc()">
-          @if(spinner) {
-          <span class="spinner"></span>
-          } @else {
           <svg viewBox="0 0 24 24" width="24" height="24" class="send-icon">
             <path
               fill="currentColor"
               d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"
             ></path>
           </svg>
-          }
         </button>
       </div>
     </div>
@@ -55,7 +51,6 @@ import { RispostaInput } from '../../../../interfaces/chat-group.interface';
 export class ChatInputComponent {
   public newMessage: string = '';
   @Input() idUtente!: string;
-  @Input() spinner!: boolean;
   @Input() risposta!: RispostaInput | null;
   @Output() sendMessaggio = new EventEmitter<string>();
   @Output() closeRisposta = new EventEmitter<void>();

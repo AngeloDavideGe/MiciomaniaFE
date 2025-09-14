@@ -1,3 +1,5 @@
+import { WritableSignal } from '@angular/core';
+
 export interface Messaggio {
   id: number;
   chat_id: number;
@@ -13,6 +15,16 @@ export interface MessaggioSend {
   content: string;
   created_at: string;
   response: number | null;
+}
+
+export interface GruppiChat {
+  listaGruppi: Gruppo[];
+  messaggi: Record<number, Messaggio[]>;
+}
+
+export interface Gruppo {
+  id: number;
+  nome: string;
 }
 
 export interface RispostaInput {

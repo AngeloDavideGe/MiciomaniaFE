@@ -1,28 +1,33 @@
-import { inject, Injectable, signal } from '@angular/core';
+import { Injectable, signal } from '@angular/core';
 import { from, Observable } from 'rxjs';
-import { AppConfigService } from '../../../api/appConfig.service';
-import { Messaggio, MessaggioSend } from '../interfaces/chat-group.interface';
+import { BaseService } from '../../../../shared/services/base/base.service';
+import {
+  GruppiChat,
+  Messaggio,
+  MessaggioSend,
+} from '../interfaces/chat-group.interface';
 
 @Injectable({
   providedIn: 'root',
 })
-export class ChatGroupService {
-  private appConfig = inject(AppConfigService);
-
-  public messaggiCaricatiBool: boolean = false;
-  public messages = signal<Messaggio[]>([]);
-  public chatVisibile = signal<boolean>(true);
+export class ChatGroupService extends BaseService {
   private readonly maxMessages = 10;
+  public cont: number = 1;
+  public currentChat: number = 1;
+  public messaggiCaricatiBool: boolean = false;
+  public chatVisibile = signal<boolean>(true);
+  public newMessaggiSignal = signal<number>(0);
+  public gruppiChat: GruppiChat = {
+    listaGruppi: [],
+    messaggi: {},
+  };
 
-  loadMessages(chatId: number): Observable<any> {
-    return from(
-      this.appConfig.client.c2
-        .from('messaggi')
-        .select('*')
-        .eq('chat_id', chatId)
-        .order('created_at', { ascending: false })
-        .limit(this.maxMessages)
-    );
+  constructor() {
+    super('DB2');
+  }
+
+  loadChatGruppi(): Observable<GruppiChat> {
+    return this.postCustom<GruppiChat>('rpc/get_all_chats', {});
   }
 
   sendMessage(
@@ -54,12 +59,16 @@ export class ChatGroupService {
           event: 'INSERT',
           schema: 'public',
           table: 'messaggi',
-          // filter: `chat_id=eq.${chatId}`,
         },
         (payload: { new: Messaggio }) => {
-          this.messages.update((current: Messaggio[]) =>
-            [...current, payload.new].slice(-this.maxMessages)
+          const chatId: number = payload.new.chat_id;
+          const current: Messaggio[] = this.gruppiChat.messaggi[chatId];
+          this.gruppiChat.messaggi[chatId] = [...current, payload.new].slice(
+            -this.maxMessages
           );
+          if (this.currentChat == chatId) {
+            this.newMessaggiSignal.set(this.cont++);
+          }
         }
       )
       .subscribe();

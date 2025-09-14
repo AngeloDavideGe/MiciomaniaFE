@@ -5,14 +5,13 @@ import {
   ElementRef,
   inject,
   Input,
-  OnInit,
   signal,
   ViewChild,
 } from '@angular/core';
 import { User } from '../../../../../shared/interfaces/users.interface';
 import { DataHttp } from '../../../../api/http.data';
 import { getDropDown } from '../../functions/messaggi.function';
-import { loadMessages, sendMessage } from '../../handlers/chat.handler';
+import { sendMessage } from '../../handlers/chat.handler';
 import {
   DropDownAperta,
   IMessaggioComponent,
@@ -31,13 +30,12 @@ import { MessaggioComponent } from './components/messaggio/messaggio.component';
   templateUrl: './chat-group.component.html',
   styleUrl: './chat-group.component.scss',
 })
-export class ChatGroupComponent implements OnInit, AfterViewChecked {
+export class ChatGroupComponent implements AfterViewChecked {
   private chatService = inject(ChatGroupService);
 
   public user!: User | null;
   private evitaSpam: boolean = true;
   private initialLoad: boolean = true;
-  public spinner = signal<boolean>(false);
   public risposta = signal<RispostaInput | null>(null);
   public dropdownAperta = signal<DropDownAperta | null>(null);
 
@@ -50,18 +48,6 @@ export class ChatGroupComponent implements OnInit, AfterViewChecked {
       this.user = DataHttp.user();
       this.risposta.set(null);
       this.dropdownAperta.set(null);
-    });
-  }
-
-  ngOnInit(): void {
-    loadMessages({
-      chatService: this.chatService,
-      chatId: 1,
-      ifCall: () => this.spinner.set(true),
-      nextCall: () => {
-        this.chatService.messaggiCaricatiBool = true;
-        this.spinner.set(false);
-      },
     });
   }
 

@@ -1,5 +1,4 @@
 <div id="ChatContainer" (click)="dropdownAperta.set(null)">
-  @if (!spinner()) {
   <div #chatMessages class="chat-messages">
     <!-- <div class="date-separator">
       <span>Oggi</span>
@@ -14,19 +13,8 @@
     }
   </div>
 
-  } @else {
-  <div class="chat-messages d-flex justify-content-center align-items-center">
-    <div class="whatsapp-spinner">
-      <div class="spinner-border text-light" role="status">
-        <span class="visually-hidden">Loading...</span>
-      </div>
-    </div>
-  </div>
-  }
-
   <app-chat-input
     [idUtente]="user ? user.id : ''"
-    [spinner]="spinner()"
     [risposta]="risposta()"
     (sendMessaggio)="sendMessaggio($event)"
     (closeRisposta)="risposta.set(null)"
