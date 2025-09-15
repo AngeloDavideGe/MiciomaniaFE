@@ -6,25 +6,20 @@ import { ChatService } from '../services/chat.service';
 
 export function loadMessages(params: {
   chatService: ChatService;
-  ifCall: Function;
   nextCall: Function;
-  chatId: number;
 }): void {
-  if (!params.chatService.messaggiCaricatiBool) {
-    params.ifCall();
-    params.chatService
-      .loadChatGruppi()
-      .pipe(take(1))
-      .subscribe({
-        next: (gruppi: GruppiChat) => {
-          params.chatService.gruppiChat = gruppi;
-          params.chatService.messaggiCaricatiBool = true;
-          params.chatService.activateListener();
-          params.nextCall();
-        },
-        error: (err: any) => console.error('errore load message', err),
-      });
-  }
+  params.chatService
+    .loadChatGruppi()
+    .pipe(take(1))
+    .subscribe({
+      next: (gruppi: GruppiChat) => {
+        params.chatService.gruppiChat = gruppi;
+        params.chatService.messaggiCaricatiBool = true;
+        params.chatService.activateListener();
+        params.nextCall();
+      },
+      error: (err: any) => console.error('errore load message', err),
+    });
 }
 
 export function sendMessage(params: {

@@ -15,6 +15,7 @@ import { DataHttp } from '../../../../api/http.data';
 import { mapUserMessage } from '../../functions/user-map.function';
 import { loadMessages } from '../../handlers/chat.handler';
 import {
+  Gruppo,
   IMessaggioComponent,
   Messaggio,
   UserReduced,
@@ -40,7 +41,7 @@ import { ChatGroupComponent } from './components/chat-group/chat-group.component
     </div>
 
     <app-chat-all
-      [listaGruppi]="chatService.gruppiChat.listaGruppi"
+      [listaGruppi]="listaGruppi"
       (apriGruppo)="chatService.currentChat.set($event)"
     ></app-chat-all>
     }
@@ -55,7 +56,12 @@ import { ChatGroupComponent } from './components/chat-group/chat-group.component
         class="bi bi-arrow-left fs-3"
         (click)="chatService.currentChat.set(null)"
       ></i>
-      <h2 class="text-center flex-grow-1">{{ '' }}</h2>
+      <h2 class="text-center flex-grow-1">
+        {{
+          chatService.gruppiChat.listaGruppi[chatService.currentChat() || 0]
+            .nome || 'N.B.'
+        }}
+      </h2>
     </div>
 
     <app-chat-group
@@ -89,7 +95,7 @@ export class ChatListComponent implements OnInit {
   public chatService = inject(ChatService);
 
   public user: User | null = null;
-  // public nomeGruppo: string = '';
+  public listaGruppi: Gruppo[] = [];
   public spinner = signal<boolean>(false);
   public messaggiComp: IMessaggioComponent[] = [];
   public userMessageMap: Signal<Record<string, UserReduced>> = computed(() =>
@@ -97,23 +103,28 @@ export class ChatListComponent implements OnInit {
   );
   public messages: Signal<Messaggio[]> = computed(() => this.computedMessage());
 
+  @Output() chiudiChat = new EventEmitter<void>();
+
   constructor() {
     effect(() => (this.user = DataHttp.user()));
   }
 
   ngOnInit(): void {
-    loadMessages({
-      chatService: this.chatService,
-      chatId: 1,
-      ifCall: () => this.spinner.set(true),
-      nextCall: () => {
-        this.chatService.messaggiCaricatiBool = true;
-        this.spinner.set(false);
-      },
-    });
+    if (this.chatService.messaggiCaricatiBool) {
+      this.loadComplete();
+    } else {
+      this.spinner.set(true);
+      loadMessages({
+        chatService: this.chatService,
+        nextCall: () => this.loadComplete(),
+      });
+    }
   }
 
-  @Output() chiudiChat = new EventEmitter<void>();
+  private loadComplete(): void {
+    this.spinner.set(false);
+    this.listaGruppi = Object.values(this.chatService.gruppiChat.listaGruppi);
+  }
 
   private computedMessage(): Messaggio[] {
     const currentChat: number = this.chatService.newMessaggiSignal();
@@ -121,14 +132,6 @@ export class ChatListComponent implements OnInit {
     const idChat: number | null = this.chatService.currentChat();
 
     if (!idChat) return [];
-
-    // if (this.nomeGruppo == '') {
-    //   const gruppo: Gruppo | undefined =
-    //     this.chatService.gruppiChat.listaGruppi.find(
-    //       (x: Gruppo) => x.id == idChat
-    //     );
-    //   this.nomeGruppo = gruppo?.nome || '';
-    // }
 
     const messaggi: Messaggio[] = this.chatService.gruppiChat.messaggi[idChat];
     const messagesIdMap: Record<number, Messaggio> = {};
