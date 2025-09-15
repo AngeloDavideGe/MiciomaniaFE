@@ -8,20 +8,21 @@ import {
   signal,
   ViewChild,
 } from '@angular/core';
-import { User } from '../../../../../shared/interfaces/users.interface';
-import { DataHttp } from '../../../../api/http.data';
-import { getDropDown } from '../../functions/messaggi.function';
-import { sendMessage } from '../../handlers/chat.handler';
-import {
-  DropDownAperta,
-  IMessaggioComponent,
-  Messaggio,
-  OutputDropdown,
-  RispostaInput,
-} from '../../interfaces/chat-group.interface';
-import { ChatGroupService } from '../../services/chat-group.service';
+
 import { ChatInputComponent } from './components/chat-input/chat-input.component';
 import { MessaggioComponent } from './components/messaggio/messaggio.component';
+import { User } from '../../../../../../../shared/interfaces/users.interface';
+import { DataHttp } from '../../../../../../api/http.data';
+import { getDropDown } from '../../../../functions/messaggi.function';
+import { sendMessage } from '../../../../handlers/chat.handler';
+import {
+  RispostaInput,
+  DropDownAperta,
+  Messaggio,
+  IMessaggioComponent,
+  OutputDropdown,
+} from '../../../../interfaces/chat-group.interface';
+import { ChatService } from '../../../../services/chat.service';
 
 @Component({
   selector: 'app-chat-group',
@@ -31,7 +32,7 @@ import { MessaggioComponent } from './components/messaggio/messaggio.component';
   styleUrl: './chat-group.component.scss',
 })
 export class ChatGroupComponent implements AfterViewChecked {
-  private chatService = inject(ChatGroupService);
+  private chatService = inject(ChatService);
 
   public user!: User | null;
   private evitaSpam: boolean = true;

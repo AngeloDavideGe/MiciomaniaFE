@@ -8,7 +8,7 @@ import {
 import { RouterOutlet } from '@angular/router';
 import { DataHttp } from './core/api/http.data';
 import { ChatComponent } from './core/components/chat/chat.component';
-import { ChatGroupService } from './core/components/chat/services/chat-group.service';
+import { ChatService } from './core/components/chat/services/chat.service';
 import { MiniPlayerComponent } from './core/components/mini-player/mini-player.component';
 import {
   refreshLocalStorage,
@@ -48,7 +48,7 @@ import { CursorUtilities } from './shared/utilities/cursor.utilities';
 export class AppComponent implements OnInit, AfterViewInit {
   private cursorUtilities = new CursorUtilities();
   public miniPlayerService = inject(MiniPlayerService);
-  public chatService = inject(ChatGroupService);
+  public chatService = inject(ChatService);
 
   ngOnInit(): void {
     DataHttp.loadDataHttp();

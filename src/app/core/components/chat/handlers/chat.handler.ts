@@ -2,10 +2,10 @@ import { take } from 'rxjs/operators';
 import { formatDataCustom } from '../../../../shared/functions/utilities.function';
 import { DataHttp } from '../../../api/http.data';
 import { GruppiChat } from '../interfaces/chat-group.interface';
-import { ChatGroupService } from '../services/chat-group.service';
+import { ChatService } from '../services/chat.service';
 
 export function loadMessages(params: {
-  chatService: ChatGroupService;
+  chatService: ChatService;
   ifCall: Function;
   nextCall: Function;
   chatId: number;
@@ -28,7 +28,7 @@ export function loadMessages(params: {
 }
 
 export function sendMessage(params: {
-  chatService: ChatGroupService;
+  chatService: ChatService;
   ifCond: boolean;
   nextCall: Function;
   newMessage: string;

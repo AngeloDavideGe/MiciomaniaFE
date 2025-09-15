@@ -9,8 +9,8 @@ import {
   signal,
   Signal,
 } from '@angular/core';
-import { ChatGroupComponent } from '../chat-group/chat-group.component';
-import { ChatGroupService } from '../../services/chat-group.service';
+import { ChatGroupComponent } from './components/chat-group/chat-group.component';
+import { ChatService } from '../../services/chat.service';
 import {
   IMessaggioComponent,
   Messaggio,
@@ -53,7 +53,7 @@ import { loadMessages } from '../../handlers/chat.handler';
   styleUrl: './chat-list.component.scss',
 })
 export class ChatListComponent implements OnInit {
-  private chatService = inject(ChatGroupService);
+  private chatService = inject(ChatService);
 
   public user: User | null = null;
   public spinner = signal<boolean>(false);

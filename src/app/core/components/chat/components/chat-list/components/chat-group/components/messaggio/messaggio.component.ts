@@ -2,10 +2,9 @@ import { DatePipe } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import {
   DropDownAperta,
-  DropDownMessaggi,
   IMessaggioComponent,
   OutputDropdown,
-} from '../../../../interfaces/chat-group.interface';
+} from '../../../../../../interfaces/chat-group.interface';
 
 @Component({
   selector: 'app-messaggio',

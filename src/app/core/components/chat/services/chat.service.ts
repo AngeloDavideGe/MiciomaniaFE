@@ -10,7 +10,7 @@ import {
 @Injectable({
   providedIn: 'root',
 })
-export class ChatGroupService extends BaseService {
+export class ChatService extends BaseService {
   private readonly maxMessages = 10;
   public cont: number = 1;
   public currentChat: number = 1;

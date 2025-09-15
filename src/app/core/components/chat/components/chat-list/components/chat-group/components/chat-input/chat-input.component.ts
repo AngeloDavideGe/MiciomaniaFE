@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { RispostaInput } from '../../../../interfaces/chat-group.interface';
+import { RispostaInput } from '../../../../../../interfaces/chat-group.interface';
 
 @Component({
   selector: 'app-chat-input',

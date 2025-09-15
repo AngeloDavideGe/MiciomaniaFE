@@ -1,6 +1,6 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { DataHttp } from '../../../../../core/api/http.data';
-import { ChatGroupService } from '../../../../../core/components/chat/services/chat-group.service';
+import { ChatService } from '../../../../../core/components/chat/services/chat.service';
 import { loadSquadre } from '../../../../../shared/handlers/squadre.handler';
 import { Lingua } from '../../../../../shared/interfaces/http.interface';
 import { SquadreService } from '../../../../../shared/services/api/squadre.service';
@@ -19,7 +19,7 @@ import {
 })
 export class SquadreComponent implements OnInit {
   private loadingService = inject(LoadingService);
-  private chatService = inject(ChatGroupService);
+  private chatService = inject(ChatService);
   public squadreService = inject(SquadreService);
 
   public squadreLang: SquadreLang = {} as SquadreLang;
