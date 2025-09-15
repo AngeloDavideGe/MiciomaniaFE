@@ -13,7 +13,7 @@ import {
 export class ChatService extends BaseService {
   private readonly maxMessages = 10;
   public cont: number = 1;
-  public currentChat: number = 1;
+  public currentChat = signal<number | null>(null);
   public messaggiCaricatiBool: boolean = false;
   public chatVisibile = signal<boolean>(true);
   public newMessaggiSignal = signal<number>(0);
@@ -66,7 +66,7 @@ export class ChatService extends BaseService {
           this.gruppiChat.messaggi[chatId] = [...current, payload.new].slice(
             -this.maxMessages
           );
-          if (this.currentChat == chatId) {
+          if (this.currentChat() == chatId) {
             this.newMessaggiSignal.set(this.cont++);
           }
         }

@@ -31,7 +31,7 @@ import { ChatAllComponent } from './components/chat-all/chat-all.component';
   template: `
     @if(!spinner()){
     <!-- Lista delle Chat -->
-    @if(!chatSelezionata()){
+    @if(!chatService.currentChat()){
     <div
       id="ChatHeader"
       class="d-flex align-items-center justify-content-between p-3"
@@ -42,7 +42,7 @@ import { ChatAllComponent } from './components/chat-all/chat-all.component';
 
     <app-chat-all
       [listaGruppi]="chatService.gruppiChat.listaGruppi"
-      (apriGruppo)="chatSelezionata.set($event)"
+      (apriGruppo)="chatService.currentChat.set($event)"
     ></app-chat-all>
     }
     <!-- Chat Selezionata -->
@@ -52,11 +52,15 @@ import { ChatAllComponent } from './components/chat-all/chat-all.component';
       id="ChatHeader"
       class="d-flex align-items-center justify-content-between p-3"
     >
-      <i class="bi bi-arrow-left fs-3" (click)="chatSelezionata.set(null)"></i>
-      <h2 class="text-center flex-grow-1">{{ nomeGruppo }}</h2>
+      <i
+        class="bi bi-arrow-left fs-3"
+        (click)="chatService.currentChat.set(null)"
+      ></i>
+      <h2 class="text-center flex-grow-1">{{ '' }}</h2>
     </div>
 
     <app-chat-group
+      [chatId]="chatService.currentChat()!"
       [messages]="messages()"
       [messaggiComp]="messaggiComp"
     ></app-chat-group>
@@ -86,10 +90,9 @@ export class ChatListComponent implements OnInit {
   public chatService = inject(ChatService);
 
   public user: User | null = null;
-  public nomeGruppo: string = '';
+  // public nomeGruppo: string = '';
   public spinner = signal<boolean>(false);
   public messaggiComp: IMessaggioComponent[] = [];
-  public chatSelezionata = signal<number | null>(null);
   public userMessageMap: Signal<Record<string, UserReduced>> = computed(() =>
     mapUserMessage()
   );
@@ -116,14 +119,17 @@ export class ChatListComponent implements OnInit {
   private computedMessage(): Messaggio[] {
     const currentChat: number = this.chatService.newMessaggiSignal();
     const userMessageMap: Record<string, UserReduced> = this.userMessageMap();
-    const idChat: number | null = this.chatSelezionata();
+    const idChat: number | null = this.chatService.currentChat();
 
     if (!idChat) return [];
 
-    this.nomeGruppo =
-      this.chatService.gruppiChat.listaGruppi.find(
-        (x: Gruppo) => x.id == idChat
-      )?.nome || '';
+    // if (this.nomeGruppo == '') {
+    //   const gruppo: Gruppo | undefined =
+    //     this.chatService.gruppiChat.listaGruppi.find(
+    //       (x: Gruppo) => x.id == idChat
+    //     );
+    //   this.nomeGruppo = gruppo?.nome || '';
+    // }
 
     const messaggi: Messaggio[] = this.chatService.gruppiChat.messaggi[idChat];
     const messagesIdMap: Record<number, Messaggio> = {};

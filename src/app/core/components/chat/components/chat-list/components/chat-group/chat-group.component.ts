@@ -40,6 +40,7 @@ export class ChatGroupComponent implements AfterViewChecked {
   public risposta = signal<RispostaInput | null>(null);
   public dropdownAperta = signal<DropDownAperta | null>(null);
 
+  @Input() chatId!: number;
   @Input() messages!: Messaggio[];
   @Input() messaggiComp!: IMessaggioComponent[];
   @ViewChild('chatMessages') chatMessagesContainer!: ElementRef;
@@ -75,6 +76,7 @@ export class ChatGroupComponent implements AfterViewChecked {
       nextCall: () => this.evitaSpamFunc(),
       newMessage: newMessaggio,
       risposta: this.risposta()?.idMessaggio || null,
+      idChat: this.chatId,
     });
     this.risposta.set(null);
   }

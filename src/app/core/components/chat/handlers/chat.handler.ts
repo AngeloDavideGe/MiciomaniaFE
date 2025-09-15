@@ -33,11 +33,12 @@ export function sendMessage(params: {
   nextCall: Function;
   newMessage: string;
   risposta: number | null;
+  idChat: number;
 }): void {
   if (params.ifCond) {
     params.chatService
       .sendMessage(
-        1,
+        params.idChat,
         DataHttp.user()!.id,
         params.newMessage,
         formatDataCustom(new Date()),
