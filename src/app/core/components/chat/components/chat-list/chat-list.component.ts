@@ -12,6 +12,7 @@ import {
 import { ChatGroupComponent } from './components/chat-group/chat-group.component';
 import { ChatService } from '../../services/chat.service';
 import {
+  Gruppo,
   IMessaggioComponent,
   Messaggio,
   UserReduced,
@@ -21,12 +22,16 @@ import { environment } from '../../../../../../environments/environment';
 import { User } from '../../../../../shared/interfaces/users.interface';
 import { DataHttp } from '../../../../api/http.data';
 import { loadMessages } from '../../handlers/chat.handler';
+import { ChatAllComponent } from './components/chat-all/chat-all.component';
 
 @Component({
   selector: 'app-chat-list',
   standalone: true,
-  imports: [ChatGroupComponent],
+  imports: [ChatGroupComponent, ChatAllComponent],
   template: `
+    @if(!spinner()){
+    <!-- Lista delle Chat -->
+    @if(!chatSelezionata()){
     <div
       id="ChatHeader"
       class="d-flex align-items-center justify-content-between p-3"
@@ -35,14 +40,39 @@ import { loadMessages } from '../../handlers/chat.handler';
       <h2 class="text-center flex-grow-1">Miciomania Chat</h2>
     </div>
 
-    @if(!spinner()){
+    <app-chat-all
+      [listaGruppi]="chatService.gruppiChat.listaGruppi"
+      (apriGruppo)="chatSelezionata.set($event)"
+    ></app-chat-all>
+    }
+    <!-- Chat Selezionata -->
+    @else {
+
+    <div
+      id="ChatHeader"
+      class="d-flex align-items-center justify-content-between p-3"
+    >
+      <i class="bi bi-arrow-left fs-3" (click)="chatSelezionata.set(null)"></i>
+      <h2 class="text-center flex-grow-1">{{ nomeGruppo }}</h2>
+    </div>
+
     <app-chat-group
       [messages]="messages()"
       [messaggiComp]="messaggiComp"
     ></app-chat-group>
-    } @else {
-    <div class="chat-messages d-flex justify-content-center align-items-center">
-      <div class="whatsapp-spinner">
+    } }
+    <!-- Spinner -->
+    @else {
+    <div
+      id="ChatHeader"
+      class="d-flex align-items-center justify-content-between p-3"
+    >
+      <i class="bi bi-arrow-left fs-3" (click)="chiudiChat.emit()"></i>
+      <h2 class="text-center flex-grow-1">Caricamento Chat Feline</h2>
+    </div>
+
+    <div class="d-flex justify-content-center align-items-center">
+      <div style="padding: 20px;">
         <div class="spinner-border text-light" role="status">
           <span class="visually-hidden">Loading...</span>
         </div>
@@ -53,11 +83,13 @@ import { loadMessages } from '../../handlers/chat.handler';
   styleUrl: './chat-list.component.scss',
 })
 export class ChatListComponent implements OnInit {
-  private chatService = inject(ChatService);
+  public chatService = inject(ChatService);
 
   public user: User | null = null;
+  public nomeGruppo: string = '';
   public spinner = signal<boolean>(false);
   public messaggiComp: IMessaggioComponent[] = [];
+  public chatSelezionata = signal<number | null>(null);
   public userMessageMap: Signal<Record<string, UserReduced>> = computed(() =>
     mapUserMessage()
   );
@@ -84,8 +116,16 @@ export class ChatListComponent implements OnInit {
   private computedMessage(): Messaggio[] {
     const currentChat: number = this.chatService.newMessaggiSignal();
     const userMessageMap: Record<string, UserReduced> = this.userMessageMap();
+    const idChat: number | null = this.chatSelezionata();
 
-    const messaggi: Messaggio[] = this.chatService.gruppiChat.messaggi[1];
+    if (!idChat) return [];
+
+    this.nomeGruppo =
+      this.chatService.gruppiChat.listaGruppi.find(
+        (x: Gruppo) => x.id == idChat
+      )?.nome || '';
+
+    const messaggi: Messaggio[] = this.chatService.gruppiChat.messaggi[idChat];
     const messagesIdMap: Record<number, Messaggio> = {};
     const messaggioComp: IMessaggioComponent[] = [];
     const defaultPic: string = environment.defaultPic;
