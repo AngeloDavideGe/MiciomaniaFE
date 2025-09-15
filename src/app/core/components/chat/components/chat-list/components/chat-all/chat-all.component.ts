@@ -1,7 +1,16 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import {
+  Component,
+  computed,
+  EventEmitter,
+  Input,
+  Output,
+  Signal,
+  signal,
+} from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Gruppo } from '../../../../interfaces/chat-group.interface';
+import { effectTimeoutCustom } from '../../../../../../../shared/functions/utilities.function';
 
 @Component({
   selector: 'app-chat-all',
@@ -41,7 +50,7 @@ import { Gruppo } from '../../../../interfaces/chat-group.interface';
 
       <!-- Lista delle chat -->
       <div class="chat-list flex-grow-1 overflow-auto">
-        @for (gruppo of filteredGruppi; track $index) {
+        @for (gruppo of filteredGruppi(); track $index) {
         <div
           class="chat-item d-flex align-items-center p-3 border-bottom"
           (click)="apriGruppo.emit(gruppo.id)"
@@ -74,15 +83,24 @@ export class ChatAllComponent {
   @Input() listaGruppi!: Gruppo[];
   @Output() apriGruppo = new EventEmitter<number>();
 
-  searchTerm: string = '';
-
-  get filteredGruppi(): Gruppo[] {
-    if (!this.searchTerm) {
-      return this.listaGruppi;
-    }
-
-    return this.listaGruppi.filter((gruppo) =>
-      gruppo.nome.toLowerCase().includes(this.searchTerm.toLowerCase())
+  constructor() {
+    effectTimeoutCustom(this.searchTerm, (value: string) =>
+      this.debounce.set(value)
     );
   }
+
+  public searchTerm = signal<string>('');
+  private debounce = signal<string>('');
+
+  public filteredGruppi: Signal<Gruppo[]> = computed(() => {
+    const filtro: string = this.debounce();
+
+    if (!filtro) {
+      return this.listaGruppi;
+    } else {
+      return this.listaGruppi.filter((gruppo) =>
+        gruppo.nome.toLowerCase().includes(filtro.toLowerCase())
+      );
+    }
+  });
 }

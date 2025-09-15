@@ -9,20 +9,19 @@ import {
   signal,
   Signal,
 } from '@angular/core';
-import { ChatGroupComponent } from './components/chat-group/chat-group.component';
-import { ChatService } from '../../services/chat.service';
+import { environment } from '../../../../../../environments/environment';
+import { User } from '../../../../../shared/interfaces/users.interface';
+import { DataHttp } from '../../../../api/http.data';
+import { mapUserMessage } from '../../functions/user-map.function';
+import { loadMessages } from '../../handlers/chat.handler';
 import {
-  Gruppo,
   IMessaggioComponent,
   Messaggio,
   UserReduced,
 } from '../../interfaces/chat-group.interface';
-import { mapUserMessage } from '../../functions/user-map.function';
-import { environment } from '../../../../../../environments/environment';
-import { User } from '../../../../../shared/interfaces/users.interface';
-import { DataHttp } from '../../../../api/http.data';
-import { loadMessages } from '../../handlers/chat.handler';
+import { ChatService } from '../../services/chat.service';
 import { ChatAllComponent } from './components/chat-all/chat-all.component';
+import { ChatGroupComponent } from './components/chat-group/chat-group.component';
 
 @Component({
   selector: 'app-chat-list',

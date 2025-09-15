@@ -59,8 +59,8 @@ export class MangaComponent implements OnDestroy {
   );
 
   private debounce = {
-    autore: signal(''),
-    nome: signal(''),
+    autore: signal<string>(''),
+    nome: signal<string>(''),
   };
 
   public filterSelect = {
