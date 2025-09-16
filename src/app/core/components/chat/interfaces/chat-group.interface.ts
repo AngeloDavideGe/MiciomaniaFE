@@ -25,6 +25,11 @@ export interface Gruppo {
   nome: string;
 }
 
+export interface LastMess {
+  content: string;
+  orario: Date;
+}
+
 export interface RispostaInput {
   idMessaggio: number;
   idUser: string;

@@ -15,8 +15,10 @@ import { DataHttp } from '../../../../api/http.data';
 import { mapUserMessage } from '../../functions/user-map.function';
 import { loadMessages } from '../../handlers/chat.handler';
 import {
+  GruppiChat,
   Gruppo,
   IMessaggioComponent,
+  LastMess,
   Messaggio,
   UserReduced,
 } from '../../interfaces/chat-group.interface';
@@ -41,7 +43,8 @@ import { ChatGroupComponent } from './components/chat-group/chat-group.component
     </div>
 
     <app-chat-all
-      [listaGruppi]="listaGruppi"
+      [allGruppi]="allGruppi"
+      [lastMessage]="lastMessage"
       (apriGruppo)="chatService.currentChat.set($event)"
     ></app-chat-all>
     }
@@ -52,10 +55,7 @@ import { ChatGroupComponent } from './components/chat-group/chat-group.component
       id="ChatHeader"
       class="d-flex align-items-center justify-content-between p-3"
     >
-      <i
-        class="bi bi-arrow-left fs-3"
-        (click)="chatService.currentChat.set(null)"
-      ></i>
+      <i class="bi bi-arrow-left fs-3" (click)="loadComplete()"></i>
       <h2 class="text-center flex-grow-1">
         {{
           chatService.gruppiChat.listaGruppi[chatService.currentChat() || 0]
@@ -95,7 +95,8 @@ export class ChatListComponent implements OnInit {
   public chatService = inject(ChatService);
 
   public user: User | null = null;
-  public listaGruppi: Gruppo[] = [];
+  public allGruppi: Gruppo[] = [];
+  public lastMessage: Record<number, LastMess> = {};
   public spinner = signal<boolean>(false);
   public messaggiComp: IMessaggioComponent[] = [];
   public userMessageMap: Signal<Record<string, UserReduced>> = computed(() =>
@@ -121,9 +122,29 @@ export class ChatListComponent implements OnInit {
     }
   }
 
-  private loadComplete(): void {
+  public loadComplete(): void {
+    const gruppi: GruppiChat = this.chatService.gruppiChat;
+
+    this.allGruppi = Object.values(gruppi.listaGruppi)
+      .map((gruppo: Gruppo) => {
+        const messaggi: Messaggio[] = gruppi.messaggi[gruppo.id];
+        const lastMsg: Messaggio = messaggi[messaggi.length - 1];
+        const orario = new Date(lastMsg.created_at);
+        this.lastMessage[gruppo.id] = {
+          content: lastMsg.content,
+          orario,
+        };
+        return gruppo;
+      })
+      .sort((a: Gruppo, b: Gruppo) => {
+        const mesA: Date = this.lastMessage[a.id].orario;
+        const mesB: Date = this.lastMessage[b.id].orario;
+
+        return mesA && mesB ? mesB.getTime() - mesA.getTime() : 0;
+      });
+
     this.spinner.set(false);
-    this.listaGruppi = Object.values(this.chatService.gruppiChat.listaGruppi);
+    this.chatService.currentChat.set(null);
   }
 
   private computedMessage(): Messaggio[] {
