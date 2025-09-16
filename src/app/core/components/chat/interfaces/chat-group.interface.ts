@@ -16,7 +16,7 @@ export interface MessaggioSend {
 }
 
 export interface GruppiChat {
-  listaGruppi: Record<number, Gruppo>;
+  listaGruppi: Gruppo[];
   messaggi: Record<number, Messaggio[]>;
 }
 
@@ -28,6 +28,7 @@ export interface Gruppo {
 export interface LastMess {
   content: string;
   orario: Date;
+  chat: string;
 }
 
 export interface RispostaInput {

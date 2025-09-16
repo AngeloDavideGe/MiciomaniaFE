@@ -30,65 +30,7 @@ import { ChatGroupComponent } from './components/chat-group/chat-group.component
   selector: 'app-chat-list',
   standalone: true,
   imports: [ChatGroupComponent, ChatAllComponent],
-  template: `
-    @if(!spinner()){
-    <!-- Lista delle Chat -->
-    @if(!chatService.currentChat()){
-    <div
-      id="ChatHeader"
-      class="d-flex align-items-center justify-content-between p-3"
-    >
-      <i class="bi bi-arrow-left fs-3" (click)="chiudiChat.emit()"></i>
-      <h2 class="text-center flex-grow-1">Miciomania Chat</h2>
-    </div>
-
-    <app-chat-all
-      [allGruppi]="allGruppi"
-      [lastMessage]="lastMessage"
-      (apriGruppo)="chatService.currentChat.set($event)"
-    ></app-chat-all>
-    }
-    <!-- Chat Selezionata -->
-    @else {
-
-    <div
-      id="ChatHeader"
-      class="d-flex align-items-center justify-content-between p-3"
-    >
-      <i class="bi bi-arrow-left fs-3" (click)="loadComplete()"></i>
-      <h2 class="text-center flex-grow-1">
-        {{
-          chatService.gruppiChat.listaGruppi[chatService.currentChat() || 0]
-            .nome || 'N.B.'
-        }}
-      </h2>
-    </div>
-
-    <app-chat-group
-      [chatId]="chatService.currentChat()!"
-      [messages]="messages()"
-      [messaggiComp]="messaggiComp"
-    ></app-chat-group>
-    } }
-    <!-- Spinner -->
-    @else {
-    <div
-      id="ChatHeader"
-      class="d-flex align-items-center justify-content-between p-3"
-    >
-      <i class="bi bi-arrow-left fs-3" (click)="chiudiChat.emit()"></i>
-      <h2 class="text-center flex-grow-1">Caricamento Chat Feline</h2>
-    </div>
-
-    <div class="d-flex justify-content-center align-items-center">
-      <div style="padding: 20px;">
-        <div class="spinner-border text-light" role="status">
-          <span class="visually-hidden">Loading...</span>
-        </div>
-      </div>
-    </div>
-    }
-  `,
+  templateUrl: './chat-list.component.html',
   styleUrl: './chat-list.component.scss',
 })
 export class ChatListComponent implements OnInit {
@@ -96,7 +38,7 @@ export class ChatListComponent implements OnInit {
 
   public user: User | null = null;
   public allGruppi: Gruppo[] = [];
-  public lastMessage: Record<number, LastMess> = {};
+  public allGruppiRecord: Record<number, LastMess> = {};
   public spinner = signal<boolean>(false);
   public messaggiComp: IMessaggioComponent[] = [];
   public userMessageMap: Signal<Record<string, UserReduced>> = computed(() =>
@@ -125,20 +67,21 @@ export class ChatListComponent implements OnInit {
   public loadComplete(): void {
     const gruppi: GruppiChat = this.chatService.gruppiChat;
 
-    this.allGruppi = Object.values(gruppi.listaGruppi)
+    this.allGruppi = gruppi.listaGruppi
       .map((gruppo: Gruppo) => {
         const messaggi: Messaggio[] = gruppi.messaggi[gruppo.id];
         const lastMsg: Messaggio = messaggi[messaggi.length - 1];
         const orario = new Date(lastMsg.created_at);
-        this.lastMessage[gruppo.id] = {
+        this.allGruppiRecord[gruppo.id] = {
           content: lastMsg.content,
-          orario,
+          orario: orario,
+          chat: gruppo.nome,
         };
         return gruppo;
       })
       .sort((a: Gruppo, b: Gruppo) => {
-        const mesA: Date = this.lastMessage[a.id].orario;
-        const mesB: Date = this.lastMessage[b.id].orario;
+        const mesA: Date = this.allGruppiRecord[a.id].orario;
+        const mesB: Date = this.allGruppiRecord[b.id].orario;
 
         return mesA && mesB ? mesB.getTime() - mesA.getTime() : 0;
       });

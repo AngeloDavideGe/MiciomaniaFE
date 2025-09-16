@@ -21,7 +21,7 @@ import { effectTimeoutCustom } from '../../../../../../../shared/functions/utili
 })
 export class ChatAllComponent {
   @Input() allGruppi!: Gruppo[];
-  @Input() lastMessage!: Record<number, LastMess>;
+  @Input() allGruppiRecord!: Record<number, LastMess>;
   @Output() apriGruppo = new EventEmitter<number>();
 
   constructor() {
