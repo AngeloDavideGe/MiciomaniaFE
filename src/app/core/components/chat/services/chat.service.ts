@@ -5,7 +5,8 @@ import {
   GruppiChat,
   Messaggio,
   MessaggioSend,
-} from '../interfaces/chat-group.interface';
+} from '../interfaces/chat.interface';
+import { formatDataCustom } from '../../../../shared/functions/utilities.function';
 
 @Injectable({
   providedIn: 'root',
@@ -35,15 +36,17 @@ export class ChatService extends BaseService {
     sender: string,
     text: string,
     dateTime: Date,
-    risposta: number | null
+    risposta: number | null,
+    separator: boolean
   ): Observable<any> {
     const message: MessaggioSend[] = [
       {
         chat_id: chatId,
         sender,
         content: text,
-        created_at: dateTime.toISOString(),
+        created_at: formatDataCustom(new Date()),
         response: risposta,
+        separator: separator,
       },
     ];
 
@@ -62,7 +65,7 @@ export class ChatService extends BaseService {
         },
         (payload: { new: Messaggio }) => {
           const chatId: number = payload.new.chat_id;
-          const current: Messaggio[] = this.gruppiChat.messaggi[chatId];
+          const current: Messaggio[] = this.gruppiChat.messaggi[chatId] || [];
           this.gruppiChat.messaggi[chatId] = [...current, payload.new].slice(
             -this.maxMessages
           );

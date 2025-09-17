@@ -1,42 +1,47 @@
 import {
   AfterViewChecked,
+  AfterViewInit,
   Component,
   effect,
   ElementRef,
   inject,
   Input,
+  QueryList,
   signal,
   ViewChild,
+  ViewChildren,
 } from '@angular/core';
 
-import { ChatInputComponent } from './components/chat-input/chat-input.component';
-import { MessaggioComponent } from './components/messaggio/messaggio.component';
 import { User } from '../../../../../../../shared/interfaces/users.interface';
 import { DataHttp } from '../../../../../../api/http.data';
 import { getDropDown } from '../../../../functions/messaggi.function';
 import { sendMessage } from '../../../../handlers/chat.handler';
 import {
-  RispostaInput,
   DropDownAperta,
-  Messaggio,
   IMessaggioComponent,
+  Messaggio,
   OutputDropdown,
-} from '../../../../interfaces/chat-group.interface';
+  RispostaInput,
+} from '../../../../interfaces/chat.interface';
 import { ChatService } from '../../../../services/chat.service';
+import { ChatInputComponent } from './components/chat-input/chat-input.component';
+import { MessaggioComponent } from './components/messaggio/messaggio.component';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-chat-group',
   standalone: true,
-  imports: [MessaggioComponent, ChatInputComponent],
+  imports: [MessaggioComponent, ChatInputComponent, DatePipe],
   templateUrl: './chat-group.component.html',
   styleUrl: './chat-group.component.scss',
 })
-export class ChatGroupComponent implements AfterViewChecked {
+export class ChatGroupComponent implements AfterViewInit, AfterViewChecked {
   private chatService = inject(ChatService);
 
   public user!: User | null;
   private evitaSpam: boolean = true;
   private initialLoad: boolean = true;
+  public currentDate: string = 'Oggi';
   public risposta = signal<RispostaInput | null>(null);
   public dropdownAperta = signal<DropDownAperta | null>(null);
 
@@ -44,6 +49,7 @@ export class ChatGroupComponent implements AfterViewChecked {
   @Input() messages!: Messaggio[];
   @Input() messaggiComp!: IMessaggioComponent[];
   @ViewChild('chatMessages') chatMessagesContainer!: ElementRef;
+  @ViewChildren('daySeparator') daySeparators!: QueryList<ElementRef>;
 
   constructor() {
     effect(() => {
@@ -51,6 +57,23 @@ export class ChatGroupComponent implements AfterViewChecked {
       this.risposta.set(null);
       this.dropdownAperta.set(null);
     });
+  }
+
+  ngAfterViewInit(): void {
+    const observer = new IntersectionObserver(
+      (entries: IntersectionObserverEntry[]) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            this.currentDate = entry.target.getAttribute('data-date') ?? '';
+          }
+        });
+      },
+      { root: null, threshold: 0.1 }
+    );
+
+    this.daySeparators.forEach((el: ElementRef) =>
+      observer.observe(el.nativeElement)
+    );
   }
 
   ngAfterViewChecked(): void {
@@ -70,6 +93,11 @@ export class ChatGroupComponent implements AfterViewChecked {
   }
 
   sendMessaggio(newMessaggio: string) {
+    let separator: boolean =
+      this.messages.length === 0 ||
+      new Date(this.messages[this.messages.length - 1].created_at).getDate() !==
+        new Date().getDate();
+
     sendMessage({
       chatService: this.chatService,
       ifCond: this.evitaSpam,
@@ -77,6 +105,7 @@ export class ChatGroupComponent implements AfterViewChecked {
       newMessage: newMessaggio,
       risposta: this.risposta()?.idMessaggio || null,
       idChat: this.chatId,
+      separator: separator,
     });
     this.risposta.set(null);
   }

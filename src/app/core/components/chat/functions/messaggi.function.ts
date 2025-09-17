@@ -1,4 +1,4 @@
-import { DropDownMessaggi } from '../interfaces/chat-group.interface';
+import { DropDownMessaggi, Messaggio } from '../interfaces/chat.interface';
 
 export function getDropDown(params: {
   cond: boolean;
@@ -19,4 +19,19 @@ export function getDropDown(params: {
   ];
 
   return dropdown.filter((x: DropDownMessaggi) => x.cond);
+}
+
+export function getMessaggioBenvenuto(): Messaggio {
+  const ieri = new Date();
+  ieri.setDate(ieri.getDate() - 1);
+
+  return {
+    id: 0,
+    chat_id: 0,
+    sender: 'Admin',
+    content: 'Benvenuto in questa nuova chat',
+    created_at: ieri,
+    response: null,
+    separator: true,
+  } as Messaggio;
 }

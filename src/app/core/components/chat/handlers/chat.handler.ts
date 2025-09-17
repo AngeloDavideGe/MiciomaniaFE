@@ -1,7 +1,7 @@
 import { take } from 'rxjs/operators';
 import { formatDataCustom } from '../../../../shared/functions/utilities.function';
 import { DataHttp } from '../../../api/http.data';
-import { GruppiChat } from '../interfaces/chat-group.interface';
+import { GruppiChat } from '../interfaces/chat.interface';
 import { ChatService } from '../services/chat.service';
 
 export function loadMessages(params: {
@@ -29,6 +29,7 @@ export function sendMessage(params: {
   newMessage: string;
   risposta: number | null;
   idChat: number;
+  separator: boolean;
 }): void {
   if (params.ifCond) {
     params.chatService
@@ -37,7 +38,8 @@ export function sendMessage(params: {
         DataHttp.user()!.id,
         params.newMessage,
         formatDataCustom(new Date()),
-        params.risposta
+        params.risposta,
+        params.separator
       )
       .pipe(take(1))
       .subscribe({

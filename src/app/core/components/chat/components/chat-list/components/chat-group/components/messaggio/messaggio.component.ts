@@ -4,7 +4,7 @@ import {
   DropDownAperta,
   IMessaggioComponent,
   OutputDropdown,
-} from '../../../../../../interfaces/chat-group.interface';
+} from '../../../../../../interfaces/chat.interface';
 
 @Component({
   selector: 'app-messaggio',
@@ -51,7 +51,7 @@ import {
         <div id="MessaggioInviato">
           <div class="message-text">{{ messageComp.message.content }}</div>
           <div class="message-timestamp">
-            {{ messageComp.message.created_at | date : 'HH:mm - dd/MM/yyyy' }}
+            {{ messageComp.message.created_at | date : 'HH:mm' }}
           </div>
         </div>
       </div>

@@ -47,12 +47,12 @@
         <div class="d-flex justify-content-between align-items-center">
           <h6 class="mb-0">{{ gruppo.nome }}</h6>
           <small class="text-muted">{{
-            lastMessage[gruppo.id].orario | date : "HH:mm"
+            allGruppiRecord[gruppo.id].orario | date : "HH:mm"
           }}</small>
         </div>
         <div class="d-flex justify-content-between align-items-center">
           <p class="mb-0 text-truncate text-muted">
-            {{ lastMessage[gruppo.id].content }}
+            {{ allGruppiRecord[gruppo.id].content }}
           </p>
           <span class="badge bg-primary rounded-pill">3</span>
         </div>

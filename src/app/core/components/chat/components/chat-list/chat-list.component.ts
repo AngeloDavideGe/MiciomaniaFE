@@ -21,10 +21,11 @@ import {
   LastMess,
   Messaggio,
   UserReduced,
-} from '../../interfaces/chat-group.interface';
+} from '../../interfaces/chat.interface';
 import { ChatService } from '../../services/chat.service';
 import { ChatAllComponent } from './components/chat-all/chat-all.component';
 import { ChatGroupComponent } from './components/chat-group/chat-group.component';
+import { getMessaggioBenvenuto } from '../../functions/messaggi.function';
 
 @Component({
   selector: 'app-chat-list',
@@ -66,10 +67,11 @@ export class ChatListComponent implements OnInit {
 
   public loadComplete(): void {
     const gruppi: GruppiChat = this.chatService.gruppiChat;
-
     this.allGruppi = gruppi.listaGruppi
       .map((gruppo: Gruppo) => {
-        const messaggi: Messaggio[] = gruppi.messaggi[gruppo.id];
+        const messaggi: Messaggio[] = gruppi?.messaggi[gruppo.id] || [
+          getMessaggioBenvenuto(),
+        ];
         const lastMsg: Messaggio = messaggi[messaggi.length - 1];
         const orario = new Date(lastMsg.created_at);
         this.allGruppiRecord[gruppo.id] = {
@@ -97,10 +99,14 @@ export class ChatListComponent implements OnInit {
 
     if (!idChat) return [];
 
-    const messaggi: Messaggio[] = this.chatService.gruppiChat.messaggi[idChat];
+    const messaggi: Messaggio[] = this.chatService.gruppiChat.messaggi[
+      idChat
+    ] || [getMessaggioBenvenuto()];
     const messagesIdMap: Record<number, Messaggio> = {};
     const messaggioComp: IMessaggioComponent[] = [];
     const defaultPic: string = environment.defaultPic;
+
+    if (messaggi.length == 0) return [];
 
     for (const message of messaggi) {
       messagesIdMap[message.id] = message;

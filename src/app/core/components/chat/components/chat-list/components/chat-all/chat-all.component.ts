@@ -9,7 +9,7 @@ import {
   signal,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { Gruppo, LastMess } from '../../../../interfaces/chat-group.interface';
+import { Gruppo, LastMess } from '../../../../interfaces/chat.interface';
 import { effectTimeoutCustom } from '../../../../../../../shared/functions/utilities.function';
 
 @Component({

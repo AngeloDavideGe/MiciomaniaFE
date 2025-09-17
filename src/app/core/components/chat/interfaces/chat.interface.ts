@@ -3,16 +3,18 @@ export interface Messaggio {
   chat_id: number;
   sender: string;
   content: string;
-  created_at: string;
+  created_at: Date;
   response: number | null;
+  separator: boolean;
 }
 
 export interface MessaggioSend {
   chat_id: number;
   sender: string;
   content: string;
-  created_at: string;
+  created_at: Date;
   response: number | null;
+  separator: boolean;
 }
 
 export interface GruppiChat {
