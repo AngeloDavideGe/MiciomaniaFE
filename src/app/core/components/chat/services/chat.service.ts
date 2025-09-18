@@ -7,6 +7,7 @@ import {
   MessaggioSend,
 } from '../interfaces/chat.interface';
 import { formatDataCustom } from '../../../../shared/functions/utilities.function';
+import { DataHttp } from '../../../api/http.data';
 
 @Injectable({
   providedIn: 'root',
@@ -18,24 +19,24 @@ export class ChatService extends BaseService {
   public messaggiCaricatiBool: boolean = false;
   public chatVisibile = signal<boolean>(true);
   public newMessaggiSignal = signal<number>(0);
-  public gruppiChat: GruppiChat = {
-    listaGruppi: [],
-    messaggi: {},
-  };
 
   constructor() {
     super('DB2');
   }
 
   loadChatGruppi(): Observable<GruppiChat> {
-    return this.postCustom<GruppiChat>('rpc/get_all_chats', {});
+    const body = {
+      max_message: this.maxMessages,
+      last_message_id: DataHttp.gruppiChat.ultimoId,
+    };
+
+    return this.postCustom<GruppiChat>('rpc/get_all_chats', body);
   }
 
   sendMessage(
     chatId: number,
     sender: string,
     text: string,
-    dateTime: Date,
     risposta: number | null,
     separator: boolean
   ): Observable<any> {
@@ -65,10 +66,15 @@ export class ChatService extends BaseService {
         },
         (payload: { new: Messaggio }) => {
           const chatId: number = payload.new.chat_id;
-          const current: Messaggio[] = this.gruppiChat.messaggi[chatId] || [];
-          this.gruppiChat.messaggi[chatId] = [...current, payload.new].slice(
-            -this.maxMessages
-          );
+          const current: Messaggio[] =
+            DataHttp.gruppiChat.messaggi[chatId] || [];
+
+          DataHttp.gruppiChat.messaggi[chatId] = [
+            ...current,
+            payload.new,
+          ].slice(-this.maxMessages);
+          DataHttp.gruppiChat.ultimoId = payload.new.id;
+
           if (this.currentChat() == chatId) {
             this.newMessaggiSignal.set(this.cont++);
           }

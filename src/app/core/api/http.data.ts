@@ -13,6 +13,7 @@ import {
   MangaMiciomania,
 } from '../../shared/interfaces/elementiUtente.interface';
 import { Social } from '../../shared/interfaces/github.interface';
+import { GruppiChat } from '../components/chat/interfaces/chat.interface';
 
 export class DataHttp {
   static lingua: WritableSignal<Lingua> = signal(Lingua.it);
@@ -35,6 +36,12 @@ export class DataHttp {
   static mangaMiciomani: MangaMiciomania[] = [];
   static mangaMiciomaniLoaded = false;
   static elementiUtente: ElementiUtente | null = null;
+
+  static gruppiChat: GruppiChat = {
+    listaGruppi: [],
+    messaggi: {},
+    ultimoId: 0,
+  };
 
   static loadDataHttp(): void {
     const lingua = localStorage.getItem('lingua');
@@ -116,6 +123,12 @@ export class DataHttp {
     const storageElementiUtente = sessionStorage.getItem('elementiUtente');
     if (storageElementiUtente) {
       this.elementiUtente = JSON.parse(storageElementiUtente);
+    }
+
+    // Messaggi
+    const gruppiChat = localStorage.getItem('gruppiChat');
+    if (gruppiChat) {
+      this.gruppiChat = JSON.parse(gruppiChat);
     }
   }
 }

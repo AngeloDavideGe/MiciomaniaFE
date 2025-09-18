@@ -66,7 +66,8 @@ export class ChatListComponent implements OnInit {
   }
 
   public loadComplete(): void {
-    const gruppi: GruppiChat = this.chatService.gruppiChat;
+    const gruppi: GruppiChat = DataHttp.gruppiChat;
+
     this.allGruppi = gruppi.listaGruppi
       .map((gruppo: Gruppo) => {
         const messaggi: Messaggio[] = gruppi?.messaggi[gruppo.id] || [
@@ -99,9 +100,9 @@ export class ChatListComponent implements OnInit {
 
     if (!idChat) return [];
 
-    const messaggi: Messaggio[] = this.chatService.gruppiChat.messaggi[
-      idChat
-    ] || [getMessaggioBenvenuto()];
+    const messaggi: Messaggio[] = DataHttp.gruppiChat.messaggi[idChat] || [
+      getMessaggioBenvenuto(),
+    ];
     const messagesIdMap: Record<number, Messaggio> = {};
     const messaggioComp: IMessaggioComponent[] = [];
     const defaultPic: string = environment.defaultPic;

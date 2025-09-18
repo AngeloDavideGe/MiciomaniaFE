@@ -1,7 +1,6 @@
 import { take } from 'rxjs/operators';
-import { formatDataCustom } from '../../../../shared/functions/utilities.function';
 import { DataHttp } from '../../../api/http.data';
-import { GruppiChat } from '../interfaces/chat.interface';
+import { GruppiChat, Gruppo, Messaggio } from '../interfaces/chat.interface';
 import { ChatService } from '../services/chat.service';
 
 export function loadMessages(params: {
@@ -13,7 +12,7 @@ export function loadMessages(params: {
     .pipe(take(1))
     .subscribe({
       next: (gruppi: GruppiChat) => {
-        params.chatService.gruppiChat = gruppi;
+        addNewMessage(gruppi);
         params.chatService.messaggiCaricatiBool = true;
         params.chatService.activateListener();
         params.nextCall();
@@ -37,7 +36,6 @@ export function sendMessage(params: {
         params.idChat,
         DataHttp.user()!.id,
         params.newMessage,
-        formatDataCustom(new Date()),
         params.risposta,
         params.separator
       )
@@ -46,4 +44,22 @@ export function sendMessage(params: {
         next: () => params.nextCall(),
       });
   }
+}
+
+function addNewMessage(gruppi: GruppiChat): void {
+  const messaggi: Record<number, Messaggio[]> = DataHttp.gruppiChat.messaggi;
+
+  gruppi.listaGruppi.forEach((x: Gruppo) => {
+    if (messaggi[x.id]) {
+      messaggi[x.id].concat(gruppi.messaggi[x.id]);
+    } else {
+      messaggi[x.id] = gruppi.messaggi[x.id];
+    }
+  });
+
+  DataHttp.gruppiChat = {
+    listaGruppi: gruppi.listaGruppi,
+    ultimoId: gruppi.ultimoId,
+    messaggi: messaggi,
+  };
 }

@@ -20,6 +20,7 @@ export interface MessaggioSend {
 export interface GruppiChat {
   listaGruppi: Gruppo[];
   messaggi: Record<number, Messaggio[]>;
+  ultimoId: number;
 }
 
 export interface Gruppo {

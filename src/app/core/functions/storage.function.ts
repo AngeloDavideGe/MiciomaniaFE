@@ -13,6 +13,7 @@ export function refreshLocalStorage(): void {
     'mangaMiciomani',
     JSON.stringify(DataHttp.mangaMiciomani)
   );
+  localStorage.setItem('gruppiChat', JSON.stringify(DataHttp.gruppiChat));
 }
 
 export function refreshSessionStorage(): void {
