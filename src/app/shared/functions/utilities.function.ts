@@ -1,6 +1,4 @@
 import { effect, WritableSignal } from '@angular/core';
-import { Lingua } from '../interfaces/http.interface';
-import { DataHttp } from '../../core/api/http.data';
 
 // Confronta Oggetti
 export function compareObjectCustom(obj1: any, obj2: any): boolean {

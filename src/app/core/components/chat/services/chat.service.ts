@@ -1,19 +1,28 @@
 import { Injectable, signal } from '@angular/core';
 import { from, Observable } from 'rxjs';
+import { environment } from '../../../../../environments/environment';
+import { formatDataCustom } from '../../../../shared/functions/utilities.function';
 import { BaseService } from '../../../../shared/services/base/base.service';
+import { DataHttp } from '../../../api/http.data';
+import {
+  getRealTimeFilter,
+  RealTimeFilter,
+} from '../../../functions/supabase.function';
+import {
+  insertMessageRealtime,
+  updateMessageRealtime,
+} from '../functions/mess.realtime.function';
 import {
   GruppiChat,
   Messaggio,
   MessaggioSend,
 } from '../interfaces/chat.interface';
-import { formatDataCustom } from '../../../../shared/functions/utilities.function';
-import { DataHttp } from '../../../api/http.data';
+import { RealtimePayload } from '../../../../shared/interfaces/supabase.interface';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ChatService extends BaseService {
-  private readonly maxMessages = 10;
   public cont: number = 1;
   public currentChat = signal<number | null>(null);
   public messaggiCaricatiBool: boolean = false;
@@ -26,7 +35,7 @@ export class ChatService extends BaseService {
 
   loadChatGruppi(): Observable<GruppiChat> {
     const body = {
-      max_message: this.maxMessages,
+      max_message: environment.maxMessagesForchat,
       last_message_id: DataHttp.gruppiChat.ultimoId,
     };
 
@@ -54,32 +63,32 @@ export class ChatService extends BaseService {
     return from(this.appConfig.client.c2.from('messaggi').insert(message));
   }
 
+  updateMessages(id: number, content: string): Observable<any> {
+    return from(
+      this.appConfig.client.c2
+        .from('messaggi')
+        .update({ content: content })
+        .eq('id', id)
+    );
+  }
+
   activateListener(): void {
+    const filter: RealTimeFilter = getRealTimeFilter('public', 'messaggi');
+
     this.appConfig.client.c2
       .channel('messaggi')
-      .on(
-        'postgres_changes',
-        {
-          event: 'INSERT',
-          schema: 'public',
-          table: 'messaggi',
-        },
-        (payload: { new: Messaggio }) => {
-          const chatId: number = payload.new.chat_id;
-          const current: Messaggio[] =
-            DataHttp.gruppiChat.messaggi[chatId] || [];
-
-          DataHttp.gruppiChat.messaggi[chatId] = [
-            ...current,
-            payload.new,
-          ].slice(-this.maxMessages);
-          DataHttp.gruppiChat.ultimoId = payload.new.id;
-
-          if (this.currentChat() == chatId) {
-            this.newMessaggiSignal.set(this.cont++);
+      .on('postgres_changes', filter, (payload: RealtimePayload<any>) => {
+        switch (payload.eventType) {
+          case 'INSERT': {
+            insertMessageRealtime(payload, this);
+            break;
+          }
+          case 'UPDATE': {
+            updateMessageRealtime(payload, this);
+            break;
           }
         }
-      )
+      })
       .subscribe();
   }
 }

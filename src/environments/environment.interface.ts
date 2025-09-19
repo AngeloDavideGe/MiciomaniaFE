@@ -5,5 +5,6 @@ export interface IEnvironment {
   BE: string;
   team: string[];
   colori: string[];
+  maxMessagesForchat: number;
   defaultPic: string;
 }

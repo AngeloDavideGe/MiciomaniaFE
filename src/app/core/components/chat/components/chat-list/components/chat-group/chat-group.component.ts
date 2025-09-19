@@ -1,3 +1,4 @@
+import { DatePipe } from '@angular/common';
 import {
   AfterViewChecked,
   AfterViewInit,
@@ -11,11 +12,10 @@ import {
   ViewChild,
   ViewChildren,
 } from '@angular/core';
-
 import { User } from '../../../../../../../shared/interfaces/users.interface';
 import { DataHttp } from '../../../../../../api/http.data';
 import { getDropDown } from '../../../../functions/messaggi.function';
-import { sendMessage } from '../../../../handlers/chat.handler';
+import { sendMessage, updateMessage } from '../../../../handlers/chat.handler';
 import {
   DropDownAperta,
   IMessaggioComponent,
@@ -26,7 +26,6 @@ import {
 import { ChatService } from '../../../../services/chat.service';
 import { ChatInputComponent } from './components/chat-input/chat-input.component';
 import { MessaggioComponent } from './components/messaggio/messaggio.component';
-import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-chat-group',
@@ -93,10 +92,11 @@ export class ChatGroupComponent implements AfterViewInit, AfterViewChecked {
   }
 
   sendMessaggio(newMessaggio: string) {
+    const lastDate: Date = this.messages[this.messages.length - 1].created_at;
+
     let separator: boolean =
       this.messages.length === 0 ||
-      new Date(this.messages[this.messages.length - 1].created_at).getDate() !==
-        new Date().getDate();
+      new Date(lastDate).getDate() !== new Date().getDate();
 
     sendMessage({
       chatService: this.chatService,
@@ -124,12 +124,19 @@ export class ChatGroupComponent implements AfterViewInit, AfterViewChecked {
         content: messaggio.content,
       };
 
+      const eliminaMessaggio: Function = () =>
+        updateMessage({
+          chatService: this.chatService,
+          id: event.idMessaggio,
+          content: '',
+        });
+
       this.dropdownAperta.set({
         messaggioAperto: event.idMessaggio,
         dropdown: getDropDown({
           cond: this.user.id == event.idUser,
           rispondiFunc: () => this.risposta.set(risposta),
-          eliminaFunc: () => console.log('Elimina'),
+          eliminaFunc: () => eliminaMessaggio(),
         }),
       } as DropDownAperta);
     }
