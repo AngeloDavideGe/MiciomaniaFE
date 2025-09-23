@@ -8,6 +8,7 @@ import {
   Output,
   signal,
   Signal,
+  ViewChild,
 } from '@angular/core';
 import { environment } from '../../../../../../environments/environment';
 import { User } from '../../../../../shared/interfaces/users.interface';
@@ -48,9 +49,13 @@ export class ChatListComponent implements OnInit {
   public messages: Signal<Messaggio[]> = computed(() => this.computedMessage());
 
   @Output() chiudiChat = new EventEmitter<void>();
+  @ViewChild(ChatGroupComponent) cgc!: ChatGroupComponent;
 
   constructor() {
-    effect(() => (this.user = DataHttp.user()));
+    effect(() => {
+      this.user = DataHttp.user();
+      this.cgc ? this.cgc.effectByChatList() : null;
+    });
   }
 
   ngOnInit(): void {

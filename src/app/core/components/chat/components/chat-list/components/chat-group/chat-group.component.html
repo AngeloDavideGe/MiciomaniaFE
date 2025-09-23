@@ -23,7 +23,9 @@
   <app-chat-input
     [idUtente]="user ? user.id : ''"
     [risposta]="risposta()"
-    (sendMessaggio)="sendMessaggio($event)"
+    [modifica]="modifica()"
+    (sendMessaggio)="sendOrEditMessaggio($event)"
     (closeRisposta)="risposta.set(null)"
+    (closeModifica)="modifica.set(null)"
   ></app-chat-input>
 </div>

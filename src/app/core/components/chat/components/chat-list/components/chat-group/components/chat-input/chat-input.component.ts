@@ -1,6 +1,9 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { RispostaInput } from '../../../../../../interfaces/chat.interface';
+import {
+  ModificaInput,
+  RispostaInput,
+} from '../../../../../../interfaces/chat.interface';
 
 @Component({
   selector: 'app-chat-input',
@@ -21,6 +24,19 @@ import { RispostaInput } from '../../../../../../interfaces/chat.interface';
             </button>
           </div>
           <p class="reply-message">{{ risposta.content }}</p>
+        </div>
+      </div>
+      } @if(modifica) {
+      <div class="reply-container">
+        <div class="reply-indicator"></div>
+        <div class="reply-content">
+          <div class="reply-header">
+            <span class="reply-label"></span>
+            <button class="reply-close" (click)="closeModifica.emit()">
+              ✕
+            </button>
+          </div>
+          <p class="reply-message">{{ modifica.content }}</p>
         </div>
       </div>
       }
@@ -52,12 +68,24 @@ export class ChatInputComponent {
   public newMessage: string = '';
   @Input() idUtente!: string;
   @Input() risposta!: RispostaInput | null;
-  @Output() sendMessaggio = new EventEmitter<string>();
+  @Input() modifica!: ModificaInput | null;
+  @Output() sendMessaggio = new EventEmitter<ModificaInput>();
   @Output() closeRisposta = new EventEmitter<void>();
+  @Output() closeModifica = new EventEmitter<void>();
 
   sendMessaggioFunc(): void {
     if (!!this.newMessage.trim()) {
-      this.sendMessaggio.emit(this.newMessage);
+      if (this.modifica) {
+        this.sendMessaggio.emit({
+          idMessaggio: this.modifica.idMessaggio,
+          content: this.newMessage.trim(),
+        });
+      } else {
+        this.sendMessaggio.emit({
+          idMessaggio: null,
+          content: this.newMessage.trim(),
+        });
+      }
       this.newMessage = '';
     }
   }

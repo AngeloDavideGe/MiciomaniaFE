@@ -11,3 +11,33 @@
     cursor: pointer;
   }
 }
+
+.spinner-overlay {
+  position: absolute;
+  top: 70px;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding-top: 20px;
+  z-index: 1000;
+  pointer-events: none;
+
+  .whatsapp-spinner-small {
+    width: 20px;
+    height: 20px;
+    border: 2px solid #f3f3f3;
+    border-top: 2px solid #128c7e;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    background-color: white;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+}
+

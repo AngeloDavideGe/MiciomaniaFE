@@ -3,7 +3,6 @@ import {
   AfterViewChecked,
   AfterViewInit,
   Component,
-  effect,
   ElementRef,
   inject,
   Input,
@@ -20,13 +19,13 @@ import {
   DropDownAperta,
   IMessaggioComponent,
   Messaggio,
+  ModificaInput,
   OutputDropdown,
   RispostaInput,
 } from '../../../../interfaces/chat.interface';
 import { ChatService } from '../../../../services/chat.service';
 import { ChatInputComponent } from './components/chat-input/chat-input.component';
 import { MessaggioComponent } from './components/messaggio/messaggio.component';
-import { last } from 'rxjs';
 
 @Component({
   selector: 'app-chat-group',
@@ -38,11 +37,12 @@ import { last } from 'rxjs';
 export class ChatGroupComponent implements AfterViewInit, AfterViewChecked {
   private chatService = inject(ChatService);
 
-  public user!: User | null;
+  public user: User | null = DataHttp.user();
   private evitaSpam: boolean = true;
   private initialLoad: boolean = true;
   public currentDate: string = 'Oggi';
   public risposta = signal<RispostaInput | null>(null);
+  public modifica = signal<ModificaInput | null>(null);
   public dropdownAperta = signal<DropDownAperta | null>(null);
 
   @Input() chatId!: number;
@@ -50,14 +50,6 @@ export class ChatGroupComponent implements AfterViewInit, AfterViewChecked {
   @Input() messaggiComp!: IMessaggioComponent[];
   @ViewChild('chatMessages') chatMessagesContainer!: ElementRef;
   @ViewChildren('daySeparator') daySeparators!: QueryList<ElementRef>;
-
-  constructor() {
-    effect(() => {
-      this.user = DataHttp.user();
-      this.risposta.set(null);
-      this.dropdownAperta.set(null);
-    });
-  }
 
   ngAfterViewInit(): void {
     const observer = new IntersectionObserver(
@@ -83,6 +75,12 @@ export class ChatGroupComponent implements AfterViewInit, AfterViewChecked {
     }
   }
 
+  public effectByChatList(): void {
+    this.user = DataHttp.user();
+    this.risposta.set(null);
+    this.dropdownAperta.set(null);
+  }
+
   private scrollToBottom(): void {
     try {
       const element = this.chatMessagesContainer.nativeElement;
@@ -92,7 +90,20 @@ export class ChatGroupComponent implements AfterViewInit, AfterViewChecked {
     }
   }
 
-  sendMessaggio(newMessaggio: string) {
+  sendOrEditMessaggio(newMessaggio: ModificaInput): void {
+    if (newMessaggio.idMessaggio) {
+      updateMessage({
+        chatService: this.chatService,
+        id: newMessaggio.idMessaggio,
+        content: newMessaggio.content,
+      });
+      this.modifica.set(null);
+    } else {
+      this.sendMessaggio(newMessaggio.content);
+    }
+  }
+
+  private sendMessaggio(content: string): void {
     const lastMess: Messaggio = this.messages[this.messages.length - 1] || {};
     const lastDate: Date | null = lastMess.created_at
       ? lastMess.created_at
@@ -107,7 +118,7 @@ export class ChatGroupComponent implements AfterViewInit, AfterViewChecked {
       chatService: this.chatService,
       ifCond: this.evitaSpam,
       nextCall: () => this.evitaSpamFunc(),
-      newMessage: newMessaggio,
+      newMessage: content,
       risposta: this.risposta()?.idMessaggio || null,
       idChat: this.chatId,
       separator: separator,
@@ -129,6 +140,23 @@ export class ChatGroupComponent implements AfterViewInit, AfterViewChecked {
         content: messaggio.content,
       };
 
+      const modifica: ModificaInput = {
+        idMessaggio: messaggio.id,
+        content: messaggio.content,
+      };
+
+      const rispOrModifica: Function = (
+        tipo: RispostaInput | ModificaInput
+      ) => {
+        if ('idUser' in tipo) {
+          this.modifica.set(null);
+          this.risposta.set(tipo);
+        } else {
+          this.risposta.set(null);
+          this.modifica.set(tipo);
+        }
+      };
+
       const eliminaMessaggio: Function = () =>
         updateMessage({
           chatService: this.chatService,
@@ -140,7 +168,8 @@ export class ChatGroupComponent implements AfterViewInit, AfterViewChecked {
         messaggioAperto: event.idMessaggio,
         dropdown: getDropDown({
           cond: this.user.id == event.idUser,
-          rispondiFunc: () => this.risposta.set(risposta),
+          rispondiFunc: () => rispOrModifica(risposta),
+          modificaFunc: () => rispOrModifica(modifica),
           eliminaFunc: () => eliminaMessaggio(),
         }),
       } as DropDownAperta);

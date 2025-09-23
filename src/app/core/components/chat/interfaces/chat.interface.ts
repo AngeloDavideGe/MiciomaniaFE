@@ -85,3 +85,8 @@ export interface ReturnEditMessage {
   edited_message: MessaggioUpdate;
   original_message: Messaggio;
 }
+
+export interface ModificaInput {
+  idMessaggio: number | null;
+  content: string;
+}

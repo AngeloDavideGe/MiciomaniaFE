@@ -3,6 +3,7 @@ import { DropDownMessaggi, Messaggio } from '../interfaces/chat.interface';
 export function getDropDown(params: {
   cond: boolean;
   rispondiFunc: Function;
+  modificaFunc: Function;
   eliminaFunc: Function;
 }): DropDownMessaggi[] {
   const dropdown: DropDownMessaggi[] = [
@@ -10,6 +11,11 @@ export function getDropDown(params: {
       titolo: 'Rispondi',
       click: () => params.rispondiFunc(),
       cond: true,
+    },
+    {
+      titolo: 'Modifica',
+      click: () => params.modificaFunc(),
+      cond: params.cond,
     },
     {
       titolo: 'Elimina',

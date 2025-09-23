@@ -41,7 +41,7 @@ export function updateMessageRealtime(
     messaggi = messaggi.filter((x: Messaggio) => x.id != msgId);
   } else {
     messaggi = messaggi.map((x: Messaggio) =>
-      x.id == msgId ? payload.new.content : x.content
+      x.id == msgId ? payload.new : x
     );
   }
 
