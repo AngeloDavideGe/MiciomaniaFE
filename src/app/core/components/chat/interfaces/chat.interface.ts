@@ -17,9 +17,20 @@ export interface MessaggioSend {
   separator: boolean;
 }
 
+export interface MessaggioUpdate {
+  id: number;
+  sender: string;
+  contentNew: string;
+  contentOld: string;
+  editated_at: Date;
+  chat_id: number;
+}
+
 export interface GruppiChat {
   listaGruppi: Gruppo[];
   messaggi: Record<number, Messaggio[]>;
+  messaggiCambiati: Record<number, MessaggioUpdate[]>;
+  ultimoAggiornamento: Date;
   ultimoId: number;
 }
 
@@ -68,4 +79,9 @@ export interface DropDownMessaggi {
 export interface OutputDropdown {
   idMessaggio: number;
   idUser: string;
+}
+
+export interface ReturnEditMessage {
+  edited_message: MessaggioUpdate;
+  original_message: Messaggio;
 }

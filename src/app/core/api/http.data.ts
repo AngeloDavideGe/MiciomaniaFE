@@ -40,6 +40,8 @@ export class DataHttp {
   static gruppiChat: GruppiChat = {
     listaGruppi: [],
     messaggi: {},
+    messaggiCambiati: {},
+    ultimoAggiornamento: new Date(),
     ultimoId: 0,
   };
 

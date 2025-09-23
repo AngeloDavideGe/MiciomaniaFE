@@ -16,6 +16,7 @@ import {
   GruppiChat,
   Messaggio,
   MessaggioSend,
+  ReturnEditMessage,
 } from '../interfaces/chat.interface';
 import { RealtimePayload } from '../../../../shared/interfaces/supabase.interface';
 
@@ -24,8 +25,8 @@ import { RealtimePayload } from '../../../../shared/interfaces/supabase.interfac
 })
 export class ChatService extends BaseService {
   public cont: number = 1;
-  public currentChat = signal<number | null>(null);
   public messaggiCaricatiBool: boolean = false;
+  public currentChat = signal<number | null>(null);
   public chatVisibile = signal<boolean>(true);
   public newMessaggiSignal = signal<number>(0);
 
@@ -35,6 +36,7 @@ export class ChatService extends BaseService {
 
   loadChatGruppi(): Observable<GruppiChat> {
     const body = {
+      last_updated: DataHttp.gruppiChat.ultimoAggiornamento,
       max_message: environment.maxMessagesForchat,
       last_message_id: DataHttp.gruppiChat.ultimoId,
     };
@@ -63,13 +65,13 @@ export class ChatService extends BaseService {
     return from(this.appConfig.client.c2.from('messaggi').insert(message));
   }
 
-  updateMessages(id: number, content: string): Observable<any> {
-    return from(
-      this.appConfig.client.c2
-        .from('messaggi')
-        .update({ content: content })
-        .eq('id', id)
-    );
+  updateMessages(id: number, content: string): Observable<ReturnEditMessage> {
+    const body = {
+      id_mess: id,
+      content_new: content,
+    };
+
+    return this.postCustom<ReturnEditMessage>('rpc/update_message', body);
   }
 
   activateListener(): void {

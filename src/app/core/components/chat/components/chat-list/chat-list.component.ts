@@ -70,16 +70,19 @@ export class ChatListComponent implements OnInit {
 
     this.allGruppi = gruppi.listaGruppi
       .map((gruppo: Gruppo) => {
-        const messaggi: Messaggio[] = gruppi?.messaggi[gruppo.id] || [
-          getMessaggioBenvenuto(),
-        ];
-        const lastMsg: Messaggio = messaggi[messaggi.length - 1];
-        const orario = new Date(lastMsg.created_at);
+        const messaggi: Messaggio[] =
+          gruppi.messaggi[gruppo.id] && gruppi.messaggi[gruppo.id].length > 0
+            ? gruppi.messaggi[gruppo.id]
+            : [getMessaggioBenvenuto()];
+
+        const lastMsg: Messaggio = messaggi[messaggi.length - 1] || {};
+        const orario = new Date(lastMsg.created_at || new Date());
         this.allGruppiRecord[gruppo.id] = {
           content: lastMsg.content,
           orario: orario,
           chat: gruppo.nome,
         };
+
         return gruppo;
       })
       .sort((a: Gruppo, b: Gruppo) => {

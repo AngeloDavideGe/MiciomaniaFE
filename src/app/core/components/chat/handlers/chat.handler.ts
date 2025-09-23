@@ -1,6 +1,11 @@
 import { take } from 'rxjs/operators';
 import { DataHttp } from '../../../api/http.data';
-import { GruppiChat, Gruppo, Messaggio } from '../interfaces/chat.interface';
+import {
+  GruppiChat,
+  Gruppo,
+  Messaggio,
+  MessaggioUpdate,
+} from '../interfaces/chat.interface';
 import { ChatService } from '../services/chat.service';
 import { environment } from '../../../../../environments/environment';
 
@@ -59,10 +64,27 @@ export function updateMessage(params: {
 }
 
 function addNewMessage(gruppi: GruppiChat): void {
-  const messaggi: Record<number, Messaggio[]> = DataHttp.gruppiChat.messaggi;
+  const messaggi: Record<number, Messaggio[]> =
+    DataHttp.gruppiChat.messaggi || {};
+  const cambiati: Record<number, MessaggioUpdate[]> =
+    DataHttp.gruppiChat.messaggiCambiati || {};
 
   gruppi.listaGruppi.forEach((x: Gruppo) => {
     if (messaggi[x.id]) {
+      if (cambiati[x.id]) {
+        console.log(cambiati[x.id]);
+        cambiati[x.id].forEach((update: MessaggioUpdate) => {
+          const index: number = messaggi[x.id].findIndex(
+            (msg: Messaggio) => msg.id === update.id
+          );
+          if (index !== -1) {
+            messaggi[x.id][index].content = update.contentNew;
+          }
+        });
+      } else {
+        cambiati[x.id] = [];
+      }
+
       messaggi[x.id]
         .concat(gruppi.messaggi[x.id])
         .slice(-environment.maxMessagesForchat);
@@ -73,7 +95,9 @@ function addNewMessage(gruppi: GruppiChat): void {
 
   DataHttp.gruppiChat = {
     listaGruppi: gruppi.listaGruppi,
-    ultimoId: gruppi.ultimoId,
     messaggi: messaggi,
+    messaggiCambiati: cambiati,
+    ultimoAggiornamento: new Date(),
+    ultimoId: gruppi.ultimoId,
   };
 }

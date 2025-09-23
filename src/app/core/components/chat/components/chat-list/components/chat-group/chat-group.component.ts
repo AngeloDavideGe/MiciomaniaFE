@@ -26,6 +26,7 @@ import {
 import { ChatService } from '../../../../services/chat.service';
 import { ChatInputComponent } from './components/chat-input/chat-input.component';
 import { MessaggioComponent } from './components/messaggio/messaggio.component';
+import { last } from 'rxjs';
 
 @Component({
   selector: 'app-chat-group',
@@ -92,9 +93,13 @@ export class ChatGroupComponent implements AfterViewInit, AfterViewChecked {
   }
 
   sendMessaggio(newMessaggio: string) {
-    const lastDate: Date = this.messages[this.messages.length - 1].created_at;
+    const lastMess: Messaggio = this.messages[this.messages.length - 1] || {};
+    const lastDate: Date | null = lastMess.created_at
+      ? lastMess.created_at
+      : null;
 
     let separator: boolean =
+      !lastDate ||
       this.messages.length === 0 ||
       new Date(lastDate).getDate() !== new Date().getDate();
 
