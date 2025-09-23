@@ -1,0 +1,64 @@
+<div id="ChatInput">
+  <!-- Messaggio di risposta -->
+  @if(risposta) {
+  <div class="reply-container">
+    <div class="reply-indicator">
+      <svg viewBox="0 0 24 24" width="16" height="16" class="reply-icon">
+        <path
+          fill="currentColor"
+          d="M10 9V5l-7 7 7 7v-4.1c5 0 8.5 1.6 11 5.1-1-5-4-10-11-11z"
+        />
+      </svg>
+    </div>
+    <div class="reply-content">
+      <div class="reply-header">
+        <span class="reply-name">{{ risposta.idUser }}</span>
+        <span class="reply-label">Rispondi a</span>
+        <button class="reply-close" (click)="closeRisposta.emit()">✕</button>
+      </div>
+      <p class="reply-message">{{ risposta.content }}</p>
+    </div>
+  </div>
+  }
+
+  <!-- Modifica Messaggio -->
+  @if(modifica) {
+  <div class="edit-container">
+    <div class="edit-indicator">
+      <svg viewBox="0 0 24 24" width="16" height="16" class="edit-icon">
+        <path
+          fill="currentColor"
+          d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"
+        />
+      </svg>
+    </div>
+    <div class="edit-content">
+      <div class="edit-header">
+        <span class="edit-label">Modifica messaggio</span>
+        <button class="edit-close" (click)="closeModifica.emit()">✕</button>
+      </div>
+      <p class="edit-message">{{ modifica.content }}</p>
+    </div>
+  </div>
+  }
+
+  <!-- Input per il testo -->
+  <div class="input-container">
+    <input
+      [(ngModel)]="newMessage"
+      [placeholder]="
+        idUtente ? 'Scrivi un messaggio' : 'Effettua login per scrivere'
+      "
+      [disabled]="!idUtente"
+      (keyup.enter)="sendMessaggioFunc()"
+    />
+    <button (click)="sendMessaggioFunc()">
+      <svg viewBox="0 0 24 24" width="24" height="24" class="send-icon">
+        <path
+          fill="currentColor"
+          d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"
+        ></path>
+      </svg>
+    </button>
+  </div>
+</div>
