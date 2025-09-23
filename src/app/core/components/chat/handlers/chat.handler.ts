@@ -19,8 +19,8 @@ export function loadMessages(params: {
     .subscribe({
       next: (gruppi: GruppiChat) => {
         addNewMessage(gruppi);
-        params.chatService.messaggiCaricatiBool = true;
         params.chatService.activateListener();
+        params.chatService.messaggiCaricatiBool = true;
         params.nextCall();
       },
       error: (err: any) => console.error('errore load message', err),
@@ -67,29 +67,48 @@ function addNewMessage(gruppi: GruppiChat): void {
   const messaggi: Record<number, Messaggio[]> =
     DataHttp.gruppiChat.messaggi || {};
   const cambiati: Record<number, MessaggioUpdate[]> =
-    DataHttp.gruppiChat.messaggiCambiati || {};
+    gruppi.messaggiCambiati || {};
+  const cambiatiMap: Record<number, Map<number, MessaggioUpdate>> = {};
+
+  Object.keys(cambiati).forEach((chatId) => {
+    const idNum = Number(chatId);
+    cambiatiMap[idNum] = new Map();
+
+    cambiati[idNum].forEach((update: MessaggioUpdate) => {
+      cambiatiMap[idNum].set(update.id, update);
+    });
+  });
 
   gruppi.listaGruppi.forEach((x: Gruppo) => {
-    if (messaggi[x.id]) {
-      if (cambiati[x.id]) {
-        console.log(cambiati[x.id]);
-        cambiati[x.id].forEach((update: MessaggioUpdate) => {
-          const index: number = messaggi[x.id].findIndex(
-            (msg: Messaggio) => msg.id === update.id
+    const chatId: number = x.id;
+
+    if (messaggi[chatId]) {
+      if (cambiatiMap[chatId]) {
+        const existingMessages: Messaggio[] = messaggi[chatId];
+
+        for (let i = existingMessages.length - 1; i >= 0; i--) {
+          const update: MessaggioUpdate | undefined = cambiatiMap[chatId].get(
+            existingMessages[i].id
           );
-          if (index !== -1) {
-            messaggi[x.id][index].content = update.contentNew;
+
+          if (update && update.contentNew != '') {
+            existingMessages[i].content = update.contentNew;
+            cambiatiMap[chatId].delete(existingMessages[i].id);
           }
-        });
-      } else {
-        cambiati[x.id] = [];
+        }
       }
 
-      messaggi[x.id]
-        .concat(gruppi.messaggi[x.id])
-        .slice(-environment.maxMessagesForchat);
+      const newMessages: Messaggio[] = gruppi.messaggi[chatId] || [];
+      const maxMessages: number = environment.maxMessagesForchat;
+      const allMessages: Messaggio[] = messaggi[chatId].concat(newMessages);
+
+      if (allMessages.length > maxMessages) {
+        messaggi[chatId] = allMessages.slice(-maxMessages);
+      } else {
+        messaggi[chatId] = allMessages;
+      }
     } else {
-      messaggi[x.id] = gruppi.messaggi[x.id];
+      messaggi[chatId] = gruppi.messaggi[chatId] || [];
     }
   });
 

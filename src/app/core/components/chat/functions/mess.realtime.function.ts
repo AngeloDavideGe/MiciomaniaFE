@@ -17,6 +17,7 @@ export function insertMessageRealtime(
   DataHttp.gruppiChat = {
     ...DataHttp.gruppiChat,
     ultimoId: payload.new.id,
+    ultimoAggiornamento: new Date(),
     messaggi: {
       ...DataHttp.gruppiChat.messaggi,
       [chatId]: currentMessages,
@@ -46,6 +47,7 @@ export function updateMessageRealtime(
 
   DataHttp.gruppiChat = {
     ...DataHttp.gruppiChat,
+    ultimoAggiornamento: new Date(),
     messaggi: {
       ...DataHttp.gruppiChat.messaggi,
       [chatId]: messaggi,
