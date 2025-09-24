@@ -1,4 +1,9 @@
-import { DropDownMessaggi, Messaggio } from '../interfaces/chat.interface';
+import { environment } from '../../../../../environments/environment';
+import {
+  DropDownMessaggi,
+  IMessaggioComponent,
+  Messaggio,
+} from '../interfaces/chat.interface';
 
 export function getDropDown(params: {
   cond: boolean;
@@ -40,4 +45,17 @@ export function getMessaggioBenvenuto(): Messaggio {
     response: null,
     separator: true,
   } as Messaggio;
+}
+
+export function getMessaggioCompBenvenuto(
+  message: Messaggio
+): IMessaggioComponent {
+  return {
+    message: message,
+    name: message.sender,
+    replySender: '',
+    replyText: '',
+    urlPic: environment.defaultPic,
+    class2: 'received',
+  };
 }

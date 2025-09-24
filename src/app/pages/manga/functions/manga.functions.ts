@@ -42,35 +42,17 @@ export function createSezioneMangaUtente(
   mu: MangaUtente,
   lm: ListaManga[]
 ): SezioniMangaUtente {
-  const mangaPerStorage: SplitMangaUtente = {
-    preferiti: mu.preferiti.split(',').map(Number),
-    letti: mu.letti.split(',').map(Number),
-    completati: mu.completati.split(',').map(Number),
+  const mangaMap = new Map(lm.map((manga) => [manga.id, manga]));
+
+  const convert: Function = (ids: string) =>
+    ids
+      .split(',')
+      .map((id: string) => mangaMap.get(Number(id)))
+      .filter(Boolean) as ListaManga[];
+
+  return {
+    preferiti: convert(mu.preferiti),
+    letti: convert(mu.letti),
+    completati: convert(mu.completati),
   };
-
-  const sezionePerStorage: SezioniMangaUtente = {
-    preferiti: convertedIdtoManga(mangaPerStorage.preferiti, lm),
-    letti: convertedIdtoManga(mangaPerStorage.letti, lm),
-    completati: convertedIdtoManga(mangaPerStorage.completati, lm),
-  };
-
-  return sezionePerStorage;
-}
-
-function convertedIdtoManga(
-  idManga: number[],
-  listaManga: ListaManga[]
-): ListaManga[] {
-  let allManga: ListaManga[] = [];
-
-  for (let i = 0; i < idManga.length; i++) {
-    const mangaFind: ListaManga | undefined = listaManga.find(
-      (x: ListaManga) => x.id == idManga[i]
-    );
-    if (mangaFind) {
-      allManga.push(mangaFind);
-    }
-  }
-
-  return allManga;
 }

@@ -26,7 +26,10 @@ import {
 import { ChatService } from '../../services/chat.service';
 import { ChatAllComponent } from './components/chat-all/chat-all.component';
 import { ChatGroupComponent } from './components/chat-group/chat-group.component';
-import { getMessaggioBenvenuto } from '../../functions/messaggi.function';
+import {
+  getMessaggioBenvenuto,
+  getMessaggioCompBenvenuto,
+} from '../../functions/messaggi.function';
 
 @Component({
   selector: 'app-chat-list',
@@ -108,54 +111,51 @@ export class ChatListComponent implements OnInit {
 
     if (!idChat) return [];
 
-    const messaggi: Messaggio[] = DataHttp.gruppiChat.messaggi[idChat] || [
-      getMessaggioBenvenuto(),
-    ];
+    let messaggi: Messaggio[] = DataHttp.gruppiChat.messaggi[idChat] || [];
+    let messaggioComp: IMessaggioComponent[] = [];
     const messagesIdMap: Record<number, Messaggio> = {};
-    const messaggioComp: IMessaggioComponent[] = [];
     const defaultPic: string = environment.defaultPic;
 
-    if (messaggi.length == 0) return [];
+    if (messaggi.length !== 0) {
+      messaggioComp = messaggi.map((message) => {
+        messagesIdMap[message.id] = message;
 
-    for (const message of messaggi) {
-      messagesIdMap[message.id] = message;
+        let name: string;
+        let urlPic: string;
+        let class2: 'sent' | 'received';
+        let replySender: string = '';
+        let replyText: string = '';
 
-      let name: string;
-      let urlPic: string;
-      let class2: 'sent' | 'received';
-      let replySender: string = '';
-      let replyText: string = '';
-
-      if (message.sender === this.user?.id) {
-        name = `${this.user.credenziali?.nome} (${this.user.id})`;
-        urlPic = this.user.credenziali.profilePic || defaultPic;
-        class2 = 'sent';
-      } else {
-        const userInfo: UserReduced = userMessageMap[message.sender];
-
-        if (userInfo) {
-          name = `${userInfo.nome} (${message.sender})`;
-          urlPic = userInfo.pic;
+        if (message.sender === this.user?.id) {
+          name = `${this.user.credenziali?.nome} (${this.user.id})`;
+          urlPic = this.user.credenziali?.profilePic || defaultPic;
+          class2 = 'sent';
         } else {
-          name = 'Utente Eliminato';
-          urlPic = defaultPic;
+          const userInfo: UserReduced = userMessageMap[message.sender];
+          name = userInfo
+            ? `${userInfo.nome} (${message.sender})`
+            : 'Utente Eliminato';
+          urlPic = userInfo?.pic || defaultPic;
+          class2 = 'received';
         }
-        class2 = 'received';
-      }
 
-      if (message.response && messagesIdMap[message.response]) {
-        replySender = messagesIdMap[message.response].sender;
-        replyText = messagesIdMap[message.response].content;
-      }
+        if (message.response && messagesIdMap[message.response]) {
+          replySender = messagesIdMap[message.response].sender;
+          replyText = messagesIdMap[message.response].content;
+        }
 
-      messaggioComp.push({
-        message,
-        name,
-        urlPic,
-        replySender,
-        replyText,
-        class2,
+        return {
+          message,
+          name,
+          urlPic,
+          replySender,
+          replyText,
+          class2,
+        };
       });
+    } else {
+      messaggi = [getMessaggioBenvenuto()];
+      messaggioComp = [getMessaggioCompBenvenuto(messaggi[0])];
     }
 
     this.messaggiComp = messaggioComp;

@@ -93,17 +93,20 @@ export class AdminComponent implements OnInit {
 
   private mapUsersByRuolo(): void {
     const users: UserParams[] = DataHttp.users();
-    const newMap: Record<string, UserParams[]> = {};
+    const newMap: Record<string, UserParams[]> = Object.create(null);
 
     this.ruoli.forEach((ruolo: Ruolo) => (newMap[ruolo] = []));
     users.forEach((user: UserParams) => newMap[user.ruolo].push(user));
 
     if (this.user) {
       const ruoloUtente: Ruolo = this.user.credenziali.ruolo;
-      if (!newMap[ruoloUtente]) {
-        newMap[ruoloUtente] = [];
+      const userConverted: UserParams = converUserParams(this.user);
+
+      if (newMap[ruoloUtente]) {
+        newMap[ruoloUtente].push(userConverted);
+      } else {
+        newMap[ruoloUtente] = [userConverted];
       }
-      newMap[ruoloUtente].push(converUserParams(this.user));
     }
 
     this.userMap.set(newMap);

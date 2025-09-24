@@ -20,7 +20,7 @@ export function renderBarChart(topUser: TopUser[], idChart: string): void {
   data.addColumn({ type: 'string', role: 'style' });
 
   topUser.forEach((s: TopUser) => {
-    const colore = mapSquad[s.team] || 'gray';
+    const colore: string = mapSquad[s.team] || 'gray';
     data.addRow([s.id, s.punteggio, `color: ${colore}`]);
   });
 
