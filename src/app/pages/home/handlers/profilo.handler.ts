@@ -78,6 +78,7 @@ export function uploadProfileImage(params: {
     .pipe(
       take(1),
       tap((url: string) => params.tapCall(url)),
+      finalize(() => params.finalizeCall()),
       switchMap(() => params.switcMapCall(params.user))
     )
     .subscribe({

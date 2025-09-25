@@ -41,14 +41,14 @@
           [src]="gruppo.pic"
           alt="{{ gruppo.nome }}"
           class="chat-avatar rounded-circle"
-          (click)="editGruppoPic.set(true); selectedChatIdEdit = gruppo.id"
+          (click)="apriCambioPic(gruppo.id)"
         />
         }
         <!-- Iniziale Gruppo -->
         @else {
         <div
           class="avatar-placeholder rounded-circle bg-secondary d-flex align-items-center justify-content-center"
-          (click)="editGruppoPic.set(true); selectedChatIdEdit = gruppo.id"
+          (click)="apriCambioPic(gruppo.id)"
         >
           <span class="text-white">{{ gruppo.nome.charAt(0) }}</span>
         </div>
@@ -86,8 +86,9 @@
 </div>
 
 @if(editGruppoPic()){
-<app-change-gruppo-pic
-  [chatId]="selectedChatIdEdit"
+<app-change-pic-custom
+  [nome]="'Gruppo'"
   (chiudi)="editGruppoPic.set(false)"
-></app-change-gruppo-pic>
+  (conferma)="cambiaPic($event)"
+></app-change-pic-custom>
 }

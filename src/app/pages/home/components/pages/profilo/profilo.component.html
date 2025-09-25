@@ -54,10 +54,12 @@
 
 <!--Cambia Immagine  -->
 @case ('change-pic') {
-<app-change-profilo-pic
+<app-change-pic-custom
+  [nome]="'Profilo'"
   (chiudi)="modaleAperta = ''"
-  [profiloLang]="profiloLang"
-></app-change-profilo-pic>
+  (conferma)="onUpload($event)"
+>
+</app-change-pic-custom>
 } } }
 
 <!-- Error -->

@@ -13,6 +13,7 @@ import { LoadingService } from '../../../../../shared/services/template/loading.
 import {
   deletePubblicazioneById,
   getProfiloById,
+  uploadProfileImage,
 } from '../../../handlers/profilo.handler';
 import { EditableSocial, Tweet } from '../../../interfaces/profilo.interface';
 import { ProfiloService } from '../../../services/profilo.service';
@@ -22,6 +23,8 @@ import {
   ProfiloLang,
   ProfiloLangType,
 } from './languages/interfaces/profilo-lang.interface';
+import { updateUserCustom } from '../../../../../shared/handlers/auth.handler';
+import { AuthService } from '../../../../../shared/services/api/auth.service';
 
 @Component({
   selector: 'app-profilo',
@@ -31,6 +34,7 @@ import {
 })
 export class ProfiloComponent implements OnDestroy {
   private route = inject(ActivatedRoute);
+  private authService = inject(AuthService);
   public router = inject(Router);
   private loaderService = inject(LoadingService);
   public profiloService = inject(ProfiloService);
@@ -166,5 +170,32 @@ export class ProfiloComponent implements OnDestroy {
         );
       },
     });
+  }
+
+  onUpload(file: File | null): void {
+    let user = structuredClone(DataHttp.user()) || ({} as User);
+    this.profiloService.aggiornamentoPic.set(true);
+    this.modaleAperta = '';
+
+    uploadProfileImage({
+      profiloService: this.profiloService,
+      selectedFile: file,
+      user: user,
+      tapCall: (url: string) => (user.credenziali.profilePic = url),
+      finalizeCall: () => this.profiloService.aggiornamentoPic.set(false),
+      switcMapCall: (user: User) =>
+        updateUserCustom({
+          authService: this.authService,
+          user: user,
+        }),
+      nextCall: (data: User) => this.completeEdit(data),
+      errorCall: (err: Error) => console.error('Errore chiamata:', err),
+    });
+  }
+
+  private completeEdit(user: User): void {
+    if (DataHttp.profiloPersonale) {
+      DataHttp.profiloPersonale.user = user;
+    }
   }
 }

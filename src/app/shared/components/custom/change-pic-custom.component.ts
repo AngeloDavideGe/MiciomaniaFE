@@ -1,10 +1,7 @@
-import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
-import { ChatService } from '../../../../../services/chat.service';
-import { DataHttp } from '../../../../../../../api/http.data';
-import { finalize, take } from 'rxjs';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
-  selector: 'app-change-gruppo-pic',
+  selector: 'app-change-pic-custom',
   standalone: true,
   imports: [],
   template: `
@@ -21,7 +18,7 @@ import { finalize, take } from 'rxjs';
             class="modal-header d-flex align-items-center justify-content-between border-bottom-0 pb-0"
           >
             <h5 class="modal-title mb-0">
-              {{ 'Modifica Immagine Gruppo' }}
+              {{ 'Modifica Immagine ' + nome }}
             </h5>
             <button
               type="button"
@@ -44,7 +41,7 @@ import { finalize, take } from 'rxjs';
                   style="min-height: 60vh; max-width: 400px; margin: 3rem auto; background: #f8f9fa; border-radius: 16px; box-shadow: 0 4px 24px rgba(0,0,0,0.08); padding: 2rem;"
                 >
                   <h4 class="mb-4 text-primary" style="font-weight: bold;">
-                    {{ 'Carica Immagine Gruppo' }}
+                    {{ 'Carica Immagine ' + nome }}
                   </h4>
                   <div class="mb-4 w-100 d-flex justify-content-center">
                     @if(previewUrl){
@@ -72,7 +69,7 @@ import { finalize, take } from 'rxjs';
                     class="btn btn-primary w-100"
                     style="border-radius: 30px; font-weight: 500;"
                     [disabled]="!selectedFile"
-                    (click)="onUpload()"
+                    (click)="conferma.emit(selectedFile)"
                   >
                     {{ 'Carica Immagine' }}
                   </button>
@@ -85,13 +82,13 @@ import { finalize, take } from 'rxjs';
     </div>
   `,
 })
-export class ChangeGruppoPicComponent {
+export class ChangePicCustomComponent {
   public previewUrl: string | ArrayBuffer | null = null;
   public selectedFile: File | null = null;
-  private chatService = inject(ChatService);
 
-  @Input() chatId!: number;
+  @Input() nome!: string;
   @Output() chiudi = new EventEmitter();
+  @Output() conferma = new EventEmitter<File | null>();
 
   onFileSelected(event: Event) {
     const input = event.target as HTMLInputElement;
@@ -106,6 +103,7 @@ export class ChangeGruppoPicComponent {
         'bmp',
         'webp',
       ];
+
       const allowedTypes: string[] = [
         'image/jpeg',
         'image/png',
@@ -113,6 +111,7 @@ export class ChangeGruppoPicComponent {
         'image/bmp',
         'image/webp',
       ];
+
       const fileExtension: string | undefined = file.name
         .split('.')
         .pop()
@@ -131,36 +130,9 @@ export class ChangeGruppoPicComponent {
       }
 
       this.selectedFile = file;
-
       const reader = new FileReader();
       reader.onload = () => (this.previewUrl = reader.result);
       reader.readAsDataURL(file);
-    }
-  }
-
-  onUpload() {
-    this.chatService.aggiornamentoPic.set(this.chatId);
-    this.chiudi.emit();
-
-    this.chatService
-      .uploadProfileImage(this.selectedFile as File, this.chatId)
-      .pipe(
-        take(1),
-        finalize(() => this.chatService.aggiornamentoPic.set(0))
-      )
-      .subscribe({
-        next: (url: string) => this.completeEdit(url),
-        error: (err: Error) =>
-          console.error('Errore durante il caricamento:', err),
-      });
-  }
-
-  private completeEdit(url: string): void {
-    let index: number = DataHttp.gruppiChat.listaGruppi.findIndex(
-      (gruppo) => gruppo.id === this.chatId
-    );
-    if (index !== -1) {
-      DataHttp.gruppiChat.listaGruppi[index].pic = url;
     }
   }
 }

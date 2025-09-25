@@ -12,19 +12,20 @@ import {
 import { FormsModule } from '@angular/forms';
 import { Gruppo, LastMess } from '../../../../interfaces/chat.interface';
 import { effectTimeoutCustom } from '../../../../../../../shared/functions/utilities.function';
-import { ChangeGruppoPicComponent } from './components/change-gruppo-pic.component';
 import { ChatService } from '../../../../services/chat.service';
+import { ChangePicCustomComponent } from '../../../../../../../shared/components/custom/change-pic-custom.component';
+import { finalize, take } from 'rxjs';
+import { DataHttp } from '../../../../../../api/http.data';
 
 @Component({
   selector: 'app-chat-all',
   standalone: true,
-  imports: [CommonModule, FormsModule, DatePipe, ChangeGruppoPicComponent],
+  imports: [CommonModule, FormsModule, DatePipe, ChangePicCustomComponent],
   templateUrl: './chat-all.component.html',
   styleUrl: './chat-all.component.scss',
 })
 export class ChatAllComponent {
   public editGruppoPic = signal<boolean>(false);
-  public selectedChatIdEdit: number = 0;
   public chatService = inject(ChatService);
 
   @Input() allGruppi!: Gruppo[];
@@ -51,4 +52,33 @@ export class ChatAllComponent {
       );
     }
   });
+
+  apriCambioPic(chatId: number): void {
+    this.editGruppoPic.set(true);
+    this.chatService.aggiornamentoPic.set(chatId);
+  }
+
+  cambiaPic(file: File | null): void {
+    this.editGruppoPic.set(false);
+    this.chatService
+      .uploadProfileImage(file as File, this.chatService.aggiornamentoPic())
+      .pipe(
+        take(1),
+        finalize(() => this.chatService.aggiornamentoPic.set(0))
+      )
+      .subscribe({
+        next: (url: string) => this.completeEdit(url),
+        error: (err: Error) =>
+          console.error('Errore durante il caricamento:', err),
+      });
+  }
+
+  private completeEdit(url: string): void {
+    let index: number = DataHttp.gruppiChat.listaGruppi.findIndex(
+      (gruppo) => gruppo.id === this.chatService.aggiornamentoPic()
+    );
+    if (index !== -1) {
+      DataHttp.gruppiChat.listaGruppi[index].pic = url;
+    }
+  }
 }

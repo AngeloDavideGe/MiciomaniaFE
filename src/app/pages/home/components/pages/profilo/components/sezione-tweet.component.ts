@@ -45,7 +45,7 @@ import { Profilo } from '../../../../../../shared/interfaces/http.interface';
       <div class="card mb-3 border-0 shadow-sm mt-3">
         <div class="card-body" style="padding: 16px">
           <div class="d-flex align-items-start">
-            @if (!profiloService.aggiornamentoPic) {
+            @if (!profiloService.aggiornamentoPic()) {
 
             <img
               [src]="
