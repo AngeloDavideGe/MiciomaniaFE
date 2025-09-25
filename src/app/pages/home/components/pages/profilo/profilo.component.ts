@@ -1,6 +1,6 @@
 import { Component, inject, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Subject, takeUntil } from 'rxjs';
+import { finalize, Subject, take, takeUntil } from 'rxjs';
 import { DataHttp } from '../../../../../core/api/http.data';
 import { getVoidUser } from '../../../../../shared/handlers/functions/user.function';
 import {
@@ -13,7 +13,6 @@ import { LoadingService } from '../../../../../shared/services/template/loading.
 import {
   deletePubblicazioneById,
   getProfiloById,
-  uploadProfileImage,
 } from '../../../handlers/profilo.handler';
 import { EditableSocial, Tweet } from '../../../interfaces/profilo.interface';
 import { ProfiloService } from '../../../services/profilo.service';
@@ -25,6 +24,8 @@ import {
 } from './languages/interfaces/profilo-lang.interface';
 import { updateUserCustom } from '../../../../../shared/handlers/auth.handler';
 import { AuthService } from '../../../../../shared/services/api/auth.service';
+import { uploadImage } from '../../../../../shared/functions/upload-pic.function';
+import { AppConfigService } from '../../../../../core/api/appConfig.service';
 
 @Component({
   selector: 'app-profilo',
@@ -35,6 +36,7 @@ import { AuthService } from '../../../../../shared/services/api/auth.service';
 export class ProfiloComponent implements OnDestroy {
   private route = inject(ActivatedRoute);
   private authService = inject(AuthService);
+  private appConfig = inject(AppConfigService);
   public router = inject(Router);
   private loaderService = inject(LoadingService);
   public profiloService = inject(ProfiloService);
@@ -173,29 +175,32 @@ export class ProfiloComponent implements OnDestroy {
   }
 
   onUpload(file: File | null): void {
-    let user = structuredClone(DataHttp.user()) || ({} as User);
+    const user = structuredClone(DataHttp.user()) || ({} as User);
     this.profiloService.aggiornamentoPic.set(true);
     this.modaleAperta = '';
 
-    uploadProfileImage({
-      profiloService: this.profiloService,
-      selectedFile: file,
-      user: user,
-      tapCall: (url: string) => (user.credenziali.profilePic = url),
-      finalizeCall: () => this.profiloService.aggiornamentoPic.set(false),
-      switcMapCall: (user: User) =>
-        updateUserCustom({
+    uploadImage<User>({
+      appConfig: this.appConfig,
+      client: 'c1',
+      file: file as File,
+      id: user.id,
+      switchMapCall: (url: string) => {
+        return updateUserCustom({
           authService: this.authService,
-          user: user,
-        }),
-      nextCall: (data: User) => this.completeEdit(data),
-      errorCall: (err: Error) => console.error('Errore chiamata:', err),
-    });
-  }
-
-  private completeEdit(user: User): void {
-    if (DataHttp.profiloPersonale) {
-      DataHttp.profiloPersonale.user = user;
-    }
+          user: {
+            ...user,
+            credenziali: { ...user.credenziali, profilePic: url },
+          },
+        });
+      },
+    })
+      .pipe(
+        take(1),
+        finalize(() => this.profiloService.aggiornamentoPic.set(false))
+      )
+      .subscribe({
+        next: (user: User) => (DataHttp.profiloPersonale!.user = user),
+        error: (err: Error) => console.error('Errore chiamata:', err),
+      });
   }
 }

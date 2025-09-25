@@ -1,6 +1,7 @@
 import { Injectable, signal } from '@angular/core';
-import { from, Observable, of, switchMap } from 'rxjs';
+import { from, Observable } from 'rxjs';
 import { environment } from '../../../../../environments/environment';
+import { uploadImage } from '../../../../shared/functions/upload-pic.function';
 import { formatDataCustom } from '../../../../shared/functions/utilities.function';
 import { RealtimePayload } from '../../../../shared/interfaces/supabase.interface';
 import { BaseService } from '../../../../shared/services/base/base.service';
@@ -95,36 +96,19 @@ export class ChatService extends BaseService {
   }
 
   uploadProfileImage(file: File, chatId: number): Observable<string> {
-    const fileExt: string | undefined = file.name.split('.').pop();
-    const fileName: string = `${chatId}.${fileExt}`;
+    return uploadImage<string>({
+      appConfig: this.appConfig,
+      client: 'c2',
+      file: file,
+      id: chatId,
+      switchMapCall: (url: string) => {
+        const body = {
+          chat_id: chatId,
+          pic_url: url,
+        };
 
-    return from(
-      this.appConfig.client.c2.storage.from('avatar').upload(fileName, file, {
-        upsert: true,
-        contentType: file.type,
-      })
-    ).pipe(switchMap(() => this.getLinkPic(fileName, chatId)));
-  }
-
-  private getLinkPic(filePath: string, chatId: number): Observable<string> {
-    const { data: publicData } = this.appConfig.client.c2.storage
-      .from('avatar')
-      .getPublicUrl(filePath);
-
-    return of(publicData.publicUrl + `?t=${Date.now()}`).pipe(
-      switchMap((url: string) => this.updateGroupPicUrl(chatId, url))
-    );
-  }
-
-  private updateGroupPicUrl(
-    chatId: number,
-    picUrl: string
-  ): Observable<string> {
-    const body = {
-      chat_id: chatId,
-      pic_url: picUrl,
-    };
-
-    return this.postCustom<string>('rpc/update_group_pic', body);
+        return this.postCustom<string>('rpc/update_group_pic', body);
+      },
+    });
   }
 }

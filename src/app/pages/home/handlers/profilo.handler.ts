@@ -1,9 +1,8 @@
-import { finalize, map, switchMap, take, tap } from 'rxjs';
-import { User } from '../../../shared/interfaces/users.interface';
+import { finalize, map, take } from 'rxjs';
+import { Profilo } from '../../../shared/interfaces/http.interface';
 import { mapToProfilo } from '../functions/profilo.function';
 import { Tweet } from '../interfaces/profilo.interface';
 import { ProfiloService } from '../services/profilo.service';
-import { Profilo } from '../../../shared/interfaces/http.interface';
 
 export function getProfiloById(params: {
   profiloService: ProfiloService;
@@ -60,29 +59,5 @@ export function postPubblicazioni(params: {
     .subscribe({
       next: () => params.nextCall(),
       error: (err) => console.error('errore pubblicazione tweer', err),
-    });
-}
-
-export function uploadProfileImage(params: {
-  profiloService: ProfiloService;
-  selectedFile: File | null;
-  user: User;
-  tapCall: Function;
-  switcMapCall: Function;
-  finalizeCall: Function;
-  nextCall: Function;
-  errorCall: Function;
-}): void {
-  params.profiloService
-    .uploadProfileImage(params.selectedFile!, params.user.id)
-    .pipe(
-      take(1),
-      tap((url: string) => params.tapCall(url)),
-      finalize(() => params.finalizeCall()),
-      switchMap(() => params.switcMapCall(params.user))
-    )
-    .subscribe({
-      next: (data) => params.nextCall(data),
-      error: (err) => params.errorCall(err),
     });
 }

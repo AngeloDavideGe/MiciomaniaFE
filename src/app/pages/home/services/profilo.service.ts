@@ -29,24 +29,4 @@ export class ProfiloService extends BaseService {
 
     return this.postCustom<void>('rpc/delete_pubblicazione_by_id', body);
   }
-
-  uploadProfileImage(file: File, userId: string): Observable<string> {
-    const fileExt: string | undefined = file.name.split('.').pop();
-    const fileName: string = `${userId}.${fileExt}`;
-
-    return from(
-      this.appConfig.client.c1.storage.from('avatar').upload(fileName, file, {
-        upsert: true,
-        contentType: file.type,
-      })
-    ).pipe(switchMap(() => this.getLinkPic(fileName)));
-  }
-
-  private getLinkPic(filePath: string): Observable<string> {
-    const { data: publicData } = this.appConfig.client.c1.storage
-      .from('avatar')
-      .getPublicUrl(filePath);
-
-    return of(publicData.publicUrl + `?t=${Date.now()}`);
-  }
 }
