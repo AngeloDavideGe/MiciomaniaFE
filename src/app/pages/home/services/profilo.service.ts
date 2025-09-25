@@ -1,5 +1,5 @@
-import { Injectable } from '@angular/core';
-import { catchError, from, Observable, of, switchMap, throwError } from 'rxjs';
+import { Injectable, signal } from '@angular/core';
+import { from, Observable, of, switchMap } from 'rxjs';
 import { Profilo } from '../../../shared/interfaces/http.interface';
 import { BaseService } from '../../../shared/services/base/base.service';
 import { Tweet } from '../interfaces/profilo.interface';
@@ -8,7 +8,7 @@ import { Tweet } from '../interfaces/profilo.interface';
   providedIn: 'root',
 })
 export class ProfiloService extends BaseService {
-  public aggiornamentoPic: boolean = false;
+  public aggiornamentoPic = signal<boolean>(false);
 
   constructor() {
     super('DB1');
@@ -31,34 +31,21 @@ export class ProfiloService extends BaseService {
   }
 
   uploadProfileImage(file: File, userId: string): Observable<string> {
-    const fileExt = file.name.split('.').pop();
-    const fileName = `${userId}.${fileExt}`;
-    const filePath = `${fileName}`;
+    const fileExt: string | undefined = file.name.split('.').pop();
+    const fileName: string = `${userId}.${fileExt}`;
 
     return from(
-      this.appConfig.client.c1.storage.from('avatar').upload(filePath, file, {
+      this.appConfig.client.c1.storage.from('avatar').upload(fileName, file, {
         upsert: true,
         contentType: file.type,
       })
-    ).pipe(
-      switchMap(({ error }) => this.getLinkPic(error, filePath)),
-      catchError((err) => {
-        console.error('Errore Supabase:', err);
-        return throwError(() => err);
-      })
-    );
+    ).pipe(switchMap(() => this.getLinkPic(fileName)));
   }
 
-  private getLinkPic(error: any, filePath: string): Observable<string> {
-    if (error) return throwError(() => error);
-
+  private getLinkPic(filePath: string): Observable<string> {
     const { data: publicData } = this.appConfig.client.c1.storage
       .from('avatar')
       .getPublicUrl(filePath);
-
-    if (!publicData?.publicUrl) {
-      return throwError(() => new Error('URL pubblico non disponibile'));
-    }
 
     return of(publicData.publicUrl + `?t=${Date.now()}`);
   }

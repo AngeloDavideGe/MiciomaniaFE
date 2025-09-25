@@ -1,14 +1,10 @@
 import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
-import { DataHttp } from '../../../../../../core/api/http.data';
-import { updateUserCustom } from '../../../../../../shared/handlers/auth.handler';
-import { User } from '../../../../../../shared/interfaces/users.interface';
-import { AuthService } from '../../../../../../shared/services/api/auth.service';
-import { ProfiloService } from '../../../../services/profilo.service';
-import { uploadProfileImage } from '../../../../handlers/profilo.handler';
-import { ProfiloLang } from '../languages/interfaces/profilo-lang.interface';
+import { ChatService } from '../../../../../services/chat.service';
+import { DataHttp } from '../../../../../../../api/http.data';
+import { finalize, take } from 'rxjs';
 
 @Component({
-  selector: 'app-change-pic',
+  selector: 'app-change-gruppo-pic',
   standalone: true,
   imports: [],
   template: `
@@ -25,7 +21,7 @@ import { ProfiloLang } from '../languages/interfaces/profilo-lang.interface';
             class="modal-header d-flex align-items-center justify-content-between border-bottom-0 pb-0"
           >
             <h5 class="modal-title mb-0">
-              {{ profiloLang.modificaImmagine || 'Modifica Immagine Profilo' }}
+              {{ 'Modifica Immagine Gruppo' }}
             </h5>
             <button
               type="button"
@@ -48,10 +44,7 @@ import { ProfiloLang } from '../languages/interfaces/profilo-lang.interface';
                   style="min-height: 60vh; max-width: 400px; margin: 3rem auto; background: #f8f9fa; border-radius: 16px; box-shadow: 0 4px 24px rgba(0,0,0,0.08); padding: 2rem;"
                 >
                   <h4 class="mb-4 text-primary" style="font-weight: bold;">
-                    {{
-                      profiloLang.caricaImmagineProfilo ||
-                        'Carica Immagine Profilo'
-                    }}
+                    {{ 'Carica Immagine Gruppo' }}
                   </h4>
                   <div class="mb-4 w-100 d-flex justify-content-center">
                     @if(previewUrl){
@@ -81,7 +74,7 @@ import { ProfiloLang } from '../languages/interfaces/profilo-lang.interface';
                     [disabled]="!selectedFile"
                     (click)="onUpload()"
                   >
-                    {{ profiloLang.caricaImmagine || 'Carica Immagine' }}
+                    {{ 'Carica Immagine' }}
                   </button>
                 </div>
               </div>
@@ -92,14 +85,12 @@ import { ProfiloLang } from '../languages/interfaces/profilo-lang.interface';
     </div>
   `,
 })
-export class ChangePicComponent {
+export class ChangeGruppoPicComponent {
   public previewUrl: string | ArrayBuffer | null = null;
   public selectedFile: File | null = null;
+  private chatService = inject(ChatService);
 
-  private authService = inject(AuthService);
-  public profiloService = inject(ProfiloService);
-
-  @Input() profiloLang!: ProfiloLang;
+  @Input() chatId!: number;
   @Output() chiudi = new EventEmitter();
 
   onFileSelected(event: Event) {
@@ -132,10 +123,7 @@ export class ChangePicComponent {
         !allowedExtensions.includes(fileExtension) ||
         !allowedTypes.includes(file.type)
       ) {
-        alert(
-          this.profiloLang.formatoNonSupportato ||
-            'Formato non supportato. Seleziona un file immagine valido.'
-        );
+        alert('Formato non supportato. Seleziona un file immagine valido.');
         input.value = '';
         this.selectedFile = null;
         this.previewUrl = null;
@@ -151,38 +139,28 @@ export class ChangePicComponent {
   }
 
   onUpload() {
-    let user = structuredClone(DataHttp.user()) || ({} as User);
-    this.profiloService.aggiornamentoPic = true;
+    this.chatService.aggiornamentoPic.set(this.chatId);
     this.chiudi.emit();
 
-    uploadProfileImage({
-      profiloService: this.profiloService,
-      selectedFile: this.selectedFile,
-      user: user,
-      tapCall: (url: string) => (user.credenziali.profilePic = url),
-      switcMapCall: (user: User) =>
-        updateUserCustom({
-          authService: this.authService,
-          user: user,
-        }),
-      nextCall: (data: User) => this.completeEdit(data),
-      errorCall: (err: Error) => this.errorEdit(err),
-    });
+    this.chatService
+      .uploadProfileImage(this.selectedFile as File, this.chatId)
+      .pipe(
+        take(1),
+        finalize(() => this.chatService.aggiornamentoPic.set(0))
+      )
+      .subscribe({
+        next: (url: string) => this.completeEdit(url),
+        error: (err: Error) =>
+          console.error('Errore durante il caricamento:', err),
+      });
   }
 
-  private completeEdit(user: User): void {
-    if (DataHttp.profiloPersonale) {
-      DataHttp.profiloPersonale.user = user;
-    }
-    this.profiloService.aggiornamentoPic = false;
-  }
-
-  private errorEdit(err: Error): void {
-    console.error('Errore chiamata:', err);
-    alert(
-      this.profiloLang.erroreCaricamento ||
-        'Errore durante il caricamento. Riprova più tardi.'
+  private completeEdit(url: string): void {
+    let index: number = DataHttp.gruppiChat.listaGruppi.findIndex(
+      (gruppo) => gruppo.id === this.chatId
     );
-    this.profiloService.aggiornamentoPic = false;
+    if (index !== -1) {
+      DataHttp.gruppiChat.listaGruppi[index].pic = url;
+    }
   }
 }

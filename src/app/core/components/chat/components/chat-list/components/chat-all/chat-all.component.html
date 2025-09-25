@@ -32,18 +32,41 @@
   <!-- Lista delle chat -->
   <div class="chat-list flex-grow-1 overflow-auto">
     @for (gruppo of filteredGruppi(); track $index) {
-    <div
-      class="chat-item d-flex align-items-center p-3 border-bottom"
-      (click)="apriGruppo.emit(gruppo.id)"
-    >
-      <div class="chat-avatar me-3">
+    <div class="chat-item d-flex align-items-center p-3 border-bottom">
+      <div class="avatar-container me-3">
+        @if(chatService.aggiornamentoPic() != gruppo.id) {
+        <!-- Immagine Profilo -->
+        @if (gruppo.pic) {
+        <img
+          [src]="gruppo.pic"
+          alt="{{ gruppo.nome }}"
+          class="chat-avatar rounded-circle"
+          (click)="editGruppoPic.set(true); selectedChatIdEdit = gruppo.id"
+        />
+        }
+        <!-- Iniziale Gruppo -->
+        @else {
         <div
           class="avatar-placeholder rounded-circle bg-secondary d-flex align-items-center justify-content-center"
+          (click)="editGruppoPic.set(true); selectedChatIdEdit = gruppo.id"
         >
           <span class="text-white">{{ gruppo.nome.charAt(0) }}</span>
         </div>
+        } } @else {
+        <!-- Spinner al posto dell'immagine profilo -->
+        <div
+          class="avatar-spinner d-flex align-items-center justify-content-center"
+        >
+          <div
+            class="spinner-border spinner-border-sm text-primary"
+            role="status"
+          >
+            <span class="visually-hidden">Caricamento...</span>
+          </div>
+        </div>
+        }
       </div>
-      <div class="chat-info flex-grow-1">
+      <div class="chat-info flex-grow-1" (click)="apriGruppo.emit(gruppo.id)">
         <div class="d-flex justify-content-between align-items-center">
           <h6 class="mb-0">{{ gruppo.nome }}</h6>
           <small class="text-muted">{{
@@ -61,3 +84,10 @@
     }
   </div>
 </div>
+
+@if(editGruppoPic()){
+<app-change-gruppo-pic
+  [chatId]="selectedChatIdEdit"
+  (chiudi)="editGruppoPic.set(false)"
+></app-change-gruppo-pic>
+}

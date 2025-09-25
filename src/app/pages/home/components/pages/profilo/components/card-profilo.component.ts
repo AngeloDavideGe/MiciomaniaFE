@@ -31,7 +31,7 @@ import { errorPageProfilo } from '../error/error.profilo';
             padding-top: 7rem;
           "
       >
-        @if (!profiloService.aggiornamentoPic) {
+        @if (!profiloService.aggiornamentoPic()) {
         <img
           [src]="
             profilo.user.credenziali.profilePic ||

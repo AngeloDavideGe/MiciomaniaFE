@@ -37,6 +37,7 @@ export interface GruppiChat {
 export interface Gruppo {
   id: number;
   nome: string;
+  pic: string;
 }
 
 export interface LastMess {

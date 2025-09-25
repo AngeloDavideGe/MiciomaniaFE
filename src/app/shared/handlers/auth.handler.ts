@@ -1,4 +1,4 @@
-import { catchError, map, Observable, take } from 'rxjs';
+import { map, Observable, take } from 'rxjs';
 import { DataHttp } from '../../core/api/http.data';
 import { User, UserDb, UserParams } from '../interfaces/users.interface';
 import { AuthService } from '../services/api/auth.service';
@@ -26,10 +26,6 @@ export function updateUserCustom(params: {
     map(() => {
       DataHttp.user.set(params.user);
       return params.user;
-    }),
-    catchError((error) => {
-      console.error("Errore durante l'aggiornamento dell'utente", error);
-      throw error;
     })
   );
 }

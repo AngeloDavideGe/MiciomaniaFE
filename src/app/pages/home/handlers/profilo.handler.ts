@@ -69,6 +69,7 @@ export function uploadProfileImage(params: {
   user: User;
   tapCall: Function;
   switcMapCall: Function;
+  finalizeCall: Function;
   nextCall: Function;
   errorCall: Function;
 }): void {
