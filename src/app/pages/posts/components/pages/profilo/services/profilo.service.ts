@@ -2,7 +2,7 @@ import { Injectable, signal } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Profilo } from '../../../../../../shared/interfaces/http.interface';
 import { BaseService } from '../../../../../../shared/services/base/base.service';
-import { Tweet } from '../interfaces/profilo.interface';
+import { Tweet } from '../../../shared/post.interface';
 
 @Injectable({
   providedIn: 'root',

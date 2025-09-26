@@ -1,11 +1,5 @@
-export interface Messaggio {
+export interface Messaggio extends MessaggioSend {
   id: number;
-  chat_id: number;
-  sender: string;
-  content: string;
-  created_at: Date;
-  response: number | null;
-  separator: boolean;
 }
 
 export interface MessaggioSend {

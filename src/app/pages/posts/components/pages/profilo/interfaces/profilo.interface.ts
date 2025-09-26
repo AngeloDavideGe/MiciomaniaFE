@@ -1,10 +1,3 @@
-export interface Tweet {
-  id: number;
-  testo: string;
-  dataCreazione: Date;
-  idUtente: number;
-}
-
 export interface EditableSocial {
   key: string;
   link: string;

@@ -1,1 +1,51 @@
-<p>ultimi-posts works!</p>
+<div class="container py-4">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      @if (posts.length > 0) {
+      <!-- Lista dei Post -->
+      @for (post of posts; track $index) {
+      <app-card-post [post]="post"></app-card-post>
+      } }
+      <!-- Nessun Post -->
+      @else {
+      <app-no-post></app-no-post>
+      }
+
+      <!--  -->
+
+      @if (oldPosts.length > 0) {
+      <!-- Separatore stile Instagram -->
+      <div class="post-separator text-center my-4">
+        <span>Post già visti</span>
+      </div>
+
+      <!-- Post già visti -->
+      @for (post of oldPosts; track $index) {
+      <app-card-post [post]="post"></app-card-post>
+      } }
+    </div>
+  </div>
+</div>
+
+<style>
+  .post-separator {
+    display: flex;
+    align-items: center;
+    color: #888;
+    font-size: 0.85rem;
+    font-weight: 500;
+
+    span {
+      padding: 0 0.75rem;
+      background: #fff;
+      z-index: 1;
+    }
+
+    &::before,
+    &::after {
+      content: "";
+      flex: 1;
+      border-bottom: 1px solid #ddd;
+    }
+  }
+</style>

@@ -22,13 +22,13 @@ import { ProfiloService } from './services/profilo.service';
 import {
   EditableSocial,
   modaleApertaType,
-  Tweet,
 } from './interfaces/profilo.interface';
 import { profilo_imports } from './imports/profilo.imports';
 import {
   deletePubblicazioneById,
   getProfiloById,
 } from './handlers/profilo.handler';
+import { Tweet } from '../../shared/post.interface';
 
 @Component({
   selector: 'app-profilo',

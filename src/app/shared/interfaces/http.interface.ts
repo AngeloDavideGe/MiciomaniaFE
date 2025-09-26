@@ -1,4 +1,4 @@
-import { Tweet } from '../../pages/posts/components/pages/profilo/interfaces/profilo.interface';
+import { Tweet } from '../../pages/posts/components/shared/post.interface';
 import { MangaVolume } from '../../pages/manga/interfaces/manga.interface';
 import { User } from './users.interface';
 

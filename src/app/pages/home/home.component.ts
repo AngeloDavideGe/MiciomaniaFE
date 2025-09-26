@@ -68,12 +68,11 @@ export class HomeComponent implements OnInit {
 
   private loadUsers(): void {
     this.componenteAperto.set('');
-    if (DataHttp.users().length === 0) {
-      sottoscrizioneUtenti({
-        authService: this.authService,
-        nextCall: (data) => this.handleUsersSubscription(data),
-      });
-    }
+    sottoscrizioneUtenti({
+      authService: this.authService,
+      elseCall: () => {},
+      nextCall: (data) => this.handleUsersSubscription(data),
+    });
   }
 
   private loadElementiUtente(idUtente: string): void {

@@ -6,15 +6,21 @@ import { mapUserToDb } from './functions/user.function';
 
 export function sottoscrizioneUtenti(params: {
   authService: AuthService;
+  elseCall: () => void;
   nextCall: (data: UserParams[]) => void;
 }): void {
-  params.authService
-    .getAllUsersHttp()
-    .pipe(take(1))
-    .subscribe({
-      next: (data: UserParams[]) => params.nextCall(data),
-      error: (error) => console.error('errore nella lista utenti', error),
-    });
+  if (DataHttp.users().length == 0) {
+    DataHttp.users.set([]);
+    params.authService
+      .getAllUsersHttp()
+      .pipe(take(1))
+      .subscribe({
+        next: (data: UserParams[]) => params.nextCall(data),
+        error: (error) => console.error('errore nella lista utenti', error),
+      });
+  } else {
+    params.elseCall();
+  }
 }
 
 export function updateUserCustom(params: {

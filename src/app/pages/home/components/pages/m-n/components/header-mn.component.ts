@@ -21,8 +21,6 @@ import { BottonCustomComponent } from '../../../../../../shared/components/custo
       >
         Classifica MN
       </h2>
-
-      <!-- Spaziatura bilanciata -->
     </div>
   `,
 })

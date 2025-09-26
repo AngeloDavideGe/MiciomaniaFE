@@ -69,26 +69,18 @@ export class AdminComponent implements OnInit {
   private loadUtenti(): void {
     this.user = DataHttp.user();
     const users: UserParams[] = DataHttp.users();
+    users.length == 0 ? this.loadingService.show() : null;
 
-    if (users.length === 0) {
-      this.loadingService.show();
-      sottoscrizioneUtenti({
-        authService: this.authService,
-        nextCall: (data) => {
-          this.saveUsers(data);
-          this.mapUsersByRuolo();
-          this.loadingService.hide();
-        },
-      });
-    } else {
-      this.mapUsersByRuolo();
-    }
-  }
-
-  private saveUsers(data: UserParams[]): void {
-    DataHttp.users.update(() =>
-      data.filter((x: UserParams) => x.id !== this.user?.id)
-    );
+    sottoscrizioneUtenti({
+      authService: this.authService,
+      elseCall: () => this.mapUsersByRuolo(),
+      nextCall: (data) => {
+        DataHttp.users.set(
+          data.filter((x: UserParams) => x.id !== this.user?.id)
+        );
+        this.mapUsersByRuolo();
+      },
+    });
   }
 
   private mapUsersByRuolo(): void {
@@ -110,6 +102,7 @@ export class AdminComponent implements OnInit {
     }
 
     this.userMap.set(newMap);
+    this.loadingService.hide();
   }
 
   modificaRuolo(user: UserParams): void {
