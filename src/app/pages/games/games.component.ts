@@ -19,10 +19,7 @@ import { SquadraGioco, SquadreGiocatore } from './interfaces/games.interfaces';
 import { DeckCardService } from './services/deck-card.service';
 import { DataHttp } from '../../core/api/http.data';
 import { SquadreService } from '../../shared/services/api/squadre.service';
-import {
-  Squadre,
-  TopUser,
-} from '../posts/components/pages/profilo/interfaces/profilo.interface';
+import { Squadre, TopUser } from '../../shared/interfaces/squadre.interface';
 
 @Component({
   selector: 'app-games',

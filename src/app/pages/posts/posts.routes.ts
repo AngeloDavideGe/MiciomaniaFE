@@ -11,6 +11,13 @@ export const POSTS_ROUTES: Routes = [
             (m) => m.ProfiloComponent
           ),
       },
+      {
+        path: 'ultimi-post',
+        loadComponent: () =>
+          import('./components/pages/ultimi-posts/ultimi-posts.component').then(
+            (m) => m.UltimiPostsComponent
+          ),
+      },
     ],
   },
 ];

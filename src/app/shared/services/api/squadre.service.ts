@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { BaseService } from '../base/base.service';
 import {
   Classifica,
   Squadre,
   TopUser,
-} from '../../../pages/posts/components/pages/profilo/interfaces/profilo.interface';
-import { BaseService } from '../base/base.service';
+} from '../../interfaces/squadre.interface';
 
 @Injectable({
   providedIn: 'root',

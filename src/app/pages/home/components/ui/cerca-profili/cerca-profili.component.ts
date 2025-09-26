@@ -18,6 +18,7 @@ import { HomeLang } from '../../../languages/interfaces/home-lang.interface';
   standalone: true,
   imports: [FormsModule],
   templateUrl: './cerca-profili.component.html',
+  styleUrl: './cerca-profili.component.scss',
 })
 export class CercaProfiliComponent implements OnInit, OnDestroy {
   private itemsPerPage: number = 5;

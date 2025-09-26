@@ -2,7 +2,7 @@ import { environment } from '../../../../../../../environments/environment';
 import {
   Squadre,
   TopUser,
-} from '../../../../../posts/components/pages/profilo/interfaces/profilo.interface';
+} from '../../../../../../shared/interfaces/squadre.interface';
 import { chartOptionsSquadre } from '../options/squadre.option';
 import { chartOptionsUtenti } from '../options/utenti.option';
 

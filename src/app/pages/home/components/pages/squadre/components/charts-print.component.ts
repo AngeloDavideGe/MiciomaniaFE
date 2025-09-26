@@ -1,9 +1,9 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { renderBarChart, renderPieChart } from '../functions/draw.function';
 import {
   Squadre,
   TopUser,
-} from '../../../../../posts/components/pages/profilo/interfaces/profilo.interface';
-import { renderBarChart, renderPieChart } from '../functions/draw.function';
+} from '../../../../../../shared/interfaces/squadre.interface';
 
 declare var google: any;
 

@@ -1,49 +1,9 @@
-<div
-  class="modal"
-  tabindex="-1"
-  role="dialog"
-  style="
-    display: block;
-    background: rgba(0, 0, 0, 0.6);
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    z-index: 1050;
-    backdrop-filter: blur(4px);
-  "
->
-  <div
-    class="modal-dialog modal-dialog-centered"
-    role="document"
-    style="max-width: 550px; margin: 2rem auto"
-  >
-    <div
-      class="modal-content"
-      style="
-        border-radius: 16px;
-        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
-        overflow: hidden;
-        border: none;
-      "
-    >
+<div id="ModalCercaProfili" class="modal" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-dialog-centered custom-dialog" role="document">
+    <div class="modal-content custom-content">
       <!-- HEADER -->
-      <div
-        class="modal-header"
-        style="
-          border-bottom: none;
-          background: linear-gradient(135deg, #0d6efd, #4dabf7);
-          color: white;
-          padding: 1.25rem 1.5rem;
-        "
-      >
-        <h5
-          class="modal-title"
-          style="font-weight: 600; font-size: 1.25rem; margin: 0"
-        >
-          🔍 {{ homeLang.cercaProfili }}
-        </h5>
+      <div class="modal-header custom-header">
+        <h5 class="modal-title">🔍 {{ homeLang.cercaProfili }}</h5>
         <button
           type="button"
           class="btn-close btn-close-white"
@@ -53,7 +13,7 @@
       </div>
 
       <!-- BODY -->
-      <div class="modal-body" style="padding: 1.5rem; background: #fdfdfd">
+      <div class="modal-body custom-body">
         @if(users.length > 0) {
 
         <!-- SEARCH BAR -->
@@ -63,17 +23,11 @@
             [(ngModel)]="searchQuery"
             (ngModelChange)="editFiltro($event)"
             [placeholder]="homeLang.cercaUtentiPlaceholder"
-            class="form-control"
-            style="border-radius: 30px 0 0 30px; padding: 0.75rem"
+            class="form-control search-input"
           />
           <button
-            class="btn btn-outline-secondary"
+            class="btn btn-outline-secondary clear-btn"
             type="button"
-            style="
-              border-radius: 0 30px 30px 0;
-              background: white;
-              border-left: none;
-            "
             (click)="clearSearch()"
           >
             <i class="bi bi-x-lg"></i>
@@ -81,32 +35,15 @@
         </div>
 
         <!-- RISULTATI -->
-        <div
-          class="search-results"
-          style="
-            max-height: 350px;
-            overflow-y: auto;
-            border-radius: 12px;
-            background: #ffffff;
-            padding: 0.75rem;
-            border: 1px solid #eee;
-          "
-          id="RisultatiUtenti"
-        >
+        <div class="search-results" id="RisultatiUtenti">
           @if(userSlice().length === 0) {
-          <div
-            class="no-results"
-            style="text-align: center; padding: 2rem; color: #999"
-          >
+          <div class="no-results">
             {{ homeLang.nessunProfilo }}
           </div>
           } @else { @for(user of userSlice(); track user.id) {
           <div
-            class="d-flex align-items-center mb-2 p-2"
-            style="cursor: pointer; border-radius: 10px; transition: all 0.2s"
+            class="result-item"
             (click)="goToProfilo.emit('/posts/profilo/' + user.id)"
-            onmouseover="this.style.backgroundColor='#f1f3f5'"
-            onmouseout="this.style.backgroundColor='transparent'"
           >
             <img
               [src]="
@@ -114,76 +51,41 @@
                 'https://png.pngtree.com/png-vector/20191009/ourlarge/pngtree-user-icon-png-image_1796659.jpg'
               "
               alt="{{ user.nome }}"
-              style="
-                width: 52px;
-                height: 52px;
-                border-radius: 50%;
-                margin-right: 1rem;
-                border: 2px solid #dee2e6;
-                object-fit: cover;
-              "
+              class="profile-pic"
             />
-            <div style="flex: 1; text-align: left">
-              <span style="font-weight: 600; display: block; color: #222">
+            <div class="result-info">
+              <span class="result-name">
                 {{ user.nome || "" }}
               </span>
-              <span style="font-size: 0.9rem; color: #666">
-                ID: {{ user.id }}
-              </span>
+              <span class="result-id"> ID: {{ user.id }} </span>
             </div>
           </div>
           } }
         </div>
 
         <!-- PAGINAZIONE -->
-        <div
-          class="d-flex justify-content-center align-items-center mt-3"
-          style="gap: 0.75rem"
-          id="PulsantiPaginazione"
-        >
+        <div class="pagination-container" id="PulsantiPaginazione">
           <button
             (click)="previousPage()"
             [disabled]="currentPage === 1"
-            class="btn btn-light border btn-sm"
-            style="
-              border-radius: 50%;
-              width: 40px;
-              height: 40px;
-              font-weight: bold;
-            "
+            class="btn btn-light border btn-sm pagination-btn"
           >
             &lt;
           </button>
-          <span
-            style="
-              margin: 0 0.5rem;
-              color: #333;
-              font-weight: 500;
-              font-size: 0.95rem;
-            "
-          >
+          <span class="page-info">
             {{ currentPage + "/" + totalPages }}
           </span>
           <button
             (click)="nextPage()"
             [disabled]="currentPage === totalPages"
-            class="btn btn-light border btn-sm"
-            style="
-              border-radius: 50%;
-              width: 40px;
-              height: 40px;
-              font-weight: bold;
-            "
+            class="btn btn-light border btn-sm pagination-btn"
           >
             &gt;
           </button>
         </div>
 
         } @else {
-        <div
-          class="d-flex justify-content-center align-items-center"
-          style="height: 220px"
-        >
+        <div class="loading-container">
           <div class="spinner-border text-primary" role="status">
             <span class="visually-hidden">Loading...</span>
           </div>
