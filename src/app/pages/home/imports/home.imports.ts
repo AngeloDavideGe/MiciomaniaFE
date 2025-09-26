@@ -2,7 +2,7 @@ import { AsyncPipe } from '@angular/common';
 import { Type } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { CardHomeComponent } from '../components/ui/card-home.component';
-import { CercaProfiliComponent } from '../components/ui/cerca-profili/cerca-profili.component';
+import { CercaProfiliComponent } from '../../posts/components/pages/ultimi-posts/components/cerca-profili/cerca-profili.component';
 import { CursoreComponent } from '../components/ui/cursore.component';
 import { MenuImpostazioniComponent } from '../components/ui/menu-impostazioni.component';
 import { MenuProfiliComponent } from '../components/ui/menu-profili.component';

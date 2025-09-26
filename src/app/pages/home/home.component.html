@@ -11,9 +11,7 @@
   <app-menu-impostazioni
     [homeLang]="homeLang()"
     [user]="user"
-    (cursore)="
-      componenteAperto.set(componenteAperto() === 'cursore' ? '' : 'cursore')
-    "
+    (cursore)="cursoreAperto.set(!cursoreAperto())"
   >
   </app-menu-impostazioni>
 </ng-template>
@@ -23,26 +21,12 @@
     [homeLang]="homeLang()"
     [user]="user"
     (logout)="logout()"
-    (cercaProfili)="
-      componenteAperto.set(componenteAperto() === 'profili' ? '' : 'profili')
-    "
   ></app-menu-profili>
 </ng-template>
 
-@switch (componenteAperto()) {
-<!-- cursore -->
-@case ('cursore') {
+@if (cursoreAperto()) {
 <app-cursore class="pc-only" [homeLang]="homeLang()"></app-cursore>
 }
-
-<!-- Cerca profili -->
-@case ('profili') {
-<app-cerca-profili
-  [homeLang]="homeLang()"
-  (goToProfilo)="router.navigate([$event])"
-  (chiudiComponente)="componenteAperto.set('')"
-></app-cerca-profili>
-} }
 
 <app-card-home (canzone)="controlloPunteggio()"></app-card-home>
 

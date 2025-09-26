@@ -15,12 +15,9 @@ export interface HomeLang {
   // Menu Profili
   mioProfilo: string;
   accediVediProfili: string;
-  cercaProfili: string;
   contattaAdmin: string;
+  visualizzaPost: string;
   // Cursore
   rimuovi: string;
   seleziona: string;
-  // Cerca Profili
-  nessunProfilo: string;
-  cercaUtentiPlaceholder: string;
 }

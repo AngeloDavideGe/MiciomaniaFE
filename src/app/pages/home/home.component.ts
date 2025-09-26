@@ -11,7 +11,6 @@ import { ConfirmService } from '../../shared/services/template/confirm.service';
 import { ElementiUtenteUtilities } from '../../shared/utilities/elementiUtente.utilities';
 import { converUserParams, getConfirmParams } from './functions/home.functions';
 import { home_imports } from './imports/home.imports';
-import { componenteApertoType } from '../posts/components/pages/profilo/interfaces/profilo.interface';
 import {
   HomeLang,
   HomeLangType,
@@ -32,7 +31,7 @@ export class HomeComponent implements OnInit {
   public user: User = {} as User;
   public inizialiUser: string = '';
   private punteggioCanzoni: number = 50;
-  public componenteAperto = signal<componenteApertoType>('');
+  public cursoreAperto = signal<boolean>(false);
   private elementiUtenteUtilities = new ElementiUtenteUtilities();
   public homeLang = signal<HomeLang>({} as HomeLang);
 
@@ -67,7 +66,7 @@ export class HomeComponent implements OnInit {
   }
 
   private loadUsers(): void {
-    this.componenteAperto.set('');
+    this.cursoreAperto.set(false);
     sottoscrizioneUtenti({
       authService: this.authService,
       elseCall: () => {},

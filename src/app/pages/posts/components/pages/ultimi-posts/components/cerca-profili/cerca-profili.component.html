@@ -3,7 +3,7 @@
     <div class="modal-content custom-content">
       <!-- HEADER -->
       <div class="modal-header custom-header">
-        <h5 class="modal-title">🔍 {{ homeLang.cercaProfili }}</h5>
+        <h5 class="modal-title">🔍 {{ "Cerca Profili" }}</h5>
         <button
           type="button"
           class="btn-close btn-close-white"
@@ -22,7 +22,7 @@
             type="text"
             [(ngModel)]="searchQuery"
             (ngModelChange)="editFiltro($event)"
-            [placeholder]="homeLang.cercaUtentiPlaceholder"
+            [placeholder]="'cerca utenti'"
             class="form-control search-input"
           />
           <button
@@ -38,7 +38,7 @@
         <div class="search-results" id="RisultatiUtenti">
           @if(userSlice().length === 0) {
           <div class="no-results">
-            {{ homeLang.nessunProfilo }}
+            {{ "nessun profilo" }}
           </div>
           } @else { @for(user of userSlice(); track user.id) {
           <div

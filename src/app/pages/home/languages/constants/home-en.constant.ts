@@ -15,12 +15,9 @@ export const homeLang: HomeLang = {
   // Menu Profili
   mioProfilo: 'My Profile',
   accediVediProfili: 'Log in to see profiles',
-  cercaProfili: 'Search Profiles',
   contattaAdmin: 'Contact Admin',
+  visualizzaPost: 'View Posts',
   // Cursore
   rimuovi: 'Remove',
   seleziona: 'Select',
-  // Cerca Profili
-  nessunProfilo: 'No profile found',
-  cercaUtentiPlaceholder: 'Search users...',
 };

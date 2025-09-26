@@ -24,11 +24,10 @@ import { HomeLang } from '../../languages/interfaces/home-lang.interface';
         </span>
       </li>
       }
-
       <li>
-        <a class="dropdown-item" (click)="cercaProfili.emit()">
-          <i class="bi bi-search me-2"></i>
-          {{ homeLang.cercaProfili }}
+        <a class="dropdown-item" [routerLink]="'/posts/ultimi-post'">
+          <i class="bi bi-grid-3x3-gap me-2"></i>
+          {{ homeLang.visualizzaPost }}
         </a>
       </li>
       <li>
@@ -37,7 +36,6 @@ import { HomeLang } from '../../languages/interfaces/home-lang.interface';
           {{ homeLang.contattaAdmin }}
         </a>
       </li>
-
       @if(user.id) {
       <li>
         <a class="dropdown-item" (click)="logout.emit()">
@@ -80,5 +78,4 @@ export class MenuProfiliComponent {
   @Input() homeLang!: HomeLang;
   @Input() user!: User;
   @Output() logout = new EventEmitter<void>();
-  @Output() cercaProfili = new EventEmitter<void>();
 }
