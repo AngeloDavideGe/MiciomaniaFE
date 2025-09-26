@@ -5,13 +5,6 @@ export const HOME_ROUTES: Routes = [
     path: '',
     children: [
       {
-        path: 'profilo/:id',
-        loadComponent: () =>
-          import('./components/pages/profilo/profilo.component').then(
-            (m) => m.ProfiloComponent
-          ),
-      },
-      {
         path: 'admin',
         loadComponent: () =>
           import('./components/pages/admin/admin.component').then(

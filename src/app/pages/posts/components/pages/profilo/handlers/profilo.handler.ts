@@ -1,6 +1,6 @@
 import { finalize, map, take } from 'rxjs';
-import { Profilo } from '../../../shared/interfaces/http.interface';
-import { mapToProfilo } from '../functions/profilo.function';
+import { Profilo } from '../../../../../../shared/interfaces/http.interface';
+import { mapToProfilo } from '../../../../../home/functions/profilo.function';
 import { Tweet } from '../interfaces/profilo.interface';
 import { ProfiloService } from '../services/profilo.service';
 

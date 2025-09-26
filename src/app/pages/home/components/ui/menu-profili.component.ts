@@ -11,7 +11,7 @@ import { HomeLang } from '../../languages/interfaces/home-lang.interface';
     <div id="menuBarProfili">
       @if(user.id) {
       <li>
-        <a class="dropdown-item" [routerLink]="'/home/profilo/' + user.id">
+        <a class="dropdown-item" [routerLink]="'/posts/profilo/' + user.id">
           <i class="bi bi-person-circle me-2"></i>
           {{ homeLang.mioProfilo }}
         </a>

@@ -1,7 +1,7 @@
 import { Injectable, signal } from '@angular/core';
-import { from, Observable, of, switchMap } from 'rxjs';
-import { Profilo } from '../../../shared/interfaces/http.interface';
-import { BaseService } from '../../../shared/services/base/base.service';
+import { Observable } from 'rxjs';
+import { Profilo } from '../../../../../../shared/interfaces/http.interface';
+import { BaseService } from '../../../../../../shared/services/base/base.service';
 import { Tweet } from '../interfaces/profilo.interface';
 
 @Injectable({

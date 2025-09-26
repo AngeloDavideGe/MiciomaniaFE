@@ -1,6 +1,6 @@
 import { take } from 'rxjs';
 import { DataHttp } from '../../core/api/http.data';
-import { Classifica } from '../../pages/home/interfaces/profilo.interface';
+import { Classifica } from '../../pages/posts/components/pages/profilo/interfaces/profilo.interface';
 import { SquadreService } from '../services/api/squadre.service';
 
 export function updatePunteggioSquadra(params: {

@@ -2,7 +2,7 @@ import { TitleCasePipe } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { User } from '../../../../../../../../shared/interfaces/users.interface';
-import { EditableSocial } from '../../../../../../interfaces/profilo.interface';
+import { EditableSocial } from '../../../interfaces/profilo.interface';
 import { TabProfiloBase } from '../../../base/tab-profilo.base';
 import { DataHttp } from '../../../../../../../../core/api/http.data';
 import { ProfiloLang } from '../../../languages/interfaces/profilo-lang.interface';

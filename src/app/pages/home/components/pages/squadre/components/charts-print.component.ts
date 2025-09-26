@@ -1,5 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Squadre, TopUser } from '../../../../interfaces/profilo.interface';
+import {
+  Squadre,
+  TopUser,
+} from '../../../../../posts/components/pages/profilo/interfaces/profilo.interface';
 import { renderBarChart, renderPieChart } from '../functions/draw.function';
 
 declare var google: any;

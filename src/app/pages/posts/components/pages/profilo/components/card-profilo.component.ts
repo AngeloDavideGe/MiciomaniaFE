@@ -7,9 +7,9 @@ import {
   Output,
   TemplateRef,
 } from '@angular/core';
-import { EditableSocial } from '../../../../interfaces/profilo.interface';
-import { ProfiloService } from '../../../../services/profilo.service';
-import { modaleApertaType } from '../../../../interfaces/profilo.interface';
+import { EditableSocial } from '../interfaces/profilo.interface';
+import { ProfiloService } from '../services/profilo.service';
+import { modaleApertaType } from '../interfaces/profilo.interface';
 import { Profilo } from '../../../../../../shared/interfaces/http.interface';
 import { ProfiloLang } from '../languages/interfaces/profilo-lang.interface';
 import { errorPageProfilo } from '../error/error.profilo';

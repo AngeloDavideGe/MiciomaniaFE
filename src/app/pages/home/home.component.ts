@@ -11,7 +11,7 @@ import { ConfirmService } from '../../shared/services/template/confirm.service';
 import { ElementiUtenteUtilities } from '../../shared/utilities/elementiUtente.utilities';
 import { converUserParams, getConfirmParams } from './functions/home.functions';
 import { home_imports } from './imports/home.imports';
-import { componenteApertoType } from './interfaces/profilo.interface';
+import { componenteApertoType } from '../posts/components/pages/profilo/interfaces/profilo.interface';
 import {
   HomeLang,
   HomeLangType,

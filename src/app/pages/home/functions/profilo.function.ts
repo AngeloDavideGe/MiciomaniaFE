@@ -1,6 +1,6 @@
 import { Ruolo } from '../../../shared/enums/users.enum';
 import { User } from '../../../shared/interfaces/users.interface';
-import { Tweet } from '../interfaces/profilo.interface';
+import { Tweet } from '../../posts/components/pages/profilo/interfaces/profilo.interface';
 import { Profilo } from '../../../shared/interfaces/http.interface';
 
 export function mapToProfilo(dbResult: any): Profilo {

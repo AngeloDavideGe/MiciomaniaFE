@@ -7,8 +7,8 @@ import {
   Output,
   TemplateRef,
 } from '@angular/core';
-import { ProfiloService } from '../../../../services/profilo.service';
-import { modaleApertaType } from '../../../../interfaces/profilo.interface';
+import { ProfiloService } from '../services/profilo.service';
+import { modaleApertaType } from '../interfaces/profilo.interface';
 import { Profilo } from '../../../../../../shared/interfaces/http.interface';
 
 @Component({

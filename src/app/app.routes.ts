@@ -21,6 +21,13 @@ export const routes: Routes = [
       import('./pages/auth/auth.routes').then((m) => m.AUTH_ROUTES),
   },
   {
+    path: 'posts',
+    loadComponent: () =>
+      import('./pages/posts/posts.component').then((m) => m.PostsComponent),
+    loadChildren: () =>
+      import('./pages/posts/posts.routes').then((m) => m.POSTS_ROUTES),
+  },
+  {
     path: 'manga',
     loadComponent: () =>
       import('./pages/manga/manga.component').then((m) => m.MangaComponent),

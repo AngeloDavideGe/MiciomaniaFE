@@ -4,7 +4,7 @@ import {
   Classifica,
   Squadre,
   TopUser,
-} from '../../../pages/home/interfaces/profilo.interface';
+} from '../../../pages/posts/components/pages/profilo/interfaces/profilo.interface';
 import { BaseService } from '../base/base.service';
 
 @Injectable({

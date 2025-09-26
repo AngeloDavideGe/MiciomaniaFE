@@ -2,9 +2,9 @@ import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { DataHttp } from '../../../../../../../core/api/http.data';
 import { formatDataCustom } from '../../../../../../../shared/functions/utilities.function';
-import { postPubblicazioni } from '../../../../../handlers/profilo.handler';
-import { Tweet } from '../../../../../interfaces/profilo.interface';
-import { ProfiloService } from '../../../../../services/profilo.service';
+import { postPubblicazioni } from '../../handlers/profilo.handler';
+import { Tweet } from '../../interfaces/profilo.interface';
+import { ProfiloService } from '../../services/profilo.service';
 import { ProfiloLang } from '../../languages/interfaces/profilo-lang.interface';
 
 @Component({

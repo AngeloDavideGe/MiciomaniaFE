@@ -17,7 +17,7 @@ import {
 import { AuthService } from '../../../../../shared/services/api/auth.service';
 import { LoadingService } from '../../../../../shared/services/template/loading.service';
 import { converUserParams } from '../../../functions/home.functions';
-import { AdminService } from '../../../services/admin.service';
+import { AdminService } from './services/admin.service';
 import { admin_imports } from './imports/admin.imports';
 import { CambioRuoloUtente } from './interfaces/admin.interface';
 import {
