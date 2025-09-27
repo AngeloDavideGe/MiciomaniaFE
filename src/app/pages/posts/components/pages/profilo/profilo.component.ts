@@ -18,7 +18,7 @@ import { updateUserCustom } from '../../../../../shared/handlers/auth.handler';
 import { AuthService } from '../../../../../shared/services/api/auth.service';
 import { uploadImage } from '../../../../../shared/functions/upload-pic.function';
 import { AppConfigService } from '../../../../../core/api/appConfig.service';
-import { ProfiloService } from './services/profilo.service';
+import { PostService } from '../../../services/post.service';
 import {
   EditableSocial,
   modaleApertaType,
@@ -42,7 +42,7 @@ export class ProfiloComponent implements OnDestroy {
   private appConfig = inject(AppConfigService);
   public router = inject(Router);
   private loaderService = inject(LoadingService);
-  public profiloService = inject(ProfiloService);
+  public postService = inject(PostService);
   private confirmService = inject(ConfirmService);
 
   private destroy$ = new Subject<void>();
@@ -117,7 +117,7 @@ export class ProfiloComponent implements OnDestroy {
   private sottoscrizioneProfilo(userId: string): void {
     this.loaderService.show();
     getProfiloById({
-      profiloService: this.profiloService,
+      postService: this.postService,
       userId: userId,
       setLocalStorage: (profilo: Profilo) => this.setLocalStorage(profilo),
       caricamentoCompletato: () => this.caricamentoCompletato(),
@@ -166,7 +166,7 @@ export class ProfiloComponent implements OnDestroy {
   private confirmEliminaTweet(tweetId: number): void {
     this.loaderService.show();
     deletePubblicazioneById({
-      profiloService: this.profiloService,
+      postService: this.postService,
       tweetId: tweetId,
       finalizeCall: () => this.loaderService.hide(),
       nextCall: () => {
@@ -179,7 +179,7 @@ export class ProfiloComponent implements OnDestroy {
 
   onUpload(file: File | null): void {
     const user = structuredClone(DataHttp.user()) || ({} as User);
-    this.profiloService.aggiornamentoPic.set(true);
+    this.postService.aggiornamentoPic.set(true);
     this.modaleAperta = '';
 
     uploadImage<User>({
@@ -199,7 +199,7 @@ export class ProfiloComponent implements OnDestroy {
     })
       .pipe(
         take(1),
-        finalize(() => this.profiloService.aggiornamentoPic.set(false))
+        finalize(() => this.postService.aggiornamentoPic.set(false))
       )
       .subscribe({
         next: (user: User) => (DataHttp.profiloPersonale!.user = user),

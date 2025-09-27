@@ -7,7 +7,7 @@ import {
   Output,
   TemplateRef,
 } from '@angular/core';
-import { ProfiloService } from '../services/profilo.service';
+import { PostService } from '../../../../services/post.service';
 import { modaleApertaType } from '../interfaces/profilo.interface';
 import { Profilo } from '../../../../../../shared/interfaces/http.interface';
 
@@ -45,7 +45,7 @@ import { Profilo } from '../../../../../../shared/interfaces/http.interface';
       <div class="card mb-3 border-0 shadow-sm mt-3">
         <div class="card-body" style="padding: 16px">
           <div class="d-flex align-items-start">
-            @if (!profiloService.aggiornamentoPic()) {
+            @if (!postService.aggiornamentoPic()) {
 
             <img
               [src]="
@@ -98,7 +98,7 @@ import { Profilo } from '../../../../../../shared/interfaces/http.interface';
   `,
 })
 export class SezioneTweetComponent {
-  public profiloService = inject(ProfiloService);
+  public postService = inject(PostService);
   @Input() profilo!: Profilo;
   @Input() profiloPersonale!: boolean;
   @Input() spinnerTemplate!: TemplateRef<any>;

@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { User, UserParams } from '../../interfaces/users.interface';
 import { BaseService } from '../base/base.service';
+import { Ruolo } from '../../enums/users.enum';
 
 @Injectable({
   providedIn: 'root',
@@ -49,5 +50,12 @@ export class AuthService extends BaseService {
     const params = new HttpParams().set('id', `eq.${userForDb.id}`);
 
     return this.patchCustom<User>(`utenti`, userForDb, params);
+  }
+
+  updateRuoloUtente(id: string, ruolo: Ruolo): Observable<User> {
+    const body = { ruolo }; // {ruolo: ruolo} - key: value sono uguali
+    const params = new HttpParams().set('id', `eq.${id}`);
+
+    return this.patchCustom<User>(`utenti`, body, params);
   }
 }

@@ -9,10 +9,12 @@ import {
 import { FormsModule } from '@angular/forms';
 import { UserParams } from '../../../../../../../shared/interfaces/users.interface';
 import { Ruolo } from '../../../../../../../shared/enums/users.enum';
-import { AdminService } from '../../services/admin.service';
 import { CambioRuoloUtente } from '../../interfaces/admin.interface';
 import { CapitalizeFirstLetterPipe } from '../../pipes/capitalize.pipe';
 import { AdminLang } from '../../languages/interfaces/admin-lang.interface';
+import { updateRuoloUtenteCustom } from '../../handlers/admin.handler';
+import { AuthService } from '../../../../../../../shared/services/api/auth.service';
+import { LoadingService } from '../../../../../../../shared/services/template/loading.service';
 
 @Component({
   selector: 'app-edit-admin',
@@ -92,7 +94,8 @@ import { AdminLang } from '../../languages/interfaces/admin-lang.interface';
   `,
 })
 export class EditAdminComponent implements OnInit {
-  private adminService = inject(AdminService);
+  private authService = inject(AuthService);
+  private loadingService = inject(LoadingService);
 
   @Input() adminLang!: AdminLang;
   @Input() userEdit!: UserParams;
@@ -117,11 +120,13 @@ export class EditAdminComponent implements OnInit {
       return;
     }
 
-    this.adminService.updateRuoloUtenteCustom(
-      this.userEdit.id,
-      this.newRuolo,
-      () => this.nextUpdateRuoloUtente()
-    );
+    updateRuoloUtenteCustom({
+      authService: this.authService,
+      loadingService: this.loadingService,
+      userId: this.userEdit.id,
+      ruolo: this.newRuolo,
+      nextCall: () => this.nextUpdateRuoloUtente(),
+    });
   }
 
   private nextUpdateRuoloUtente() {

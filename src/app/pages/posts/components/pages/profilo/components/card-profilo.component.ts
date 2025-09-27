@@ -8,7 +8,7 @@ import {
   TemplateRef,
 } from '@angular/core';
 import { EditableSocial } from '../interfaces/profilo.interface';
-import { ProfiloService } from '../services/profilo.service';
+import { PostService } from '../../../../services/post.service';
 import { modaleApertaType } from '../interfaces/profilo.interface';
 import { Profilo } from '../../../../../../shared/interfaces/http.interface';
 import { ProfiloLang } from '../languages/interfaces/profilo-lang.interface';
@@ -31,7 +31,7 @@ import { errorPageProfilo } from '../error/error.profilo';
             padding-top: 7rem;
           "
       >
-        @if (!profiloService.aggiornamentoPic()) {
+        @if (!postService.aggiornamentoPic()) {
         <img
           [src]="
             profilo.user.credenziali.profilePic ||
@@ -127,7 +127,7 @@ import { errorPageProfilo } from '../error/error.profilo';
   `,
 })
 export class CardProfiloComponent {
-  public profiloService = inject(ProfiloService);
+  public postService = inject(PostService);
   @Input() profiloLang!: ProfiloLang;
   @Input() socialArray!: EditableSocial[];
   @Input() profilo!: Profilo;

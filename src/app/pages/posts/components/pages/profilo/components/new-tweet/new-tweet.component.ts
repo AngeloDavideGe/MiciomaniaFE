@@ -4,8 +4,8 @@ import { DataHttp } from '../../../../../../../core/api/http.data';
 import { formatDataCustom } from '../../../../../../../shared/functions/utilities.function';
 import { postPubblicazioni } from '../../handlers/profilo.handler';
 import { Tweet } from '../../../../shared/post.interface';
-import { ProfiloService } from '../../services/profilo.service';
 import { ProfiloLang } from '../../languages/interfaces/profilo-lang.interface';
+import { PostService } from '../../../../../services/post.service';
 
 @Component({
   selector: 'app-new-tweet',
@@ -16,7 +16,7 @@ import { ProfiloLang } from '../../languages/interfaces/profilo-lang.interface';
 export class NewTweetComponent {
   public nuovoTweet: any;
   public testo: string = '';
-  private profiloService = inject(ProfiloService);
+  private postService = inject(PostService);
 
   @Input() profiloLang!: ProfiloLang;
   @Input() idUtente!: string;
@@ -40,7 +40,7 @@ export class NewTweetComponent {
 
   private inviaTweetDb(tweet: Tweet): void {
     postPubblicazioni({
-      profiloService: this.profiloService,
+      postService: this.postService,
       tweet: tweet,
       nextCall: () => DataHttp.profiloPersonale?.tweets.unshift(tweet),
     });

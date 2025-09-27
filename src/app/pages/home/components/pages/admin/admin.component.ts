@@ -17,7 +17,6 @@ import {
 import { AuthService } from '../../../../../shared/services/api/auth.service';
 import { LoadingService } from '../../../../../shared/services/template/loading.service';
 import { converUserParams } from '../../../functions/home.functions';
-import { AdminService } from './services/admin.service';
 import { admin_imports } from './imports/admin.imports';
 import { CambioRuoloUtente } from './interfaces/admin.interface';
 import {
@@ -25,6 +24,7 @@ import {
   AdminLangType,
 } from './languages/interfaces/admin-lang.interface';
 import { Lingua } from '../../../../../shared/interfaces/http.interface';
+import { updateRuoloUtenteCustom } from './handlers/admin.handler';
 
 @Component({
   selector: 'app-admin',
@@ -34,7 +34,6 @@ import { Lingua } from '../../../../../shared/interfaces/http.interface';
 })
 export class AdminComponent implements OnInit {
   private loadingService = inject(LoadingService);
-  public adminService = inject(AdminService);
   public authService = inject(AuthService);
   public router = inject(Router);
 
@@ -117,9 +116,13 @@ export class AdminComponent implements OnInit {
       nuovoRuolo: Ruolo.USER,
     };
 
-    this.adminService.updateRuoloUtenteCustom(user.id, Ruolo.USER, () =>
-      this.ruoloModificato(userRuolo)
-    );
+    updateRuoloUtenteCustom({
+      authService: this.authService,
+      loadingService: this.loadingService,
+      userId: user.id,
+      ruolo: Ruolo.USER,
+      nextCall: () => this.ruoloModificato(userRuolo),
+    });
   }
 
   ruoloModificato(user: CambioRuoloUtente): void {

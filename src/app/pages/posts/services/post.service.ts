@@ -1,13 +1,13 @@
 import { Injectable, signal } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Profilo } from '../../../../../../shared/interfaces/http.interface';
-import { BaseService } from '../../../../../../shared/services/base/base.service';
-import { Tweet } from '../../../shared/post.interface';
+import { Profilo } from '../../../shared/interfaces/http.interface';
+import { BaseService } from '../../../shared/services/base/base.service';
+import { Tweet } from '../components/shared/post.interface';
 
 @Injectable({
   providedIn: 'root',
 })
-export class ProfiloService extends BaseService {
+export class PostService extends BaseService {
   public aggiornamentoPic = signal<boolean>(false);
 
   constructor() {

@@ -2,16 +2,16 @@ import { finalize, map, take } from 'rxjs';
 import { Profilo } from '../../../../../../shared/interfaces/http.interface';
 import { mapToProfilo } from '../../../../../home/functions/profilo.function';
 import { Tweet } from '../../../shared/post.interface';
-import { ProfiloService } from '../services/profilo.service';
+import { PostService } from '../../../../services/post.service';
 
 export function getProfiloById(params: {
-  profiloService: ProfiloService;
+  postService: PostService;
   userId: string;
   setLocalStorage: (profilo: Profilo) => void;
   caricamentoCompletato: () => void;
   caricamentoFallito: () => void;
 }): void {
-  params.profiloService
+  params.postService
     .getProfiloById(params.userId)
     .pipe(
       take(1),
@@ -30,12 +30,12 @@ export function getProfiloById(params: {
 }
 
 export function deletePubblicazioneById(params: {
-  profiloService: ProfiloService;
+  postService: PostService;
   tweetId: number;
   finalizeCall: () => void;
   nextCall: () => void;
 }): void {
-  params.profiloService
+  params.postService
     .deletePubblicazioni(params.tweetId)
     .pipe(
       take(1),
@@ -49,11 +49,11 @@ export function deletePubblicazioneById(params: {
 }
 
 export function postPubblicazioni(params: {
-  profiloService: ProfiloService;
+  postService: PostService;
   tweet: Tweet;
   nextCall: Function;
 }): void {
-  params.profiloService
+  params.postService
     .postPubblicazioni(params.tweet)
     .pipe(take(1))
     .subscribe({
