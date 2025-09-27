@@ -1,12 +1,17 @@
 export interface TweetAll extends Tweet {
-  utenteNome: string;
-  utenteAvatar: string;
+  nome: string;
+  profilePic: string;
 }
 
 export interface Tweet {
   id: number;
-  testo: string;
   dataCreazione: Date;
+  testo: string;
   idUtente: number;
   immaginePost: string;
+}
+
+export interface Posts {
+  oldPosts: TweetAll[];
+  lastUpdated: Date;
 }

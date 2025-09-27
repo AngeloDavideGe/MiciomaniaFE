@@ -10,12 +10,8 @@ import { TweetAll } from '../../../shared/post.interface';
     <div class="post-card card mb-4">
       <!-- Header -->
       <div class="card-header post-header d-flex align-items-center">
-        <img
-          [src]="post.utenteAvatar"
-          alt="{{ post.utenteNome }}"
-          class="avatar"
-        />
-        <span class="username ms-2">{{ post.utenteNome }}</span>
+        <img [src]="post.profilePic" alt="{{ post.nome }}" class="avatar" />
+        <span class="username ms-2">{{ post.nome }}</span>
         <span class="ms-auto text-muted small">{{
           post.dataCreazione | date : 'short'
         }}</span>
@@ -29,7 +25,7 @@ import { TweetAll } from '../../../shared/post.interface';
       <!-- Corpo -->
       <div class="card-body">
         <p class="card-text">
-          <span class="fw-bold">{{ post.utenteNome }}</span> {{ post.testo }}
+          <span class="fw-bold">{{ post.nome }}</span> {{ post.testo }}
         </p>
       </div>
 

@@ -14,6 +14,7 @@ import {
 } from '../../shared/interfaces/elementiUtente.interface';
 import { Social } from '../../shared/interfaces/github.interface';
 import { GruppiChat } from '../components/chat/interfaces/chat.interface';
+import { Posts } from '../../pages/posts/components/shared/post.interface';
 
 export class DataHttp {
   static lingua: WritableSignal<Lingua> = signal(Lingua.it);
@@ -29,6 +30,7 @@ export class DataHttp {
   static mangaScaricati: boolean = false;
 
   static profiloPersonale: Profilo | null = null;
+  static postVisti: Posts = { oldPosts: [], lastUpdated: new Date(0) };
   static punteggioOttenuto: number = 0;
 
   static canzoniMiciomani: CanzoniMiciomania[] = [];
@@ -89,10 +91,15 @@ export class DataHttp {
       this.mangaAperti = JSON.parse(mangaAperti);
     }
 
-    // Profilo Service
+    // Post Service
     const pubblicazioniJSON = sessionStorage.getItem('pubblicazioni');
     if (pubblicazioniJSON) {
       this.profiloPersonale = JSON.parse(pubblicazioniJSON);
+    }
+
+    const postsVisti = localStorage.getItem('postVisti');
+    if (postsVisti) {
+      this.postVisti = JSON.parse(postsVisti);
     }
 
     // Squadre Service

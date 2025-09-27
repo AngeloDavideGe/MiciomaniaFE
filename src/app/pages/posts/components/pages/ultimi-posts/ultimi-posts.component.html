@@ -1,9 +1,9 @@
 <div class="container py-4">
   <div class="row justify-content-center">
     <div class="col-md-6">
-      @if (posts.length > 0) {
+      @if (postService.newPosts.length > 0) {
       <!-- Lista dei Post -->
-      @for (post of posts; track $index) {
+      @for (post of postService.newPosts; track $index) {
       <app-card-post [post]="post"></app-card-post>
       } }
       <!-- Nessun Post -->
@@ -13,14 +13,14 @@
 
       <!--  -->
 
-      @if (oldPosts.length > 0) {
+      @if (postService.oldPosts.length > 0) {
       <!-- Separatore stile Instagram -->
       <div class="post-separator text-center my-4">
         <span>Post già visti</span>
       </div>
 
       <!-- Post già visti -->
-      @for (post of oldPosts; track $index) {
+      @for (post of postService.oldPosts; track $index) {
       <app-card-post [post]="post"></app-card-post>
       } }
     </div>
