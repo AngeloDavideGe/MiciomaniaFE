@@ -1,5 +1,5 @@
 import { Injectable, signal } from '@angular/core';
-import { max, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 import { DataHttp } from '../../../core/api/http.data';
 import { Profilo } from '../../../shared/interfaces/http.interface';
 import { BaseService } from '../../../shared/services/base/base.service';

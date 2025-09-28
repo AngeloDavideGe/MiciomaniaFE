@@ -21,6 +21,7 @@
   </div>
 
   <app-chat-input
+    #chatInput
     [idUtente]="user ? user.id : ''"
     [risposta]="risposta()"
     [modifica]="modifica()"

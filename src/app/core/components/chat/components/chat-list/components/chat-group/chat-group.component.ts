@@ -48,7 +48,8 @@ export class ChatGroupComponent implements AfterViewInit, AfterViewChecked {
   @Input() chatId!: number;
   @Input() messages!: Messaggio[];
   @Input() messaggiComp!: IMessaggioComponent[];
-  @ViewChild('chatMessages') chatMessagesContainer!: ElementRef;
+  @ViewChild('chatMessages') chatMessages!: ElementRef;
+  @ViewChild('chatInput') chatInput!: ChatInputComponent;
   @ViewChildren('daySeparator') daySeparators!: QueryList<ElementRef>;
 
   ngAfterViewInit(): void {
@@ -83,7 +84,7 @@ export class ChatGroupComponent implements AfterViewInit, AfterViewChecked {
 
   private scrollToBottom(): void {
     try {
-      const element = this.chatMessagesContainer.nativeElement;
+      const element = this.chatMessages.nativeElement;
       element.scrollTop = element.scrollHeight;
     } catch (err) {
       console.error('Errore durante lo scorrimento:', err);
@@ -154,6 +155,7 @@ export class ChatGroupComponent implements AfterViewInit, AfterViewChecked {
         } else {
           this.risposta.set(null);
           this.modifica.set(tipo);
+          this.chatInput.newMessage = tipo.content;
         }
       };
 

@@ -35,7 +35,12 @@
     <div class="edit-content">
       <div class="edit-header">
         <span class="edit-label">Modifica messaggio</span>
-        <button class="edit-close" (click)="closeModifica.emit()">✕</button>
+        <button
+          class="edit-close"
+          (click)="closeModifica.emit(); newMessage = ''"
+        >
+          ✕
+        </button>
       </div>
       <p class="edit-message">{{ modifica.content }}</p>
     </div>

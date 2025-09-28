@@ -25,10 +25,12 @@ export class ChatInputComponent {
     if (!this.newMessage.trim()) return;
 
     if (this.modifica) {
-      this.sendMessaggio.emit({
-        idMessaggio: this.modifica.idMessaggio,
-        content: this.newMessage.trim(),
-      });
+      if (this.newMessage !== this.modifica.content) {
+        this.sendMessaggio.emit({
+          idMessaggio: this.modifica.idMessaggio,
+          content: this.newMessage.trim(),
+        });
+      } else return;
     } else {
       this.sendMessaggio.emit({
         idMessaggio: null,
