@@ -44,8 +44,7 @@ import { Component, EventEmitter, Output } from '@angular/core';
   `,
 })
 export class LineeGuidaComponent {
-  private lineeGuidaAccettate: boolean = false;
-  public lineeGuida: { frase: string; checked: boolean }[] = [
+  public lineeGuida: LineaGuida[] = [
     {
       frase:
         'Seguire le pratiche di sicurezza per proteggere i dati sensibili.',
@@ -65,7 +64,14 @@ export class LineeGuidaComponent {
 
   toggleCheck(index: number): void {
     this.lineeGuida[index].checked = !this.lineeGuida[index].checked;
-    this.lineeGuidaAccettate = this.lineeGuida.every((linea) => linea.checked);
-    this.lineeGuidaChanged.emit(this.lineeGuidaAccettate);
+    const accettate: boolean = this.lineeGuida.every(
+      (linea: LineaGuida) => linea.checked
+    );
+    this.lineeGuidaChanged.emit(accettate);
   }
+}
+
+interface LineaGuida {
+  frase: string;
+  checked: boolean;
 }

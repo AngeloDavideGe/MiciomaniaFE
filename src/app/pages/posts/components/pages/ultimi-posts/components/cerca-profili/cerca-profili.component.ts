@@ -1,14 +1,15 @@
 import {
   Component,
+  computed,
   EventEmitter,
-  OnDestroy,
-  OnInit,
   Output,
+  Signal,
   signal,
+  WritableSignal,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { debounceTime, Subject, takeUntil } from 'rxjs';
 import { DataHttp } from '../../../../../../../core/api/http.data';
+import { effectTimeoutCustom } from '../../../../../../../shared/functions/utilities.function';
 import { UserParams } from '../../../../../../../shared/interfaces/users.interface';
 
 @Component({
@@ -18,83 +19,71 @@ import { UserParams } from '../../../../../../../shared/interfaces/users.interfa
   templateUrl: './cerca-profili.component.html',
   styleUrl: './cerca-profili.component.scss',
 })
-export class CercaProfiliComponent implements OnInit, OnDestroy {
-  private itemsPerPage: number = 5;
-  public currentPage: number = 1;
-  public totalPages: number = 0;
-  public filteredUsers: UserParams[] = [];
-  public userSlice = signal<UserParams[]>([]);
-  public searchQuery: string = '';
-  public searchQuery$ = new Subject<string>();
-  private destroy$ = new Subject<void>();
-  public users: UserParams[] = DataHttp.users();
+export class CercaProfiliComponent {
+  private readonly itemsPerPage: number = 1;
+
+  public currentPage: WritableSignal<number> = signal(1);
+  public searchQuery: WritableSignal<string> = signal('');
+  public debounceQuery: WritableSignal<string> = signal('');
+
+  public users = signal<UserParams[]>(DataHttp.users());
+
+  public filteredUsers: Signal<UserParams[]> = computed(() => {
+    const query: string = this.debounceQuery().toLowerCase();
+    const users: UserParams[] = this.users();
+
+    if (!query.trim()) {
+      return users;
+    }
+
+    return users.filter(
+      (user: UserParams) =>
+        user.nome.toLowerCase().includes(query) ||
+        user.id.toLowerCase().includes(query)
+    );
+  });
+
+  public totalPages: Signal<number> = computed(() => {
+    const filteredUsers: UserParams[] = this.filteredUsers();
+
+    return Math.ceil(filteredUsers.length / this.itemsPerPage);
+  });
+
+  public userSlice: Signal<UserParams[]> = computed(() => {
+    const filteredUsers: UserParams[] = this.filteredUsers();
+    const currentPage: number = this.currentPage();
+
+    const startIndex: number = (currentPage - 1) * this.itemsPerPage;
+    const endIndex: number = startIndex + this.itemsPerPage;
+
+    return filteredUsers.slice(startIndex, endIndex);
+  });
+
+  constructor() {
+    effectTimeoutCustom(this.searchQuery, (value: string) => {
+      this.debounceQuery.set(value);
+      this.currentPage.set(this.totalPages() > 0 ? 1 : 0);
+    });
+  }
 
   @Output() goToProfilo = new EventEmitter<string>();
   @Output() chiudiComponente = new EventEmitter<void>();
 
-  ngOnInit(): void {
-    this.filteredUsers = structuredClone(DataHttp.users());
-    this.setUserSlice();
-    this.sottoscrizioneFiltroUtenti();
-  }
-
-  ngOnDestroy(): void {
-    this.destroy$.next();
-    this.destroy$.complete();
-  }
-
-  private sottoscrizioneFiltroUtenti(): void {
-    this.searchQuery$
-      .pipe(takeUntil(this.destroy$), debounceTime(100))
-      .subscribe((searchQuery) => this.applicaFiltroUtenti(searchQuery));
-  }
-
-  private applicaFiltroUtenti(searchQuery: string): void {
-    this.filteredUsers = DataHttp.users().filter((user: UserParams) => {
-      const nome: string = user.nome ? user.nome.toLowerCase() : '';
-      const query: string = searchQuery.toLowerCase();
-      return nome.includes(query);
-    });
-
-    this.setUserSlice();
-  }
-
-  editFiltro(value: string): void {
-    this.searchQuery$.next(value);
-    this.searchQuery = value;
-  }
-
   clearSearch(): void {
-    if (this.searchQuery) {
-      this.editFiltro('');
-      this.filteredUsers = structuredClone(DataHttp.users());
-      this.setUserSlice();
+    if (this.searchQuery()) {
+      this.searchQuery.set('');
     }
   }
 
-  private setUserSlice(): void {
-    this.userSlice.set(this.filteredUsers.slice(0, this.itemsPerPage));
-    this.totalPages = Math.ceil(this.filteredUsers.length / this.itemsPerPage);
-    this.currentPage = this.totalPages > 0 ? 1 : 0;
-  }
-
   nextPage(): void {
-    if (this.currentPage < this.totalPages) {
-      this.currentPage++;
-      this.setPaginatedUsers();
+    if (this.currentPage() < this.totalPages()) {
+      this.currentPage.update((x: number) => x + 1);
     }
   }
 
   previousPage(): void {
-    if (this.currentPage > 1) {
-      this.currentPage--;
-      this.setPaginatedUsers();
+    if (this.currentPage() > 1) {
+      this.currentPage.update((x: number) => x - 1);
     }
-  }
-
-  private setPaginatedUsers(): void {
-    const startIndex: number = (this.currentPage - 1) * this.itemsPerPage;
-    const endIndex: number = startIndex + this.itemsPerPage;
-    this.userSlice.set(this.filteredUsers.slice(startIndex, endIndex));
   }
 }

@@ -14,14 +14,13 @@
 
       <!-- BODY -->
       <div class="modal-body custom-body">
-        @if(users.length > 0) {
+        @if(users().length > 0) {
 
         <!-- SEARCH BAR -->
         <div class="input-group mb-3">
           <input
             type="text"
             [(ngModel)]="searchQuery"
-            (ngModelChange)="editFiltro($event)"
             [placeholder]="'cerca utenti'"
             class="form-control search-input"
           />
@@ -67,17 +66,17 @@
         <div class="pagination-container" id="PulsantiPaginazione">
           <button
             (click)="previousPage()"
-            [disabled]="currentPage === 1"
+            [disabled]="currentPage() === 1"
             class="btn btn-light border btn-sm pagination-btn"
           >
             &lt;
           </button>
           <span class="page-info">
-            {{ currentPage + "/" + totalPages }}
+            {{ currentPage() + "/" + totalPages() }}
           </span>
           <button
             (click)="nextPage()"
-            [disabled]="currentPage === totalPages"
+            [disabled]="currentPage() === totalPages()"
             class="btn btn-light border btn-sm pagination-btn"
           >
             &gt;

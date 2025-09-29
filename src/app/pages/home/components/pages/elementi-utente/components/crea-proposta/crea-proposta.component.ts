@@ -154,15 +154,12 @@ export class CreaPropostaComponent implements OnInit {
         finalize(() => (this.elementiUtenteService.propostaCaricata = true))
       )
       .subscribe({
-        next: (data: Proposta) => {
-          DataHttp.elementiUtente = {
+        next: (data: Proposta) =>
+          (DataHttp.elementiUtente = {
             ...(DataHttp.elementiUtente || ({} as ElementiUtente)),
             proposta: data,
-          };
-        },
-        error: (err) => {
-          console.error('Errore upload o recupero link:', err);
-        },
+          }),
+        error: (err) => console.error('Errore upload o recupero link:', err),
       });
   }
 }
