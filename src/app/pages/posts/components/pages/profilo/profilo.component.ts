@@ -1,34 +1,34 @@
 import { Component, inject, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { finalize, Subject, take, takeUntil } from 'rxjs';
+import { Subject, takeUntil } from 'rxjs';
+import { AppConfigService } from '../../../../../core/api/appConfig.service';
 import { DataHttp } from '../../../../../core/api/http.data';
+import { uploadImage } from '../../../../../shared/functions/upload-pic.function';
+import { updateUserCustom } from '../../../../../shared/handlers/auth.handler';
 import { getVoidUser } from '../../../../../shared/handlers/functions/user.function';
 import {
   Lingua,
   Profilo,
 } from '../../../../../shared/interfaces/http.interface';
 import { User } from '../../../../../shared/interfaces/users.interface';
+import { AuthService } from '../../../../../shared/services/api/auth.service';
 import { ConfirmService } from '../../../../../shared/services/template/confirm.service';
 import { LoadingService } from '../../../../../shared/services/template/loading.service';
-import {
-  ProfiloLang,
-  ProfiloLangType,
-} from './languages/interfaces/profilo-lang.interface';
-import { updateUserCustom } from '../../../../../shared/handlers/auth.handler';
-import { AuthService } from '../../../../../shared/services/api/auth.service';
-import { uploadImage } from '../../../../../shared/functions/upload-pic.function';
-import { AppConfigService } from '../../../../../core/api/appConfig.service';
 import { PostService } from '../../../services/post.service';
-import {
-  EditableSocial,
-  modaleApertaType,
-} from './interfaces/profilo.interface';
-import { profilo_imports } from './imports/profilo.imports';
+import { Tweet } from '../../shared/post.interface';
 import {
   deletePubblicazioneById,
   getProfiloById,
 } from './handlers/profilo.handler';
-import { Tweet } from '../../shared/post.interface';
+import { profilo_imports } from './imports/profilo.imports';
+import {
+  EditableSocial,
+  modaleApertaType,
+} from './interfaces/profilo.interface';
+import {
+  ProfiloLang,
+  ProfiloLangType,
+} from './languages/interfaces/profilo-lang.interface';
 
 @Component({
   selector: 'app-profilo',
@@ -194,16 +194,12 @@ export class ProfiloComponent implements OnDestroy {
             ...user,
             credenziali: { ...user.credenziali, profilePic: url },
           },
+          finalizeFunc: () => this.postService.aggiornamentoPic.set(false),
         });
       },
-    })
-      .pipe(
-        take(1),
-        finalize(() => this.postService.aggiornamentoPic.set(false))
-      )
-      .subscribe({
-        next: (user: User) => (DataHttp.profiloPersonale!.user = user),
-        error: (err: Error) => console.error('Errore chiamata:', err),
-      });
+    }).subscribe({
+      next: (user: User) => (DataHttp.profiloPersonale!.user = user),
+      error: (err: Error) => console.error('Errore chiamata:', err),
+    });
   }
 }

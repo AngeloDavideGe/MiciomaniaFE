@@ -53,6 +53,8 @@ export class GamesComponent implements OnInit, OnDestroy {
       ifCall: () => this.ifCallLoadSquadre(),
       elseCall: () => this.elseCallLoadSquadre(),
       nextCall: () => this.nextCallLoadSquadre(),
+      errorCall: () => {},
+      finalizeFunc: () => {},
     });
   }
 

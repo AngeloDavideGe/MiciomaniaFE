@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { take } from 'rxjs';
 import { DataHttp } from '../../../../core/api/http.data';
 import { Ruolo } from '../../../../shared/enums/users.enum';
 import { updateUserCustom } from '../../../../shared/handlers/auth.handler';
@@ -35,13 +34,12 @@ export class IscrizioneComponent extends WizardBase {
     updateUserCustom({
       authService: this.authService,
       user: this.user,
-    })
-      .pipe(take(1))
-      .subscribe({
-        next: () => this.nextCallIscrizione(),
-        error: (err) =>
-          this.errorUpdateUtente(err, 'Errore modifica dell utente'),
-      });
+      finalizeFunc: () => this.loadingService.hide(),
+    }).subscribe({
+      next: () => this.nextCallIscrizione(),
+      error: (err) =>
+        this.errorUpdateUtente(err, 'Errore modifica dell utente'),
+    });
   }
 
   private setUserPerInvio(): void {
@@ -86,7 +84,6 @@ export class IscrizioneComponent extends WizardBase {
   }
 
   private nextCallIscrizione(): void {
-    this.loadingService.hide();
     this.wizardService.setWizardForm({} as FormWizard);
 
     if (DataHttp.profiloPersonale) {

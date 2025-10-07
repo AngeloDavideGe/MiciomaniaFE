@@ -1,9 +1,8 @@
 import { inject } from '@angular/core';
-import { finalize, take } from 'rxjs';
-import { User } from '../../../../../../shared/interfaces/users.interface';
-import { LoadingService } from '../../../../../../shared/services/template/loading.service';
-import { AuthService } from '../../../../../../shared/services/api/auth.service';
 import { updateUserCustom } from '../../../../../../shared/handlers/auth.handler';
+import { User } from '../../../../../../shared/interfaces/users.interface';
+import { AuthService } from '../../../../../../shared/services/api/auth.service';
+import { LoadingService } from '../../../../../../shared/services/template/loading.service';
 
 export abstract class TabProfiloBase {
   protected authService = inject(AuthService);
@@ -17,16 +16,12 @@ export abstract class TabProfiloBase {
     updateUserCustom({
       authService: this.authService,
       user: params.user,
-    })
-      .pipe(
-        take(1),
-        finalize(() => this.loadingService.hide())
-      )
-      .subscribe({
-        next: () => params.updateCall(params.user),
-        error: (err: string) =>
-          this.errorEdit(err, 'Errore modifica del profilo'),
-      });
+      finalizeFunc: () => this.loadingService.hide(),
+    }).subscribe({
+      next: () => params.updateCall(params.user),
+      error: (err: string) =>
+        this.errorEdit(err, 'Errore modifica del profilo'),
+    });
   }
 
   private errorEdit(err: string, messaggio: string): void {

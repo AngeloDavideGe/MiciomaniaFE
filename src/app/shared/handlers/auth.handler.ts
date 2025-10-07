@@ -1,4 +1,4 @@
-import { map, Observable, take } from 'rxjs';
+import { finalize, map, Observable, take } from 'rxjs';
 import { DataHttp } from '../../core/api/http.data';
 import { User, UserDb, UserParams } from '../interfaces/users.interface';
 import { AuthService } from '../services/api/auth.service';
@@ -26,9 +26,12 @@ export function sottoscrizioneUtenti(params: {
 export function updateUserCustom(params: {
   authService: AuthService;
   user: User;
+  finalizeFunc: Function;
 }): Observable<User> {
   const userForDb: UserDb = mapUserToDb(params.user);
   return params.authService.updateUser(userForDb).pipe(
+    take(1),
+    finalize(() => params.finalizeFunc()),
     map(() => {
       DataHttp.user.set(params.user);
       return params.user;

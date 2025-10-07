@@ -20,33 +20,36 @@ import { UserParams } from '../../../../../../../shared/interfaces/users.interfa
   styleUrl: './cerca-profili.component.scss',
 })
 export class CercaProfiliComponent {
+  @Output() goToProfilo = new EventEmitter<string>();
+  @Output() chiudiComponente = new EventEmitter<void>();
+
   private readonly itemsPerPage: number = 1;
-
-  public currentPage: WritableSignal<number> = signal(1);
-  public searchQuery: WritableSignal<string> = signal('');
-  public debounceQuery: WritableSignal<string> = signal('');
-
   public users = signal<UserParams[]>(DataHttp.users());
 
-  public filteredUsers: Signal<UserParams[]> = computed(() => {
-    const query: string = this.debounceQuery().toLowerCase();
+  public totalPages: WritableSignal<number> = signal(1);
+  public currentPage: WritableSignal<number> = signal(1);
+  public searchQuery: WritableSignal<string> = signal('');
+  private debounceQuery: WritableSignal<string> = signal('');
+
+  private filteredUsers: Signal<UserParams[]> = computed(() => {
     const users: UserParams[] = this.users();
+    const query: string = this.debounceQuery().toLowerCase();
+
+    let filteredUsers: UserParams[] = [];
 
     if (!query.trim()) {
-      return users;
+      filteredUsers = users;
+    } else {
+      filteredUsers = users.filter(
+        (user: UserParams) =>
+          user.nome.toLowerCase().includes(query) ||
+          user.id.toLowerCase().includes(query)
+      );
     }
 
-    return users.filter(
-      (user: UserParams) =>
-        user.nome.toLowerCase().includes(query) ||
-        user.id.toLowerCase().includes(query)
-    );
-  });
+    this.totalPages.set(Math.ceil(filteredUsers.length / this.itemsPerPage));
 
-  public totalPages: Signal<number> = computed(() => {
-    const filteredUsers: UserParams[] = this.filteredUsers();
-
-    return Math.ceil(filteredUsers.length / this.itemsPerPage);
+    return filteredUsers;
   });
 
   public userSlice: Signal<UserParams[]> = computed(() => {
@@ -65,9 +68,6 @@ export class CercaProfiliComponent {
       this.currentPage.set(this.totalPages() > 0 ? 1 : 0);
     });
   }
-
-  @Output() goToProfilo = new EventEmitter<string>();
-  @Output() chiudiComponente = new EventEmitter<void>();
 
   clearSearch(): void {
     if (this.searchQuery()) {

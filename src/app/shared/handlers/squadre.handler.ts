@@ -1,4 +1,4 @@
-import { take } from 'rxjs';
+import { finalize, take } from 'rxjs';
 import { DataHttp } from '../../core/api/http.data';
 import { Classifica } from '../interfaces/squadre.interface';
 import { SquadreService } from '../services/api/squadre.service';
@@ -27,18 +27,26 @@ export function loadSquadre(params: {
   ifCall: Function;
   elseCall: Function;
   nextCall: Function;
+  errorCall: Function;
+  finalizeFunc: Function;
 }): void {
   if (params.squadreService.classifica.squadre.length == 0) {
     params.ifCall();
     params.squadreService
       .getClassifica()
-      .pipe(take(1))
+      .pipe(
+        take(1),
+        finalize(() => params.finalizeFunc())
+      )
       .subscribe({
         next: (data: Classifica) => {
           params.squadreService.classifica = data;
           params.nextCall();
         },
-        error: (err) => console.error('errore nel recupero squadre', err),
+        error: (err) => {
+          console.error('errore nel recupero squadre', err);
+          params.errorCall();
+        },
       });
   } else {
     params.elseCall();
