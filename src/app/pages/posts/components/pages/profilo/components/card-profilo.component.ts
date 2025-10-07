@@ -94,10 +94,8 @@ import { errorPageProfilo } from '../error/error.profilo';
           {{ profilo.user.profile.bio || profiloLang.noBio }}
         </p>
         <div class="d-flex text-muted mb-3" style="font-size: 14px">
-          @if (profilo.user.iscrizione.citta &&
-          profilo.user.iscrizione.provincia) {
+          @if (profilo.user.iscrizione.provincia) {
           <span class="me-3">
-            {{ profilo.user.iscrizione.citta }},
             {{ profilo.user.iscrizione.provincia }}
           </span>
           } @if (profilo.user.profile.compleanno) {

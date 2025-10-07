@@ -16,10 +16,16 @@ export abstract class BaseService {
     this.headers = getHeader(this.appConfig.config[db].KEY);
   }
 
-  protected getAllCustom<T>(url: string, params: HttpParams): Observable<T[]> {
-    return this.http.get<T[]>(`${this.baseUrl}${url}`, {
+  protected getByCustom<T>(url: string, params: HttpParams): Observable<T> {
+    return this.http.get<T>(`${this.baseUrl}${url}`, {
       headers: this.headers,
       params: params,
+    });
+  }
+
+  protected getAllCustom<T>(url: string): Observable<T[]> {
+    return this.http.get<T[]>(`${this.baseUrl}${url}`, {
+      headers: this.headers,
     });
   }
 

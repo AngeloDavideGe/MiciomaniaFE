@@ -21,9 +21,8 @@ export function mapToProfilo(dbResult: any): Profilo {
     },
     iscrizione: {
       stato: dbResult.utente.stato || null,
-      team: dbResult.utente.team || null,
+      squadra: dbResult.utente.squadra || null,
       provincia: dbResult.utente.provincia || null,
-      citta: dbResult.utente.citta || null,
       punteggio: dbResult.utente.punteggio || null,
     },
   };

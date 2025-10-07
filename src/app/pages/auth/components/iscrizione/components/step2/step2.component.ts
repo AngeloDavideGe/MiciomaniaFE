@@ -57,7 +57,7 @@ export class Step2Component implements OnInit, OnDestroy {
     this.inizializzaForm();
     this.associaUtenteFunc(DataHttp.user());
 
-    this.profileForm.get('team')?.updateValueAndValidity();
+    this.profileForm.get('squadra')?.updateValueAndValidity();
   }
 
   ngAfterViewInit(): void {
@@ -75,11 +75,10 @@ export class Step2Component implements OnInit, OnDestroy {
     const wizardFormData: FormWizard = this.wizardService.getWizardForm();
     this.formValido.emit(false);
     this.profileForm = this.fb.group({
-      team: [[], arrayNotEmptyValidator()],
+      squadra: [[], arrayNotEmptyValidator()],
       stato: [wizardFormData.stato || '', Validators.required],
       regione: [/*wizardFormData.regione || */ '', Validators.required],
       provincia: [/*wizardFormData.provincia || */ '', Validators.required],
-      citta: [wizardFormData.citta || '', Validators.required],
     });
   }
 
@@ -87,18 +86,17 @@ export class Step2Component implements OnInit, OnDestroy {
     const wizardForm: FormWizard = {
       nome: this.nomeUtente,
       email: this.email,
-      team: this.profileForm.get('team')?.value.join(', ') || '',
+      squadra: this.profileForm.get('squadra')?.value.join(', ') || '',
       stato: this.profileForm.get('stato')?.value || '',
       regione: this.profileForm.get('regione')?.value || '',
       provincia: this.profileForm.get('provincia')?.value || '',
-      citta: this.profileForm.get('citta')?.value || '',
     };
     this.wizardService.setWizardForm(wizardForm);
   }
 
   onTeamChange(event: Event): void {
     const checkbox = event.target as HTMLInputElement;
-    const selectedTeam: string[] = this.profileForm.get('team')?.value || [];
+    const selectedTeam: string[] = this.profileForm.get('squadra')?.value || [];
 
     if (checkbox.checked) {
       if (!selectedTeam.includes(checkbox.value)) {

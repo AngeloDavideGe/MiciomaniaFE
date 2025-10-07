@@ -78,7 +78,7 @@ export class GamesComponent implements OnInit, OnDestroy {
     const user: User | null = DataHttp.user();
     if (user) {
       environment.team.forEach((nomeTeam: string) => {
-        if (user.iscrizione.team?.includes(nomeTeam)) {
+        if (user.iscrizione.squadra?.includes(nomeTeam)) {
           this.squadre.personale.push({
             nome: nomeTeam,
             punteggio: 'caricamento...',
@@ -102,7 +102,7 @@ export class GamesComponent implements OnInit, OnDestroy {
             (squadra: Squadre) => squadra.id == nomeTeam
           )?.punteggio;
 
-        if (user.iscrizione.team?.includes(nomeTeam)) {
+        if (user.iscrizione.squadra?.includes(nomeTeam)) {
           this.squadre.personale.push({
             nome: nomeTeam,
             punteggio: punteggioFind || 'non disponibile',

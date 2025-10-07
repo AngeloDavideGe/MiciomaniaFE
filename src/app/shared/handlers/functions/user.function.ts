@@ -25,9 +25,8 @@ export function mapUserByDb(db: any): User {
     },
     iscrizione: {
       stato: db.stato || null,
-      team: db.team || null,
+      squadra: db.team || null,
       provincia: db.provincia || null,
-      citta: db.citta || null,
       punteggio: db.punteggio || null,
     },
   };
@@ -50,9 +49,8 @@ export function mapUserToDb(user: User): UserDb {
       : null,
     social: user.profile?.social || null,
     stato: user.iscrizione.stato,
-    team: user.iscrizione.team,
+    squadra: user.iscrizione.squadra,
     provincia: user.iscrizione.provincia,
-    citta: user.iscrizione.citta,
     punteggio: user.iscrizione.punteggio,
   };
 }

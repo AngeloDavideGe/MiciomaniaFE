@@ -8,11 +8,10 @@ export interface DTO_Wizard {
 export interface FormWizard {
   nome: string;
   email: string;
-  team: string;
+  squadra: string;
   stato: StatoPersona;
   regione: string;
   provincia: string;
-  citta: string;
 }
 
 export interface FormError {

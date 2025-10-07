@@ -47,9 +47,8 @@ export class IscrizioneComponent extends WizardBase {
     const ruolo: Ruolo = this.user.credenziali.ruolo;
     const iscrizione: Iscrizione = {
       stato: wizardForm.stato,
-      team: wizardForm.team,
+      squadra: wizardForm.squadra,
       provincia: wizardForm.provincia + ' (' + wizardForm.regione + ')',
-      citta: wizardForm.citta,
       punteggio: this.user.iscrizione.punteggio || 0,
     };
 

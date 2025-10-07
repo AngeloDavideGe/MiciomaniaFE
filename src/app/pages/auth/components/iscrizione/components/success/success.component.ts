@@ -37,15 +37,11 @@ import { BottonCustomComponent } from '../../../../../../shared/components/custo
               <strong>Stato:</strong> {{ user.iscrizione.stato }}
             </li>
             <li class="list-group-item" style="font-size: 1.25rem;">
-              <strong>Team:</strong> {{ user.iscrizione.team }}
+              <strong>Team:</strong> {{ user.iscrizione.squadra }}
             </li>
             <li class="list-group-item" style="font-size: 1.25rem;">
               <strong>Provincia:</strong>
               {{ user.iscrizione.provincia || 'Non disponibile' }}
-            </li>
-            <li class="list-group-item" style="font-size: 1.25rem;">
-              <strong>Città:</strong>
-              {{ user.iscrizione.citta || 'Non disponibile' }}
             </li>
             <li class="list-group-item" style="font-size: 1.25rem;">
               <strong>Punteggio:</strong>

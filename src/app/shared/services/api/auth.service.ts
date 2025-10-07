@@ -10,24 +10,19 @@ import { Ruolo } from '../../enums/users.enum';
 })
 export class AuthService extends BaseService {
   constructor() {
-    super('DB1');
+    super('BE');
   }
 
   getAllUsersHttp(): Observable<UserParams[]> {
-    const params = new HttpParams().set('select', 'id,nome,profilePic,ruolo');
-
-    return this.getAllCustom<UserParams>('utenti', params);
+    return this.getAllCustom<UserParams>('Utenti/get_all_utenti');
   }
 
-  getUserByEmailAndPassword(
-    email: string,
-    password: string
-  ): Observable<User[]> {
+  getUserByEmailAndPassword(email: string, password: string): Observable<User> {
     const params = new HttpParams()
-      .set('email', `eq.${email}`)
-      .set('password', `eq.${password}`);
+      .set('email', email)
+      .set('password', password);
 
-    return this.getAllCustom<User>('utenti', params);
+    return this.getByCustom<User>('Utenti/get_utente_by_email', params);
   }
 
   postUser(
