@@ -4,8 +4,8 @@ import {
 } from '../../../shared/interfaces/http.interface';
 
 export interface ListaEUtenti {
-  lista_manga: ListaManga[];
-  manga_utente: MangaUtente[];
+  listaManga: ListaManga[];
+  mangaUtente: MangaUtente;
 }
 
 export interface MangaENome {

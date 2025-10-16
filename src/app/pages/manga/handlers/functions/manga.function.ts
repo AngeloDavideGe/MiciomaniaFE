@@ -9,8 +9,8 @@ export function caricaMangaEPreferiti(params: {
   caricaMangaUtente: (mangaUtente: MangaUtente) => void;
   caricaListaManga: (listaManga: ListaManga[]) => void;
 }): void {
-  if (params.data.manga_utente) {
-    params.caricaMangaUtente(params.data.manga_utente[0]);
+  if (params.data.mangaUtente) {
+    params.caricaMangaUtente(params.data.mangaUtente);
   }
-  params.caricaListaManga(params.data.lista_manga);
+  params.caricaListaManga(params.data.listaManga);
 }

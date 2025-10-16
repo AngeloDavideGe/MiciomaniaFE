@@ -10,7 +10,7 @@ import { ListaEUtenti } from '../interfaces/manga.interface';
 
 export function inizializzaLista(params: {
   mangaService: MangaService;
-  idUtente: string | null;
+  idUtente: string;
   caricaMangaUtente: (manga_utente: MangaUtente) => void;
   caricaListaManga: (lista_manga: ListaManga[]) => void;
   caricamentoFallito: Function;
@@ -24,10 +24,10 @@ export function inizializzaLista(params: {
         caricaMangaEPreferiti({
           data: data,
           caricaMangaUtente: () => {
-            params.caricaMangaUtente(data.manga_utente[0]);
+            params.caricaMangaUtente(data.mangaUtente);
           },
           caricaListaManga: () => {
-            params.caricaListaManga(data.lista_manga);
+            params.caricaListaManga(data.listaManga);
           },
         });
       },
@@ -44,12 +44,7 @@ export function postOrUpdateMangaUtente(params: {
   idUtente: string;
 }): void {
   params.mangaService
-    .postOrUpdateMangaUtente(
-      params.idUtente,
-      params.mangaUtente.preferiti,
-      params.mangaUtente.letti,
-      params.mangaUtente.completati
-    )
+    .postOrUpdateMangaUtente(params.idUtente, params.mangaUtente)
     .pipe(take(1))
     .subscribe({
       next: () => {

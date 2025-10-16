@@ -12,7 +12,7 @@ export function uploadImage<T>(params: {
   const fileName: string = `${params.id}.${fileExt}`;
 
   return from(
-    params.appConfig.client[params.client].storage
+    params.appConfig.client.storage
       .from('avatar')
       .upload(fileName, params.file, {
         upsert: true,
@@ -36,7 +36,7 @@ function getLinkPic<T>(params: {
   filePath: string;
   switchMapCall: (url: string) => Observable<T>;
 }): Observable<T> {
-  const { data: publicData } = params.appConfig.client[params.client].storage
+  const { data: publicData } = params.appConfig.client.storage
     .from('avatar')
     .getPublicUrl(params.filePath);
 

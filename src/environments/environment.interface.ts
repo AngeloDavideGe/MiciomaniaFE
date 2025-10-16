@@ -1,8 +1,7 @@
 export interface IEnvironment {
   production: boolean;
-  DB1: string;
-  DB2: string;
   BE: string;
+  DB2: string;
   team: string[];
   colori: string[];
   maxMessagesForchat: number;

@@ -6,7 +6,7 @@ import { SquadreService } from '../services/api/squadre.service';
 export function updatePunteggioSquadra(params: {
   squadreService: SquadreService;
   userId: string;
-  nomeSquadra: string[];
+  nomeSquadra: string;
   nextUpdatePunteggio: Function;
 }): void {
   params.squadreService

@@ -1,44 +1,34 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { BaseService } from '../../../shared/services/base/base.service';
-import { ListaEUtenti, MangaENome } from '../interfaces/manga.interface';
+import { ListaEUtenti } from '../interfaces/manga.interface';
+import { HttpParams } from '@angular/common/http';
+import { MangaUtente } from '../../../shared/interfaces/http.interface';
 
 @Injectable({
   providedIn: 'root',
 })
 export class MangaService extends BaseService {
   constructor() {
-    super('DB1');
+    super('BE');
   }
 
-  getListaManga(idUtente: string | null): Observable<ListaEUtenti> {
-    const body = { input_id: idUtente };
+  getListaManga(idUtente: string): Observable<ListaEUtenti> {
+    const params = new HttpParams().set('idUtente', idUtente);
 
-    return this.postCustom<ListaEUtenti>('rpc/get_all_manga', body);
-  }
-
-  getNomeEVolumiMangaByPath(path: string): Observable<MangaENome> {
-    const body = { input_table_name: path };
-
-    return this.postCustom<MangaENome>(
-      'rpc/get_volumi_e_nome_by_path_wrapper',
-      body
+    return this.getCustom<ListaEUtenti>(
+      'Manga/get_all_manga_e_preferiti',
+      params
     );
   }
 
   postOrUpdateMangaUtente(
     id: string,
-    preferiti: string,
-    letti: string,
-    completati: string
+    mangaUtente: MangaUtente
   ): Observable<void> {
-    const body = {
-      p_id_utente: id,
-      p_manga_preferiti: preferiti,
-      p_manga_letti: letti,
-      p_manga_completati: completati,
-    };
-
-    return this.postCustom<void>('rpc/upsert_manga_utente', body);
+    return this.postCustom<void>(
+      `Manga/upsert_manga_preferiti/${id}`,
+      mangaUtente
+    );
   }
 }

@@ -130,7 +130,7 @@ export class TuoiMangaComponent implements OnInit, OnDestroy {
 
       inizializzaLista({
         mangaService: this.mangaService,
-        idUtente: idUtente,
+        idUtente: idUtente || '',
         caricaMangaUtente: (manga_utente: MangaUtente) =>
           (DataHttp.mangaUtente = manga_utente),
         caricaListaManga: (lista_manga: ListaManga[]) =>

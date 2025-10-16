@@ -170,7 +170,7 @@ export class MangaComponent implements OnDestroy {
 
     inizializzaLista({
       mangaService: this.mangaService,
-      idUtente: this.idUtente,
+      idUtente: this.idUtente || '',
       caricaMangaUtente: (manga_utente: MangaUtente) => {
         this.identificaPreferiti(manga_utente);
         DataHttp.initialMangaUtente = manga_utente;

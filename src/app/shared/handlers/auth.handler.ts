@@ -28,8 +28,7 @@ export function updateUserCustom(params: {
   user: User;
   finalizeFunc: Function;
 }): Observable<User> {
-  const userForDb: UserDb = mapUserToDb(params.user);
-  return params.authService.updateUser(userForDb).pipe(
+  return params.authService.updateUser(params.user).pipe(
     take(1),
     finalize(() => params.finalizeFunc()),
     map(() => {

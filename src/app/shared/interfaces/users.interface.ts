@@ -19,7 +19,6 @@ export interface Iscrizione {
   stato: StatoPersona | null;
   squadra: string | null;
   provincia: string | null;
-  // citta: string | null;
   punteggio: number | null;
 }
 
@@ -47,7 +46,6 @@ export interface UserDb {
   stato: StatoPersona | null;
   squadra: string | null;
   provincia: string | null;
-  // citta: string | null;
   punteggio: number | null;
   bio: string | null;
   telefono: string | null;

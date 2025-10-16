@@ -1,9 +1,10 @@
 import { HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { User, UserParams } from '../../interfaces/users.interface';
+import { User, UserDb, UserParams } from '../../interfaces/users.interface';
 import { BaseService } from '../base/base.service';
 import { Ruolo } from '../../enums/users.enum';
+import { mapUserToDb } from '../../handlers/functions/user.function';
 
 @Injectable({
   providedIn: 'root',
@@ -14,7 +15,9 @@ export class AuthService extends BaseService {
   }
 
   getAllUsersHttp(): Observable<UserParams[]> {
-    return this.getAllCustom<UserParams>('Utenti/get_all_utenti');
+    const params = new HttpParams();
+
+    return this.getCustom<UserParams[]>('Utenti/get_all_utenti', params);
   }
 
   getUserByEmailAndPassword(email: string, password: string): Observable<User> {
@@ -22,7 +25,7 @@ export class AuthService extends BaseService {
       .set('email', email)
       .set('password', password);
 
-    return this.getByCustom<User>('Utenti/get_utente_by_email', params);
+    return this.getCustom<User>('Utenti/get_utente_by_email', params);
   }
 
   postUser(
@@ -32,25 +35,26 @@ export class AuthService extends BaseService {
     password: string
   ): Observable<User> {
     const body = {
-      nome_input: nome,
-      username_input: username,
-      email_input: email,
-      password_input: password,
+      nome: nome,
+      username: username,
+      email: email,
+      password: password,
     };
 
-    return this.postCustom<User>(`rpc/postsignin`, body);
+    return this.postCustom<User>('Utenti/post_utente', body);
   }
 
-  updateUser(userForDb: any): Observable<User> {
-    const params = new HttpParams().set('id', `eq.${userForDb.id}`);
+  updateUser(user: User): Observable<User> {
+    const body: UserDb = mapUserToDb(user);
 
-    return this.patchCustom<User>(`utenti`, userForDb, params);
+    return this.putCustom<User>(`Utenti/update_utente/${body.id}`, body);
   }
 
   updateRuoloUtente(id: string, ruolo: Ruolo): Observable<User> {
-    const body = { ruolo }; // {ruolo: ruolo} - key: value sono uguali
-    const params = new HttpParams().set('id', `eq.${id}`);
+    const body = {
+      ruolo: ruolo,
+    };
 
-    return this.patchCustom<User>(`utenti`, body, params);
+    return this.putCustom<User>(`Utenti/update_ruolo_admin/${id}`, body);
   }
 }

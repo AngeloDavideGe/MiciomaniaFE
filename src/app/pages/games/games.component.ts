@@ -150,7 +150,7 @@ export class GamesComponent implements OnInit, OnDestroy {
       updatePunteggioSquadra({
         squadreService: this.squadreService,
         userId: user.id,
-        nomeSquadra: squadre,
+        nomeSquadra: user.iscrizione.squadra || '',
         nextUpdatePunteggio: () => this.nextUpdatePunteggio(squadre, punteggio),
       });
     }

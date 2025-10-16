@@ -83,14 +83,6 @@ export class VolumiMangaComponent implements OnInit {
     if (DataHttp.mangaAperti[path]) {
       this.loadNoHttp(path);
     } else {
-      loadMangaVolumiENome({
-        pathOpera: path,
-        loadingFunction: () => this.loadingService.show(),
-        loadVolumiFunc: (pathOpera) =>
-          this.mangaService.getNomeEVolumiMangaByPath(pathOpera),
-        finalizeFunction: () => this.completeLoading(path),
-        nextCallback: (data) => this.handleNomeEVolumiSuccess(data),
-      });
     }
   }
 

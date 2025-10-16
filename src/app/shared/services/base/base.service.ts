@@ -11,27 +11,15 @@ export abstract class BaseService {
   private baseUrl: string = '';
   private headers: HttpHeaders = {} as HttpHeaders;
 
-  constructor(db: 'DB1' | 'DB2' | 'BE') {
+  constructor(db: 'BE' | 'DB2') {
     this.baseUrl = environment[db];
     this.headers = getHeader(this.appConfig.config[db].KEY);
   }
 
-  protected getByCustom<T>(url: string, params: HttpParams): Observable<T> {
+  protected getCustom<T>(url: string, params: HttpParams): Observable<T> {
     return this.http.get<T>(`${this.baseUrl}${url}`, {
       headers: this.headers,
       params: params,
-    });
-  }
-
-  protected getAllCustom<T>(url: string): Observable<T[]> {
-    return this.http.get<T[]>(`${this.baseUrl}${url}`, {
-      headers: this.headers,
-    });
-  }
-
-  protected getCustomBe<T>(url: string): Observable<T> {
-    return this.http.get<T>(`${this.baseUrl}${url}`, {
-      headers: this.headers,
     });
   }
 
@@ -41,14 +29,9 @@ export abstract class BaseService {
     });
   }
 
-  protected patchCustom<T>(
-    url: string,
-    body: any,
-    params: HttpParams
-  ): Observable<T> {
-    return this.http.patch<T>(`${this.baseUrl}${url}`, body, {
+  protected putCustom<T>(url: string, body: any): Observable<T> {
+    return this.http.put<T>(`${this.baseUrl}${url}`, body, {
       headers: this.headers,
-      params: params,
     });
   }
 }

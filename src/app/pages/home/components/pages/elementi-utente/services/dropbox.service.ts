@@ -1,4 +1,4 @@
-import { HttpHeaders } from '@angular/common/http';
+import { HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
@@ -22,7 +22,8 @@ export class DropboxService extends BaseService {
   }
 
   getDropboxToken(): Observable<DropboxResponse> {
-    return this.getCustomBe<DropboxResponse>('dropbox/get_access_token');
+    const params = new HttpParams();
+    return this.getCustom<DropboxResponse>('dropbox/get_access_token', params);
   }
 
   uploadFile(

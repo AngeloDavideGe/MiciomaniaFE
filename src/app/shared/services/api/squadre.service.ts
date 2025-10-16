@@ -6,6 +6,7 @@ import {
   Squadre,
   TopUser,
 } from '../../interfaces/squadre.interface';
+import { HttpParams } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root',
@@ -17,24 +18,32 @@ export class SquadreService extends BaseService {
   } as Classifica;
 
   constructor() {
-    super('DB1');
+    super('BE');
   }
 
   getClassifica(): Observable<Classifica> {
-    return this.postCustom<Classifica>('rpc/get_classifica', {});
+    const params = new HttpParams();
+
+    return this.getCustom<Classifica>(
+      'Squadre/get_squadre_e_giocatori',
+      params
+    );
   }
 
   updatePunteggioSquadra(
     userId: string,
-    nomeSquadra: string[],
+    nomeSquadra: string,
     punteggioOttenuto: number
   ): Observable<void> {
     const body = {
-      p_id_utente: userId,
-      p_id_squadre: nomeSquadra,
-      p_punteggio_squadre: punteggioOttenuto,
+      utente: userId,
+      squadra: nomeSquadra,
+      punteggio: punteggioOttenuto,
     };
 
-    return this.postCustom<void>('rpc/update_punteggio_squadre', body);
+    return this.postCustom<void>(
+      'Squadre/update_punteggio_squadre_e_giocatore',
+      body
+    );
   }
 }
