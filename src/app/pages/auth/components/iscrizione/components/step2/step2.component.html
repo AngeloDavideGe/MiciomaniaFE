@@ -40,13 +40,14 @@
       <div class="mb-4">
         <label class="form-label fw-semibold">Team</label>
         <div
-          id="team"
+          id="squadra"
           class="p-3 rounded shadow-sm"
           [class]="{
             'border border-danger':
-              ((f['team'].touched && f['team'].invalid) || pulsantePremuto) &&
-              f['team'].invalid,
-            'border border-success': pulsantePremuto && f['team'].valid
+              ((f['squadra'].touched && f['squadra'].invalid) ||
+                pulsantePremuto) &&
+              f['squadra'].invalid,
+            'border border-success': pulsantePremuto && f['squadra'].valid
           }"
           style="background-color: #e7f3fe"
         >
@@ -54,23 +55,23 @@
           <div class="form-check mb-2">
             <input
               type="checkbox"
-              [id]="'team-' + $index"
+              [id]="'squadra-' + $index"
               class="form-check-input"
               [value]="t"
-              [checked]="profileForm.get('team')?.value?.includes(t)"
+              [checked]="profileForm.get('squadra')?.value?.includes(t)"
               (change)="onTeamChange($event)"
             />
-            <label [for]="'team-' + $index" class="form-check-label">
+            <label [for]="'squadra-' + $index" class="form-check-label">
               {{ t }}
             </label>
           </div>
           }
         </div>
 
-        @if (((f['team'].touched && f['team'].invalid) || pulsantePremuto) &&
-        f['team'].invalid) {
+        @if (((f['squadra'].touched && f['squadra'].invalid) || pulsantePremuto)
+        && f['squadra'].invalid) {
         <div class="invalid-feedback d-block mt-1">Il team è obbligatorio.</div>
-        } @if (pulsantePremuto && f['team'].valid) {
+        } @if (pulsantePremuto && f['squadra'].valid) {
         <div class="valid-feedback d-block mt-1">Selezione valida!</div>
         }
       </div>
@@ -164,30 +165,6 @@
           <div class="valid-feedback">Provincia selezionata correttamente!</div>
           }
         </div>
-      </div>
-
-      <!-- Città -->
-      <div class="mb-4">
-        <label for="citta" class="form-label fw-semibold">Città</label>
-        <input
-          type="text"
-          id="citta"
-          class="form-control form-control-lg border-0 shadow-sm"
-          style="background-color: #e7f3fe"
-          formControlName="citta"
-          [class]="{
-            'is-invalid':
-              ((f['citta'].touched && f['citta'].invalid) || pulsantePremuto) &&
-              f['citta'].invalid,
-            'is-valid': pulsantePremuto && f['citta'].valid
-          }"
-        />
-        @if (((f['citta'].touched && f['citta'].invalid) || pulsantePremuto) &&
-        f['citta'].invalid) {
-        <div class="invalid-feedback">La città è obbligatoria.</div>
-        } @if (pulsantePremuto && f['citta'].valid) {
-        <div class="valid-feedback">Città inserita correttamente!</div>
-        }
       </div>
     </form>
   </div>

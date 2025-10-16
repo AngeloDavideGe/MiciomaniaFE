@@ -63,7 +63,7 @@ export class ChatService extends BaseService {
       },
     ];
 
-    return from(this.appConfig.client.c2.from('messaggi').insert(message));
+    return from(this.appConfig.client.from('messaggi').insert(message));
   }
 
   updateMessages(id: number, content: string): Observable<ReturnEditMessage> {
@@ -78,7 +78,7 @@ export class ChatService extends BaseService {
   activateListener(): void {
     const filter: RealTimeFilter = getRealTimeFilter('public', 'messaggi');
 
-    this.appConfig.client.c2
+    this.appConfig.client
       .channel('messaggi')
       .on('postgres_changes', filter, (payload: RealtimePayload<any>) => {
         switch (payload.eventType) {
@@ -98,9 +98,9 @@ export class ChatService extends BaseService {
   uploadProfileImage(file: File, chatId: number): Observable<string> {
     return uploadImage<string>({
       appConfig: this.appConfig,
-      client: 'c2',
       file: file,
       id: chatId,
+      nameStorage: 'ProfileGroup',
       switchMapCall: (url: string) => {
         const body = {
           chat_id: chatId,

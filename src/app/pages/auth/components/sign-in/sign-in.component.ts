@@ -57,7 +57,7 @@ export class SignInComponent implements AfterViewInit, OnDestroy {
         )
         .pipe(take(1))
         .subscribe({
-          next: (data: User) => this.nextSignIn(data),
+          next: () => this.nextSignIn(),
           error: (error) => console.error('errore nel sign-in', error),
         });
     } else {
@@ -71,13 +71,9 @@ export class SignInComponent implements AfterViewInit, OnDestroy {
       .subscribe(() => (this.clickRegistrati = false));
   }
 
-  private nextSignIn(data: any): void {
-    if (data.user) {
-      this.router.navigate(['/auth/login'], {
-        state: { message: this.f['email'].value },
-      });
-    } else {
-      alert(data.error);
-    }
+  private nextSignIn(): void {
+    this.router.navigate(['/auth/login'], {
+      state: { message: this.f['email'].value },
+    });
   }
 }

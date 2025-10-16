@@ -1,5 +1,5 @@
 import { Component, inject, OnDestroy } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Subject, takeUntil } from 'rxjs';
 import { AppConfigService } from '../../../../../core/api/appConfig.service';
 import { DataHttp } from '../../../../../core/api/http.data';
@@ -80,7 +80,7 @@ export class ProfiloComponent implements OnDestroy {
   }
 
   private setTornaIndietroPath(): void {
-    const state = this.router.getCurrentNavigation()?.extras.state?.['message'];
+    const state = history.state?.['message'];
     switch (state) {
       case '_TableUserParamsComponent':
         this.tornaIndietroPath = '/home/admin';
@@ -92,11 +92,13 @@ export class ProfiloComponent implements OnDestroy {
   }
 
   private sottoscrizioneParam(): void {
-    this.route.params.pipe(takeUntil(this.destroy$)).subscribe((params) => {
-      this.idUtente = params['id'];
-      const user: User | null = DataHttp.user();
-      this.caricaDatiUser(user);
-    });
+    this.route.params
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((params: Params) => {
+        this.idUtente = params['id'];
+        const user: User | null = DataHttp.user();
+        this.caricaDatiUser(user);
+      });
   }
 
   private caricaDatiUser(user: User | null): void {
@@ -184,9 +186,9 @@ export class ProfiloComponent implements OnDestroy {
 
     uploadImage<User>({
       appConfig: this.appConfig,
-      client: 'c1',
       file: file as File,
       id: user.id,
+      nameStorage: 'ProfilePic',
       switchMapCall: (url: string) => {
         return updateUserCustom({
           authService: this.authService,

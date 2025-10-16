@@ -26,9 +26,12 @@ export class MangaService extends BaseService {
     id: string,
     mangaUtente: MangaUtente
   ): Observable<void> {
-    return this.postCustom<void>(
-      `Manga/upsert_manga_preferiti/${id}`,
-      mangaUtente
-    );
+    const body = {
+      preferiti: mangaUtente.preferiti,
+      letti: mangaUtente.letti,
+      completati: mangaUtente.completati,
+    };
+
+    return this.putCustom<void>(`Manga/upsert_manga_preferiti/${id}`, body);
   }
 }

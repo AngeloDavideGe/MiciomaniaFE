@@ -33,7 +33,7 @@ export class AuthService extends BaseService {
     username: string,
     email: string,
     password: string
-  ): Observable<User> {
+  ): Observable<void> {
     const body = {
       nome: nome,
       username: username,
@@ -41,20 +41,20 @@ export class AuthService extends BaseService {
       password: password,
     };
 
-    return this.postCustom<User>('Utenti/post_utente', body);
+    return this.postCustom<void>('Utenti/post_utente', body);
   }
 
-  updateUser(user: User): Observable<User> {
+  updateUser(user: User): Observable<void> {
     const body: UserDb = mapUserToDb(user);
 
-    return this.putCustom<User>(`Utenti/update_utente/${body.id}`, body);
+    return this.putCustom<void>(`Utenti/update_utente/${body.id}`, body);
   }
 
-  updateRuoloUtente(id: string, ruolo: Ruolo): Observable<User> {
+  updateRuoloUtente(id: string, ruolo: Ruolo): Observable<void> {
     const body = {
       ruolo: ruolo,
     };
 
-    return this.putCustom<User>(`Utenti/update_ruolo_admin/${id}`, body);
+    return this.putCustom<void>(`Utenti/update_ruolo_admin/${id}`, body);
   }
 }

@@ -1,4 +1,3 @@
-import { NgClass } from '@angular/common';
 import {
   Component,
   EventEmitter,
@@ -15,13 +14,13 @@ import {
 } from '@angular/forms';
 import { Subject, takeUntil } from 'rxjs';
 import { environment } from '../../../../../../../environments/environment';
-import { User } from '../../../../../../shared/interfaces/users.interface';
+import { DataHttp } from '../../../../../../core/api/http.data';
 import { StatoPersona } from '../../../../../../shared/enums/users.enum';
+import { User } from '../../../../../../shared/interfaces/users.interface';
 import { Provincia } from '../../../../interfaces/region.interface';
 import { FormWizard } from '../../../../interfaces/wizard.interface';
 import { WizardService } from '../../../../services/wizard.service';
 import { arrayNotEmptyValidator } from '../../../../validators/checkbox.validator';
-import { DataHttp } from '../../../../../../core/api/http.data';
 import {
   getProvinceByRegione,
   getRegioniMap,
@@ -96,21 +95,14 @@ export class Step2Component implements OnInit, OnDestroy {
 
   onTeamChange(event: Event): void {
     const checkbox = event.target as HTMLInputElement;
-    const selectedTeam: string[] = this.profileForm.get('squadra')?.value || [];
 
+    const teamControl = this.profileForm.get('squadra');
     if (checkbox.checked) {
-      if (!selectedTeam.includes(checkbox.value)) {
-        selectedTeam.push(checkbox.value);
-      }
+      teamControl?.setValue([checkbox.value]);
     } else {
-      const index: number = selectedTeam.indexOf(checkbox.value);
-      if (index > -1) {
-        selectedTeam.splice(index, 1);
-      }
+      teamControl?.setValue([]);
     }
 
-    const teamControl = this.profileForm.get('team');
-    teamControl?.setValue([...selectedTeam]);
     teamControl?.updateValueAndValidity();
   }
 

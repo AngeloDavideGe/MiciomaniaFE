@@ -3,9 +3,9 @@ import { AppConfigService } from '../../core/api/appConfig.service';
 
 export function uploadImage<T>(params: {
   appConfig: AppConfigService;
-  client: 'c1' | 'c2';
   file: File;
   id: string | number;
+  nameStorage: string;
   switchMapCall: (url: string) => Observable<T>;
 }): Observable<T> {
   const fileExt: string | undefined = params.file.name.split('.').pop();
@@ -13,7 +13,7 @@ export function uploadImage<T>(params: {
 
   return from(
     params.appConfig.client.storage
-      .from('avatar')
+      .from(params.nameStorage)
       .upload(fileName, params.file, {
         upsert: true,
         contentType: params.file.type,
@@ -22,8 +22,8 @@ export function uploadImage<T>(params: {
     switchMap(() =>
       getLinkPic<T>({
         appConfig: params.appConfig,
-        client: params.client,
         filePath: fileName,
+        nameStorage: params.nameStorage,
         switchMapCall: params.switchMapCall,
       })
     )
@@ -32,12 +32,12 @@ export function uploadImage<T>(params: {
 
 function getLinkPic<T>(params: {
   appConfig: AppConfigService;
-  client: 'c1' | 'c2';
   filePath: string;
+  nameStorage: string;
   switchMapCall: (url: string) => Observable<T>;
 }): Observable<T> {
   const { data: publicData } = params.appConfig.client.storage
-    .from('avatar')
+    .from(params.nameStorage)
     .getPublicUrl(params.filePath);
 
   return of(publicData.publicUrl + `?t=${Date.now()}`).pipe(
