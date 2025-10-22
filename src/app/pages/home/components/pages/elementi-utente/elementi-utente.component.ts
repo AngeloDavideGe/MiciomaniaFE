@@ -64,7 +64,7 @@ export class ElementiUtenteComponent implements OnInit {
       this.userId = user.id;
       this.userPunteggio = user.iscrizione.punteggio || 0;
       this.elemUti
-        .getElementiUtente(user.id, true)
+        .getElementiUtente(user.id)
         .pipe(take(1))
         .subscribe({
           next: (elementiUtente: ElementiUtente) => {

@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { renderBarChart, renderPieChart } from '../functions/draw.function';
 import {
   Squadre,
-  TopUser,
+  Giocatori,
 } from '../../../../../../shared/interfaces/squadre.interface';
 
 declare var google: any;
@@ -35,14 +35,14 @@ declare var google: any;
   ],
 })
 export class ChartsPrintComponent implements OnInit {
-  @Input() topUser!: TopUser[];
+  @Input() giocatori!: Giocatori[];
   @Input() squadre!: Squadre[];
 
   ngOnInit(): void {
     google.charts.load('current', {
       packages: ['corechart', 'bar'],
       callback: () => {
-        renderBarChart(this.topUser, 'chart_bar_print');
+        renderBarChart(this.giocatori, 'chart_bar_print');
         renderPieChart(this.squadre, 'chart_pie_print');
       },
     });

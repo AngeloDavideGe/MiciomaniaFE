@@ -8,7 +8,7 @@
   <!-- Google Chart -->
   @if (squadreService.classifica.squadre.length > 0) {
   <app-chart-custom
-    [topUser]="squadreService.classifica.topUser"
+    [giocatori]="squadreService.classifica.giocatori"
     [squadre]="squadreService.classifica.squadre"
   ></app-chart-custom>
   }
@@ -21,7 +21,7 @@
 } @else {
 <!-- Stampa -->
 <app-chart-print
-  [topUser]="squadreService.classifica.topUser"
+  [giocatori]="squadreService.classifica.giocatori"
   [squadre]="squadreService.classifica.squadre"
 ></app-chart-print>
 } }

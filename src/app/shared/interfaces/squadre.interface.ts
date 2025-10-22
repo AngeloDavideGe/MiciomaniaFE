@@ -1,15 +1,15 @@
 export interface Classifica {
   squadre: Squadre[];
-  topUser: TopUser[];
+  giocatori: Giocatori[];
 }
 
 export interface Squadre {
-  id: string;
+  nome: string;
   punteggio: number;
 }
 
-export interface TopUser {
-  id: string;
-  team: string;
+export interface Giocatori {
+  idUtente: string;
   punteggio: number;
+  squadra: string;
 }

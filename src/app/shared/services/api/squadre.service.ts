@@ -4,7 +4,7 @@ import { BaseService } from '../base/base.service';
 import {
   Classifica,
   Squadre,
-  TopUser,
+  Giocatori,
 } from '../../interfaces/squadre.interface';
 import { HttpParams } from '@angular/common/http';
 
@@ -14,7 +14,7 @@ import { HttpParams } from '@angular/common/http';
 export class SquadreService extends BaseService {
   public classifica: Classifica = {
     squadre: [] as Squadre[],
-    topUser: [] as TopUser[],
+    giocatori: [] as Giocatori[],
   } as Classifica;
 
   constructor() {

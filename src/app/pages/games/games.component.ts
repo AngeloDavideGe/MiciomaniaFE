@@ -19,7 +19,7 @@ import { SquadraGioco, SquadreGiocatore } from './interfaces/games.interfaces';
 import { DeckCardService } from './services/deck-card.service';
 import { DataHttp } from '../../core/api/http.data';
 import { SquadreService } from '../../shared/services/api/squadre.service';
-import { Squadre, TopUser } from '../../shared/interfaces/squadre.interface';
+import { Squadre, Giocatori } from '../../shared/interfaces/squadre.interface';
 
 @Component({
   selector: 'app-games',
@@ -99,7 +99,7 @@ export class GamesComponent implements OnInit, OnDestroy {
       environment.team.forEach((nomeTeam: string) => {
         const punteggioFind: number | undefined =
           this.squadreService.classifica.squadre.find(
-            (squadra: Squadre) => squadra.id == nomeTeam
+            (squadra: Squadre) => squadra.nome == nomeTeam
           )?.punteggio;
 
         if (user.iscrizione.squadra?.includes(nomeTeam)) {
@@ -123,7 +123,7 @@ export class GamesComponent implements OnInit, OnDestroy {
       this.squadre.personale.forEach((squadra: SquadraGioco) => {
         const punteggioFind: number | undefined =
           this.squadreService.classifica.squadre.find(
-            (squadraFind: Squadre) => squadraFind.id == squadra.nome
+            (squadraFind: Squadre) => squadraFind.nome == squadra.nome
           )?.punteggio;
         squadra.punteggio = punteggioFind || 'non disponibile';
       });
@@ -131,7 +131,7 @@ export class GamesComponent implements OnInit, OnDestroy {
       this.squadre.avversario.forEach((squadra: SquadraGioco) => {
         const punteggioFind: number | undefined =
           this.squadreService.classifica.squadre.find(
-            (squadraFind: Squadre) => squadraFind.id == squadra.nome
+            (squadraFind: Squadre) => squadraFind.nome == squadra.nome
           )?.punteggio;
         squadra.punteggio = punteggioFind || 'non disponibile';
       });
@@ -163,13 +163,13 @@ export class GamesComponent implements OnInit, OnDestroy {
       user.iscrizione.punteggio += punteggio;
       DataHttp.user.set(user);
 
-      const indexTopUser: number =
-        this.squadreService.classifica.topUser.findIndex(
-          (x: TopUser) => x.id == user.id
+      const indexGiocatori: number =
+        this.squadreService.classifica.giocatori.findIndex(
+          (x: Giocatori) => x.idUtente == user.id
         );
 
-      if (indexTopUser > -1) {
-        this.squadreService.classifica.topUser[indexTopUser].punteggio +=
+      if (indexGiocatori > -1) {
+        this.squadreService.classifica.giocatori[indexGiocatori].punteggio +=
           punteggio;
       }
     }
@@ -179,7 +179,7 @@ export class GamesComponent implements OnInit, OnDestroy {
     );
 
     for (const squadra of this.squadreService.classifica.squadre) {
-      if (idSet.has(squadra.id.toLowerCase())) {
+      if (idSet.has(squadra.nome.toLowerCase())) {
         squadra.punteggio += punteggio;
       }
     }

@@ -9,16 +9,13 @@ export class ElementiUtenteUtilities {
   public elementiUtenteService = inject(ElementiUtenteService);
   private loadingService = inject(LoadingService);
 
-  public getElementiUtente(
-    idUtente: string,
-    loading: boolean
-  ): Observable<ElementiUtente> {
+  public getElementiUtente(idUtente: string): Observable<ElementiUtente> {
     const elementiUtente: ElementiUtente | null = DataHttp.elementiUtente;
 
     if (elementiUtente) {
       return of(elementiUtente);
     } else {
-      loading ? this.loadingService.show() : null;
+      this.loadingService.show();
       return this.getElemtiUtenteHttp(idUtente);
     }
   }

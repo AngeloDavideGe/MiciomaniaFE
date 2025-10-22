@@ -3,7 +3,7 @@ import { debounceTimeoutCustom } from '../../../../../../shared/functions/utilit
 import { renderBarChart, renderPieChart } from '../functions/draw.function';
 import {
   Squadre,
-  TopUser,
+  Giocatori,
 } from '../../../../../../shared/interfaces/squadre.interface';
 
 declare var google: any;
@@ -38,14 +38,14 @@ declare var google: any;
   ],
 })
 export class ChartsComponent implements OnInit {
-  @Input() topUser!: TopUser[];
+  @Input() giocatori!: Giocatori[];
   @Input() squadre!: Squadre[];
 
   ngOnInit(): void {
     google.charts.load('current', {
       packages: ['corechart', 'bar'],
       callback: () => {
-        renderBarChart(this.topUser, 'chart_bar');
+        renderBarChart(this.giocatori, 'chart_bar');
         renderPieChart(this.squadre, 'chart_pie');
       },
     });
@@ -53,7 +53,7 @@ export class ChartsComponent implements OnInit {
 
   @HostListener('window:resize')
   onResize = debounceTimeoutCustom(() => {
-    renderBarChart(this.topUser, 'chart_bar');
+    renderBarChart(this.giocatori, 'chart_bar');
     renderPieChart(this.squadre, 'chart_pie');
   });
 }
