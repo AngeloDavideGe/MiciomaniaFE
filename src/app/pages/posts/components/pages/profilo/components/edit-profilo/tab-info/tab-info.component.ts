@@ -70,7 +70,7 @@ export class TabInfoComponent extends TabProfiloBase {
 
   private getUpdateUser(): User {
     return {
-      ...this.user, // per i valori che mancano
+      ...this.user,
       credenziali: {
         ...this.user.credenziali,
         nome: this.profileForm.value.nome,

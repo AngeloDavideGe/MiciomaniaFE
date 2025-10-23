@@ -1,10 +1,9 @@
 import { HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { User, UserDb, UserParams } from '../../interfaces/users.interface';
-import { BaseService } from '../base/base.service';
 import { Ruolo } from '../../enums/users.enum';
-import { mapUserToDb } from '../../handlers/functions/user.function';
+import { User, UserParams } from '../../interfaces/users.interface';
+import { BaseService } from '../base/base.service';
 
 @Injectable({
   providedIn: 'root',
@@ -44,10 +43,28 @@ export class AuthService extends BaseService {
     return this.postCustom<void>('Utenti/post_utente', body);
   }
 
-  updateUser(user: User): Observable<void> {
-    const body: UserDb = mapUserToDb(user);
+  updateUser(user: User): Observable<any> {
+    const getCompleanno: Function = (data: Date) => {
+      const date = new Date(data);
+      return `${date.getFullYear()}-${(date.getMonth() + 1)
+        .toString()
+        .padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}`;
+    };
 
-    return this.putCustom<void>(`Utenti/update_utente/${body.id}`, body);
+    const body = {
+      nome: user.credenziali.nome || '',
+      email: user.credenziali.email || '',
+      password: user.credenziali.password || '',
+      profilePic: user.credenziali.profilePic || '',
+      stato: user.iscrizione.stato || '',
+      provincia: user.iscrizione.provincia || '',
+      bio: user.profile.bio || '',
+      telefono: user.profile.telefono || '',
+      squadra: user.iscrizione.squadra || '',
+      compleanno: getCompleanno(user.profile.compleanno || new Date()),
+    };
+
+    return this.putCustom<any>(`Utenti/update_utente/${user.id}`, body);
   }
 
   updateRuoloUtente(id: string, ruolo: Ruolo): Observable<void> {
