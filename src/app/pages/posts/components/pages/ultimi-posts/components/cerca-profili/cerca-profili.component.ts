@@ -1,15 +1,17 @@
 import {
   Component,
   computed,
-  EventEmitter,
-  Output,
-  Signal,
+  effect,
+  inject,
+  Input,
   signal,
   WritableSignal,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
+import { environment } from '../../../../../../../../environments/environment';
 import { DataHttp } from '../../../../../../../core/api/http.data';
-import { effectTimeoutCustom } from '../../../../../../../shared/functions/utilities.function';
+import { debounceTimeoutCustom } from '../../../../../../../shared/functions/utilities.function';
 import { UserParams } from '../../../../../../../shared/interfaces/users.interface';
 
 @Component({
@@ -20,18 +22,18 @@ import { UserParams } from '../../../../../../../shared/interfaces/users.interfa
   styleUrl: './cerca-profili.component.scss',
 })
 export class CercaProfiliComponent {
-  @Output() goToProfilo = new EventEmitter<string>();
-  @Output() chiudiComponente = new EventEmitter<void>();
+  @Input() searchQuery!: WritableSignal<string>;
 
-  private readonly itemsPerPage: number = 1;
+  public router = inject(Router);
+
+  private readonly itemsPerPage: number = 3;
+  public readonly defaultPic = environment.defaultPic;
+
   public users = signal<UserParams[]>(DataHttp.users());
+  public currentPage = signal<number>(1);
+  private debounceQuery = signal<string>('');
 
-  public totalPages: WritableSignal<number> = signal(1);
-  public currentPage: WritableSignal<number> = signal(1);
-  public searchQuery: WritableSignal<string> = signal('');
-  private debounceQuery: WritableSignal<string> = signal('');
-
-  private filteredUsers: Signal<UserParams[]> = computed(() => {
+  private filteredUsers = computed(() => {
     const users: UserParams[] = this.users();
     const query: string = this.debounceQuery().toLowerCase();
 
@@ -47,12 +49,10 @@ export class CercaProfiliComponent {
       );
     }
 
-    this.totalPages.set(Math.ceil(filteredUsers.length / this.itemsPerPage));
-
     return filteredUsers;
   });
 
-  public userSlice: Signal<UserParams[]> = computed(() => {
+  public userSlice = computed(() => {
     const filteredUsers: UserParams[] = this.filteredUsers();
     const currentPage: number = this.currentPage();
 
@@ -62,11 +62,17 @@ export class CercaProfiliComponent {
     return filteredUsers.slice(startIndex, endIndex);
   });
 
+  public totalPages = computed(() => {
+    return Math.ceil(this.filteredUsers().length / this.itemsPerPage) || 1;
+  });
+
   constructor() {
-    effectTimeoutCustom(this.searchQuery, (value: string) => {
+    const debounced: Function = debounceTimeoutCustom((value: string) => {
       this.debounceQuery.set(value);
       this.currentPage.set(this.totalPages() > 0 ? 1 : 0);
     });
+
+    effect(() => debounced(this.searchQuery()));
   }
 
   clearSearch(): void {

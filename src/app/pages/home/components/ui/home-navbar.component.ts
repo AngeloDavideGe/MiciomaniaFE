@@ -6,7 +6,7 @@ import { DataHttp } from '../../../../core/api/http.data';
 import { Lingua } from '../../../../shared/interfaces/http.interface';
 
 @Component({
-  selector: 'app-navbar',
+  selector: 'app-home-navbar',
   standalone: true,
   imports: [NgTemplateOutlet],
   template: `
@@ -161,7 +161,7 @@ import { Lingua } from '../../../../shared/interfaces/http.interface';
     `,
   ],
 })
-export class NavBarComponent {
+export class HomeNavBarComponent {
   public Lingua = Lingua;
 
   @Input() homeLang!: HomeLang;

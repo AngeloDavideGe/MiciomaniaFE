@@ -1,96 +1,40 @@
-<div id="ModalCercaProfili" class="modal" tabindex="-1" role="dialog">
-  <div class="modal-dialog modal-dialog-centered custom-dialog" role="document">
-    <div class="modal-content custom-content">
-      <!-- HEADER -->
-      <div class="modal-header custom-header">
-        <h5 class="modal-title">🔍 {{ "Cerca Profili" }}</h5>
-        <button
-          type="button"
-          class="btn-close btn-close-white"
-          aria-label="Close"
-          (click)="chiudiComponente.emit()"
-        ></button>
-      </div>
+<div class="filter-list-container">
+  @if(users().length > 0) {
 
-      <!-- BODY -->
-      <div class="modal-body custom-body">
-        @if(users().length > 0) {
-
-        <!-- SEARCH BAR -->
-        <div class="input-group mb-3">
-          <input
-            type="text"
-            [(ngModel)]="searchQuery"
-            [placeholder]="'cerca utenti'"
-            class="form-control search-input"
-          />
-          <button
-            class="btn btn-outline-secondary clear-btn"
-            type="button"
-            (click)="clearSearch()"
-          >
-            <i class="bi bi-x-lg"></i>
-          </button>
-        </div>
-
-        <!-- RISULTATI -->
-        <div class="search-results" id="RisultatiUtenti">
-          @if(userSlice().length === 0) {
-          <div class="no-results">
-            {{ "nessun profilo" }}
-          </div>
-          } @else { @for(user of userSlice(); track user.id) {
-          <div
-            class="result-item"
-            (click)="goToProfilo.emit('/posts/profilo/' + user.id)"
-          >
-            <img
-              [src]="
-                user.profilePic ||
-                'https://png.pngtree.com/png-vector/20191009/ourlarge/pngtree-user-icon-png-image_1796659.jpg'
-              "
-              alt="{{ user.nome }}"
-              class="profile-pic"
-            />
-            <div class="result-info">
-              <span class="result-name">
-                {{ user.nome || "" }}
-              </span>
-              <span class="result-id"> ID: {{ user.id }} </span>
-            </div>
-          </div>
-          } }
-        </div>
-
-        <!-- PAGINAZIONE -->
-        <div class="pagination-container" id="PulsantiPaginazione">
-          <button
-            (click)="previousPage()"
-            [disabled]="currentPage() === 1"
-            class="btn btn-light border btn-sm pagination-btn"
-          >
-            &lt;
-          </button>
-          <span class="page-info">
-            {{ currentPage() + "/" + totalPages() }}
-          </span>
-          <button
-            (click)="nextPage()"
-            [disabled]="currentPage() === totalPages()"
-            class="btn btn-light border btn-sm pagination-btn"
-          >
-            &gt;
-          </button>
-        </div>
-
-        } @else {
-        <div class="loading-container">
-          <div class="spinner-border text-primary" role="status">
-            <span class="visually-hidden">Loading...</span>
-          </div>
-        </div>
-        }
+  <div class="results" id="RisultatiUtenti">
+    @for(user of userSlice(); track user.id) {
+    <div
+      class="result-item"
+      (click)="router.navigate(['/posts/profilo/' + user.id])"
+    >
+      <img
+        [src]="user.profilePic || defaultPic"
+        alt="{{ user.nome }}"
+        class="profile-pic"
+      />
+      <div class="result-info">
+        <span class="result-name">{{ user.nome || "" }}</span>
+        <span class="result-id">ID: {{ user.id }}</span>
       </div>
     </div>
+    }
+  </div>
+  }
+
+  <!-- PAGINAZIONE -->
+  <div class="pagination-container">
+    <button
+      (click)="previousPage()"
+      class="btn btn-light border btn-sm pagination-btn"
+    >
+      &lt;
+    </button>
+    <span class="page-info">{{ currentPage() + "/" + totalPages() }}</span>
+    <button
+      (click)="nextPage()"
+      class="btn btn-light border btn-sm pagination-btn"
+    >
+      &gt;
+    </button>
   </div>
 </div>

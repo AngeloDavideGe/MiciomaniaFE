@@ -1,19 +1,27 @@
-<div class="container py-4">
-  <div class="row justify-content-center">
-    <div class="col-md-6">
+<app-posts-navbar
+  (filtroChanged)="searchQuery.set($event)"
+  (searchActiveFunc)="searchActive.set($event)"
+></app-posts-navbar>
+
+<div class="container py-5">
+  <div class="row">
+    <!-- Colonna dei filtri (sempre a sinistra) -->
+    @if (searchActive()) {
+    <div class="col-12 col-lg-3 mb-4">
+      <app-cerca-profili [searchQuery]="searchQuery"></app-cerca-profili>
+    </div>
+    }
+
+    <!-- Colonna dei post (centrata rispetto allo spazio rimanente) -->
+    <div class="col-12 col-lg-6 mx-lg-auto">
       @if (postService.newPosts.length > 0) {
       <!-- Lista dei Post -->
       @for (post of postService.newPosts; track $index) {
       <app-card-post [post]="post"></app-card-post>
-      } }
+      } } @else {
       <!-- Nessun Post -->
-      @else {
       <app-no-post></app-no-post>
-      }
-
-      <!--  -->
-
-      @if (postService.oldPosts.length > 0) {
+      } @if (postService.oldPosts.length > 0) {
       <!-- Separatore stile Instagram -->
       <div class="post-separator text-center my-4">
         <span>Post già visti</span>
@@ -26,26 +34,3 @@
     </div>
   </div>
 </div>
-
-<style>
-  .post-separator {
-    display: flex;
-    align-items: center;
-    color: #888;
-    font-size: 0.85rem;
-    font-weight: 500;
-
-    span {
-      padding: 0 0.75rem;
-      background: #fff;
-      z-index: 1;
-    }
-
-    &::before,
-    &::after {
-      content: "";
-      flex: 1;
-      border-bottom: 1px solid #ddd;
-    }
-  }
-</style>
