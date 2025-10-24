@@ -1,11 +1,12 @@
 import { Component, inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Navigation, Router } from '@angular/router';
 import { map, Observable, take } from 'rxjs';
 import { DataHttp } from '../../../../core/api/http.data';
 import { mapUserByDb } from '../../../../shared/handlers/functions/user.function';
 import { User } from '../../../../shared/interfaces/users.interface';
 import { AuthService } from '../../../../shared/services/api/auth.service';
+import { LoginForm } from '../../interfaces/auth-forms.interface';
 import { auth_shared_imports } from '../../shared/auth-shared.import';
 
 @Component({
@@ -15,11 +16,11 @@ import { auth_shared_imports } from '../../shared/auth-shared.import';
   templateUrl: './login.component.html',
 })
 export class LoginComponent {
-  public loginForm: FormGroup;
-  public loginError = false;
-
   private authService = inject(AuthService);
   public router = inject(Router);
+
+  public loginForm: FormGroup<LoginForm>;
+  public loginError = false;
 
   constructor(private formBuilder: FormBuilder) {
     this.loginForm = this.formBuilder.group({
@@ -40,7 +41,7 @@ export class LoginComponent {
       return;
     }
 
-    this.login(this.f['email'].value, this.f['password'].value).subscribe({
+    this.login(this.f['email'].value!, this.f['password'].value!).subscribe({
       next: (data: boolean) => this.provaLogin(data),
       error: (error) => {
         this.loginError = true;
@@ -60,9 +61,8 @@ export class LoginComponent {
   }
 
   private getEmailRegistrata(): string | null {
-    return (
-      this.router.getCurrentNavigation()?.extras.state?.['message'] ?? null
-    );
+    const navigation: Navigation | null = this.router.lastSuccessfulNavigation;
+    return navigation?.extras.state?.['message'] ?? null;
   }
 
   private login(email: string, password: string): Observable<boolean> {

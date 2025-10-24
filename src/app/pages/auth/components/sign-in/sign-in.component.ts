@@ -1,11 +1,11 @@
 import { AfterViewInit, Component, inject, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { Subject, take, takeUntil } from 'rxjs';
+import { AuthService } from '../../../../shared/services/api/auth.service';
+import { SigninForm } from '../../interfaces/auth-forms.interface';
 import { auth_shared_imports } from '../../shared/auth-shared.import';
 import { usernameValidator } from '../../validators/username.validator';
-import { Router } from '@angular/router';
-import { AuthService } from '../../../../shared/services/api/auth.service';
-import { User } from '../../../../shared/interfaces/users.interface';
 
 @Component({
   selector: 'app-sign-in',
@@ -14,12 +14,12 @@ import { User } from '../../../../shared/interfaces/users.interface';
   templateUrl: './sign-in.component.html',
 })
 export class SignInComponent implements AfterViewInit, OnDestroy {
-  public signInForm: FormGroup;
-  public clickRegistrati: boolean = false;
-  private destroy$ = new Subject<void>();
-
   private authService = inject(AuthService);
   private router = inject(Router);
+
+  public signInForm: FormGroup<SigninForm>;
+  public clickRegistrati: boolean = false;
+  private destroy$ = new Subject<void>();
 
   constructor(private fb: FormBuilder) {
     this.signInForm = this.fb.group({
@@ -50,10 +50,10 @@ export class SignInComponent implements AfterViewInit, OnDestroy {
     if (this.signInForm.valid) {
       this.authService
         .postUser(
-          this.f['nome'].value,
-          this.f['username'].value,
-          this.f['email'].value,
-          this.f['password'].value
+          this.f['nome'].value!,
+          this.f['username'].value!,
+          this.f['email'].value!,
+          this.f['password'].value!
         )
         .pipe(take(1))
         .subscribe({

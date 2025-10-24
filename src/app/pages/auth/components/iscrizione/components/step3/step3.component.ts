@@ -14,6 +14,7 @@ import { LineeGuidaComponent } from './components/linee-guida.component';
   standalone: true,
   imports: [LineeGuidaComponent],
   templateUrl: './step3.component.html',
+  styleUrl: './step3.component.scss',
 })
 export class Step3Component {
   public lineeGuidaAccettate = signal<boolean>(false);

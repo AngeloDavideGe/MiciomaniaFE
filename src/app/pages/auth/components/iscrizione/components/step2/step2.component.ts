@@ -25,15 +25,17 @@ import {
   getProvinceByRegione,
   getRegioniMap,
 } from '../../functions/region.function';
+import { Step2Form } from '../../../../interfaces/auth-forms.interface';
 
 @Component({
   selector: 'app-step2',
   standalone: true,
   imports: [ReactiveFormsModule],
   templateUrl: './step2.component.html',
+  styleUrl: './step2.component.scss',
 })
 export class Step2Component implements OnInit, OnDestroy {
-  public profileForm!: FormGroup;
+  public profileForm!: FormGroup<Step2Form>;
   private destroy$ = new Subject<void>();
   public statiPersona = Object.values(StatoPersona);
   public team = environment.team;
@@ -55,8 +57,6 @@ export class Step2Component implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.inizializzaForm();
     this.associaUtenteFunc(DataHttp.user());
-
-    this.profileForm.get('squadra')?.updateValueAndValidity();
   }
 
   ngAfterViewInit(): void {
@@ -72,21 +72,31 @@ export class Step2Component implements OnInit, OnDestroy {
 
   private inizializzaForm(): void {
     const wizardFormData: FormWizard = this.wizardService.getWizardForm();
-    this.formValido.emit(false);
+
+    if (wizardFormData.regione) {
+      this.province = getProvinceByRegione(wizardFormData.regione);
+    }
+
     this.profileForm = this.fb.group({
-      squadra: [[], arrayNotEmptyValidator()],
+      squadra: [wizardFormData.squadra || '', arrayNotEmptyValidator()],
       stato: [wizardFormData.stato || '', Validators.required],
-      regione: [/*wizardFormData.regione || */ '', Validators.required],
-      provincia: [/*wizardFormData.provincia || */ '', Validators.required],
+      regione: [wizardFormData.regione || '', Validators.required],
+      provincia: [wizardFormData.provincia || '', Validators.required],
     });
+
+    if (this.profileForm.get('regione')?.value === '') {
+      this.profileForm.get('provincia')?.disable();
+    }
+
+    this.formValido.emit(this.profileForm.valid);
   }
 
   inviaForm(): void {
     const wizardForm: FormWizard = {
       nome: this.nomeUtente,
       email: this.email,
-      squadra: this.profileForm.get('squadra')?.value.join(', ') || '',
-      stato: this.profileForm.get('stato')?.value || '',
+      squadra: this.profileForm.get('squadra')?.value || '',
+      stato: this.profileForm.get('stato')?.value || StatoPersona.Deriso,
       regione: this.profileForm.get('regione')?.value || '',
       provincia: this.profileForm.get('provincia')?.value || '',
     };
@@ -98,9 +108,9 @@ export class Step2Component implements OnInit, OnDestroy {
 
     const teamControl = this.profileForm.get('squadra');
     if (checkbox.checked) {
-      teamControl?.setValue([checkbox.value]);
+      teamControl?.setValue(checkbox.value);
     } else {
-      teamControl?.setValue([]);
+      teamControl?.setValue('');
     }
 
     teamControl?.updateValueAndValidity();
@@ -108,6 +118,10 @@ export class Step2Component implements OnInit, OnDestroy {
 
   onRegioneChange(event: any): void {
     const codiceRegione = event.target.value;
+    const provinciaControl = this.profileForm.get('provincia');
+
+    provinciaControl?.enable();
+    provinciaControl?.setValue('');
     this.province = getProvinceByRegione(codiceRegione);
   }
 

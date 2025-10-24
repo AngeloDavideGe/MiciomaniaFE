@@ -1,12 +1,9 @@
-<div class="card shadow-lg border-0" style="overflow: hidden">
-  <div
-    class="card-header text-white text-center"
-    style="background: linear-gradient(90deg, #0d6efd, #0b5ed7)"
-  >
+<div class="card profile-card border-0 shadow-lg">
+  <div class="card-header text-white text-center py-3 gradient-header">
     <h5 class="card-title mb-0">Modulo di Aggiornamento Profilo</h5>
   </div>
 
-  <div class="card-body p-4" style="background-color: #f8f9fa">
+  <div class="card-body p-4 bg-light">
     <form [formGroup]="profileForm" (ngSubmit)="onSubmit()">
       <!-- Nome Utente -->
       <div class="mb-4">
@@ -16,8 +13,7 @@
         <input
           type="text"
           id="nomeUtente"
-          class="form-control form-control-lg border-0 shadow-sm"
-          style="background-color: #e9ecef"
+          class="form-control form-control-lg readonly-input"
           [value]="nomeUtente"
           readonly
         />
@@ -29,8 +25,7 @@
         <input
           type="email"
           id="email"
-          class="form-control form-control-lg border-0 shadow-sm"
-          style="background-color: #e9ecef"
+          class="form-control form-control-lg readonly-input"
           [value]="email"
           readonly
         />
@@ -41,7 +36,7 @@
         <label class="form-label fw-semibold">Team</label>
         <div
           id="squadra"
-          class="p-3 rounded shadow-sm"
+          class="p-3 rounded shadow-sm bg-soft-blue border-transition"
           [class]="{
             'border border-danger':
               ((f['squadra'].touched && f['squadra'].invalid) ||
@@ -49,7 +44,6 @@
               f['squadra'].invalid,
             'border border-success': pulsantePremuto && f['squadra'].valid
           }"
-          style="background-color: #e7f3fe"
         >
           @for (t of team; track $index) {
           <div class="form-check mb-2">
@@ -61,18 +55,20 @@
               [checked]="profileForm.get('squadra')?.value?.includes(t)"
               (change)="onTeamChange($event)"
             />
-            <label [for]="'squadra-' + $index" class="form-check-label">
-              {{ t }}
-            </label>
+            <label [for]="'squadra-' + $index" class="form-check-label">{{
+              t
+            }}</label>
           </div>
           }
         </div>
 
         @if (((f['squadra'].touched && f['squadra'].invalid) || pulsantePremuto)
         && f['squadra'].invalid) {
-        <div class="invalid-feedback d-block mt-1">Il team è obbligatorio.</div>
+        <div class="invalid-feedback d-block mt-1 fade-in">
+          Il team è obbligatorio.
+        </div>
         } @if (pulsantePremuto && f['squadra'].valid) {
-        <div class="valid-feedback d-block mt-1">Selezione valida!</div>
+        <div class="valid-feedback d-block mt-1 fade-in">Selezione valida!</div>
         }
       </div>
 
@@ -81,8 +77,7 @@
         <label for="stato" class="form-label fw-semibold">Stato</label>
         <select
           id="stato"
-          class="form-select form-select-lg border-0 shadow-sm"
-          style="background-color: #e7f3fe"
+          class="form-select form-select-lg shadow-sm border-0 bg-soft-blue border-transition"
           formControlName="stato"
           [class]="{
             'is-invalid':
@@ -95,11 +90,10 @@
           <option [value]="stato">{{ stato }}</option>
           }
         </select>
-
         @if ((f['stato'].touched && f['stato'].invalid) || pulsantePremuto) {
-        <div class="invalid-feedback">Lo stato è obbligatorio.</div>
+        <div class="invalid-feedback fade-in">Lo stato è obbligatorio.</div>
         } @if (pulsantePremuto && f['stato'].valid) {
-        <div class="valid-feedback">Campo valido!</div>
+        <div class="valid-feedback fade-in">Campo valido!</div>
         }
       </div>
 
@@ -109,8 +103,7 @@
           <label for="regione" class="form-label fw-semibold">Regione</label>
           <select
             id="regione"
-            class="form-select form-select-lg border-0 shadow-sm"
-            style="background-color: #e7f3fe"
+            class="form-select form-select-lg shadow-sm border-0 bg-soft-blue border-transition"
             formControlName="regione"
             (change)="onRegioneChange($event)"
             [class]="{
@@ -125,12 +118,13 @@
             <option [value]="regione.codice">{{ regione.nome }}</option>
             }
           </select>
-
           @if (((f['regione'].touched && f['regione'].invalid) ||
           pulsantePremuto) && f['regione'].invalid) {
-          <div class="invalid-feedback">La regione è obbligatoria.</div>
+          <div class="invalid-feedback fade-in">La regione è obbligatoria.</div>
           } @if (pulsantePremuto && f['regione'].valid) {
-          <div class="valid-feedback">Regione selezionata correttamente!</div>
+          <div class="valid-feedback fade-in">
+            Regione selezionata correttamente!
+          </div>
           }
         </div>
 
@@ -141,10 +135,8 @@
           >
           <select
             id="provincia"
-            class="form-select form-select-lg border-0 shadow-sm"
-            style="background-color: #e7f3fe"
+            class="form-select form-select-lg shadow-sm border-0 bg-soft-blue border-transition"
             formControlName="provincia"
-            [disabled]="f['regione'].invalid"
             [class]="{
               'is-invalid':
                 ((f['provincia'].touched && f['provincia'].invalid) ||
@@ -157,12 +149,15 @@
             <option [value]="provincia.nome">{{ provincia.nome }}</option>
             }
           </select>
-
           @if (((f['provincia'].touched && f['provincia'].invalid) ||
           pulsantePremuto) && f['provincia'].invalid) {
-          <div class="invalid-feedback">La provincia è obbligatoria.</div>
+          <div class="invalid-feedback fade-in">
+            La provincia è obbligatoria.
+          </div>
           } @if (pulsantePremuto && f['provincia'].valid) {
-          <div class="valid-feedback">Provincia selezionata correttamente!</div>
+          <div class="valid-feedback fade-in">
+            Provincia selezionata correttamente!
+          </div>
           }
         </div>
       </div>

@@ -1,0 +1,70 @@
+.profile-summary-card {
+  border-radius: 1.25rem;
+  overflow: hidden;
+  background: #ffffffcc;
+  backdrop-filter: blur(8px);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+  &:hover {
+    box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.1);
+  }
+
+  .card-header {
+    background: linear-gradient(90deg, #0d6efd, #0b5ed7);
+    border-bottom: 3px solid rgba(255, 255, 255, 0.25);
+    color: #fff;
+
+    .d-flex {
+      align-items: center;
+      justify-content: space-between;
+
+      .card-title {
+        font-size: 1.75rem;
+        font-weight: 600;
+        letter-spacing: 0.3px;
+        margin: 0;
+      }
+    }
+  }
+
+  .card-body {
+    background-color: #f8f9fa;
+    padding: 2rem;
+
+    .row {
+      gap: 1.5rem 0;
+
+      .col-lg-4,
+      .col-md-6,
+      .col-sm-12 {
+        display: flex;
+        flex-direction: column;
+
+        .form-label {
+          font-weight: 600;
+          color: #0d6efd;
+          margin-bottom: 0.4rem;
+          font-size: 0.95rem;
+          letter-spacing: 0.2px;
+        }
+
+        .form-control-plaintext {
+          background-color: #f1f5f9;
+          border-radius: 0.75rem;
+          padding: 0.75rem 1rem;
+          box-shadow: 0 0.15rem 0.3rem rgba(0, 0, 0, 0.05);
+          color: #212529;
+          font-size: 1.1rem;
+          font-weight: 500;
+          overflow-wrap: break-word;
+          transition: background-color 0.25s ease, box-shadow 0.25s ease;
+
+          &:hover {
+            background-color: #e9f2ff;
+            box-shadow: 0 0.25rem 0.5rem rgba(13, 110, 253, 0.15);
+          }
+        }
+      }
+    }
+  }
+}

@@ -13,11 +13,3 @@ export interface FormWizard {
   regione: string;
   provincia: string;
 }
-
-export interface FormError {
-  team: boolean;
-  stato: boolean;
-  regione: boolean;
-  provincia: boolean;
-  citta: boolean;
-}
