@@ -4,7 +4,6 @@ import {
   inject,
   OnDestroy,
   OnInit,
-  Signal,
   signal,
 } from '@angular/core';
 import { Router } from '@angular/router';
@@ -52,7 +51,7 @@ export class TuoiMangaComponent implements OnInit, OnDestroy {
   public searchQuery = signal<string>('');
   private debouncedSearchQuery = signal<string>('');
   public tuoiMangaLang: TuoiMangaLang = {} as TuoiMangaLang;
-  public allMangaSearch: Signal<ListaManga[]> = computed(() =>
+  public allMangaSearch = computed<ListaManga[]>(() =>
     this.computedallMangaSearch()
   );
   public sezioneListaManga = signal<SezioniMangaUtente>({

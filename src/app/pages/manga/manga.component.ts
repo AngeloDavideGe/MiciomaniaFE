@@ -4,7 +4,6 @@ import {
   HostListener,
   inject,
   OnDestroy,
-  Signal,
   signal,
 } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
@@ -70,9 +69,7 @@ export class MangaComponent implements OnDestroy {
     tabBoolean: signal<boolean | null>(null),
   };
 
-  public filteredManga: Signal<ListaManga[]> = computed(() =>
-    this.logFilterChanges()
-  );
+  public filteredManga = computed<ListaManga[]>(() => this.logFilterChanges());
   public tabs: TabsManga[] = getTabsManga(
     (cond: boolean | null, index: number) =>
       this.getTabClickHandler(cond, index)

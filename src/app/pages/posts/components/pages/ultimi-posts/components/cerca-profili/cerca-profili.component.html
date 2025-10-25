@@ -5,7 +5,11 @@
     @for(user of userSlice(); track user.id) {
     <div
       class="result-item"
-      (click)="router.navigate(['/posts/profilo/' + user.id])"
+      (click)="
+        router.navigate(['/posts/profilo', user.id], {
+          state: { message: 'CercaProfili' }
+        })
+      "
     >
       <img
         [src]="user.profilePic || defaultPic"

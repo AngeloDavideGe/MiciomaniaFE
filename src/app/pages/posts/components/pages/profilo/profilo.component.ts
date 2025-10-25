@@ -82,8 +82,11 @@ export class ProfiloComponent implements OnDestroy {
   private setTornaIndietroPath(): void {
     const state = history.state?.['message'];
     switch (state) {
-      case '_TableUserParamsComponent':
+      case 'TableUserParams':
         this.tornaIndietroPath = '/home/admin';
+        break;
+      case 'CercaProfili':
+        this.tornaIndietroPath = '/posts/ultimi-post';
         break;
       default:
         this.tornaIndietroPath = '/home';

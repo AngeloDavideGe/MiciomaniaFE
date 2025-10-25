@@ -1,7 +1,7 @@
 import { ProfiloLang } from '../interfaces/profilo-lang.interface';
 
 export const profiloLang: ProfiloLang = {
-  tornaIndietro: 'Back to Home',
+  tornaIndietro: 'Go Back',
   // New Tweet
   nuovoTweet: 'New Tweet',
   placeholderNT: "What's on your mind?",

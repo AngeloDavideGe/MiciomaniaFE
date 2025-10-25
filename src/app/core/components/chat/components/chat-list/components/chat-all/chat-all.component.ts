@@ -6,16 +6,15 @@ import {
   inject,
   Input,
   Output,
-  Signal,
   signal,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { Gruppo, LastMess } from '../../../../interfaces/chat.interface';
-import { effectTimeoutCustom } from '../../../../../../../shared/functions/utilities.function';
-import { ChatService } from '../../../../services/chat.service';
-import { ChangePicCustomComponent } from '../../../../../../../shared/components/custom/change-pic-custom.component';
 import { finalize, take } from 'rxjs';
+import { ChangePicCustomComponent } from '../../../../../../../shared/components/custom/change-pic-custom.component';
+import { effectTimeoutCustom } from '../../../../../../../shared/functions/utilities.function';
 import { DataHttp } from '../../../../../../api/http.data';
+import { Gruppo, LastMess } from '../../../../interfaces/chat.interface';
+import { ChatService } from '../../../../services/chat.service';
 
 @Component({
   selector: 'app-chat-all',
@@ -41,7 +40,7 @@ export class ChatAllComponent {
   public searchTerm = signal<string>('');
   private debounce = signal<string>('');
 
-  public filteredGruppi: Signal<Gruppo[]> = computed(() => {
+  public filteredGruppi = computed<Gruppo[]>(() => {
     const filtro: string = this.debounce();
 
     if (!filtro) {

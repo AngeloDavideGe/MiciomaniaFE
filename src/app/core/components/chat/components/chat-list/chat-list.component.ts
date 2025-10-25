@@ -7,12 +7,15 @@ import {
   OnInit,
   Output,
   signal,
-  Signal,
   ViewChild,
 } from '@angular/core';
 import { environment } from '../../../../../../environments/environment';
 import { User } from '../../../../../shared/interfaces/users.interface';
 import { DataHttp } from '../../../../api/http.data';
+import {
+  getMessaggioBenvenuto,
+  getMessaggioCompBenvenuto,
+} from '../../functions/messaggi.function';
 import { mapUserMessage } from '../../functions/user-map.function';
 import { loadMessages } from '../../handlers/chat.handler';
 import {
@@ -26,10 +29,6 @@ import {
 import { ChatService } from '../../services/chat.service';
 import { ChatAllComponent } from './components/chat-all/chat-all.component';
 import { ChatGroupComponent } from './components/chat-group/chat-group.component';
-import {
-  getMessaggioBenvenuto,
-  getMessaggioCompBenvenuto,
-} from '../../functions/messaggi.function';
 
 @Component({
   selector: 'app-chat-list',
@@ -46,10 +45,10 @@ export class ChatListComponent implements OnInit {
   public allGruppiRecord: Record<number, LastMess> = {};
   public spinner = signal<boolean>(false);
   public messaggiComp: IMessaggioComponent[] = [];
-  public userMessageMap: Signal<Record<string, UserReduced>> = computed(() =>
+  public userMessageMap = computed<Record<string, UserReduced>>(() =>
     mapUserMessage()
   );
-  public messages: Signal<Messaggio[]> = computed(() => this.computedMessage());
+  public messages = computed<Messaggio[]>(() => this.computedMessage());
 
   @Output() chiudiChat = new EventEmitter<void>();
   @ViewChild(ChatGroupComponent) cgc!: ChatGroupComponent;

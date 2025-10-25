@@ -33,7 +33,7 @@ export class CercaProfiliComponent {
   public currentPage = signal<number>(1);
   private debounceQuery = signal<string>('');
 
-  private filteredUsers = computed(() => {
+  private filteredUsers = computed<UserParams[]>(() => {
     const users: UserParams[] = this.users();
     const query: string = this.debounceQuery().toLowerCase();
 
@@ -52,7 +52,7 @@ export class CercaProfiliComponent {
     return filteredUsers;
   });
 
-  public userSlice = computed(() => {
+  public userSlice = computed<UserParams[]>(() => {
     const filteredUsers: UserParams[] = this.filteredUsers();
     const currentPage: number = this.currentPage();
 
@@ -62,7 +62,7 @@ export class CercaProfiliComponent {
     return filteredUsers.slice(startIndex, endIndex);
   });
 
-  public totalPages = computed(() => {
+  public totalPages = computed<number>(() => {
     return Math.ceil(this.filteredUsers().length / this.itemsPerPage) || 1;
   });
 

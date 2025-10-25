@@ -18,7 +18,7 @@
             class="bi bi-person-circle text-info me-3"
             (click)="
               router.navigate(['/posts/profilo', user.id], {
-                state: { message: this.constructor.name }
+                state: { message: 'TableUserParams' }
               })
             "
             [title]="adminLang.vediProfilo"
