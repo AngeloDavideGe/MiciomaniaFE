@@ -4,7 +4,6 @@ import {
   HostListener,
   inject,
   OnInit,
-  forwardRef,
 } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { DataHttp } from './core/api/http.data';

@@ -8,21 +8,6 @@ export interface ListaEUtenti {
   mangaUtente: MangaUtente;
 }
 
-export interface MangaENome {
-  info_manga: InfoManga;
-  volumi: MangaVolume[];
-}
-
-export interface MangaVolume {
-  id: number;
-  link: string;
-}
-
-export interface InfoManga {
-  nome: string;
-  completato: boolean;
-}
-
 export interface SplitMangaUtente {
   preferiti: number[];
   letti: number[];

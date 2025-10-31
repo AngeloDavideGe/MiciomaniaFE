@@ -3,7 +3,6 @@ import { User, UserParams } from '../../shared/interfaces/users.interface';
 import {
   ListaManga,
   MangaUtente,
-  MangaAperto,
   Lingua,
 } from '../../shared/interfaces/http.interface';
 import { Profilo } from '../../shared/interfaces/http.interface';
@@ -26,7 +25,6 @@ export class DataHttp {
   static listaManga: WritableSignal<ListaManga[]> = signal([]);
   static mangaUtente: MangaUtente = {} as MangaUtente;
   static initialMangaUtente: MangaUtente = {} as MangaUtente;
-  static mangaAperti: Record<string, MangaAperto> = {};
   static mangaScaricati: boolean = false;
 
   static profiloPersonale: Profilo | null = null;
@@ -84,11 +82,6 @@ export class DataHttp {
     const mangaCaricati = sessionStorage.getItem('mangaCaricati');
     if (mangaCaricati) {
       this.mangaScaricati = JSON.parse(mangaCaricati);
-    }
-
-    const mangaAperti = sessionStorage.getItem('mangaAperti');
-    if (mangaAperti) {
-      this.mangaAperti = JSON.parse(mangaAperti);
     }
 
     // Post Service

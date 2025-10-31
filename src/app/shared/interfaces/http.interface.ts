@@ -1,5 +1,4 @@
 import { Tweet } from '../../pages/posts/components/shared/post.interface';
-import { MangaVolume } from '../../pages/manga/interfaces/manga.interface';
 import { User } from './users.interface';
 
 export enum Lingua {
@@ -21,11 +20,6 @@ export interface MangaUtente {
   preferiti: string;
   letti: string;
   completati: string;
-}
-
-export interface MangaAperto {
-  nome: string;
-  volumi: MangaVolume[];
 }
 
 export interface Profilo {

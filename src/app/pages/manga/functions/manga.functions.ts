@@ -1,34 +1,11 @@
-import { finalize, Observable, take } from 'rxjs';
 import {
   ListaManga,
   MangaUtente,
 } from '../../../shared/interfaces/http.interface';
 import {
-  MangaENome,
   SezioniMangaUtente,
   SplitMangaUtente,
 } from '../interfaces/manga.interface';
-
-export function loadMangaVolumiENome(params: {
-  pathOpera: string;
-  loadingFunction: () => void;
-  loadVolumiFunc: (pathOpera: string) => Observable<MangaENome>;
-  finalizeFunction: () => void;
-  nextCallback: (data: MangaENome) => void;
-}) {
-  params.loadingFunction();
-
-  params
-    .loadVolumiFunc(params.pathOpera)
-    .pipe(
-      take(1),
-      finalize(() => params.finalizeFunction())
-    )
-    .subscribe({
-      next: (data: MangaENome) => params.nextCallback(data),
-      error: () => console.error('Si è verificato un errore'),
-    });
-}
 
 export function voidSplitManga(): SplitMangaUtente {
   return {
