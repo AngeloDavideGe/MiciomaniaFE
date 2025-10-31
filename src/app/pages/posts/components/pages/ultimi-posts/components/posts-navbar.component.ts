@@ -1,4 +1,5 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, inject, Output } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-posts-navbar',
@@ -6,11 +7,19 @@ import { Component, EventEmitter, Output } from '@angular/core';
   imports: [],
   template: `
     <nav
-      class="navbar navbar-expand-lg navbar-light bg-light fixed-top shadow-sm"
+      class="navbar navbar-expand-lg navbar-light bg-light fixed-top shadow-sm px-3"
     >
-      <div class="container d-flex align-items-center justify-content-between">
-        <!-- Icona di ricerca + input -->
-        <div class="d-flex align-items-center search-wrapper">
+      <div
+        class="container-fluid d-flex align-items-center justify-content-between px-0"
+      >
+        <!-- Gruppo sinistra: freccia + ricerca - completamente a sinistra -->
+        <div class="d-flex align-items-center gap-3">
+          <button class="btn btn-link p-0 me-2">
+            <i
+              class="bi bi-arrow-left fs-4"
+              (click)="router.navigate(['/home'])"
+            ></i>
+          </button>
           <button class="btn btn-link p-0 me-2" (click)="toggleSearch()">
             <i class="bi bi-search fs-4"></i>
           </button>
@@ -23,9 +32,9 @@ import { Component, EventEmitter, Output } from '@angular/core';
           />
         </div>
 
-        <!-- Menu o icone destra (es. profilo) -->
+        <!-- Icona destra: profilo -->
         <div class="d-flex align-items-center">
-          <button class="btn btn-link">
+          <button class="btn btn-link p-0">
             <i class="bi bi-person-circle fs-4"></i>
           </button>
         </div>
@@ -37,10 +46,6 @@ import { Component, EventEmitter, Output } from '@angular/core';
       .navbar {
         height: 60px;
         background-color: #fff !important;
-      }
-
-      .search-wrapper {
-        position: relative;
       }
 
       .search-input {
@@ -64,6 +69,7 @@ import { Component, EventEmitter, Output } from '@angular/core';
   ],
 })
 export class PostsNavBarComponent {
+  public router = inject(Router);
   public searchActive = false;
   @Output() filtroChanged = new EventEmitter<string>();
   @Output() searchActiveFunc = new EventEmitter<boolean>();
