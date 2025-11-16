@@ -58,7 +58,7 @@ export class AppComponent implements OnInit, AfterViewInit {
     this.cursorUtilities.setCursoreByStorage();
   }
 
-  @HostListener('window:beforeunload', ['$event'])
+  @HostListener('window:beforeunload')
   unloadNotification(): void {
     refreshLocalStorage();
     refreshSessionStorage();

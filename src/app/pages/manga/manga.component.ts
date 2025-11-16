@@ -53,6 +53,8 @@ export class MangaComponent implements OnDestroy {
   public mangaGeneri = generiManga;
   public mangaLang: MangaLang = {} as MangaLang;
   public idUtente: string | null = null;
+  public selezionaOpera: Function = (path: string) => window.open(path);
+
   public pulsanti: PulsantiManga[] = getPulsanti((path: string) =>
     this.router.navigate([path])
   );
@@ -118,20 +120,22 @@ export class MangaComponent implements OnDestroy {
     condition: boolean | null,
     index: number
   ): Function {
-    return () => {
-      if (this.filterSelect.tabBoolean() !== condition) {
-        this.filterSelect.tabBoolean.set(condition);
-        this.tabs.forEach((tab, i) => {
-          tab.class = i === index ? 'active' : '';
-        });
-        this.logFilterChanges();
-      }
+    const func: Function = () => {
+      if (this.filterSelect.tabBoolean() == condition) return;
+
+      this.filterSelect.tabBoolean.set(condition);
+      this.tabs.forEach((tab, i) => {
+        tab.class = i === index ? 'active' : '';
+      });
+      this.logFilterChanges();
     };
+
+    return func;
   }
 
   private logFilterChanges(): ListaManga[] {
-    return DataHttp.listaManga().filter((manga) => {
-      return (
+    return DataHttp.listaManga().filter((manga: ListaManga) => {
+      const cond: boolean =
         (this.filterSelect.genere() === this.mangaLang.qualsiasi ||
           manga.genere.includes(this.filterSelect.genere())) &&
         (this.debounce.autore() === '' ||
@@ -144,8 +148,9 @@ export class MangaComponent implements OnDestroy {
             .includes(this.debounce.nome().toLowerCase())) &&
         (this.filterSelect.tabBoolean() === null ||
           (this.filterSelect.tabBoolean() === false && !manga.completato) ||
-          (this.filterSelect.tabBoolean() === true && manga.completato))
-      );
+          (this.filterSelect.tabBoolean() === true && manga.completato));
+
+      return cond;
     });
   }
 
@@ -223,11 +228,5 @@ export class MangaComponent implements OnDestroy {
         idUtente: this.idUtente || '',
       });
     }
-  }
-
-  selezionaOpera(manga: ListaManga) {
-    this.router.navigate(['manga/', manga.path], {
-      state: { message: this.constructor.name },
-    });
   }
 }

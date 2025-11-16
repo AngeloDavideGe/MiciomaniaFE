@@ -51,14 +51,18 @@ export class TuoiMangaComponent implements OnInit, OnDestroy {
   public searchQuery = signal<string>('');
   private debouncedSearchQuery = signal<string>('');
   public tuoiMangaLang: TuoiMangaLang = {} as TuoiMangaLang;
+  public selezionaOpera: Function = (path: string) => window.open(path);
+
   public allMangaSearch = computed<ListaManga[]>(() =>
     this.computedallMangaSearch()
   );
+
   public sezioneListaManga = signal<SezioniMangaUtente>({
     preferiti: [],
     letti: [],
     completati: [],
   });
+
   public pulsanti: PulsantiManga[] = [
     {
       click: () => this.router.navigate(['/manga']),
@@ -171,7 +175,7 @@ export class TuoiMangaComponent implements OnInit, OnDestroy {
     this.sezioneListaManga.update((sezioni) => ({
       ...sezioni,
       [this.selectedTab]: sezioni[this.selectedTab].filter(
-        (x) => x.id !== idManga
+        (x: ListaManga) => x.id !== idManga
       ),
     }));
   }
@@ -260,11 +264,5 @@ export class TuoiMangaComponent implements OnInit, OnDestroy {
     }));
 
     this.checkSplitManga = voidSplitManga();
-  }
-
-  selezionaOpera(manga: ListaManga) {
-    this.router.navigate(['manga/', manga.path], {
-      state: { message: this.constructor.name },
-    });
   }
 }

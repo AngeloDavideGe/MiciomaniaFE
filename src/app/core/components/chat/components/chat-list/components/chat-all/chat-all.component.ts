@@ -46,7 +46,7 @@ export class ChatAllComponent {
     if (!filtro) {
       return this.allGruppi;
     } else {
-      return this.allGruppi.filter((gruppo) =>
+      return this.allGruppi.filter((gruppo: Gruppo) =>
         gruppo.nome.toLowerCase().includes(filtro.toLowerCase())
       );
     }

@@ -38,7 +38,7 @@ function rimozioneCard(
   baseCards: CardDeck[]
 ): PescataDeck {
   const remainingDeck = cardsDeck.filter(
-    (x, index: number) => !indexUsed.has(index)
+    (x: CardDeck, index: number) => !indexUsed.has(index)
   );
 
   return {
