@@ -1,0 +1,108 @@
+<div class="math-container">
+  <!-- Header Component -->
+  <app-math-header></app-math-header>
+
+  <!-- Main Content -->
+  <main class="math-main">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-lg-8">
+          <!-- Welcome Section -->
+          <section class="welcome-section text-center mb-5">
+            <h1 class="display-4 fw-bold text-primary">Miciomania Math</h1>
+            <p class="lead text-muted">
+              Il tuo assistente per operazioni matematiche avanzate
+            </p>
+          </section>
+
+          <!-- Operation Selector -->
+          <app-seleziona-operazione
+            (operationChange)="onOperationChange($event)"
+          ></app-seleziona-operazione>
+
+          <!-- Input Section -->
+          <section class="input-section card shadow-sm">
+            <div class="card-body">
+              <h5 class="card-title">
+                <i class="fas fa-keyboard me-2 text-primary"></i>
+                Inserisci l'Espressione
+              </h5>
+
+              <!-- Input con icona tastiera -->
+              <div class="input-group mb-3">
+                <input
+                  type="text"
+                  class="form-control form-control-lg"
+                  placeholder="Inserisci la tua espressione matematica..."
+                  [(ngModel)]="currentExpression"
+                  #mathInput
+                />
+              </div>
+
+              <!-- Tastiera Speciale -->
+              <div class="special-keyboard" [class.show]="showKeyboard">
+                <div
+                  class="keyboard-header d-flex justify-content-between align-items-center mb-3"
+                >
+                  <h6 class="mb-0">Caratteri Speciali Matematici</h6>
+                  <button
+                    class="btn btn-sm btn-outline-danger"
+                    (click)="toggleKeyboard()"
+                  >
+                    <i class="fas fa-times"></i>
+                  </button>
+                </div>
+
+                @if (mathService.simboliBase) {
+                <!-- Lista Simboli -->
+                @for(key of keySimboli; track $index) {
+                <div class="keyboard-section mb-3">
+                  <h6 class="section-title">{{ key }}</h6>
+                  <div class="keyboard-grid">
+                    @for (char of mathService.simboliBase[key]; track $index) {
+                    <button
+                      class="keyboard-key btn btn-outline-primary"
+                      (click)="insertCharacter(char)"
+                    >
+                      {{ char }}
+                    </button>
+                    }
+                  </div>
+                </div>
+                } }
+              </div>
+
+              <!-- Risultato -->
+              @if (result !== null) {
+              <div class="result-section mt-4">
+                <div class="alert alert-success">
+                  <strong>Risultato:</strong> {{ result }}
+                </div>
+              </div>
+              }
+
+              <!-- Azioni -->
+              <div class="action-buttons mt-3">
+                <button class="btn btn-primary me-2" (click)="calculate()">
+                  <i class="fas fa-calculator me-1"></i>
+                  Calcola
+                </button>
+                <button
+                  class="btn btn-outline-secondary me-2"
+                  (click)="clearInput()"
+                >
+                  <i class="fas fa-eraser me-1"></i>
+                  Pulisci
+                </button>
+                <button class="btn btn-outline-info" (click)="toggleKeyboard()">
+                  <i class="fas fa-keyboard me-1"></i>
+                  {{ showKeyboard ? "Nascondi" : "Mostra" }} Tastiera
+                </button>
+              </div>
+            </div>
+          </section>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>

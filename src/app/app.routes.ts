@@ -47,6 +47,11 @@ export const routes: Routes = [
       import('./pages/song/song.component').then((m) => m.SongComponent),
   },
   {
+    path: 'math',
+    loadComponent: () =>
+      import('./pages/math/math.component').then((m) => m.MathComponent),
+  },
+  {
     path: '**',
     redirectTo: 'home',
     pathMatch: 'full',

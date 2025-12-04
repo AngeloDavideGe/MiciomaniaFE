@@ -112,6 +112,24 @@ export class CardHomeComponent {
         en: 'Try the various Miciomania mini-games, not only the ones where you mistreat a woman known to the group’s members.',
       },
     },
+    {
+      link: 'https://img.freepik.com/free-vector/maths-realistic-chalkboard-background_23-2148159115.jpg?semt=ais_hybrid&w=740&q=80',
+      aLink: '/math',
+      bgClass: 'bg-primary text-white',
+      func: null,
+      titolo: {
+        it: '🧮 Risolvi le Equazioni',
+        en: '🧮 Solve Equations',
+      },
+      titoloBottone: {
+        it: 'Matematica',
+        en: 'Mathematics',
+      },
+      descrizione: {
+        it: 'Scopri il mondo della matematica attraverso giochi interattivi, problemi logici e sfide di calcolo che metteranno alla prova le tue abilità.',
+        en: 'Discover the world of mathematics through interactive games, logic problems and calculation challenges that will test your skills.',
+      },
+    },
   ];
 }
 

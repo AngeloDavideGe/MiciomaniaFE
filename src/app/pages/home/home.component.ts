@@ -1,7 +1,7 @@
 import { Component, effect, inject, signal } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import 'bootstrap'; // Importa Bootstrap JS (incluso Popper.js)
-import { filter, map, Observable, startWith, take, tap } from 'rxjs';
+import { filter, map, Observable, startWith, tap } from 'rxjs';
 import { DataHttp } from '../../core/api/http.data';
 import { sottoscrizioneUtenti } from '../../shared/handlers/auth.handler';
 import { getVoidUser } from '../../shared/handlers/functions/user.function';
@@ -9,13 +9,13 @@ import { Lingua } from '../../shared/interfaces/http.interface';
 import { User, UserParams } from '../../shared/interfaces/users.interface';
 import { AuthService } from '../../shared/services/api/auth.service';
 import { ConfirmService } from '../../shared/services/template/confirm.service';
-import { ElementiUtenteUtilities } from '../../shared/utilities/elementiUtente.utilities';
 import { converUserParams, getConfirmParams } from './functions/home.functions';
 import { home_imports } from './imports/home.imports';
 import {
   HomeLang,
   HomeLangType,
 } from './languages/interfaces/home-lang.interface';
+import { MathService } from '../math/services/math.service';
 
 @Component({
   selector: 'app-home',
@@ -32,7 +32,6 @@ export class HomeComponent {
   public inizialiUser: string = '';
   private punteggioCanzoni: number = 50;
   public cursoreAperto = signal<boolean>(false);
-  private elementiUtenteUtilities = new ElementiUtenteUtilities();
   public homeLang = signal<HomeLang>({} as HomeLang);
 
   public isHome$: Observable<boolean> = this.router.events.pipe(
