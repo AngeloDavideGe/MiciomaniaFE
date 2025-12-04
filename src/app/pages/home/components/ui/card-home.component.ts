@@ -1,4 +1,12 @@
-import { Component, effect, EventEmitter, Output } from '@angular/core';
+import {
+  Component,
+  computed,
+  effect,
+  EventEmitter,
+  Output,
+  signal,
+  WritableSignal,
+} from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { DataHttp } from '../../../../core/api/http.data';
 import { Lingua } from '../../../../shared/interfaces/http.interface';
@@ -13,21 +21,36 @@ import { Lingua } from '../../../../shared/interfaces/http.interface';
       class="features4 start py-5"
       id="features04-1"
     >
-      <div class="container">
+      <div class="container position-relative">
         <div class="text-center mb-5">
           <h4 class="fw-bold display-4">Home - Miciomania</h4>
         </div>
-        <div class="row g-4">
-          @for (card of cardElements; track $index) {
-          <div class="col-12 col-md-6 col-lg-4">
+
+        <!-- Freccia sinistra -->
+        <button
+          class="btn btn-light position-absolute top-50 start-0 translate-middle-y shadow"
+          style="z-index: 10; border-radius: 50%; width: 48px; height: 48px;"
+          (click)="scrollCards(-1)"
+          [disabled]="disableLeft()"
+        >
+          <i class="bi bi-chevron-left fs-4"></i>
+        </button>
+
+        <!-- Contenitore scroll orizzontale -->
+        <div
+          class="row flex-nowrap overflow-auto g-4 px-4"
+          style="scroll-behavior: smooth;"
+          #cardsRow
+        >
+          @for (card of cardElementSlice(); track $index) {
+          <div class="col-12 col-md-6 col-lg-4" style="min-width: 320px;">
             <div class="card h-100">
               <img [src]="card.link" class="card-img-top" alt="..." />
               <div class="card-body" [class]="card.bgClass">
                 <h5 class="card-title fw-bold">{{ card.titolo[lingua] }}</h5>
-                <p class="card-text">
-                  {{ card.descrizione[lingua] }}
-                </p>
-                @if(!card.func) {
+                <p class="card-text">{{ card.descrizione[lingua] }}</p>
+
+                @if (!card.func) {
                 <a [routerLink]="card.aLink" class="btn btn-light">
                   {{ card.titoloBottone[lingua] }}
                 </a>
@@ -44,20 +67,51 @@ import { Lingua } from '../../../../shared/interfaces/http.interface';
           </div>
           }
         </div>
+
+        <!-- Freccia destra -->
+        <button
+          class="btn btn-light position-absolute top-50 end-0 translate-middle-y shadow"
+          style="z-index: 10; border-radius: 50%; width: 48px; height: 48px;"
+          (click)="scrollCards(1)"
+          [disabled]="disableRight()"
+        >
+          <i class="bi bi-chevron-right fs-4"></i>
+        </button>
       </div>
     </section>
   `,
 })
 export class CardHomeComponent {
-  public lingua: Lingua = Lingua.it;
-
   @Output() canzone = new EventEmitter<void>();
+
+  public lingua: Lingua = Lingua.it;
+  public currentIndex = signal<number>(0);
+  private maxCards: number = 3;
+
+  public disableLeft = computed<boolean>(() => {
+    const currentIndex: number = this.currentIndex();
+    return currentIndex == 0;
+  });
+
+  public disableRight = computed<boolean>(() => {
+    const currentIndex: number = this.currentIndex();
+    return currentIndex + this.maxCards >= this.cardElements.length;
+  });
+
+  public cardElementSlice = computed<CardElement[]>(() => {
+    const currentIndex: number = this.currentIndex();
+    return this.cardElements.slice(currentIndex, currentIndex + this.maxCards);
+  });
+
+  public scrollCards(direction: 1 | -1): void {
+    this.currentIndex.update((value: number) => value + direction);
+  }
 
   constructor() {
     effect(() => (this.lingua = DataHttp.lingua()));
   }
 
-  public cardElements: CardElement[] = [
+  private cardElements: CardElement[] = [
     {
       link: 'https://thesoundcheck.it/wp-content/uploads/2022/11/kono-manga-ga-sugoi-2021-migliori-riviste-manga-weekly-shonen-jump-secondo-v3-488235.jpg',
       aLink: '/manga',
@@ -113,7 +167,7 @@ export class CardHomeComponent {
       },
     },
     {
-      link: 'https://img.freepik.com/free-vector/maths-realistic-chalkboard-background_23-2148159115.jpg?semt=ais_hybrid&w=740&q=80',
+      link: 'https://th.bing.com/th/id/R.1bb085016d322d7b6e616ca76aab6dc4?rik=QG0sQbKYTDWOig&riu=http%3a%2f%2fwww.pixelstalk.net%2fwp-content%2fuploads%2f2016%2f05%2fMathematics-Wallpaper.jpg&ehk=92ltdlU8VUJkJzXH%2bvQPz2GOWL177iz4l6qFMpsoi2M%3d&risl=&pid=ImgRaw&r=0',
       aLink: '/math',
       bgClass: 'bg-primary text-white',
       func: null,

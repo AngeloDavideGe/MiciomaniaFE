@@ -3,12 +3,7 @@
   <div class="row">
     <div class="col-md-8 offset-md-2">
       <!-- Pulsante Torna alla Home -->
-      <app-botton-custom
-        [text]="profiloLang.tornaIndietro"
-        [icon1]="'bi bi-arrow-left'"
-        [color]="'#e9ecef'"
-        (clickBotton)="router.navigate([tornaIndietroPath])"
-      ></app-botton-custom>
+      <app-custom-navbar [goHomeBotton]="true"></app-custom-navbar>
 
       <!-- Card del profilo -->
       <app-card-profilo

@@ -1,13 +1,13 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { MathHeaderComponent } from './components/math-header.component';
 import { SelezionaOperazioneComponent } from './components/seleziona-operazione.component';
 import { SimboliBase } from './interfaces/math.interface';
 import { MathService } from './services/math.service';
+import { CustomNavBarComponent } from '../../shared/components/custom/navbar-custom.component';
 
 @Component({
   selector: 'app-math',
-  imports: [FormsModule, MathHeaderComponent, SelezionaOperazioneComponent],
+  imports: [FormsModule, CustomNavBarComponent, SelezionaOperazioneComponent],
   templateUrl: './math.component.html',
   styleUrl: './math.component.scss',
 })

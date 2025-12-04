@@ -1,7 +1,9 @@
-<app-posts-navbar
+<app-custom-navbar
+  [goHomeBotton]="true"
+  [filtro]="true"
   (filtroChanged)="searchQuery.set($event)"
   (searchActiveFunc)="searchActive.set($event)"
-></app-posts-navbar>
+></app-custom-navbar>
 
 <div class="container py-5">
   <div class="row">
