@@ -47,19 +47,19 @@ import { Lingua } from '../../../../shared/interfaces/http.interface';
             <div class="card h-100">
               <img [src]="card.link" class="card-img-top" alt="..." />
               <div class="card-body" [class]="card.bgClass">
-                <h5 class="card-title fw-bold">{{ card.titolo[lingua] }}</h5>
-                <p class="card-text">{{ card.descrizione[lingua] }}</p>
+                <h5 class="card-title fw-bold">{{ card.titolo[lingua()] }}</h5>
+                <p class="card-text">{{ card.descrizione[lingua()] }}</p>
 
                 @if (!card.func) {
                 <a [routerLink]="card.aLink" class="btn btn-light">
-                  {{ card.titoloBottone[lingua] }}
+                  {{ card.titoloBottone[lingua()] }}
                 </a>
                 } @else {
                 <a
                   class="btn btn-light"
                   (click)="card.func ? card.func() : null"
                 >
-                  {{ card.titoloBottone[lingua] }}
+                  {{ card.titoloBottone[lingua()] }}
                 </a>
                 }
               </div>
@@ -84,7 +84,7 @@ import { Lingua } from '../../../../shared/interfaces/http.interface';
 export class CardHomeComponent {
   @Output() canzone = new EventEmitter<void>();
 
-  public lingua: Lingua = Lingua.it;
+  public lingua = computed<Lingua>(() => DataHttp.lingua());
   public currentIndex = signal<number>(0);
   private maxCards: number = 3;
 
@@ -105,10 +105,6 @@ export class CardHomeComponent {
 
   public scrollCards(direction: 1 | -1): void {
     this.currentIndex.update((value: number) => value + direction);
-  }
-
-  constructor() {
-    effect(() => (this.lingua = DataHttp.lingua()));
   }
 
   private cardElements: CardElement[] = [

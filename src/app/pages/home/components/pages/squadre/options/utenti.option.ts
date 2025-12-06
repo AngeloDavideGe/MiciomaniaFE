@@ -31,10 +31,7 @@ export function chartOptionsUtenti(): any {
       },
     },
     legend: {
-      position: 'bottom',
-      textStyle: {
-        fontSize: 18,
-      },
+      position: 'none',
     },
   };
 }
