@@ -1,5 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
+import { take } from 'rxjs';
 import { environment } from '../../../../../../../environments/environment';
+import { WizardService } from '../../../../services/wizard.service';
 
 @Component({
   selector: 'app-step1',
@@ -62,7 +64,7 @@ import { environment } from '../../../../../../../environments/environment';
                   class="text-secondary mb-0"
                   style="font-size: 0.95rem; line-height: 1.5;"
                 >
-                  {{ descrizioni[i] }}
+                  {{ descrizioni[i] || '... caricamento' }}
                 </p>
               </div>
             </div>
@@ -73,13 +75,21 @@ import { environment } from '../../../../../../../environments/environment';
     </div>
   `,
 })
-export class Step1Component {
+export class Step1Component implements OnInit {
+  private wizardService = inject(WizardService);
+
   public team: string[] = environment.team;
   public colori: string[] = environment.colori;
-  public descrizioni: string[] = [
-    'Maschi etero esagerati che commettono solo crimini indicibili e voglioni impedire alle donne di procreare col loro Midollo Osseo',
-    'Odiosi pazzi derisori che fanno meme sulle povere fanciulle indifese e rubano i loro nickname di fortnite per farsi dennunciare',
-    'Stupidi maschi SIMP che fanno da cagnolini alle bisessuali che si fingono lesbiche per rifiutare i ColonVVX senza perdere i sottoni',
-    'Urliamo mentre giochiamo su Fortnite per attirare l attenzione di Pedria',
-  ];
+  public descrizioni: string[] = [];
+
+  ngOnInit(): void {
+    this.wizardService
+      .getDescrizioniSquadre()
+      .pipe(take(1))
+      .subscribe({
+        next: (descrizioni: string[]) => (this.descrizioni = descrizioni),
+        error: (err) =>
+          console.error('Errore recupero descrizioni squadre', err),
+      });
+  }
 }

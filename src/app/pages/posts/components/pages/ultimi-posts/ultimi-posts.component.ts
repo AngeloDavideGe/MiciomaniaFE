@@ -6,6 +6,7 @@ import { NoPostComponent } from './components/no-post.component';
 import { getAllPubblicazioni } from './handlers/ultimi-post.handler';
 import { CercaProfiliComponent } from './components/cerca-profili/cerca-profili.component';
 import { CustomNavBarComponent } from '../../../../../shared/components/custom/navbar-custom.component';
+import { NgClass } from '@angular/common';
 
 @Component({
   standalone: true,
@@ -15,6 +16,7 @@ import { CustomNavBarComponent } from '../../../../../shared/components/custom/n
     NoPostComponent,
     CustomNavBarComponent,
     CercaProfiliComponent,
+    NgClass,
   ],
   templateUrl: './ultimi-posts.component.html',
   styleUrl: './ultimi-posts.component.scss',

@@ -1,12 +1,12 @@
 .filter-list-container {
-  max-height: 400px;
+  max-height: 20rem;
   overflow-y: auto;
   background: #fff;
   border-radius: 12px;
   border: 1px solid #eee;
   padding: 0.75rem;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-  width: 15rem;
+  width: 18rem;
 
   .no-results {
     text-align: center;
@@ -77,12 +77,5 @@
       color: #333;
     }
   }
-
-  // .loading-container {
-  //   display: flex;
-  //   justify-content: center;
-  //   align-items: center;
-  //   height: 150px;
-  // }
 }
 

@@ -1,13 +1,29 @@
 import { Injectable } from '@angular/core';
+import { Observable, of, Subject } from 'rxjs';
+import { BaseService } from '../../../shared/services/base/base.service';
 import { FormWizard } from '../interfaces/wizard.interface';
-import { Observable, Subject } from 'rxjs';
+import { HttpParams } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root',
 })
-export class WizardService {
+export class WizardService extends BaseService {
   private wizardForm: FormWizard = {} as FormWizard;
   private avantiStep2Premuto = new Subject();
+  public descrizioniSquadre: string[] = [];
+
+  constructor() {
+    super('BE');
+  }
+
+  getDescrizioniSquadre(): Observable<string[]> {
+    return this.descrizioniSquadre.length > 0
+      ? of(this.descrizioniSquadre)
+      : this.getCustom<string[]>(
+          'Iscrizione/get_descrizioni_squadre',
+          {} as HttpParams
+        );
+  }
 
   getWizardForm(): FormWizard {
     return this.wizardForm;

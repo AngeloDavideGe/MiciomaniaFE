@@ -5,34 +5,38 @@
   (searchActiveFunc)="searchActive.set($event)"
 ></app-custom-navbar>
 
-<div class="container py-5">
+<div id="ListaPosts" class="container-fluid py-5">
   <div class="row">
-    <!-- Colonna dei filtri (sempre a sinistra) -->
+    <!-- Colonna dei filtri (sempre a sinistra con posizione fissa) -->
     @if (searchActive()) {
-    <div class="col-12 col-lg-3 mb-4">
-      <app-cerca-profili [searchQuery]="searchQuery"></app-cerca-profili>
+    <div class="cerca-profili-wrapper">
+      <div class="">
+        <app-cerca-profili [searchQuery]="searchQuery"></app-cerca-profili>
+      </div>
     </div>
     }
 
     <!-- Colonna dei post (centrata rispetto allo spazio rimanente) -->
     <div class="col-12 col-lg-6 mx-lg-auto">
-      @if (postService.newPosts.length > 0) {
-      <!-- Lista dei Post -->
-      @for (post of postService.newPosts; track $index) {
-      <app-card-post [post]="post"></app-card-post>
-      } } @else {
-      <!-- Nessun Post -->
-      <app-no-post></app-no-post>
-      } @if (postService.oldPosts.length > 0) {
-      <!-- Separatore stile Instagram -->
-      <div class="post-separator text-center my-4">
-        <span>Post già visti</span>
-      </div>
+      <div [ngClass]="searchActive() ? 'margin-posts' : ''">
+        @if (postService.newPosts.length > 0) {
+        <!-- Lista dei Post -->
+        @for (post of postService.newPosts; track $index) {
+        <app-card-post [post]="post"></app-card-post>
+        } } @else {
+        <!-- Nessun Post -->
+        <app-no-post></app-no-post>
+        } @if (postService.oldPosts.length > 0) {
+        <!-- Separatore stile Instagram -->
+        <div class="post-separator text-center my-4">
+          <span>Post già visti</span>
+        </div>
 
-      <!-- Post già visti -->
-      @for (post of postService.oldPosts; track $index) {
-      <app-card-post [post]="post"></app-card-post>
-      } }
+        <!-- Post già visti -->
+        @for (post of postService.oldPosts; track $index) {
+        <app-card-post [post]="post"></app-card-post>
+        } }
+      </div>
     </div>
   </div>
 </div>
