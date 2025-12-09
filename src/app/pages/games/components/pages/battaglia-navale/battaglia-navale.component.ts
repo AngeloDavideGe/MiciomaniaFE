@@ -28,8 +28,11 @@ export class BattagliaNavaleComponent extends GamesBase implements OnInit {
   public keysCelle: (keyof CelleBattaglia)[] = ['cellaPlayer', 'cellaBot'];
   private botBN = new BotBattagliaNavale();
   private dimGriglia: number = 6;
-  public celle: CelleBattaglia;
   private numNavi = NumNavi;
+  public celle: CelleBattaglia = {
+    cellaPlayer: [] as NavaleCell[][],
+    cellaBot: [] as NavaleCell[][],
+  };
   private naviRimanenti = {
     Player: 0,
     Bot: 0,
@@ -37,11 +40,6 @@ export class BattagliaNavaleComponent extends GamesBase implements OnInit {
 
   constructor() {
     super();
-
-    this.celle = {
-      cellaPlayer: [] as NavaleCell[][],
-      cellaBot: [] as NavaleCell[][],
-    };
   }
 
   ngOnInit(): void {

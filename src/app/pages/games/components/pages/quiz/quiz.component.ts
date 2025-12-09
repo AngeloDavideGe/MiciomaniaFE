@@ -21,16 +21,15 @@ import { setPunteggioOttenuto } from '../../../../../shared/handlers/squadre.han
   templateUrl: './quiz.component.html',
 })
 export class QuizComponent extends GamesBase implements OnInit {
-  public domandaCurrent: Quiz = {} as Quiz;
   public rispostaSelezionata: Risposta | null = null;
   public rispostaConfermata: boolean = false;
   public numDomanda: number = 1;
+  public domandaCurrent: Quiz = getCasualQuiz() as Quiz;
 
   private gitHubService = inject(GitHubService);
   private loadinService = inject(LoadingService);
 
   ngOnInit(): void {
-    this.domandaCurrent = getCasualQuiz() as Quiz;
     this.loadQuiz();
   }
 

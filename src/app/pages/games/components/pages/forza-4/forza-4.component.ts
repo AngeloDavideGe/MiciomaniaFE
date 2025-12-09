@@ -14,18 +14,14 @@ import { forza4CellEmpty } from '../../../constants/boardEmpty.const';
   imports: [DettagliGameComponent],
   templateUrl: './forza-4.component.html',
 })
-export class Forza4Component extends GamesBase implements OnInit {
+export class Forza4Component extends GamesBase {
   private alertService = inject(AlertGamesService);
 
-  public campo: Forza4[][] = [];
-  public dimCampo: number = 6;
+  public readonly dimCampo: number = 6;
   public gameOver: boolean = false;
   private bot = new Forza4BotClass();
   private turno: Turno = 'Player';
-
-  ngOnInit(): void {
-    this.campo = boardEmpty<Forza4>(this.dimCampo, forza4CellEmpty);
-  }
+  public campo: Forza4[][] = boardEmpty<Forza4>(this.dimCampo, forza4CellEmpty);
 
   inserisciPedina(j: number): void {
     if (this.turno == 'Player') {

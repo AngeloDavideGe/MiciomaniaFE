@@ -17,16 +17,12 @@ import { AlertGamesService } from '../../../services/alert-games.service';
   templateUrl: './sudoku.component.html',
   styleUrl: './sudoku.component.scss',
 })
-export class SudokuComponent implements OnInit {
+export class SudokuComponent {
   private alertService = inject(AlertGamesService);
 
-  public sudokuBoard: SudokuCell[][] = [];
   private celleCorrette: number = 0;
   private readonly visibleCells: number = 50;
-
-  ngOnInit(): void {
-    this.sudokuBoard = this.generateCompleteSudoku();
-  }
+  public sudokuBoard: SudokuCell[][] = this.generateCompleteSudoku();
 
   private generateCompleteSudoku(): SudokuCell[][] {
     const board: SudokuCell[][] = boardEmpty<SudokuCell>(9, sudokuCellEmpty);

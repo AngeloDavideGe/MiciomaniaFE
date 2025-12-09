@@ -34,14 +34,6 @@ export const gamesConstant: CardGioco[] = [
     routerLink: 'quiz',
   },
   {
-    nome: 'Trova la Sequenza',
-    descrizione:
-      'Prova ad indovinare la sequenza corretta di numeri in questa tabella, hai un tot di tentativi prima di essere umiliato dagli esagerati degli altri team, pronti a impadronirsi della tua mente e farti piangere',
-    linkImg:
-      'https://roma.cityrumors.it/wp-content/uploads/2023/11/sequenza-roma.cityrumors.it-291123.jpg',
-    routerLink: 'trova-sequenza',
-  },
-  {
     nome: 'Memory',
     descrizione:
       'Devi indovinare le coppie presenti tra le carte coperte, quando le trovi verranno tolte da terra, altrimenti saranno rigirate',

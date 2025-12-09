@@ -77,8 +77,9 @@ export class Step1Component {
   public team: string[] = environment.team;
   public colori: string[] = environment.colori;
   public descrizioni: string[] = [
-    'Maschi etero esagerati che commentono solo crimini indicibili e voglioni impedire alle donne di procreare col loro Midollo Osseo',
+    'Maschi etero esagerati che commettono solo crimini indicibili e voglioni impedire alle donne di procreare col loro Midollo Osseo',
     'Odiosi pazzi derisori che fanno meme sulle povere fanciulle indifese e rubano i loro nickname di fortnite per farsi dennunciare',
     'Stupidi maschi SIMP che fanno da cagnolini alle bisessuali che si fingono lesbiche per rifiutare i ColonVVX senza perdere i sottoni',
+    'Urliamo mentre giochiamo su Fortnite per attirare l attenzione di Pedria',
   ];
 }

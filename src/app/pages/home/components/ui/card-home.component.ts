@@ -1,14 +1,14 @@
 import {
   Component,
   computed,
-  effect,
   EventEmitter,
+  HostListener,
   Output,
   signal,
-  WritableSignal,
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { DataHttp } from '../../../../core/api/http.data';
+import { debounceTimeoutCustom } from '../../../../shared/functions/utilities.function';
 import { Lingua } from '../../../../shared/interfaces/http.interface';
 
 @Component({
@@ -16,95 +16,123 @@ import { Lingua } from '../../../../shared/interfaces/http.interface';
   standalone: true,
   imports: [RouterLink],
   template: `
-    <section
-      data-bs-version="5.1"
-      class="features4 start py-5"
-      id="features04-1"
-    >
+    <section class="py-5" id="CardsRow">
       <div class="container position-relative">
         <div class="text-center mb-5">
           <h4 class="fw-bold display-4">Home - Miciomania</h4>
         </div>
 
-        <!-- Freccia sinistra -->
-        <button
-          class="btn btn-light position-absolute top-50 start-0 translate-middle-y shadow"
-          style="z-index: 10; border-radius: 50%; width: 48px; height: 48px;"
-          (click)="scrollCards(-1)"
-          [disabled]="disableLeft()"
-        >
-          <i class="bi bi-chevron-left fs-4"></i>
-        </button>
-
-        <!-- Contenitore scroll orizzontale -->
         <div
-          class="row flex-nowrap overflow-auto g-4 px-4"
-          style="scroll-behavior: smooth;"
-          #cardsRow
+          class="position-relative d-flex justify-content-center align-items-center"
         >
-          @for (card of cardElementSlice(); track $index) {
-          <div class="col-12 col-md-6 col-lg-4" style="min-width: 320px;">
-            <div class="card h-100">
-              <img [src]="card.link" class="card-img-top" alt="..." />
-              <div class="card-body" [class]="card.bgClass">
-                <h5 class="card-title fw-bold">{{ card.titolo[lingua()] }}</h5>
-                <p class="card-text">{{ card.descrizione[lingua()] }}</p>
+          <!-- Freccia sinistra -->
+          @if (visualizzaButtoni() && !disableLeft()) {
+          <button
+            class="btn btn-light position-absolute start-0 top-50 translate-middle-y shadow"
+            style="z-index: 100;"
+            (click)="scrollCards(-1)"
+          >
+            <i class="bi bi-chevron-left fs-4"></i>
+          </button>
+          }
 
-                @if (!card.func) {
-                <a [routerLink]="card.aLink" class="btn btn-light">
-                  {{ card.titoloBottone[lingua()] }}
-                </a>
-                } @else {
-                <a
-                  class="btn btn-light"
-                  (click)="card.func ? card.func() : null"
-                >
-                  {{ card.titoloBottone[lingua()] }}
-                </a>
-                }
+          <!-- Carousel container -->
+          <div class="overflow-hidden w-100">
+            <div
+              class="d-flex flex-nowrap justify-content-center gap-4 px-2"
+              #carouselTrack
+              style="scroll-snap-type: x mandatory;"
+            >
+              @for (card of cardElementSlice(); track $index) {
+              <div
+                class="card flex-shrink-0"
+                style="width: 300px; scroll-snap-align: center;"
+              >
+                <img [src]="card.link" class="card-img-top" alt="..." />
+                <div class="card-body" [class]="card.bgClass">
+                  <h5 class="card-title fw-bold">
+                    {{ card.titolo[lingua()] }}
+                  </h5>
+                  <p class="card-text">{{ card.descrizione[lingua()] }}</p>
+
+                  @if (!card.func) {
+                  <a [routerLink]="card.aLink" class="btn btn-light">
+                    {{ card.titoloBottone[lingua()] }}
+                  </a>
+                  } @else {
+                  <a class="btn btn-light" (click)="card.func()">
+                    {{ card.titoloBottone[lingua()] }}
+                  </a>
+                  }
+                </div>
               </div>
+              }
             </div>
           </div>
+
+          <!-- Freccia destra -->
+          @if (visualizzaButtoni() && !disableRight()) {
+          <button
+            class="btn btn-light position-absolute end-0 top-50 translate-middle-y shadow"
+            style="z-index: 100;"
+            (click)="scrollCards(1)"
+          >
+            <i class="bi bi-chevron-right fs-4"></i>
+          </button>
           }
         </div>
-
-        <!-- Freccia destra -->
-        <button
-          class="btn btn-light position-absolute top-50 end-0 translate-middle-y shadow"
-          style="z-index: 10; border-radius: 50%; width: 48px; height: 48px;"
-          (click)="scrollCards(1)"
-          [disabled]="disableRight()"
-        >
-          <i class="bi bi-chevron-right fs-4"></i>
-        </button>
       </div>
     </section>
   `,
+  styles: [``],
 })
 export class CardHomeComponent {
   @Output() canzone = new EventEmitter<void>();
 
-  public lingua = computed<Lingua>(() => DataHttp.lingua());
+  private maxCards = signal<number>(this.getNumCards());
   public currentIndex = signal<number>(0);
-  private maxCards: number = 3;
+
+  public lingua = computed<Lingua>(() => DataHttp.lingua());
+
+  public visualizzaButtoni = computed<boolean>(() => {
+    return this.cardElements.length > this.maxCards();
+  });
 
   public disableLeft = computed<boolean>(() => {
-    const currentIndex: number = this.currentIndex();
-    return currentIndex == 0;
+    return this.currentIndex() == 0;
   });
 
   public disableRight = computed<boolean>(() => {
-    const currentIndex: number = this.currentIndex();
-    return currentIndex + this.maxCards >= this.cardElements.length;
+    return this.currentIndex() + this.maxCards() >= this.cardElements.length;
   });
 
   public cardElementSlice = computed<CardElement[]>(() => {
     const currentIndex: number = this.currentIndex();
-    return this.cardElements.slice(currentIndex, currentIndex + this.maxCards);
+    const maxCards: number = this.maxCards();
+    return this.cardElements.slice(currentIndex, currentIndex + maxCards);
   });
 
   public scrollCards(direction: 1 | -1): void {
-    this.currentIndex.update((value: number) => value + direction);
+    this.currentIndex.update((v: number) => v + direction);
+  }
+
+  @HostListener('window:resize')
+  onResize = debounceTimeoutCustom(() => {
+    this.maxCards.set(this.getNumCards());
+    this.currentIndex.set(0);
+  });
+
+  private getNumCards(): number {
+    const width: number = window.innerWidth;
+    if (width >= 1800) {
+      return 4;
+    } else if (width >= 1200 && width < 1800) {
+      return 3;
+    } else if (width >= 769 && width < 1200) {
+      return 2;
+    } else {
+      return 1;
+    }
   }
 
   private cardElements: CardElement[] = [

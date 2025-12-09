@@ -33,13 +33,6 @@ export const GAMES_ROUTES: Routes = [
           ).then((m) => m.BattagliaNavaleComponent),
       },
       {
-        path: 'trova-sequenza',
-        loadComponent: () =>
-          import(
-            './components/pages/trova-sequenza/trova-sequenza.component'
-          ).then((m) => m.TrovaSequenzaComponent),
-      },
-      {
         path: 'memory',
         loadComponent: () =>
           import('./components/pages/memory/memory.component').then(
