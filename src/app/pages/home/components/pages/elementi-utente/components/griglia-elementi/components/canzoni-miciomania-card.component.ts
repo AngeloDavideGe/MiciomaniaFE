@@ -1,9 +1,9 @@
 import { Component, Input } from '@angular/core';
-import { MangaSongUtilities } from '../../../../../../../../shared/utilities/mangaSong.utilities';
 import {
-  CanzoniMiciomania,
+  MangaSong,
   Proposta,
 } from '../../../../../../../../shared/interfaces/elementiUtente.interface';
+import { MangaSongUtilities } from '../../../../../../../../shared/utilities/mangaSong.utilities';
 
 @Component({
   selector: 'app-canzoni-miciomania-card',
@@ -79,6 +79,6 @@ import {
   `,
 })
 export class CanzoniMiciomaniaCardComponent {
-  @Input() canzone!: CanzoniMiciomania | Proposta | any;
+  @Input() canzone!: MangaSong | Proposta | any;
   @Input() mangaSongUtilities!: MangaSongUtilities;
 }

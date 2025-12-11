@@ -17,7 +17,7 @@ export class PostService extends BaseService {
   public readonly maxPostsVisible: number = 20;
 
   constructor() {
-    super('BE');
+    super('BE_CS');
   }
 
   getProfiloById(idUtente: string): Observable<Profilo> {

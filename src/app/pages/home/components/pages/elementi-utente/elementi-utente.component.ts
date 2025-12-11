@@ -1,17 +1,15 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { take } from 'rxjs';
+import { DataHttp } from '../../../../../core/api/http.data';
 import {
-  CanzoniMiciomania,
-  ElementiUtente,
-  MangaMiciomania,
-  Proposta,
+  MangaSong,
+  UtenteParodie,
 } from '../../../../../shared/interfaces/elementiUtente.interface';
+import { Lingua } from '../../../../../shared/interfaces/http.interface';
 import { User } from '../../../../../shared/interfaces/users.interface';
 import { ElementiUtenteUtilities } from '../../../../../shared/utilities/elementiUtente.utilities';
 import { elementi_utente_imports } from './imports/elementi-utente.imports';
-import { DataHttp } from '../../../../../core/api/http.data';
-import { Lingua } from '../../../../../shared/interfaces/http.interface';
 import {
   ElemLang,
   ElemLangType,
@@ -26,10 +24,9 @@ import {
 export class ElementiUtenteComponent implements OnInit {
   public router = inject(Router);
 
-  public eu: ElementiUtente = {
-    manga: {} as MangaMiciomania,
-    canzone: {} as CanzoniMiciomania,
-    proposta: {} as Proposta,
+  public eu: UtenteParodie = {
+    mangaUtente: {} as MangaSong,
+    canzoniUtente: {} as MangaSong,
   };
   public creaProposta = {
     componente: false,
@@ -67,15 +64,11 @@ export class ElementiUtenteComponent implements OnInit {
         .getElementiUtente(user.id)
         .pipe(take(1))
         .subscribe({
-          next: (elementiUtente: ElementiUtente) => {
-            this.eu = {
-              manga: elementiUtente.manga,
-              canzone: elementiUtente.canzone,
-              proposta: elementiUtente.proposta,
-            };
+          next: (elementiUtente: UtenteParodie) => {
+            this.eu = elementiUtente;
             this.creaProposta = {
               componente: false,
-              controllo: this.eu.manga.nome == '' || this.eu.canzone.nome == '',
+              controllo: !!this.eu.mangaUtente && !!this.eu.canzoniUtente,
               punteggio: this.userPunteggio > this.punteggioNecessario,
             };
           },

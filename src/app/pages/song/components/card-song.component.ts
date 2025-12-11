@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { CanzoniMiciomania } from '../../../shared/interfaces/elementiUtente.interface';
+import { MangaSong } from '../../../shared/interfaces/elementiUtente.interface';
 
 @Component({
   selector: 'app-card-song',
@@ -41,7 +41,7 @@ import { CanzoniMiciomania } from '../../../shared/interfaces/elementiUtente.int
         <div
           class="card-footer bg-transparent border-0 d-flex justify-content-between align-items-center"
         >
-          <small style="color: #b3b3b3">Autore: {{ canzone.id_autore }}</small>
+          <small style="color: #b3b3b3">Autore: {{ canzone.idUtente }}</small>
           <div class="d-flex gap-2">
             <button
               (click)="playSong.emit()"
@@ -70,7 +70,7 @@ import { CanzoniMiciomania } from '../../../shared/interfaces/elementiUtente.int
   `,
 })
 export class CardSongComponent {
-  @Input() canzone!: CanzoniMiciomania;
+  @Input() canzone!: MangaSong;
   @Output() playSong = new EventEmitter<void>();
   @Output() stopSong = new EventEmitter<void>();
 }

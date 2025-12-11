@@ -1,13 +1,13 @@
 import { Injectable, signal } from '@angular/core';
-import { CanzoniMiciomania } from '../../interfaces/elementiUtente.interface';
+import { MangaSong } from '../../interfaces/elementiUtente.interface';
 
 @Injectable({
   providedIn: 'root',
 })
 export class MiniPlayerService {
-  public allCanzoni: CanzoniMiciomania[] = [];
+  public allCanzoni: MangaSong[] = [];
   public currentAudio: HTMLAudioElement | null = null;
-  public currentCanzone = signal<CanzoniMiciomania | null>(null);
+  public currentCanzone = signal<MangaSong | null>(null);
   public currentSongIndex: number = 0;
   public isPlaying: boolean = true;
 
@@ -48,7 +48,7 @@ export class MiniPlayerService {
 
   playSong(): void {
     this.currentAudio = new Audio(
-      this.currentCanzone()!.link.slice(0, -4) + 'raw=1'
+      this.currentCanzone()!.url.slice(0, -4) + 'raw=1'
     );
     this.currentAudio.play().catch((error) => {
       console.error('Errore nella riproduzione:', error);

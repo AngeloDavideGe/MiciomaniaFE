@@ -1,12 +1,11 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { take } from 'rxjs';
-import { CanzoniMiciomania } from '../../shared/interfaces/elementiUtente.interface';
+import { CanzoniParodia } from '../../shared/interfaces/elementiUtente.interface';
+import { ElementiUtenteService } from '../../shared/services/api/elementiUtente.service';
 import { LoadingService } from '../../shared/services/template/loading.service';
 import { MangaSongUtilities } from '../../shared/utilities/mangaSong.utilities';
-import { HeaderSongComponent } from './components/header-song.component';
 import { CardSongComponent } from './components/card-song.component';
-import { DataHttp } from '../../core/api/http.data';
-import { ElementiUtenteService } from '../../shared/services/api/elementiUtente.service';
+import { HeaderSongComponent } from './components/header-song.component';
 
 @Component({
   selector: 'app-song',
@@ -19,34 +18,27 @@ export class SongComponent implements OnInit {
   private loadingService = inject(LoadingService);
   public elementiUtenteService = inject(ElementiUtenteService);
 
-  public canzoniMiciomani: CanzoniMiciomania[] = DataHttp.canzoniMiciomani;
-
   ngOnInit(): void {
-    if (
-      !DataHttp.canzoniMiciomaniLoaded ||
-      DataHttp.canzoniMiciomani.length == 0
-    ) {
+    if (!this.elementiUtenteService.canzoniParodia) {
       this.loadCanzoniMiciomani();
     }
   }
 
   private loadCanzoniMiciomani(): void {
-    DataHttp.canzoniMiciomani.length == 0 ? this.loadingService.show() : null;
+    this.loadingService.show();
 
     this.elementiUtenteService
       .getListaCanzoniMiciomani()
       .pipe(take(1))
       .subscribe({
-        next: (data: CanzoniMiciomania[]) =>
-          this.nextGetListaMangaMiciomani(data),
+        next: (data: CanzoniParodia) => this.nextGetListaMangaMiciomani(data),
         error: (error) =>
           console.error('Errore nel recupero della lista dei manga', error),
       });
   }
 
-  private nextGetListaMangaMiciomani(data: CanzoniMiciomania[]): void {
-    DataHttp.canzoniMiciomani = data;
-    DataHttp.canzoniMiciomaniLoaded = true;
+  private nextGetListaMangaMiciomani(data: CanzoniParodia): void {
+    this.elementiUtenteService.canzoniParodia = data;
     this.loadingService.hide();
   }
 }

@@ -1,9 +1,9 @@
 import { Component, Input } from '@angular/core';
 import { MangaMiciomaniaCardComponent } from './components/manga-miciomania-card.component';
 import { CanzoniMiciomaniaCardComponent } from './components/canzoni-miciomania-card.component';
-import { ElementiUtente } from '../../../../../../../shared/interfaces/elementiUtente.interface';
 import { MangaSongUtilities } from '../../../../../../../shared/utilities/mangaSong.utilities';
 import { ElemLang } from '../../languages/interfaces/elem-lang.interface';
+import { UtenteParodie } from '../../../../../../../shared/interfaces/elementiUtente.interface';
 
 @Component({
   selector: 'app-griglia-elementi',
@@ -12,10 +12,10 @@ import { ElemLang } from '../../languages/interfaces/elem-lang.interface';
   template: `
     <!-- Sezione Manga -->
     <div class="row g-4 justify-content-center align-items-stretch">
-      @if (eu.manga && eu.manga.nome) {
+      @if (eu.mangaUtente) {
       <div class="col-12 col-md-4 d-flex">
         <app-manga-miciomania-card
-          [manga]="eu.manga"
+          [manga]="eu.mangaUtente"
           [mangaSongUtilities]="mangaSongUtilities"
         >
         </app-manga-miciomania-card>
@@ -40,10 +40,10 @@ import { ElemLang } from '../../languages/interfaces/elem-lang.interface';
       }
 
       <!-- Sezione Canzone -->
-      @if (eu.canzone && eu.canzone.nome) {
+      @if (eu.canzoniUtente && eu.canzoniUtente.nome) {
       <div class="col-12 col-md-4 d-flex">
         <app-canzoni-miciomania-card
-          [canzone]="eu.canzone"
+          [canzone]="eu.canzoniUtente"
           [mangaSongUtilities]="mangaSongUtilities"
         ></app-canzoni-miciomania-card>
       </div>
@@ -67,26 +67,6 @@ import { ElemLang } from '../../languages/interfaces/elem-lang.interface';
       }
 
       <!-- Sezione Proposta -->
-      @if (eu.proposta && eu.proposta.nome) {
-      <div class="col-12 col-md-4 d-flex">
-        @switch (eu.proposta.tipo) {
-        <!-- Proposta Manga -->
-        @case ('manga') {
-        <app-manga-miciomania-card
-          [manga]="eu.proposta"
-          [mangaSongUtilities]="mangaSongUtilities"
-        >
-        </app-manga-miciomania-card>
-        }
-        <!-- Proposta Canzone -->
-        @case ('canzone') {
-        <app-canzoni-miciomania-card
-          [canzone]="eu.proposta"
-          [mangaSongUtilities]="mangaSongUtilities"
-        ></app-canzoni-miciomania-card>
-        } }
-      </div>
-      } @else {
       <div class="col-12 col-md-4">
         <div
           class="card shadow-sm d-flex flex-column align-items-center justify-content-center"
@@ -123,14 +103,13 @@ import { ElemLang } from '../../languages/interfaces/elem-lang.interface';
           }
         </div>
       </div>
-      }
     </div>
   `,
 })
 export class GrigliaElementiComponent {
   public mangaSongUtilities = new MangaSongUtilities();
   @Input() elemLang!: ElemLang;
-  @Input() eu!: ElementiUtente;
+  @Input() eu!: UtenteParodie;
   @Input() userPunteggio!: number;
   @Input() punteggioNecessario!: number;
   @Input() creaProposta!: {

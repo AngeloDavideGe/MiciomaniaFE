@@ -6,14 +6,6 @@ export function refreshLocalStorage(): void {
   localStorage.setItem('mangaUtente', JSON.stringify(DataHttp.mangaUtente));
   localStorage.setItem('user', JSON.stringify(DataHttp.user()));
   localStorage.setItem('postVisti', JSON.stringify(DataHttp.postVisti));
-  localStorage.setItem(
-    'canzoniMiciomani',
-    JSON.stringify(DataHttp.canzoniMiciomani)
-  );
-  localStorage.setItem(
-    'mangaMiciomani',
-    JSON.stringify(DataHttp.mangaMiciomani)
-  );
   localStorage.setItem('gruppiChat', JSON.stringify(DataHttp.gruppiChat));
 }
 
@@ -27,10 +19,6 @@ export function refreshSessionStorage(): void {
   sessionStorage.setItem(
     'mangaCaricati',
     JSON.stringify(DataHttp.mangaScaricati)
-  );
-  sessionStorage.setItem(
-    'mangaMiciomaniLoaded',
-    JSON.stringify(DataHttp.mangaMiciomaniLoaded)
   );
   sessionStorage.setItem(
     'punteggioOttenuto',

@@ -18,7 +18,7 @@ export class SquadreService extends BaseService {
   } as Classifica;
 
   constructor() {
-    super('BE');
+    super('BE_CS');
   }
 
   getClassifica(): Observable<Classifica> {

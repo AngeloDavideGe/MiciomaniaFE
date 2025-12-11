@@ -1,30 +1,26 @@
-export interface ElementiUtente {
-  manga: MangaMiciomania;
-  canzone: CanzoniMiciomania;
-  proposta: Proposta;
-}
-
-export interface MangaMiciomania {
-  id_autore: string;
+export interface MangaSong {
+  idUtente: string;
   nome: string;
   genere: string;
   copertina: string;
-  link: string;
+  url: string;
 }
 
-export interface CanzoniMiciomania {
-  id_autore: string;
-  nome: string;
-  genere: string;
-  copertina: string;
-  link: string;
+export interface MangaParodia {
+  mangaMiciomania: MangaSong[];
+  mangaUtentePars: MangaSong[];
 }
 
-export interface Proposta {
-  id_autore: string;
-  nome: string;
-  genere: string;
-  copertina: string;
-  link: string;
+export interface CanzoniParodia {
+  canzoniMiciomania: MangaSong[];
+  canzoniUtente: MangaSong[];
+}
+
+export interface UtenteParodie {
+  mangaUtente: MangaSong;
+  canzoniUtente: MangaSong;
+}
+
+export interface Proposta extends MangaSong {
   tipo: string;
 }

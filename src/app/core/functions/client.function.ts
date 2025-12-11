@@ -2,9 +2,11 @@ import { createClient, SupabaseClient } from '@supabase/supabase-js';
 import { environment } from '../../../environments/environment';
 
 export interface IAppConfig {
-  BE: {
+  BE_CS: {
     KEY: string;
-    STORAGE_KEY: string;
+  };
+  BE_PY: {
+    KEY: string;
   };
   DB2: {
     KEY: string;

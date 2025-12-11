@@ -13,7 +13,7 @@ export class WizardService extends BaseService {
   public descrizioniSquadre: string[] = [];
 
   constructor() {
-    super('BE');
+    super('BE_CS');
   }
 
   getDescrizioniSquadre(): Observable<string[]> {

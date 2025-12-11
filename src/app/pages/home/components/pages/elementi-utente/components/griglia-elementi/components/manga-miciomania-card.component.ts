@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { MangaSongUtilities } from '../../../../../../../../shared/utilities/mangaSong.utilities';
 import {
-  MangaMiciomania,
+  MangaSong,
   Proposta,
 } from '../../../../../../../../shared/interfaces/elementiUtente.interface';
 
@@ -54,7 +54,7 @@ import {
           </h6>
           <p class="card-text mb-3" style="color: #4d665d; font-size: 0.9rem">
             <span class="fw-bold">Autore:</span>
-            {{ manga.id_autore }}
+            {{ manga.idUtente }}
           </p>
         </div>
         <a
@@ -71,6 +71,6 @@ import {
   `,
 })
 export class MangaMiciomaniaCardComponent {
-  @Input() manga!: MangaMiciomania | Proposta;
+  @Input() manga!: MangaSong | Proposta;
   @Input() mangaSongUtilities!: MangaSongUtilities;
 }

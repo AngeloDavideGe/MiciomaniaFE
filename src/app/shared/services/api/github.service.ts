@@ -9,7 +9,6 @@ import { GitHubType, MN, Quiz } from '../../interfaces/github.interface';
 export class GitHubService {
   public quiz: Quiz[] = [];
   public quizFilter: Quiz[] = [];
-
   public mn: MN[] = [];
 
   getGistFormGithub(

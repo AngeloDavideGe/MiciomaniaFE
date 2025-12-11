@@ -1,15 +1,15 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { take } from 'rxjs';
-import { MangaMiciomania } from '../../../../../shared/interfaces/elementiUtente.interface';
+import { DataHttp } from '../../../../../core/api/http.data';
+import { MangaParodia } from '../../../../../shared/interfaces/elementiUtente.interface';
+import { Lingua } from '../../../../../shared/interfaces/http.interface';
+import { ElementiUtenteService } from '../../../../../shared/services/api/elementiUtente.service';
 import { LoadingService } from '../../../../../shared/services/template/loading.service';
 import { MangaSongUtilities } from '../../../../../shared/utilities/mangaSong.utilities';
-import { DettagliMangaComponent } from '../../../shared/dettagli-manga.component';
 import { PulsantiManga } from '../../../interfaces/filtri.interface';
+import { DettagliMangaComponent } from '../../../shared/dettagli-manga.component';
 import { CardMangaMiciomaniaComponent } from './components/card-mangaMiciomania.component';
-import { ElementiUtenteService } from '../../../../../shared/services/api/elementiUtente.service';
-import { DataHttp } from '../../../../../core/api/http.data';
-import { Lingua } from '../../../../../shared/interfaces/http.interface';
 import {
   MmicioLang,
   MmicioLangType,
@@ -27,7 +27,6 @@ export class MangaMiciomaniComponent implements OnInit {
   private loadingService = inject(LoadingService);
 
   public mangaSongUtilities = new MangaSongUtilities();
-  public mangaMiciomani: MangaMiciomania[] = DataHttp.mangaMiciomani;
   public mmicioLang: MmicioLang = {} as MmicioLang;
   public pulsanti: PulsantiManga[] = [
     {
@@ -51,28 +50,26 @@ export class MangaMiciomaniComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    if (!DataHttp.mangaMiciomaniLoaded || DataHttp.mangaMiciomani.length == 0) {
+    if (!this.elementiUtenteService.mangaParodia) {
       this.loadMangaMiciomani();
     }
   }
 
   private loadMangaMiciomani(): void {
-    DataHttp.mangaMiciomani.length == 0 ? this.loadingService.show() : null;
+    this.loadingService.show();
 
     this.elementiUtenteService
       .getListaMangaMiciomani()
       .pipe(take(1))
       .subscribe({
-        next: (data: MangaMiciomania[]) =>
-          this.nextGetListaMangaMiciomani(data),
+        next: (data: MangaParodia) => this.nextGetListaMangaMiciomani(data),
         error: (error) =>
           console.error('Errore nel recupero della lista dei manga', error),
       });
   }
 
-  private nextGetListaMangaMiciomani(data: MangaMiciomania[]): void {
-    DataHttp.mangaMiciomani = data;
-    DataHttp.mangaMiciomaniLoaded = true;
+  private nextGetListaMangaMiciomani(data: MangaParodia): void {
+    this.elementiUtenteService.mangaParodia = data;
     this.loadingService.hide();
   }
 }

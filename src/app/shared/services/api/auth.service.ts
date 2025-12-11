@@ -10,7 +10,7 @@ import { BaseService } from '../base/base.service';
 })
 export class AuthService extends BaseService {
   constructor() {
-    super('BE');
+    super('BE_CS');
   }
 
   getAllUsersHttp(): Observable<UserParams[]> {

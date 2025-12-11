@@ -1,6 +1,7 @@
 export interface IEnvironment {
   production: boolean;
-  BE: string;
+  BE_CS: string;
+  BE_PY: string;
   DB2: string;
   team: string[];
   colori: string[];

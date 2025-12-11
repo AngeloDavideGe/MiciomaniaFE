@@ -15,8 +15,8 @@ import {
 import { finalize, switchMap, take } from 'rxjs';
 import { DataHttp } from '../../../../../../../core/api/http.data';
 import {
-  ElementiUtente,
   Proposta,
+  UtenteParodie,
 } from '../../../../../../../shared/interfaces/elementiUtente.interface';
 import { ElementiUtenteService } from '../../../../../../../shared/services/api/elementiUtente.service';
 import { ProposaPrePost } from '../../interfaces/dropbox.interface';
@@ -54,10 +54,10 @@ export class CreaPropostaComponent implements OnInit {
   }
 
   private setProposteDisponibili(): void {
-    const elemUtente: ElementiUtente =
-      DataHttp.elementiUtente || ({} as ElementiUtente);
-    this.optionManga = !!elemUtente.manga.id_autore;
-    this.optionCanzone = !!elemUtente.canzone.id_autore;
+    const elemUtente: UtenteParodie =
+      DataHttp.elementiUtente || ({} as UtenteParodie);
+    this.optionManga = !!elemUtente.mangaUtente.idUtente;
+    this.optionCanzone = !!elemUtente.canzoniUtente.idUtente;
   }
 
   private getDropboxToken(): void {
@@ -107,12 +107,12 @@ export class CreaPropostaComponent implements OnInit {
     const basePath: string = tipo.charAt(0).toUpperCase() + tipo.slice(1);
 
     const proposta: Proposta = {
-      id_autore: this.userId,
+      idUtente: this.userId,
       tipo: tipo,
       nome: this.propostaForm.get('nome')?.value,
       genere: this.propostaForm.get('descrizione')?.value,
       copertina: '',
-      link: '',
+      url: '',
     };
 
     return {
@@ -148,17 +148,15 @@ export class CreaPropostaComponent implements OnInit {
       .pipe(
         take(1),
         switchMap((res) => {
-          p.proposta.link = res;
+          p.proposta.url = res;
           return this.elementiUtenteService.postProposta(p.proposta);
         }),
         finalize(() => (this.elementiUtenteService.propostaCaricata = true))
       )
       .subscribe({
-        next: (data: Proposta) =>
-          (DataHttp.elementiUtente = {
-            ...(DataHttp.elementiUtente || ({} as ElementiUtente)),
-            proposta: data,
-          }),
+        next: (data: Proposta) => {
+          /*inserire la risposta nel data http */
+        },
         error: (err) => console.error('Errore upload o recupero link:', err),
       });
   }

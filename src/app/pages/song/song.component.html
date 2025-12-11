@@ -4,10 +4,16 @@
 
   <!-- Lista Song -->
   <div class="row row-cols-1 row-cols-md-3 g-4">
-    @for (canzone of canzoniMiciomani; track $index) {
+    @for (canzone of elementiUtenteService.canzoniParodia?.canzoniUtente ; track
+    $index) {
     <app-card-song
       [canzone]="canzone"
-      (playSong)="msu.playSong(canzone, canzoniMiciomani)"
+      (playSong)="
+        msu.playSong(
+          canzone,
+          elementiUtenteService.canzoniParodia?.canzoniUtente
+        )
+      "
       (stopSong)="msu.sc.stopSong()"
     ></app-card-song>
     }

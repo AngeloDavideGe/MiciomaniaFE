@@ -13,7 +13,7 @@ import { Router } from '@angular/router';
         <!-- Left group: back + search -->
         <div class="d-flex align-items-center gap-3">
           @if (goHomeBotton) {
-          <button class="icon-btn" (click)="router.navigate(['/home'])">
+          <button class="icon-btn" (click)="router.navigate([goHomeBotton])">
             <i class="bi bi-arrow-left"></i>
           </button>
           } @if (filtro) {
@@ -120,7 +120,7 @@ export class CustomNavBarComponent {
   public router = inject(Router);
   public searchActive = false;
 
-  @Input() goHomeBotton: boolean = false;
+  @Input() goHomeBotton: string | null = null;
   @Input() filtro: boolean = false;
   @Input() altriBottoni: NavBarButton[] = [];
   @Input() rouerLinks: NavBarLink[] = [];

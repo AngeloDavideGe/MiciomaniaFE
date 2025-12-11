@@ -1,19 +1,15 @@
 import { signal, WritableSignal } from '@angular/core';
-import { User, UserParams } from '../../shared/interfaces/users.interface';
+import { Posts } from '../../pages/posts/components/shared/post.interface';
+import { Social } from '../../shared/interfaces/github.interface';
 import {
+  Lingua,
   ListaManga,
   MangaUtente,
-  Lingua,
+  Profilo,
 } from '../../shared/interfaces/http.interface';
-import { Profilo } from '../../shared/interfaces/http.interface';
-import {
-  CanzoniMiciomania,
-  ElementiUtente,
-  MangaMiciomania,
-} from '../../shared/interfaces/elementiUtente.interface';
-import { Social } from '../../shared/interfaces/github.interface';
+import { User, UserParams } from '../../shared/interfaces/users.interface';
 import { GruppiChat } from '../components/chat/interfaces/chat.interface';
-import { Posts } from '../../pages/posts/components/shared/post.interface';
+import { UtenteParodie } from '../../shared/interfaces/elementiUtente.interface';
 
 export class DataHttp {
   static lingua: WritableSignal<Lingua> = signal(Lingua.it);
@@ -27,15 +23,10 @@ export class DataHttp {
   static initialMangaUtente: MangaUtente = {} as MangaUtente;
   static mangaScaricati: boolean = false;
 
+  static elementiUtente: UtenteParodie = {} as UtenteParodie;
   static profiloPersonale: Profilo | null = null;
   static postVisti: Posts = { oldPosts: [], lastUpdated: new Date(0) };
   static punteggioOttenuto: number = 0;
-
-  static canzoniMiciomani: CanzoniMiciomania[] = [];
-  static canzoniMiciomaniLoaded = false;
-  static mangaMiciomani: MangaMiciomania[] = [];
-  static mangaMiciomaniLoaded = false;
-  static elementiUtente: ElementiUtente | null = null;
 
   static gruppiChat: GruppiChat = {
     listaGruppi: [],
@@ -101,27 +92,7 @@ export class DataHttp {
       this.punteggioOttenuto = JSON.parse(punteggioOttenuto);
     }
 
-    // Elementi Utente
-    const canzoniStorage = localStorage.getItem('canzoniMiciomani');
-    if (canzoniStorage) {
-      this.canzoniMiciomani = JSON.parse(canzoniStorage);
-    }
-
-    const canzoniLoaded = sessionStorage.getItem('canzoniMiciomaniLoaded');
-    if (canzoniLoaded) {
-      this.canzoniMiciomaniLoaded = JSON.parse(canzoniLoaded);
-    }
-
-    const mangaStorage = localStorage.getItem('mangaMiciomani');
-    if (mangaStorage) {
-      this.mangaMiciomani = JSON.parse(mangaStorage);
-    }
-
-    const mangaLoaded = sessionStorage.getItem('mangaMiciomaniLoaded');
-    if (mangaLoaded) {
-      this.mangaMiciomaniLoaded = JSON.parse(mangaLoaded);
-    }
-
+    // Elementi Utente Service
     const storageElementiUtente = sessionStorage.getItem('elementiUtente');
     if (storageElementiUtente) {
       this.elementiUtente = JSON.parse(storageElementiUtente);

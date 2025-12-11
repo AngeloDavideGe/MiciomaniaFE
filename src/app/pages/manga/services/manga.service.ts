@@ -10,7 +10,7 @@ import { MangaUtente } from '../../../shared/interfaces/http.interface';
 })
 export class MangaService extends BaseService {
   constructor() {
-    super('BE');
+    super('BE_CS');
   }
 
   getListaManga(idUtente: string): Observable<ListaEUtenti> {

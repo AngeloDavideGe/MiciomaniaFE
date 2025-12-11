@@ -18,7 +18,7 @@ export class DropboxService extends BaseService {
     'https://content.dropboxapi.com/2/files/upload';
 
   constructor() {
-    super('BE');
+    super('BE_CS');
   }
 
   getDropboxToken(): Observable<DropboxResponse> {
