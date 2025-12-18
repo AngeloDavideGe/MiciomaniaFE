@@ -74,7 +74,7 @@ export class LoginComponent {
       map((data: User) => {
         const user: User = mapUserByDb(data);
         DataHttp.user.set(user);
-        DataHttp.users.update((users: UserParams[]) =>
+        this.authService.users.update((users: UserParams[]) =>
           users.filter((x: UserParams) => x.id !== user.id)
         );
         return true;

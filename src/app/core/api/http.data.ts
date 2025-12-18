@@ -1,5 +1,6 @@
 import { signal, WritableSignal } from '@angular/core';
 import { Posts } from '../../pages/posts/components/shared/post.interface';
+import { UtenteParodie } from '../../shared/interfaces/elementiUtente.interface';
 import { Social } from '../../shared/interfaces/github.interface';
 import {
   Lingua,
@@ -7,15 +8,13 @@ import {
   MangaUtente,
   Profilo,
 } from '../../shared/interfaces/http.interface';
-import { User, UserParams } from '../../shared/interfaces/users.interface';
+import { User } from '../../shared/interfaces/users.interface';
 import { GruppiChat } from '../components/chat/interfaces/chat.interface';
-import { UtenteParodie } from '../../shared/interfaces/elementiUtente.interface';
 
 export class DataHttp {
   static lingua: WritableSignal<Lingua> = signal(Lingua.it);
 
   static user: WritableSignal<User | null> = signal(null);
-  static users: WritableSignal<UserParams[]> = signal([]);
   static social: Social[] = [];
 
   static listaManga: WritableSignal<ListaManga[]> = signal([]);
@@ -46,11 +45,6 @@ export class DataHttp {
     const userData = localStorage.getItem('user');
     if (userData) {
       this.user.set(JSON.parse(userData));
-    }
-
-    const usersData = sessionStorage.getItem('users');
-    if (usersData) {
-      this.users.set(JSON.parse(usersData));
     }
 
     const social = sessionStorage.getItem('socialLinks');

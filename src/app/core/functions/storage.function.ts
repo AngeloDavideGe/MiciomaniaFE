@@ -10,7 +10,6 @@ export function refreshLocalStorage(): void {
 }
 
 export function refreshSessionStorage(): void {
-  sessionStorage.setItem('users', JSON.stringify(DataHttp.users()));
   sessionStorage.setItem('socialLinks', JSON.stringify(DataHttp.social));
   sessionStorage.setItem(
     'elementiUtente',

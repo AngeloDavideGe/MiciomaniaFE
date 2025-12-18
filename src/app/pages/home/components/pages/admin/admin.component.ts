@@ -69,14 +69,14 @@ export class AdminComponent implements OnInit {
 
   private loadUtenti(): void {
     this.user = DataHttp.user();
-    const users: UserParams[] = DataHttp.users();
+    const users: UserParams[] = this.authService.users();
     users.length == 0 ? this.loadingService.show() : null;
 
     sottoscrizioneUtenti({
       authService: this.authService,
       elseCall: () => this.mapUsersByRuolo(),
       nextCall: (data) => {
-        DataHttp.users.set(
+        this.authService.users.set(
           data.filter((x: UserParams) => x.id !== this.user?.id)
         );
         this.mapUsersByRuolo();
@@ -85,7 +85,7 @@ export class AdminComponent implements OnInit {
   }
 
   private mapUsersByRuolo(): void {
-    const users: UserParams[] = DataHttp.users();
+    const users: UserParams[] = this.authService.users();
     const newMap: Record<string, UserParams[]> = Object.create(null);
 
     this.ruoli.forEach((ruolo: Ruolo) => (newMap[ruolo] = []));
@@ -128,13 +128,13 @@ export class AdminComponent implements OnInit {
   }
 
   ruoloModificato(user: CambioRuoloUtente): void {
-    const globalUserIndex: number = DataHttp.users().findIndex(
-      (u: UserParams) => u.id === user.id
-    );
+    const globalUserIndex: number = this.authService
+      .users()
+      .findIndex((u: UserParams) => u.id === user.id);
     if (globalUserIndex !== -1) {
-      const allUsers: UserParams[] = DataHttp.users();
+      const allUsers: UserParams[] = this.authService.users();
       allUsers[globalUserIndex].ruolo = user.nuovoRuolo;
-      DataHttp.users.set(allUsers);
+      this.authService.users.set(allUsers);
     }
 
     this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {

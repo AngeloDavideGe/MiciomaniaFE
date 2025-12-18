@@ -29,6 +29,7 @@ import {
 import { ChatService } from '../../services/chat.service';
 import { ChatAllComponent } from './components/chat-all/chat-all.component';
 import { ChatGroupComponent } from './components/chat-group/chat-group.component';
+import { AuthService } from '../../../../../shared/services/api/auth.service';
 
 @Component({
   selector: 'app-chat-list',
@@ -39,16 +40,17 @@ import { ChatGroupComponent } from './components/chat-group/chat-group.component
 })
 export class ChatListComponent implements OnInit {
   public chatService = inject(ChatService);
+  private authService = inject(AuthService);
 
   public user: User | null = null;
   public allGruppi: Gruppo[] = [];
+  public messaggiComp: IMessaggioComponent[] = [];
   public allGruppiRecord: Record<number, LastMess> = {};
   public spinner = signal<boolean>(false);
-  public messaggiComp: IMessaggioComponent[] = [];
-  public userMessageMap = computed<Record<string, UserReduced>>(() =>
-    mapUserMessage()
-  );
   public messages = computed<Messaggio[]>(() => this.computedMessage());
+  public userMessageMap = computed<Record<string, UserReduced>>(() =>
+    mapUserMessage(this.authService)
+  );
 
   @Output() chiudiChat = new EventEmitter<void>();
   @ViewChild(ChatGroupComponent) cgc!: ChatGroupComponent;

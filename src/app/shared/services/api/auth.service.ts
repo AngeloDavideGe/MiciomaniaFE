@@ -1,5 +1,5 @@
 import { HttpParams } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, signal } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Ruolo } from '../../enums/users.enum';
 import { User, UserParams } from '../../interfaces/users.interface';
@@ -9,6 +9,8 @@ import { BaseService } from '../base/base.service';
   providedIn: 'root',
 })
 export class AuthService extends BaseService {
+  public users = signal<UserParams[]>([]);
+
   constructor() {
     super('BE_CS');
   }

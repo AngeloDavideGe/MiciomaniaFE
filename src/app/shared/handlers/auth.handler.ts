@@ -9,8 +9,8 @@ export function sottoscrizioneUtenti(params: {
   elseCall: () => void;
   nextCall: (data: UserParams[]) => void;
 }): void {
-  if (DataHttp.users().length == 0) {
-    DataHttp.users.set([]);
+  if (params.authService.users().length == 0) {
+    params.authService.users.set([]);
     params.authService
       .getAllUsersHttp()
       .pipe(take(1))

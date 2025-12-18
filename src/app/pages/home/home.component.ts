@@ -78,7 +78,10 @@ export class HomeComponent {
   }
 
   private confirmLogout(): void {
-    DataHttp.users.update((users) => [...users, converUserParams(this.user)]);
+    this.authService.users.update((users) => [
+      ...users,
+      converUserParams(this.user),
+    ]);
     DataHttp.user.set(null);
     DataHttp.profiloPersonale = null;
     DataHttp.mangaUtente = {} as any;
@@ -122,7 +125,7 @@ export class HomeComponent {
       }
     }
 
-    DataHttp.users.set(otherUsers);
+    this.authService.users.set(otherUsers);
   }
 
   public controlloPunteggio(): void {

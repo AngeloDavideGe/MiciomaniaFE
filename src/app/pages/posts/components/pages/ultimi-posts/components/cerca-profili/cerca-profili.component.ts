@@ -13,6 +13,7 @@ import { environment } from '../../../../../../../../environments/environment';
 import { DataHttp } from '../../../../../../../core/api/http.data';
 import { debounceTimeoutCustom } from '../../../../../../../shared/functions/utilities.function';
 import { UserParams } from '../../../../../../../shared/interfaces/users.interface';
+import { AuthService } from '../../../../../../../shared/services/api/auth.service';
 
 @Component({
   selector: 'app-cerca-profili',
@@ -25,11 +26,12 @@ export class CercaProfiliComponent {
   @Input() searchQuery!: WritableSignal<string>;
 
   public router = inject(Router);
+  private authService = inject(AuthService);
 
   private readonly itemsPerPage: number = 3;
   public readonly defaultPic = environment.defaultPic;
 
-  public users = signal<UserParams[]>(DataHttp.users());
+  public users = signal<UserParams[]>(this.authService.users());
   public currentPage = signal<number>(1);
   private debounceQuery = signal<string>('');
 
