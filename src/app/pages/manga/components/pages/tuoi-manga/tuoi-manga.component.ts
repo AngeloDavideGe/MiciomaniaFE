@@ -119,17 +119,21 @@ export class TuoiMangaComponent implements OnInit, OnDestroy {
   private computedallMangaSearch(): ListaManga[] {
     const search: string = this.debouncedSearchQuery().toLowerCase().trim();
     if (search) {
-      return DataHttp.listaManga().filter((manga: ListaManga) =>
-        manga.nome.toLowerCase().includes(search)
-      );
+      return this.mangaService
+        .listaManga()
+        .filter((manga: ListaManga) =>
+          manga.nome.toLowerCase().includes(search)
+        );
     } else {
       return [] as ListaManga[];
     }
   }
 
   private loadListaManga(idUtente: string | null): void {
-    if (!DataHttp.mangaScaricati) {
-      DataHttp.listaManga().length == 0 ? this.loadingService.show() : null;
+    if (true) {
+      this.mangaService.listaManga().length == 0
+        ? this.loadingService.show()
+        : null;
 
       inizializzaLista({
         mangaService: this.mangaService,
@@ -153,7 +157,7 @@ export class TuoiMangaComponent implements OnInit, OnDestroy {
   }
 
   private caricaManga(lista: ListaManga[]): void {
-    DataHttp.listaManga.set(lista);
+    this.mangaService.listaManga.set(lista);
     this.copiaSplitUtente();
     this.filterMangaFunc('preferiti');
     this.loadingService.hide();
@@ -161,7 +165,10 @@ export class TuoiMangaComponent implements OnInit, OnDestroy {
 
   private copiaSplitUtente(): void {
     this.sezioneListaManga.set(
-      createSezioneMangaUtente(DataHttp.mangaUtente, DataHttp.listaManga())
+      createSezioneMangaUtente(
+        DataHttp.mangaUtente || ({} as MangaUtente),
+        this.mangaService.listaManga()
+      )
     );
   }
 
@@ -186,9 +193,9 @@ export class TuoiMangaComponent implements OnInit, OnDestroy {
         [this.selectedTab].map((x: ListaManga) => x.id)
         .includes(idManga)
     ) {
-      const mangaTrovato: ListaManga | undefined = DataHttp.listaManga().find(
-        (x: ListaManga) => x.id == idManga
-      );
+      const mangaTrovato: ListaManga | undefined = this.mangaService
+        .listaManga()
+        .find((x: ListaManga) => x.id == idManga);
 
       if (mangaTrovato) {
         this.sezioneListaManga.update((sezioni) => ({
@@ -237,9 +244,9 @@ export class TuoiMangaComponent implements OnInit, OnDestroy {
     tabPush: keyofMangaUtente
   ): void {
     const valoriDaSpostare: number[] = this.checkSplitManga[tabRemove];
-    const mangaDaAggiungere: ListaManga[] = DataHttp.listaManga().filter(
-      (manga: ListaManga) => valoriDaSpostare.includes(manga.id)
-    );
+    const mangaDaAggiungere: ListaManga[] = this.mangaService
+      .listaManga()
+      .filter((manga: ListaManga) => valoriDaSpostare.includes(manga.id));
 
     mangaDaAggiungere.forEach((manga: ListaManga) => {
       if (!this.sezioneListaManga()[tabPush].some((x) => x.id == manga.id)) {

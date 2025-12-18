@@ -49,10 +49,10 @@ export class MangaComponent implements OnDestroy {
 
   public mangaPreferiti: boolean[] = [];
   public erroreHttp: boolean = false;
-  public aggiornamentoManga: boolean = false;
   public mangaGeneri = generiManga;
   public mangaLang: MangaLang = {} as MangaLang;
   public idUtente: string | null = null;
+  public aggiornamentoManga = signal<boolean>(false);
   public selezionaOpera: Function = (path: string) => window.open(path);
 
   public pulsanti: PulsantiManga[] = getPulsanti((path: string) =>
@@ -134,7 +134,7 @@ export class MangaComponent implements OnDestroy {
   }
 
   private logFilterChanges(): ListaManga[] {
-    return DataHttp.listaManga().filter((manga: ListaManga) => {
+    return this.mangaService.listaManga().filter((manga: ListaManga) => {
       const cond: boolean =
         (this.filterSelect.genere() === this.mangaLang.qualsiasi ||
           manga.genere.includes(this.filterSelect.genere())) &&
@@ -155,15 +155,11 @@ export class MangaComponent implements OnDestroy {
   }
 
   private loadFilteredManga(): void {
-    if (DataHttp.listaManga().length > 0 && DataHttp.mangaScaricati) {
-      this.filterSelect.nome.set('');
-      this.identificaPreferiti(DataHttp.mangaUtente);
-      this.idUtente = DataHttp.user()?.id || null;
-    } else {
-      DataHttp.listaManga().length > 0 ? null : this.loadingService.show();
-      this.aggiornamentoManga = true;
-      this.sottoscrizioneUtente();
-    }
+    this.mangaService.listaManga().length > 0
+      ? null
+      : this.loadingService.show();
+    this.aggiornamentoManga.set(true);
+    this.sottoscrizioneUtente();
   }
 
   private sottoscrizioneUtente(): void {
@@ -173,20 +169,18 @@ export class MangaComponent implements OnDestroy {
     inizializzaLista({
       mangaService: this.mangaService,
       idUtente: this.idUtente || '',
-      caricaMangaUtente: (manga_utente: MangaUtente) => {
-        this.identificaPreferiti(manga_utente);
-        DataHttp.initialMangaUtente = manga_utente;
-      },
-      caricaListaManga: (lista_manga: ListaManga[]) =>
-        this.caricaManga(lista_manga),
+      caricaMangaUtente: (mangaUtente: MangaUtente) =>
+        this.identificaPreferiti(mangaUtente),
+      caricaListaManga: (listaManga: ListaManga[]) =>
+        this.caricaManga(listaManga),
       caricamentoFallito: () => this.caricamentoFallito(),
     });
   }
 
   private caricaManga(lista: ListaManga[]): void {
-    DataHttp.listaManga.set(lista);
+    this.mangaService.listaManga.set(lista);
     this.filterSelect.nome.set('');
-    this.aggiornamentoManga = false;
+    this.aggiornamentoManga.set(false);
     this.loadingService.hide();
   }
 
@@ -214,17 +208,21 @@ export class MangaComponent implements OnDestroy {
   }
 
   private upsertOnDestroy($event: BeforeUnloadEvent | null): void {
+    if (!DataHttp.mangaUtente || !this.idUtente) {
+      return;
+    }
+
     const condEquals: boolean = !compareObjectCustom(
       DataHttp.mangaUtente,
       DataHttp.initialMangaUtente
     );
 
-    if (this.idUtente && condEquals) {
+    if (condEquals) {
       $event ? $event.preventDefault() : null;
 
       postOrUpdateMangaUtente({
         mangaService: this.mangaService,
-        mangaUtente: DataHttp.mangaUtente,
+        mangaUtente: DataHttp.mangaUtente!,
         idUtente: this.idUtente || '',
       });
     }

@@ -15,27 +15,65 @@ export function inizializzaLista(params: {
   caricaListaManga: (lista_manga: ListaManga[]) => void;
   caricamentoFallito: Function;
 }): void {
-  params.mangaService
-    .getListaManga(params.idUtente)
-    .pipe(take(1))
-    .subscribe({
-      next: (data: ListaEUtenti) => {
-        DataHttp.mangaScaricati = true;
-        caricaMangaEPreferiti({
-          data: data,
-          caricaMangaUtente: () => {
-            params.caricaMangaUtente(data.mangaUtente);
-          },
-          caricaListaManga: () => {
-            params.caricaListaManga(data.listaManga);
-          },
-        });
+  const condLista: boolean = params.mangaService.listaManga().length == 0;
+  const condMangaUtente: boolean = !DataHttp.mangaUtente && !!params.idUtente;
+
+  if (condLista && condMangaUtente) {
+    getAllMangaEPreferiti(
+      params.idUtente,
+      params.mangaService,
+      params.caricaMangaUtente,
+      params.caricaListaManga
+    );
+
+    console.log('caricamento lista manga e preferiti');
+  } else if (!condLista && condMangaUtente) {
+    const data: ListaEUtenti = {
+      listaManga: params.mangaService.listaManga(),
+      mangaUtente: {} as MangaUtente,
+    };
+
+    getMangaPreferiti(
+      params.idUtente,
+      params.mangaService,
+      data,
+      params.caricaMangaUtente,
+      params.caricaListaManga
+    );
+
+    console.log('caricamento preferiti manga');
+  } else if (condLista && !condMangaUtente) {
+    const data: ListaEUtenti = {
+      listaManga: params.mangaService.listaManga(),
+      mangaUtente: DataHttp.mangaUtente || ({} as MangaUtente),
+    };
+
+    getAllManga(
+      params.mangaService,
+      data,
+      params.caricaMangaUtente,
+      params.caricaListaManga
+    );
+
+    console.log('caricamento lista manga');
+  } else {
+    const data: ListaEUtenti = {
+      listaManga: params.mangaService.listaManga(),
+      mangaUtente: DataHttp.mangaUtente || ({} as MangaUtente),
+    };
+
+    caricaMangaEPreferiti({
+      data: data,
+      caricaMangaUtente: () => {
+        params.caricaMangaUtente(data.mangaUtente);
       },
-      error: () => {
-        console.error('Lista manga non trovata');
-        params.caricamentoFallito();
+      caricaListaManga: () => {
+        params.caricaListaManga(data.listaManga);
       },
     });
+
+    console.log('caricamento da segnale');
+  }
 }
 
 export function postOrUpdateMangaUtente(params: {
@@ -52,5 +90,79 @@ export function postOrUpdateMangaUtente(params: {
         DataHttp.mangaUtente = params.mangaUtente;
       },
       error: (err) => console.error('Errore modifica utenti', err),
+    });
+}
+
+function getAllMangaEPreferiti(
+  idUtente: string,
+  mangaService: MangaService,
+  caricaMangaUtente: (manga_utente: MangaUtente) => void,
+  caricaListaManga: (lista_manga: ListaManga[]) => void
+): void {
+  mangaService
+    .getAllMangaEPreferiti(idUtente)
+    .pipe(take(1))
+    .subscribe({
+      next: (data: ListaEUtenti) => {
+        caricaMangaEPreferiti({
+          data: data,
+          caricaMangaUtente: () => {
+            caricaMangaUtente(data.mangaUtente);
+          },
+          caricaListaManga: () => {
+            caricaListaManga(data.listaManga);
+          },
+        });
+      },
+    });
+}
+
+function getAllManga(
+  mangaService: MangaService,
+  data: ListaEUtenti,
+  caricaMangaUtente: (manga_utente: MangaUtente) => void,
+  caricaListaManga: (lista_manga: ListaManga[]) => void
+): void {
+  mangaService
+    .getAllManga()
+    .pipe(take(1))
+    .subscribe({
+      next: (listaManga: ListaManga[]) => {
+        data.listaManga = listaManga;
+        caricaMangaEPreferiti({
+          data: data,
+          caricaMangaUtente: () => {
+            caricaMangaUtente(data.mangaUtente);
+          },
+          caricaListaManga: () => {
+            caricaListaManga(data.listaManga);
+          },
+        });
+      },
+    });
+}
+
+function getMangaPreferiti(
+  idUtente: string,
+  mangaService: MangaService,
+  data: ListaEUtenti,
+  caricaMangaUtente: (manga_utente: MangaUtente) => void,
+  caricaListaManga: (lista_manga: ListaManga[]) => void
+): void {
+  mangaService
+    .getMangaPreferiti(idUtente)
+    .pipe(take(1))
+    .subscribe({
+      next: (mangaUtente: MangaUtente) => {
+        caricaMangaEPreferiti({
+          data: data,
+          caricaMangaUtente: () => {
+            caricaMangaUtente(mangaUtente);
+          },
+          caricaListaManga: () => {
+            caricaListaManga(data.listaManga);
+          },
+        });
+      },
     });
 }

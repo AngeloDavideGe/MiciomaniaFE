@@ -11,6 +11,7 @@ import {
 import { AuthService } from '../../../../shared/services/api/auth.service';
 import { LoginForm } from '../../interfaces/auth-forms.interface';
 import { auth_shared_imports } from '../../shared/auth-shared.import';
+import { MangaService } from '../../../manga/services/manga.service';
 
 @Component({
   selector: 'app-login',
@@ -20,6 +21,7 @@ import { auth_shared_imports } from '../../shared/auth-shared.import';
 })
 export class LoginComponent {
   private authService = inject(AuthService);
+  private mangaService = inject(MangaService);
   public router = inject(Router);
 
   public loginForm: FormGroup<LoginForm>;
@@ -56,7 +58,7 @@ export class LoginComponent {
   private provaLogin(data: boolean): void {
     if (data) {
       this.loginError = false;
-      DataHttp.listaManga.set([]);
+      this.mangaService.listaManga.set([]);
       this.router.navigate(['/home']);
     } else {
       this.loginError = true;

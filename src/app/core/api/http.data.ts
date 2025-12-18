@@ -4,7 +4,6 @@ import { UtenteParodie } from '../../shared/interfaces/elementiUtente.interface'
 import { Social } from '../../shared/interfaces/github.interface';
 import {
   Lingua,
-  ListaManga,
   MangaUtente,
   Profilo,
 } from '../../shared/interfaces/http.interface';
@@ -17,10 +16,8 @@ export class DataHttp {
   static user: WritableSignal<User | null> = signal(null);
   static social: Social[] = [];
 
-  static listaManga: WritableSignal<ListaManga[]> = signal([]);
-  static mangaUtente: MangaUtente = {} as MangaUtente;
+  static mangaUtente: MangaUtente | null = null;
   static initialMangaUtente: MangaUtente = {} as MangaUtente;
-  static mangaScaricati: boolean = false;
 
   static elementiUtente: UtenteParodie = {} as UtenteParodie;
   static profiloPersonale: Profilo | null = null;
@@ -53,20 +50,10 @@ export class DataHttp {
     }
 
     // Manga Service
-    const listaManga = localStorage.getItem('listaManga');
-    if (listaManga) {
-      this.listaManga.set(JSON.parse(listaManga));
-    }
-
-    const mangaUtente = localStorage.getItem('mangaUtente');
+    const mangaUtente = sessionStorage.getItem('mangaUtente');
     if (mangaUtente) {
       this.mangaUtente = JSON.parse(mangaUtente);
       this.initialMangaUtente = JSON.parse(mangaUtente);
-    }
-
-    const mangaCaricati = sessionStorage.getItem('mangaCaricati');
-    if (mangaCaricati) {
-      this.mangaScaricati = JSON.parse(mangaCaricati);
     }
 
     // Post Service

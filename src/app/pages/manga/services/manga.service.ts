@@ -1,19 +1,36 @@
-import { Injectable } from '@angular/core';
+import { HttpParams } from '@angular/common/http';
+import { Injectable, signal } from '@angular/core';
 import { Observable } from 'rxjs';
+import {
+  ListaManga,
+  MangaUtente,
+} from '../../../shared/interfaces/http.interface';
 import { BaseService } from '../../../shared/services/base/base.service';
 import { ListaEUtenti } from '../interfaces/manga.interface';
-import { HttpParams } from '@angular/common/http';
-import { MangaUtente } from '../../../shared/interfaces/http.interface';
 
 @Injectable({
   providedIn: 'root',
 })
 export class MangaService extends BaseService {
+  public listaManga = signal<ListaManga[]>([]);
+
   constructor() {
     super('BE_CS');
   }
 
-  getListaManga(idUtente: string): Observable<ListaEUtenti> {
+  getAllManga(): Observable<ListaManga[]> {
+    const params = new HttpParams();
+
+    return this.getCustom<ListaManga[]>('Manga/get_all_manga', params);
+  }
+
+  getMangaPreferiti(idUtente: string): Observable<MangaUtente> {
+    const params = new HttpParams().set('idUtente', idUtente);
+
+    return this.getCustom<MangaUtente>('Manga/get_manga_preferiti', params);
+  }
+
+  getAllMangaEPreferiti(idUtente: string): Observable<ListaEUtenti> {
     const params = new HttpParams().set('idUtente', idUtente);
 
     return this.getCustom<ListaEUtenti>(
