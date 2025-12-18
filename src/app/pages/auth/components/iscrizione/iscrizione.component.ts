@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { DataHttp } from '../../../../core/api/http.data';
 import { Ruolo } from '../../../../shared/enums/users.enum';
 import { updateUserCustom } from '../../../../shared/handlers/auth.handler';
@@ -9,6 +9,9 @@ import {
 import { FormWizard } from '../../interfaces/wizard.interface';
 import { stepType, WizardBase } from './base/wizard.base';
 import { iscrizione_imports } from './imports/iscrizione.import';
+import { getSquadreInGame } from '../../../../shared/handlers/squadre.handler';
+import { SquadreService } from '../../../../shared/services/api/squadre.service';
+import { Squadre } from '../../../../shared/interfaces/squadre.interface';
 
 @Component({
   selector: 'app-iscrizione',
@@ -18,9 +21,23 @@ import { iscrizione_imports } from './imports/iscrizione.import';
   styleUrl: './iscrizione.component.scss',
 })
 export class IscrizioneComponent extends WizardBase {
+  private squadreService = inject(SquadreService);
+  public squadreInGame = signal<Squadre[]>([]);
+  public team = computed<string[]>(() =>
+    this.squadreInGame().map((s) => s.nome)
+  );
+
   constructor() {
     super();
     this.iscrizioneUser();
+    this.loadSquadre();
+  }
+
+  private loadSquadre(): void {
+    getSquadreInGame({
+      squadreService: this.squadreService,
+      nextCall: (squadre: Squadre[]) => this.squadreInGame.set(squadre),
+    });
   }
 
   private iscrizioneUser(): void {

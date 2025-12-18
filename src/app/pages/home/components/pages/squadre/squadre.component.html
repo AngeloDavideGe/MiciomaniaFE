@@ -3,7 +3,10 @@
 @if (!stampa()) {
 <div class="p-4 rounded-3">
   <!-- Descrizione Squadre -->
-  <app-lista-squadre [squadreLang]="squadreLang"></app-lista-squadre>
+  <app-lista-squadre
+    [squadreLang]="squadreLang"
+    [squadreCaricate]="squadreCaricate()"
+  ></app-lista-squadre>
 
   <!-- Google Chart -->
   @if (squadreService.classifica.squadre.length > 0) {

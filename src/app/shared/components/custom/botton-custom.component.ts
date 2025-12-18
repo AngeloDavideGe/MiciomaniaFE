@@ -22,6 +22,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
         btn.style.transform = 'scale(1)'
       "
       (click)="clickBotton.emit()"
+      [disabled]="disabled"
     >
       <i [class]="icon1" style="margin-right: 8px;"></i>
       <span>{{ text }}</span>
@@ -34,5 +35,6 @@ export class BottonCustomComponent {
   @Input() icon1: string = '';
   @Input() icon2: string = '';
   @Input() color: string = '#f8f9fa';
+  @Input() disabled: boolean = false;
   @Output() clickBotton = new EventEmitter<void>();
 }

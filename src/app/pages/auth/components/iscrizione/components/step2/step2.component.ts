@@ -2,6 +2,7 @@ import {
   Component,
   EventEmitter,
   inject,
+  Input,
   OnDestroy,
   OnInit,
   Output,
@@ -38,13 +39,13 @@ export class Step2Component implements OnInit, OnDestroy {
   public profileForm!: FormGroup<Step2Form>;
   private destroy$ = new Subject<void>();
   public statiPersona = Object.values(StatoPersona);
-  public team = environment.team;
   public pulsantePremuto: boolean = false;
   public province: Provincia[] = [];
   public nomeUtente: string = '';
   public email: string = '';
   public regioni = getRegioniMap();
 
+  @Input() team!: string[];
   @Output() formValido = new EventEmitter<boolean>();
 
   private fb = inject(FormBuilder);

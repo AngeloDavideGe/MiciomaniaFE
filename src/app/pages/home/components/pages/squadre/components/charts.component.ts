@@ -45,7 +45,7 @@ export class ChartsComponent implements OnInit {
     google.charts.load('current', {
       packages: ['corechart', 'bar'],
       callback: () => {
-        renderBarChart(this.giocatori, 'chart_bar');
+        renderBarChart(this.giocatori, 'chart_bar', this.squadre);
         renderPieChart(this.squadre, 'chart_pie');
       },
     });
@@ -53,7 +53,7 @@ export class ChartsComponent implements OnInit {
 
   @HostListener('window:resize')
   onResize = debounceTimeoutCustom(() => {
-    renderBarChart(this.giocatori, 'chart_bar');
+    renderBarChart(this.giocatori, 'chart_bar', this.squadre);
     renderPieChart(this.squadre, 'chart_pie');
   });
 }

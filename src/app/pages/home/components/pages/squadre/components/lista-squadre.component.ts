@@ -1,8 +1,9 @@
-import { Component, inject, Input } from '@angular/core';
+import { Component, inject, Input, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { BottonCustomComponent } from '../../../../../../shared/components/custom/botton-custom.component';
+import { Squadre } from '../../../../../../shared/interfaces/squadre.interface';
+import { SquadreService } from '../../../../../../shared/services/api/squadre.service';
 import { SquadreLang } from '../languages/interfaces/squadre-lang.interface';
-import { environment } from '../../../../../../../environments/environment';
 
 @Component({
   selector: 'app-lista-squadre',
@@ -33,19 +34,19 @@ import { environment } from '../../../../../../../environments/environment';
 
     <!-- Lista squadre -->
     <div class="row justify-content-center align-items-center g-2 mb-4">
-      @for (squadra of team; track $index; let i = $index) {
-      <div class="{{ col }} d-flex align-items-center justify-content-center">
+      @for (squadra of teamSquadre(); track $index; let i = $index) {
+      <div class="{{ col() }} d-flex align-items-center justify-content-center">
         <!-- Badge squadra -->
         <span
           class="badge fs-6 px-3 py-2 rounded-pill shadow-sm"
-          [style.backgroundColor]="colori[i]"
+          [style.backgroundColor]="squadra.colore"
           [style.color]="'#fff'"
         >
-          {{ squadra }}
+          {{ squadra.nome }}
         </span>
 
         <!-- VS (solo se non è l'ultima squadra) -->
-        @if (i != team.length - 1) {
+        @if (i != teamSquadre().length - 1) {
         <span class="fw-semibold text-secondary mx-2" style="font-size: 1rem;">
           VS
         </span>
@@ -56,13 +57,19 @@ import { environment } from '../../../../../../../environments/environment';
   `,
 })
 export class ListaSquadreComponent {
-  @Input() squadreLang!: SquadreLang;
+  private squadreService = inject(SquadreService);
   public router = inject(Router);
-  public team: string[] = environment.team;
-  public colori: string[] = environment.colori;
 
-  // col dinamico in base al numero di squadre
-  public col: string = `col-md-${Math.floor(
-    12 / environment.team.length
-  )} col-6`;
+  public teamSquadre = signal<Squadre[]>([]);
+  public col = signal<string>('col-md-4 col-6');
+
+  @Input() squadreLang!: SquadreLang;
+  @Input() set squadreCaricate(value: boolean) {
+    if (value) {
+      this.teamSquadre.set(this.squadreService.classifica.squadre);
+      this.col.set(
+        `col-md-${Math.floor(12 / this.teamSquadre().length)} col-6`
+      );
+    }
+  }
 }

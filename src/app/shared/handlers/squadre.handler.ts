@@ -1,7 +1,27 @@
 import { finalize, take } from 'rxjs';
 import { DataHttp } from '../../core/api/http.data';
-import { Classifica } from '../interfaces/squadre.interface';
+import { Classifica, Squadre } from '../interfaces/squadre.interface';
 import { SquadreService } from '../services/api/squadre.service';
+
+export function getSquadreInGame(params: {
+  squadreService: SquadreService;
+  nextCall: Function;
+}): void {
+  if (params.squadreService.squadraInGame.length == 0) {
+    params.squadreService
+      .getSquadre()
+      .pipe(take(1))
+      .subscribe({
+        next: (data: Squadre[]) => {
+          params.squadreService.squadraInGame = data;
+          params.nextCall(data);
+        },
+        error: (err) => console.error('errore nel recupero squadre', err),
+      });
+  } else {
+    params.nextCall(params.squadreService.squadraInGame);
+  }
+}
 
 export function updatePunteggioSquadra(params: {
   squadreService: SquadreService;

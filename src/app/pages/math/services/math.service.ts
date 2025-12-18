@@ -18,7 +18,6 @@ export class MathService {
       .pipe(take(1))
       .subscribe({
         next: (val: DataOperations) => {
-          console.log(val);
           this.supportedOperations = val.operazioni;
           this.simboliBase = val.simboliBase;
           this.simboliSpeciali = val.simboliSpeciali;

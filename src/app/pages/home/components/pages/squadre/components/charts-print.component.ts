@@ -42,7 +42,7 @@ export class ChartsPrintComponent implements OnInit {
     google.charts.load('current', {
       packages: ['corechart', 'bar'],
       callback: () => {
-        renderBarChart(this.giocatori, 'chart_bar_print');
+        renderBarChart(this.giocatori, 'chart_bar_print', this.squadre);
         renderPieChart(this.squadre, 'chart_pie_print');
       },
     });

@@ -73,10 +73,10 @@ export class LoginComponent {
       take(1),
       map((data: User) => {
         const user: User = mapUserByDb(data);
-        DataHttp.users.update((users) =>
+        DataHttp.user.set(user);
+        DataHttp.users.update((users: UserParams[]) =>
           users.filter((x: UserParams) => x.id !== user.id)
         );
-        DataHttp.user.set(user);
         return true;
       })
     );

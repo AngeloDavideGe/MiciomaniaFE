@@ -12,13 +12,21 @@ import { HttpParams } from '@angular/common/http';
   providedIn: 'root',
 })
 export class SquadreService extends BaseService {
+  public squadraInGame: Squadre[] = [];
+
   public classifica: Classifica = {
     squadre: [] as Squadre[],
     giocatori: [] as Giocatori[],
-  } as Classifica;
+  };
 
   constructor() {
     super('BE_CS');
+  }
+
+  getSquadre(): Observable<Squadre[]> {
+    const params = new HttpParams();
+
+    return this.getCustom<Squadre[]>('Squadre/get_squadre', params);
   }
 
   getClassifica(): Observable<Classifica> {

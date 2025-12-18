@@ -8,15 +8,17 @@ import { chartOptionsUtenti } from '../options/utenti.option';
 
 declare var google: any;
 
-const mapSquad: Record<string, string> = environment.team.reduce(
-  (acc, team, index) => {
-    acc[team] = environment.colori[index];
-    return acc;
-  },
-  {} as Record<string, string>
-);
+export function renderBarChart(
+  giocatori: Giocatori[],
+  idChart: string,
+  squadre: Squadre[]
+): void {
+  const mapSquad: Record<string, string> = {};
 
-export function renderBarChart(giocatori: Giocatori[], idChart: string): void {
+  squadre.forEach((sq: Squadre) => {
+    mapSquad[sq.nome] = sq.colore || 'gray';
+  });
+
   const data = new google.visualization.DataTable();
   data.addColumn('string', 'Utente');
   data.addColumn('number', 'Punteggio');
@@ -46,9 +48,7 @@ export function renderPieChart(squadre: Squadre[], idChart: string): void {
   const chartContainer: HTMLElement | null = document.getElementById(idChart);
   if (!chartContainer) return;
 
-  const colors: string[] = squadre.map(
-    (sq: Squadre) => mapSquad[sq.nome] || 'gray'
-  );
+  const colors: string[] = squadre.map((sq: Squadre) => sq.colore || 'gray');
 
   const chart = new google.visualization.PieChart(chartContainer);
   chart.draw(data, chartOptionsSquadre(colors));

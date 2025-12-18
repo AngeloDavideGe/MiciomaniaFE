@@ -1,4 +1,5 @@
 import { Quiz } from '../../../shared/interfaces/github.interface';
+import { Squadre } from '../../../shared/interfaces/squadre.interface';
 
 export type EsitoGame = 'vittoria' | 'sconfitta' | 'pareggio';
 export type Turno = 'Player' | 'Bot';
@@ -12,13 +13,8 @@ export interface CardGioco {
 }
 
 export interface SquadreGiocatore {
-  personale: SquadraGioco[];
-  avversario: SquadraGioco[];
-}
-
-export interface SquadraGioco {
-  nome: string;
-  punteggio: number | string;
+  personale: Squadre[];
+  avversario: Squadre[];
 }
 
 // TRIS

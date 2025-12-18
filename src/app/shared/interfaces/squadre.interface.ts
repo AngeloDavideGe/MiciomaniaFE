@@ -6,6 +6,8 @@ export interface Classifica {
 export interface Squadre {
   nome: string;
   punteggio: number;
+  descrizione: string;
+  colore: string;
 }
 
 export interface Giocatori {

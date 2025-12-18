@@ -25,7 +25,7 @@ export function mapUserByDb(db: any): User {
     },
     iscrizione: {
       stato: db.stato || null,
-      squadra: db.team || null,
+      squadra: db.squadra || null,
       provincia: db.provincia || null,
       punteggio: db.punteggio || null,
     },

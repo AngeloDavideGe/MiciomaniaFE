@@ -41,9 +41,9 @@
 <!-- Step Content -->
 <div class="border-0 p-4" style="background-color: #ffffff">
   @switch (currentStep()) { @case (1) {
-  <app-step1></app-step1>
+  <app-step1 [team]="squadreInGame()"></app-step1>
   } @case (2) { @if (user.id) {
-  <app-step2 (formValido)="formValido = $event"></app-step2>
+  <app-step2 (formValido)="formValido = $event" [team]="team()"></app-step2>
   } @else {
   <app-error-iscrizione></app-error-iscrizione>
   } } @case (3) {
@@ -69,6 +69,7 @@
     [icon2]="'bi bi-arrow-right'"
     [color]="currentStep() == 3 ? '#20c997' : '#0d6efd'"
     (clickBotton)="nextStep()"
+    [disabled]="squadreInGame().length == 0"
   ></app-botton-custom>
 </div>
 }

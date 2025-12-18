@@ -1,7 +1,5 @@
-import { Component, inject, OnInit } from '@angular/core';
-import { take } from 'rxjs';
-import { environment } from '../../../../../../../environments/environment';
-import { WizardService } from '../../../../services/wizard.service';
+import { Component, Input, signal } from '@angular/core';
+import { Squadre } from '../../../../../../shared/interfaces/squadre.interface';
 
 @Component({
   selector: 'app-step1',
@@ -40,7 +38,7 @@ import { WizardService } from '../../../../services/wizard.service';
           </h2>
 
           <div class="row g-4">
-            @for (squadra of team; track $index; let i = $index) {
+            @for (squadra of squadreInGame(); track $index; let i = $index) {
             <div class="col-12 col-md-4">
               <div
                 class="d-flex flex-column h-100 p-3 rounded-3 shadow-sm"
@@ -49,22 +47,22 @@ import { WizardService } from '../../../../services/wizard.service';
                 <div class="d-flex align-items-center mb-2">
                   <div
                     class="rounded-circle me-2"
-                    [style.background]="colori[i].toLowerCase()"
+                    [style.background]="squadra.colore.toLowerCase()"
                     style="width: 14px; height: 14px;"
                   ></div>
                   <h5
                     class="fw-semibold mb-0"
                     style="font-size: 1.05rem;"
-                    [style.color]="colori[i].toLowerCase()"
+                    [style.color]="squadra.colore.toLowerCase()"
                   >
-                    {{ squadra }}
+                    {{ squadra.nome || '... caricamento' }}
                   </h5>
                 </div>
                 <p
                   class="text-secondary mb-0"
                   style="font-size: 0.95rem; line-height: 1.5;"
                 >
-                  {{ descrizioni[i] || '... caricamento' }}
+                  {{ squadra.descrizione || '... caricamento' }}
                 </p>
               </div>
             </div>
@@ -75,21 +73,10 @@ import { WizardService } from '../../../../services/wizard.service';
     </div>
   `,
 })
-export class Step1Component implements OnInit {
-  private wizardService = inject(WizardService);
+export class Step1Component {
+  public squadreInGame = signal<Squadre[]>([]);
 
-  public team: string[] = environment.team;
-  public colori: string[] = environment.colori;
-  public descrizioni: string[] = [];
-
-  ngOnInit(): void {
-    this.wizardService
-      .getDescrizioniSquadre()
-      .pipe(take(1))
-      .subscribe({
-        next: (descrizioni: string[]) => (this.descrizioni = descrizioni),
-        error: (err) =>
-          console.error('Errore recupero descrizioni squadre', err),
-      });
+  @Input() set team(value: Squadre[]) {
+    this.squadreInGame.set(value);
   }
 }

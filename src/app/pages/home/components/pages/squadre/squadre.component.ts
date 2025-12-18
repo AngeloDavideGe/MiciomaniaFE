@@ -25,6 +25,7 @@ export class SquadreComponent implements OnInit {
   public squadreLang: SquadreLang = {} as SquadreLang;
   public stampa = signal<boolean>(false);
   public error = signal<boolean>(false);
+  public squadreCaricate = signal<boolean>(false);
 
   constructor() {
     const lingua: Lingua = DataHttp.lingua();
@@ -40,7 +41,7 @@ export class SquadreComponent implements OnInit {
       squadreService: this.squadreService,
       ifCall: () => this.loadingService.show(),
       elseCall: () => {},
-      nextCall: () => {},
+      nextCall: () => this.squadreCaricate.set(true),
       errorCall: () => this.error.set(true),
       finalizeFunc: () => this.loadingService.hide(),
     });
