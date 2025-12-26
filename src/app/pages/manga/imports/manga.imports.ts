@@ -5,6 +5,7 @@ import { TabsMangaComponent } from '../components/ui/tabs-manga.component';
 import { CardMangaComponent } from '../shared/card-manga.component';
 import { DettagliMangaComponent } from '../shared/dettagli-manga.component';
 import { FiltriMangaComponent } from '../components/ui/filtri-manga.component';
+import { IconeListaComponent } from '../../../shared/components/custom/icone-lista.component';
 import { Type } from '@angular/core';
 
 export const manga_imports: Type<any>[] = [
@@ -15,4 +16,5 @@ export const manga_imports: Type<any>[] = [
   TabsMangaComponent,
   DettagliMangaComponent,
   FiltriMangaComponent,
+  IconeListaComponent,
 ];

@@ -1,4 +1,4 @@
-import { Component, inject, OnDestroy } from '@angular/core';
+import { Component, inject, OnDestroy, signal } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Subject, takeUntil } from 'rxjs';
 import { AppConfigService } from '../../../../../core/api/appConfig.service';
@@ -49,7 +49,7 @@ export class ProfiloComponent implements OnDestroy {
   private idUtente: string | null = null;
   public profiloPersonale: boolean = false;
   public utenteCaricato: boolean = false;
-  public errorHttp: boolean = false;
+  public errorHttp = signal<boolean>(false);
   public modaleAperta: modaleApertaType = '';
   public socialArray: EditableSocial[] = [];
   public tornaIndietroPath: string = '';
@@ -138,7 +138,7 @@ export class ProfiloComponent implements OnDestroy {
 
   private caricamentoFallito(): void {
     this.loaderService.hide();
-    this.errorHttp = true;
+    this.errorHttp.set(true);
   }
 
   private setLocalStorage(data: Profilo): void {

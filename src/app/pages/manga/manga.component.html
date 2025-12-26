@@ -1,6 +1,6 @@
 @if (isManga$ | async) {
 <!-- Chiamata riuscita -->
-@if (!erroreHttp) {
+@if (!erroreHttp()) {
 <!-- Dettagli Manga -->
 <div class="text-white py-3 mb-2" style="background-color: #9fb987">
   <app-dettagli-manga
@@ -25,7 +25,40 @@
 <p>{{ mangaLang.aggiornamento }}</p>
 }
 
-<!-- Manga list display -->
+<app-icone-lista
+  class="pc-only"
+  [classNG]="''"
+  [ngClass1]="'lista-normale'"
+  [ngClass2]="'lista-per-iniziale'"
+  (classNGChange)="perIniziale.set($event === 'lista-per-iniziale')"
+></app-icone-lista>
+
+<!-- Manga list display per iniziale-->
+@if (perIniziale()) {
+<!-- Lista lettere -->
+@for (lettera of alfabeto; track $index) {
+<!-- Titolo lettera -->
+@if (mangaPerIniziale()[lettera].length > 0) {
+<div class="mt-5">
+  <h5 class="text-black fw-bold border-bottom pb-2">
+    {{ lettera }}
+  </h5>
+</div>
+<!-- Griglia manga -->
+<div class="row mt-3 g-3">
+  @for (manga of mangaPerIniziale()[lettera]; track manga.id) {
+  <div class="col-6 col-sm-4 col-md-3 col-lg-2 d-flex justify-content-center">
+    <app-card-manga
+      [manga]="manga"
+      [preferito]="mangaPreferiti[manga.id]"
+      (selezionaOpera)="selezionaOpera(manga.path)"
+    ></app-card-manga>
+  </div>
+  }
+</div>
+} } }
+<!-- Manga list display-->
+@else {
 <div class="mt-4 d-flex flex-wrap">
   @for(manga of filteredManga(); track manga.id){
   <div class="d-flex" style="padding: 0.2rem">
@@ -37,6 +70,6 @@
   </div>
   }
 </div>
-} @else {<app-error-http></app-error-http>} }
+} } @else {<app-error-http></app-error-http>} }
 
 <router-outlet></router-outlet>

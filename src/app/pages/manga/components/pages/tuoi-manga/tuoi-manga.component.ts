@@ -46,11 +46,11 @@ export class TuoiMangaComponent implements OnInit, OnDestroy {
   private router = inject(Router);
 
   public selectedTab: keyofMangaUtente = 'preferiti';
-  public erroreHttp: boolean = false;
+  public tuoiMangaLang: TuoiMangaLang = {} as TuoiMangaLang;
   private checkSplitManga: SplitMangaUtente = voidSplitManga();
+  public erroreHttp = signal<boolean>(false);
   public searchQuery = signal<string>('');
   private debouncedSearchQuery = signal<string>('');
-  public tuoiMangaLang: TuoiMangaLang = {} as TuoiMangaLang;
   public selezionaOpera: Function = (path: string) => window.open(path);
 
   public allMangaSearch = computed<ListaManga[]>(() =>
@@ -130,29 +130,21 @@ export class TuoiMangaComponent implements OnInit, OnDestroy {
   }
 
   private loadListaManga(idUtente: string | null): void {
-    if (true) {
-      this.mangaService.listaManga().length == 0
-        ? this.loadingService.show()
-        : null;
+    this.loadingService.show();
 
-      inizializzaLista({
-        mangaService: this.mangaService,
-        idUtente: idUtente || '',
-        caricaMangaUtente: (manga_utente: MangaUtente) =>
-          (DataHttp.mangaUtente = manga_utente),
-        caricaListaManga: (lista_manga: ListaManga[]) =>
-          this.caricaManga(lista_manga),
-        caricamentoFallito: () => this.caricamentoFallito(),
-      });
-    } else {
-      this.copiaSplitUtente();
-      this.filterMangaFunc('preferiti');
-      this.loadingService.hide();
-    }
+    inizializzaLista({
+      mangaService: this.mangaService,
+      idUtente: idUtente || '',
+      caricaMangaUtente: (manga_utente: MangaUtente) =>
+        (DataHttp.mangaUtente = manga_utente),
+      caricaListaManga: (lista_manga: ListaManga[]) =>
+        this.caricaManga(lista_manga),
+      caricamentoFallito: () => this.caricamentoFallito(),
+    });
   }
 
   private caricamentoFallito(): void {
-    this.erroreHttp = true;
+    this.erroreHttp.set(true);
     this.loadingService.hide();
   }
 

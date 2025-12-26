@@ -25,8 +25,6 @@ export function inizializzaLista(params: {
       params.caricaMangaUtente,
       params.caricaListaManga
     );
-
-    console.log('caricamento lista manga e preferiti');
   } else if (!condLista && condMangaUtente) {
     const data: ListaEUtenti = {
       listaManga: params.mangaService.listaManga(),
@@ -40,8 +38,6 @@ export function inizializzaLista(params: {
       params.caricaMangaUtente,
       params.caricaListaManga
     );
-
-    console.log('caricamento preferiti manga');
   } else if (condLista && !condMangaUtente) {
     const data: ListaEUtenti = {
       listaManga: params.mangaService.listaManga(),
@@ -54,8 +50,6 @@ export function inizializzaLista(params: {
       params.caricaMangaUtente,
       params.caricaListaManga
     );
-
-    console.log('caricamento lista manga');
   } else {
     const data: ListaEUtenti = {
       listaManga: params.mangaService.listaManga(),
@@ -71,8 +65,6 @@ export function inizializzaLista(params: {
         params.caricaListaManga(data.listaManga);
       },
     });
-
-    console.log('caricamento da segnale');
   }
 }
 

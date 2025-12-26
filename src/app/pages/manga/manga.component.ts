@@ -35,6 +35,7 @@ import {
   MangaLangType,
 } from './languages/interfaces/manga-lang.interface';
 import { MangaService } from './services/manga.service';
+import { alfabetoManga } from './constants/alfabeto.constant';
 
 @Component({
   selector: 'app-manga',
@@ -47,12 +48,14 @@ export class MangaComponent implements OnDestroy {
   private loadingService = inject(LoadingService);
   private router = inject(Router);
 
+  public mangaGeneri: string[] = generiManga;
+  public alfabeto: string[] = alfabetoManga;
   public mangaPreferiti: boolean[] = [];
-  public erroreHttp: boolean = false;
-  public mangaGeneri = generiManga;
   public mangaLang: MangaLang = {} as MangaLang;
   public idUtente: string | null = null;
+  public erroreHttp = signal<boolean>(false);
   public aggiornamentoManga = signal<boolean>(false);
+  public perIniziale = signal<boolean>(false);
   public selezionaOpera: Function = (path: string) => window.open(path);
 
   public pulsanti: PulsantiManga[] = getPulsanti((path: string) =>
@@ -71,6 +74,22 @@ export class MangaComponent implements OnDestroy {
     tabBoolean: signal<boolean | null>(null),
   };
 
+  public mangaPerIniziale = computed<Record<string, ListaManga[]>>(() => {
+    const listaManga: ListaManga[] = this.mangaService.listaManga();
+    const raggruppamento: Record<string, ListaManga[]> = {};
+
+    alfabetoManga.forEach((lettera: string) => {
+      raggruppamento[lettera] = [];
+    });
+
+    listaManga.forEach((manga: ListaManga) => {
+      const iniziale: string = manga.nome.charAt(0).toUpperCase();
+      raggruppamento[iniziale].push(manga);
+    });
+
+    return raggruppamento;
+  });
+
   public filteredManga = computed<ListaManga[]>(() => this.logFilterChanges());
   public tabs: TabsManga[] = getTabsManga(
     (cond: boolean | null, index: number) =>
@@ -83,7 +102,7 @@ export class MangaComponent implements OnDestroy {
       url: this.router.url,
     }),
     map((event) => event.url == '/manga'),
-    tap((isManga) => (isManga ? this.loadFilteredManga() : null))
+    tap((isManga: boolean) => (isManga ? this.loadFilteredManga() : null))
   );
 
   constructor() {
@@ -155,16 +174,10 @@ export class MangaComponent implements OnDestroy {
   }
 
   private loadFilteredManga(): void {
-    this.mangaService.listaManga().length > 0
-      ? null
-      : this.loadingService.show();
-    this.aggiornamentoManga.set(true);
-    this.sottoscrizioneUtente();
-  }
-
-  private sottoscrizioneUtente(): void {
     const user = DataHttp.user();
     this.idUtente = user ? user.id : null;
+    this.aggiornamentoManga.set(true);
+    this.loadingService.show();
 
     inizializzaLista({
       mangaService: this.mangaService,
@@ -198,7 +211,7 @@ export class MangaComponent implements OnDestroy {
   }
 
   private caricamentoFallito(): void {
-    this.erroreHttp = true;
+    this.erroreHttp.set(true);
     this.loadingService.hide();
   }
 

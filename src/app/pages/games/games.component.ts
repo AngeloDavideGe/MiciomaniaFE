@@ -81,7 +81,6 @@ export class GamesComponent implements OnInit, OnDestroy {
           (squadra: Squadre) => squadra.nome != user.iscrizione.squadra
         ),
       });
-      console.log(this.squadre());
     }
   }
 
