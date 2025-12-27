@@ -5,8 +5,8 @@
     "ng": "ng",
     "start": "ng serve",
     "start-beCs": "cd ../MiciomaniaBE && dotnet run",
-    "start-bePy": "cd ../MiciomaniaBE-PY && python -B run.py",
-    "start-all": "concurrently \"ng serve\" \"cd ../MiciomaniaBE && dotnet run\" \"cd ../MiciomaniaBE-PY && python -B run.py\"",
+    "start-bePy": "cd ../MiciomaniaBE-PY && venv\\Scripts\\activate && python -B run.py",
+    "start-all": "concurrently \"ng serve\" \"cd ../MiciomaniaBE && dotnet run\" \"cd ../MiciomaniaBE-PY && venv\\Scripts\\activate && python -B run.py\"",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"

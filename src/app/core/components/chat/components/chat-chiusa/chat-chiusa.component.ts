@@ -4,7 +4,7 @@ import { Component, EventEmitter, Output } from '@angular/core';
   selector: 'app-chat-chiusa',
   imports: [],
   template: `<div
-    class="position-fixed bottom-0 end-0 mb-3 me-3 d-flex align-items-center rounded-pill shadow position-relative"
+    class="d-flex align-items-center rounded-pill shadow"
     style="
     background: linear-gradient(135deg, #fd5949 0%, #d6249f 50%, #285aeb 100%);
     color: #fff;

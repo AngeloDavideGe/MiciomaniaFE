@@ -1,21 +1,58 @@
-<div class="container py-4">
+<div class="container py-5">
   <!-- Header Song -->
-  <app-header-song></app-header-song>
+  <div class="mb-5">
+    <app-header-song></app-header-song>
+  </div>
 
-  <!-- Lista Song -->
-  <div class="row row-cols-1 row-cols-md-3 g-4">
-    @for (canzone of elementiUtenteService.canzoniParodia?.canzoniUtente ; track
-    $index) {
-    <app-card-song
-      [canzone]="canzone"
-      (playSong)="
-        msu.playSong(
-          canzone,
-          elementiUtenteService.canzoniParodia?.canzoniUtente
-        )
-      "
-      (stopSong)="msu.sc.stopSong()"
-    ></app-card-song>
-    }
+  <!-- CANZONI UTENTE -->
+  <div class="mb-4">
+    <h4 class="fw-bold text-primary mb-3 text-center">🎵 Canzoni Utente</h4>
+
+    <div
+      class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 justify-content-center g-4"
+    >
+      @for (canzone of elementiUtenteService.canzoniParodia?.canzoniUtente;
+      track $index) {
+      <div class="col d-flex justify-content-center">
+        <app-card-song
+          [canzone]="canzone"
+          (playSong)="
+            msu.playSong(
+              canzone,
+              elementiUtenteService.canzoniParodia?.canzoniUtente
+            )
+          "
+          (stopSong)="msu.sc.stopSong()"
+          style="width: 100%; max-width: 320px"
+        ></app-card-song>
+      </div>
+      }
+    </div>
+  </div>
+
+  <!-- CANZONI MICIOMANIA -->
+  <div class="mt-5">
+    <h4 class="fw-bold text-success mb-3 text-center">🐱 Canzoni Miciomania</h4>
+
+    <div
+      class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 justify-content-center g-4"
+    >
+      @for (canzone of elementiUtenteService.canzoniParodia?.canzoniMiciomania;
+      track $index) {
+      <div class="col d-flex justify-content-center">
+        <app-card-song
+          [canzone]="canzone"
+          (playSong)="
+            msu.playSong(
+              canzone,
+              elementiUtenteService.canzoniParodia?.canzoniMiciomania
+            )
+          "
+          (stopSong)="msu.sc.stopSong()"
+          style="width: 100%; max-width: 320px"
+        ></app-card-song>
+      </div>
+      }
+    </div>
   </div>
 </div>

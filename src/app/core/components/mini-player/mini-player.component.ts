@@ -1,4 +1,4 @@
-import { Component, inject, Input } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { MiniPlayerService } from '../../../shared/services/template/mini-player.service';
 
 @Component({

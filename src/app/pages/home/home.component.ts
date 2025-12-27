@@ -15,7 +15,6 @@ import {
   HomeLang,
   HomeLangType,
 } from './languages/interfaces/home-lang.interface';
-import { MathService } from '../math/services/math.service';
 
 @Component({
   selector: 'app-home',
@@ -30,9 +29,9 @@ export class HomeComponent {
 
   public user: User = {} as User;
   public inizialiUser: string = '';
-  private punteggioCanzoni: number = 50;
   public cursoreAperto = signal<boolean>(false);
   public homeLang = signal<HomeLang>({} as HomeLang);
+  private readonly punteggioCanzoni: number = 1;
 
   public isHome$: Observable<boolean> = this.router.events.pipe(
     filter((event): event is NavigationEnd => event instanceof NavigationEnd),

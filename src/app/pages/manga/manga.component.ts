@@ -55,7 +55,7 @@ export class MangaComponent implements OnDestroy {
   public idUtente: string | null = null;
   public erroreHttp = signal<boolean>(false);
   public aggiornamentoManga = signal<boolean>(false);
-  public perIniziale = signal<boolean>(false);
+  public perIniziale = signal<string>('lista');
   public selezionaOpera: Function = (path: string) => window.open(path);
 
   public pulsanti: PulsantiManga[] = getPulsanti((path: string) =>

@@ -35,7 +35,7 @@ import { CursorUtilities } from './shared/utilities/cursor.utilities';
 
       <!-- Chat -->
       @if (chatService.chatVisibile()) {
-      <app-chat></app-chat>
+      <app-chat [canzoniAperte]="miniPlayerService.currentCanzone"></app-chat>
       }
 
       <!-- Mini Player -->

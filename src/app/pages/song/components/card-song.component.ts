@@ -41,7 +41,7 @@ import { MangaSong } from '../../../shared/interfaces/elementiUtente.interface';
         <div
           class="card-footer bg-transparent border-0 d-flex justify-content-between align-items-center"
         >
-          <small style="color: #b3b3b3">Autore: {{ canzone.idUtente }}</small>
+          <small style="color: #b3b3b3">{{ canzone.idUtente }}</small>
           <div class="d-flex gap-2">
             <button
               (click)="playSong.emit()"

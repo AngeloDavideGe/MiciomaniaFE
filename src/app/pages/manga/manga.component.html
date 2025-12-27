@@ -27,14 +27,14 @@
 
 <app-icone-lista
   class="pc-only"
-  [classNG]="''"
-  [ngClass1]="'lista-normale'"
-  [ngClass2]="'lista-per-iniziale'"
-  (classNGChange)="perIniziale.set($event === 'lista-per-iniziale')"
+  [classNG]="perIniziale()"
+  [ngClass1]="'lista'"
+  [ngClass2]="'iniziale'"
+  (classNGChange)="perIniziale.set($event)"
 ></app-icone-lista>
 
 <!-- Manga list display per iniziale-->
-@if (perIniziale()) {
+@if (perIniziale() === 'iniziale') {
 <!-- Lista lettere -->
 @for (lettera of alfabeto; track $index) {
 <!-- Titolo lettera -->

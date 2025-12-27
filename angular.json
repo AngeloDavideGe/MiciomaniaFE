@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "MiciomaniaWebLight": {
+    "MiciomaniaWeb": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -64,10 +64,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "MiciomaniaWebLight:build:production"
+              "buildTarget": "MiciomaniaWeb:build:production"
             },
             "development": {
-              "buildTarget": "MiciomaniaWebLight:build:development"
+              "buildTarget": "MiciomaniaWeb:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -75,7 +75,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "buildTarget": "MiciomaniaWebLight:build"
+            "buildTarget": "MiciomaniaWeb:build"
           }
         },
         "test": {
