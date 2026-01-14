@@ -12,10 +12,12 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { finalize, switchMap, take } from 'rxjs';
+import { finalize, map, switchMap, take } from 'rxjs';
+import { DataHttp } from '../../../../../../../core/api/http.data';
 import {
-  ProposaTipo,
+  PopostaNonExtend,
   Proposta,
+  PropostaTipo,
   UtenteParodie,
 } from '../../../../../../../shared/interfaces/elementiUtente.interface';
 import { ElementiUtenteService } from '../../../../../../../shared/services/api/elementiUtente.service';
@@ -83,30 +85,7 @@ export class CreaPropostaComponent implements OnInit {
         file: file,
       });
       this.propostaForm.get('file')?.updateValueAndValidity();
-
-      switch (file.type) {
-        case 'application/pdf':
-          if (this.parodieUtente.mangaUtente) {
-            this.propostaForm.get('tipo')?.setValue('manga');
-            this.currentFileLink = this.parodieUtente.mangaUtente.url;
-          } else {
-            this.propostaForm.get('tipo')?.setValue('mangaPrimo');
-            this.currentFileLink = '';
-          }
-          break;
-        case 'audio/mpeg':
-          if (this.parodieUtente.canzoniUtente) {
-            this.propostaForm.get('tipo')?.setValue('canzone');
-            this.currentFileLink = this.parodieUtente.canzoniUtente.url;
-          } else {
-            this.propostaForm.get('tipo')?.setValue('canzonePrimo');
-            this.currentFileLink = '';
-          }
-          break;
-        default:
-          this.currentFileLink = '';
-          break;
-      }
+      this.currentFileLink = this.updateLinkByFile(file);
     }
   }
 
@@ -119,7 +98,7 @@ export class CreaPropostaComponent implements OnInit {
 
   private getPropostaPrePost(): ProposaPrePost {
     const file: File = this.propostaForm.get('file')?.value;
-    const tipo: ProposaTipo = this.propostaForm.get('tipo')?.value || '';
+    const tipo: PropostaTipo = this.propostaForm.get('tipo')?.value || '';
     const basePath: string = tipo.charAt(0).toUpperCase() + tipo.slice(1);
 
     const proposta: Proposta = {
@@ -167,13 +146,43 @@ export class CreaPropostaComponent implements OnInit {
           p.proposta.url = res;
           return this.elementiUtenteService.postProposta(p.proposta);
         }),
+        map((data: Proposta) => {
+          return { mangaSong: data, tipo: data.tipo } as PopostaNonExtend;
+        }),
         finalize(() => (this.elementiUtenteService.propostaCaricata = true))
       )
       .subscribe({
-        next: (data: Proposta) => {
-          /*inserire la risposta nel data http */
+        next: (data: PopostaNonExtend) => {
+          if (data.tipo === 'manga' || data.tipo === 'mangaPrimo') {
+            DataHttp.elementiUtente.mangaUtente = data.mangaSong;
+          } else {
+            DataHttp.elementiUtente.canzoniUtente = data.mangaSong;
+          }
         },
         error: (err) => console.error('Errore upload o recupero link:', err),
       });
+  }
+
+  private updateLinkByFile(file: File): string {
+    switch (file.type) {
+      case 'application/pdf':
+        if (this.parodieUtente.mangaUtente) {
+          this.propostaForm.get('tipo')?.setValue('manga');
+          return this.parodieUtente.mangaUtente.url;
+        } else {
+          this.propostaForm.get('tipo')?.setValue('mangaPrimo');
+          return '';
+        }
+      case 'audio/mpeg':
+        if (this.parodieUtente.canzoniUtente) {
+          this.propostaForm.get('tipo')?.setValue('canzone');
+          return this.parodieUtente.canzoniUtente.url;
+        } else {
+          this.propostaForm.get('tipo')?.setValue('canzonePrimo');
+          return '';
+        }
+      default:
+        return '';
+    }
   }
 }

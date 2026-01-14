@@ -34,6 +34,12 @@ export abstract class BaseService {
       headers: this.headers,
     });
   }
+
+  protected deleteCustom<T>(url: string): Observable<T> {
+    return this.http.delete<T>(`${this.baseUrl}${url}`, {
+      headers: this.headers,
+    });
+  }
 }
 
 function getHeader(key: string): HttpHeaders {

@@ -1,5 +1,5 @@
 export function getExtension(file: File): string {
-  const extensions: { [key: string]: string } = {
+  const extensions: Record<string, string> = {
     'application/pdf': 'pdf',
     'audio/mpeg': 'mp3',
   };

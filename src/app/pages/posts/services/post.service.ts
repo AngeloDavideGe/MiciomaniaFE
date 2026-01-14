@@ -39,8 +39,6 @@ export class PostService extends BaseService {
   }
 
   deletePubblicazioni(tweetId: number): Observable<void> {
-    const body = { p_id: tweetId };
-
-    return this.postCustom<void>('Posts/delete_pubblicazione_by_id', body);
+    return this.deleteCustom<void>('Posts/delete_post/' + tweetId);
   }
 }

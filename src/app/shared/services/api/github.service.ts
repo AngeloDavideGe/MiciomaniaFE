@@ -1,7 +1,12 @@
 import { Injectable } from '@angular/core';
 import { from, Observable } from 'rxjs';
 import { CasualQuiz } from '../../../pages/games/interfaces/games.interfaces';
-import { GitHubType, MN, Quiz } from '../../interfaces/github.interface';
+import {
+  GitHubType,
+  MN,
+  Quiz,
+  Social,
+} from '../../interfaces/github.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -10,6 +15,7 @@ export class GitHubService {
   public quiz: Quiz[] = [];
   public quizFilter: Quiz[] = [];
   public mn: MN[] = [];
+  public social: Social[] = [];
 
   getGistFormGithub(
     nome: string,

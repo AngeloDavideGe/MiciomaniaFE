@@ -16,7 +16,9 @@ import { Lingua } from '../../../../shared/interfaces/http.interface';
           <h6 class="fw-bold display-6">Seguiteci su</h6>
         </div>
         <div class="row g-4">
-          @if(social.length > 0) { @for(s of social; track s.nome) {
+          @if(gitHubService.social.length > 0) {
+          <!-- Lista social -->
+          @for(s of gitHubService.social; track s.nome) {
           <div class="col-12 col-md-6 col-lg-4 d-flex align-items-center">
             <i
               class="bi fs-1 me-3"
@@ -54,7 +56,6 @@ import { Lingua } from '../../../../shared/interfaces/http.interface';
 })
 export class SocialLinkComponent implements OnInit {
   public gitHubService = inject(GitHubService);
-  public social: Social[] = DataHttp.social;
   public lingua: Lingua = Lingua.it;
 
   constructor() {
@@ -62,11 +63,7 @@ export class SocialLinkComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.loadSocial();
-  }
-
-  private loadSocial(): void {
-    if (DataHttp.social.length == 0) {
+    if (this.gitHubService.social.length == 0) {
       this.gitHubService
         .getGistFormGithub(
           'AngeloDavideGe',
@@ -75,10 +72,7 @@ export class SocialLinkComponent implements OnInit {
         )
         .pipe(take(1))
         .subscribe({
-          next: (data) => {
-            DataHttp.social = data as Social[];
-            this.social = data as Social[];
-          },
+          next: (data) => (this.gitHubService.social = data as Social[]),
           error: (err) => console.error('errore recupero social', err),
         });
     }

@@ -14,7 +14,6 @@ export class DataHttp {
   static lingua: WritableSignal<Lingua> = signal(Lingua.it);
 
   static user: WritableSignal<User | null> = signal(null);
-  static social: Social[] = [];
 
   static mangaUtente: MangaUtente | null = null;
   static initialMangaUtente: MangaUtente = {} as MangaUtente;
@@ -42,11 +41,6 @@ export class DataHttp {
     const userData = localStorage.getItem('user');
     if (userData) {
       this.user.set(JSON.parse(userData));
-    }
-
-    const social = sessionStorage.getItem('socialLinks');
-    if (social) {
-      this.social = JSON.parse(social);
     }
 
     // Manga Service

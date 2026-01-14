@@ -13,20 +13,14 @@ export class ElementiUtenteUtilities {
     const elementiUtente: UtenteParodie | null = DataHttp.elementiUtente;
 
     if (elementiUtente) {
-      // return of(elementiUtente);
-      this.loadingService.show();
-      return this.getElemtiUtenteHttp(idUtente);
+      return of(elementiUtente);
     } else {
       this.loadingService.show();
-      return this.getElemtiUtenteHttp(idUtente);
-    }
-  }
-
-  private getElemtiUtenteHttp(idUtente: string): Observable<UtenteParodie> {
-    return this.elementiUtenteService.getElementiUtente(idUtente).pipe(
+      return this.elementiUtenteService.getElementiUtente(idUtente).pipe(
       take(1),
       finalize(() => this.loadingService.hide()),
       tap((elementiUtente) => (DataHttp.elementiUtente = elementiUtente))
     );
+    }
   }
 }
