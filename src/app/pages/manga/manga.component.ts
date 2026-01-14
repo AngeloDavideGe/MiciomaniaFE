@@ -13,11 +13,7 @@ import {
   compareObjectCustom,
   effectTimeoutCustom,
 } from '../../shared/functions/utilities.function';
-import {
-  Lingua,
-  ListaManga,
-  MangaUtente,
-} from '../../shared/interfaces/http.interface';
+import { Lingua, MangaUtente } from '../../shared/interfaces/http.interface';
 import { LoadingService } from '../../shared/services/template/loading.service';
 import { generiManga } from './constants/genere.constant';
 import {
@@ -36,6 +32,7 @@ import {
 } from './languages/interfaces/manga-lang.interface';
 import { MangaService } from './services/manga.service';
 import { alfabetoManga } from './constants/alfabeto.constant';
+import { ListaManga } from './interfaces/manga.interface';
 
 @Component({
   selector: 'app-manga',

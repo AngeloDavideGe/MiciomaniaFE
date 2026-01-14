@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { ListaManga } from '../../../shared/interfaces/http.interface';
+import { ListaManga } from '../interfaces/manga.interface';
 
 @Component({
   selector: 'app-card-manga',

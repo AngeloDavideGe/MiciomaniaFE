@@ -1,12 +1,9 @@
 import { HttpParams } from '@angular/common/http';
 import { Injectable, signal } from '@angular/core';
 import { Observable } from 'rxjs';
-import {
-  ListaManga,
-  MangaUtente,
-} from '../../../shared/interfaces/http.interface';
+import { MangaUtente } from '../../../shared/interfaces/http.interface';
 import { BaseService } from '../../../shared/services/base/base.service';
-import { ListaEUtenti } from '../interfaces/manga.interface';
+import { ListaEUtenti, ListaManga } from '../interfaces/manga.interface';
 
 @Injectable({
   providedIn: 'root',

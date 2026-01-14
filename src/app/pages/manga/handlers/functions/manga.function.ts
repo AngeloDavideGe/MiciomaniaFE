@@ -1,8 +1,5 @@
-import {
-  MangaUtente,
-  ListaManga,
-} from '../../../../shared/interfaces/http.interface';
-import { ListaEUtenti } from '../../interfaces/manga.interface';
+import { MangaUtente } from '../../../../shared/interfaces/http.interface';
+import { ListaEUtenti, ListaManga } from '../../interfaces/manga.interface';
 
 export function caricaMangaEPreferiti(params: {
   data: ListaEUtenti;

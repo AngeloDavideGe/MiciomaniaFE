@@ -1,8 +1,6 @@
+import { MangaUtente } from '../../../shared/interfaces/http.interface';
 import {
   ListaManga,
-  MangaUtente,
-} from '../../../shared/interfaces/http.interface';
-import {
   SezioniMangaUtente,
   SplitMangaUtente,
 } from '../interfaces/manga.interface';

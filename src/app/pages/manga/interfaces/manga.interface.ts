@@ -1,7 +1,14 @@
-import {
-  ListaManga,
-  MangaUtente,
-} from '../../../shared/interfaces/http.interface';
+import { MangaUtente } from '../../../shared/interfaces/http.interface';
+
+export interface ListaManga {
+  id: number;
+  nome: string;
+  autore: string;
+  genere: string;
+  copertina: string;
+  path: string;
+  completato: boolean;
+}
 
 export interface ListaEUtenti {
   listaManga: ListaManga[];

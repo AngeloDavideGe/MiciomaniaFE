@@ -6,9 +6,11 @@ import {
   Signal,
   WritableSignal,
 } from '@angular/core';
-import { keyofMangaUtente } from '../../../../interfaces/manga.interface';
+import {
+  keyofMangaUtente,
+  ListaManga,
+} from '../../../../interfaces/manga.interface';
 import { FormsModule } from '@angular/forms';
-import { ListaManga } from '../../../../../../shared/interfaces/http.interface';
 import { TuoiMangaLang } from '../languages/interfaces/tuoiManga-lang.interface';
 
 @Component({

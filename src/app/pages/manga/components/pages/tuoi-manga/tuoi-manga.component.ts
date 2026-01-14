@@ -11,7 +11,6 @@ import { DataHttp } from '../../../../../core/api/http.data';
 import { effectTimeoutCustom } from '../../../../../shared/functions/utilities.function';
 import {
   Lingua,
-  ListaManga,
   MangaUtente,
 } from '../../../../../shared/interfaces/http.interface';
 import { User } from '../../../../../shared/interfaces/users.interface';
@@ -24,6 +23,7 @@ import { inizializzaLista } from '../../../handlers/manga.handler';
 import { PulsantiManga } from '../../../interfaces/filtri.interface';
 import {
   keyofMangaUtente,
+  ListaManga,
   SezioniMangaUtente,
   SplitMangaUtente,
 } from '../../../interfaces/manga.interface';

@@ -6,16 +6,6 @@ export enum Lingua {
   en = 'en',
 }
 
-export interface ListaManga {
-  id: number;
-  nome: string;
-  autore: string;
-  genere: string;
-  copertina: string;
-  path: string;
-  completato: boolean;
-}
-
 export interface MangaUtente {
   preferiti: string;
   letti: string;

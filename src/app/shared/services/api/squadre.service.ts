@@ -44,13 +44,12 @@ export class SquadreService extends BaseService {
     punteggioOttenuto: number
   ): Observable<void> {
     const body = {
-      utente: userId,
-      squadra: nomeSquadra,
+      nomeSquadra: nomeSquadra,
       punteggio: punteggioOttenuto,
     };
 
-    return this.postCustom<void>(
-      'Squadre/update_punteggio_squadre_e_giocatore',
+    return this.putCustom<void>(
+      `Squadre/update_punteggio_giocatore/${userId}`,
       body
     );
   }
