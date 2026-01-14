@@ -22,5 +22,7 @@ export interface UtenteParodie {
 }
 
 export interface Proposta extends MangaSong {
-  tipo: string;
+  tipo: ProposaTipo;
 }
+
+export type ProposaTipo = 'manga' | 'canzone' | 'mangaPrimo' | 'canzonePrimo';

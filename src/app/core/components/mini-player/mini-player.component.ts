@@ -54,7 +54,7 @@ import { MiniPlayerService } from '../../../shared/services/template/mini-player
           style="font-size: 2rem;"
           (click)="miniPlayerService.isPlayngFunc()"
         >
-          {{ miniPlayerService.isPlaying ? '⏸️' : '▶️' }}
+          {{ miniPlayerService.isPlaying() ? '⏸️' : '▶️' }}
         </button>
         <button
           class="btn btn-link text-white p-1 mx-2"

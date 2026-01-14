@@ -1,6 +1,22 @@
 import { HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
+// export function createHeaders(
+//   normalizedPath: string,
+//   accessToken: string
+// ): HttpHeaders {
+//   return new HttpHeaders({
+//     Authorization: `Bearer ${accessToken}`,
+//     'Content-Type': 'application/octet-stream',
+//     'Dropbox-API-Arg': JSON.stringify({
+//       path: normalizedPath,
+//       mode: { '.tag': 'add' },
+//       autorename: true,
+//       mute: false,
+//     }),
+//   });
+// }
+
 export function createHeaders(
   normalizedPath: string,
   accessToken: string
@@ -10,8 +26,8 @@ export function createHeaders(
     'Content-Type': 'application/octet-stream',
     'Dropbox-API-Arg': JSON.stringify({
       path: normalizedPath,
-      mode: { '.tag': 'add' },
-      autorename: true,
+      mode: { '.tag': 'overwrite' },
+      autorename: false,
       mute: false,
     }),
   });

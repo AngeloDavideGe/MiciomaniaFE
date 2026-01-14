@@ -7,9 +7,9 @@ import { MangaSong } from '../../interfaces/elementiUtente.interface';
 export class MiniPlayerService {
   public allCanzoni: MangaSong[] = [];
   public currentAudio: HTMLAudioElement | null = null;
-  public currentCanzone = signal<MangaSong | null>(null);
   public currentSongIndex: number = 0;
-  public isPlaying: boolean = true;
+  public isPlaying = signal<boolean>(true);
+  public currentCanzone = signal<MangaSong | null>(null);
 
   nextSong(): void {
     this.stopSong();
@@ -43,6 +43,7 @@ export class MiniPlayerService {
 
   private newSong(): void {
     this.currentCanzone.set(this.allCanzoni[this.currentSongIndex]);
+    this.isPlaying.set(true);
     this.playSong();
   }
 
@@ -65,8 +66,8 @@ export class MiniPlayerService {
   }
 
   isPlayngFunc(): void {
-    this.isPlaying = !this.isPlaying;
-    if (this.isPlaying) {
+    this.isPlaying.set(!this.isPlaying());
+    if (this.isPlaying()) {
       this.currentAudio!.play();
     } else {
       this.currentAudio!.pause();

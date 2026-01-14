@@ -12,7 +12,6 @@ export const elemLang: ElemLang = {
   noManga: 'Non hai ancora un manga associato al tuo profilo.',
   noCanzone: 'Non hai ancora una canzone associata al tuo profilo.',
   noProposteSospese: 'Non hai proposte in sospeso',
-  haiGiaMangaCanzone: 'Hai già manga e canzone',
   nonHaiPunti: 'Non hai abbastanza punti',
   inviaProposta: 'Invia una nuova proposta',
   // Crea Proposta

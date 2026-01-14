@@ -24,43 +24,6 @@
       <!-- Modal Body -->
       <div class="modal-body pt-0 mt-2">
         <form [formGroup]="propostaForm" (ngSubmit)="upload()">
-          <!-- Campo tipo -->
-          <div class="form-group mb-4">
-            <label for="tipo" class="h5"
-              >{{ elemLang.tipo }} <span class="text-danger">*</span></label
-            >
-            <select
-              id="tipo"
-              formControlName="tipo"
-              class="form-control form-control-lg"
-              [class]="{
-                'is-invalid': f['tipo'].touched && f['tipo'].invalid
-              }"
-            >
-              <option value="" disabled selected>
-                {{ elemLang.selezionaTipo }}
-              </option>
-
-              @if (!optionManga) {
-              <option value="manga">{{ elemLang.manga }}</option>
-              } @if (!optionCanzone) {
-              <option value="canzone">
-                {{ elemLang.canzone }}
-              </option>
-              }
-            </select>
-
-            @if (f['tipo'].touched && f['tipo'].invalid) {
-            <div class="invalid-feedback">
-              @if (f['tipo'].errors?.['required']) {
-              <div>
-                {{ elemLang.titoloObbligatorio }}
-              </div>
-              }
-            </div>
-            }
-          </div>
-
           <!-- Campo nome -->
           <div class="form-group mb-4">
             <label for="nome" class="h5"

@@ -10,7 +10,6 @@ export interface ElemLang {
   noManga: string;
   noCanzone: string;
   noProposteSospese: string;
-  haiGiaMangaCanzone: string;
   nonHaiPunti: string;
   inviaProposta: string;
   // Crea Proposta

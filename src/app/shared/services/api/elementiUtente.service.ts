@@ -43,13 +43,17 @@ export class ElementiUtenteService extends BaseService {
   }
 
   postProposta(proposta: Proposta): Observable<Proposta> {
-    const formData = new FormData();
-    formData.append('Tipo', proposta.tipo);
-    formData.append('Nome', proposta.nome);
-    formData.append('Descrizione', proposta.genere);
-    formData.append('File', proposta.url);
-    formData.append('Copertina', '');
+    const body = {
+      nome: proposta.nome,
+      genere: proposta.genere,
+      copertina: proposta.copertina,
+      url: proposta.url,
+      tipo: proposta.tipo,
+    };
 
-    return this.postCustom<Proposta>('proposte/invio_proposta', formData);
+    return this.putCustom<Proposta>(
+      `Parodie/upsert_manga_o_canzone/${proposta.idUtente}`,
+      body
+    );
   }
 }

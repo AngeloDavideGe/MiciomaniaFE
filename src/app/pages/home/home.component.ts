@@ -31,7 +31,7 @@ export class HomeComponent {
   public inizialiUser: string = '';
   public cursoreAperto = signal<boolean>(false);
   public homeLang = signal<HomeLang>({} as HomeLang);
-  private readonly punteggioCanzoni: number = 1;
+  private readonly punteggioCanzoni: number = 20;
 
   public isHome$: Observable<boolean> = this.router.events.pipe(
     filter((event): event is NavigationEnd => event instanceof NavigationEnd),

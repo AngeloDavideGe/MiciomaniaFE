@@ -30,7 +30,6 @@ export class ElementiUtenteComponent implements OnInit {
   };
   public creaProposta = {
     componente: false,
-    controllo: false,
     punteggio: false,
   };
   public userId: string = '';
@@ -68,8 +67,7 @@ export class ElementiUtenteComponent implements OnInit {
             this.eu = elementiUtente;
             this.creaProposta = {
               componente: false,
-              controllo: !!this.eu.mangaUtente && !!this.eu.canzoniUtente,
-              punteggio: this.userPunteggio > this.punteggioNecessario,
+              punteggio: this.userPunteggio >= this.punteggioNecessario,
             };
           },
           error: (error) =>

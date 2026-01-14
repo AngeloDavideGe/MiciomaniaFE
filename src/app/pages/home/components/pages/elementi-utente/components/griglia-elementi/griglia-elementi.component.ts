@@ -73,11 +73,7 @@ import { UtenteParodie } from '../../../../../../../shared/interfaces/elementiUt
           style="width: 20rem; height: 36rem; padding: 1rem"
         >
           <p class="text-muted mb-2">
-            {{
-              creaProposta.controllo
-                ? elemLang.noProposteSospese
-                : elemLang.haiGiaMangaCanzone
-            }}
+            {{ elemLang.noProposteSospese }}
           </p>
           <p class="text-muted mb-2">
             {{
@@ -91,7 +87,7 @@ import { UtenteParodie } from '../../../../../../../shared/interfaces/elementiUt
                   ')'
             }}
           </p>
-          @if (creaProposta.controllo && creaProposta.punteggio) {
+          @if (creaProposta.punteggio) {
           <button
             class="btn btn-outline-success btn-sm"
             style="border-radius: 20px"
@@ -114,7 +110,6 @@ export class GrigliaElementiComponent {
   @Input() punteggioNecessario!: number;
   @Input() creaProposta!: {
     componente: boolean;
-    controllo: boolean;
     punteggio: boolean;
   };
 }

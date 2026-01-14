@@ -1,6 +1,6 @@
 import { HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { BaseService } from '../../../../../../shared/services/base/base.service';
 import { DropboxResponse } from '../interfaces/dropbox.interface';
@@ -8,6 +8,7 @@ import {
   createHeaders,
   readFileAsArrayBuffer,
 } from '../utilities/dropbox.utilities';
+import { getExtension } from '../functions/estenzione.function';
 
 @Injectable({
   providedIn: 'root',
@@ -28,10 +29,12 @@ export class DropboxService extends BaseService {
 
   uploadFile(
     file: File,
-    folderPath: string = '',
-    userId: string
+    userId: string,
+    oldLink: string,
+    folderPath: string
   ): Observable<any> {
-    const normalizedPath: string = `/${folderPath}/${userId}/${file.name}`;
+    const nomeFile: string = `FileUtente.${getExtension(file)}`;
+    const normalizedPath: string = `/${folderPath}/${userId}/${nomeFile}`;
 
     const headers: HttpHeaders = createHeaders(
       normalizedPath,
@@ -43,12 +46,16 @@ export class DropboxService extends BaseService {
         return this.http.post(this.UPLOAD_URL, fileContent, { headers });
       }),
       switchMap(() => {
-        return this.createSharedLink(normalizedPath);
+        return this.createSharedLink(normalizedPath, oldLink);
       })
     );
   }
 
-  private createSharedLink(path: string): Observable<string> {
+  private createSharedLink(path: string, oldLink: string): Observable<string> {
+    if (oldLink) {
+      return of(oldLink);
+    }
+
     const url: string =
       'https://api.dropboxapi.com/2/sharing/create_shared_link_with_settings';
 

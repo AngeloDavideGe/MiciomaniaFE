@@ -12,7 +12,6 @@ export const elemLang: ElemLang = {
   noManga: "You don't have a manga associated with your profile yet.",
   noCanzone: "You don't have a song associated with your profile yet.",
   noProposteSospese: 'You have no pending proposals',
-  haiGiaMangaCanzone: 'You already have a manga and a song',
   nonHaiPunti: "You don't have enough points",
   inviaProposta: 'Send a new proposal',
   // Crea Proposta

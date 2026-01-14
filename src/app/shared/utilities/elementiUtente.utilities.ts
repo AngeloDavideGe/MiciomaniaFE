@@ -13,7 +13,9 @@ export class ElementiUtenteUtilities {
     const elementiUtente: UtenteParodie | null = DataHttp.elementiUtente;
 
     if (elementiUtente) {
-      return of(elementiUtente);
+      // return of(elementiUtente);
+      this.loadingService.show();
+      return this.getElemtiUtenteHttp(idUtente);
     } else {
       this.loadingService.show();
       return this.getElemtiUtenteHttp(idUtente);
