@@ -30,42 +30,60 @@
       <!-- Opzioni di risposta -->
       <div class="list-group">
         @for (risposta of domandaCurrent.risposte; track $index) {
-        <label
-          class="list-group-item p-0 mb-2"
-          style="border: none; cursor: pointer"
-        >
-          <div
-            class="d-flex align-items-center p-3"
-            [ngClass]="{
-              'bg-success text-white':
-                risposta.soluzione &&
-                rispostaConfermata &&
-                risposta.testo == rispostaSelezionata?.testo,
-              'bg-danger text-white':
-                !risposta.soluzione &&
-                rispostaConfermata &&
-                risposta.testo == rispostaSelezionata?.testo
-            }"
-            style="
-              border-radius: 12px;
-              transition: all 0.3s ease;
-              background-color: #f8f9fa;
-            "
-            onmouseover="if(!this.classList.contains('bg-success') && !this.classList.contains('bg-danger')) this.style.backgroundColor='#e2e6ea'; this.style.boxShadow='0 4px 12px rgba(0,0,0,0.1)';"
-            onmouseout="if(!this.classList.contains('bg-success') && !this.classList.contains('bg-danger')) this.style.backgroundColor='#f8f9fa'; this.style.boxShadow='none';"
+          <label
+            class="list-group-item p-0 mb-2"
+            style="border: none; cursor: pointer"
           >
-            <input
-              type="radio"
-              name="risposta"
-              [(ngModel)]="rispostaSelezionata"
-              [value]="risposta"
-              style="margin-right: 15px; transform: scale(1.2); cursor: pointer"
-            />
-            <p class="m-0" style="font-size: 16px; flex: 1">
-              {{ risposta.testo }}
-            </p>
-          </div>
-        </label>
+            <div
+              class="d-flex align-items-center p-3"
+              [ngClass]="{
+                'bg-success text-white':
+                  risposta.soluzione &&
+                  rispostaConfermata &&
+                  risposta.testo == rispostaSelezionata?.testo,
+                'bg-danger text-white':
+                  !risposta.soluzione &&
+                  rispostaConfermata &&
+                  risposta.testo == rispostaSelezionata?.testo,
+              }"
+              style="
+                border-radius: 12px;
+                transition: all 0.3s ease;
+                background-color: #f8f9fa;
+              "
+              onmouseover="
+                if (
+                  !this.classList.contains('bg-success') &&
+                  !this.classList.contains('bg-danger')
+                )
+                  this.style.backgroundColor = '#e2e6ea';
+                this.style.boxShadow = '0 4px 12px rgba(0,0,0,0.1)';
+              "
+              onmouseout="
+                if (
+                  !this.classList.contains('bg-success') &&
+                  !this.classList.contains('bg-danger')
+                )
+                  this.style.backgroundColor = '#f8f9fa';
+                this.style.boxShadow = 'none';
+              "
+            >
+              <input
+                type="radio"
+                name="risposta"
+                [(ngModel)]="rispostaSelezionata"
+                [value]="risposta"
+                style="
+                  margin-right: 15px;
+                  transform: scale(1.2);
+                  cursor: pointer;
+                "
+              />
+              <p class="m-0" style="font-size: 16px; flex: 1">
+                {{ risposta.testo }}
+              </p>
+            </div>
+          </label>
         }
       </div>
 
@@ -83,8 +101,14 @@
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
             transition: all 0.2s;
           "
-          onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 15px rgba(0,0,0,0.15)';"
-          onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 10px rgba(0,0,0,0.1)';"
+          onmouseover="
+            this.style.transform = 'translateY(-2px)';
+            this.style.boxShadow = '0 6px 15px rgba(0,0,0,0.15)';
+          "
+          onmouseout="
+            this.style.transform = 'translateY(0)';
+            this.style.boxShadow = '0 4px 10px rgba(0,0,0,0.1)';
+          "
         >
           ✅ Conferma
         </button>
@@ -92,41 +116,53 @@
 
       <div class="d-flex justify-content-center gap-3 mt-3">
         @if (numDomanda != 5) {
-        <button
-          class="btn btn-primary"
-          (click)="domandaNext()"
-          [disabled]="!rispostaConfermata"
-          style="
-            padding: 12px 25px;
-            font-size: 16px;
-            border-radius: 12px;
-            font-weight: 500;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-            transition: all 0.2s;
-          "
-          onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 15px rgba(0,0,0,0.15)';"
-          onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 10px rgba(0,0,0,0.1)';"
-        >
-          ➡️ Avanti
-        </button>
+          <button
+            class="btn btn-primary"
+            (click)="domandaNext()"
+            [disabled]="!rispostaConfermata"
+            style="
+              padding: 12px 25px;
+              font-size: 16px;
+              border-radius: 12px;
+              font-weight: 500;
+              box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+              transition: all 0.2s;
+            "
+            onmouseover="
+              this.style.transform = 'translateY(-2px)';
+              this.style.boxShadow = '0 6px 15px rgba(0,0,0,0.15)';
+            "
+            onmouseout="
+              this.style.transform = 'translateY(0)';
+              this.style.boxShadow = '0 4px 10px rgba(0,0,0,0.1)';
+            "
+          >
+            ➡️ Avanti
+          </button>
         } @else {
-        <button
-          class="btn btn-danger"
-          (click)="ricomincia()"
-          [disabled]="!rispostaConfermata"
-          style="
-            padding: 12px 25px;
-            font-size: 16px;
-            border-radius: 12px;
-            font-weight: 600;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-            transition: all 0.2s;
-          "
-          onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 15px rgba(0,0,0,0.15)';"
-          onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 10px rgba(0,0,0,0.1)';"
-        >
-          🔄 Ricomincia
-        </button>
+          <button
+            class="btn btn-danger"
+            (click)="ricomincia()"
+            [disabled]="!rispostaConfermata"
+            style="
+              padding: 12px 25px;
+              font-size: 16px;
+              border-radius: 12px;
+              font-weight: 600;
+              box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+              transition: all 0.2s;
+            "
+            onmouseover="
+              this.style.transform = 'translateY(-2px)';
+              this.style.boxShadow = '0 6px 15px rgba(0,0,0,0.15)';
+            "
+            onmouseout="
+              this.style.transform = 'translateY(0)';
+              this.style.boxShadow = '0 4px 10px rgba(0,0,0,0.1)';
+            "
+          >
+            🔄 Ricomincia
+          </button>
         }
       </div>
     </div>

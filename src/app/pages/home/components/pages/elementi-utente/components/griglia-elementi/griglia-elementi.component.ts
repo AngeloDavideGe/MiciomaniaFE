@@ -15,26 +15,26 @@ import { UtenteParodie } from '../../../../../../../shared/interfaces/elementiUt
       <!-- Sezione Manga -->
       <div class="col-12 col-lg-4 col-md-6 col-xxl-4 d-flex">
         <div class="card-container w-100">
-          @if (eu.mangaUtente.idUtente) {
-          <app-manga-miciomania-card
-            [manga]="eu.mangaUtente"
-            [mangaSongUtilities]="mangaSongUtilities"
-            class="fixed-size-card"
-          >
-          </app-manga-miciomania-card>
-          } @else {
-          <div class="card empty-state-card fixed-size-card">
-            <div
-              class="card-body d-flex flex-column align-items-center justify-content-center text-center p-4"
+          @if (eu && eu.mangaUtente && eu.mangaUtente.idUtente) {
+            <app-manga-miciomania-card
+              [manga]="eu.mangaUtente"
+              [mangaSongUtilities]="mangaSongUtilities"
+              class="fixed-size-card"
             >
-              <div class="empty-state-icon mb-3">
-                <i class="bi bi-book display-4 text-muted"></i>
+            </app-manga-miciomania-card>
+          } @else {
+            <div class="card empty-state-card fixed-size-card">
+              <div
+                class="card-body d-flex flex-column align-items-center justify-content-center text-center p-4"
+              >
+                <div class="empty-state-icon mb-3">
+                  <i class="bi bi-book display-4 text-muted"></i>
+                </div>
+                <p class="text-muted mb-0">
+                  {{ elemLang.noManga }}
+                </p>
               </div>
-              <p class="text-muted mb-0">
-                {{ elemLang.noManga }}
-              </p>
             </div>
-          </div>
           }
         </div>
       </div>
@@ -42,25 +42,25 @@ import { UtenteParodie } from '../../../../../../../shared/interfaces/elementiUt
       <!-- Sezione Canzone -->
       <div class="col-12 col-lg-4 col-md-6 col-xxl-4 d-flex">
         <div class="card-container w-100">
-          @if (eu.canzoniUtente.idUtente) {
-          <app-canzoni-miciomania-card
-            [canzone]="eu.canzoniUtente"
-            [mangaSongUtilities]="mangaSongUtilities"
-            class="fixed-size-card"
-          ></app-canzoni-miciomania-card>
+          @if (eu && eu.canzoniUtente && eu.canzoniUtente.idUtente) {
+            <app-canzoni-miciomania-card
+              [canzone]="eu.canzoniUtente"
+              [mangaSongUtilities]="mangaSongUtilities"
+              class="fixed-size-card"
+            ></app-canzoni-miciomania-card>
           } @else {
-          <div class="card empty-state-card fixed-size-card">
-            <div
-              class="card-body d-flex flex-column align-items-center justify-content-center text-center p-4"
-            >
-              <div class="empty-state-icon mb-3">
-                <i class="bi bi-music-note-beamed display-4 text-muted"></i>
+            <div class="card empty-state-card fixed-size-card">
+              <div
+                class="card-body d-flex flex-column align-items-center justify-content-center text-center p-4"
+              >
+                <div class="empty-state-icon mb-3">
+                  <i class="bi bi-music-note-beamed display-4 text-muted"></i>
+                </div>
+                <p class="text-muted mb-0">
+                  {{ elemLang.noCanzone }}
+                </p>
               </div>
-              <p class="text-muted mb-0">
-                {{ elemLang.noCanzone }}
-              </p>
             </div>
-          </div>
           }
         </div>
       </div>
@@ -73,49 +73,49 @@ import { UtenteParodie } from '../../../../../../../shared/interfaces/elementiUt
               class="card-body d-flex flex-column align-items-center justify-content-center text-center p-4"
             >
               @if (creaProposta.punteggio) {
-              <div class="proposal-content">
-                <div class="mb-3">
-                  <i class="bi bi-send-check display-4 text-success"></i>
+                <div class="proposal-content">
+                  <div class="mb-3">
+                    <i class="bi bi-send-check display-4 text-success"></i>
+                  </div>
+                  <p class="text-muted mb-3">
+                    {{ elemLang.noProposteSospese }}
+                  </p>
+                  <button
+                    class="btn btn-outline-success btn-lg rounded-pill px-4"
+                    style="border-radius: 20px"
+                    (click)="creaProposta.componente = true"
+                  >
+                    <i class="bi bi-plus-circle me-1"></i>
+                    {{ elemLang.inviaProposta }}
+                  </button>
                 </div>
-                <p class="text-muted mb-3">
-                  {{ elemLang.noProposteSospese }}
-                </p>
-                <button
-                  class="btn btn-outline-success btn-lg rounded-pill px-4"
-                  style="border-radius: 20px"
-                  (click)="creaProposta.componente = true"
-                >
-                  <i class="bi bi-plus-circle me-1"></i>
-                  {{ elemLang.inviaProposta }}
-                </button>
-              </div>
               } @else {
-              <div class="proposal-content">
-                <div class="mb-3">
-                  <i class="bi bi-send display-4 text-muted"></i>
+                <div class="proposal-content">
+                  <div class="mb-3">
+                    <i class="bi bi-send display-4 text-muted"></i>
+                  </div>
+                  <p class="text-muted mb-2">
+                    {{ elemLang.noProposteSospese }}
+                  </p>
+                  <p class="text-muted mb-4">
+                    {{
+                      elemLang.nonHaiPunti +
+                        ' (' +
+                        userPunteggio +
+                        ' su ' +
+                        punteggioNecessario +
+                        ')'
+                    }}
+                  </p>
+                  <button
+                    class="btn btn-outline-secondary btn-lg rounded-pill px-4"
+                    style="border-radius: 20px"
+                    disabled
+                  >
+                    <i class="bi bi-lock me-1"></i>
+                    {{ elemLang.inviaProposta }}
+                  </button>
                 </div>
-                <p class="text-muted mb-2">
-                  {{ elemLang.noProposteSospese }}
-                </p>
-                <p class="text-muted mb-4">
-                  {{
-                    elemLang.nonHaiPunti +
-                      ' (' +
-                      userPunteggio +
-                      ' su ' +
-                      punteggioNecessario +
-                      ')'
-                  }}
-                </p>
-                <button
-                  class="btn btn-outline-secondary btn-lg rounded-pill px-4"
-                  style="border-radius: 20px"
-                  disabled
-                >
-                  <i class="bi bi-lock me-1"></i>
-                  {{ elemLang.inviaProposta }}
-                </button>
-              </div>
               }
             </div>
           </div>

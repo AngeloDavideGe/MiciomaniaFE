@@ -1,65 +1,69 @@
 @if (utenteCaricato) {
-<div class="container py-4">
-  <div class="row">
-    <div class="col-md-8 offset-md-2">
-      <!-- Pulsante Torna alla Home -->
-      <app-custom-navbar [goHomeBotton]="tornaIndietroPath"></app-custom-navbar>
+  <div class="container py-4">
+    <div class="row">
+      <div class="col-md-8 offset-md-2">
+        <!-- Pulsante Torna alla Home -->
+        <app-custom-navbar
+          [goHomeBotton]="tornaIndietroPath"
+        ></app-custom-navbar>
 
-      <!-- Card del profilo -->
-      <app-card-profilo
-        [profiloLang]="profiloLang"
-        [profilo]="profilo"
-        [profiloPersonale]="profiloPersonale"
-        [socialArray]="socialArray"
-        [spinnerTemplate]="spinnerTemplate"
-        (modaleAperta)="modaleAperta = $event"
-      ></app-card-profilo>
+        <!-- Card del profilo -->
+        <app-card-profilo
+          [profiloLang]="profiloLang"
+          [profilo]="profilo"
+          [profiloPersonale]="profiloPersonale"
+          [socialArray]="socialArray"
+          [spinnerTemplate]="spinnerTemplate"
+          (modaleAperta)="modaleAperta = $event"
+        ></app-card-profilo>
 
-      <!-- Sezione Tweet -->
-      <app-sezione-tweet
-        [profilo]="profilo"
-        [profiloPersonale]="profiloPersonale"
-        [spinnerTemplate]="spinnerTemplate"
-        (eliminaTweet)="eliminaTweet($event)"
-        (modaleAperta)="modaleAperta = $event"
-      ></app-sezione-tweet>
+        <!-- Sezione Tweet -->
+        <app-sezione-tweet
+          [profilo]="profilo"
+          [profiloPersonale]="profiloPersonale"
+          [spinnerTemplate]="spinnerTemplate"
+          (eliminaTweet)="eliminaTweet($event)"
+          (modaleAperta)="modaleAperta = $event"
+        ></app-sezione-tweet>
+      </div>
     </div>
   </div>
-</div>
 
-<!-- Lista Modali  -->
-@switch (modaleAperta) {
-<!-- Nuovo Tweet -->
-@case ('new-tweet') {
-<app-new-tweet
-  [profiloLang]="profiloLang"
-  [idUtente]="profilo.user.id!"
-  (chiudi)="modaleAperta = ''"
-></app-new-tweet>
+  <!-- Lista Modali  -->
+  @switch (modaleAperta) {
+    <!-- Nuovo Tweet -->
+    @case ("new-tweet") {
+      <app-new-tweet
+        [profiloLang]="profiloLang"
+        [idUtente]="profilo.user.id!"
+        (chiudi)="modaleAperta = ''"
+      ></app-new-tweet>
+    }
+
+    <!-- Edit Profilo -->
+    @case ("edit-profilo") {
+      <app-edit-profilo
+        [profiloLang]="profiloLang"
+        [user]="profilo.user"
+        (chiudi)="modaleAperta = ''; loadSocial()"
+      ></app-edit-profilo>
+    }
+
+    <!--Cambia Immagine  -->
+    @case ("change-pic") {
+      <app-change-pic-custom
+        [nome]="'Profilo'"
+        (chiudi)="modaleAperta = ''"
+        (conferma)="onUpload($event)"
+      >
+      </app-change-pic-custom>
+    }
+  }
 }
-
-<!-- Edit Profilo -->
-@case ('edit-profilo') {
-<app-edit-profilo
-  [profiloLang]="profiloLang"
-  [user]="profilo.user"
-  (chiudi)="modaleAperta = ''; loadSocial()"
-></app-edit-profilo>
-}
-
-<!--Cambia Immagine  -->
-@case ('change-pic') {
-<app-change-pic-custom
-  [nome]="'Profilo'"
-  (chiudi)="modaleAperta = ''"
-  (conferma)="onUpload($event)"
->
-</app-change-pic-custom>
-} } }
 
 <!-- Error -->
 @if (errorHttp()) {
-<app-error-http></app-error-http>
+  <app-error-http></app-error-http>
 }
 
 <ng-template #spinnerTemplate>

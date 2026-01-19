@@ -1,28 +1,27 @@
 <div class="filter-list-container">
-  @if(users().length > 0) {
-
-  <div class="results" id="RisultatiUtenti">
-    @for(user of userSlice(); track user.id) {
-    <div
-      class="result-item"
-      (click)="
-        router.navigate(['/posts/profilo', user.id], {
-          state: { message: 'CercaProfili' }
-        })
-      "
-    >
-      <img
-        [src]="user.profilePic || defaultPic"
-        alt="{{ user.nome }}"
-        class="profile-pic"
-      />
-      <div class="result-info">
-        <span class="result-name">{{ user.nome || "" }}</span>
-        <span class="result-id">ID: {{ user.id }}</span>
-      </div>
+  @if (users().length > 0) {
+    <div class="results" id="RisultatiUtenti">
+      @for (user of userSlice(); track user.id) {
+        <div
+          class="result-item"
+          (click)="
+            router.navigate(['/posts/profilo', user.id], {
+              state: { message: 'CercaProfili' },
+            })
+          "
+        >
+          <img
+            [src]="user.profilePic || defaultPic"
+            alt="{{ user.nome }}"
+            class="profile-pic"
+          />
+          <div class="result-info">
+            <span class="result-name">{{ user.nome || "" }}</span>
+            <span class="result-id">ID: {{ user.id }}</span>
+          </div>
+        </div>
+      }
     </div>
-    }
-  </div>
   }
 
   <!-- PAGINAZIONE -->

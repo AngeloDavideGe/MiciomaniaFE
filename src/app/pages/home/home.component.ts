@@ -37,7 +37,7 @@ export class HomeComponent {
     filter((event): event is NavigationEnd => event instanceof NavigationEnd),
     startWith({ url: this.router.url }),
     map((event) => event.url == '/home'),
-    tap(() => this.loadUsers())
+    tap(() => this.loadUsers()),
   );
 
   constructor() {
@@ -84,7 +84,6 @@ export class HomeComponent {
     DataHttp.user.set(null);
     DataHttp.profiloPersonale = null;
     DataHttp.mangaUtente = {} as any;
-    DataHttp.elementiUtente = {} as any;
     this.setAnonymousUser();
   }
 

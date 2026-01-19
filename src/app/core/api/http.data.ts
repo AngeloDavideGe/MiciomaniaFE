@@ -17,7 +17,6 @@ export class DataHttp {
   static mangaUtente: MangaUtente | null = null;
   static initialMangaUtente: MangaUtente = {} as MangaUtente;
 
-  static elementiUtente: UtenteParodie = {} as UtenteParodie;
   static profiloPersonale: Profilo | null = null;
   static postVisti: Posts = { oldPosts: [], lastUpdated: new Date(0) };
   static punteggioOttenuto: number = 0;
@@ -64,12 +63,6 @@ export class DataHttp {
     const punteggioOttenuto = sessionStorage.getItem('punteggioOttenuto');
     if (punteggioOttenuto) {
       this.punteggioOttenuto = JSON.parse(punteggioOttenuto);
-    }
-
-    // Elementi Utente Service
-    const storageElementiUtente = sessionStorage.getItem('elementiUtente');
-    if (storageElementiUtente) {
-      this.elementiUtente = JSON.parse(storageElementiUtente);
     }
 
     // Messaggi

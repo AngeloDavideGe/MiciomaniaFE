@@ -1,40 +1,40 @@
-@if(spinner()){
-<div class="spinner-overlay">
-  <div class="whatsapp-spinner-small"></div>
-</div>
+@if (spinner()) {
+  <div class="spinner-overlay">
+    <div class="whatsapp-spinner-small"></div>
+  </div>
 } @else {
+  <!-- Lista delle Chat -->
+  @if (!chatService.currentChat()) {
+    <div
+      id="ChatHeader"
+      class="d-flex align-items-center justify-content-between p-3"
+    >
+      <i class="bi bi-arrow-left fs-3" (click)="chiudiChat.emit()"></i>
+      <h2 class="text-center flex-grow-1">Miciomania Chat</h2>
+    </div>
 
-<!-- Lista delle Chat -->
-@if(!chatService.currentChat()){
-<div
-  id="ChatHeader"
-  class="d-flex align-items-center justify-content-between p-3"
->
-  <i class="bi bi-arrow-left fs-3" (click)="chiudiChat.emit()"></i>
-  <h2 class="text-center flex-grow-1">Miciomania Chat</h2>
-</div>
+    <app-chat-all
+      [allGruppi]="allGruppi"
+      [allGruppiRecord]="allGruppiRecord"
+      (apriGruppo)="chatService.currentChat.set($event)"
+    ></app-chat-all>
+  }
+  <!-- Chat Selezionata -->
+  @else {
+    <div
+      id="ChatHeader"
+      class="d-flex align-items-center justify-content-between p-3"
+    >
+      <i class="bi bi-arrow-left fs-3" (click)="loadComplete()"></i>
+      <h2 class="text-center flex-grow-1">
+        {{ allGruppiRecord[chatService.currentChat() || 0].chat || "N.B." }}
+      </h2>
+    </div>
 
-<app-chat-all
-  [allGruppi]="allGruppi"
-  [allGruppiRecord]="allGruppiRecord"
-  (apriGruppo)="chatService.currentChat.set($event)"
-></app-chat-all>
+    <app-chat-group
+      [chatId]="chatService.currentChat()!"
+      [messages]="messages()"
+      [messaggiComp]="messaggiComp"
+    ></app-chat-group>
+  }
 }
-<!-- Chat Selezionata -->
-@else {
-<div
-  id="ChatHeader"
-  class="d-flex align-items-center justify-content-between p-3"
->
-  <i class="bi bi-arrow-left fs-3" (click)="loadComplete()"></i>
-  <h2 class="text-center flex-grow-1">
-    {{ allGruppiRecord[chatService.currentChat() || 0].chat || "N.B." }}
-  </h2>
-</div>
-
-<app-chat-group
-  [chatId]="chatService.currentChat()!"
-  [messages]="messages()"
-  [messaggiComp]="messaggiComp"
-></app-chat-group>
-} }

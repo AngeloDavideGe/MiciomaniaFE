@@ -11,11 +11,11 @@
 </div>
 
 @if (creaProposta.componente) {
-<app-crea-proposta
-  [elemLang]="elemLang"
-  [userId]="userId"
-  [parodieUtente]="eu"
-  [tornaAllaHome]="tornaAllaHome"
-  (chiudi)="creaProposta.componente = false"
-></app-crea-proposta>
+  <app-crea-proposta
+    [elemLang]="elemLang"
+    [userId]="userId"
+    [parodieUtente]="eu"
+    [tornaAllaHome]="tornaAllaHome"
+    (chiudi)="creaProposta.componente = false"
+  ></app-crea-proposta>
 }

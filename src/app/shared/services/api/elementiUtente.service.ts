@@ -16,6 +16,7 @@ export class ElementiUtenteService extends BaseService {
   public propostaCaricata: boolean = true;
   public canzoniParodia: CanzoniParodia | null = null;
   public mangaParodia: MangaParodia | null = null;
+  public utenteParodie: UtenteParodie | null = null;
 
   constructor() {
     super('BE_CS');
@@ -24,21 +25,21 @@ export class ElementiUtenteService extends BaseService {
   getListaCanzoniMiciomani(): Observable<CanzoniParodia> {
     return this.getCustom<CanzoniParodia>(
       'Parodie/get_all_canzoni_parodia',
-      {} as HttpParams
+      {} as HttpParams,
     );
   }
 
   getListaMangaMiciomani(): Observable<MangaParodia> {
     return this.getCustom<MangaParodia>(
       'Parodie/get_all_manga_parodia',
-      {} as HttpParams
+      {} as HttpParams,
     );
   }
 
   getElementiUtente(idUtente: string): Observable<UtenteParodie> {
     return this.getCustom<UtenteParodie>(
       'Parodie/get_manga_e_canzone_utente/' + idUtente,
-      {} as HttpParams
+      {} as HttpParams,
     );
   }
 
@@ -53,7 +54,7 @@ export class ElementiUtenteService extends BaseService {
 
     return this.putCustom<Proposta>(
       `Parodie/upsert_manga_o_canzone/${proposta.idUtente}`,
-      body
+      body,
     );
   }
 }

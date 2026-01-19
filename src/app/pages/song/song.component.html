@@ -11,21 +11,23 @@
     <div
       class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 justify-content-center g-4"
     >
-      @for (canzone of elementiUtenteService.canzoniParodia?.canzoniUtente;
-      track $index) {
-      <div class="col d-flex justify-content-center">
-        <app-card-song
-          [canzone]="canzone"
-          (playSong)="
-            msu.playSong(
-              canzone,
-              elementiUtenteService.canzoniParodia?.canzoniUtente
-            )
-          "
-          (stopSong)="msu.sc.stopSong()"
-          style="width: 100%; max-width: 320px"
-        ></app-card-song>
-      </div>
+      @for (
+        canzone of elementiUtenteService.canzoniParodia?.canzoniUtente;
+        track $index
+      ) {
+        <div class="col d-flex justify-content-center">
+          <app-card-song
+            [canzone]="canzone"
+            (playSong)="
+              msu.playSong(
+                canzone,
+                elementiUtenteService.canzoniParodia?.canzoniUtente
+              )
+            "
+            (stopSong)="msu.sc.stopSong()"
+            style="width: 100%; max-width: 320px"
+          ></app-card-song>
+        </div>
       }
     </div>
   </div>
@@ -37,21 +39,23 @@
     <div
       class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 justify-content-center g-4"
     >
-      @for (canzone of elementiUtenteService.canzoniParodia?.canzoniMiciomania;
-      track $index) {
-      <div class="col d-flex justify-content-center">
-        <app-card-song
-          [canzone]="canzone"
-          (playSong)="
-            msu.playSong(
-              canzone,
-              elementiUtenteService.canzoniParodia?.canzoniMiciomania
-            )
-          "
-          (stopSong)="msu.sc.stopSong()"
-          style="width: 100%; max-width: 320px"
-        ></app-card-song>
-      </div>
+      @for (
+        canzone of elementiUtenteService.canzoniParodia?.canzoniMiciomania;
+        track $index
+      ) {
+        <div class="col d-flex justify-content-center">
+          <app-card-song
+            [canzone]="canzone"
+            (playSong)="
+              msu.playSong(
+                canzone,
+                elementiUtenteService.canzoniParodia?.canzoniMiciomania
+              )
+            "
+            (stopSong)="msu.sc.stopSong()"
+            style="width: 100%; max-width: 320px"
+          ></app-card-song>
+        </div>
       }
     </div>
   </div>

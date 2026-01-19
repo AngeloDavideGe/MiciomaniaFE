@@ -1,80 +1,81 @@
 <div class="user-table-container">
   @if (userMap().length > 0) {
-  <table class="table table-bordered" id="ruolo">
-    <thead>
-      <tr>
-        @for (header of ['ID', 'Nome', 'Azioni']; track $index) {
-        <th>{{ header }}</th>
-        }
-      </tr>
-    </thead>
-    <tbody>
-      @for (user of userTable(); track user.id) {
-      <tr>
-        <td>{{ user.id }}</td>
-        <td>{{ user.nome }}</td>
-        <td>
-          <i
-            class="bi bi-person-circle text-info me-3"
-            (click)="
-              router.navigate(['/posts/profilo', user.id], {
-                state: { message: 'TableUserParams' }
-              })
-            "
-            [title]="adminLang.vediProfilo"
-          ></i>
-          <i
-            class="bi bi-pencil-square text-primary me-3"
-            (click)="modificaRuoloFunction(user)"
-            [title]="adminLang.modifica"
-          ></i>
-          @if (user.ruolo !== 'user') {
-          <i
-            class="bi bi-trash3 text-danger"
-            (click)="deleteRuoloFunction(user)"
-            [title]="adminLang.elimina + ruolo"
-          ></i>
+    <table class="table table-bordered" id="ruolo">
+      <thead>
+        <tr>
+          @for (header of ["ID", "Nome", "Azioni"]; track $index) {
+            <th>{{ header }}</th>
           }
-        </td>
-      </tr>
-      }
-    </tbody>
-  </table>
+        </tr>
+      </thead>
+      <tbody>
+        @for (user of userTable(); track user.id) {
+          <tr>
+            <td>{{ user.id }}</td>
+            <td>{{ user.nome }}</td>
+            <td>
+              <i
+                class="bi bi-person-circle text-info me-3"
+                (click)="
+                  router.navigate(['/posts/profilo', user.id], {
+                    state: { message: 'TableUserParams' },
+                  })
+                "
+                [title]="adminLang.vediProfilo"
+              ></i>
+              <i
+                class="bi bi-pencil-square text-primary me-3"
+                (click)="modificaRuoloFunction(user)"
+                [title]="adminLang.modifica"
+              ></i>
+              @if (user.ruolo !== "user") {
+                <i
+                  class="bi bi-trash3 text-danger"
+                  (click)="deleteRuoloFunction(user)"
+                  [title]="adminLang.elimina + ruolo"
+                ></i>
+              }
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
 
-  @if (userMap().length > 5) {
-  <div
-    id="PulsantiPaginazione"
-    class="pagination-controls"
-    style="display: flex; justify-content: center; margin-top: 1rem"
-  >
-    <div class="pagination-controls paginazione-controllo">
-      <button
-        (click)="previousPage()"
-        [disabled]="currentPage === 1"
-        class="bottone-paginazione"
-        style="cursor: pointer"
+    @if (userMap().length > 5) {
+      <div
+        id="PulsantiPaginazione"
+        class="pagination-controls"
+        style="display: flex; justify-content: center; margin-top: 1rem"
       >
-        &lt;
-      </button>
+        <div class="pagination-controls paginazione-controllo">
+          <button
+            (click)="previousPage()"
+            [disabled]="currentPage === 1"
+            class="bottone-paginazione"
+            style="cursor: pointer"
+          >
+            &lt;
+          </button>
 
-      <span style="margin: 0 0.5rem; line-height: 2; color: #555">
-        {{ currentPage + "/" + totalPages }}
-      </span>
+          <span style="margin: 0 0.5rem; line-height: 2; color: #555">
+            {{ currentPage + "/" + totalPages }}
+          </span>
 
-      <button
-        (click)="nextPage()"
-        [disabled]="currentPage === totalPages"
-        class="bottone-paginazione"
-        style="cursor: pointer"
-      >
-        &gt;
-      </button>
+          <button
+            (click)="nextPage()"
+            [disabled]="currentPage === totalPages"
+            class="bottone-paginazione"
+            style="cursor: pointer"
+          >
+            &gt;
+          </button>
+        </div>
+      </div>
+    }
+  } @else {
+    <div>
+      <p>{{ adminLang.nessunUtente }}</p>
     </div>
-  </div>
-  } } @else {
-  <div>
-    <p>{{ adminLang.nessunUtente }}</p>
-  </div>
   }
 </div>
 

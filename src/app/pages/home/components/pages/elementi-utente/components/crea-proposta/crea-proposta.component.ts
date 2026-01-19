@@ -149,14 +149,18 @@ export class CreaPropostaComponent implements OnInit {
         map((data: Proposta) => {
           return { mangaSong: data, tipo: data.tipo } as PopostaNonExtend;
         }),
-        finalize(() => (this.elementiUtenteService.propostaCaricata = true))
+        finalize(() => (this.elementiUtenteService.propostaCaricata = true)),
       )
       .subscribe({
         next: (data: PopostaNonExtend) => {
+          this.elementiUtenteService.utenteParodie =
+            this.elementiUtenteService.utenteParodie || ({} as UtenteParodie);
           if (data.tipo === 'manga' || data.tipo === 'mangaPrimo') {
-            DataHttp.elementiUtente.mangaUtente = data.mangaSong;
+            this.elementiUtenteService.utenteParodie.mangaUtente =
+              data.mangaSong;
           } else {
-            DataHttp.elementiUtente.canzoniUtente = data.mangaSong;
+            this.elementiUtenteService.utenteParodie.canzoniUtente =
+              data.mangaSong;
           }
         },
         error: (err) => console.error('Errore upload o recupero link:', err),

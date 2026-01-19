@@ -1,75 +1,83 @@
 @if (isManga$ | async) {
-<!-- Chiamata riuscita -->
-@if (!erroreHttp()) {
-<!-- Dettagli Manga -->
-<div class="text-white py-3 mb-2" style="background-color: #9fb987">
-  <app-dettagli-manga
-    [titolo]="mangaLang.titolo"
-    [messaggio]="mangaLang.messaggio"
-    [descrizione]="mangaLang.descrizione"
-    [bottoni]="pulsanti"
-  ></app-dettagli-manga>
-</div>
+  <!-- Chiamata riuscita -->
+  @if (!erroreHttp()) {
+    <!-- Dettagli Manga -->
+    <div class="text-white py-3 mb-2" style="background-color: #9fb987">
+      <app-dettagli-manga
+        [titolo]="mangaLang.titolo"
+        [messaggio]="mangaLang.messaggio"
+        [descrizione]="mangaLang.descrizione"
+        [bottoni]="pulsanti"
+      ></app-dettagli-manga>
+    </div>
 
-<!-- Filtri Manga -->
-<app-filtri-manga
-  [mangaLang]="mangaLang"
-  [filterSelect]="filterSelect"
-  (onGenreChange)="onGenreChange($event)"
-></app-filtri-manga>
+    <!-- Filtri Manga -->
+    <app-filtri-manga
+      [mangaLang]="mangaLang"
+      [filterSelect]="filterSelect"
+      (onGenreChange)="onGenreChange($event)"
+    ></app-filtri-manga>
 
-<!-- Tabs Navigation -->
-<app-tabs-manga [tabs]="tabs"></app-tabs-manga>
+    <!-- Tabs Navigation -->
+    <app-tabs-manga [tabs]="tabs"></app-tabs-manga>
 
-@if(aggiornamentoManga()) {
-<p>{{ mangaLang.aggiornamento }}</p>
+    @if (aggiornamentoManga()) {
+      <p>{{ mangaLang.aggiornamento }}</p>
+    }
+
+    <app-icone-lista
+      class="pc-only"
+      [classNG]="perIniziale()"
+      [ngClass1]="'lista'"
+      [ngClass2]="'iniziale'"
+      (classNGChange)="perIniziale.set($event)"
+    ></app-icone-lista>
+
+    <!-- Manga list display per iniziale-->
+    @if (perIniziale() === "iniziale") {
+      <!-- Lista lettere -->
+      @for (lettera of alfabeto; track $index) {
+        <!-- Titolo lettera -->
+        @if (mangaPerIniziale()[lettera].length > 0) {
+          <div class="mt-5">
+            <h5 class="text-black fw-bold border-bottom pb-2">
+              {{ lettera }}
+            </h5>
+          </div>
+          <!-- Griglia manga -->
+          <div class="row mt-3 g-3">
+            @for (manga of mangaPerIniziale()[lettera]; track manga.id) {
+              <div
+                class="col-6 col-sm-4 col-md-3 col-lg-2 d-flex justify-content-center"
+              >
+                <app-card-manga
+                  [manga]="manga"
+                  [preferito]="mangaPreferiti[manga.id]"
+                  (selezionaOpera)="selezionaOpera(manga.path)"
+                ></app-card-manga>
+              </div>
+            }
+          </div>
+        }
+      }
+    }
+    <!-- Manga list display-->
+    @else {
+      <div class="mt-4 d-flex flex-wrap">
+        @for (manga of filteredManga(); track manga.id) {
+          <div class="d-flex" style="padding: 0.2rem">
+            <app-card-manga
+              [manga]="manga"
+              [preferito]="mangaPreferiti[manga.id]"
+              (selezionaOpera)="selezionaOpera(manga.path)"
+            ></app-card-manga>
+          </div>
+        }
+      </div>
+    }
+  } @else {
+    <app-error-http></app-error-http>
+  }
 }
-
-<app-icone-lista
-  class="pc-only"
-  [classNG]="perIniziale()"
-  [ngClass1]="'lista'"
-  [ngClass2]="'iniziale'"
-  (classNGChange)="perIniziale.set($event)"
-></app-icone-lista>
-
-<!-- Manga list display per iniziale-->
-@if (perIniziale() === 'iniziale') {
-<!-- Lista lettere -->
-@for (lettera of alfabeto; track $index) {
-<!-- Titolo lettera -->
-@if (mangaPerIniziale()[lettera].length > 0) {
-<div class="mt-5">
-  <h5 class="text-black fw-bold border-bottom pb-2">
-    {{ lettera }}
-  </h5>
-</div>
-<!-- Griglia manga -->
-<div class="row mt-3 g-3">
-  @for (manga of mangaPerIniziale()[lettera]; track manga.id) {
-  <div class="col-6 col-sm-4 col-md-3 col-lg-2 d-flex justify-content-center">
-    <app-card-manga
-      [manga]="manga"
-      [preferito]="mangaPreferiti[manga.id]"
-      (selezionaOpera)="selezionaOpera(manga.path)"
-    ></app-card-manga>
-  </div>
-  }
-</div>
-} } }
-<!-- Manga list display-->
-@else {
-<div class="mt-4 d-flex flex-wrap">
-  @for(manga of filteredManga(); track manga.id){
-  <div class="d-flex" style="padding: 0.2rem">
-    <app-card-manga
-      [manga]="manga"
-      [preferito]="mangaPreferiti[manga.id]"
-      (selezionaOpera)="selezionaOpera(manga.path)"
-    ></app-card-manga>
-  </div>
-  }
-</div>
-} } @else {<app-error-http></app-error-http>} }
 
 <router-outlet></router-outlet>

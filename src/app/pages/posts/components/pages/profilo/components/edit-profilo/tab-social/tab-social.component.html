@@ -1,41 +1,41 @@
 <div class="social-form-container">
   <!-- Lista social esistenti -->
   @for (social of socialArray; track $index) {
-  <div class="social-row row g-2 align-items-center mb-3">
-    <div class="col-3">
-      <select
-        class="form-select form-select-sm"
-        [(ngModel)]="social.key"
-        style="min-width: 100px"
-      >
-        @for (soc of availableSocials; track $index) {
-        <option [value]="soc">
-          {{ soc | titlecase }}
-        </option>
-        }
-      </select>
-    </div>
+    <div class="social-row row g-2 align-items-center mb-3">
+      <div class="col-3">
+        <select
+          class="form-select form-select-sm"
+          [(ngModel)]="social.key"
+          style="min-width: 100px"
+        >
+          @for (soc of availableSocials; track $index) {
+            <option [value]="soc">
+              {{ soc | titlecase }}
+            </option>
+          }
+        </select>
+      </div>
 
-    <div class="col-8">
-      <input
-        type="text"
-        class="form-control form-control-sm"
-        [(ngModel)]="social.link"
-        [placeholder]="'link di' + ' ' + social.key"
-      />
-    </div>
+      <div class="col-8">
+        <input
+          type="text"
+          class="form-control form-control-sm"
+          [(ngModel)]="social.link"
+          [placeholder]="'link di' + ' ' + social.key"
+        />
+      </div>
 
-    <div class="col-1 text-end">
-      <button
-        class="btn btn-sm btn-outline-danger"
-        (click)="removeSocial($index)"
-        style="width: 30px"
-        title="Rimuovi"
-      >
-        &minus;
-      </button>
+      <div class="col-1 text-end">
+        <button
+          class="btn btn-sm btn-outline-danger"
+          (click)="removeSocial($index)"
+          style="width: 30px"
+          title="Rimuovi"
+        >
+          &minus;
+        </button>
+      </div>
     </div>
-  </div>
   }
 
   <!-- Controlli -->

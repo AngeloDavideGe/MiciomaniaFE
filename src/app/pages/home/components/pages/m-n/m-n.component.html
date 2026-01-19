@@ -14,7 +14,7 @@
   <!-- Lista -->
   <div class="row" [class]="classMN()">
     @for (mn of gitHubService.mn; track $index) {
-    <app-card-lettera [mn]="mn"></app-card-lettera>
+      <app-card-lettera [mn]="mn"></app-card-lettera>
     }
   </div>
 </div>

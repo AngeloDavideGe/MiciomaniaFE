@@ -1,22 +1,22 @@
 <div id="ChatContainer" (click)="dropdownAperta.set(null)">
   <div #chatMessages class="chat-messages">
     @for (message of messages; track message.id) {
-    <!-- Separator -->
-    @if(message.separator){
-    <div
-      #daySeparator
-      class="date-separator"
-      [attr.data-date]="message.created_at"
-    >
-      <span>{{ message.created_at | date : "dd/MM/yyyy" }}</span>
-    </div>
-    }
+      <!-- Separator -->
+      @if (message.separator) {
+        <div
+          #daySeparator
+          class="date-separator"
+          [attr.data-date]="message.created_at"
+        >
+          <span>{{ message.created_at | date: "dd/MM/yyyy" }}</span>
+        </div>
+      }
 
-    <app-messaggio
-      [messageComp]="messaggiComp[$index]"
-      [dropdownAperta]="dropdownAperta()"
-      (openDropdown)="changeDropdown($event, message)"
-    ></app-messaggio>
+      <app-messaggio
+        [messageComp]="messaggiComp[$index]"
+        [dropdownAperta]="dropdownAperta()"
+        (openDropdown)="changeDropdown($event, message)"
+      ></app-messaggio>
     }
   </div>
 

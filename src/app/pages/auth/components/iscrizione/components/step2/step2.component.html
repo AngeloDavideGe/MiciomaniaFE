@@ -42,33 +42,38 @@
               ((f['squadra'].touched && f['squadra'].invalid) ||
                 pulsantePremuto) &&
               f['squadra'].invalid,
-            'border border-success': pulsantePremuto && f['squadra'].valid
+            'border border-success': pulsantePremuto && f['squadra'].valid,
           }"
         >
           @for (t of team; track $index) {
-          <div class="form-check mb-2">
-            <input
-              type="checkbox"
-              [id]="'squadra-' + $index"
-              class="form-check-input"
-              [value]="t"
-              [checked]="profileForm.get('squadra')?.value?.includes(t)"
-              (change)="onTeamChange($event)"
-            />
-            <label [for]="'squadra-' + $index" class="form-check-label">{{
-              t
-            }}</label>
-          </div>
+            <div class="form-check mb-2">
+              <input
+                type="checkbox"
+                [id]="'squadra-' + $index"
+                class="form-check-input"
+                [value]="t"
+                [checked]="profileForm.get('squadra')?.value?.includes(t)"
+                (change)="onTeamChange($event)"
+              />
+              <label [for]="'squadra-' + $index" class="form-check-label">{{
+                t
+              }}</label>
+            </div>
           }
         </div>
 
-        @if (((f['squadra'].touched && f['squadra'].invalid) || pulsantePremuto)
-        && f['squadra'].invalid) {
-        <div class="invalid-feedback d-block mt-1 fade-in">
-          Il team è obbligatorio.
-        </div>
-        } @if (pulsantePremuto && f['squadra'].valid) {
-        <div class="valid-feedback d-block mt-1 fade-in">Selezione valida!</div>
+        @if (
+          ((f["squadra"].touched && f["squadra"].invalid) || pulsantePremuto) &&
+          f["squadra"].invalid
+        ) {
+          <div class="invalid-feedback d-block mt-1 fade-in">
+            Il team è obbligatorio.
+          </div>
+        }
+        @if (pulsantePremuto && f["squadra"].valid) {
+          <div class="valid-feedback d-block mt-1 fade-in">
+            Selezione valida!
+          </div>
         }
       </div>
 
@@ -83,17 +88,18 @@
             'is-invalid':
               ((f['stato'].touched && f['stato'].invalid) || pulsantePremuto) &&
               f['stato'].invalid,
-            'is-valid': pulsantePremuto && f['stato'].valid
+            'is-valid': pulsantePremuto && f['stato'].valid,
           }"
         >
           @for (stato of statiPersona; track $index) {
-          <option [value]="stato">{{ stato }}</option>
+            <option [value]="stato">{{ stato }}</option>
           }
         </select>
-        @if ((f['stato'].touched && f['stato'].invalid) || pulsantePremuto) {
-        <div class="invalid-feedback fade-in">Lo stato è obbligatorio.</div>
-        } @if (pulsantePremuto && f['stato'].valid) {
-        <div class="valid-feedback fade-in">Campo valido!</div>
+        @if ((f["stato"].touched && f["stato"].invalid) || pulsantePremuto) {
+          <div class="invalid-feedback fade-in">Lo stato è obbligatorio.</div>
+        }
+        @if (pulsantePremuto && f["stato"].valid) {
+          <div class="valid-feedback fade-in">Campo valido!</div>
         }
       </div>
 
@@ -111,20 +117,26 @@
                 ((f['regione'].touched && f['regione'].invalid) ||
                   pulsantePremuto) &&
                 f['regione'].invalid,
-              'is-valid': pulsantePremuto && f['regione'].valid
+              'is-valid': pulsantePremuto && f['regione'].valid,
             }"
           >
             @for (regione of regioni; track regione.codice) {
-            <option [value]="regione.codice">{{ regione.nome }}</option>
+              <option [value]="regione.codice">{{ regione.nome }}</option>
             }
           </select>
-          @if (((f['regione'].touched && f['regione'].invalid) ||
-          pulsantePremuto) && f['regione'].invalid) {
-          <div class="invalid-feedback fade-in">La regione è obbligatoria.</div>
-          } @if (pulsantePremuto && f['regione'].valid) {
-          <div class="valid-feedback fade-in">
-            Regione selezionata correttamente!
-          </div>
+          @if (
+            ((f["regione"].touched && f["regione"].invalid) ||
+              pulsantePremuto) &&
+            f["regione"].invalid
+          ) {
+            <div class="invalid-feedback fade-in">
+              La regione è obbligatoria.
+            </div>
+          }
+          @if (pulsantePremuto && f["regione"].valid) {
+            <div class="valid-feedback fade-in">
+              Regione selezionata correttamente!
+            </div>
           }
         </div>
 
@@ -142,22 +154,26 @@
                 ((f['provincia'].touched && f['provincia'].invalid) ||
                   pulsantePremuto) &&
                 f['provincia'].invalid,
-              'is-valid': pulsantePremuto && f['provincia'].valid
+              'is-valid': pulsantePremuto && f['provincia'].valid,
             }"
           >
             @for (provincia of province; track provincia.codice) {
-            <option [value]="provincia.nome">{{ provincia.nome }}</option>
+              <option [value]="provincia.nome">{{ provincia.nome }}</option>
             }
           </select>
-          @if (((f['provincia'].touched && f['provincia'].invalid) ||
-          pulsantePremuto) && f['provincia'].invalid) {
-          <div class="invalid-feedback fade-in">
-            La provincia è obbligatoria.
-          </div>
-          } @if (pulsantePremuto && f['provincia'].valid) {
-          <div class="valid-feedback fade-in">
-            Provincia selezionata correttamente!
-          </div>
+          @if (
+            ((f["provincia"].touched && f["provincia"].invalid) ||
+              pulsantePremuto) &&
+            f["provincia"].invalid
+          ) {
+            <div class="invalid-feedback fade-in">
+              La provincia è obbligatoria.
+            </div>
+          }
+          @if (pulsantePremuto && f["provincia"].valid) {
+            <div class="valid-feedback fade-in">
+              Provincia selezionata correttamente!
+            </div>
           }
         </div>
       </div>

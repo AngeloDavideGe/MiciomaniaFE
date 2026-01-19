@@ -13,11 +13,11 @@
 
   <!-- Modale -->
   @if (editAdmin()) {
-  <app-edit-admin
-    [adminLang]="adminLang"
-    [userEdit]="userEdit"
-    (chiudiModale)="editAdmin.set(false)"
-    (ruoloModificato)="ruoloModificato($event)"
-  ></app-edit-admin>
+    <app-edit-admin
+      [adminLang]="adminLang"
+      [userEdit]="userEdit"
+      (chiudiModale)="editAdmin.set(false)"
+      (ruoloModificato)="ruoloModificato($event)"
+    ></app-edit-admin>
   }
 </div>

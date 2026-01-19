@@ -15,12 +15,14 @@
 </div>
 
 <div class="row justify-content-center g-4">
-  @for (manga of elementiUtenteService.mangaParodia?.mangaMiciomania; track
-  $index) {
-  <app-card-manga-miciomania
-    [mmicioLang]="mmicioLang"
-    [manga]="manga"
-    (downloadManga)="mangaSongUtilities.downloadManga(manga)"
-  ></app-card-manga-miciomania>
+  @for (
+    manga of elementiUtenteService.mangaParodia?.mangaMiciomania;
+    track $index
+  ) {
+    <app-card-manga-miciomania
+      [mmicioLang]="mmicioLang"
+      [manga]="manga"
+      (downloadManga)="mangaSongUtilities.downloadManga(manga)"
+    ></app-card-manga-miciomania>
   }
 </div>

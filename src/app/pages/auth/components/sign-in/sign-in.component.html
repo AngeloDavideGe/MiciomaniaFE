@@ -16,21 +16,25 @@
           'is-invalid':
             ((f['nome'].touched && f['nome'].invalid) || clickRegistrati) &&
             f['nome'].invalid,
-          'is-valid': clickRegistrati && f['nome'].valid
+          'is-valid': clickRegistrati && f['nome'].valid,
         }"
       />
 
-      @if (((f['nome'].touched && f['nome'].invalid) || clickRegistrati) &&
-      f['nome'].invalid) {
-      <div class="invalid-feedback">
-        @if (f['nome'].errors?.['required']) {
-        <div>Il nome è obbligatorio.</div>
-        } @if (f['nome'].errors?.['minlength']) {
-        <div>Il nome deve avere almeno 3 lettere.</div>
-        }
-      </div>
-      } @if (clickRegistrati && f['nome'].valid) {
-      <div class="valid-feedback">Nome valido!</div>
+      @if (
+        ((f["nome"].touched && f["nome"].invalid) || clickRegistrati) &&
+        f["nome"].invalid
+      ) {
+        <div class="invalid-feedback">
+          @if (f["nome"].errors?.["required"]) {
+            <div>Il nome è obbligatorio.</div>
+          }
+          @if (f["nome"].errors?.["minlength"]) {
+            <div>Il nome deve avere almeno 3 lettere.</div>
+          }
+        </div>
+      }
+      @if (clickRegistrati && f["nome"].valid) {
+        <div class="valid-feedback">Nome valido!</div>
       }
     </div>
 
@@ -47,21 +51,25 @@
             ((f['username'].touched && f['username'].invalid) ||
               clickRegistrati) &&
             f['username'].invalid,
-          'is-valid': clickRegistrati && f['username'].valid
+          'is-valid': clickRegistrati && f['username'].valid,
         }"
       />
 
-      @if (((f['username'].touched && f['username'].invalid) || clickRegistrati)
-      && f['username'].invalid) {
-      <div class="invalid-feedback">
-        @if (f['username'].errors?.['required']) {
-        <div>Username richiesto.</div>
-        } @if (f['username'].errors?.['minlength']) {
-        <div>L'username deve avere almeno 3 lettere.</div>
-        }
-      </div>
-      } @if (clickRegistrati && f['username'].valid) {
-      <div class="valid-feedback">Username valido!</div>
+      @if (
+        ((f["username"].touched && f["username"].invalid) || clickRegistrati) &&
+        f["username"].invalid
+      ) {
+        <div class="invalid-feedback">
+          @if (f["username"].errors?.["required"]) {
+            <div>Username richiesto.</div>
+          }
+          @if (f["username"].errors?.["minlength"]) {
+            <div>L'username deve avere almeno 3 lettere.</div>
+          }
+        </div>
+      }
+      @if (clickRegistrati && f["username"].valid) {
+        <div class="valid-feedback">Username valido!</div>
       }
     </div>
 
@@ -77,21 +85,25 @@
           'is-invalid':
             ((f['email'].touched && f['email'].invalid) || clickRegistrati) &&
             f['email'].invalid,
-          'is-valid': clickRegistrati && f['email'].valid
+          'is-valid': clickRegistrati && f['email'].valid,
         }"
       />
 
-      @if (((f['email'].touched && f['email'].invalid) || clickRegistrati) &&
-      f['email'].invalid) {
-      <div class="invalid-feedback">
-        @if (f['email'].errors?.['required']) {
-        <div>Email richiesta.</div>
-        } @if (f['email'].errors?.['email']) {
-        <div>Formato email non valido.</div>
-        }
-      </div>
-      } @if (clickRegistrati && f['email'].valid) {
-      <div class="valid-feedback">Email valida!</div>
+      @if (
+        ((f["email"].touched && f["email"].invalid) || clickRegistrati) &&
+        f["email"].invalid
+      ) {
+        <div class="invalid-feedback">
+          @if (f["email"].errors?.["required"]) {
+            <div>Email richiesta.</div>
+          }
+          @if (f["email"].errors?.["email"]) {
+            <div>Formato email non valido.</div>
+          }
+        </div>
+      }
+      @if (clickRegistrati && f["email"].valid) {
+        <div class="valid-feedback">Email valida!</div>
       }
     </div>
 
@@ -108,21 +120,25 @@
             ((f['password'].touched && f['password'].invalid) ||
               clickRegistrati) &&
             f['password'].invalid,
-          'is-valid': clickRegistrati && f['password'].valid
+          'is-valid': clickRegistrati && f['password'].valid,
         }"
       />
 
-      @if (((f['password'].touched && f['password'].invalid) || clickRegistrati)
-      && f['password'].invalid) {
-      <div class="invalid-feedback">
-        @if (f['password'].errors?.['required']) {
-        <div>Password richiesta.</div>
-        } @if (f['password'].errors?.['minlength']) {
-        <div>La password deve essere lunga almeno 6 caratteri.</div>
-        }
-      </div>
-      } @if (clickRegistrati && f['password'].valid) {
-      <div class="valid-feedback">Password valida!</div>
+      @if (
+        ((f["password"].touched && f["password"].invalid) || clickRegistrati) &&
+        f["password"].invalid
+      ) {
+        <div class="invalid-feedback">
+          @if (f["password"].errors?.["required"]) {
+            <div>Password richiesta.</div>
+          }
+          @if (f["password"].errors?.["minlength"]) {
+            <div>La password deve essere lunga almeno 6 caratteri.</div>
+          }
+        </div>
+      }
+      @if (clickRegistrati && f["password"].valid) {
+        <div class="valid-feedback">Password valida!</div>
       }
     </div>
 

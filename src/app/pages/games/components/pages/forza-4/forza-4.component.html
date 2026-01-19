@@ -24,62 +24,63 @@
             "
           >
             @for (row of campo; track $index; let i = $index) {
-            <div style="display: contents">
-              @for (cell of row; track $index; let j = $index) {
-              <div
-                style="
-                  background-color: #1e88e5;
-                  border-radius: 50%;
-                  position: relative;
-                "
-                (click)="inserisciPedina(j)"
-              >
-                <!-- Slot per le pedine (vuoto) -->
-                <div
-                  style="
-                    position: absolute;
-                    top: 5px;
-                    left: 5px;
-                    width: 50px;
-                    height: 50px;
-                    border-radius: 50%;
-                    background-color: white;
-                    border: 2px solid #0d47a1;
-                  "
-                ></div>
+              <div style="display: contents">
+                @for (cell of row; track $index; let j = $index) {
+                  <div
+                    style="
+                      background-color: #1e88e5;
+                      border-radius: 50%;
+                      position: relative;
+                    "
+                    (click)="inserisciPedina(j)"
+                  >
+                    <!-- Slot per le pedine (vuoto) -->
+                    <div
+                      style="
+                        position: absolute;
+                        top: 5px;
+                        left: 5px;
+                        width: 50px;
+                        height: 50px;
+                        border-radius: 50%;
+                        background-color: white;
+                        border: 2px solid #0d47a1;
+                      "
+                    ></div>
 
-                @if (cell.player) {
-                <div
-                  style="
-                    position: absolute;
-                    top: 5px;
-                    left: 5px;
-                    width: 50px;
-                    height: 50px;
-                    border-radius: 50%;
-                    background-color: #f44336;
-                    border: 2px solid #b71c1c;
-                    z-index: 2;
-                  "
-                ></div>
-                } @if (cell.bot) {
-                <div
-                  style="
-                    position: absolute;
-                    top: 5px;
-                    left: 5px;
-                    width: 50px;
-                    height: 50px;
-                    border-radius: 50%;
-                    background-color: #ffeb3b;
-                    border: 2px solid #f57f17;
-                    z-index: 2;
-                  "
-                ></div>
+                    @if (cell.player) {
+                      <div
+                        style="
+                          position: absolute;
+                          top: 5px;
+                          left: 5px;
+                          width: 50px;
+                          height: 50px;
+                          border-radius: 50%;
+                          background-color: #f44336;
+                          border: 2px solid #b71c1c;
+                          z-index: 2;
+                        "
+                      ></div>
+                    }
+                    @if (cell.bot) {
+                      <div
+                        style="
+                          position: absolute;
+                          top: 5px;
+                          left: 5px;
+                          width: 50px;
+                          height: 50px;
+                          border-radius: 50%;
+                          background-color: #ffeb3b;
+                          border: 2px solid #f57f17;
+                          z-index: 2;
+                        "
+                      ></div>
+                    }
+                  </div>
                 }
               </div>
-              }
-            </div>
             }
           </div>
         </div>

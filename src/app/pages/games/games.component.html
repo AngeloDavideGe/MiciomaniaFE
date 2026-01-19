@@ -1,19 +1,19 @@
 @if (isGames$ | async) {
-<div class="container py-4 text-center">
-  <app-presentazione-games
-    [showDetails]="showDetails"
-    (showDetailsFunc)="showDetails = !showDetails"
-  ></app-presentazione-games>
+  <div class="container py-4 text-center">
+    <app-presentazione-games
+      [showDetails]="showDetails"
+      (showDetailsFunc)="showDetails = !showDetails"
+    ></app-presentazione-games>
 
-  @if (showDetails) {
-  <app-punteggi-games
-    [punteggioPersonale]="punteggioPersonale"
-    [squadre]="squadre()"
-  ></app-punteggi-games>
-  }
+    @if (showDetails) {
+      <app-punteggi-games
+        [punteggioPersonale]="punteggioPersonale"
+        [squadre]="squadre()"
+      ></app-punteggi-games>
+    }
 
-  <app-lista-games></app-lista-games>
-</div>
+    <app-lista-games></app-lista-games>
+  </div>
 }
 
 <router-outlet></router-outlet>
