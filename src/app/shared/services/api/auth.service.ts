@@ -12,7 +12,7 @@ export class AuthService extends BaseService {
   public users = signal<UserParams[]>([]);
 
   constructor() {
-    super('BE_CS');
+    super('CS');
   }
 
   getAllUsersHttp(): Observable<UserParams[]> {
@@ -33,7 +33,7 @@ export class AuthService extends BaseService {
     nome: string,
     username: string,
     email: string,
-    password: string
+    password: string,
   ): Observable<void> {
     const body = {
       nome: nome,

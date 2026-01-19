@@ -49,7 +49,7 @@ export class ChatListComponent implements OnInit {
   public spinner = signal<boolean>(false);
   public messages = computed<Messaggio[]>(() => this.computedMessage());
   public userMessageMap = computed<Record<string, UserReduced>>(() =>
-    mapUserMessage(this.authService)
+    mapUserMessage(this.authService),
   );
 
   @Output() chiudiChat = new EventEmitter<void>();
@@ -115,7 +115,7 @@ export class ChatListComponent implements OnInit {
     let messaggi: Messaggio[] = DataHttp.gruppiChat.messaggi[idChat] || [];
     let messaggioComp: IMessaggioComponent[] = [];
     const messagesIdMap: Record<number, Messaggio> = {};
-    const defaultPic: string = environment.defaultPic;
+    const defaultPic: string = environment.defaultPicsUrl.group;
 
     if (messaggi.length !== 0) {
       messaggioComp = messaggi.map((message) => {

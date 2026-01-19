@@ -19,7 +19,7 @@ export class DropboxService extends BaseService {
     'https://content.dropboxapi.com/2/files/upload';
 
   constructor() {
-    super('BE_CS');
+    super('CS');
   }
 
   getDropboxToken(): Observable<DropboxResponse> {
@@ -31,14 +31,14 @@ export class DropboxService extends BaseService {
     file: File,
     userId: string,
     oldLink: string,
-    folderPath: string
+    folderPath: string,
   ): Observable<any> {
     const nomeFile: string = `FileUtente.${getExtension(file)}`;
     const normalizedPath: string = `/${folderPath}/${userId}/${nomeFile}`;
 
     const headers: HttpHeaders = createHeaders(
       normalizedPath,
-      this.dropboxResponse.access_token
+      this.dropboxResponse.access_token,
     );
 
     return readFileAsArrayBuffer(file).pipe(
@@ -47,7 +47,7 @@ export class DropboxService extends BaseService {
       }),
       switchMap(() => {
         return this.createSharedLink(normalizedPath, oldLink);
-      })
+      }),
     );
   }
 

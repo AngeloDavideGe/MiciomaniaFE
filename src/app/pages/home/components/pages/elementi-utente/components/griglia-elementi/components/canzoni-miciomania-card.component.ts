@@ -4,6 +4,7 @@ import {
   Proposta,
 } from '../../../../../../../../shared/interfaces/elementiUtente.interface';
 import { MangaSongUtilities } from '../../../../../../../../shared/utilities/mangaSong.utilities';
+import { environment } from '../../../../../../../../../environments/environment';
 
 @Component({
   selector: 'app-canzoni-miciomania-card',
@@ -22,7 +23,7 @@ import { MangaSongUtilities } from '../../../../../../../../shared/utilities/man
         "
     >
       <img
-        [src]="canzone.copertina || 'https://i.postimg.cc/NfmNs2FC/Miku.png'"
+        [src]="canzone.copertina || placeholderImageUrl"
         class="card-img-top"
         alt="copertina"
         style="
@@ -81,4 +82,6 @@ import { MangaSongUtilities } from '../../../../../../../../shared/utilities/man
 export class CanzoniMiciomaniaCardComponent {
   @Input() canzone!: MangaSong | Proposta | any;
   @Input() mangaSongUtilities!: MangaSongUtilities;
+
+  public placeholderImageUrl: string = environment.defaultPicsUrl.song;
 }

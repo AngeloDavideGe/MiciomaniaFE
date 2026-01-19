@@ -19,7 +19,7 @@ export class ElementiUtenteService extends BaseService {
   public utenteParodie: UtenteParodie | null = null;
 
   constructor() {
-    super('BE_CS');
+    super('CS');
   }
 
   getListaCanzoniMiciomani(): Observable<CanzoniParodia> {

@@ -1,8 +1,15 @@
 export interface IEnvironment {
   production: boolean;
-  BE_CS: string;
-  BE_PY: string;
-  DB2: string;
+  BE: {
+    CS: string;
+    PY: string;
+    DB2: string;
+  };
   maxMessagesForchat: number;
-  defaultPic: string;
+  defaultPicsUrl: {
+    user: string;
+    group: string;
+    song: string;
+    manga: string;
+  };
 }

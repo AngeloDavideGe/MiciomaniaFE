@@ -11,8 +11,8 @@ export abstract class BaseService {
   private baseUrl: string = '';
   private headers: HttpHeaders = {} as HttpHeaders;
 
-  constructor(db: 'BE_CS' | 'BE_PY' | 'DB2') {
-    this.baseUrl = environment[db];
+  constructor(db: 'CS' | 'PY' | 'DB2') {
+    this.baseUrl = environment.BE[db];
     this.headers = getHeader(this.appConfig.config[db].KEY);
   }
 

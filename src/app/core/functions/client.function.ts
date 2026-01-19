@@ -2,10 +2,10 @@ import { createClient, SupabaseClient } from '@supabase/supabase-js';
 import { environment } from '../../../environments/environment';
 
 export interface IAppConfig {
-  BE_CS: {
+  CS: {
     KEY: string;
   };
-  BE_PY: {
+  PY: {
     KEY: string;
   };
   DB2: {
@@ -17,7 +17,7 @@ export interface IAppConfig {
 export function getClient(config: IAppConfig): SupabaseClient {
   const rr: Function = (s: string) => s.slice(0, -9);
 
-  return createClient(rr(environment.DB2), config.DB2.KEY, {
+  return createClient(rr(environment.BE.DB2), config.DB2.KEY, {
     auth: {
       storageKey: config.DB2.STORAGE_KEY,
       detectSessionInUrl: false,

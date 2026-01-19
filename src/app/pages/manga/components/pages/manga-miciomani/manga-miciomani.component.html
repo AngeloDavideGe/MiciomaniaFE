@@ -1,28 +1,109 @@
-<div
-  class="text-white py-3 mb-3"
-  style="
-    background: linear-gradient(135deg, #27ae60 0%, #2ecc71 50%, #1e8449 100%);
-    border-radius: 20px;
-    box-shadow: 0 6px 18px rgba(39, 174, 96, 0.6);
-  "
->
-  <app-dettagli-manga
-    [titolo]="mmicioLang.titolo"
-    [messaggio]="'🎮' + mmicioLang.messaggio"
-    [descrizione]="mmicioLang.descrizione"
-    [bottoni]="pulsanti"
-  ></app-dettagli-manga>
-</div>
+<div class="manga-section">
+  <!-- Hero Section -->
+  <div class="hero-container mb-5">
+    <div class="hero-content p-4 p-md-5 text-center text-white">
+      <div class="d-flex flex-wrap justify-content-center gap-3">
+        <app-dettagli-manga
+          [bottoni]="pulsanti"
+          [titolo]="mmicioLang.titolo"
+          [messaggio]="'🎮 ' + mmicioLang.messaggio"
+          [descrizione]="mmicioLang.descrizione"
+        ></app-dettagli-manga>
+      </div>
+    </div>
+  </div>
 
-<div class="row justify-content-center g-4">
-  @for (
-    manga of elementiUtenteService.mangaParodia?.mangaMiciomania;
-    track $index
-  ) {
-    <app-card-manga-miciomania
-      [mmicioLang]="mmicioLang"
-      [manga]="manga"
-      (downloadManga)="mangaSongUtilities.downloadManga(manga)"
-    ></app-card-manga-miciomania>
-  }
+  <!-- Sezione Manga Miciomania -->
+  <section class="mb-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <h2 class="text-white">
+        <i class="bi bi-stars me-2"></i>
+        Manga Miciomania
+        <span class="badge bg-primary ms-2">{{
+          elementiUtenteService.mangaParodia?.mangaMiciomania?.length || 0
+        }}</span>
+      </h2>
+      <div>
+        <button
+          class="btn btn-outline-light btn-sm"
+          (click)="scrollToSection('mangaUtente')"
+        >
+          <i class="bi bi-arrow-down me-1"></i>
+          Vai a Manga Utente
+        </button>
+      </div>
+    </div>
+
+    @if (elementiUtenteService.mangaParodia?.mangaMiciomania?.length) {
+      <div class="row g-4">
+        @for (
+          manga of elementiUtenteService.mangaParodia?.mangaMiciomania;
+          track $index
+        ) {
+          <div class="col-md-6 col-lg-4 col-xl-3">
+            <app-card-manga-miciomania
+              [mmicioLang]="mmicioLang"
+              [manga]="manga"
+              (downloadManga)="mangaSongUtilities.downloadManga(manga)"
+            ></app-card-manga-miciomania>
+          </div>
+        }
+      </div>
+    } @else {
+      <div class="text-center py-5">
+        <i class="bi bi-book mb-3" style="font-size: 4rem; color: #6c757d"></i>
+        <h4 class="text-muted">Nessun manga disponibile</h4>
+        <p class="text-muted">Aggiungi il tuo primo manga alla collezione!</p>
+      </div>
+    }
+  </section>
+
+  <!-- Sezione Manga Utente -->
+  <section id="mangaUtente" class="mt-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <h2 class="text-white">
+        <i class="bi bi-person-circle me-2"></i>
+        Manga Utente
+        <span class="badge bg-success ms-2">{{
+          elementiUtenteService.mangaParodia?.mangaUtentePars?.length || 0
+        }}</span>
+      </h2>
+      <div>
+        <button class="btn btn-outline-light btn-sm" (click)="scrollToTop()">
+          <i class="bi bi-arrow-up me-1"></i>
+          Torna Su
+        </button>
+      </div>
+    </div>
+
+    @if (elementiUtenteService.mangaParodia?.mangaUtentePars?.length) {
+      <div class="row g-4">
+        @for (
+          manga of elementiUtenteService.mangaParodia?.mangaUtentePars;
+          track $index
+        ) {
+          <div class="col-md-6 col-lg-4 col-xl-3">
+            <app-card-manga-miciomania
+              [mmicioLang]="mmicioLang"
+              [manga]="manga"
+              (downloadManga)="mangaSongUtilities.downloadManga(manga)"
+            ></app-card-manga-miciomania>
+          </div>
+        }
+      </div>
+    } @else {
+      <div class="text-center py-5">
+        <i
+          class="bi bi-journal-plus mb-3"
+          style="font-size: 4rem; color: #6c757d"
+        ></i>
+        <h4 class="text-muted">Nessun manga utente</h4>
+        <p class="text-muted">Crea il tuo primo manga personalizzato!</p>
+        <button class="btn btn-primary mt-2">
+          <i class="bi bi-plus-circle me-1"></i>
+          Crea Manga
+        </button>
+      </div>
+    }
+  </section>
 </div>

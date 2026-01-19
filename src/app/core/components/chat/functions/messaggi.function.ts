@@ -48,14 +48,14 @@ export function getMessaggioBenvenuto(): Messaggio {
 }
 
 export function getMessaggioCompBenvenuto(
-  message: Messaggio
+  message: Messaggio,
 ): IMessaggioComponent {
   return {
     message: message,
     name: message.sender,
     replySender: '',
     replyText: '',
-    urlPic: environment.defaultPic,
+    urlPic: environment.defaultPicsUrl.user,
     class2: 'received',
   };
 }

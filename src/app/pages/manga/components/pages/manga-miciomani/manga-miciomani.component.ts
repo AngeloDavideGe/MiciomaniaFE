@@ -20,6 +20,7 @@ import {
   standalone: true,
   imports: [DettagliMangaComponent, CardMangaMiciomaniaComponent],
   templateUrl: './manga-miciomani.component.html',
+  styleUrl: './manga-miciomani.component.scss',
 })
 export class MangaMiciomaniComponent implements OnInit {
   public elementiUtenteService = inject(ElementiUtenteService);
@@ -71,5 +72,22 @@ export class MangaMiciomaniComponent implements OnInit {
   private nextGetListaMangaMiciomani(data: MangaParodia): void {
     this.elementiUtenteService.mangaParodia = data;
     this.loadingService.hide();
+  }
+
+  scrollToSection(sectionId: string): void {
+    const element = document.getElementById(sectionId);
+    if (element) {
+      element.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start',
+      });
+    }
+  }
+
+  scrollToTop(): void {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    });
   }
 }

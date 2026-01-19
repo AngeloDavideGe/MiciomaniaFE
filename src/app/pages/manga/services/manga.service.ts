@@ -12,7 +12,7 @@ export class MangaService extends BaseService {
   public listaManga = signal<ListaManga[]>([]);
 
   constructor() {
-    super('BE_CS');
+    super('CS');
   }
 
   getAllManga(): Observable<ListaManga[]> {
@@ -32,13 +32,13 @@ export class MangaService extends BaseService {
 
     return this.getCustom<ListaEUtenti>(
       'Manga/get_all_manga_e_preferiti',
-      params
+      params,
     );
   }
 
   postOrUpdateMangaUtente(
     id: string,
-    mangaUtente: MangaUtente
+    mangaUtente: MangaUtente,
   ): Observable<void> {
     const body = {
       preferiti: mangaUtente.preferiti,

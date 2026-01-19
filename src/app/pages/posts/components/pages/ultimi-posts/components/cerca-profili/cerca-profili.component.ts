@@ -29,7 +29,7 @@ export class CercaProfiliComponent {
   private authService = inject(AuthService);
 
   private readonly itemsPerPage: number = 3;
-  public readonly defaultPic = environment.defaultPic;
+  public readonly defaultPic = environment.defaultPicsUrl.user;
 
   public users = signal<UserParams[]>(this.authService.users());
   public currentPage = signal<number>(1);
@@ -47,7 +47,7 @@ export class CercaProfiliComponent {
       filteredUsers = users.filter(
         (user: UserParams) =>
           user.nome.toLowerCase().includes(query) ||
-          user.id.toLowerCase().includes(query)
+          user.id.toLowerCase().includes(query),
       );
     }
 

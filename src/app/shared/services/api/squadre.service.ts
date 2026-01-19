@@ -20,7 +20,7 @@ export class SquadreService extends BaseService {
   };
 
   constructor() {
-    super('BE_CS');
+    super('CS');
   }
 
   getSquadre(): Observable<Squadre[]> {
@@ -34,14 +34,14 @@ export class SquadreService extends BaseService {
 
     return this.getCustom<Classifica>(
       'Squadre/get_squadre_e_giocatori',
-      params
+      params,
     );
   }
 
   updatePunteggioSquadra(
     userId: string,
     nomeSquadra: string,
-    punteggioOttenuto: number
+    punteggioOttenuto: number,
   ): Observable<void> {
     const body = {
       nomeSquadra: nomeSquadra,
@@ -50,7 +50,7 @@ export class SquadreService extends BaseService {
 
     return this.putCustom<void>(
       `Squadre/update_punteggio_giocatore/${userId}`,
-      body
+      body,
     );
   }
 }
