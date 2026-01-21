@@ -16,28 +16,29 @@ import { Lingua } from '../../../../shared/interfaces/http.interface';
           <h6 class="fw-bold display-6">Seguiteci su</h6>
         </div>
         <div class="row g-4">
-          @if(gitHubService.social.length > 0) {
-          <!-- Lista social -->
-          @for(s of gitHubService.social; track s.nome) {
-          <div class="col-12 col-md-6 col-lg-4 d-flex align-items-center">
-            <i
-              class="bi fs-1 me-3"
-              [class]="s.icona"
-              [style]="{ color: s.colore }"
-            ></i>
-            <div (click)="openLink(s.link)" style="cursor: pointer;">
-              <h4 class="fw-bold">{{ s.nome }}</h4>
-              <p class="mb-0">{{ s.descrizione[lingua] }}</p>
+          @if (gitHubService.social.length > 0) {
+            <!-- Lista social -->
+            @for (s of gitHubService.social; track s.nome) {
+              <div class="col-12 col-md-6 col-lg-4 d-flex align-items-center">
+                <i
+                  class="bi fs-1 me-3"
+                  [class]="s.icona"
+                  [style]="{ color: s.colore }"
+                ></i>
+                <div (click)="openLink(s.link)" style="cursor: pointer;">
+                  <h4 class="fw-bold">{{ s.nome }}</h4>
+                  <p class="mb-0">{{ s.descrizione[lingua] }}</p>
+                </div>
+              </div>
+            }
+          } @else {
+            <div
+              class="d-flex justify-content-center align-items-center spinner-template-stile"
+            >
+              <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">Loading...</span>
+              </div>
             </div>
-          </div>
-          } } @else {
-          <div
-            class="d-flex justify-content-center align-items-center spinner-template-stile"
-          >
-            <div class="spinner-border text-primary" role="status">
-              <span class="visually-hidden">Loading...</span>
-            </div>
-          </div>
           }
         </div>
       </div>
@@ -68,7 +69,7 @@ export class SocialLinkComponent implements OnInit {
         .getGistFormGithub(
           'AngeloDavideGe',
           '831668ef76a20e1c4cbf88666215fcfa',
-          'Social.json'
+          'Social.json',
         )
         .pipe(take(1))
         .subscribe({

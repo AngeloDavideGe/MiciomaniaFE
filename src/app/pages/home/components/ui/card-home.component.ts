@@ -16,7 +16,7 @@ import { Lingua } from '../../../../shared/interfaces/http.interface';
   standalone: true,
   imports: [RouterLink],
   template: `
-    <section class="py-5" id="CardsRow">
+    <section id="CardsRow">
       <div class="container position-relative">
         <div class="text-center mb-5">
           <h4 class="fw-bold display-4">Home - Miciomania</h4>
