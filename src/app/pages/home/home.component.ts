@@ -83,7 +83,7 @@ export class HomeComponent {
     ]);
     DataHttp.user.set(null);
     DataHttp.profiloPersonale = null;
-    DataHttp.mangaUtente = {} as any;
+    DataHttp.mangaUtente = null;
     this.setAnonymousUser();
   }
 

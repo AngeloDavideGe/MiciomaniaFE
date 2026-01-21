@@ -27,13 +27,13 @@ import { Lingua } from '../../../../shared/interfaces/http.interface';
         >
           <!-- Freccia sinistra -->
           @if (visualizzaButtoni() && !disableLeft()) {
-          <button
-            class="btn btn-light position-absolute start-0 top-50 translate-middle-y shadow"
-            style="z-index: 100;"
-            (click)="scrollCards(-1)"
-          >
-            <i class="bi bi-chevron-left fs-4"></i>
-          </button>
+            <button
+              class="btn btn-light position-absolute start-0 top-50 translate-middle-y shadow"
+              style="z-index: 100; border: 1px solid #9ed0e5;"
+              (click)="scrollCards(-1)"
+            >
+              <i class="bi bi-chevron-left fs-4"></i>
+            </button>
           }
 
           <!-- Carousel container -->
@@ -44,41 +44,41 @@ import { Lingua } from '../../../../shared/interfaces/http.interface';
               style="scroll-snap-type: x mandatory;"
             >
               @for (card of cardElementSlice(); track $index) {
-              <div
-                class="card flex-shrink-0"
-                style="width: 300px; scroll-snap-align: center;"
-              >
-                <img [src]="card.link" class="card-img-top" alt="..." />
-                <div class="card-body" [class]="card.bgClass">
-                  <h5 class="card-title fw-bold">
-                    {{ card.titolo[lingua()] }}
-                  </h5>
-                  <p class="card-text">{{ card.descrizione[lingua()] }}</p>
+                <div
+                  class="card flex-shrink-0"
+                  style="width: 300px; scroll-snap-align: center;"
+                >
+                  <img [src]="card.link" class="card-img-top" alt="..." />
+                  <div class="card-body" [class]="card.bgClass">
+                    <h5 class="card-title fw-bold">
+                      {{ card.titolo[lingua()] }}
+                    </h5>
+                    <p class="card-text">{{ card.descrizione[lingua()] }}</p>
 
-                  @if (!card.func) {
-                  <a [routerLink]="card.aLink" class="btn btn-light">
-                    {{ card.titoloBottone[lingua()] }}
-                  </a>
-                  } @else {
-                  <a class="btn btn-light" (click)="card.func()">
-                    {{ card.titoloBottone[lingua()] }}
-                  </a>
-                  }
+                    @if (!card.func) {
+                      <a [routerLink]="card.aLink" class="btn btn-light">
+                        {{ card.titoloBottone[lingua()] }}
+                      </a>
+                    } @else {
+                      <a class="btn btn-light" (click)="card.func()">
+                        {{ card.titoloBottone[lingua()] }}
+                      </a>
+                    }
+                  </div>
                 </div>
-              </div>
               }
             </div>
           </div>
 
           <!-- Freccia destra -->
           @if (visualizzaButtoni() && !disableRight()) {
-          <button
-            class="btn btn-light position-absolute end-0 top-50 translate-middle-y shadow"
-            style="z-index: 100;"
-            (click)="scrollCards(1)"
-          >
-            <i class="bi bi-chevron-right fs-4"></i>
-          </button>
+            <button
+              class="btn btn-light position-absolute end-0 top-50 translate-middle-y shadow"
+              style="z-index: 100; border: 1px solid #9ed0e5;"
+              (click)="scrollCards(1)"
+            >
+              <i class="bi bi-chevron-right fs-4"></i>
+            </button>
           }
         </div>
       </div>

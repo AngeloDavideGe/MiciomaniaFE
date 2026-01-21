@@ -1,109 +1,67 @@
-<div class="manga-section">
-  <!-- Hero Section -->
-  <div class="hero-container mb-5">
-    <div class="hero-content p-4 p-md-5 text-center text-white">
-      <div class="d-flex flex-wrap justify-content-center gap-3">
-        <app-dettagli-manga
-          [bottoni]="pulsanti"
-          [titolo]="mmicioLang.titolo"
-          [messaggio]="'🎮 ' + mmicioLang.messaggio"
-          [descrizione]="mmicioLang.descrizione"
-        ></app-dettagli-manga>
-      </div>
-    </div>
+<!-- Hero Section -->
+<div style="overflow-x: hidden">
+  <div class="text-white py-3 mb-2" style="background-color: #9bcf69">
+    <app-dettagli-manga
+      [bottoni]="pulsanti"
+      [titolo]="mmicioLang.titolo"
+      [messaggio]="'🎮 ' + mmicioLang.messaggio"
+      [descrizione]="mmicioLang.descrizione"
+    ></app-dettagli-manga>
   </div>
 
   <!-- Sezione Manga Miciomania -->
-  <section class="mb-5">
-    <div class="d-flex justify-content-between align-items-center mb-4">
-      <h2 class="text-white">
-        <i class="bi bi-stars me-2"></i>
-        Manga Miciomania
-        <span class="badge bg-primary ms-2">{{
-          elementiUtenteService.mangaParodia?.mangaMiciomania?.length || 0
-        }}</span>
-      </h2>
-      <div>
-        <button
-          class="btn btn-outline-light btn-sm"
-          (click)="scrollToSection('mangaUtente')"
-        >
-          <i class="bi bi-arrow-down me-1"></i>
-          Vai a Manga Utente
-        </button>
-      </div>
-    </div>
+  <section class="mt-3">
+    <app-custom-scroll
+      [titolo]="mmicioLang.titoloScrollGiu"
+      [icona]="'bi bi-arrow-down'"
+      [nomeIcona]="mmicioLang.iconaScrollGiu"
+      [idComponent]="'MangaUtente'"
+      [lunghezzaFiltro]="
+        elementiUtenteService.mangaParodia?.mangaMiciomania?.length || 0
+      "
+    ></app-custom-scroll>
 
-    @if (elementiUtenteService.mangaParodia?.mangaMiciomania?.length) {
-      <div class="row g-4">
-        @for (
-          manga of elementiUtenteService.mangaParodia?.mangaMiciomania;
-          track $index
-        ) {
-          <div class="col-md-6 col-lg-4 col-xl-3">
-            <app-card-manga-miciomania
-              [mmicioLang]="mmicioLang"
-              [manga]="manga"
-              (downloadManga)="mangaSongUtilities.downloadManga(manga)"
-            ></app-card-manga-miciomania>
-          </div>
-        }
-      </div>
-    } @else {
-      <div class="text-center py-5">
-        <i class="bi bi-book mb-3" style="font-size: 4rem; color: #6c757d"></i>
-        <h4 class="text-muted">Nessun manga disponibile</h4>
-        <p class="text-muted">Aggiungi il tuo primo manga alla collezione!</p>
-      </div>
-    }
+    <div class="row g-4">
+      @for (
+        manga of elementiUtenteService.mangaParodia?.mangaMiciomania;
+        track $index
+      ) {
+        <div class="col-md-6 col-lg-4 col-xl-3">
+          <app-card-manga-miciomania
+            [mmicioLang]="mmicioLang"
+            [manga]="manga"
+            (downloadManga)="mangaSongUtilities.downloadManga(manga)"
+          ></app-card-manga-miciomania>
+        </div>
+      }
+    </div>
   </section>
 
   <!-- Sezione Manga Utente -->
-  <section id="mangaUtente" class="mt-5">
-    <div class="d-flex justify-content-between align-items-center mb-4">
-      <h2 class="text-white">
-        <i class="bi bi-person-circle me-2"></i>
-        Manga Utente
-        <span class="badge bg-success ms-2">{{
-          elementiUtenteService.mangaParodia?.mangaUtentePars?.length || 0
-        }}</span>
-      </h2>
-      <div>
-        <button class="btn btn-outline-light btn-sm" (click)="scrollToTop()">
-          <i class="bi bi-arrow-up me-1"></i>
-          Torna Su
-        </button>
-      </div>
-    </div>
+  <section id="MangaUtente" class="mt-3">
+    <app-custom-scroll
+      [titolo]="mmicioLang.titoloScrollSu"
+      [icona]="'bi bi-arrow-up'"
+      [nomeIcona]="mmicioLang.iconaScrollSu"
+      [top]="270"
+      [lunghezzaFiltro]="
+        elementiUtenteService.mangaParodia?.mangaUtentePars?.length || 0
+      "
+    ></app-custom-scroll>
 
-    @if (elementiUtenteService.mangaParodia?.mangaUtentePars?.length) {
-      <div class="row g-4">
-        @for (
-          manga of elementiUtenteService.mangaParodia?.mangaUtentePars;
-          track $index
-        ) {
-          <div class="col-md-6 col-lg-4 col-xl-3">
-            <app-card-manga-miciomania
-              [mmicioLang]="mmicioLang"
-              [manga]="manga"
-              (downloadManga)="mangaSongUtilities.downloadManga(manga)"
-            ></app-card-manga-miciomania>
-          </div>
-        }
-      </div>
-    } @else {
-      <div class="text-center py-5">
-        <i
-          class="bi bi-journal-plus mb-3"
-          style="font-size: 4rem; color: #6c757d"
-        ></i>
-        <h4 class="text-muted">Nessun manga utente</h4>
-        <p class="text-muted">Crea il tuo primo manga personalizzato!</p>
-        <button class="btn btn-primary mt-2">
-          <i class="bi bi-plus-circle me-1"></i>
-          Crea Manga
-        </button>
-      </div>
-    }
+    <div class="row g-4">
+      @for (
+        manga of elementiUtenteService.mangaParodia?.mangaUtentePars;
+        track $index
+      ) {
+        <div class="col-md-6 col-lg-4 col-xl-3">
+          <app-card-manga-miciomania
+            [mmicioLang]="mmicioLang"
+            [manga]="manga"
+            (downloadManga)="mangaSongUtilities.downloadManga(manga)"
+          ></app-card-manga-miciomania>
+        </div>
+      }
+    </div>
   </section>
 </div>

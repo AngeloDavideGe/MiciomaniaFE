@@ -22,27 +22,25 @@ import { CursorUtilities } from './shared/utilities/cursor.utilities';
   standalone: true,
   imports: [RouterOutlet, MiniPlayerComponent, ChatComponent],
   template: `
-    <div class="app-router-outlet-container">
-      <!-- Componenti delle rotte -->
-      <router-outlet></router-outlet>
+    <!-- Componenti delle rotte -->
+    <router-outlet></router-outlet>
 
-      <!-- Spaczio Vuoto-->
-      <div
-        [style]="{
-          height: miniPlayerService.currentCanzone() ? '13rem' : '5rem'
-        }"
-      ></div>
+    <!-- Spaczio Vuoto-->
+    <div
+      [style]="{
+        height: miniPlayerService.currentCanzone() ? '13rem' : '5rem',
+      }"
+    ></div>
 
-      <!-- Chat -->
-      @if (chatService.chatVisibile()) {
+    <!-- Chat -->
+    @if (chatService.chatVisibile()) {
       <app-chat [canzoniAperte]="miniPlayerService.currentCanzone"></app-chat>
-      }
+    }
 
-      <!-- Mini Player -->
-      @if (miniPlayerService.currentCanzone()) {
+    <!-- Mini Player -->
+    @if (miniPlayerService.currentCanzone()) {
       <app-mini-player> </app-mini-player>
-      }
-    </div>
+    }
   `,
 })
 export class AppComponent implements OnInit, AfterViewInit {

@@ -6,11 +6,12 @@ import { LoadingService } from '../../shared/services/template/loading.service';
 import { MangaSongUtilities } from '../../shared/utilities/mangaSong.utilities';
 import { CardSongComponent } from './components/card-song.component';
 import { HeaderSongComponent } from './components/header-song.component';
+import { CustomScrollComponent } from '../../shared/components/custom/scroll-custom.component';
 
 @Component({
   selector: 'app-song',
   standalone: true,
-  imports: [HeaderSongComponent, CardSongComponent],
+  imports: [HeaderSongComponent, CardSongComponent, CustomScrollComponent],
   templateUrl: './song.component.html',
 })
 export class SongComponent implements OnInit {
@@ -40,5 +41,22 @@ export class SongComponent implements OnInit {
   private nextGetListaMangaMiciomani(data: CanzoniParodia): void {
     this.elementiUtenteService.canzoniParodia = data;
     this.loadingService.hide();
+  }
+
+  scrollToSection(sectionId: string): void {
+    const element = document.getElementById(sectionId);
+    if (element) {
+      element.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start',
+      });
+    }
+  }
+
+  scrollToTop(): void {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    });
   }
 }
