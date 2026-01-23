@@ -10,6 +10,7 @@ import {
   SquadreLang,
   SquadreLangType,
 } from './languages/interfaces/squadre-lang.interface';
+import { NavBarButton } from '../../../../../shared/components/custom/navbar-custom.component';
 
 @Component({
   selector: 'app-squadre',
@@ -23,7 +24,8 @@ export class SquadreComponent implements OnInit {
   public squadreService = inject(SquadreService);
 
   public squadreLang: SquadreLang = {} as SquadreLang;
-  public stampa = signal<boolean>(false);
+  public bottoniNavbar: NavBarButton[] = this.loadButton();
+  public component = signal<'squadra' | 'print' | 'mappa'>('squadra');
   public error = signal<boolean>(false);
   public squadreCaricate = signal<boolean>(false);
 
@@ -40,21 +42,34 @@ export class SquadreComponent implements OnInit {
     loadSquadre({
       squadreService: this.squadreService,
       ifCall: () => this.loadingService.show(),
-      elseCall: () => {},
+      elseCall: () => this.squadreCaricate.set(true),
       nextCall: () => this.squadreCaricate.set(true),
       errorCall: () => this.error.set(true),
       finalizeFunc: () => this.loadingService.hide(),
     });
   }
 
-  captureElement() {
+  captureElement(): void {
     this.chatService.chatVisibile.set(false);
-    this.stampa.set(true);
+    this.component.set('print');
 
     setTimeout(() => {
       window.print();
-      this.stampa.set(false);
+      this.component.set('squadra');
       this.chatService.chatVisibile.set(true);
     }, 50);
+  }
+
+  private loadButton(): NavBarButton[] {
+    return [
+      {
+        icon: 'bi bi-map',
+        action: () => this.component.set('squadra'),
+      },
+      {
+        icon: 'bi bi-map',
+        action: () => this.component.set('mappa'),
+      },
+    ];
   }
 }

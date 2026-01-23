@@ -1,34 +1,39 @@
+<app-custom-navbar
+  [goHomeBotton]="'home'"
+  [altriBottoni]="bottoniNavbar"
+></app-custom-navbar>
+
 @if (!error()) {
-  @if (!stampa()) {
-    <div class="p-4 rounded-3">
-      <!-- Descrizione Squadre -->
-      <app-lista-squadre
-        [squadreLang]="squadreLang"
-        [squadreCaricate]="squadreCaricate()"
-      ></app-lista-squadre>
+  @switch (component()) {
+    @case ("squadra") {
+      <div class="mt-5 p-4 rounded-3">
+        <app-lista-squadre
+          [squadreLang]="squadreLang"
+          [squadreCaricate]="squadreCaricate()"
+        ></app-lista-squadre>
 
-      <!-- Google Chart -->
-      @if (squadreService.classifica.squadre.length > 0) {
-        <app-chart-custom
-          [giocatori]="squadreService.classifica.giocatori"
-          [squadre]="squadreService.classifica.squadre"
-        ></app-chart-custom>
-      }
+        @if (squadreService.classifica.squadre.length > 0) {
+          <app-chart-custom
+            [giocatori]="squadreService.classifica.giocatori"
+            [squadre]="squadreService.classifica.squadre"
+          ></app-chart-custom>
+        }
 
-      <!-- Bottoni -->
-      <app-bottoni-squadre
-        (captureElement)="captureElement()"
-      ></app-bottoni-squadre>
-    </div>
-  } @else {
-    <!-- Stampa -->
-    <app-chart-print
-      [giocatori]="squadreService.classifica.giocatori"
-      [squadre]="squadreService.classifica.squadre"
-    ></app-chart-print>
+        <app-bottoni-squadre
+          (captureElement)="captureElement()"
+        ></app-bottoni-squadre>
+      </div>
+    }
+    @case ("mappa") {
+      <app-mappa-squadre></app-mappa-squadre>
+    }
+    @case ("print") {
+      <app-chart-print
+        [giocatori]="squadreService.classifica.giocatori"
+        [squadre]="squadreService.classifica.squadre"
+      ></app-chart-print>
+    }
   }
-}
-<!-- Error -->
-@else {
+} @else {
   <app-error-http></app-error-http>
 }

@@ -8,18 +8,8 @@ import { SquadreLang } from '../languages/interfaces/squadre-lang.interface';
 @Component({
   selector: 'app-lista-squadre',
   standalone: true,
-  imports: [BottonCustomComponent],
+  imports: [],
   template: `
-    <!-- Bottone Torna alla Home -->
-    <div class="mb-4">
-      <app-botton-custom
-        [text]="squadreLang.tornaHome"
-        [icon1]="'bi bi-arrow-left'"
-        [color]="'#e9ecef'"
-        (clickBotton)="router.navigate(['/home'])"
-      ></app-botton-custom>
-    </div>
-
     <!-- Titolo e descrizione -->
     <div class="row mb-4">
       <div class="col-12 text-center">
@@ -35,23 +25,28 @@ import { SquadreLang } from '../languages/interfaces/squadre-lang.interface';
     <!-- Lista squadre -->
     <div class="row justify-content-center align-items-center g-2 mb-4">
       @for (squadra of teamSquadre(); track $index; let i = $index) {
-      <div class="{{ col() }} d-flex align-items-center justify-content-center">
-        <!-- Badge squadra -->
-        <span
-          class="badge fs-6 px-3 py-2 rounded-pill shadow-sm"
-          [style.backgroundColor]="squadra.colore"
-          [style.color]="'#fff'"
+        <div
+          class="{{ col() }} d-flex align-items-center justify-content-center"
         >
-          {{ squadra.nome }}
-        </span>
+          <!-- Badge squadra -->
+          <span
+            class="badge fs-6 px-3 py-2 rounded-pill shadow-sm"
+            [style.backgroundColor]="squadra.colore"
+            [style.color]="'#fff'"
+          >
+            {{ squadra.nome }}
+          </span>
 
-        <!-- VS (solo se non è l'ultima squadra) -->
-        @if (i != teamSquadre().length - 1) {
-        <span class="fw-semibold text-secondary mx-2" style="font-size: 1rem;">
-          VS
-        </span>
-        }
-      </div>
+          <!-- VS (solo se non è l'ultima squadra) -->
+          @if (i != teamSquadre().length - 1) {
+            <span
+              class="fw-semibold text-secondary mx-2"
+              style="font-size: 1rem;"
+            >
+              VS
+            </span>
+          }
+        </div>
       }
     </div>
   `,
@@ -68,7 +63,7 @@ export class ListaSquadreComponent {
     if (value) {
       this.teamSquadre.set(this.squadreService.classifica.squadre);
       this.col.set(
-        `col-md-${Math.floor(12 / this.teamSquadre().length)} col-6`
+        `col-md-${Math.floor(12 / this.teamSquadre().length)} col-6`,
       );
     }
   }

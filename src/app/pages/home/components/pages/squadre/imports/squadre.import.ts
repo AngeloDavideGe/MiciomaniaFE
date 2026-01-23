@@ -4,6 +4,8 @@ import { ChartsPrintComponent } from '../components/charts-print.component';
 import { ChartsComponent } from '../components/charts.component';
 import { ListaSquadreComponent } from '../components/lista-squadre.component';
 import { ErrorHttpComponent } from '../../../../../../shared/components/custom/errorhttp.component';
+import { MappaSquadreComponent } from '../components/mappa-squadre.component';
+import { CustomNavBarComponent } from '../../../../../../shared/components/custom/navbar-custom.component';
 
 export const squadreimports: Type<any>[] = [
   ListaSquadreComponent,
@@ -11,4 +13,6 @@ export const squadreimports: Type<any>[] = [
   ChartsComponent,
   ChartsPrintComponent,
   ErrorHttpComponent,
+  MappaSquadreComponent,
+  CustomNavBarComponent,
 ];
