@@ -1,15 +1,22 @@
 import { Component, HostListener, Input, signal } from '@angular/core';
-import { MappaItaliaComponent } from '../../../../../../../assets/components/italia.component';
+import {
+  PathRegione,
+  SvgCustomComponent,
+} from '../../../../../../../assets/components/svg-custom.component';
 import { debounceTimeoutCustom } from '../../../../../../shared/functions/utilities.function';
-import { Conquiste } from '../../../../../../shared/interfaces/github.interface';
+import {
+  Conquiste,
+  Mappa,
+} from '../../../../../../shared/interfaces/github.interface';
 import { renderPieChartMap } from '../functions/draw.function';
+import { PATH_REGIONI } from '../constants/path-regioni.constant';
 
 declare var google: any;
 
 @Component({
   selector: 'app-mappa-squadre',
   standalone: true,
-  imports: [MappaItaliaComponent],
+  imports: [SvgCustomComponent],
   template: `
     <div id="ContainerMap" class="mt-5">
       @if (loading()) {
@@ -22,10 +29,16 @@ declare var google: any;
             <div id="chart_pie_mappa"></div>
           </div>
 
-          <div class="map-wrapper">
-            <app-mappa-italia
-              [coloriRegioni]="coloriRegioni"
-            ></app-mappa-italia>
+          <div class="map-wrapper mt-4">
+            <app-svg-custom
+              [paths]="paths"
+              [colori]="coloriRegioni"
+              [translate]="'translate(-120, -40)'"
+              [width]="750"
+              [height]="850"
+              [modale]="territorioAperto()"
+              (pathClicked)="openLegend($event)"
+            ></app-svg-custom>
           </div>
         </div>
       }
@@ -85,10 +98,12 @@ declare var google: any;
   ],
 })
 export class MappaSquadreComponent {
+  public readonly paths: PathRegione[] = PATH_REGIONI;
   private conquiste: Conquiste = { conquistatori: {}, territori: {} };
   public chartConquiste: ChartConquiste[] = [];
   public colors: string[] = [];
   public coloriRegioni: Record<string, string> = {};
+  public territorioAperto = signal<Mappa | null>(null);
   public loading = signal<boolean>(true);
 
   @Input() set setConquiste(value: Conquiste | null) {
@@ -130,6 +145,11 @@ export class MappaSquadreComponent {
   onResize = debounceTimeoutCustom(() => {
     renderPieChartMap(this.chartConquiste, this.colors, 'chart_pie_mappa');
   });
+
+  public openLegend(regionId: string): void {
+    const conquista: Mappa = this.conquiste.territori[regionId];
+    this.territorioAperto.set(conquista);
+  }
 }
 
 export interface ChartConquiste {

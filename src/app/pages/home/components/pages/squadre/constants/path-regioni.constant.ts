@@ -1,8 +1,4 @@
-export interface PathRegione {
-  id: string;
-  title: string;
-  d: string;
-}
+import { PathRegione } from '../../../../../../../assets/components/svg-custom.component';
 
 export const PATH_REGIONI: PathRegione[] = [
   {
