@@ -25,7 +25,9 @@
       </div>
     }
     @case ("mappa") {
-      <app-mappa-squadre></app-mappa-squadre>
+      <app-mappa-squadre
+        [setConquiste]="githubService.conquiste()"
+      ></app-mappa-squadre>
     }
     @case ("print") {
       <app-chart-print

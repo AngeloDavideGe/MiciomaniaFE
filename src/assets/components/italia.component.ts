@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { PATH_REGIONI, PathRegione } from '../constants/path-regioni.constant';
 
 @Component({
@@ -6,20 +6,23 @@ import { PATH_REGIONI, PathRegione } from '../constants/path-regioni.constant';
   template: `
     <svg
       baseprofile="tiny"
-      fill="#f8f9fa"
       height="1000"
+      width="850"
       stroke="#4a5568"
       stroke-linecap="round"
       stroke-linejoin="round"
       stroke-width="1.2"
       version="1.2"
-      viewbox="0 0 1000 1000"
-      width="1000"
+      viewbox="0 0 850 1000"
       xmlns="http://www.w3.org/2000/svg"
     >
       <g id="features">
         @for (path of paths; track $index) {
-          <path [attr.d]="path.d" [attr.id]="path.id">
+          <path
+            [attr.d]="path.d"
+            [attr.id]="path.id"
+            [attr.fill]="coloriRegioni[path.id] || '#e2e5e8'"
+          >
             <title>{{ path.title }}</title>
           </path>
         }
@@ -43,5 +46,6 @@ import { PATH_REGIONI, PathRegione } from '../constants/path-regioni.constant';
   ],
 })
 export class MappaItaliaComponent {
+  @Input() coloriRegioni: Record<string, string> = {};
   public paths: PathRegione[] = PATH_REGIONI;
 }

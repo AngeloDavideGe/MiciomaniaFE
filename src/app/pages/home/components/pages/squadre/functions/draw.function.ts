@@ -1,8 +1,9 @@
-import { environment } from '../../../../../../../environments/environment';
 import {
-  Squadre,
   Giocatori,
+  Squadre,
 } from '../../../../../../shared/interfaces/squadre.interface';
+import { ChartConquiste } from '../components/mappa-squadre.component';
+import { chartOptionsMappa } from '../options/mappa.option';
 import { chartOptionsSquadre } from '../options/squadre.option';
 import { chartOptionsUtenti } from '../options/utenti.option';
 
@@ -11,7 +12,7 @@ declare var google: any;
 export function renderBarChart(
   giocatori: Giocatori[],
   idChart: string,
-  squadre: Squadre[]
+  squadre: Squadre[],
 ): void {
   const mapSquad: Record<string, string> = {};
 
@@ -52,4 +53,24 @@ export function renderPieChart(squadre: Squadre[], idChart: string): void {
 
   const chart = new google.visualization.PieChart(chartContainer);
   chart.draw(data, chartOptionsSquadre(colors));
+}
+
+export function renderPieChartMap(
+  conquiste: ChartConquiste[],
+  colors: string[],
+  idChart: string,
+): void {
+  const data = new google.visualization.DataTable();
+  data.addColumn('string', 'Conquistatore');
+  data.addColumn('number', 'Territori');
+
+  conquiste.forEach((conquista: ChartConquiste) => {
+    data.addRow([conquista.proprietario, conquista.territori]);
+  });
+
+  const chartContainer: HTMLElement | null = document.getElementById(idChart);
+  if (!chartContainer) return;
+
+  const chart = new google.visualization.PieChart(chartContainer);
+  chart.draw(data, chartOptionsMappa(colors));
 }

@@ -11,6 +11,9 @@ import {
   SquadreLangType,
 } from './languages/interfaces/squadre-lang.interface';
 import { NavBarButton } from '../../../../../shared/components/custom/navbar-custom.component';
+import { GitHubService } from '../../../../../shared/services/api/github.service';
+import { Conquiste } from '../../../../../shared/interfaces/github.interface';
+import { take } from 'rxjs';
 
 @Component({
   selector: 'app-squadre',
@@ -21,6 +24,7 @@ import { NavBarButton } from '../../../../../shared/components/custom/navbar-cus
 export class SquadreComponent implements OnInit {
   private loadingService = inject(LoadingService);
   private chatService = inject(ChatService);
+  public githubService = inject(GitHubService);
   public squadreService = inject(SquadreService);
 
   public squadreLang: SquadreLang = {} as SquadreLang;
@@ -39,14 +43,8 @@ export class SquadreComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    loadSquadre({
-      squadreService: this.squadreService,
-      ifCall: () => this.loadingService.show(),
-      elseCall: () => this.squadreCaricate.set(true),
-      nextCall: () => this.squadreCaricate.set(true),
-      errorCall: () => this.error.set(true),
-      finalizeFunc: () => this.loadingService.hide(),
-    });
+    this.loadSquadre();
+    this.loadMappa();
   }
 
   captureElement(): void {
@@ -58,6 +56,33 @@ export class SquadreComponent implements OnInit {
       this.component.set('squadra');
       this.chatService.chatVisibile.set(true);
     }, 50);
+  }
+
+  private loadSquadre(): void {
+    loadSquadre({
+      squadreService: this.squadreService,
+      ifCall: () => this.loadingService.show(),
+      elseCall: () => this.squadreCaricate.set(true),
+      nextCall: () => this.squadreCaricate.set(true),
+      errorCall: () => this.error.set(true),
+      finalizeFunc: () => this.loadingService.hide(),
+    });
+  }
+
+  private loadMappa(): void {
+    if (!this.githubService.conquiste()) {
+      this.githubService
+        .getGistFormGithub(
+          'AngeloDavideGe',
+          '6a1e0e41b352f6e2d8339d9e1d7133ae',
+          'Conquiste.json',
+        )
+        .pipe(take(1))
+        .subscribe({
+          next: (data) => this.githubService.conquiste.set(data as Conquiste),
+          error: (err) => console.error('errore nel recupero mappa', err),
+        });
+    }
   }
 
   private loadButton(): NavBarButton[] {

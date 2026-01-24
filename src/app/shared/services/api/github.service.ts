@@ -1,8 +1,10 @@
-import { Injectable } from '@angular/core';
+import { Injectable, signal } from '@angular/core';
 import { from, Observable } from 'rxjs';
 import { CasualQuiz } from '../../../pages/games/interfaces/games.interfaces';
 import {
+  Conquiste,
   GitHubType,
+  Mappa,
   MN,
   Quiz,
   Social,
@@ -16,11 +18,12 @@ export class GitHubService {
   public quizFilter: Quiz[] = [];
   public mn: MN[] = [];
   public social: Social[] = [];
+  public conquiste = signal<Conquiste | null>(null);
 
   getGistFormGithub(
     nome: string,
     id: string,
-    nomeJson: string
+    nomeJson: string,
   ): Observable<GitHubType> {
     const jsonUrl = `https://gist.githubusercontent.com/${nome}/${id}/raw/${nomeJson}?t=${new Date().getTime()}`;
 
