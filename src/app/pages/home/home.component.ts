@@ -61,7 +61,7 @@ export class HomeComponent {
     sottoscrizioneUtenti({
       authService: this.authService,
       elseCall: () => {},
-      nextCall: (data) => this.handleUsersSubscription(data),
+      nextCall: (data: UserParams[]) => this.handleUsersSubscription(data),
     });
   }
 

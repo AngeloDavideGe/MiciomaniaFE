@@ -4,16 +4,21 @@ import {
   effect,
   inject,
   Input,
+  OnInit,
   signal,
   WritableSignal,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { environment } from '../../../../../../../../environments/environment';
-import { DataHttp } from '../../../../../../../core/api/http.data';
 import { debounceTimeoutCustom } from '../../../../../../../shared/functions/utilities.function';
-import { UserParams } from '../../../../../../../shared/interfaces/users.interface';
+import {
+  User,
+  UserParams,
+} from '../../../../../../../shared/interfaces/users.interface';
 import { AuthService } from '../../../../../../../shared/services/api/auth.service';
+import { sottoscrizioneUtenti } from '../../../../../../../shared/handlers/auth.handler';
+import { DataHttp } from '../../../../../../../core/api/http.data';
 
 @Component({
   selector: 'app-cerca-profili',
@@ -22,7 +27,7 @@ import { AuthService } from '../../../../../../../shared/services/api/auth.servi
   templateUrl: './cerca-profili.component.html',
   styleUrl: './cerca-profili.component.scss',
 })
-export class CercaProfiliComponent {
+export class CercaProfiliComponent implements OnInit {
   @Input() searchQuery!: WritableSignal<string>;
 
   public router = inject(Router);
@@ -31,9 +36,10 @@ export class CercaProfiliComponent {
   private readonly itemsPerPage: number = 3;
   public readonly defaultPic = environment.defaultPicsUrl.user;
 
-  public users = signal<UserParams[]>(this.authService.users());
   public currentPage = signal<number>(1);
   private debounceQuery = signal<string>('');
+
+  public users = computed<UserParams[]>(() => this.authService.users());
 
   private filteredUsers = computed<UserParams[]>(() => {
     const users: UserParams[] = this.users();
@@ -75,6 +81,23 @@ export class CercaProfiliComponent {
     });
 
     effect(() => debounced(this.searchQuery()));
+  }
+
+  ngOnInit(): void {
+    sottoscrizioneUtenti({
+      authService: this.authService,
+      elseCall: () => {},
+      nextCall: (data: UserParams[]) => {
+        const user: User | null = DataHttp.user();
+        if (user && user.id) {
+          this.authService.users.set(
+            data.filter((x: UserParams) => x.id !== user.id),
+          );
+        } else {
+          this.authService.users.set(data);
+        }
+      },
+    });
   }
 
   clearSearch(): void {

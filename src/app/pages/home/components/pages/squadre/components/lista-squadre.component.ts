@@ -1,6 +1,5 @@
 import { Component, inject, Input, signal } from '@angular/core';
 import { Router } from '@angular/router';
-import { BottonCustomComponent } from '../../../../../../shared/components/custom/botton-custom.component';
 import { Squadre } from '../../../../../../shared/interfaces/squadre.interface';
 import { SquadreService } from '../../../../../../shared/services/api/squadre.service';
 import { SquadreLang } from '../languages/interfaces/squadre-lang.interface';

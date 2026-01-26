@@ -1,7 +1,9 @@
-<app-custom-navbar
-  [goHomeBotton]="'home'"
-  [altriBottoni]="bottoniNavbar"
-></app-custom-navbar>
+@if (component() != "print") {
+  <app-custom-navbar
+    [goHomeBotton]="'home'"
+    [altriBottoni]="bottoniNavbar"
+  ></app-custom-navbar>
+}
 
 @if (!error()) {
   @switch (component()) {

@@ -88,11 +88,13 @@ export class SquadreComponent implements OnInit {
   private loadButton(): NavBarButton[] {
     return [
       {
-        icon: 'bi bi-map',
+        icon: 'bi bi-bar-chart-line',
+        title: 'Squadre',
         action: () => this.component.set('squadra'),
       },
       {
         icon: 'bi bi-map',
+        title: 'Mappa',
         action: () => this.component.set('mappa'),
       },
     ];

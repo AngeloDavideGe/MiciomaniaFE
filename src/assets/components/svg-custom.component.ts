@@ -95,10 +95,13 @@ export class SvgCustomComponent {
   @Input() width: number = 1;
   @Input() height: number = 1;
   @Input() set modale(value: Mappa | null) {
-    this.popupText = value
-      ? `Proprietario: ${value.proprietario}\nDescrizione: ${value.descrizione}`
-      : 'Nessuna conquista in questo territorio';
-    this.showPopup.set(true);
+    if (value) {
+      this.popupText = `Proprietario: ${value.proprietario}\nDescrizione: ${value.descrizione}`;
+      this.showPopup.set(true);
+    } else {
+      this.popupText = 'Nessuna informazione disponibile.';
+      this.showPopup.set(false);
+    }
   }
   @Output() pathClicked = new EventEmitter<string>();
 
@@ -108,7 +111,6 @@ export class SvgCustomComponent {
   public popupText = '';
 
   onPathClick(pathId: string, event: MouseEvent) {
-    // this.showPopup.set(false);
     this.pathClicked.emit(pathId);
 
     const svgContainer = (event.currentTarget as HTMLElement).closest(

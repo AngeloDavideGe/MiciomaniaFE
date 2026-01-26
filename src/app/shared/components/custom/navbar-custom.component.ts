@@ -13,43 +13,53 @@ import { Router } from '@angular/router';
         <!-- Left group: back + search -->
         <div class="d-flex align-items-center gap-3">
           @if (goHomeBotton) {
-          <button class="icon-btn" (click)="router.navigate([goHomeBotton])">
-            <i class="bi bi-arrow-left"></i>
-          </button>
-          } @if (filtro) {
-          <button class="icon-btn" (click)="toggleSearch()">
-            <i class="bi bi-search"></i>
-          </button>
+            <button class="icon-btn" (click)="router.navigate([goHomeBotton])">
+              <i class="bi bi-arrow-left"></i>
+            </button>
+          }
 
-          <div class="search-wrapper" [class.active]="searchActive">
-            <input
-              type="text"
-              class="search-input"
-              placeholder="Cerca..."
-              (input)="filtroChanged.emit($event.target.value)"
-            />
-          </div>
+          @if (filtro) {
+            <button class="icon-btn" (click)="toggleSearch()">
+              <i class="bi bi-search"></i>
+            </button>
+
+            <div class="search-wrapper" [class.active]="searchActive">
+              <input
+                type="text"
+                class="search-input"
+                placeholder="Cerca..."
+                (input)="filtroChanged.emit($event.target.value)"
+              />
+            </div>
           }
 
           <!-- Extra Buttons -->
           @if (altriBottoni.length > 0) {
-          <!--  -->
-          @for (btn of altriBottoni; track $index) {
-          <button class="icon-btn" (click)="btn.action()">
-            <i [class]="btn.icon"></i>
-          </button>
-          } }
+            @for (btn of altriBottoni; track $index) {
+              <button
+                class="icon-btn"
+                (click)="btn.action()"
+                [title]="btn.title"
+              >
+                <i [class]="btn.icon"></i>
+              </button>
+            }
+          }
         </div>
 
         <!-- Nav Links -->
         <div class="d-flex align-items-center">
           @if (rouerLinks.length > 0) {
-          <!--  -->
-          @for (link of rouerLinks; track $index) {
-          <a class="nav-link-custom mx-2" (click)="link.action()">
-            {{ link.testo }}
-          </a>
-          } }
+            @for (link of rouerLinks; track $index) {
+              <a
+                [title]="link.title"
+                class="nav-link-custom mx-2"
+                (click)="router.navigate([link.routing])"
+              >
+                {{ link.testo }}
+              </a>
+            }
+          }
         </div>
       </div>
     </nav>
@@ -60,58 +70,57 @@ import { Router } from '@angular/router';
         height: 64px;
         background: linear-gradient(to right, #ffffff, #f7f7f7);
         border-bottom: 1px solid #e6e6e6;
-      }
 
-      .icon-btn {
-        background: transparent;
-        border: none;
-        padding: 0.4rem;
-        border-radius: 50%;
-        transition: 0.2s ease;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      }
+        .icon-btn {
+          background: transparent;
+          border: none;
+          padding: 0.4rem;
+          border-radius: 50%;
+          transition: 0.2s ease;
+          display: flex;
+          align-items: center;
+          justify-content: center;
 
-      .icon-btn i {
-        font-size: 1.35rem;
-        color: #333;
-      }
+          i {
+            font-size: 1.35rem;
+            color: #333;
+          }
 
-      .icon-btn:hover {
-        background: #efefef;
-      }
+          &:hover {
+            background: #efefef;
+          }
+        }
 
-      /* Search Animation */
-      .search-wrapper {
-        width: 0;
-        overflow: hidden;
-        opacity: 0;
-        transition: all 0.3s ease;
-      }
+        .search-wrapper {
+          width: 0;
+          overflow: hidden;
+          opacity: 0;
+          transition: all 0.3s ease;
 
-      .search-wrapper.active {
-        width: 180px;
-        opacity: 1;
-      }
+          .search-input {
+            width: 100%;
+            border: 1px solid #ccc;
+            border-radius: 20px;
+            padding: 0.3rem 0.85rem;
+            font-size: 0.9rem;
+          }
+        }
 
-      .search-input {
-        width: 100%;
-        border: 1px solid #ccc;
-        border-radius: 20px;
-        padding: 0.3rem 0.85rem;
-        font-size: 0.9rem;
-      }
+        .search-wrapper.active {
+          width: 180px;
+          opacity: 1;
+        }
 
-      .nav-link-custom {
-        font-weight: 500;
-        color: #444;
-        cursor: pointer;
-        transition: 0.2s;
-      }
+        .nav-link-custom {
+          font-weight: 500;
+          color: #444;
+          cursor: pointer;
+          transition: 0.2s;
 
-      .nav-link-custom:hover {
-        color: #000;
+          &:hover {
+            color: #000;
+          }
+        }
       }
     `,
   ],
@@ -136,10 +145,12 @@ export class CustomNavBarComponent {
 
 export interface NavBarButton {
   icon: string;
+  title: string;
   action: () => void;
 }
 
 export interface NavBarLink {
   testo: string;
-  action: () => void;
+  title: string;
+  routing: string;
 }

@@ -26,12 +26,14 @@ declare var google: any;
       #Charts {
         .charts-class {
           width: 100%;
+          max-width: 70rem;
           height: 30rem;
           border: 1px solid #695555ff;
           border-radius: 12px;
           box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
           background: #eaeaea;
           padding: 15px;
+          margin: 0 auto;
         }
       }
     `,

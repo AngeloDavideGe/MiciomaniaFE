@@ -62,7 +62,7 @@ export class AdminComponent implements OnInit {
   private computedUserMapByRuolo(): void {
     this.ruoli.forEach((ruolo: Ruolo) => {
       this.userMapByRuolo[ruolo] = computed<UserParams[]>(
-        () => this.userMap()[ruolo] ?? []
+        () => this.userMap()[ruolo] ?? [],
       );
     });
   }
@@ -75,13 +75,22 @@ export class AdminComponent implements OnInit {
     sottoscrizioneUtenti({
       authService: this.authService,
       elseCall: () => this.mapUsersByRuolo(),
-      nextCall: (data) => {
-        this.authService.users.set(
-          data.filter((x: UserParams) => x.id !== this.user?.id)
-        );
+      nextCall: (data: UserParams[]) => {
+        this.setUsersInAuthService(data);
         this.mapUsersByRuolo();
       },
     });
+  }
+
+  private setUsersInAuthService(data: UserParams[]): void {
+    const userId: string | undefined = this.user?.id;
+    if (userId) {
+      this.authService.users.set(
+        data.filter((x: UserParams) => x.id !== userId),
+      );
+    } else {
+      this.authService.users.set(data);
+    }
   }
 
   private mapUsersByRuolo(): void {

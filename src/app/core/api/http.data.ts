@@ -1,6 +1,5 @@
 import { signal, WritableSignal } from '@angular/core';
 import { Posts } from '../../pages/posts/components/shared/post.interface';
-import { UtenteParodie } from '../../shared/interfaces/elementiUtente.interface';
 import {
   Lingua,
   MangaUtente,
