@@ -22,6 +22,34 @@ export function sottoscrizioneUtenti(params: {
   }
 }
 
+export function sottoscrizioneUtentiCustom(params: {
+  authService: AuthService;
+  nextCall: () => void;
+}): void {
+  if (params.authService.users().length == 0) {
+    params.authService.users.set([]);
+    params.authService
+      .getAllUsersHttp()
+      .pipe(take(1))
+      .subscribe({
+        next: (data: UserParams[]) => {
+          const user: User | null = DataHttp.user();
+          if (user && user.id) {
+            params.authService.users.set(
+              data.filter((x: UserParams) => x.id !== user.id),
+            );
+          } else {
+            params.authService.users.set(data);
+          }
+          params.nextCall();
+        },
+        error: (error) => console.error('errore nella lista utenti', error),
+      });
+  } else {
+    params.nextCall();
+  }
+}
+
 export function updateUserCustom(params: {
   authService: AuthService;
   user: User;
@@ -33,6 +61,6 @@ export function updateUserCustom(params: {
     map(() => {
       DataHttp.user.set(params.user);
       return params.user;
-    })
+    }),
   );
 }

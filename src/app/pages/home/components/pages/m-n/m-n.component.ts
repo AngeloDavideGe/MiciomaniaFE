@@ -17,21 +17,17 @@ export class MNComponent implements OnInit {
   public classMN = signal<string>('row-cols-1 row-cols-md-2 row-cols-lg-3 g-4');
 
   ngOnInit(): void {
-    this.loadMN();
-  }
-
-  private loadMN(): void {
     if (this.gitHubService.mn.length == 0) {
       this.loadService.show();
       this.gitHubService
         .getGistFormGithub(
           'AngeloDavideGe',
           '797ad9d22d6c2401fcaabfda1c6d870f',
-          'MeN.json'
+          'MeN.json',
         )
         .pipe(
           take(1),
-          finalize(() => this.loadService.hide())
+          finalize(() => this.loadService.hide()),
         )
         .subscribe({
           next: (gist) => (this.gitHubService.mn = gist as MN[]),

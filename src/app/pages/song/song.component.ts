@@ -1,17 +1,15 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { take } from 'rxjs';
+import { finalize, take } from 'rxjs';
 import { CanzoniParodia } from '../../shared/interfaces/elementiUtente.interface';
 import { ElementiUtenteService } from '../../shared/services/api/elementiUtente.service';
 import { LoadingService } from '../../shared/services/template/loading.service';
 import { MangaSongUtilities } from '../../shared/utilities/mangaSong.utilities';
-import { CardSongComponent } from './components/card-song.component';
-import { HeaderSongComponent } from './components/header-song.component';
-import { CustomScrollComponent } from '../../shared/components/custom/scroll-custom.component';
+import { song_imports } from './imports/song.import';
 
 @Component({
   selector: 'app-song',
   standalone: true,
-  imports: [HeaderSongComponent, CardSongComponent, CustomScrollComponent],
+  imports: song_imports,
   templateUrl: './song.component.html',
 })
 export class SongComponent implements OnInit {
@@ -21,26 +19,21 @@ export class SongComponent implements OnInit {
 
   ngOnInit(): void {
     if (!this.elementiUtenteService.canzoniParodia) {
-      this.loadCanzoniMiciomani();
+      this.loadingService.show();
+
+      this.elementiUtenteService
+        .getListaCanzoniMiciomani()
+        .pipe(
+          take(1),
+          finalize(() => this.loadingService.hide()),
+        )
+        .subscribe({
+          next: (data: CanzoniParodia) =>
+            (this.elementiUtenteService.canzoniParodia = data),
+          error: (error) =>
+            console.error('Errore nel recupero della lista dei manga', error),
+        });
     }
-  }
-
-  private loadCanzoniMiciomani(): void {
-    this.loadingService.show();
-
-    this.elementiUtenteService
-      .getListaCanzoniMiciomani()
-      .pipe(take(1))
-      .subscribe({
-        next: (data: CanzoniParodia) => this.nextGetListaMangaMiciomani(data),
-        error: (error) =>
-          console.error('Errore nel recupero della lista dei manga', error),
-      });
-  }
-
-  private nextGetListaMangaMiciomani(data: CanzoniParodia): void {
-    this.elementiUtenteService.canzoniParodia = data;
-    this.loadingService.hide();
   }
 
   scrollToSection(sectionId: string): void {

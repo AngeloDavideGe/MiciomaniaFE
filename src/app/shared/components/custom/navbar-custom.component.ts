@@ -46,21 +46,6 @@ import { Router } from '@angular/router';
             }
           }
         </div>
-
-        <!-- Nav Links -->
-        <div class="d-flex align-items-center">
-          @if (rouerLinks.length > 0) {
-            @for (link of rouerLinks; track $index) {
-              <a
-                [title]="link.title"
-                class="nav-link-custom mx-2"
-                (click)="router.navigate([link.routing])"
-              >
-                {{ link.testo }}
-              </a>
-            }
-          }
-        </div>
       </div>
     </nav>
   `,
@@ -110,17 +95,6 @@ import { Router } from '@angular/router';
           width: 180px;
           opacity: 1;
         }
-
-        .nav-link-custom {
-          font-weight: 500;
-          color: #444;
-          cursor: pointer;
-          transition: 0.2s;
-
-          &:hover {
-            color: #000;
-          }
-        }
       }
     `,
   ],
@@ -132,7 +106,6 @@ export class CustomNavBarComponent {
   @Input() goHomeBotton: string | null = null;
   @Input() filtro: boolean = false;
   @Input() altriBottoni: NavBarButton[] = [];
-  @Input() rouerLinks: NavBarLink[] = [];
 
   @Output() filtroChanged = new EventEmitter<string>();
   @Output() searchActiveFunc = new EventEmitter<boolean>();
@@ -147,10 +120,4 @@ export interface NavBarButton {
   icon: string;
   title: string;
   action: () => void;
-}
-
-export interface NavBarLink {
-  testo: string;
-  title: string;
-  routing: string;
 }

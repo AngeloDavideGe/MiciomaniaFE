@@ -1,15 +1,21 @@
 <div class="container py-4">
   <!-- Header -->
-  <app-header-admin [adminLang]="adminLang"></app-header-admin>
+  <app-header-custom
+    [tornaIndietro]="adminLang.tornaIndietro"
+    [titolo]="adminLang.listaAdminUtenti"
+    [descrizione]="adminLang.visualizzaRuoli"
+  ></app-header-custom>
 
   <!-- Griglia delle card -->
-  <app-griglia-admin
-    [adminLang]="adminLang"
-    [user]="user"
-    [userMapByRuolo]="userMapByRuolo"
-    (eliminaRuolo)="eliminaRuolo($event)"
-    (modificaRuolo)="modificaRuolo($event)"
-  ></app-griglia-admin>
+  @if (loadedAdmin()) {
+    <app-griglia-admin
+      [adminLang]="adminLang"
+      [user]="user"
+      [userMapByRuolo]="userMapByRuolo"
+      (eliminaRuolo)="eliminaRuolo($event)"
+      (modificaRuolo)="modificaRuolo($event)"
+    ></app-griglia-admin>
+  }
 
   <!-- Modale -->
   @if (editAdmin()) {

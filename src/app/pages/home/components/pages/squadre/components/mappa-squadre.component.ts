@@ -1,6 +1,6 @@
 import { Component, HostListener, Input, signal } from '@angular/core';
 import {
-  PathRegione,
+  PathSvgCustom,
   SvgCustomComponent,
 } from '../../../../../../../assets/components/svg-custom.component';
 import { debounceTimeoutCustom } from '../../../../../../shared/functions/utilities.function';
@@ -107,7 +107,7 @@ declare var google: any;
   ],
 })
 export class MappaSquadreComponent {
-  public readonly paths: PathRegione[] = PATH_REGIONI;
+  public readonly paths: PathSvgCustom[] = PATH_REGIONI;
   private conquiste: Conquiste = { conquistatori: {}, territori: {} };
   public chartConquiste: ChartConquiste[] = [];
   public colors: string[] = [];

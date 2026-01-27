@@ -12,13 +12,9 @@ import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { environment } from '../../../../../../../../environments/environment';
 import { debounceTimeoutCustom } from '../../../../../../../shared/functions/utilities.function';
-import {
-  User,
-  UserParams,
-} from '../../../../../../../shared/interfaces/users.interface';
+import { sottoscrizioneUtentiCustom } from '../../../../../../../shared/handlers/auth.handler';
+import { UserParams } from '../../../../../../../shared/interfaces/users.interface';
 import { AuthService } from '../../../../../../../shared/services/api/auth.service';
-import { sottoscrizioneUtenti } from '../../../../../../../shared/handlers/auth.handler';
-import { DataHttp } from '../../../../../../../core/api/http.data';
 
 @Component({
   selector: 'app-cerca-profili',
@@ -84,19 +80,9 @@ export class CercaProfiliComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    sottoscrizioneUtenti({
+    sottoscrizioneUtentiCustom({
       authService: this.authService,
-      elseCall: () => {},
-      nextCall: (data: UserParams[]) => {
-        const user: User | null = DataHttp.user();
-        if (user && user.id) {
-          this.authService.users.set(
-            data.filter((x: UserParams) => x.id !== user.id),
-          );
-        } else {
-          this.authService.users.set(data);
-        }
-      },
+      nextCall: () => {},
     });
   }
 

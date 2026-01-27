@@ -9,7 +9,7 @@ import {
 import { Router } from '@angular/router';
 import { DataHttp } from '../../../../../core/api/http.data';
 import { Ruolo } from '../../../../../shared/enums/users.enum';
-import { sottoscrizioneUtenti } from '../../../../../shared/handlers/auth.handler';
+import { sottoscrizioneUtentiCustom } from '../../../../../shared/handlers/auth.handler';
 import { Lingua } from '../../../../../shared/interfaces/http.interface';
 import {
   User,
@@ -37,8 +37,9 @@ export class AdminComponent implements OnInit {
   public authService = inject(AuthService);
   public router = inject(Router);
 
-  public user: User | null = null;
+  public user: User | null = DataHttp.user();
   public editAdmin = signal<boolean>(false);
+  public loadedAdmin = signal<boolean>(false);
   public userEdit: UserParams = {} as UserParams;
   public ruoli = Object.values(Ruolo);
   public userMap = signal<Record<string, UserParams[]>>({});
@@ -55,11 +56,8 @@ export class AdminComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.computedUserMapByRuolo();
     this.loadUtenti();
-  }
 
-  private computedUserMapByRuolo(): void {
     this.ruoli.forEach((ruolo: Ruolo) => {
       this.userMapByRuolo[ruolo] = computed<UserParams[]>(
         () => this.userMap()[ruolo] ?? [],
@@ -68,29 +66,13 @@ export class AdminComponent implements OnInit {
   }
 
   private loadUtenti(): void {
-    this.user = DataHttp.user();
     const users: UserParams[] = this.authService.users();
     users.length == 0 ? this.loadingService.show() : null;
 
-    sottoscrizioneUtenti({
+    sottoscrizioneUtentiCustom({
       authService: this.authService,
-      elseCall: () => this.mapUsersByRuolo(),
-      nextCall: (data: UserParams[]) => {
-        this.setUsersInAuthService(data);
-        this.mapUsersByRuolo();
-      },
+      nextCall: () => this.mapUsersByRuolo(),
     });
-  }
-
-  private setUsersInAuthService(data: UserParams[]): void {
-    const userId: string | undefined = this.user?.id;
-    if (userId) {
-      this.authService.users.set(
-        data.filter((x: UserParams) => x.id !== userId),
-      );
-    } else {
-      this.authService.users.set(data);
-    }
   }
 
   private mapUsersByRuolo(): void {
@@ -112,6 +94,7 @@ export class AdminComponent implements OnInit {
     }
 
     this.userMap.set(newMap);
+    this.loadedAdmin.set(true);
     this.loadingService.hide();
   }
 

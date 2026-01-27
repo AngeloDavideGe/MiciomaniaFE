@@ -25,9 +25,9 @@ import { Mappa } from '../../app/shared/interfaces/github.interface';
             @for (path of paths; track $index) {
               <path
                 [attr.d]="path.d"
-                [attr.id]="path.id"
-                [attr.fill]="colori[path.id] || '#e2e5e8'"
-                (click)="onPathClick(path.id, $event)"
+                [attr.id]="path.title"
+                [attr.fill]="colori[path.title] || '#e2e5e8'"
+                (click)="onPathClick(path.title, $event)"
               >
                 <title>{{ path.title }}</title>
               </path>
@@ -90,7 +90,7 @@ import { Mappa } from '../../app/shared/interfaces/github.interface';
 })
 export class SvgCustomComponent {
   @Input() colori: Record<string, string> = {};
-  @Input() paths: PathRegione[] = [];
+  @Input() paths: PathSvgCustom[] = [];
   @Input() translate: string = '';
   @Input() width: number = 1;
   @Input() height: number = 1;
@@ -125,8 +125,7 @@ export class SvgCustomComponent {
   }
 }
 
-export interface PathRegione {
-  id: string;
+export interface PathSvgCustom {
   title: string;
   d: string;
 }

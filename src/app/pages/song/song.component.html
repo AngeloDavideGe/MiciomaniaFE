@@ -1,6 +1,11 @@
 <!-- Header Song -->
 <div style="overflow-x: hidden">
-  <app-header-song></app-header-song>
+  <app-header-custom
+    [tornaIndietro]="'Torna alla Home'"
+    [titolo]="'Canzoni Parodia'"
+    [descrizione]="'Le canzoni parodia create dagli utenti di Miciomania'"
+    [colorTitle]="'#2d8659'"
+  ></app-header-custom>
 
   <!-- CANZONI MICIOMANIA -->
   <section id="CanzoniMiciomania" class="mt-2">
@@ -42,7 +47,7 @@
       [titolo]="'Canzoni Utente'"
       [icona]="'bi bi-arrow-up'"
       [nomeIcona]="'Torna Su'"
-      [top]="250"
+      [top]="170"
       [lunghezzaFiltro]="
         elementiUtenteService.canzoniParodia?.canzoniUtente?.length || 0
       "

@@ -1,6 +1,13 @@
 <div class="container py-4" style="max-width: 80rem">
   <!-- Header -->
-  <app-header-mn></app-header-mn>
+  <app-header-custom
+    [tornaIndietro]="'Torna alla Home'"
+    [titolo]="'M-N'"
+    [descrizione]="
+      'Scopri le parole che iniziano con le lettere M e N nel nostro dizionario completo. Esplora termini, definizioni e curiosità legate a queste lettere affascinanti.'
+    "
+    [colorTitle]="'#6f42c1'"
+  ></app-header-custom>
 
   <!-- Icone visualizzazione -->
   <app-icone-lista
