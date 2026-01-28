@@ -6,6 +6,7 @@ import { ListaSquadreComponent } from '../components/lista-squadre.component';
 import { ErrorHttpComponent } from '../../../../../../shared/components/custom/errorhttp.component';
 import { MappaSquadreComponent } from '../components/mappa-squadre.component';
 import { CustomNavBarComponent } from '../../../../../../shared/components/custom/navbar-custom.component';
+import { MNComponent } from '../components/m-n/m-n.component';
 
 export const squadreimports: Type<any>[] = [
   ListaSquadreComponent,
@@ -15,4 +16,5 @@ export const squadreimports: Type<any>[] = [
   ErrorHttpComponent,
   MappaSquadreComponent,
   CustomNavBarComponent,
+  MNComponent,
 ];

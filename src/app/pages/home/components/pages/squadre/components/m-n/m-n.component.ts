@@ -1,9 +1,10 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, inject, Input, OnInit, signal } from '@angular/core';
 import { finalize, take } from 'rxjs';
-import { MN } from '../../../../../shared/interfaces/github.interface';
-import { GitHubService } from '../../../../../shared/services/api/github.service';
-import { LoadingService } from '../../../../../shared/services/template/loading.service';
+import { MN } from '../../../../../../../shared/interfaces/github.interface';
+import { GitHubService } from '../../../../../../../shared/services/api/github.service';
+import { LoadingService } from '../../../../../../../shared/services/template/loading.service';
 import { mn_imports } from './imports/m-n.import';
+import { SquadreLang } from '../../languages/interfaces/squadre-lang.interface';
 
 @Component({
   selector: 'app-m-n',
@@ -13,6 +14,8 @@ import { mn_imports } from './imports/m-n.import';
 export class MNComponent implements OnInit {
   public gitHubService = inject(GitHubService);
   private loadService = inject(LoadingService);
+
+  @Input() squadreLang!: SquadreLang;
 
   public classMN = signal<string>('row-cols-1 row-cols-md-2 row-cols-lg-3 g-4');
 

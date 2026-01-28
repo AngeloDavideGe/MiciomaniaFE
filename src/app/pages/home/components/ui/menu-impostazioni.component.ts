@@ -21,32 +21,26 @@ import { HomeLang } from '../../languages/interfaces/home-lang.interface';
           {{ homeLang.squadre }}
         </a>
       </li>
-      <li>
-        <a class="dropdown-item" routerLink="/home/m&n">
-          <i class="bi bi-7-circle-fill me-2"></i>
-          MN
-        </a>
-      </li>
       <li class="pc-only">
         <a class="dropdown-item" (click)="cursore.emit()">
           <i class="bi bi-cursor me-2"></i>
           {{ homeLang.cursore }}
         </a>
       </li>
-      @if(user.id) {
-      <li>
-        <a class="dropdown-item" routerLink="/home/elementi-utente">
-          <i class="bi bi-lightbulb-fill me-2"></i>
-          {{ homeLang.proposte }}
-        </a>
-      </li>
+      @if (user.id) {
+        <li>
+          <a class="dropdown-item" routerLink="/home/elementi-utente">
+            <i class="bi bi-lightbulb-fill me-2"></i>
+            {{ homeLang.proposte }}
+          </a>
+        </li>
       } @else {
-      <li>
-        <span class="dropdown-item text-muted">
-          <i class="bi bi-exclamation-circle me-2"></i>
-          {{ homeLang.accediPerElementi }}
-        </span>
-      </li>
+        <li>
+          <span class="dropdown-item text-muted">
+            <i class="bi bi-exclamation-circle me-2"></i>
+            {{ homeLang.accediPerElementi }}
+          </span>
+        </li>
       }
     </div>
   `,

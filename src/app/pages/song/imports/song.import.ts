@@ -7,5 +7,4 @@ export const song_imports: Type<any>[] = [
   HeaderCustomComponent,
   CardSongComponent,
   CustomScrollComponent,
-  HeaderCustomComponent,
 ];

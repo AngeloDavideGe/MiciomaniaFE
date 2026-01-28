@@ -5,4 +5,7 @@ export interface SquadreLang {
   tornaHome: string;
   andamento: string;
   aggiornamento: string;
+  // M&N
+  mnTitolo: string;
+  mnSottotitolo: string;
 }

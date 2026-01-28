@@ -29,7 +29,7 @@ export class SquadreComponent implements OnInit {
 
   public squadreLang: SquadreLang = {} as SquadreLang;
   public bottoniNavbar: NavBarButton[] = this.loadButton();
-  public component = signal<'squadra' | 'print' | 'mappa'>('squadra');
+  public component = signal<'squadra' | 'print' | 'mappa' | 'mn'>('squadra');
   public error = signal<boolean>(false);
   public squadreCaricate = signal<boolean>(false);
 
@@ -96,6 +96,11 @@ export class SquadreComponent implements OnInit {
         icon: 'bi bi-map',
         title: 'Mappa',
         action: () => this.component.set('mappa'),
+      },
+      {
+        icon: 'bi bi-map',
+        title: 'M-N',
+        action: () => this.component.set('mn'),
       },
     ];
   }

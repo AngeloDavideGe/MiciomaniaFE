@@ -37,6 +37,9 @@
         [squadre]="squadreService.classifica.squadre"
       ></app-chart-print>
     }
+    @case ("mn") {
+      <app-m-n [squadreLang]="squadreLang"></app-m-n>
+    }
   }
 } @else {
   <app-error-http></app-error-http>

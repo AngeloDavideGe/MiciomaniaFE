@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { MN } from '../../../../../../shared/interfaces/github.interface';
+import { MN } from '../../../../../../../../shared/interfaces/github.interface';
 
 @Component({
   selector: 'app-card-lettera',
@@ -57,16 +57,16 @@ import { MN } from '../../../../../../shared/interfaces/github.interface';
             </h6>
             <ul class="list-group list-group-flush border-0">
               @for (esempio of mn.esempi; track $index) {
-              <li
-                class="list-group-item border-0 px-0 py-2 bg-transparent"
-                style="font-style: italic; color: #34495e; font-size: 0.9rem"
-              >
-                <i
-                  class="bi bi-chat-square-quote me-2"
-                  [style.color]="mn.colore"
-                ></i>
-                "{{ esempio }}"
-              </li>
+                <li
+                  class="list-group-item border-0 px-0 py-2 bg-transparent"
+                  style="font-style: italic; color: #34495e; font-size: 0.9rem"
+                >
+                  <i
+                    class="bi bi-chat-square-quote me-2"
+                    [style.color]="mn.colore"
+                  ></i>
+                  "{{ esempio }}"
+                </li>
               }
             </ul>
           </div>
