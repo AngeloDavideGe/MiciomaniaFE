@@ -1,9 +1,9 @@
 import { Component, Input } from '@angular/core';
 import { MangaMiciomaniaCardComponent } from './components/manga-miciomania-card.component';
 import { CanzoniMiciomaniaCardComponent } from './components/canzoni-miciomania-card.component';
-import { MangaSongUtilities } from '../../../../../../../shared/utilities/mangaSong.utilities';
+import { MangaSongUtilities } from '../../../../../../shared/utilities/mangaSong.utilities';
 import { ElemLang } from '../../languages/interfaces/elem-lang.interface';
-import { UtenteParodie } from '../../../../../../../shared/interfaces/elementiUtente.interface';
+import { UtenteParodie } from '../../../../../../shared/interfaces/elementiUtente.interface';
 
 @Component({
   selector: 'app-griglia-elementi',

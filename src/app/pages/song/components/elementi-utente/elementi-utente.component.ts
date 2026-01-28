@@ -1,20 +1,19 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { take } from 'rxjs';
-import { DataHttp } from '../../../../../core/api/http.data';
+import { DataHttp } from '../../../../core/api/http.data';
 import {
-  MangaSong,
   UtenteParodie,
-} from '../../../../../shared/interfaces/elementiUtente.interface';
-import { Lingua } from '../../../../../shared/interfaces/http.interface';
-import { User } from '../../../../../shared/interfaces/users.interface';
-import { ElementiUtenteUtilities } from '../../../../../shared/utilities/elementiUtente.utilities';
+  MangaSong,
+} from '../../../../shared/interfaces/elementiUtente.interface';
+import { Lingua } from '../../../../shared/interfaces/http.interface';
+import { ElementiUtenteUtilities } from '../../../../shared/utilities/elementiUtente.utilities';
 import { elementi_utente_imports } from './imports/elementi-utente.imports';
 import {
   ElemLang,
   ElemLangType,
 } from './languages/interfaces/elem-lang.interface';
-import { HeaderCustomComponent } from '../../../../../shared/components/custom/header-custom.component';
+import { User } from '../../../../shared/interfaces/users.interface';
 
 @Component({
   selector: 'app-elementi-utente',

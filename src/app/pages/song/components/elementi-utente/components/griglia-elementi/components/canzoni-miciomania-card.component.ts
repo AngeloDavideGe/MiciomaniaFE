@@ -1,10 +1,10 @@
 import { Component, Input } from '@angular/core';
+import { MangaSongUtilities } from '../../../../../../../shared/utilities/mangaSong.utilities';
+import { environment } from '../../../../../../../../environments/environment';
 import {
   MangaSong,
   Proposta,
-} from '../../../../../../../../shared/interfaces/elementiUtente.interface';
-import { MangaSongUtilities } from '../../../../../../../../shared/utilities/mangaSong.utilities';
-import { environment } from '../../../../../../../../../environments/environment';
+} from '../../../../../../../shared/interfaces/elementiUtente.interface';
 
 @Component({
   selector: 'app-canzoni-miciomania-card',

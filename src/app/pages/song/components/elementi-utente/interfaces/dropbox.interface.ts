@@ -1,4 +1,4 @@
-import { Proposta } from '../../../../../../shared/interfaces/elementiUtente.interface';
+import { Proposta } from '../../../../../shared/interfaces/elementiUtente.interface';
 
 export interface DropboxResponse {
   access_token: string;

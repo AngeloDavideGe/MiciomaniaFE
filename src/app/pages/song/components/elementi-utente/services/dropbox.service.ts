@@ -2,13 +2,13 @@ import { HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
-import { BaseService } from '../../../../../../shared/services/base/base.service';
 import { DropboxResponse } from '../interfaces/dropbox.interface';
 import {
   createHeaders,
   readFileAsArrayBuffer,
 } from '../utilities/dropbox.utilities';
 import { getExtension } from '../functions/estenzione.function';
+import { BaseService } from '../../../../../shared/services/base/base.service';
 
 @Injectable({
   providedIn: 'root',
