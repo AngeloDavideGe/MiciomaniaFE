@@ -5,7 +5,6 @@ export interface ElemLang {
   titolo: string;
   descrizione1: string;
   descrizione2: string;
-  btnTornaIndietro: string;
   // Griglia Elementi
   noManga: string;
   noCanzone: string;

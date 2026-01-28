@@ -1,5 +1,6 @@
 import { DataHttp } from '../../../core/api/http.data';
-import { TabsManga, PulsantiManga } from '../interfaces/filtri.interface';
+import { PulsantiHeader } from '../../../shared/components/custom/header-custom.component';
+import { TabsManga } from '../interfaces/filtri.interface';
 
 export function getTabsManga(clickCalls: Function): TabsManga[] {
   return [
@@ -36,7 +37,7 @@ export function getTabsManga(clickCalls: Function): TabsManga[] {
   ];
 }
 
-export function getPulsanti(routerFunc: Function): PulsantiManga[] {
+export function getPulsanti(routerFunc: Function): PulsantiHeader[] {
   return [
     {
       click: () => routerFunc('/home'),

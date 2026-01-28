@@ -9,12 +9,14 @@ import {
 import { NavigationEnd, Router } from '@angular/router';
 import { filter, map, Observable, startWith, tap } from 'rxjs';
 import { DataHttp } from '../../core/api/http.data';
+import { PulsantiHeader } from '../../shared/components/custom/header-custom.component';
 import {
   compareObjectCustom,
   effectTimeoutCustom,
 } from '../../shared/functions/utilities.function';
 import { Lingua, MangaUtente } from '../../shared/interfaces/http.interface';
 import { LoadingService } from '../../shared/services/template/loading.service';
+import { alfabetoManga } from './constants/alfabeto.constant';
 import { generiManga } from './constants/genere.constant';
 import {
   getPulsanti,
@@ -25,14 +27,13 @@ import {
   postOrUpdateMangaUtente,
 } from './handlers/manga.handler';
 import { manga_imports } from './imports/manga.imports';
-import { PulsantiManga, TabsManga } from './interfaces/filtri.interface';
+import { TabsManga } from './interfaces/filtri.interface';
+import { ListaManga } from './interfaces/manga.interface';
 import {
   MangaLang,
   MangaLangType,
 } from './languages/interfaces/manga-lang.interface';
 import { MangaService } from './services/manga.service';
-import { alfabetoManga } from './constants/alfabeto.constant';
-import { ListaManga } from './interfaces/manga.interface';
 
 @Component({
   selector: 'app-manga',
@@ -55,8 +56,8 @@ export class MangaComponent implements OnDestroy {
   public perIniziale = signal<string>('lista');
   public selezionaOpera: Function = (path: string) => window.open(path);
 
-  public pulsanti: PulsantiManga[] = getPulsanti((path: string) =>
-    this.router.navigate([path])
+  public pulsanti: PulsantiHeader[] = getPulsanti((path: string) =>
+    this.router.navigate([path]),
   );
 
   private debounce = {
@@ -90,7 +91,7 @@ export class MangaComponent implements OnDestroy {
   public filteredManga = computed<ListaManga[]>(() => this.logFilterChanges());
   public tabs: TabsManga[] = getTabsManga(
     (cond: boolean | null, index: number) =>
-      this.getTabClickHandler(cond, index)
+      this.getTabClickHandler(cond, index),
   );
 
   public isManga$: Observable<boolean> = this.router.events.pipe(
@@ -99,18 +100,18 @@ export class MangaComponent implements OnDestroy {
       url: this.router.url,
     }),
     map((event) => event.url == '/manga'),
-    tap((isManga: boolean) => (isManga ? this.loadFilteredManga() : null))
+    tap((isManga: boolean) => (isManga ? this.loadFilteredManga() : null)),
   );
 
   constructor() {
     this.loadLanguage();
 
     effectTimeoutCustom(this.filterSelect.autore, (value: string) =>
-      this.debounce.autore.set(value)
+      this.debounce.autore.set(value),
     );
 
     effectTimeoutCustom(this.filterSelect.nome, (value: string) =>
-      this.debounce.nome.set(value)
+      this.debounce.nome.set(value),
     );
   }
 
@@ -134,7 +135,7 @@ export class MangaComponent implements OnDestroy {
 
   private getTabClickHandler(
     condition: boolean | null,
-    index: number
+    index: number,
   ): Function {
     const func: Function = () => {
       if (this.filterSelect.tabBoolean() == condition) return;
@@ -202,7 +203,7 @@ export class MangaComponent implements OnDestroy {
         .map(Number);
 
       arrayIdPreferiti.forEach(
-        (valore: number) => (this.mangaPreferiti[valore] = true)
+        (valore: number) => (this.mangaPreferiti[valore] = true),
       );
     }
   }
@@ -224,7 +225,7 @@ export class MangaComponent implements OnDestroy {
 
     const condEquals: boolean = !compareObjectCustom(
       DataHttp.mangaUtente,
-      DataHttp.initialMangaUtente
+      DataHttp.initialMangaUtente,
     );
 
     if (condEquals) {

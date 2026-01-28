@@ -7,7 +7,6 @@ export const elemLang: ElemLang = {
     'Here you can see your manga, your song, and your submitted proposal. ',
   descrizione2:
     'If you dont have any pending proposals, you can send a new one. With a proposal, you can submit your manga or song if you dont already have one associated with your profile.',
-  btnTornaIndietro: 'Go Back',
   // Griglia Elementi
   noManga: "You don't have a manga associated with your profile yet.",
   noCanzone: "You don't have a song associated with your profile yet.",

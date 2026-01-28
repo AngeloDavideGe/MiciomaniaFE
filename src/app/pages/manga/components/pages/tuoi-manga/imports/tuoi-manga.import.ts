@@ -1,15 +1,15 @@
 import { Type } from '@angular/core';
 import { ErrorHttpComponent } from '../../../../../../shared/components/custom/errorhttp.component';
 import { CardMangaComponent } from '../../../../shared/card-manga.component';
-import { DettagliMangaComponent } from '../../../../shared/dettagli-manga.component';
 import { InputTuoiMangaComponent } from '../components/input-tuoi-manga.component';
 import { SelectTabMangaComponent } from '../components/select-tab-manga.component';
 import { TabsTuoiMangaComponent } from '../components/tabs-tuoi-manga.component';
+import { HeaderCustomComponent } from '../../../../../../shared/components/custom/header-custom.component';
 
 export const tuoi_manga_imports: Type<any>[] = [
   CardMangaComponent,
   ErrorHttpComponent,
-  DettagliMangaComponent,
+  HeaderCustomComponent,
   TabsTuoiMangaComponent,
   InputTuoiMangaComponent,
   SelectTabMangaComponent,

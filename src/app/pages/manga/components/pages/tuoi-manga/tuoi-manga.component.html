@@ -1,52 +1,46 @@
 @if (!erroreHttp()) {
-<div class="text-white py-3" style="background-color: #4a6572">
-  <app-dettagli-manga
+  <app-header-custom
     [titolo]="tuoiMangaLang.titolo"
     [messaggio]="tuoiMangaLang.messaggio"
     [descrizione]="''"
     [bottoni]="pulsanti"
-  ></app-dettagli-manga>
-</div>
+  ></app-header-custom>
 
-<!-- Tabs per Preferiti, Leggendo e Completati -->
-<app-tabs-tuoi-manga
-  [tuoiMangaLang]="tuoiMangaLang"
-  [selectedTab]="selectedTab"
-  (filterMangaFunc)="filterMangaFunc($event)"
-></app-tabs-tuoi-manga>
+  <app-tabs-tuoi-manga
+    [tuoiMangaLang]="tuoiMangaLang"
+    [selectedTab]="selectedTab"
+    (filterMangaFunc)="filterMangaFunc($event)"
+  ></app-tabs-tuoi-manga>
 
-<!-- Input per la ricerca di manga da aggiungere ai preferiti -->
-<app-input-tuoi-manga
-  [tuoiMangaLang]="tuoiMangaLang"
-  [allMangaSearch]="allMangaSearch"
-  [searchQuery]="searchQuery"
-  [selectedTab]="selectedTab"
-  (aggiungiMangaTab)="aggiungiMangaTab($event)"
-></app-input-tuoi-manga>
+  <app-input-tuoi-manga
+    [tuoiMangaLang]="tuoiMangaLang"
+    [allMangaSearch]="allMangaSearch"
+    [searchQuery]="searchQuery"
+    [selectedTab]="selectedTab"
+    (aggiungiMangaTab)="aggiungiMangaTab($event)"
+  ></app-input-tuoi-manga>
 
-@if (selectedTab != 'preferiti') {
-<app-select-tab-manga
-  [tuoiMangaLang]="tuoiMangaLang"
-  (spostaMangaSelezionati)="spostaMangaSelezionati($event)"
-></app-select-tab-manga>
-}
-
-<!-- Sezione manga filtrati -->
-<div class="d-flex flex-wrap mt-4">
-  @for (manga of sezioneListaManga()[selectedTab]; track $index) {
-  <div class="d-flex" style="padding: 0.2rem">
-    <app-card-manga
-      [manga]="manga"
-      [visualizzaPreferito]="selectedTab != 'preferiti'"
-      [seleziona]="selectedTab != 'preferiti'"
-      (selezionaOpera)="selezionaOpera(manga.path)"
-      (rimuoviPreferito)="rimuoviMangaTab(manga.id)"
-      (selezionato)="onSelezionato($event, manga.id)"
-    ></app-card-manga>
-  </div>
+  @if (selectedTab != "preferiti") {
+    <app-select-tab-manga
+      [tuoiMangaLang]="tuoiMangaLang"
+      (spostaMangaSelezionati)="spostaMangaSelezionati($event)"
+    ></app-select-tab-manga>
   }
-</div>
 
+  <div class="d-flex flex-wrap mt-4">
+    @for (manga of sezioneListaManga()[selectedTab]; track $index) {
+      <div class="d-flex" style="padding: 0.2rem">
+        <app-card-manga
+          [manga]="manga"
+          [visualizzaPreferito]="selectedTab != 'preferiti'"
+          [seleziona]="selectedTab != 'preferiti'"
+          (selezionaOpera)="selezionaOpera(manga.path)"
+          (rimuoviPreferito)="rimuoviMangaTab(manga.id)"
+          (selezionato)="onSelezionato($event, manga.id)"
+        ></app-card-manga>
+      </div>
+    }
+  </div>
 } @else {
-<app-error-http></app-error-http>
+  <app-error-http></app-error-http>
 }

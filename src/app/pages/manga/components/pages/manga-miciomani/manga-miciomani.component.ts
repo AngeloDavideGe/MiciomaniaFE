@@ -7,20 +7,22 @@ import { Lingua } from '../../../../../shared/interfaces/http.interface';
 import { ElementiUtenteService } from '../../../../../shared/services/api/elementiUtente.service';
 import { LoadingService } from '../../../../../shared/services/template/loading.service';
 import { MangaSongUtilities } from '../../../../../shared/utilities/mangaSong.utilities';
-import { PulsantiManga } from '../../../interfaces/filtri.interface';
-import { DettagliMangaComponent } from '../../../shared/dettagli-manga.component';
 import { CardMangaMiciomaniaComponent } from './components/card-mangaMiciomania.component';
 import {
   MmicioLang,
   MmicioLangType,
 } from './languages/interfaces/mmicio-lang.interface';
 import { CustomScrollComponent } from '../../../../../shared/components/custom/scroll-custom.component';
+import {
+  HeaderCustomComponent,
+  PulsantiHeader,
+} from '../../../../../shared/components/custom/header-custom.component';
 
 @Component({
   selector: 'app-manga-miciomani',
   standalone: true,
   imports: [
-    DettagliMangaComponent,
+    HeaderCustomComponent,
     CardMangaMiciomaniaComponent,
     CustomScrollComponent,
   ],
@@ -34,7 +36,7 @@ export class MangaMiciomaniComponent implements OnInit {
 
   public mangaSongUtilities = new MangaSongUtilities();
   public mmicioLang: MmicioLang = {} as MmicioLang;
-  public pulsanti: PulsantiManga[] = [
+  public pulsanti: PulsantiHeader[] = [
     {
       click: () => this.router.navigate(['/manga']),
       disabled: false,

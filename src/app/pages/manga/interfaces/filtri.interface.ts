@@ -13,10 +13,3 @@ export interface DettagliMangaInterface {
   messaggio: string;
   descrizione: string;
 }
-
-export interface PulsantiManga {
-  click: Function;
-  disabled: boolean;
-  titolo: Record<Lingua, string>;
-  icona: string;
-}

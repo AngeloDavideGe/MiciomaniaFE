@@ -20,7 +20,6 @@ import {
   voidSplitManga,
 } from '../../../functions/manga.functions';
 import { inizializzaLista } from '../../../handlers/manga.handler';
-import { PulsantiManga } from '../../../interfaces/filtri.interface';
 import {
   keyofMangaUtente,
   ListaManga,
@@ -33,6 +32,7 @@ import {
   TuoiMangaLang,
   TuoiMangaLangType,
 } from './languages/interfaces/tuoiManga-lang.interface';
+import { PulsantiHeader } from '../../../../../shared/components/custom/header-custom.component';
 
 @Component({
   selector: 'app-tuoi-manga',
@@ -54,7 +54,7 @@ export class TuoiMangaComponent implements OnInit, OnDestroy {
   public selezionaOpera: Function = (path: string) => window.open(path);
 
   public allMangaSearch = computed<ListaManga[]>(() =>
-    this.computedallMangaSearch()
+    this.computedallMangaSearch(),
   );
 
   public sezioneListaManga = signal<SezioniMangaUtente>({
@@ -63,7 +63,7 @@ export class TuoiMangaComponent implements OnInit, OnDestroy {
     completati: [],
   });
 
-  public pulsanti: PulsantiManga[] = [
+  public pulsanti: PulsantiHeader[] = [
     {
       click: () => this.router.navigate(['/manga']),
       disabled: false,
@@ -79,7 +79,7 @@ export class TuoiMangaComponent implements OnInit, OnDestroy {
     this.loadLanguage();
 
     effectTimeoutCustom<string>(this.searchQuery, (value: string) =>
-      this.debouncedSearchQuery.set(value)
+      this.debouncedSearchQuery.set(value),
     );
   }
 
@@ -122,7 +122,7 @@ export class TuoiMangaComponent implements OnInit, OnDestroy {
       return this.mangaService
         .listaManga()
         .filter((manga: ListaManga) =>
-          manga.nome.toLowerCase().includes(search)
+          manga.nome.toLowerCase().includes(search),
         );
     } else {
       return [] as ListaManga[];
@@ -159,8 +159,8 @@ export class TuoiMangaComponent implements OnInit, OnDestroy {
     this.sezioneListaManga.set(
       createSezioneMangaUtente(
         DataHttp.mangaUtente || ({} as MangaUtente),
-        this.mangaService.listaManga()
-      )
+        this.mangaService.listaManga(),
+      ),
     );
   }
 
@@ -174,7 +174,7 @@ export class TuoiMangaComponent implements OnInit, OnDestroy {
     this.sezioneListaManga.update((sezioni) => ({
       ...sezioni,
       [this.selectedTab]: sezioni[this.selectedTab].filter(
-        (x: ListaManga) => x.id !== idManga
+        (x: ListaManga) => x.id !== idManga,
       ),
     }));
   }
@@ -233,7 +233,7 @@ export class TuoiMangaComponent implements OnInit, OnDestroy {
 
   private changeCheckManga(
     tabRemove: keyofMangaUtente,
-    tabPush: keyofMangaUtente
+    tabPush: keyofMangaUtente,
   ): void {
     const valoriDaSpostare: number[] = this.checkSplitManga[tabRemove];
     const mangaDaAggiungere: ListaManga[] = this.mangaService
@@ -258,7 +258,7 @@ export class TuoiMangaComponent implements OnInit, OnDestroy {
     this.sezioneListaManga.update((sezione) => ({
       ...sezione,
       [tabRemove]: sezione[tabRemove].filter(
-        (x: ListaManga) => !checkSplitMangaSet.has(x.id)
+        (x: ListaManga) => !checkSplitMangaSet.has(x.id),
       ),
     }));
 
