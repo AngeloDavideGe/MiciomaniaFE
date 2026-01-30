@@ -19,22 +19,29 @@
     <!-- Colonna dei post (centrata rispetto allo spazio rimanente) -->
     <div class="col-12 col-lg-6 mx-lg-auto">
       <div [ngClass]="searchActive() ? 'margin-posts' : ''">
-        @if (postService.newPosts.length > 0) {
-          <!-- Lista dei Post -->
-          @for (post of postService.newPosts; track $index) {
-            <app-card-post [post]="post"></app-card-post>
+        @if (postCaricati()) {
+          @if (postService.newPosts.length > 0) {
+            @for (post of postService.newPosts; track $index) {
+              <app-card-post [post]="post"></app-card-post>
+            }
+          } @else {
+            <app-no-post></app-no-post>
           }
         } @else {
-          <!-- Nessun Post -->
-          <app-no-post></app-no-post>
+          <div
+            class="d-flex justify-content-center align-items-center spinner-template-stile mt-5"
+          >
+            <div class="spinner-border text-primary" role="status">
+              <span class="visually-hidden">Loading...</span>
+            </div>
+          </div>
         }
+
         @if (postService.oldPosts.length > 0) {
-          <!-- Separatore stile Instagram -->
           <div class="post-separator text-center my-4">
             <span>Post già visti</span>
           </div>
 
-          <!-- Post già visti -->
           @for (post of postService.oldPosts; track $index) {
             <app-card-post [post]="post"></app-card-post>
           }

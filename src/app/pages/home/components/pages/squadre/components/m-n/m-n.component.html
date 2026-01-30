@@ -1,23 +1,30 @@
 <div class="container py-4" style="max-width: 80rem">
-  <!-- Header -->
   <app-header-custom
     [titolo]="squadreLang.mnTitolo"
     [descrizione]="squadreLang.mnSottotitolo"
   ></app-header-custom>
 
-  <!-- Icone visualizzazione -->
-  <app-icone-lista
-    class="pc-only"
-    [classNG]="classMN()"
-    [ngClass1]="'row-cols-1 row-cols-md-2 row-cols-lg-3 g-4'"
-    [ngClass2]="'d-flex flex-column gap-3 mb-5'"
-    (classNGChange)="classMN.set($event)"
-  ></app-icone-lista>
+  @if (mnCaricati()) {
+    <app-icone-lista
+      class="pc-only"
+      [classNG]="classMN()"
+      [ngClass1]="'row-cols-1 row-cols-md-2 row-cols-lg-3 g-4'"
+      [ngClass2]="'d-flex flex-column gap-3 mb-5'"
+      (classNGChange)="classMN.set($event)"
+    ></app-icone-lista>
 
-  <!-- Lista -->
-  <div class="row" [class]="classMN()">
-    @for (mn of gitHubService.mn; track $index) {
-      <app-card-lettera [mn]="mn"></app-card-lettera>
-    }
-  </div>
+    <div class="row" [class]="classMN()">
+      @for (mn of gitHubService.mn; track $index) {
+        <app-card-lettera [mn]="mn"></app-card-lettera>
+      }
+    </div>
+  } @else {
+    <div
+      class="d-flex justify-content-center align-items-center spinner-template-stile"
+    >
+      <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+    </div>
+  }
 </div>

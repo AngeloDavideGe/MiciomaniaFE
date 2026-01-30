@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { CustomScrollComponent } from '../../../../../shared/components/custom/scroll-custom.component';
 import { CardSongComponent } from '../../shared/card-song.component';
 import { take } from 'rxjs';
@@ -12,22 +12,26 @@ import { MangaSongUtilities } from '../../../../../shared/utilities/mangaSong.ut
   templateUrl: './canzoni-miciomania.component.html',
 })
 export class CanzoniMiciomaniaComponent implements OnInit {
-  public euService = inject(ElementiUtenteService);
+  private euService = inject(ElementiUtenteService);
   public msu = new MangaSongUtilities();
-  public canzoniCaricate = signal<boolean>(!!this.euService.canzoniParodia);
+
+  public canzoniParodia = computed<CanzoniParodia | null>(() =>
+    this.euService.canzoniParodia(),
+  );
 
   ngOnInit(): void {
-    if (!this.euService.canzoniParodia) {
+    if (!this.euService.caricamentoCanzoni) {
+      this.euService.caricamentoCanzoni = true;
       this.euService
         .getListaCanzoniMiciomani()
         .pipe(take(1))
         .subscribe({
-          next: (data: CanzoniParodia) => {
-            this.euService.canzoniParodia = data;
-            this.canzoniCaricate.set(true);
+          next: (data: CanzoniParodia) =>
+            this.euService.canzoniParodia.set(data),
+          error: (error) => {
+            this.euService.caricamentoCanzoni = false;
+            console.error('Errore nel recupero della lista dei manga', error);
           },
-          error: (error) =>
-            console.error('Errore nel recupero della lista dei manga', error),
         });
     }
   }

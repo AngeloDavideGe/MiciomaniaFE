@@ -1,5 +1,5 @@
 import { HttpParams } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, signal } from '@angular/core';
 import { Observable } from 'rxjs';
 import {
   CanzoniParodia,
@@ -14,7 +14,8 @@ import { BaseService } from '../base/base.service';
 })
 export class ElementiUtenteService extends BaseService {
   public propostaCaricata: boolean = true;
-  public canzoniParodia: CanzoniParodia | null = null;
+  public caricamentoCanzoni: boolean = false;
+  public canzoniParodia = signal<CanzoniParodia | null>(null);
   public mangaParodia: MangaParodia | null = null;
   public utenteParodie: UtenteParodie | null = null;
 
@@ -57,4 +58,7 @@ export class ElementiUtenteService extends BaseService {
       body,
     );
   }
+}
+function Signal<T>(arg0: null) {
+  throw new Error('Function not implemented.');
 }
