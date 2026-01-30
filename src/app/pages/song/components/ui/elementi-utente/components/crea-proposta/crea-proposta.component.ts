@@ -14,17 +14,18 @@ import {
 } from '@angular/forms';
 import { finalize, map, switchMap, take } from 'rxjs';
 
-import { ElementiUtenteService } from '../../../../../../shared/services/api/elementiUtente.service';
+import { ElementiUtenteService } from '../../../../../../../shared/services/api/elementiUtente.service';
 import { ProposaPrePost } from '../../interfaces/dropbox.interface';
 import { ElemLang } from '../../languages/interfaces/elem-lang.interface';
 import { DropboxService } from '../../services/dropbox.service';
 import { fileValidator } from '../../validators/proposta.validator';
 import {
-  UtenteParodie,
-  PropostaTipo,
-  Proposta,
   PopostaNonExtend,
-} from '../../../../../../shared/interfaces/elementiUtente.interface';
+  Proposta,
+  PropostaTipo,
+  UtenteParodie,
+} from '../../../../../../../shared/interfaces/elementiUtente.interface';
+
 @Component({
   selector: 'app-crea-proposta',
   standalone: true,

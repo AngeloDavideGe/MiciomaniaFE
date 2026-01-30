@@ -10,8 +10,6 @@ export const homeLang: HomeLang = {
   iscrizioneTeam: 'Iscrizione Team',
   squadre: 'Squadre',
   cursore: 'Cursore',
-  proposte: 'Proposte',
-  accediPerElementi: 'Accedi per vedere i tuoi elementi',
   // Menu Profili
   mioProfilo: 'Mio Profilo',
   accediVediProfili: 'Accedi per vedere i profili',

@@ -27,21 +27,6 @@ import { HomeLang } from '../../languages/interfaces/home-lang.interface';
           {{ homeLang.cursore }}
         </a>
       </li>
-      @if (user.id) {
-        <li>
-          <a class="dropdown-item" routerLink="/home/elementi-utente">
-            <i class="bi bi-lightbulb-fill me-2"></i>
-            {{ homeLang.proposte }}
-          </a>
-        </li>
-      } @else {
-        <li>
-          <span class="dropdown-item text-muted">
-            <i class="bi bi-exclamation-circle me-2"></i>
-            {{ homeLang.accediPerElementi }}
-          </span>
-        </li>
-      }
     </div>
   `,
   styles: [

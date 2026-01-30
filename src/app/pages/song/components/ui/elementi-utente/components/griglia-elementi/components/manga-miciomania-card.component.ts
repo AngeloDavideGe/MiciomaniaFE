@@ -1,9 +1,9 @@
 import { Component, Input } from '@angular/core';
-import { MangaSongUtilities } from '../../../../../../../shared/utilities/mangaSong.utilities';
 import {
   MangaSong,
   Proposta,
-} from '../../../../../../../shared/interfaces/elementiUtente.interface';
+} from '../../../../../../../../shared/interfaces/elementiUtente.interface';
+import { MangaSongUtilities } from '../../../../../../../../shared/utilities/mangaSong.utilities';
 
 @Component({
   selector: 'app-manga-miciomania-card',

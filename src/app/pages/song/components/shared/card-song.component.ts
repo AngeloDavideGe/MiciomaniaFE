@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { MangaSong } from '../../../shared/interfaces/elementiUtente.interface';
+import { MangaSong } from '../../../../shared/interfaces/elementiUtente.interface';
 
 @Component({
   selector: 'app-card-song',

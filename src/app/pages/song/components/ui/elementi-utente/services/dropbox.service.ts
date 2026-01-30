@@ -8,7 +8,7 @@ import {
   readFileAsArrayBuffer,
 } from '../utilities/dropbox.utilities';
 import { getExtension } from '../functions/estenzione.function';
-import { BaseService } from '../../../../../shared/services/base/base.service';
+import { BaseService } from '../../../../../../shared/services/base/base.service';
 
 @Injectable({
   providedIn: 'root',

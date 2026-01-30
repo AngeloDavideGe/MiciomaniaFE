@@ -5,82 +5,14 @@
     [altriBottoni]="navbarButtons"
   ></app-custom-navbar>
 
-  @switch (componente()) {
-    @case ("song") {
-      <!-- CANZONI MICIOMANIA -->
-      <section id="CanzoniMiciomania" class="mt-2">
-        <app-custom-scroll
-          [titolo]="'Canzoni Miciomania'"
-          [icona]="'bi bi-arrow-down'"
-          [nomeIcona]="'Vai a canzoni Utente'"
-          [idComponent]="'CanzoniUtente'"
-          [lunghezzaFiltro]="
-            elementiUtenteService.canzoniParodia?.canzoniMiciomania?.length || 0
-          "
-        ></app-custom-scroll>
-
-        <div
-          class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 g-4"
-        >
-          @for (
-            canzone of elementiUtenteService.canzoniParodia?.canzoniMiciomania;
-            track $index
-          ) {
-            <div class="col d-flex justify-content-center">
-              <app-card-song
-                [canzone]="canzone"
-                (playSong)="
-                  msu.playSong(
-                    canzone,
-                    elementiUtenteService.canzoniParodia?.canzoniMiciomania
-                  )
-                "
-                (stopSong)="msu.sc.stopSong()"
-                style="width: 100%; max-width: 320px"
-              ></app-card-song>
-            </div>
-          }
-        </div>
-      </section>
-
-      <!-- CANZONI UTENTE -->
-      <section id="CanzoniUtente" class="mt-4">
-        <app-custom-scroll
-          [titolo]="'Canzoni Utente'"
-          [icona]="'bi bi-arrow-up'"
-          [nomeIcona]="'Torna Su'"
-          [top]="170"
-          [lunghezzaFiltro]="
-            elementiUtenteService.canzoniParodia?.canzoniUtente?.length || 0
-          "
-        ></app-custom-scroll>
-
-        <div
-          class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 g-4"
-        >
-          @for (
-            canzone of elementiUtenteService.canzoniParodia?.canzoniUtente;
-            track $index
-          ) {
-            <div class="col d-flex justify-content-center">
-              <app-card-song
-                [canzone]="canzone"
-                (playSong)="
-                  msu.playSong(
-                    canzone,
-                    elementiUtenteService.canzoniParodia?.canzoniUtente
-                  )
-                "
-                (stopSong)="msu.sc.stopSong()"
-                style="width: 100%; max-width: 320px"
-              ></app-card-song>
-            </div>
-          }
-        </div>
-      </section>
+  <div style="margin-top: 5rem">
+    @switch (componente()) {
+      @case ("song") {
+        <app-canzoni-miciomania></app-canzoni-miciomania>
+      }
+      @case ("proposta") {
+        <app-elementi-utente></app-elementi-utente>
+      }
     }
-    @case ("proposta") {
-      <app-elementi-utente></app-elementi-utente>
-    }
-  }
+  </div>
 </div>

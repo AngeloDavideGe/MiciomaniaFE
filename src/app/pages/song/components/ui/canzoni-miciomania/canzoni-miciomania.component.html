@@ -1,0 +1,64 @@
+@if (canzoniCaricate()) {
+  <section id="CanzoniMiciomania" class="mt-2">
+    <app-custom-scroll
+      [titolo]="'Canzoni Miciomania'"
+      [icona]="'bi bi-arrow-down'"
+      [nomeIcona]="'Vai a canzoni Utente'"
+      [idComponent]="'CanzoniUtente'"
+      [lunghezzaFiltro]="
+        euService.canzoniParodia?.canzoniMiciomania?.length || 0
+      "
+    ></app-custom-scroll>
+
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 g-4">
+      @for (
+        canzone of euService.canzoniParodia?.canzoniMiciomania;
+        track $index
+      ) {
+        <div class="col d-flex justify-content-center">
+          <app-card-song
+            [canzone]="canzone"
+            (playSong)="
+              msu.playSong(canzone, euService.canzoniParodia?.canzoniMiciomania)
+            "
+            (stopSong)="msu.sc.stopSong()"
+            style="width: 100%; max-width: 320px"
+          ></app-card-song>
+        </div>
+      }
+    </div>
+  </section>
+
+  <section id="CanzoniUtente" class="mt-4">
+    <app-custom-scroll
+      [titolo]="'Canzoni Utente'"
+      [icona]="'bi bi-arrow-up'"
+      [nomeIcona]="'Torna Su'"
+      [top]="170"
+      [lunghezzaFiltro]="euService.canzoniParodia?.canzoniUtente?.length || 0"
+    ></app-custom-scroll>
+
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 g-4">
+      @for (canzone of euService.canzoniParodia?.canzoniUtente; track $index) {
+        <div class="col d-flex justify-content-center">
+          <app-card-song
+            [canzone]="canzone"
+            (playSong)="
+              msu.playSong(canzone, euService.canzoniParodia?.canzoniUtente)
+            "
+            (stopSong)="msu.sc.stopSong()"
+            style="width: 100%; max-width: 320px"
+          ></app-card-song>
+        </div>
+      }
+    </div>
+  </section>
+} @else {
+  <div
+    class="d-flex justify-content-center align-items-center spinner-template-stile"
+  >
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+  </div>
+}
