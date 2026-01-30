@@ -1,6 +1,7 @@
 import {
   Component,
   computed,
+  effect,
   inject,
   OnDestroy,
   OnInit,
@@ -8,13 +9,13 @@ import {
 } from '@angular/core';
 import { Router } from '@angular/router';
 import { DataHttp } from '../../../../../core/api/http.data';
+import { PulsantiHeader } from '../../../../../shared/components/custom/header-custom.component';
 import { effectTimeoutCustom } from '../../../../../shared/functions/utilities.function';
 import {
   Lingua,
   MangaUtente,
 } from '../../../../../shared/interfaces/http.interface';
 import { User } from '../../../../../shared/interfaces/users.interface';
-import { LoadingService } from '../../../../../shared/services/template/loading.service';
 import {
   createSezioneMangaUtente,
   voidSplitManga,
@@ -32,7 +33,6 @@ import {
   TuoiMangaLang,
   TuoiMangaLangType,
 } from './languages/interfaces/tuoiManga-lang.interface';
-import { PulsantiHeader } from '../../../../../shared/components/custom/header-custom.component';
 
 @Component({
   selector: 'app-tuoi-manga',
@@ -42,7 +42,6 @@ import { PulsantiHeader } from '../../../../../shared/components/custom/header-c
 })
 export class TuoiMangaComponent implements OnInit, OnDestroy {
   public mangaService = inject(MangaService);
-  private loadingService = inject(LoadingService);
   private router = inject(Router);
 
   public selectedTab: keyofMangaUtente = 'preferiti';
@@ -56,6 +55,11 @@ export class TuoiMangaComponent implements OnInit, OnDestroy {
   public allMangaSearch = computed<ListaManga[]>(() =>
     this.computedallMangaSearch(),
   );
+
+  public mangaNonVuoti = computed<boolean>(() => {
+    const listaManga: ListaManga[] = this.mangaService.listaManga();
+    return listaManga.length > 0;
+  });
 
   public sezioneListaManga = signal<SezioniMangaUtente>({
     preferiti: [],
@@ -81,15 +85,27 @@ export class TuoiMangaComponent implements OnInit, OnDestroy {
     effectTimeoutCustom<string>(this.searchQuery, (value: string) =>
       this.debouncedSearchQuery.set(value),
     );
+
+    effect(() => {
+      const listaManga: ListaManga[] = this.mangaService.listaManga();
+      if (listaManga) {
+        this.caricaManga(listaManga);
+      }
+    });
   }
 
   ngOnInit(): void {
     const user: User | null = DataHttp.user();
-    if (user) {
-      this.loadListaManga(user.id);
-    } else {
-      this.router.navigate(['/manga']);
-    }
+
+    inizializzaLista({
+      mangaService: this.mangaService,
+      idUtente: user ? user.id : '',
+      caricaMangaUtente: (manga_utente: MangaUtente) =>
+        DataHttp.mangaUtente.set(manga_utente),
+      caricaListaManga: (lista_manga: ListaManga[]) =>
+        this.caricaManga(lista_manga),
+      caricamentoFallito: () => this.erroreHttp.set(true),
+    });
   }
 
   ngOnDestroy(): void {
@@ -104,7 +120,7 @@ export class TuoiMangaComponent implements OnInit, OnDestroy {
         .completati.map((x: ListaManga) => x.id)
         .join(', '),
     } as MangaUtente;
-    DataHttp.mangaUtente = mangaUtente;
+    DataHttp.mangaUtente.set(mangaUtente);
   }
 
   private loadLanguage(): void {
@@ -130,35 +146,27 @@ export class TuoiMangaComponent implements OnInit, OnDestroy {
   }
 
   private loadListaManga(idUtente: string | null): void {
-    this.loadingService.show();
-
     inizializzaLista({
       mangaService: this.mangaService,
       idUtente: idUtente || '',
       caricaMangaUtente: (manga_utente: MangaUtente) =>
-        (DataHttp.mangaUtente = manga_utente),
+        DataHttp.mangaUtente.set(manga_utente),
       caricaListaManga: (lista_manga: ListaManga[]) =>
         this.caricaManga(lista_manga),
-      caricamentoFallito: () => this.caricamentoFallito(),
+      caricamentoFallito: () => this.erroreHttp.set(true),
     });
-  }
-
-  private caricamentoFallito(): void {
-    this.erroreHttp.set(true);
-    this.loadingService.hide();
   }
 
   private caricaManga(lista: ListaManga[]): void {
     this.mangaService.listaManga.set(lista);
     this.copiaSplitUtente();
     this.filterMangaFunc('preferiti');
-    this.loadingService.hide();
   }
 
   private copiaSplitUtente(): void {
     this.sezioneListaManga.set(
       createSezioneMangaUtente(
-        DataHttp.mangaUtente || ({} as MangaUtente),
+        DataHttp.mangaUtente() || ({} as MangaUtente),
         this.mangaService.listaManga(),
       ),
     );

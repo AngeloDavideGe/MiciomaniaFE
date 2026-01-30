@@ -38,7 +38,10 @@
       ></app-chart-print>
     }
     @case ("mn") {
-      <app-m-n [squadreLang]="squadreLang"></app-m-n>
+      <app-m-n
+        [squadreLang]="squadreLang"
+        [setMN]="githubService.mn()"
+      ></app-m-n>
     }
   }
 } @else {

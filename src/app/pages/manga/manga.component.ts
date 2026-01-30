@@ -1,6 +1,7 @@
 import {
   Component,
   computed,
+  effect,
   HostListener,
   inject,
   OnDestroy,
@@ -15,7 +16,6 @@ import {
   effectTimeoutCustom,
 } from '../../shared/functions/utilities.function';
 import { Lingua, MangaUtente } from '../../shared/interfaces/http.interface';
-import { LoadingService } from '../../shared/services/template/loading.service';
 import { alfabetoManga } from './constants/alfabeto.constant';
 import { generiManga } from './constants/genere.constant';
 import {
@@ -43,16 +43,14 @@ import { MangaService } from './services/manga.service';
 })
 export class MangaComponent implements OnDestroy {
   public mangaService = inject(MangaService);
-  private loadingService = inject(LoadingService);
   private router = inject(Router);
 
-  public mangaGeneri: string[] = generiManga;
-  public alfabeto: string[] = alfabetoManga;
+  public readonly mangaGeneri: string[] = generiManga;
+  public readonly alfabeto: string[] = alfabetoManga;
   public mangaPreferiti: boolean[] = [];
   public mangaLang: MangaLang = {} as MangaLang;
   public idUtente: string | null = null;
   public erroreHttp = signal<boolean>(false);
-  public aggiornamentoManga = signal<boolean>(false);
   public perIniziale = signal<string>('lista');
   public selezionaOpera: Function = (path: string) => window.open(path);
 
@@ -72,6 +70,11 @@ export class MangaComponent implements OnDestroy {
     tabBoolean: signal<boolean | null>(null),
   };
 
+  public mangaNonVuoti = computed<boolean>(() => {
+    const listaManga: ListaManga[] = this.mangaService.listaManga();
+    return listaManga.length > 0;
+  });
+
   public mangaPerIniziale = computed<Record<string, ListaManga[]>>(() => {
     const listaManga: ListaManga[] = this.mangaService.listaManga();
     const raggruppamento: Record<string, ListaManga[]> = {};
@@ -89,6 +92,7 @@ export class MangaComponent implements OnDestroy {
   });
 
   public filteredManga = computed<ListaManga[]>(() => this.logFilterChanges());
+
   public tabs: TabsManga[] = getTabsManga(
     (cond: boolean | null, index: number) =>
       this.getTabClickHandler(cond, index),
@@ -113,6 +117,20 @@ export class MangaComponent implements OnDestroy {
     effectTimeoutCustom(this.filterSelect.nome, (value: string) =>
       this.debounce.nome.set(value),
     );
+
+    effect(() => {
+      const mangaUtente: MangaUtente | null = DataHttp.mangaUtente();
+      if (mangaUtente) {
+        this.identificaPreferiti(mangaUtente);
+      }
+    });
+
+    effect(() => {
+      const listaManga: ListaManga[] = this.mangaService.listaManga();
+      if (listaManga) {
+        this.caricaManga(listaManga);
+      }
+    });
   }
 
   ngOnDestroy(): void {
@@ -174,8 +192,6 @@ export class MangaComponent implements OnDestroy {
   private loadFilteredManga(): void {
     const user = DataHttp.user();
     this.idUtente = user ? user.id : null;
-    this.aggiornamentoManga.set(true);
-    this.loadingService.show();
 
     inizializzaLista({
       mangaService: this.mangaService,
@@ -184,20 +200,18 @@ export class MangaComponent implements OnDestroy {
         this.identificaPreferiti(mangaUtente),
       caricaListaManga: (listaManga: ListaManga[]) =>
         this.caricaManga(listaManga),
-      caricamentoFallito: () => this.caricamentoFallito(),
+      caricamentoFallito: () => this.erroreHttp.set(true),
     });
   }
 
   private caricaManga(lista: ListaManga[]): void {
     this.mangaService.listaManga.set(lista);
     this.filterSelect.nome.set('');
-    this.aggiornamentoManga.set(false);
-    this.loadingService.hide();
   }
 
   private identificaPreferiti(mangaUtente: MangaUtente): void {
     if (mangaUtente?.preferiti) {
-      DataHttp.mangaUtente = mangaUtente;
+      DataHttp.mangaUtente.set(mangaUtente);
       const arrayIdPreferiti: number[] = mangaUtente.preferiti
         .split(',')
         .map(Number);
@@ -208,23 +222,18 @@ export class MangaComponent implements OnDestroy {
     }
   }
 
-  private caricamentoFallito(): void {
-    this.erroreHttp.set(true);
-    this.loadingService.hide();
-  }
-
   onGenreChange(event: Event) {
     const target = event.target as HTMLSelectElement;
     this.filterSelect.genere.set(target.value);
   }
 
   private upsertOnDestroy($event: BeforeUnloadEvent | null): void {
-    if (!DataHttp.mangaUtente || !this.idUtente) {
+    if (!DataHttp.mangaUtente() || !this.idUtente) {
       return;
     }
 
     const condEquals: boolean = !compareObjectCustom(
-      DataHttp.mangaUtente,
+      DataHttp.mangaUtente(),
       DataHttp.initialMangaUtente,
     );
 
@@ -233,7 +242,7 @@ export class MangaComponent implements OnDestroy {
 
       postOrUpdateMangaUtente({
         mangaService: this.mangaService,
-        mangaUtente: DataHttp.mangaUtente!,
+        mangaUtente: DataHttp.mangaUtente()!,
         idUtente: this.idUtente || '',
       });
     }

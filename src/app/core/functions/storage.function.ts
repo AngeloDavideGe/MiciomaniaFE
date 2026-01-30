@@ -8,7 +8,7 @@ export function refreshLocalStorage(): void {
 }
 
 export function refreshSessionStorage(): void {
-  sessionStorage.setItem('mangaUtente', JSON.stringify(DataHttp.mangaUtente));
+  sessionStorage.setItem('mangaUtente', JSON.stringify(DataHttp.mangaUtente()));
   sessionStorage.setItem(
     'punteggioOttenuto',
     JSON.stringify(DataHttp.punteggioOttenuto),

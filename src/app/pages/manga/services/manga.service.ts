@@ -10,6 +10,7 @@ import { ListaEUtenti, ListaManga } from '../interfaces/manga.interface';
 })
 export class MangaService extends BaseService {
   public listaManga = signal<ListaManga[]>([]);
+  public caricamentoManga: boolean = false;
 
   constructor() {
     super('CS');

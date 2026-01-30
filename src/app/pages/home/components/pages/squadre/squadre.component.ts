@@ -12,7 +12,10 @@ import {
 } from './languages/interfaces/squadre-lang.interface';
 import { NavBarButton } from '../../../../../shared/components/custom/navbar-custom.component';
 import { GitHubService } from '../../../../../shared/services/api/github.service';
-import { Conquiste } from '../../../../../shared/interfaces/github.interface';
+import {
+  Conquiste,
+  MN,
+} from '../../../../../shared/interfaces/github.interface';
 import { take } from 'rxjs';
 
 @Component({
@@ -45,6 +48,7 @@ export class SquadreComponent implements OnInit {
   ngOnInit(): void {
     this.loadSquadre();
     this.loadMappa();
+    this.loadMN();
   }
 
   captureElement(): void {
@@ -81,6 +85,22 @@ export class SquadreComponent implements OnInit {
         .subscribe({
           next: (data) => this.githubService.conquiste.set(data as Conquiste),
           error: (err) => console.error('errore nel recupero mappa', err),
+        });
+    }
+  }
+
+  private loadMN(): void {
+    if (this.githubService.mn().length == 0) {
+      this.githubService
+        .getGistFormGithub(
+          'AngeloDavideGe',
+          '797ad9d22d6c2401fcaabfda1c6d870f',
+          'MeN.json',
+        )
+        .pipe(take(1))
+        .subscribe({
+          next: (gist) => this.githubService.mn.set(gist as MN[]),
+          error: (error) => console.error('Error fetching M&N data:', error),
         });
     }
   }

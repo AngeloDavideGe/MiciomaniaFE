@@ -12,15 +12,18 @@ export function inizializzaLista(params: {
   caricaListaManga: (lista_manga: ListaManga[]) => void;
   caricamentoFallito: Function;
 }): void {
+  if (params.mangaService.caricamentoManga) return;
+  params.mangaService.caricamentoManga = true;
+
   const condLista: boolean = params.mangaService.listaManga().length == 0;
-  const condMangaUtente: boolean = !DataHttp.mangaUtente && !!params.idUtente;
+  const condMangaUtente: boolean = !DataHttp.mangaUtente() && !!params.idUtente;
 
   if (condLista && condMangaUtente) {
     getAllMangaEPreferiti(
       params.idUtente,
       params.mangaService,
       params.caricaMangaUtente,
-      params.caricaListaManga
+      params.caricaListaManga,
     );
   } else if (!condLista && condMangaUtente) {
     const data: ListaEUtenti = {
@@ -33,24 +36,24 @@ export function inizializzaLista(params: {
       params.mangaService,
       data,
       params.caricaMangaUtente,
-      params.caricaListaManga
+      params.caricaListaManga,
     );
   } else if (condLista && !condMangaUtente) {
     const data: ListaEUtenti = {
       listaManga: params.mangaService.listaManga(),
-      mangaUtente: DataHttp.mangaUtente || ({} as MangaUtente),
+      mangaUtente: DataHttp.mangaUtente() || ({} as MangaUtente),
     };
 
     getAllManga(
       params.mangaService,
       data,
       params.caricaMangaUtente,
-      params.caricaListaManga
+      params.caricaListaManga,
     );
   } else {
     const data: ListaEUtenti = {
       listaManga: params.mangaService.listaManga(),
-      mangaUtente: DataHttp.mangaUtente || ({} as MangaUtente),
+      mangaUtente: DataHttp.mangaUtente() || ({} as MangaUtente),
     };
 
     caricaMangaEPreferiti({
@@ -76,7 +79,7 @@ export function postOrUpdateMangaUtente(params: {
     .subscribe({
       next: () => {
         DataHttp.initialMangaUtente = params.mangaUtente;
-        DataHttp.mangaUtente = params.mangaUtente;
+        DataHttp.mangaUtente.set(params.mangaUtente);
       },
       error: (err) => console.error('Errore modifica utenti', err),
     });
@@ -86,7 +89,7 @@ function getAllMangaEPreferiti(
   idUtente: string,
   mangaService: MangaService,
   caricaMangaUtente: (manga_utente: MangaUtente) => void,
-  caricaListaManga: (lista_manga: ListaManga[]) => void
+  caricaListaManga: (lista_manga: ListaManga[]) => void,
 ): void {
   mangaService
     .getAllMangaEPreferiti(idUtente)
@@ -110,7 +113,7 @@ function getAllManga(
   mangaService: MangaService,
   data: ListaEUtenti,
   caricaMangaUtente: (manga_utente: MangaUtente) => void,
-  caricaListaManga: (lista_manga: ListaManga[]) => void
+  caricaListaManga: (lista_manga: ListaManga[]) => void,
 ): void {
   mangaService
     .getAllManga()
@@ -136,7 +139,7 @@ function getMangaPreferiti(
   mangaService: MangaService,
   data: ListaEUtenti,
   caricaMangaUtente: (manga_utente: MangaUtente) => void,
-  caricaListaManga: (lista_manga: ListaManga[]) => void
+  caricaListaManga: (lista_manga: ListaManga[]) => void,
 ): void {
   mangaService
     .getMangaPreferiti(idUtente)

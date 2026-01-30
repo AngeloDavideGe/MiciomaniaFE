@@ -16,8 +16,8 @@ import {
 export class GitHubService {
   public quiz: Quiz[] = [];
   public quizFilter: Quiz[] = [];
-  public mn: MN[] = [];
   public social: Social[] = [];
+  public mn = signal<MN[]>([]);
   public conquiste = signal<Conquiste | null>(null);
 
   getGistFormGithub(

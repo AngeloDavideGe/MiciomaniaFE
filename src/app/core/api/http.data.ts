@@ -10,10 +10,8 @@ import { GruppiChat } from '../components/chat/interfaces/chat.interface';
 
 export class DataHttp {
   static lingua: WritableSignal<Lingua> = signal(Lingua.it);
-
   static user: WritableSignal<User | null> = signal(null);
-
-  static mangaUtente: MangaUtente | null = null;
+  static mangaUtente: WritableSignal<MangaUtente | null> = signal(null);
   static initialMangaUtente: MangaUtente = {} as MangaUtente;
 
   static profiloPersonale: Profilo | null = null;
@@ -43,7 +41,7 @@ export class DataHttp {
     // Manga Service
     const mangaUtente = sessionStorage.getItem('mangaUtente');
     if (mangaUtente) {
-      this.mangaUtente = JSON.parse(mangaUtente);
+      this.mangaUtente.set(JSON.parse(mangaUtente));
       this.initialMangaUtente = JSON.parse(mangaUtente);
     }
 
