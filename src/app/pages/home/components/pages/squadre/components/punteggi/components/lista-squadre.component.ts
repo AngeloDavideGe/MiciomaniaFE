@@ -1,10 +1,10 @@
-import { Component, inject, Input, signal } from '@angular/core';
+import { Component, inject, signal, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import {
-  Classifica,
   Squadre,
-} from '../../../../../../shared/interfaces/squadre.interface';
-import { SquadreLang } from '../languages/interfaces/squadre-lang.interface';
+  Classifica,
+} from '../../../../../../../../shared/interfaces/squadre.interface';
+import { SquadreLang } from '../../../languages/interfaces/squadre-lang.interface';
 
 @Component({
   selector: 'app-lista-squadre',

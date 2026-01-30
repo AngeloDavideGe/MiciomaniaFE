@@ -1,10 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { Classifica } from '../../../../../../shared/interfaces/squadre.interface';
 import { renderBarChart, renderPieChart } from '../functions/draw.function';
-import {
-  Squadre,
-  Giocatori,
-  Classifica,
-} from '../../../../../../shared/interfaces/squadre.interface';
 
 declare var google: any;
 

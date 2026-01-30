@@ -1,21 +1,11 @@
-import {
-  Component,
-  EventEmitter,
-  inject,
-  Input,
-  Output,
-  Signal,
-} from '@angular/core';
+import { Component, EventEmitter, Input, Output, Signal } from '@angular/core';
 import { Classifica } from '../../../../../../../shared/interfaces/squadre.interface';
-import { SquadreService } from '../../../../../../../shared/services/api/squadre.service';
 import { SquadreLang } from '../../languages/interfaces/squadre-lang.interface';
-import { BottoniSquadreComponent } from '../bottoni-squadre.component';
-import { ChartsComponent } from '../charts.component';
-import { ListaSquadreComponent } from '../lista-squadre.component';
+import { punteggi_imports } from './imports/punteggi.import';
 
 @Component({
   selector: 'app-punteggi-component',
-  imports: [ListaSquadreComponent, ChartsComponent, BottoniSquadreComponent],
+  imports: punteggi_imports,
   template: `
     @if (classifica().squadre.length > 0) {
       <div class="mt-5 p-4 rounded-3">
@@ -46,8 +36,6 @@ import { ListaSquadreComponent } from '../lista-squadre.component';
   `,
 })
 export class PunteggiComponent {
-  public squadreService = inject(SquadreService);
-
   @Input() squadreLang!: SquadreLang;
   @Input() classifica!: Signal<Classifica>;
   @Output() captureElement = new EventEmitter<void>();

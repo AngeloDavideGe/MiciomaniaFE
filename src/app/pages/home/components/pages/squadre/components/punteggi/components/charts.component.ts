@@ -1,10 +1,13 @@
-import { Component, HostListener, Input, OnInit } from '@angular/core';
-import { debounceTimeoutCustom } from '../../../../../../shared/functions/utilities.function';
-import { renderBarChart, renderPieChart } from '../functions/draw.function';
+import { Component, OnInit, Input, HostListener } from '@angular/core';
+import { debounceTimeoutCustom } from '../../../../../../../../shared/functions/utilities.function';
 import {
-  Squadre,
   Giocatori,
-} from '../../../../../../shared/interfaces/squadre.interface';
+  Squadre,
+} from '../../../../../../../../shared/interfaces/squadre.interface';
+import {
+  renderBarChart,
+  renderPieChart,
+} from '../../../functions/draw.function';
 
 declare var google: any;
 
