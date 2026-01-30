@@ -25,6 +25,7 @@ import {
   AdminLang,
   AdminLangType,
 } from './languages/interfaces/admin-lang.interface';
+import { PulsantiHeader } from '../../../../../shared/components/custom/header-custom.component';
 
 @Component({
   selector: 'app-admin',
@@ -45,6 +46,17 @@ export class AdminComponent implements OnInit {
   public userMap = signal<Record<string, UserParams[]>>({});
   public userMapByRuolo: Record<string, Signal<UserParams[]>> = {};
   public adminLang: AdminLang = {} as AdminLang;
+  public pulsantiHeader: PulsantiHeader[] = [
+    {
+      click: () => this.router.navigate(['/home']),
+      disabled: false,
+      titolo: {
+        it: 'Torna alla Home',
+        en: 'Go to Home',
+      },
+      icona: 'bi bi-house-door me-2',
+    },
+  ];
 
   constructor() {
     const lingua: Lingua = DataHttp.lingua();

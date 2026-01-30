@@ -16,10 +16,6 @@ import { BottonCustomComponent } from './botton-custom.component';
           {{ descrizione }}
         </p>
 
-        <p class="h5 description">
-          {{ messaggio }}
-        </p>
-
         <div class="d-flex justify-content-center gap-3 mt-4 flex-wrap mb-2">
           @if (bottoni.length > 0) {
             @for (bottone of bottoni; track $index) {
@@ -70,11 +66,6 @@ import { BottonCustomComponent } from './botton-custom.component';
             opacity: 0.95;
           }
 
-          .description {
-            opacity: 0.8;
-            font-style: italic;
-          }
-
           .d-flex {
             .custom-btn {
               backdrop-filter: blur(6px);
@@ -108,7 +99,6 @@ import { BottonCustomComponent } from './botton-custom.component';
 export class HeaderCustomComponent {
   public lingua: Lingua = DataHttp.lingua();
   @Input() titolo: string = '';
-  @Input() messaggio: string = '';
   @Input() descrizione: string = '';
   @Input() bottoni: PulsantiHeader[] = [];
 }
