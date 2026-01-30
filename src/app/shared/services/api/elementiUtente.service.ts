@@ -15,9 +15,11 @@ import { BaseService } from '../base/base.service';
 export class ElementiUtenteService extends BaseService {
   public propostaCaricata: boolean = true;
   public caricamentoCanzoni: boolean = false;
+  public caricamentoManga: boolean = false;
+  public caricamentoUtenteParodie: boolean = false;
   public canzoniParodia = signal<CanzoniParodia | null>(null);
-  public mangaParodia: MangaParodia | null = null;
-  public utenteParodie: UtenteParodie | null = null;
+  public mangaParodia = signal<MangaParodia | null>(null);
+  public utenteParodie = signal<UtenteParodie | null>(null);
 
   constructor() {
     super('CS');

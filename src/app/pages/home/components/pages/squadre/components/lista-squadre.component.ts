@@ -1,7 +1,9 @@
 import { Component, inject, Input, signal } from '@angular/core';
 import { Router } from '@angular/router';
-import { Squadre } from '../../../../../../shared/interfaces/squadre.interface';
-import { SquadreService } from '../../../../../../shared/services/api/squadre.service';
+import {
+  Classifica,
+  Squadre,
+} from '../../../../../../shared/interfaces/squadre.interface';
 import { SquadreLang } from '../languages/interfaces/squadre-lang.interface';
 
 @Component({
@@ -51,16 +53,15 @@ import { SquadreLang } from '../languages/interfaces/squadre-lang.interface';
   `,
 })
 export class ListaSquadreComponent {
-  private squadreService = inject(SquadreService);
   public router = inject(Router);
 
   public teamSquadre = signal<Squadre[]>([]);
   public col = signal<string>('col-md-4 col-6');
 
   @Input() squadreLang!: SquadreLang;
-  @Input() set squadreCaricate(value: boolean) {
+  @Input() set classifica(value: Classifica) {
     if (value) {
-      this.teamSquadre.set(this.squadreService.classifica.squadre);
+      this.teamSquadre.set(value.squadre);
       this.col.set(
         `col-md-${Math.floor(12 / this.teamSquadre().length)} col-6`,
       );

@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, signal } from '@angular/core';
 import { Observable } from 'rxjs';
 import { BaseService } from '../base/base.service';
 import {
@@ -14,10 +14,10 @@ import { HttpParams } from '@angular/common/http';
 export class SquadreService extends BaseService {
   public squadraInGame: Squadre[] = [];
 
-  public classifica: Classifica = {
+  public classifica = signal<Classifica>({
     squadre: [] as Squadre[],
     giocatori: [] as Giocatori[],
-  };
+  });
 
   constructor() {
     super('CS');

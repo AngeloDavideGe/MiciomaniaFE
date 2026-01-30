@@ -3,6 +3,7 @@ import { renderBarChart, renderPieChart } from '../functions/draw.function';
 import {
   Squadre,
   Giocatori,
+  Classifica,
 } from '../../../../../../shared/interfaces/squadre.interface';
 
 declare var google: any;
@@ -35,15 +36,18 @@ declare var google: any;
   ],
 })
 export class ChartsPrintComponent implements OnInit {
-  @Input() giocatori!: Giocatori[];
-  @Input() squadre!: Squadre[];
+  @Input() classifica!: Classifica;
 
   ngOnInit(): void {
     google.charts.load('current', {
       packages: ['corechart', 'bar'],
       callback: () => {
-        renderBarChart(this.giocatori, 'chart_bar_print', this.squadre);
-        renderPieChart(this.squadre, 'chart_pie_print');
+        renderBarChart(
+          this.classifica.giocatori,
+          'chart_bar_print',
+          this.classifica.squadre,
+        );
+        renderPieChart(this.classifica.squadre, 'chart_pie_print');
       },
     });
   }

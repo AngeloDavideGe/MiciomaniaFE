@@ -157,11 +157,21 @@ export class CreaPropostaComponent implements OnInit {
           this.elementiUtenteService.utenteParodie =
             this.elementiUtenteService.utenteParodie || ({} as UtenteParodie);
           if (data.tipo === 'manga' || data.tipo === 'mangaPrimo') {
-            this.elementiUtenteService.utenteParodie.mangaUtente =
-              data.mangaSong;
+            this.elementiUtenteService.utenteParodie.update(
+              (utente: UtenteParodie | null) => {
+                utente = utente || ({} as UtenteParodie);
+                utente.mangaUtente = data.mangaSong;
+                return utente;
+              },
+            );
           } else {
-            this.elementiUtenteService.utenteParodie.canzoniUtente =
-              data.mangaSong;
+            this.elementiUtenteService.utenteParodie.update(
+              (utente: UtenteParodie | null) => {
+                utente = utente || ({} as UtenteParodie);
+                utente.canzoniUtente = data.mangaSong;
+                return utente;
+              },
+            );
           }
         },
         error: (err) => console.error('Errore upload o recupero link:', err),

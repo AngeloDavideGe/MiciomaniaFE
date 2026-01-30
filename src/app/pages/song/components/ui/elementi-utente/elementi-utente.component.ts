@@ -1,14 +1,11 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, effect, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
-import { User } from '../../../../../shared/interfaces/users.interface';
 import { take } from 'rxjs';
 import { DataHttp } from '../../../../../core/api/http.data';
-import {
-  UtenteParodie,
-  MangaSong,
-} from '../../../../../shared/interfaces/elementiUtente.interface';
+import { UtenteParodie } from '../../../../../shared/interfaces/elementiUtente.interface';
 import { Lingua } from '../../../../../shared/interfaces/http.interface';
-import { ElementiUtenteUtilities } from '../../../../../shared/utilities/elementiUtente.utilities';
+import { User } from '../../../../../shared/interfaces/users.interface';
+import { ElementiUtenteService } from '../../../../../shared/services/api/elementiUtente.service';
 import { elementi_utente_imports } from './imports/elementi-utente.imports';
 import {
   ElemLang,
@@ -23,11 +20,9 @@ import {
 })
 export class ElementiUtenteComponent implements OnInit {
   public router = inject(Router);
+  private euService = inject(ElementiUtenteService);
 
-  public eu: UtenteParodie = {
-    mangaUtente: {} as MangaSong,
-    canzoniUtente: {} as MangaSong,
-  };
+  public eu = signal<UtenteParodie | null>(null);
   public creaProposta = {
     componente: false,
     punteggio: false,
@@ -36,7 +31,6 @@ export class ElementiUtenteComponent implements OnInit {
   public userPunteggio: number = 0;
   public punteggioNecessario: number = 10;
   public tornaAllaHome: Function = () => this.router.navigate(['/home']);
-  public elemUti = new ElementiUtenteUtilities();
   public elemLang: ElemLang = {} as ElemLang;
 
   constructor() {
@@ -46,11 +40,25 @@ export class ElementiUtenteComponent implements OnInit {
       en: () => import('./languages/constants/elem-en.constant'),
     };
     languageMap[lingua]().then((m) => (this.elemLang = m.elemLang));
+
+    effect(() => {
+      const euConst = this.euService.utenteParodie();
+      const user: User | null = DataHttp.user();
+
+      if (user) {
+        this.eu.set(euConst);
+        this.userId = user.id;
+        this.userPunteggio = user.iscrizione.punteggio || 0;
+        this.creaProposta = {
+          componente: false,
+          punteggio: this.userPunteggio >= this.punteggioNecessario,
+        };
+      }
+    });
   }
 
   ngOnInit(): void {
     this.loadElementiUtente();
-    this.controlloProposta();
   }
 
   private loadElementiUtente(): void {
@@ -59,27 +67,29 @@ export class ElementiUtenteComponent implements OnInit {
     if (user) {
       this.userId = user.id;
       this.userPunteggio = user.iscrizione.punteggio || 0;
-      this.elemUti
-        .getElementiUtente(user.id)
-        .pipe(take(1))
-        .subscribe({
-          next: (elementiUtente: UtenteParodie) => {
-            this.eu = elementiUtente;
-            this.creaProposta = {
-              componente: false,
-              punteggio: this.userPunteggio >= this.punteggioNecessario,
-            };
-          },
-          error: (error) =>
-            console.error('Errore nel recupero degli elementi utente:', error),
-        });
-    }
-  }
 
-  private controlloProposta(): void {
-    if (!this.elemUti.elementiUtenteService.propostaCaricata) {
-      this.router.navigate(['/home']);
-      alert('La proposta sta in caricamento, attendere un attimo');
+      if (!this.euService.caricamentoUtenteParodie) {
+        this.euService.caricamentoUtenteParodie = true;
+        this.euService
+          .getElementiUtente(user.id)
+          .pipe(take(1))
+          .subscribe({
+            next: (elementiUtente: UtenteParodie) => {
+              this.creaProposta = {
+                componente: false,
+                punteggio: this.userPunteggio >= this.punteggioNecessario,
+              };
+              this.euService.utenteParodie.set(elementiUtente);
+            },
+            error: (error) => {
+              this.euService.caricamentoUtenteParodie = false;
+              console.error(
+                'Errore nel recupero degli elementi utente:',
+                error,
+              );
+            },
+          });
+      }
     }
   }
 }

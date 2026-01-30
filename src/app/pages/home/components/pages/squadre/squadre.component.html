@@ -8,23 +8,11 @@
 @if (!error()) {
   @switch (component()) {
     @case ("squadra") {
-      <div class="mt-5 p-4 rounded-3">
-        <app-lista-squadre
-          [squadreLang]="squadreLang"
-          [squadreCaricate]="squadreCaricate()"
-        ></app-lista-squadre>
-
-        @if (squadreService.classifica.squadre.length > 0) {
-          <app-chart-custom
-            [giocatori]="squadreService.classifica.giocatori"
-            [squadre]="squadreService.classifica.squadre"
-          ></app-chart-custom>
-        }
-
-        <app-bottoni-squadre
-          (captureElement)="captureElement()"
-        ></app-bottoni-squadre>
-      </div>
+      <app-punteggi-component
+        [squadreLang]="squadreLang"
+        [classifica]="classifica"
+        (captureElement)="captureElement()"
+      ></app-punteggi-component>
     }
     @case ("mappa") {
       <app-mappa-squadre
@@ -32,10 +20,7 @@
       ></app-mappa-squadre>
     }
     @case ("print") {
-      <app-chart-print
-        [giocatori]="squadreService.classifica.giocatori"
-        [squadre]="squadreService.classifica.squadre"
-      ></app-chart-print>
+      <app-chart-print [classifica]="classifica()"></app-chart-print>
     }
     @case ("mn") {
       <app-m-n

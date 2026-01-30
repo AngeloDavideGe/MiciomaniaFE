@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { DataHttp } from '../../../../../core/api/http.data';
 import { ChatService } from '../../../../../core/components/chat/services/chat.service';
 import { loadSquadre } from '../../../../../shared/handlers/squadre.handler';
@@ -17,6 +17,7 @@ import {
   MN,
 } from '../../../../../shared/interfaces/github.interface';
 import { take } from 'rxjs';
+import { Classifica } from '../../../../../shared/interfaces/squadre.interface';
 
 @Component({
   selector: 'app-squadre',
@@ -25,7 +26,6 @@ import { take } from 'rxjs';
   templateUrl: './squadre.component.html',
 })
 export class SquadreComponent implements OnInit {
-  private loadingService = inject(LoadingService);
   private chatService = inject(ChatService);
   public githubService = inject(GitHubService);
   public squadreService = inject(SquadreService);
@@ -34,7 +34,10 @@ export class SquadreComponent implements OnInit {
   public bottoniNavbar: NavBarButton[] = this.loadButton();
   public component = signal<'squadra' | 'print' | 'mappa' | 'mn'>('squadra');
   public error = signal<boolean>(false);
-  public squadreCaricate = signal<boolean>(false);
+
+  public classifica = computed<Classifica>(() =>
+    this.squadreService.classifica(),
+  );
 
   constructor() {
     const lingua: Lingua = DataHttp.lingua();
@@ -65,11 +68,8 @@ export class SquadreComponent implements OnInit {
   private loadSquadre(): void {
     loadSquadre({
       squadreService: this.squadreService,
-      ifCall: () => this.loadingService.show(),
-      elseCall: () => this.squadreCaricate.set(true),
-      nextCall: () => this.squadreCaricate.set(true),
+      nextCall: (data: Classifica) => this.squadreService.classifica.set(data),
       errorCall: () => this.error.set(true),
-      finalizeFunc: () => this.loadingService.hide(),
     });
   }
 

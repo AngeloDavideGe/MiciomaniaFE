@@ -4,22 +4,32 @@
   [messaggio]="elemLang.descrizione2"
 ></app-header-custom>
 
-<div class="mt-3">
-  <app-griglia-elementi
-    [elemLang]="elemLang"
-    [creaProposta]="creaProposta"
-    [eu]="eu"
-    [punteggioNecessario]="punteggioNecessario"
-    [userPunteggio]="userPunteggio"
-  ></app-griglia-elementi>
-</div>
+@if (eu()) {
+  <div class="mt-3">
+    <app-griglia-elementi
+      [elemLang]="elemLang"
+      [creaProposta]="creaProposta"
+      [eu]="eu()!"
+      [punteggioNecessario]="punteggioNecessario"
+      [userPunteggio]="userPunteggio"
+    ></app-griglia-elementi>
+  </div>
 
-@if (creaProposta.componente) {
-  <app-crea-proposta
-    [elemLang]="elemLang"
-    [userId]="userId"
-    [parodieUtente]="eu"
-    [tornaAllaHome]="tornaAllaHome"
-    (chiudi)="creaProposta.componente = false"
-  ></app-crea-proposta>
+  @if (creaProposta.componente) {
+    <app-crea-proposta
+      [elemLang]="elemLang"
+      [userId]="userId"
+      [parodieUtente]="eu()!"
+      [tornaAllaHome]="tornaAllaHome"
+      (chiudi)="creaProposta.componente = false"
+    ></app-crea-proposta>
+  }
+} @else {
+  <div
+    class="d-flex justify-content-center align-items-center spinner-template-stile"
+  >
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+  </div>
 }

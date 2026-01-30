@@ -42,7 +42,7 @@ export class GamesComponent implements OnInit, OnDestroy {
   public isGames$: Observable<boolean> = this.router.events.pipe(
     filter((event): event is NavigationEnd => event instanceof NavigationEnd),
     startWith({ url: this.router.url }),
-    map((event) => event.url == '/games')
+    map((event) => event.url == '/games'),
   );
 
   ngOnInit(): void {
@@ -75,10 +75,10 @@ export class GamesComponent implements OnInit, OnDestroy {
     if (user) {
       this.squadre.set({
         personale: data.filter(
-          (squadra: Squadre) => squadra.nome == user.iscrizione.squadra
+          (squadra: Squadre) => squadra.nome == user.iscrizione.squadra,
         ),
         avversario: data.filter(
-          (squadra: Squadre) => squadra.nome != user.iscrizione.squadra
+          (squadra: Squadre) => squadra.nome != user.iscrizione.squadra,
         ),
       });
     }
@@ -92,7 +92,7 @@ export class GamesComponent implements OnInit, OnDestroy {
       $event ? $event.preventDefault() : null;
 
       const squadre: string[] = this.squadre().personale.map(
-        (squadra: Squadre) => squadra.nome
+        (squadra: Squadre) => squadra.nome,
       );
 
       updatePunteggioSquadra({
@@ -111,21 +111,20 @@ export class GamesComponent implements OnInit, OnDestroy {
       user.iscrizione.punteggio += punteggio;
       DataHttp.user.set(user);
 
-      const indexGiocatori: number =
-        this.squadreService.classifica.giocatori.findIndex(
-          (x: Giocatori) => x.idUtente == user.id
-        );
+      const indexGiocatori: number = this.squadreService
+        .classifica()
+        .giocatori.findIndex((x: Giocatori) => x.idUtente == user.id);
 
       if (indexGiocatori > -1) {
-        this.squadreService.classifica.giocatori[indexGiocatori].punteggio +=
+        this.squadreService.classifica().giocatori[indexGiocatori].punteggio +=
           punteggio;
       }
 
       const idSet = new Set<string>(
-        squadre.map((id: string) => id.toLowerCase())
+        squadre.map((id: string) => id.toLowerCase()),
       );
 
-      for (const squadra of this.squadreService.classifica.squadre) {
+      for (const squadra of this.squadreService.classifica().squadre) {
         if (idSet.has(squadra.nome.toLowerCase())) {
           squadra.punteggio += punteggio;
         }

@@ -14,16 +14,11 @@
       [icona]="'bi bi-arrow-down'"
       [nomeIcona]="mmicioLang.iconaScrollGiu"
       [idComponent]="'MangaUtente'"
-      [lunghezzaFiltro]="
-        elementiUtenteService.mangaParodia?.mangaMiciomania?.length || 0
-      "
+      [lunghezzaFiltro]="elem()?.mangaMiciomania?.length || 0"
     ></app-custom-scroll>
 
     <div class="row g-4">
-      @for (
-        manga of elementiUtenteService.mangaParodia?.mangaMiciomania;
-        track $index
-      ) {
+      @for (manga of elem()?.mangaMiciomania; track $index) {
         <div class="col-md-6 col-lg-4 col-xl-3">
           <app-card-manga-miciomania
             [mmicioLang]="mmicioLang"
@@ -42,16 +37,11 @@
       [icona]="'bi bi-arrow-up'"
       [nomeIcona]="mmicioLang.iconaScrollSu"
       [top]="270"
-      [lunghezzaFiltro]="
-        elementiUtenteService.mangaParodia?.mangaUtentePars?.length || 0
-      "
+      [lunghezzaFiltro]="elem()?.mangaUtentePars?.length || 0"
     ></app-custom-scroll>
 
     <div class="row g-4">
-      @for (
-        manga of elementiUtenteService.mangaParodia?.mangaUtentePars;
-        track $index
-      ) {
+      @for (manga of elem()?.mangaUtentePars; track $index) {
         <div class="col-md-6 col-lg-4 col-xl-3">
           <app-card-manga-miciomania
             [mmicioLang]="mmicioLang"

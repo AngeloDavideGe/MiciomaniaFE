@@ -1,22 +1,21 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, computed, inject, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { take } from 'rxjs';
 import { DataHttp } from '../../../../../core/api/http.data';
+import {
+  HeaderCustomComponent,
+  PulsantiHeader,
+} from '../../../../../shared/components/custom/header-custom.component';
+import { CustomScrollComponent } from '../../../../../shared/components/custom/scroll-custom.component';
 import { MangaParodia } from '../../../../../shared/interfaces/elementiUtente.interface';
 import { Lingua } from '../../../../../shared/interfaces/http.interface';
 import { ElementiUtenteService } from '../../../../../shared/services/api/elementiUtente.service';
-import { LoadingService } from '../../../../../shared/services/template/loading.service';
 import { MangaSongUtilities } from '../../../../../shared/utilities/mangaSong.utilities';
 import { CardMangaMiciomaniaComponent } from './components/card-mangaMiciomania.component';
 import {
   MmicioLang,
   MmicioLangType,
 } from './languages/interfaces/mmicio-lang.interface';
-import { CustomScrollComponent } from '../../../../../shared/components/custom/scroll-custom.component';
-import {
-  HeaderCustomComponent,
-  PulsantiHeader,
-} from '../../../../../shared/components/custom/header-custom.component';
 
 @Component({
   selector: 'app-manga-miciomani',
@@ -30,12 +29,16 @@ import {
   styleUrl: './manga-miciomani.component.scss',
 })
 export class MangaMiciomaniComponent implements OnInit {
-  public elementiUtenteService = inject(ElementiUtenteService);
+  public euService = inject(ElementiUtenteService);
   public router = inject(Router);
-  private loadingService = inject(LoadingService);
 
   public mangaSongUtilities = new MangaSongUtilities();
   public mmicioLang: MmicioLang = {} as MmicioLang;
+
+  public elem = computed<MangaParodia | null>(() =>
+    this.euService.mangaParodia(),
+  );
+
   public pulsanti: PulsantiHeader[] = [
     {
       click: () => this.router.navigate(['/manga']),
@@ -58,26 +61,18 @@ export class MangaMiciomaniComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    if (!this.elementiUtenteService.mangaParodia) {
-      this.loadMangaMiciomani();
+    if (!this.euService.caricamentoManga) {
+      this.euService.caricamentoManga = true;
+      this.euService
+        .getListaMangaMiciomani()
+        .pipe(take(1))
+        .subscribe({
+          next: (data: MangaParodia) => this.euService.mangaParodia.set(data),
+          error: (error) => {
+            this.euService.caricamentoManga = false;
+            console.error('Errore nel recupero dei manga', error);
+          },
+        });
     }
-  }
-
-  private loadMangaMiciomani(): void {
-    this.loadingService.show();
-
-    this.elementiUtenteService
-      .getListaMangaMiciomani()
-      .pipe(take(1))
-      .subscribe({
-        next: (data: MangaParodia) => this.nextGetListaMangaMiciomani(data),
-        error: (error) =>
-          console.error('Errore nel recupero della lista dei manga', error),
-      });
-  }
-
-  private nextGetListaMangaMiciomani(data: MangaParodia): void {
-    this.elementiUtenteService.mangaParodia = data;
-    this.loadingService.hide();
   }
 }

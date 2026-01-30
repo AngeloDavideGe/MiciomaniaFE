@@ -1,4 +1,4 @@
-import { finalize, take } from 'rxjs';
+import { take } from 'rxjs';
 import { DataHttp } from '../../core/api/http.data';
 import { Classifica, Squadre } from '../interfaces/squadre.interface';
 import { SquadreService } from '../services/api/squadre.service';
@@ -33,7 +33,7 @@ export function updatePunteggioSquadra(params: {
     .updatePunteggioSquadra(
       params.userId,
       params.nomeSquadra,
-      DataHttp.punteggioOttenuto
+      DataHttp.punteggioOttenuto,
     )
     .pipe(take(1))
     .subscribe({
@@ -44,32 +44,22 @@ export function updatePunteggioSquadra(params: {
 
 export function loadSquadre(params: {
   squadreService: SquadreService;
-  ifCall: Function;
-  elseCall: Function;
   nextCall: Function;
   errorCall: Function;
-  finalizeFunc: Function;
 }): void {
-  if (params.squadreService.classifica.squadre.length == 0) {
-    params.ifCall();
+  if (params.squadreService.classifica().squadre.length == 0) {
     params.squadreService
       .getClassifica()
-      .pipe(
-        take(1),
-        finalize(() => params.finalizeFunc())
-      )
+      .pipe(take(1))
       .subscribe({
-        next: (data: Classifica) => {
-          params.squadreService.classifica = data;
-          params.nextCall();
-        },
+        next: (data: Classifica) => params.nextCall(data),
         error: (err) => {
           console.error('errore nel recupero squadre', err);
           params.errorCall();
         },
       });
   } else {
-    params.elseCall();
+    params.nextCall(params.squadreService.classifica());
   }
 }
 
