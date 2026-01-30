@@ -5,10 +5,11 @@ import { take } from 'rxjs';
 import { ElementiUtenteService } from '../../../../../shared/services/api/elementiUtente.service';
 import { CanzoniParodia } from '../../../../../shared/interfaces/elementiUtente.interface';
 import { MangaSongUtilities } from '../../../../../shared/utilities/mangaSong.utilities';
+import { SpinnerComponent } from '../../../../../shared/components/dialogs/spinner.component';
 
 @Component({
   selector: 'app-canzoni-miciomania',
-  imports: [CustomScrollComponent, CardSongComponent],
+  imports: [CustomScrollComponent, CardSongComponent, SpinnerComponent],
   templateUrl: './canzoni-miciomania.component.html',
 })
 export class CanzoniMiciomaniaComponent implements OnInit {

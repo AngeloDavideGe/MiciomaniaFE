@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, HostListener } from '@angular/core';
 import { debounceTimeoutCustom } from '../../../../../../../../shared/functions/utilities.function';
 import {
+  Classifica,
   Giocatori,
   Squadre,
 } from '../../../../../../../../shared/interfaces/squadre.interface';
@@ -43,22 +44,29 @@ declare var google: any;
   ],
 })
 export class ChartsComponent implements OnInit {
-  @Input() giocatori!: Giocatori[];
-  @Input() squadre!: Squadre[];
+  @Input() classifica!: Classifica;
 
   ngOnInit(): void {
     google.charts.load('current', {
       packages: ['corechart', 'bar'],
       callback: () => {
-        renderBarChart(this.giocatori, 'chart_bar', this.squadre);
-        renderPieChart(this.squadre, 'chart_pie');
+        renderBarChart(
+          this.classifica.giocatori,
+          'chart_bar',
+          this.classifica.squadre,
+        );
+        renderPieChart(this.classifica.squadre, 'chart_pie');
       },
     });
   }
 
   @HostListener('window:resize')
   onResize = debounceTimeoutCustom(() => {
-    renderBarChart(this.giocatori, 'chart_bar', this.squadre);
-    renderPieChart(this.squadre, 'chart_pie');
+    renderBarChart(
+      this.classifica.giocatori,
+      'chart_bar',
+      this.classifica.squadre,
+    );
+    renderPieChart(this.classifica.squadre, 'chart_pie');
   });
 }

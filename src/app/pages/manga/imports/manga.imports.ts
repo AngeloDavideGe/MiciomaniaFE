@@ -7,6 +7,7 @@ import { FiltriMangaComponent } from '../components/ui/filtri-manga.component';
 import { TabsMangaComponent } from '../components/ui/tabs-manga.component';
 import { CardMangaComponent } from '../shared/card-manga.component';
 import { HeaderCustomComponent } from '../../../shared/components/custom/header-custom.component';
+import { SpinnerComponent } from '../../../shared/components/dialogs/spinner.component';
 
 export const manga_imports: Type<any>[] = [
   RouterOutlet,
@@ -17,4 +18,5 @@ export const manga_imports: Type<any>[] = [
   FiltriMangaComponent,
   IconeListaComponent,
   HeaderCustomComponent,
+  SpinnerComponent,
 ];

@@ -32,7 +32,7 @@ export class SquadreComponent implements OnInit {
 
   public squadreLang: SquadreLang = {} as SquadreLang;
   public bottoniNavbar: NavBarButton[] = this.loadButton();
-  public component = signal<'squadra' | 'print' | 'mappa' | 'mn'>('squadra');
+  public component = signal<'Squadre' | 'print' | 'Mappa' | 'M-N'>('Squadre');
   public error = signal<boolean>(false);
 
   public classifica = computed<Classifica>(() =>
@@ -60,7 +60,7 @@ export class SquadreComponent implements OnInit {
 
     setTimeout(() => {
       window.print();
-      this.component.set('squadra');
+      this.component.set('Squadre');
       this.chatService.chatVisibile.set(true);
     }, 50);
   }
@@ -110,17 +110,17 @@ export class SquadreComponent implements OnInit {
       {
         icon: 'bi bi-bar-chart-line',
         title: 'Squadre',
-        action: () => this.component.set('squadra'),
+        action: () => this.component.set('Squadre'),
       },
       {
         icon: 'bi bi-map',
         title: 'Mappa',
-        action: () => this.component.set('mappa'),
+        action: () => this.component.set('Mappa'),
       },
       {
         icon: 'bi bi-map',
         title: 'M-N',
-        action: () => this.component.set('mn'),
+        action: () => this.component.set('M-N'),
       },
     ];
   }

@@ -2,19 +2,20 @@
   <app-custom-navbar
     [goHomeBotton]="'home'"
     [altriBottoni]="bottoniNavbar"
+    [selected]="component"
   ></app-custom-navbar>
 }
 
 @if (!error()) {
   @switch (component()) {
-    @case ("squadra") {
+    @case ("Squadre") {
       <app-punteggi-component
         [squadreLang]="squadreLang"
         [classifica]="classifica"
         (captureElement)="captureElement()"
       ></app-punteggi-component>
     }
-    @case ("mappa") {
+    @case ("Mappa") {
       <app-mappa-squadre
         [setConquiste]="githubService.conquiste()"
       ></app-mappa-squadre>
@@ -22,7 +23,7 @@
     @case ("print") {
       <app-chart-print [classifica]="classifica()"></app-chart-print>
     }
-    @case ("mn") {
+    @case ("M-N") {
       <app-m-n
         [squadreLang]="squadreLang"
         [setMN]="githubService.mn()"

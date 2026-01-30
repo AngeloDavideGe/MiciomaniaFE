@@ -34,7 +34,9 @@ export class CustomScrollComponent {
 
   scrollFun() {
     if (this.idComponent) {
-      const element = document.getElementById(this.idComponent);
+      const element: HTMLElement | null = document.getElementById(
+        this.idComponent,
+      );
       if (element) {
         element.scrollIntoView({
           behavior: 'smooth',

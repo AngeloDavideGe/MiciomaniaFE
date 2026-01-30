@@ -15,11 +15,12 @@ import { debounceTimeoutCustom } from '../../../../../../../shared/functions/uti
 import { sottoscrizioneUtentiCustom } from '../../../../../../../shared/handlers/auth.handler';
 import { UserParams } from '../../../../../../../shared/interfaces/users.interface';
 import { AuthService } from '../../../../../../../shared/services/api/auth.service';
+import { SpinnerComponent } from '../../../../../../../shared/components/dialogs/spinner.component';
 
 @Component({
   selector: 'app-cerca-profili',
   standalone: true,
-  imports: [FormsModule],
+  imports: [FormsModule, SpinnerComponent],
   templateUrl: './cerca-profili.component.html',
   styleUrl: './cerca-profili.component.scss',
 })

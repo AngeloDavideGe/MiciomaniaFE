@@ -4,11 +4,12 @@ import { DataHttp } from '../../../../core/api/http.data';
 import { Social } from '../../../../shared/interfaces/github.interface';
 import { GitHubService } from '../../../../shared/services/api/github.service';
 import { Lingua } from '../../../../shared/interfaces/http.interface';
+import { SpinnerComponent } from '../../../../shared/components/dialogs/spinner.component';
 
 @Component({
   selector: 'app-social-link',
   standalone: true,
-  imports: [],
+  imports: [SpinnerComponent],
   template: `
     <section data-bs-version="5.1" class="social02 py-5" id="social02-2">
       <div class="container">
@@ -32,13 +33,7 @@ import { Lingua } from '../../../../shared/interfaces/http.interface';
               </div>
             }
           } @else {
-            <div
-              class="d-flex justify-content-center align-items-center spinner-template-stile"
-            >
-              <div class="spinner-border text-primary" role="status">
-                <span class="visually-hidden">Loading...</span>
-              </div>
-            </div>
+            <app-spinner></app-spinner>
           }
         </div>
       </div>

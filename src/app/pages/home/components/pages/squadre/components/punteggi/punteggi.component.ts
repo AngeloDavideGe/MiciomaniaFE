@@ -14,24 +14,14 @@ import { punteggi_imports } from './imports/punteggi.import';
           [classifica]="classifica()"
         ></app-lista-squadre>
 
-        <app-chart-custom
-          [giocatori]="classifica().giocatori"
-          [squadre]="classifica().squadre"
-        ></app-chart-custom>
+        <app-chart-custom [classifica]="classifica()"></app-chart-custom>
 
         <app-bottoni-squadre
           (captureElement)="captureElement.emit()"
         ></app-bottoni-squadre>
       </div>
     } @else {
-      <div
-        class="d-flex justify-content-center align-items-center spinner-template-stile"
-        style="margin-top: 5rem"
-      >
-        <div class="spinner-border text-primary" role="status">
-          <span class="visually-hidden">Loading...</span>
-        </div>
-      </div>
+      <<app-spinner></app-spinner>
     }
   `,
 })

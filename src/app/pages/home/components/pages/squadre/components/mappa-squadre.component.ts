@@ -10,19 +10,18 @@ import {
 } from '../../../../../../shared/interfaces/github.interface';
 import { renderPieChartMap } from '../functions/draw.function';
 import { PATH_REGIONI } from '../constants/path-regioni.constant';
+import { SpinnerComponent } from '../../../../../../shared/components/dialogs/spinner.component';
 
 declare var google: any;
 
 @Component({
   selector: 'app-mappa-squadre',
   standalone: true,
-  imports: [SvgCustomComponent],
+  imports: [SvgCustomComponent, SpinnerComponent],
   template: `
     <div id="ContainerMap" class="mt-5">
       @if (loading()) {
-        <div class="spinner-border text-dark rounded-circle" role="status">
-          <span class="visually-hidden">Loading...</span>
-        </div>
+        <app-spinner></app-spinner>
       } @else {
         <div class="layout">
           <div class="chart-wrapper">

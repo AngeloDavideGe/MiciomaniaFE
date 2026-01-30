@@ -1,5 +1,5 @@
 @if (canzoniParodia()) {
-  <section id="CanzoniMiciomania" class="mt-2">
+  <section id="CanzoniMiciomania" style="margin-top: 5rem">
     <app-custom-scroll
       [titolo]="'Canzoni Miciomania'"
       [icona]="'bi bi-arrow-down'"
@@ -29,7 +29,6 @@
       [titolo]="'Canzoni Utente'"
       [icona]="'bi bi-arrow-up'"
       [nomeIcona]="'Torna Su'"
-      [top]="170"
       [lunghezzaFiltro]="canzoniParodia()?.canzoniUtente?.length || 0"
     ></app-custom-scroll>
 
@@ -47,11 +46,5 @@
     </div>
   </section>
 } @else {
-  <div
-    class="d-flex justify-content-center align-items-center spinner-template-stile"
-  >
-    <div class="spinner-border text-primary" role="status">
-      <span class="visually-hidden">Loading...</span>
-    </div>
-  </div>
+  <app-spinner></app-spinner>
 }

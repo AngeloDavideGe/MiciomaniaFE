@@ -5,6 +5,7 @@ import { InputTuoiMangaComponent } from '../components/input-tuoi-manga.componen
 import { SelectTabMangaComponent } from '../components/select-tab-manga.component';
 import { TabsTuoiMangaComponent } from '../components/tabs-tuoi-manga.component';
 import { HeaderCustomComponent } from '../../../../../../shared/components/custom/header-custom.component';
+import { SpinnerComponent } from '../../../../../../shared/components/dialogs/spinner.component';
 
 export const tuoi_manga_imports: Type<any>[] = [
   CardMangaComponent,
@@ -13,4 +14,5 @@ export const tuoi_manga_imports: Type<any>[] = [
   TabsTuoiMangaComponent,
   InputTuoiMangaComponent,
   SelectTabMangaComponent,
+  SpinnerComponent,
 ];

@@ -6,6 +6,7 @@ import { CardProfiloComponent } from '../components/card-profilo.component';
 import { EditProfiloComponent } from '../components/edit-profilo/edit-profilo.component';
 import { NewTweetComponent } from '../components/new-tweet/new-tweet.component';
 import { SezioneTweetComponent } from '../components/sezione-tweet.component';
+import { SpinnerComponent } from '../../../../../../shared/components/dialogs/spinner.component';
 
 export const profilo_imports: Type<any>[] = [
   NewTweetComponent,
@@ -15,4 +16,5 @@ export const profilo_imports: Type<any>[] = [
   CardProfiloComponent,
   SezioneTweetComponent,
   CustomNavBarComponent,
+  SpinnerComponent,
 ];

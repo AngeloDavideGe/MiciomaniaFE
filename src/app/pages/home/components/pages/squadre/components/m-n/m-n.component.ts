@@ -28,13 +28,7 @@ import { mn_imports } from './imports/m-n.import';
           }
         </div>
       } @else {
-        <div
-          class="d-flex justify-content-center align-items-center spinner-template-stile"
-        >
-          <div class="spinner-border text-primary" role="status">
-            <span class="visually-hidden">Loading...</span>
-          </div>
-        </div>
+        <app-spinner></app-spinner>
       }
     </div>
   `,

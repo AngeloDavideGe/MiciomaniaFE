@@ -6,3 +6,8 @@ export function getExtension(file: File): string {
 
   return extensions[file.type] || '';
 }
+
+export const titoloPulsantiSong: Record<string, string> = {
+  song: 'Canzoni Miciomania',
+  proposta: 'Proponi una canzone',
+};
