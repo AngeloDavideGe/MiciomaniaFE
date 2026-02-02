@@ -1,58 +1,121 @@
-import { Component, EventEmitter, Input, Output, Signal } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  inject,
+  Input,
+  Output,
+  Signal,
+} from '@angular/core';
+import { Router } from '@angular/router';
+import {
+  AzioniTabella,
+  ColonnaCustom,
+  TabellaCustomComponent,
+} from '../../../../../../../shared/components/custom/tabella-custom.component';
+import { Ruolo } from '../../../../../../../shared/enums/users.enum';
 import {
   User,
   UserParams,
 } from '../../../../../../../shared/interfaces/users.interface';
-import { Ruolo } from '../../../../../../../shared/enums/users.enum';
-import { CapitalizeFirstLetterPipe } from '../../pipes/capitalize.pipe';
-import { TableUserParamsComponent } from './table-user-params/table-user-params.component';
 import { AdminLang } from '../../languages/interfaces/admin-lang.interface';
 
 @Component({
   selector: 'app-griglia-admin',
   standalone: true,
-  imports: [CapitalizeFirstLetterPipe, TableUserParamsComponent],
+  imports: [TabellaCustomComponent],
   template: `
-    <div
-      class="row justify-content-center"
-      style="gap: 1.5rem; row-gap: 2rem; margin: 0 auto"
-    >
-      @for(ruolo of ruoli; track $index){
-      <div
-        class="flex-grow-0 flex-shrink-0"
-        style="min-width: 20rem; max-width: 30rem"
-      >
-        <div class="card border-0 shadow-lg h-100">
-          <div
-            class="card-header bg-primary text-white rounded-top d-flex align-items-center py-2"
-          >
-            <i class="bi bi-people-fill me-2 fs-5"></i>
-            <h5 class="card-title mb-0 flex-grow-1 fs-6">
-              {{ ruolo | capitalizeFirstLetter }}
-            </h5>
-          </div>
-          <div class="card-body p-0 d-flex flex-column">
-            <app-table-user-params
-              [adminLang]="adminLang"
-              [ruolo]="ruolo"
-              [user]="user"
-              [userMap]="userMapByRuolo[ruolo]"
-              (modificaRuolo)="modificaRuolo.emit($event)"
-              (eliminaRuolo)="eliminaRuolo.emit($event)"
-              class="p-3 flex-grow-1"
-            ></app-table-user-params>
-          </div>
-        </div>
-      </div>
+    <div class="table-grid">
+      @for (ruolo of ruoli; track $index) {
+        <app-table-custom
+          [titoloTabella]="ruolo"
+          [elemTable]="userMapByRuolo[ruolo]"
+          [noElement]="adminLang.nessunUtente"
+          [elemForPage]="1"
+          [keyofElem]="['nome', 'id']"
+          [colonne]="colonne"
+          [azioni]="pulsanti"
+          [lunghezzaAzioni]="'10rem'"
+          [lunghezzaTotale]="'30rem'"
+        ></app-table-custom>
       }
     </div>
   `,
+  styles: [
+    `
+      .table-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(30rem, 1fr));
+        gap: 1.5rem;
+        margin: 0 auto;
+        width: 100%;
+      }
+    `,
+  ],
 })
 export class GrigliaAdminComponent {
+  private router = inject(Router);
   public ruoli = Object.values(Ruolo);
+
   @Input() adminLang!: AdminLang;
   @Input() user!: User | null;
   @Input() userMapByRuolo!: { [ruolo: string]: Signal<UserParams[]> };
   @Output() modificaRuolo = new EventEmitter<UserParams>();
   @Output() eliminaRuolo = new EventEmitter<UserParams>();
+
+  public colonne: Record<keyof UserParams, ColonnaCustom> = {
+    nome: {
+      titolo: 'Nome',
+      lunghezza: '10rem',
+    },
+    id: {
+      titolo: 'ID',
+      lunghezza: '10rem',
+    },
+    profilePic: {} as ColonnaCustom,
+    ruolo: {} as ColonnaCustom,
+  };
+
+  public pulsanti: AzioniTabella<UserParams>[] = [
+    {
+      icona: 'bi bi-person-circle',
+      titolo: 'this.adminLang.vediProfilo',
+      azione: (user: UserParams) => {
+        this.router.navigate(['/posts/profilo', user.id], {
+          state: { message: 'TableUserParams' },
+        });
+      },
+    },
+    {
+      icona: 'bi bi-pencil-square',
+      titolo: 'this.adminLang.modifica',
+      azione: (user: UserParams) => {
+        if (this.controlliCustom('modificare', user) == 0) {
+          this.modificaRuolo.emit(user);
+        }
+      },
+    },
+    {
+      icona: 'bi bi-trash3',
+      titolo: 'this.adminLang.elimina',
+      azione: (user: UserParams) => {
+        if (this.controlliCustom('eliminare', user) == 0) {
+          this.eliminaRuolo.emit(user);
+        }
+      },
+    },
+  ];
+
+  private controlliCustom(str: string, user: UserParams): number {
+    if (this.user?.credenziali.ruolo !== Ruolo.MICIOMANE || !this.user) {
+      alert(`Non hai i permessi per ${str} questo ruolo.`);
+      return -1;
+    }
+
+    if (user.id == this.user.id) {
+      alert(`Non puoi ${str} il tuo ruolo.`);
+      return -1;
+    }
+
+    return 0;
+  }
 }

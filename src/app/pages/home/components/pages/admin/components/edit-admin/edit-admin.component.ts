@@ -10,11 +10,11 @@ import { FormsModule } from '@angular/forms';
 import { UserParams } from '../../../../../../../shared/interfaces/users.interface';
 import { Ruolo } from '../../../../../../../shared/enums/users.enum';
 import { CambioRuoloUtente } from '../../interfaces/admin.interface';
-import { CapitalizeFirstLetterPipe } from '../../pipes/capitalize.pipe';
 import { AdminLang } from '../../languages/interfaces/admin-lang.interface';
 import { updateRuoloUtenteCustom } from '../../handlers/admin.handler';
 import { AuthService } from '../../../../../../../shared/services/api/auth.service';
 import { LoadingService } from '../../../../../../../shared/services/template/loading.service';
+import { CapitalizeFirstLetterPipe } from '../../../../../../../shared/pipes/capitalize.pipe';
 
 @Component({
   selector: 'app-edit-admin',
@@ -67,9 +67,9 @@ import { LoadingService } from '../../../../../../../shared/services/template/lo
               }}</label>
               <select id="ruolo" class="form-select" [(ngModel)]="newRuolo">
                 @for (r of availableRoles; track $index) {
-                <option [value]="r">
-                  {{ r | capitalizeFirstLetter }}
-                </option>
+                  <option [value]="r">
+                    {{ r | capitalizeFirstLetter }}
+                  </option>
                 }
               </select>
             </div>

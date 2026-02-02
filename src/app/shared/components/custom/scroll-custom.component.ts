@@ -22,7 +22,6 @@ import { Component, Input } from '@angular/core';
       </div>
     </div>
   `,
-  styles: [``],
 })
 export class CustomScrollComponent {
   @Input() titolo: string = '';
