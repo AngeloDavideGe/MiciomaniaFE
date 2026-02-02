@@ -2,16 +2,12 @@ import { Component, computed, inject, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { take } from 'rxjs';
 import { DataHttp } from '../../../../../core/api/http.data';
-import {
-  HeaderCustomComponent,
-  PulsantiHeader,
-} from '../../../../../shared/components/custom/header-custom.component';
-import { CustomScrollComponent } from '../../../../../shared/components/custom/scroll-custom.component';
+import { PulsantiHeader } from '../../../../../shared/components/custom/header-custom.component';
 import { MangaParodia } from '../../../../../shared/interfaces/elementiUtente.interface';
 import { Lingua } from '../../../../../shared/interfaces/http.interface';
 import { ElementiUtenteService } from '../../../../../shared/services/api/elementiUtente.service';
 import { MangaSongUtilities } from '../../../../../shared/utilities/mangaSong.utilities';
-import { CardMangaMiciomaniaComponent } from './components/card-mangaMiciomania.component';
+import { mangaMiciomania_imports } from './imports/manga-miciomania.import';
 import {
   MmicioLang,
   MmicioLangType,
@@ -20,11 +16,7 @@ import {
 @Component({
   selector: 'app-manga-miciomani',
   standalone: true,
-  imports: [
-    HeaderCustomComponent,
-    CardMangaMiciomaniaComponent,
-    CustomScrollComponent,
-  ],
+  imports: mangaMiciomania_imports,
   templateUrl: './manga-miciomani.component.html',
   styleUrl: './manga-miciomani.component.scss',
 })

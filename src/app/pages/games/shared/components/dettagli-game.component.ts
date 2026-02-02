@@ -1,11 +1,11 @@
 import { Component, inject, Input } from '@angular/core';
 import { Router } from '@angular/router';
-import { BottonCustomComponent } from '../../../../shared/components/custom/botton-custom.component';
+import { ButtonCustomComponent } from '../../../../shared/components/custom/botton-custom.component';
 
 @Component({
   selector: 'app-dettagli-game',
   standalone: true,
-  imports: [BottonCustomComponent],
+  imports: [ButtonCustomComponent],
   template: `
     <h2
       class="display-3 font-weight-bold text-primary mb-4"
@@ -46,11 +46,11 @@ import { BottonCustomComponent } from '../../../../shared/components/custom/bott
       <br /><br />
 
       Hai il coraggio di sfidarci?
-      <app-botton-custom
+      <app-button-custom
         [text]="'Torna indietro'"
         [icon1]="'bi bi-arrow-left'"
         (clickBotton)="router.navigate(['/games'])"
-      ></app-botton-custom>
+      ></app-button-custom>
     </p>
   `,
   // styles: [``],

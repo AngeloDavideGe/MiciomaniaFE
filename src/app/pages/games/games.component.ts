@@ -1,5 +1,6 @@
 import {
   Component,
+  computed,
   HostListener,
   inject,
   OnDestroy,
@@ -20,6 +21,7 @@ import { SquadreService } from '../../shared/services/api/squadre.service';
 import { games_imports } from './imports/games.import';
 import { SquadreGiocatore } from './interfaces/games.interfaces';
 import { DeckCardService } from './services/deck-card.service';
+import { PulsantiHeader } from '../../shared/components/custom/header-custom.component';
 
 @Component({
   selector: 'app-games',
@@ -32,13 +34,14 @@ export class GamesComponent implements OnInit, OnDestroy {
   private deckCardService = inject(DeckCardService);
   public router = inject(Router);
 
-  public showDetails: boolean = false;
   public punteggioPersonale: number = 0;
+  public showDetails = signal<boolean>(false);
   public squadre = signal<SquadreGiocatore>({
     personale: [],
     avversario: [],
   });
 
+  public pulsanti = computed<PulsantiHeader[]>(() => this.getPulsanti());
   public isGames$: Observable<boolean> = this.router.events.pipe(
     filter((event): event is NavigationEnd => event instanceof NavigationEnd),
     startWith({ url: this.router.url }),
@@ -132,5 +135,28 @@ export class GamesComponent implements OnInit, OnDestroy {
 
       setPunteggioOttenuto(0);
     }
+  }
+
+  private getPulsanti(): PulsantiHeader[] {
+    return [
+      {
+        click: () => this.router.navigate(['/home']),
+        disabled: false,
+        titolo: {
+          it: 'Torna alla Home',
+          en: 'Go back to Home',
+        },
+        icona: 'bi bi arrow-left',
+      },
+      {
+        click: () => this.showDetails.update((x: boolean) => !x),
+        disabled: false,
+        titolo: {
+          it: 'Visualizza Dettagli',
+          en: 'View Details',
+        },
+        icona: this.showDetails() ? 'bi bi-eye-slash' : 'bi bi-eye',
+      },
+    ];
   }
 }

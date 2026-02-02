@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
-  selector: 'app-botton-custom',
+  selector: 'app-button-custom',
   standalone: true,
   imports: [],
   template: `
@@ -30,7 +30,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
     </button>
   `,
 })
-export class BottonCustomComponent {
+export class ButtonCustomComponent {
   @Input() text!: string;
   @Input() icon1: string = '';
   @Input() icon2: string = '';

@@ -1,31 +1,36 @@
 import { Component, Input } from '@angular/core';
 import { DataHttp } from '../../../core/api/http.data';
 import { Lingua } from '../../../shared/interfaces/http.interface';
-import { BottonCustomComponent } from './botton-custom.component';
+import { ButtonCustomComponent } from './botton-custom.component';
 
 @Component({
   selector: 'app-header-custom',
   standalone: true,
-  imports: [BottonCustomComponent],
+  imports: [ButtonCustomComponent],
   template: `
-    <header class="custom-header text-center">
-      <div class="container">
-        <h1 class="display-4 fw-bold mb-3">{{ titolo }}</h1>
+    <header class="custom-header">
+      <div class="header-container">
+        <div class="header-content">
+          <div class="title-section">
+            <h1 class="header-title">{{ titolo }}</h1>
+            <div class="title-line"></div>
+          </div>
 
-        <p class="lead mb-4">
-          {{ descrizione }}
-        </p>
+          <p class="header-description">
+            {{ descrizione }}
+          </p>
 
-        <div class="d-flex justify-content-center gap-3 mt-4 flex-wrap mb-2">
           @if (bottoni.length > 0) {
-            @for (bottone of bottoni; track $index) {
-              <app-botton-custom
-                (clickBotton)="bottone.click()"
-                [text]="bottone.titolo[lingua]"
-                [icon1]="bottone.icona"
-                [disabled]="bottone.disabled"
-              ></app-botton-custom>
-            }
+            <div class="actions-container">
+              @for (bottone of bottoni; track $index) {
+                <app-button-custom
+                  (clickBotton)="bottone.click()"
+                  [text]="bottone.titolo[lingua]"
+                  [icon1]="bottone.icona"
+                  [disabled]="bottone.disabled"
+                ></app-button-custom>
+              }
+            </div>
           }
         </div>
       </div>
@@ -34,62 +39,112 @@ import { BottonCustomComponent } from './botton-custom.component';
   styles: [
     `
       .custom-header {
-        padding: 1rem 0.5rem;
-        background: linear-gradient(135deg, #1d2671, #c33764);
-        color: #fff;
+        background: linear-gradient(
+          135deg,
+          #0f172a 0%,
+          #1e293b 50%,
+          #334155 100%
+        );
+        color: #f8fafc;
         position: relative;
         overflow: hidden;
+        padding: 1rem 1rem;
+        font-family:
+          -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu,
+          sans-serif;
 
         &::before {
           content: '';
           position: absolute;
           inset: 0;
-          background: radial-gradient(
-            circle at top,
-            rgba(255, 255, 255, 0.15),
-            transparent 60%
-          );
+          background:
+            radial-gradient(
+              circle at 20% 30%,
+              rgba(59, 130, 246, 0.08) 0%,
+              transparent 50%
+            ),
+            radial-gradient(
+              circle at 80% 70%,
+              rgba(168, 85, 247, 0.05) 0%,
+              transparent 50%
+            );
           pointer-events: none;
         }
 
-        .container {
-          animation: fadeUp 0.8s ease-out both;
+        .header-container {
+          max-width: 1024px;
+          margin: 0 auto;
+          position: relative;
+          z-index: 1;
+        }
 
-          h1 {
-            letter-spacing: -0.03em;
-            text-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+        .header-content {
+          text-align: center;
+          animation: fadeSlideUp 0.6s ease-out;
+        }
+
+        .title-section {
+          display: inline-block;
+          position: relative;
+          margin-bottom: 0.5rem;
+        }
+
+        .header-title {
+          font-size: 2.5rem;
+          font-weight: 800;
+          background: linear-gradient(135deg, #60a5fa 0%, #a78bfa 100%);
+          -webkit-background-clip: text;
+          background-clip: text;
+          color: transparent;
+          letter-spacing: -0.025em;
+          margin: 0;
+          line-height: 1.2;
+        }
+
+        .title-line {
+          height: 3px;
+          width: 60%;
+          background: linear-gradient(90deg, transparent, #60a5fa, transparent);
+          margin: 0.5rem auto 0;
+          border-radius: 3px;
+        }
+
+        .header-description {
+          font-size: 1.125rem;
+          line-height: 1.7;
+          color: #cbd5e1;
+          max-width: 720px;
+          margin: 0 auto 1rem;
+          font-weight: 400;
+          opacity: 0.9;
+        }
+
+        .actions-container {
+          display: flex;
+          justify-content: center;
+          gap: 1rem;
+          margin-bottom: 0.5rem;
+          flex-wrap: wrap;
+        }
+
+        @media (max-width: 768px) {
+          padding: 1rem 1rem;
+
+          .header-title {
+            font-size: 2rem;
           }
 
-          .lead {
-            max-width: 720px;
-            margin: 0 auto;
-            opacity: 0.95;
+          .header-description {
+            font-size: 1rem;
           }
 
-          .d-flex {
-            .custom-btn {
-              backdrop-filter: blur(6px);
-              background: rgba(255, 255, 255, 0.9);
-              border: none;
-              border-radius: 999px;
-              padding: 0.75rem 1.75rem;
-              font-weight: 600;
-              transition: all 0.25s ease;
+          .stats-bar {
+            gap: 1rem;
+            flex-wrap: wrap;
+          }
 
-              i {
-                margin-right: 0.5rem;
-              }
-
-              &:hover:not(:disabled) {
-                transform: translateY(-3px);
-                box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
-              }
-
-              &:disabled {
-                opacity: 0.6;
-                cursor: not-allowed;
-              }
-            }
+          .actions-container {
+            gap: 0.75rem;
           }
         }
       }

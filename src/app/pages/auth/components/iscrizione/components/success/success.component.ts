@@ -1,11 +1,11 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { User } from '../../../../../../shared/interfaces/users.interface';
-import { BottonCustomComponent } from '../../../../../../shared/components/custom/botton-custom.component';
+import { ButtonCustomComponent } from '../../../../../../shared/components/custom/botton-custom.component';
 
 @Component({
   standalone: true,
   selector: 'app-success-page',
-  imports: [BottonCustomComponent],
+  imports: [ButtonCustomComponent],
   template: `
     <div class="text-center mt-3 px-3 px-md-4 px-lg-5" style="padding: 1rem">
       <h1 style="color: green; font-size: 3rem;">Operazione Completata!</h1>
@@ -54,19 +54,19 @@ import { BottonCustomComponent } from '../../../../../../shared/components/custo
       <!-- Button Container -->
       <div class="d-flex justify-content-center gap-3 mt-4">
         <div class="d-flex gap-3 justify-content-center mt-4">
-          <app-botton-custom
+          <app-button-custom
             [text]="'Torna alla Home'"
             [icon1]="'bi bi-arrow-left'"
             [color]="'#e9ecef'"
             (clickBotton)="navigateToHome()"
-          ></app-botton-custom>
+          ></app-button-custom>
 
-          <app-botton-custom
+          <app-button-custom
             [text]="'Modifica Info'"
             [icon1]="'bi bi-pencil'"
             [color]="'#20c997'"
             (clickBotton)="editInfo.emit()"
-          ></app-botton-custom>
+          ></app-button-custom>
         </div>
       </div>
     </div>

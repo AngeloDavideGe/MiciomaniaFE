@@ -1,7 +1,7 @@
 import { AsyncPipe } from '@angular/common';
 import { Component, inject, signal } from '@angular/core';
 import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
-import { filter, map, Observable, startWith, tap } from 'rxjs';
+import { filter, map, Observable, startWith } from 'rxjs';
 
 @Component({
   selector: 'app-auth',
@@ -9,29 +9,29 @@ import { filter, map, Observable, startWith, tap } from 'rxjs';
   imports: [RouterOutlet, AsyncPipe],
   template: `
     @if (isAuth$ | async) {
-    <div class="container d-flex justify-content-center align-items-center">
-      <div class="row w-100">
-        <div class="mx-auto" [class]="col()" [style.margin-top]="marginTop()">
-          <div class="card shadow-sm">
-            <router-outlet></router-outlet>
+      <div class="container d-flex justify-content-center align-items-center">
+        <div class="row w-100">
+          <div class="mx-auto" [class]="col()" [style.margin-top]="marginTop()">
+            <div class="card shadow-sm">
+              <router-outlet></router-outlet>
+            </div>
           </div>
         </div>
       </div>
-    </div>
     }
   `,
 })
 export class AuthComponent {
   private router = inject(Router);
 
+  public col = signal<string>('col-12');
+  public marginTop = signal<string>('');
+
   public isAuth$: Observable<boolean> = this.router.events.pipe(
     filter((event): event is NavigationEnd => event instanceof NavigationEnd),
     startWith({ url: this.router.url }),
-    map((event) => this.mapFunc(event.url))
+    map((event) => this.mapFunc(event.url)),
   );
-
-  public col = signal<string>('col-12');
-  public marginTop = signal<string>('');
 
   private mapFunc(url: string): boolean {
     switch (url) {

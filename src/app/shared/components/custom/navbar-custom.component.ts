@@ -24,7 +24,7 @@ import { Router } from '@angular/router';
               (click)="router.navigate([goHomeBotton])"
               aria-label="Torna indietro"
             >
-              <i class="bi bi-chevron-left"></i>
+              <i class="bi bi-arrow-left"></i>
               <span class="btn-label">Indietro</span>
             </button>
           }
@@ -68,7 +68,7 @@ import { Router } from '@angular/router';
                     (click)="clearSearch()"
                     aria-label="Cancella ricerca"
                   >
-                    <i class="bi bi-x"></i>
+                    <i class="bi bi-x-lg"></i>
                   </button>
                 }
               </div>
@@ -86,13 +86,6 @@ import { Router } from '@angular/router';
               </button>
             </div>
           }
-
-          <!-- Optional: User avatar or additional items -->
-          <div class="user-avatar">
-            <div class="avatar-placeholder">
-              <i class="bi bi-person-circle"></i>
-            </div>
-          </div>
         </div>
       </div>
     </nav>
@@ -100,17 +93,17 @@ import { Router } from '@angular/router';
   styles: [
     `
       .navbar {
-        height: 70px;
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        backdrop-filter: blur(10px);
-        border-bottom: none;
-        box-shadow: 0 4px 20px rgba(102, 126, 234, 0.15);
+        height: 72px;
+        background: rgba(255, 255, 255, 0.92);
+        backdrop-filter: blur(20px);
+        border-bottom: 1px solid rgba(0, 0, 0, 0.08);
         position: fixed;
         top: 0;
         left: 0;
         right: 0;
         z-index: 1000;
         padding: 0 24px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
 
         .navbar-container {
           max-width: 1400px;
@@ -132,30 +125,31 @@ import { Router } from '@angular/router';
         .action-buttons {
           display: flex;
           gap: 8px;
-          border-left: 1px solid rgba(255, 255, 255, 0.2);
           padding-left: 16px;
           margin-left: 8px;
+          border-left: 1px solid rgba(0, 0, 0, 0.06);
         }
 
         .nav-btn {
-          background: rgba(255, 255, 255, 0.1);
-          border: none;
-          padding: 8px 16px;
-          border-radius: 12px;
-          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+          background: transparent;
+          border: 1px solid rgba(0, 0, 0, 0.08);
+          padding: 10px 18px;
+          border-radius: 10px;
+          transition: all 0.2s ease;
           display: flex;
           align-items: center;
           justify-content: center;
           gap: 8px;
           cursor: pointer;
-          color: white;
+          color: #334155;
           font-size: 14px;
           font-weight: 500;
-          position: relative;
-          overflow: hidden;
+          font-family:
+            -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 
           i {
-            font-size: 1.2rem;
+            font-size: 1.1rem;
+            color: #64748b;
           }
 
           .btn-label {
@@ -163,44 +157,45 @@ import { Router } from '@angular/router';
           }
 
           &:hover {
-            background: rgba(255, 255, 255, 0.2);
+            background: rgba(0, 0, 0, 0.02);
+            border-color: rgba(0, 0, 0, 0.12);
             transform: translateY(-1px);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
           }
 
           &:active {
             transform: translateY(0);
-          }
-
-          &::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(
-              90deg,
-              transparent,
-              rgba(255, 255, 255, 0.2),
-              transparent
-            );
-            transition: 0.5s;
-          }
-
-          &:hover::before {
-            left: 100%;
+            background: rgba(0, 0, 0, 0.04);
           }
         }
 
         .back-btn {
-          background: rgba(255, 255, 255, 0.15);
-          border: 1px solid rgba(255, 255, 255, 0.3);
+          background: #f8fafc;
+          border-color: #e2e8f0;
+          color: #475569;
+
+          i {
+            color: #64748b;
+          }
+
+          &:hover {
+            background: #f1f5f9;
+            border-color: #cbd5e1;
+          }
         }
 
         .selected-btn {
-          background: rgba(255, 255, 255, 0.25);
-          box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.3) inset;
+          background: #3b82f6;
+          border-color: #3b82f6;
+          color: white;
+
+          i {
+            color: white;
+          }
+
+          &:hover {
+            background: #2563eb;
+            border-color: #2563eb;
+          }
         }
 
         .search-container {
@@ -212,10 +207,12 @@ import { Router } from '@angular/router';
         .search-input-wrapper {
           width: 0;
           opacity: 0;
-          transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
           position: relative;
           overflow: hidden;
-          border-radius: 20px;
+          border-radius: 12px;
+          background: #f8fafc;
+          border: 1px solid #e2e8f0;
 
           &.active {
             width: 280px;
@@ -231,30 +228,27 @@ import { Router } from '@angular/router';
             left: 16px;
             top: 50%;
             transform: translateY(-50%);
-            color: #667eea;
+            color: #94a3b8;
             z-index: 1;
-            font-size: 1.1rem;
+            font-size: 1rem;
           }
 
           .search-input {
             width: 100%;
             height: 44px;
             border: none;
-            border-radius: 20px;
+            background: transparent;
             padding: 0 20px;
             font-size: 14px;
-            background: white;
-            color: #333;
-            box-shadow: 0 2px 10px rgba(102, 126, 234, 0.1);
-            transition: all 0.3s ease;
-
-            &:focus {
-              outline: none;
-              box-shadow: 0 4px 20px rgba(102, 126, 234, 0.2);
-            }
+            color: #334155;
+            outline: none;
 
             &::placeholder {
-              color: #a0aec0;
+              color: #94a3b8;
+            }
+
+            &:focus {
+              background: #ffffff;
             }
           }
 
@@ -265,7 +259,7 @@ import { Router } from '@angular/router';
             transform: translateY(-50%);
             background: transparent;
             border: none;
-            color: #a0aec0;
+            color: #94a3b8;
             cursor: pointer;
             padding: 4px;
             border-radius: 50%;
@@ -275,12 +269,12 @@ import { Router } from '@angular/router';
             transition: all 0.2s ease;
 
             &:hover {
-              color: #667eea;
-              background: rgba(102, 126, 234, 0.1);
+              color: #64748b;
+              background: rgba(0, 0, 0, 0.04);
             }
 
             i {
-              font-size: 1rem;
+              font-size: 0.9rem;
             }
           }
         }
@@ -289,54 +283,63 @@ import { Router } from '@angular/router';
           width: 44px;
           height: 44px;
           padding: 0;
-          border-radius: 50%;
+          border-radius: 10px;
+          background: #f8fafc;
+          border: 1px solid #e2e8f0;
 
           i {
-            font-size: 1.3rem;
+            font-size: 1.2rem;
+            color: #64748b;
+          }
+
+          &:hover {
+            background: #f1f5f9;
           }
 
           &.active {
-            background: rgba(255, 255, 255, 0.25);
-          }
-        }
-
-        .user-avatar {
-          .avatar-placeholder {
-            width: 44px;
-            height: 44px;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.15);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            cursor: pointer;
-            transition: all 0.3s ease;
+            background: #3b82f6;
+            border-color: #3b82f6;
 
             i {
-              font-size: 1.5rem;
               color: white;
             }
 
             &:hover {
-              background: rgba(255, 255, 255, 0.25);
-              border-color: rgba(255, 255, 255, 0.5);
-              transform: scale(1.05);
+              background: #2563eb;
             }
           }
+        }
+
+        /* Micro animations */
+        @keyframes fadeIn {
+          from {
+            opacity: 0;
+            transform: translateY(-10px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+
+        .navbar {
+          animation: fadeIn 0.3s ease-out;
         }
 
         /* Responsive */
         @media (max-width: 768px) {
           padding: 0 16px;
+          height: 64px;
 
           .btn-label {
             display: none;
           }
 
           .nav-btn {
-            padding: 8px;
-            border-radius: 50%;
+            padding: 10px;
+            border-radius: 8px;
+            min-width: 44px;
+            min-height: 44px;
           }
 
           .search-input-wrapper.active {
@@ -347,6 +350,7 @@ import { Router } from '@angular/router';
             border-left: none;
             padding-left: 0;
             margin-left: 0;
+            gap: 4px;
           }
         }
 
@@ -358,6 +362,14 @@ import { Router } from '@angular/router';
           .navbar-left-group,
           .navbar-right-group {
             gap: 8px;
+          }
+        }
+
+        @media (max-width: 360px) {
+          padding: 0 12px;
+
+          .search-input-wrapper.active {
+            width: 140px;
           }
         }
       }
@@ -387,7 +399,7 @@ export class CustomNavBarComponent {
           '.search-input',
         ) as HTMLInputElement;
         input?.focus();
-      }, 400);
+      }, 300);
     } else {
       this.clearSearch();
     }

@@ -6,49 +6,53 @@
     [descrizione]="mmicioLang.descrizione"
   ></app-header-custom>
 
-  <!-- Sezione Manga Miciomania -->
-  <section class="mt-3">
-    <app-custom-scroll
-      [titolo]="mmicioLang.titoloScrollGiu"
-      [icona]="'bi bi-arrow-down'"
-      [nomeIcona]="mmicioLang.iconaScrollGiu"
-      [idComponent]="'MangaUtente'"
-      [lunghezzaFiltro]="elem()?.mangaMiciomania?.length || 0"
-    ></app-custom-scroll>
+  @if (elem()) {
+    <!-- Sezione Manga Miciomania -->
+    <section class="mt-3">
+      <app-custom-scroll
+        [titolo]="mmicioLang.titoloScrollGiu"
+        [icona]="'bi bi-arrow-down'"
+        [nomeIcona]="mmicioLang.iconaScrollGiu"
+        [idComponent]="'MangaUtente'"
+        [lunghezzaFiltro]="elem()?.mangaMiciomania?.length || 0"
+      ></app-custom-scroll>
 
-    <div class="row g-4">
-      @for (manga of elem()?.mangaMiciomania; track $index) {
-        <div class="col-md-6 col-lg-4 col-xl-3">
-          <app-card-manga-miciomania
-            [mmicioLang]="mmicioLang"
-            [manga]="manga"
-            (downloadManga)="mangaSongUtilities.downloadManga(manga)"
-          ></app-card-manga-miciomania>
-        </div>
-      }
-    </div>
-  </section>
+      <div class="row g-4">
+        @for (manga of elem()?.mangaMiciomania; track $index) {
+          <div class="col-md-6 col-lg-4 col-xl-3">
+            <app-card-manga-miciomania
+              [mmicioLang]="mmicioLang"
+              [manga]="manga"
+              (downloadManga)="mangaSongUtilities.downloadManga(manga)"
+            ></app-card-manga-miciomania>
+          </div>
+        }
+      </div>
+    </section>
 
-  <!-- Sezione Manga Utente -->
-  <section id="MangaUtente" class="mt-3">
-    <app-custom-scroll
-      [titolo]="mmicioLang.titoloScrollSu"
-      [icona]="'bi bi-arrow-up'"
-      [nomeIcona]="mmicioLang.iconaScrollSu"
-      [top]="280"
-      [lunghezzaFiltro]="elem()?.mangaUtentePars?.length || 0"
-    ></app-custom-scroll>
+    <!-- Sezione Manga Utente -->
+    <section id="MangaUtente" class="mt-3">
+      <app-custom-scroll
+        [titolo]="mmicioLang.titoloScrollSu"
+        [icona]="'bi bi-arrow-up'"
+        [nomeIcona]="mmicioLang.iconaScrollSu"
+        [top]="210"
+        [lunghezzaFiltro]="elem()?.mangaUtentePars?.length || 0"
+      ></app-custom-scroll>
 
-    <div class="row g-4">
-      @for (manga of elem()?.mangaUtentePars; track $index) {
-        <div class="col-md-6 col-lg-4 col-xl-3">
-          <app-card-manga-miciomania
-            [mmicioLang]="mmicioLang"
-            [manga]="manga"
-            (downloadManga)="mangaSongUtilities.downloadManga(manga)"
-          ></app-card-manga-miciomania>
-        </div>
-      }
-    </div>
-  </section>
+      <div class="row g-4">
+        @for (manga of elem()?.mangaUtentePars; track $index) {
+          <div class="col-md-6 col-lg-4 col-xl-3">
+            <app-card-manga-miciomania
+              [mmicioLang]="mmicioLang"
+              [manga]="manga"
+              (downloadManga)="mangaSongUtilities.downloadManga(manga)"
+            ></app-card-manga-miciomania>
+          </div>
+        }
+      </div>
+    </section>
+  } @else {
+    <app-spinner [mt]="10"></app-spinner>
+  }
 </div>

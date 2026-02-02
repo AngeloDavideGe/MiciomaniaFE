@@ -7,106 +7,106 @@ import { SquadreGiocatore } from '../../interfaces/games.interfaces';
   standalone: true,
   imports: [],
   template: `
-    <div class="punteggi-container mt-5 p-4 rounded-4 shadow-lg">
+    <div class="punteggi-container">
       <!-- Header -->
-      <div class="header-section mb-4 pb-3 border-bottom">
-        <h4 class="fw-bold text-dark mb-0">
-          <i class="bi bi-trophy-fill me-2" style="color: #ffc107;"></i>
-          Sistema di Punteggio
-        </h4>
+      <div class="header-section">
+        <div class="header-content">
+          <i class="bi bi-trophy header-icon"></i>
+          <h4 class="header-title">Sistema di Punteggio</h4>
+        </div>
+        <div class="header-line"></div>
       </div>
 
       <!-- Messaggio informativo -->
-      <div class="info-message p-3 rounded-3 mb-4" style="background: #f0f7ff;">
-        <p class="mb-0 text-dark">
-          <i class="bi bi-info-circle me-2"></i>
-          Se hai effettuato il login e completato l'iscrizione in home
-          scegliendo una squadra, i punti guadagnati in questi minigiochi
-          saranno assegnati alla tua squadra!
-        </p>
+      <div class="info-section">
+        <i class="bi bi-info-circle info-icon"></i>
+        <div class="info-content">
+          <p class="info-text">
+            Se hai effettuato il login e completato l'iscrizione in home
+            scegliendo una squadra, i punti guadagnati in questi minigiochi
+            saranno assegnati alla tua squadra!
+          </p>
+        </div>
       </div>
 
       <!-- Sezione Punteggi Personali -->
-      <div class="scores-section mb-4">
-        <div class="row g-3">
-          <div class="col-12 col-md-6">
-            <div class="score-card p-3 rounded-3">
-              <small class="text-muted fw-semibold">Punteggio Personale</small>
-              <div class="score-value mt-2">
-                <span class="badge badge-personal">{{
-                  punteggioPersonale
-                }}</span>
-              </div>
+      <div class="scores-section">
+        <div class="scores-grid">
+          <div class="score-card">
+            <div class="score-label">
+              <span>Punteggio Personale</span>
+            </div>
+            <div class="score-value personal-score">
+              {{ punteggioPersonale }}
             </div>
           </div>
-          <div class="col-12 col-md-6">
-            <div class="score-card p-3 rounded-3">
-              <small class="text-muted fw-semibold">In Valutazione</small>
-              <div class="score-value mt-2">
-                <span class="badge badge-pending">{{ punteggioOttenuto }}</span>
-              </div>
+
+          <div class="score-card">
+            <div class="score-label">
+              <span>In Valutazione</span>
+            </div>
+            <div class="score-value pending-score">
+              {{ punteggioOttenuto }}
             </div>
           </div>
         </div>
       </div>
 
       <!-- Squadre Giocatore -->
-      <div class="squadre-section mb-4">
-        <h6 class="fw-bold text-dark mb-3">
-          <i class="bi bi-people-fill me-2" style="color: #28a745;"></i>
-          Le Tue Squadre
-        </h6>
-        @if (squadre.personale.length > 0) {
-        <div class="d-flex flex-wrap gap-2">
-          @for (squadra of squadre.personale; track squadra.nome) {
-          <span
-            class="badge fw-semibold p-2 rounded-3"
-            [style.backgroundColor]="squadra.colore"
-            [style.color]="getTextColor(squadra.colore)"
-          >
-            <i class="bi bi-star-fill me-1"></i>
-            {{ squadra.nome }}
-            <span class="badge badge-light ms-2">
-              {{ squadra.punteggio }}
-            </span>
-          </span>
-          }
+      <div class="teams-section">
+        <div class="section-header">
+          <i class="bi bi-people team-icon personal-icon"></i>
+          <h6>Le Tue Squadre</h6>
         </div>
+
+        @if (squadre.personale.length > 0) {
+          <div class="teams-grid">
+            @for (squadra of squadre.personale; track squadra.nome) {
+              <div
+                class="team-badge"
+                [style.backgroundColor]="squadra.colore"
+                [style.color]="'#ffffff'"
+              >
+                <i class="bi bi-star team-badge-icon"></i>
+                <span class="team-name">{{ squadra.nome }}</span>
+                <span class="team-score">{{ squadra.punteggio }}</span>
+              </div>
+            }
+          </div>
         } @else {
-        <p class="text-muted mb-0">
-          <i class="bi bi-exclamation-circle me-2"></i>
-          Nessuna squadra assegnata
-        </p>
+          <div class="empty-state">
+            <i class="bi bi-exclamation-circle empty-icon"></i>
+            <span class="empty-text">Nessuna squadra assegnata</span>
+          </div>
         }
       </div>
 
       <!-- Squadre Avversarie -->
-      <div class="squadre-section">
-        <h6 class="fw-bold text-dark mb-3">
-          <i class="bi bi-shield-fill me-2" style="color: #dc3545;"></i>
-          Squadre Avversarie
-        </h6>
-        @if (squadre.avversario.length > 0) {
-        <div class="d-flex flex-wrap gap-2">
-          @for (squadra of squadre.avversario; track squadra.nome) {
-          <span
-            class="badge fw-semibold p-2 rounded-3"
-            [style.backgroundColor]="squadra.colore"
-            [style.color]="getTextColor(squadra.colore)"
-          >
-            <i class="bi bi-shield-exclamation me-1"></i>
-            {{ squadra.nome }}
-            <span class="badge badge-light ms-2">
-              {{ squadra.punteggio }}
-            </span>
-          </span>
-          }
+      <div class="teams-section">
+        <div class="section-header">
+          <i class="bi bi-shield team-icon opponent-icon"></i>
+          <h6>Squadre Avversarie</h6>
         </div>
+
+        @if (squadre.avversario.length > 0) {
+          <div class="teams-grid">
+            @for (squadra of squadre.avversario; track squadra.nome) {
+              <div
+                class="team-badge"
+                [style.backgroundColor]="squadra.colore"
+                [style.color]="'#ffffff'"
+              >
+                <i class="bi bi-shield team-badge-icon"></i>
+                <span class="team-name">{{ squadra.nome }}</span>
+                <span class="team-score">{{ squadra.punteggio }}</span>
+              </div>
+            }
+          </div>
         } @else {
-        <p class="text-muted mb-0">
-          <i class="bi bi-exclamation-circle me-2"></i>
-          Nessuna squadra avversaria
-        </p>
+          <div class="empty-state">
+            <i class="bi bi-exclamation-circle empty-icon"></i>
+            <span class="empty-text">Nessuna squadra avversaria</span>
+          </div>
         }
       </div>
     </div>
@@ -114,116 +114,257 @@ import { SquadreGiocatore } from '../../interfaces/games.interfaces';
   styles: [
     `
       .punteggi-container {
-        background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
-        border: 1px solid #e9ecef;
+        background: #ffffff;
+        border: 1px solid #e5e7eb;
+        border-radius: 16px;
+        padding: 24px;
+        font-family:
+          -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+      }
 
-        .header-section h4 {
-          font-size: 1.35rem;
-          letter-spacing: 0.5px;
-        }
+      .header-section {
+        margin-bottom: 24px;
+      }
 
-        .info-message {
-          border-left: 4px solid #0d6efd;
-          font-size: 0.95rem;
-          line-height: 1.6;
-        }
+      .header-content {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 12px;
+      }
 
-        .scores-section {
-          .score-card {
-            background: #fff;
-            border: 1px solid #dee2e6;
-            transition: all 0.3s ease;
+      .header-icon {
+        font-size: 1.5rem;
+        color: #f59e0b;
+      }
 
-            &:hover {
-              border-color: #0d6efd;
-              box-shadow: 0 4px 12px rgba(13, 110, 253, 0.1);
-            }
+      .header-title {
+        font-size: 1.25rem;
+        font-weight: 600;
+        color: #1f2937;
+        margin: 0;
+      }
 
-            small {
-              font-size: 0.85rem;
-              letter-spacing: 0.5px;
-            }
+      .header-line {
+        height: 1px;
+        background: linear-gradient(90deg, transparent, #e5e7eb, transparent);
+      }
 
-            .score-value {
-              font-size: 1.5rem;
-            }
-          }
-        }
+      .info-section {
+        display: flex;
+        gap: 12px;
+        background: #f8fafc;
+        border: 1px solid #e2e8f0;
+        border-radius: 12px;
+        padding: 16px;
+        margin-bottom: 24px;
+      }
 
-        .badge-personal {
-          background: linear-gradient(135deg, #0d6efd 0%, #0055cc 100%);
-          color: white;
-          font-size: 1.25rem;
-          padding: 0.6rem 1.2rem;
-          border-radius: 20px;
-        }
+      .info-icon {
+        font-size: 1.25rem;
+        color: #3b82f6;
+        flex-shrink: 0;
+        margin-top: 2px;
+      }
 
-        .badge-pending {
-          background: linear-gradient(135deg, #ffc107 0%, #ff9800 100%);
-          color: #333;
-          font-size: 1.25rem;
-          padding: 0.6rem 1.2rem;
-          border-radius: 20px;
-        }
+      .info-content {
+        flex: 1;
+      }
 
-        .squadre-section {
-          h6 {
-            font-size: 1.05rem;
-            letter-spacing: 0.5px;
-          }
+      .info-text {
+        font-size: 0.875rem;
+        line-height: 1.5;
+        color: #4b5563;
+        margin: 0;
+      }
 
-          .badge {
-            padding: 0.75rem 1rem !important;
-            font-size: 0.95rem;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-            transition: all 0.3s ease;
+      .scores-section {
+        margin-bottom: 32px;
+      }
 
-            &:hover {
-              transform: translateY(-2px);
-              box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-            }
+      .scores-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 16px;
+      }
 
-            .badge-light {
-              font-weight: 700;
-              padding: 0.25rem 0.5rem !important;
-              font-size: 0.85rem;
-            }
-          }
+      .score-card {
+        background: #ffffff;
+        border: 1px solid #e5e7eb;
+        border-radius: 12px;
+        padding: 20px;
+        transition: all 0.2s ease;
+
+        &:hover {
+          border-color: #d1d5db;
+          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
         }
       }
 
-      @media (max-width: 576px) {
+      .score-label {
+        font-size: 0.75rem;
+        font-weight: 500;
+        color: #6b7280;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-bottom: 8px;
+      }
+
+      .score-value {
+        font-size: 2rem;
+        font-weight: 700;
+        line-height: 1;
+      }
+
+      .personal-score {
+        color: #2563eb;
+      }
+
+      .pending-score {
+        color: #f59e0b;
+      }
+
+      .teams-section {
+        margin-bottom: 24px;
+
+        &:last-child {
+          margin-bottom: 0;
+        }
+      }
+
+      .section-header {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 16px;
+      }
+
+      .team-icon {
+        font-size: 1.125rem;
+      }
+
+      .personal-icon {
+        color: #059669;
+      }
+
+      .opponent-icon {
+        color: #dc2626;
+      }
+
+      .section-header h6 {
+        font-size: 0.875rem;
+        font-weight: 600;
+        color: #374151;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin: 0;
+      }
+
+      .teams-grid {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+
+      .team-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 10px 14px;
+        border-radius: 10px;
+        font-size: 0.875rem;
+        font-weight: 500;
+        line-height: 1;
+        transition: all 0.2s ease;
+
+        &:hover {
+          opacity: 0.95;
+          transform: translateY(-1px);
+        }
+      }
+
+      .team-badge-icon {
+        font-size: 0.75rem;
+        opacity: 0.9;
+      }
+
+      .team-name {
+        white-space: nowrap;
+      }
+
+      .team-score {
+        background: rgba(255, 255, 255, 0.2);
+        padding: 4px 8px;
+        border-radius: 6px;
+        font-weight: 600;
+        font-size: 0.75rem;
+      }
+
+      .empty-state {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        color: #9ca3af;
+        font-size: 0.875rem;
+      }
+
+      .empty-icon {
+        font-size: 1rem;
+      }
+
+      .empty-text {
+        font-style: italic;
+      }
+
+      @media (max-width: 768px) {
         .punteggi-container {
-          padding: 1.5rem !important;
+          padding: 20px;
+        }
 
-          .header-section h4 {
-            font-size: 1.1rem;
-          }
+        .scores-grid {
+          grid-template-columns: 1fr;
+          gap: 12px;
+        }
 
-          .squadre-section .badge {
-            font-size: 0.85rem;
-            padding: 0.5rem 0.75rem !important;
-          }
+        .score-value {
+          font-size: 1.75rem;
+        }
+
+        .teams-grid {
+          flex-direction: column;
+        }
+
+        .team-badge {
+          width: 100%;
+          justify-content: space-between;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .punteggi-container {
+          padding: 16px;
+          border-radius: 12px;
+        }
+
+        .header-content {
+          gap: 8px;
+        }
+
+        .header-title {
+          font-size: 1.125rem;
+        }
+
+        .info-section {
+          padding: 12px;
         }
       }
     `,
   ],
 })
 export class PunteggiGamesComponent {
-  public punteggioOttenuto = DataHttp.punteggioOttenuto;
   @Input() punteggioPersonale!: number;
   @Input() squadre!: SquadreGiocatore;
 
-  // Funzione per calcolare il colore del testo in base al background
-  getTextColor(bgColor: string): string {
-    const color = bgColor.replace('#', '');
-    if (color.length === 6) {
-      const r = parseInt(color.substring(0, 2), 16);
-      const g = parseInt(color.substring(2, 4), 16);
-      const b = parseInt(color.substring(4, 6), 16);
-      const luminance = 0.299 * r + 0.587 * g + 0.114 * b;
-      return luminance > 150 ? '#222' : '#fff';
-    }
-    return '#fff';
-  }
+  public punteggioOttenuto = DataHttp.punteggioOttenuto;
 }

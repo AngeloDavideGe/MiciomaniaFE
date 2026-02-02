@@ -1,4 +1,4 @@
-<div class="mt-5">
+<div style="margin-top: 5rem">
   <app-header-custom
     [titolo]="elemLang.titolo"
     [descrizione]="elemLang.descrizione1"
@@ -25,6 +25,6 @@
       }
     </div>
   } @else {
-    <app-spinner></app-spinner>
+    <app-spinner [mt]="10"></app-spinner>
   }
 </div>

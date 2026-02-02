@@ -72,20 +72,20 @@
     <!-- Pulsanti -->
     @if (user.id || currentStep() != 2) {
       <div class="d-flex justify-content-between px-5 mt-3">
-        <app-botton-custom
+        <app-button-custom
           [text]="'Indietro'"
           [icon1]="'bi bi-arrow-left'"
           [color]="'#e9ecef'"
           (clickBotton)="prevStep()"
-        ></app-botton-custom>
+        ></app-button-custom>
 
-        <app-botton-custom
+        <app-button-custom
           [text]="currentStep() == 3 ? 'Invia' : 'Avanti'"
           [icon2]="'bi bi-arrow-right'"
           [color]="currentStep() == 3 ? '#20c997' : '#0d6efd'"
           (clickBotton)="nextStep()"
           [disabled]="squadreInGame().length == 0"
-        ></app-botton-custom>
+        ></app-button-custom>
       </div>
     }
     <br />
