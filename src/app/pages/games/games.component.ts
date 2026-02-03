@@ -19,9 +19,10 @@ import { Giocatori, Squadre } from '../../shared/interfaces/squadre.interface';
 import { User } from '../../shared/interfaces/users.interface';
 import { SquadreService } from '../../shared/services/api/squadre.service';
 import { games_imports } from './imports/games.import';
-import { SquadreGiocatore } from './interfaces/games.interfaces';
+import { CardGioco, SquadreGiocatore } from './interfaces/games.interfaces';
 import { DeckCardService } from './services/deck-card.service';
 import { PulsantiHeader } from '../../shared/components/custom/header-custom.component';
+import { gamesConstant } from './constants/games.constant';
 
 @Component({
   selector: 'app-games',
@@ -34,6 +35,7 @@ export class GamesComponent implements OnInit, OnDestroy {
   private deckCardService = inject(DeckCardService);
   public router = inject(Router);
 
+  public readonly gamesConstant: CardGioco[] = gamesConstant;
   public punteggioPersonale: number = 0;
   public showDetails = signal<boolean>(false);
   public squadre = signal<SquadreGiocatore>({

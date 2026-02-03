@@ -15,7 +15,17 @@
       ></app-punteggi-games>
     }
 
-    <app-lista-games></app-lista-games>
+    <div class="grid-card-layout px-2 mt-3">
+      @for (gioco of gamesConstant; track gioco.nome) {
+        <app-card-custom
+          [link]="gioco.linkImg"
+          [titolo]="gioco.nome"
+          [descrizione]="gioco.descrizione"
+          [titoloBottone]="'Gioca'"
+          [classBody]="'games-class'"
+        ></app-card-custom>
+      }
+    </div>
   </div>
 }
 

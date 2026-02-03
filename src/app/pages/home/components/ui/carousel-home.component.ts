@@ -9,14 +9,14 @@ import {
 } from '@angular/core';
 import { Router } from '@angular/router';
 import { DataHttp } from '../../../../core/api/http.data';
-import { ButtonCustomComponent } from '../../../../shared/components/custom/botton-custom.component';
+import { CardCustomComponent } from '../../../../shared/components/custom/card-custom.component';
 import { debounceTimeoutCustom } from '../../../../shared/functions/utilities.function';
 import { Lingua } from '../../../../shared/interfaces/http.interface';
 
 @Component({
-  selector: 'app-card-home',
+  selector: 'app-carousel-home',
   standalone: true,
-  imports: [ButtonCustomComponent],
+  imports: [CardCustomComponent],
   template: `
     <section id="CardsRow">
       <div class="container position-relative">
@@ -39,32 +39,21 @@ import { Lingua } from '../../../../shared/interfaces/http.interface';
           }
 
           <!-- Carousel container -->
-          <div class="overflow-hidden w-100">
-            <div
-              class="d-flex flex-nowrap justify-content-center gap-4 px-2"
-              #carouselTrack
-              style="scroll-snap-type: x mandatory;"
-            >
-              @for (card of cardElementSlice(); track $index) {
-                <div
-                  class="card flex-shrink-0"
-                  style="width: 300px; scroll-snap-align: center;"
-                >
-                  <img [src]="card.link" class="card-img-top" alt="..." />
-                  <div class="card-body" [class]="card.bgClass">
-                    <h5 class="card-title fw-bold">
-                      {{ card.titolo[lingua()] }}
-                    </h5>
-                    <p class="card-text">{{ card.descrizione[lingua()] }}</p>
-                    <app-button-custom
-                      [text]="card.titoloBottone[lingua()]"
-                      [icon1]="card.icon"
-                      (clickBotton)="card.func()"
-                    ></app-button-custom>
-                  </div>
-                </div>
-              }
-            </div>
+          <div
+            class="d-flex flex-nowrap justify-content-center gap-4 px-2"
+            style="scroll-snap-type: x mandatory;"
+          >
+            @for (card of cardElementSlice(); track $index) {
+              <app-card-custom
+                [link]="card.link"
+                [titolo]="card.titolo[lingua()]"
+                [descrizione]="card.descrizione[lingua()]"
+                [titoloBottone]="card.titoloBottone[lingua()]"
+                [classBody]="card.bgClass + ' home-class'"
+                [icona]="card.icon"
+                (clickBotton)="card.func()"
+              ></app-card-custom>
+            }
           </div>
 
           <!-- Freccia destra -->
@@ -82,7 +71,7 @@ import { Lingua } from '../../../../shared/interfaces/http.interface';
     </section>
   `,
 })
-export class CardHomeComponent {
+export class CarouselHomeComponent {
   private router = inject(Router);
 
   @Output() canzone = new EventEmitter<void>();

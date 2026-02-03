@@ -1,5 +1,21 @@
-@media (max-width: 767.98px) {
-  .pc-only {
+.pc-only {
+  @media (max-width: 767.98px) {
     display: none;
+  }
+}
+
+.grid-card-layout {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 20rem);
+  gap: 1.5rem;
+  justify-content: center;
+
+  @media (max-width: 640px) {
+    grid-template-columns: minmax(auto, 20rem);
+    justify-content: center;
+  }
+
+  @media (min-width: 641px) and (max-width: 1024px) {
+    grid-template-columns: repeat(auto-fill, minmax(20rem, 1fr));
   }
 }

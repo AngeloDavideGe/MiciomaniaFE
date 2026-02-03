@@ -1,0 +1,21 @@
+#CardCustomComponent {
+  width: 20rem;
+
+  img {
+    height: 13rem;
+  }
+
+  .card-body {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .home-class{
+    height: 14rem;
+  }
+
+  .games-class{
+    height: 16rem;
+  }
+}
+
