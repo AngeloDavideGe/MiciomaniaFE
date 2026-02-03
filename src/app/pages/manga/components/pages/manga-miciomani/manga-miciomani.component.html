@@ -17,15 +17,20 @@
         [lunghezzaFiltro]="elem()?.mangaMiciomania?.length || 0"
       ></app-custom-scroll>
 
-      <div class="row g-4">
+      <div class="grid-card-layout px-2 mt-3">
         @for (manga of elem()?.mangaMiciomania; track $index) {
-          <div class="col-md-6 col-lg-4 col-xl-3">
-            <app-card-manga-miciomania
-              [mmicioLang]="mmicioLang"
-              [manga]="manga"
-              (downloadManga)="mangaSongUtilities.downloadManga(manga)"
-            ></app-card-manga-miciomania>
-          </div>
+          <app-card-custom
+            [link]="manga.copertina || mangaDefaultPic"
+            [titolo]="manga.nome"
+            [descrizione]="
+              ' Genere : ' + manga.genere + ' - Autore : ' + manga.idUtente
+            "
+            [titoloBottone]="mmicioLang.scarica"
+            [classBody]="'manga-class'"
+            [tipo]="'Manga'"
+            [altezzaImg]="'20rem'"
+            (clickBotton)="mangaSongUtilities.downloadManga(manga)"
+          ></app-card-custom>
         }
       </div>
     </section>
@@ -40,15 +45,20 @@
         [lunghezzaFiltro]="elem()?.mangaUtentePars?.length || 0"
       ></app-custom-scroll>
 
-      <div class="row g-4">
+      <div class="grid-card-layout px-2 mt-3">
         @for (manga of elem()?.mangaUtentePars; track $index) {
-          <div class="col-md-6 col-lg-4 col-xl-3">
-            <app-card-manga-miciomania
-              [mmicioLang]="mmicioLang"
-              [manga]="manga"
-              (downloadManga)="mangaSongUtilities.downloadManga(manga)"
-            ></app-card-manga-miciomania>
-          </div>
+          <app-card-custom
+            [link]="manga.copertina || mangaDefaultPic"
+            [titolo]="manga.nome"
+            [descrizione]="
+              ' Genere : ' + manga.genere + ' - Autore : ' + manga.idUtente
+            "
+            [classBody]="'manga-class'"
+            [titoloBottone]="mmicioLang.scarica"
+            [tipo]="'Manga'"
+            [altezzaImg]="'20rem'"
+            (clickBotton)="mangaSongUtilities.downloadManga(manga)"
+          ></app-card-custom>
         }
       </div>
     </section>

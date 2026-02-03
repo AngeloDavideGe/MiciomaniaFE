@@ -12,18 +12,19 @@ import {
   MmicioLang,
   MmicioLangType,
 } from './languages/interfaces/mmicio-lang.interface';
+import { environment } from '../../../../../../environments/environment';
 
 @Component({
   selector: 'app-manga-miciomani',
   standalone: true,
   imports: mangaMiciomania_imports,
   templateUrl: './manga-miciomani.component.html',
-  styleUrl: './manga-miciomani.component.scss',
 })
 export class MangaMiciomaniComponent implements OnInit {
   public euService = inject(ElementiUtenteService);
   public router = inject(Router);
 
+  public readonly mangaDefaultPic: string = environment.defaultPicsUrl.manga;
   public mangaSongUtilities = new MangaSongUtilities();
   public mmicioLang: MmicioLang = {} as MmicioLang;
 

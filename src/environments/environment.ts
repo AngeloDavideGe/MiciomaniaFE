@@ -14,6 +14,6 @@ export const environment: IEnvironment = {
       'https://icon-library.com/images/group-icon-png/group-icon-png-29.jpg',
     song: 'https://www.pngall.com/wp-content/uploads/5/Music-Note-PNG-High-Quality-Image.png',
     manga:
-      'https://static.vecteezy.com/system/resources/previews/002/318/271/original/cute-manga-book-icon-illustration-free-vector.jpg',
+      'https://images-eu.ssl-images-amazon.com/images/I/71iZXbEMvXL._AC_UL210_SR210,210_.jpg',
   },
 };

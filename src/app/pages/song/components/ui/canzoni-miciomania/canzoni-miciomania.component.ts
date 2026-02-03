@@ -1,15 +1,15 @@
-import { Component, computed, inject, OnInit, signal } from '@angular/core';
-import { CustomScrollComponent } from '../../../../../shared/components/custom/scroll-custom.component';
-import { CardSongComponent } from '../../shared/card-song.component';
+import { Component, computed, inject, OnInit } from '@angular/core';
 import { take } from 'rxjs';
-import { ElementiUtenteService } from '../../../../../shared/services/api/elementiUtente.service';
-import { CanzoniParodia } from '../../../../../shared/interfaces/elementiUtente.interface';
-import { MangaSongUtilities } from '../../../../../shared/utilities/mangaSong.utilities';
+import { CustomScrollComponent } from '../../../../../shared/components/custom/scroll-custom.component';
 import { SpinnerComponent } from '../../../../../shared/components/dialogs/spinner.component';
+import { CanzoniParodia } from '../../../../../shared/interfaces/elementiUtente.interface';
+import { ElementiUtenteService } from '../../../../../shared/services/api/elementiUtente.service';
+import { MangaSongUtilities } from '../../../../../shared/utilities/mangaSong.utilities';
+import { CardCustomComponent } from '../../../../../shared/components/custom/card-custom.component';
 
 @Component({
   selector: 'app-canzoni-miciomania',
-  imports: [CustomScrollComponent, CardSongComponent, SpinnerComponent],
+  imports: [CustomScrollComponent, SpinnerComponent, CardCustomComponent],
   templateUrl: './canzoni-miciomania.component.html',
 })
 export class CanzoniMiciomaniaComponent implements OnInit {

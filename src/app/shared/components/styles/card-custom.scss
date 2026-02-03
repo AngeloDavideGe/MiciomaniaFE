@@ -1,21 +1,41 @@
 #CardCustomComponent {
   width: 20rem;
 
-  img {
-    height: 13rem;
-  }
-
   .card-body {
     display: flex;
     flex-direction: column;
+
+    .button-manga {
+      font-weight: 600;
+      border-radius: 30px;
+    }
+
+    .play-button {
+      border-radius: 20px;
+      font-size: 0.8rem;
+      padding: 4px 12px;
+    }
+
+    .stop-button {
+      border-radius: 20px;
+      font-size: 0.8rem;
+      padding: 4px 12px;
+      color: #000000;
+      border-color: #ffffff;
+    }
   }
 
-  .home-class{
+  // Classi da inserire dinamicamenente nel componente padre
+  .home-class {
     height: 14rem;
   }
 
-  .games-class{
-    height: 16rem;
+  .games-class {
+    height: 17rem;
+    background-color: rgb(187, 157, 235);
+  }
+
+  .manga-class {
+    height: 10rem;
   }
 }
-

@@ -8,18 +8,19 @@
       [lunghezzaFiltro]="canzoniParodia()?.canzoniMiciomania?.length || 0"
     ></app-custom-scroll>
 
-    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 g-4">
+    <div class="grid-card-layout px-2 mt-3">
       @for (canzone of canzoniParodia()?.canzoniMiciomania; track $index) {
-        <div class="col d-flex justify-content-center">
-          <app-card-song
-            [canzone]="canzone"
-            (playSong)="
-              msu.playSong(canzone, canzoniParodia()?.canzoniMiciomania)
-            "
-            (stopSong)="msu.sc.stopSong()"
-            style="width: 100%; max-width: 320px"
-          ></app-card-song>
-        </div>
+        <app-card-custom
+          [titolo]="canzone.nome"
+          [link]="canzone.copertina"
+          [descrizione]="
+            'Genere: ' + canzone.genere + ' - Autore: ' + canzone.idUtente
+          "
+          [altezzaImg]="'20rem'"
+          [tipo]="'Song'"
+          (clickBotton)="msu.playSong(canzone, canzoniParodia()?.canzoniUtente)"
+          (click2Botton)="msu.sc.stopSong()"
+        ></app-card-custom>
       }
     </div>
   </section>
@@ -32,16 +33,19 @@
       [lunghezzaFiltro]="canzoniParodia()?.canzoniUtente?.length || 0"
     ></app-custom-scroll>
 
-    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 g-4">
+    <div class="grid-card-layout px-2 mt-3">
       @for (canzone of canzoniParodia()?.canzoniUtente; track $index) {
-        <div class="col d-flex justify-content-center">
-          <app-card-song
-            [canzone]="canzone"
-            (playSong)="msu.playSong(canzone, canzoniParodia()?.canzoniUtente)"
-            (stopSong)="msu.sc.stopSong()"
-            style="width: 100%; max-width: 320px"
-          ></app-card-song>
-        </div>
+        <app-card-custom
+          [titolo]="canzone.nome"
+          [link]="canzone.copertina"
+          [descrizione]="
+            'Genere : ' + canzone.genere + ' - Autore : ' + canzone.idUtente
+          "
+          [altezzaImg]="'20rem'"
+          [tipo]="'Song'"
+          (clickBotton)="msu.playSong(canzone, canzoniParodia()?.canzoniUtente)"
+          (click2Botton)="msu.sc.stopSong()"
+        ></app-card-custom>
       }
     </div>
   </section>
