@@ -1,5 +1,14 @@
-import { Component, EventEmitter, Input, Output, signal } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  inject,
+  Input,
+  Output,
+  signal,
+} from '@angular/core';
 import { ButtonCustomComponent } from './botton-custom.component';
+import { MangaSong } from '../../interfaces/elementiUtente.interface';
+import { MiniPlayerService } from '../../services/template/mini-player.service';
 
 @Component({
   selector: 'app-card-custom',
@@ -38,8 +47,8 @@ import { ButtonCustomComponent } from './botton-custom.component';
             @case ('Song') {
               <button
                 (click)="clickSongButton()"
-                class="btn btn-success btn-sm"
-                style=""
+                class="btn w-100 button-manga"
+                [class]="songButton() ? 'play-button' : 'stop-button'"
               >
                 {{ songButton() ? '▶ Ascolta' : '⏹ Stop' }}
               </button>
@@ -52,6 +61,9 @@ import { ButtonCustomComponent } from './botton-custom.component';
   styleUrl: '../styles/card-custom.scss',
 })
 export class CardCustomComponent {
+  public songButton = signal<boolean>(true);
+  public mps = inject(MiniPlayerService);
+
   @Input() link!: string;
   @Input() titolo!: string;
   @Input() descrizione!: string;
@@ -60,11 +72,12 @@ export class CardCustomComponent {
   @Input() icona: string = '';
   @Input() altezzaImg: string = '13rem';
   @Input() tipo: 'Default' | 'Manga' | 'Song' = 'Default';
+  @Input() set setCanzone(canzone: MangaSong | null) {
+    this.songButton.set(!(canzone && canzone.nome == this.titolo));
+  }
 
   @Output() clickBotton = new EventEmitter<void>();
   @Output() click2Botton = new EventEmitter<void>();
-
-  public songButton = signal<boolean>(true);
 
   public clickSongButton(): void {
     this.songButton() ? this.clickBotton.emit() : this.click2Botton.emit();

@@ -1,11 +1,11 @@
 import { Component, computed, inject, OnInit } from '@angular/core';
 import { take } from 'rxjs';
+import { CardCustomComponent } from '../../../../../shared/components/custom/card-custom.component';
 import { CustomScrollComponent } from '../../../../../shared/components/custom/scroll-custom.component';
 import { SpinnerComponent } from '../../../../../shared/components/dialogs/spinner.component';
 import { CanzoniParodia } from '../../../../../shared/interfaces/elementiUtente.interface';
 import { ElementiUtenteService } from '../../../../../shared/services/api/elementiUtente.service';
 import { MangaSongUtilities } from '../../../../../shared/utilities/mangaSong.utilities';
-import { CardCustomComponent } from '../../../../../shared/components/custom/card-custom.component';
 
 @Component({
   selector: 'app-canzoni-miciomania',
@@ -35,22 +35,5 @@ export class CanzoniMiciomaniaComponent implements OnInit {
           },
         });
     }
-  }
-
-  scrollToSection(sectionId: string): void {
-    const element = document.getElementById(sectionId);
-    if (element) {
-      element.scrollIntoView({
-        behavior: 'smooth',
-        block: 'start',
-      });
-    }
-  }
-
-  scrollToTop(): void {
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth',
-    });
   }
 }

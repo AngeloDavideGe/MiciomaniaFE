@@ -13,15 +13,27 @@
     .play-button {
       border-radius: 20px;
       font-size: 0.8rem;
-      padding: 4px 12px;
+      font-weight: 600;
+      padding: 8px 20px;
+      color: white;
+      background: linear-gradient(135deg, #1db954, #1ed760);
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 12px rgba(29, 185, 84, 0.3);
+      letter-spacing: 0.3px;
     }
 
     .stop-button {
       border-radius: 20px;
       font-size: 0.8rem;
-      padding: 4px 12px;
-      color: #000000;
-      border-color: #ffffff;
+      font-weight: 600;
+      padding: 8px 20px;
+      color: #2d3436;
+      background: linear-gradient(135deg, #e4e6e8, #b9c1c5);
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      letter-spacing: 0.3px;
     }
   }
 

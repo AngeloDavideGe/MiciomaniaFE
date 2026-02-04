@@ -18,7 +18,11 @@
           "
           [altezzaImg]="'20rem'"
           [tipo]="'Song'"
-          (clickBotton)="msu.playSong(canzone, canzoniParodia()?.canzoniUtente)"
+          [classBody]="'manga-class'"
+          [setCanzone]="msu.sc.currentCanzone()"
+          (clickBotton)="
+            msu.playSong(canzone, canzoniParodia()?.canzoniMiciomania)
+          "
           (click2Botton)="msu.sc.stopSong()"
         ></app-card-custom>
       }
@@ -43,6 +47,8 @@
           "
           [altezzaImg]="'20rem'"
           [tipo]="'Song'"
+          [classBody]="'manga-class'"
+          [setCanzone]="msu.sc.currentCanzone()"
           (clickBotton)="msu.playSong(canzone, canzoniParodia()?.canzoniUtente)"
           (click2Botton)="msu.sc.stopSong()"
         ></app-card-custom>

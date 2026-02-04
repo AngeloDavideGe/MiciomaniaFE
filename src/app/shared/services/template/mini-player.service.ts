@@ -43,13 +43,13 @@ export class MiniPlayerService {
 
   private newSong(): void {
     this.currentCanzone.set(this.allCanzoni[this.currentSongIndex]);
-    this.isPlaying.set(true);
     this.playSong();
   }
 
   playSong(): void {
+    this.isPlaying.set(true);
     this.currentAudio = new Audio(
-      this.currentCanzone()!.url.slice(0, -4) + 'raw=1'
+      this.currentCanzone()!.url.slice(0, -4) + 'raw=1',
     );
     this.currentAudio.play().catch((error) => {
       console.error('Errore nella riproduzione:', error);
@@ -66,11 +66,12 @@ export class MiniPlayerService {
   }
 
   isPlayngFunc(): void {
-    this.isPlaying.set(!this.isPlaying());
     if (this.isPlaying()) {
-      this.currentAudio!.play();
-    } else {
       this.currentAudio!.pause();
+    } else {
+      this.currentAudio!.play();
     }
+
+    this.isPlaying.update((x: boolean) => !x);
   }
 }

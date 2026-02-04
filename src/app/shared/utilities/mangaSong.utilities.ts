@@ -11,8 +11,9 @@ export class MangaSongUtilities {
     this.sc.currentCanzone.set(song);
     this.sc.allCanzoni = allSongs || ([] as MangaSong[]);
     this.sc.playSong();
+    this.sc.isPlaying.set(true);
     this.sc.currentSongIndex = this.sc.allCanzoni.findIndex(
-      (x: MangaSong) => x.idUtente == song.idUtente
+      (x: MangaSong) => x.idUtente == song.idUtente,
     );
   }
 

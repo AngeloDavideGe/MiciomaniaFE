@@ -39,7 +39,7 @@ import { CursorUtilities } from './shared/utilities/cursor.utilities';
 
     <!-- Mini Player -->
     @if (miniPlayerService.currentCanzone()) {
-      <app-mini-player> </app-mini-player>
+      <app-mini-player></app-mini-player>
     }
   `,
 })
