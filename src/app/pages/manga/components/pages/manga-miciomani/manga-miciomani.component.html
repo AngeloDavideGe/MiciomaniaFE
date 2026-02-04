@@ -22,8 +22,9 @@
           <app-card-custom
             [link]="manga.copertina || mangaDefaultPic"
             [titolo]="manga.nome"
-            [descrizione]="
-              ' Genere : ' + manga.genere + ' - Autore : ' + manga.idUtente
+            [descrizioneHTML]="
+              `Genere: <strong>${manga.genere}</strong><br>
+              Autore: <em>${manga.idUtente}</em>`
             "
             [titoloBottone]="mmicioLang.scarica"
             [classBody]="'manga-class'"
@@ -50,8 +51,9 @@
           <app-card-custom
             [link]="manga.copertina || mangaDefaultPic"
             [titolo]="manga.nome"
-            [descrizione]="
-              ' Genere : ' + manga.genere + ' - Autore : ' + manga.idUtente
+            [descrizioneHTML]="
+              `Genere: <strong>${manga.genere}</strong><br>
+              Autore: <em>${manga.idUtente}</em>`
             "
             [classBody]="'manga-class'"
             [titoloBottone]="mmicioLang.scarica"

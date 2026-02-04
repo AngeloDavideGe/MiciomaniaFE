@@ -1,14 +1,6 @@
-import {
-  Component,
-  EventEmitter,
-  inject,
-  Input,
-  Output,
-  signal,
-} from '@angular/core';
-import { ButtonCustomComponent } from './botton-custom.component';
+import { Component, EventEmitter, Input, Output, signal } from '@angular/core';
 import { MangaSong } from '../../interfaces/elementiUtente.interface';
-import { MiniPlayerService } from '../../services/template/mini-player.service';
+import { ButtonCustomComponent } from './botton-custom.component';
 
 @Component({
   selector: 'app-card-custom',
@@ -24,7 +16,9 @@ import { MiniPlayerService } from '../../services/template/mini-player.service';
 
       <div class="card-body" [class]="classBody">
         <h5 class="fw-bold">{{ titolo }}</h5>
-        <p class="card-text">{{ descrizione }}</p>
+
+        <div [innerHTML]="descrizioneHTML"></div>
+
         <div class="mt-auto">
           @switch (tipo) {
             @case ('Default') {
@@ -62,11 +56,10 @@ import { MiniPlayerService } from '../../services/template/mini-player.service';
 })
 export class CardCustomComponent {
   public songButton = signal<boolean>(true);
-  public mps = inject(MiniPlayerService);
 
   @Input() link!: string;
   @Input() titolo!: string;
-  @Input() descrizione!: string;
+  @Input() descrizioneHTML!: string;
   @Input() titoloBottone!: string;
   @Input() classBody: string = '';
   @Input() icona: string = '';

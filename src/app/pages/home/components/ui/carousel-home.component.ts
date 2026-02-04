@@ -47,7 +47,7 @@ import { Lingua } from '../../../../shared/interfaces/http.interface';
               <app-card-custom
                 [link]="card.link"
                 [titolo]="card.titolo[lingua()]"
-                [descrizione]="card.descrizione[lingua()]"
+                [descrizioneHTML]="card.descrizione[lingua()]"
                 [titoloBottone]="card.titoloBottone[lingua()]"
                 [classBody]="card.bgClass + ' home-class'"
                 [icona]="card.icon"
