@@ -6,6 +6,7 @@ import { SpinnerComponent } from '../../../../../shared/components/dialogs/spinn
 import { CanzoniParodia } from '../../../../../shared/interfaces/elementiUtente.interface';
 import { ElementiUtenteService } from '../../../../../shared/services/api/elementiUtente.service';
 import { MangaSongUtilities } from '../../../../../shared/utilities/mangaSong.utilities';
+import { environment } from '../../../../../../environments/environment';
 
 @Component({
   selector: 'app-canzoni-miciomania',
@@ -13,6 +14,7 @@ import { MangaSongUtilities } from '../../../../../shared/utilities/mangaSong.ut
   templateUrl: './canzoni-miciomania.component.html',
 })
 export class CanzoniMiciomaniaComponent implements OnInit {
+  public readonly defaultPic: string = environment.defaultPicsUrl.song;
   private euService = inject(ElementiUtenteService);
   public msu = new MangaSongUtilities();
 

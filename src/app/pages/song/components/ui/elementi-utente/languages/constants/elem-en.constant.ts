@@ -5,14 +5,13 @@ export const elemLang: ElemLang = {
   titolo: 'Your Miciomania Elements',
   descrizione1:
     'Here you can see your manga, your song, and your submitted proposal. ',
-  descrizione2:
-    'If you dont have any pending proposals, you can send a new one. With a proposal, you can submit your manga or song if you dont already have one associated with your profile.',
   // Griglia Elementi
   noManga: "You don't have a manga associated with your profile yet.",
   noCanzone: "You don't have a song associated with your profile yet.",
   noProposteSospese: 'You have no pending proposals',
   nonHaiPunti: "You don't have enough points",
   inviaProposta: 'Send a new proposal',
+  scarica: 'Download',
   // Crea Proposta
   modificaProfilo: 'Edit Profile',
   tipo: 'Type',

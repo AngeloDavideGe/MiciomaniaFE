@@ -27,24 +27,20 @@ import { titoloPulsantiSong } from './components/ui/elementi-utente/functions/es
   `,
 })
 export class SongComponent {
-  public navbarButtons: NavBarButton[] = this.getPulsanti();
   public componente = signal<'song' | 'proposta'>('song');
   public selectedPulsante = signal<string>('Canzoni Miciomania');
-
-  private getPulsanti(): NavBarButton[] {
-    return [
-      {
-        icon: 'bi bi-music-note-beamed',
-        title: 'Canzoni Miciomania',
-        action: () => this.actionBotton('song'),
-      },
-      {
-        icon: 'bi bi-plus-circle',
-        title: 'Proponi una canzone',
-        action: () => this.actionBotton('proposta'),
-      },
-    ];
-  }
+  public navbarButtons: NavBarButton[] = [
+    {
+      icon: 'bi bi-music-note-beamed',
+      title: 'Canzoni Miciomania',
+      action: () => this.actionBotton('song'),
+    },
+    {
+      icon: 'bi bi-plus-circle',
+      title: 'Proponi una Parodia',
+      action: () => this.actionBotton('proposta'),
+    },
+  ];
 
   private actionBotton(id: 'song' | 'proposta'): void {
     this.componente.set(id);

@@ -4,13 +4,13 @@ export interface ElemLang {
   // Header Elementi
   titolo: string;
   descrizione1: string;
-  descrizione2: string;
   // Griglia Elementi
   noManga: string;
   noCanzone: string;
   noProposteSospese: string;
   nonHaiPunti: string;
   inviaProposta: string;
+  scarica: string;
   // Crea Proposta
   modificaProfilo: string;
   tipo: string;

@@ -12,7 +12,7 @@
       @for (canzone of canzoniParodia()?.canzoniMiciomania; track $index) {
         <app-card-custom
           [titolo]="canzone.nome"
-          [link]="canzone.copertina"
+          [link]="canzone.copertina || defaultPic"
           [descrizioneHTML]="
             `Genere: <strong>${canzone.genere}</strong><br>
             Autore: <em>${canzone.idUtente}</em>`
@@ -42,7 +42,7 @@
       @for (canzone of canzoniParodia()?.canzoniUtente; track $index) {
         <app-card-custom
           [titolo]="canzone.nome"
-          [link]="canzone.copertina"
+          [link]="canzone.copertina || defaultPic"
           [descrizioneHTML]="
             `Genere: <strong>${canzone.genere}</strong><br>
             Autore: <em>${canzone.idUtente}</em>`

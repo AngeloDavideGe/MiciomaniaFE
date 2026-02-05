@@ -5,14 +5,13 @@ export const elemLang: ElemLang = {
   titolo: 'I tuoi Elementi Miciomania',
   descrizione1:
     'Qui puoi vedere il tuo manga, la tua canzone e la tua proposta inviata. Se non hai nessuna proposta in sospeso, puoi inviarne una nuova.  ',
-  descrizione2:
-    'Con una proposta puoi inviare il tuo manga o la tua canzone, se non ne hai già una associata al tuo profilo.',
   // Griglia Elementi
   noManga: 'Non hai ancora un manga associato al tuo profilo.',
   noCanzone: 'Non hai ancora una canzone associata al tuo profilo.',
   noProposteSospese: 'Non hai proposte in sospeso',
   nonHaiPunti: 'Non hai abbastanza punti',
   inviaProposta: 'Invia una nuova proposta',
+  scarica: 'Scarica',
   // Crea Proposta
   modificaProfilo: 'Modifica Profilo',
   tipo: 'Tipo',
