@@ -2,13 +2,13 @@
   .post-separator {
     display: flex;
     align-items: center;
-    color: #888;
+    color: var(--text-muted);
     font-size: 0.85rem;
     font-weight: 500;
 
     span {
       padding: 0 0.75rem;
-      background: #fff;
+      background: var(--surface-color);
       z-index: 1;
     }
 
@@ -16,7 +16,7 @@
     &::after {
       content: "";
       flex: 1;
-      border-bottom: 1px solid #ddd;
+      border-bottom: 1px solid var(--border-color);
     }
   }
 

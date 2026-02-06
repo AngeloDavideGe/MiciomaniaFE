@@ -7,7 +7,7 @@ export interface Tweet {
   id: number;
   dataCreazione: Date;
   testo: string;
-  idUtente: number;
+  idUtente: string;
   immaginePost: string;
 }
 

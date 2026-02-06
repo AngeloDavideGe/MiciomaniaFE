@@ -22,44 +22,49 @@ import { errorPageProfilo } from '../error/error.profilo';
     <div class="card shadow-sm border-0 mt-3">
       <!-- Immagine di copertina -->
       <div
-        class="position-relative bg-light d-flex align-items-center"
+        class="position-relative d-flex align-items-center"
         style="
-            height: 150px;
-            border-top-left-radius: 15px;
-            border-top-right-radius: 15px;
-            padding-left: 20px;
-            padding-top: 7rem;
-          "
+      height: 150px;
+      border-top-left-radius: 15px;
+      border-top-right-radius: 15px;
+      padding-left: 20px;
+      padding-top: 7rem;
+      background-color: var(--bg-light);
+    "
       >
         @if (!postService.aggiornamentoPic()) {
-        <img
-          [src]="
-            profilo.user.credenziali.profilePic ||
-            'https://png.pngtree.com/png-vector/20191009/ourlarge/pngtree-user-icon-png-image_1796659.jpg'
-          "
-          alt="Profile Picture"
-          class="rounded-circle border border-white me-3"
-          style="width: 10rem; height: 10rem"
-        />
-        } @else {
-        <ng-container *ngTemplateOutlet="spinnerTemplate"></ng-container>
-
-        } @if (profiloPersonale) {
-        <button
-          class="btn btn-light btn-sm d-flex align-items-center justify-content-center shadow"
-          style="
-              border-radius: 50%;
-              width: 36px;
-              height: 36px;
-              border: 1px solid #ced4da;
-              z-index: 2;
-              margin-top: 90px;
+          <img
+            [src]="
+              profilo.user.credenziali.profilePic ||
+              'https://png.pngtree.com/png-vector/20191009/ourlarge/pngtree-user-icon-png-image_1796659.jpg'
             "
-          (click)="modaleAperta.emit('change-pic')"
-          title="Modifica foto profilo"
-        >
-          <i class="bi bi-pencil-fill text-primary"></i>
-        </button>
+            alt="Profile Picture"
+            class="rounded-circle border border-white me-3"
+            style="width: 10rem; height: 10rem"
+          />
+        } @else {
+          <ng-container *ngTemplateOutlet="spinnerTemplate"></ng-container>
+        }
+        @if (profiloPersonale) {
+          <button
+            class="btn btn-sm d-flex align-items-center justify-content-center shadow"
+            style="
+        border-radius: 50%;
+        width: 36px;
+        height: 36px;
+        border: 1px solid var(--border-color);
+        z-index: 2;
+        margin-top: 90px;
+        background-color: var(--surface-color);
+      "
+            (click)="modaleAperta.emit('change-pic')"
+            title="Modifica foto profilo"
+          >
+            <i
+              class="bi bi-pencil-fill"
+              style="color: var(--primary-color);"
+            ></i>
+          </button>
         }
       </div>
 
@@ -69,56 +74,74 @@ import { errorPageProfilo } from '../error/error.profilo';
           <div>
             <h2
               class="mb-0"
-              style="font-size: 24px; font-weight: bold; color: #0f1419"
+              style="font-size: 24px; font-weight: bold; color: var(--text-color)"
             >
               {{ profilo.user.credenziali.nome }}
             </h2>
-            <p class="text-muted mb-1" style="font-size: 14px">
+            <p class="mb-1" style="font-size: 14px; color: var(--text-muted)">
               {{ profilo.user.id }}
             </p>
           </div>
           <!-- Pulsante Modifica Profilo -->
           @if (profiloPersonale) {
-          <button
-            class="btn btn-outline-secondary btn-sm"
-            (click)="modaleAperta.emit('edit-profilo')"
-            style="font-size: 14px; font-weight: bold; border-radius: 8px"
-            title="Modifica dati profilo"
-          >
-            ✏️
-          </button>
+            <button
+              class="btn btn-sm"
+              (click)="modaleAperta.emit('edit-profilo')"
+              style="
+          font-size: 14px;
+          font-weight: bold;
+          border-radius: 8px;
+          border: 1px solid var(--border-color);
+          color: var(--text-secondary);
+          background-color: var(--surface-color);
+        "
+              title="Modifica dati profilo"
+            >
+              ✏️
+            </button>
           }
         </div>
 
-        <p class="mt-3" style="font-size: 16px; color: #0f1419">
+        <p class="mt-3" style="font-size: 16px; color: var(--text-color)">
           {{ profilo.user.profile.bio || profiloLang.noBio }}
         </p>
-        <div class="d-flex text-muted mb-3" style="font-size: 14px">
+        <div
+          class="d-flex mb-3"
+          style="font-size: 14px; color: var(--text-muted)"
+        >
           @if (profilo.user.iscrizione.provincia) {
-          <span class="me-3">
-            {{ profilo.user.iscrizione.provincia }}
-          </span>
-          } @if (profilo.user.profile.compleanno) {
-          <span class="me-3">
-            {{ profiloLang.natoIl }}
-            {{ profilo.user.profile.compleanno | date : 'dd/MM/yyyy' }}
-          </span>
+            <span class="me-3">
+              {{ profilo.user.iscrizione.provincia }}
+            </span>
+          }
+          @if (profilo.user.profile.compleanno) {
+            <span class="me-3">
+              {{ profiloLang.natoIl }}
+              {{ profilo.user.profile.compleanno | date: 'dd/MM/yyyy' }}
+            </span>
           }
         </div>
 
         @if (socialArray.length > 0) {
-        <div class="d-flex flex-wrap">
-          @for (social of socialArray; track $index) {
-          <a
-            (click)="openLink(social.link)"
-            target="_blank"
-            class="btn btn-outline-primary btn-sm me-2 mb-2"
-            style="font-size: 14px; border-radius: 20px; padding: 4px 12px"
-          >
-            {{ social.key | titlecase }}
-          </a>
-          }
-        </div>
+          <div class="d-flex flex-wrap">
+            @for (social of socialArray; track $index) {
+              <a
+                (click)="openLink(social.link)"
+                target="_blank"
+                class="btn btn-sm me-2 mb-2"
+                style="
+          font-size: 14px;
+          border-radius: 20px;
+          padding: 4px 12px;
+          border: 1px solid var(--primary-color);
+          color: var(--primary-color);
+          background-color: var(--surface-color);
+        "
+              >
+                {{ social.key | titlecase }}
+              </a>
+            }
+          </div>
         }
       </div>
     </div>
@@ -155,7 +178,7 @@ export class CardProfiloComponent {
 
       newWindow.document.replaceChild(
         newWindow.document.importNode(doc.documentElement, true),
-        newWindow.document.documentElement
+        newWindow.document.documentElement,
       );
     }
   }

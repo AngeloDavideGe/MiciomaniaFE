@@ -21,7 +21,7 @@ import { Lingua } from '../../../../shared/interfaces/http.interface';
         <div class="container">
           <div class="navbar-brand d-flex align-items-center">
             @if (credenziali && credenziali.profilePic) {
-              <div>
+              <div style="height: 3.3rem;">
                 <img
                   [src]="credenziali.profilePic"
                   alt="Profile Picture"

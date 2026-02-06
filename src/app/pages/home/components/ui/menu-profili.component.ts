@@ -9,20 +9,20 @@ import { HomeLang } from '../../languages/interfaces/home-lang.interface';
   imports: [RouterLink],
   template: `
     <div id="menuBarProfili">
-      @if(user.id) {
-      <li>
-        <a class="dropdown-item" [routerLink]="'/posts/profilo/' + user.id">
-          <i class="bi bi-person-circle me-2"></i>
-          {{ homeLang.mioProfilo }}
-        </a>
-      </li>
+      @if (user.id) {
+        <li>
+          <a class="dropdown-item" [routerLink]="'/posts/profilo/' + user.id">
+            <i class="bi bi-person-circle me-2"></i>
+            {{ homeLang.mioProfilo }}
+          </a>
+        </li>
       } @else {
-      <li>
-        <span class="dropdown-item text-muted">
-          <i class="bi bi-exclamation-circle me-2"></i>
-          {{ homeLang.accediVediProfili }}
-        </span>
-      </li>
+        <li>
+          <span class="dropdown-item" style="color: var(--text-muted);">
+            <i class="bi bi-exclamation-circle me-2"></i>
+            {{ homeLang.accediVediProfili }}
+          </span>
+        </li>
       }
       <li>
         <a class="dropdown-item" [routerLink]="'/posts/ultimi-post'">
@@ -36,20 +36,20 @@ import { HomeLang } from '../../languages/interfaces/home-lang.interface';
           {{ homeLang.contattaAdmin }}
         </a>
       </li>
-      @if(user.id) {
-      <li>
-        <a class="dropdown-item" (click)="logout.emit()">
-          <i class="bi bi-box-arrow-right me-2"></i>
-          Logout
-        </a>
-      </li>
+      @if (user.id) {
+        <li>
+          <a class="dropdown-item" (click)="logout.emit()">
+            <i class="bi bi-box-arrow-right me-2"></i>
+            Logout
+          </a>
+        </li>
       } @else {
-      <li>
-        <a class="dropdown-item" routerLink="/auth/login">
-          <i class="bi bi-box-arrow-in-right me-2"></i>
-          Login
-        </a>
-      </li>
+        <li>
+          <a class="dropdown-item" routerLink="/auth/login">
+            <i class="bi bi-box-arrow-in-right me-2"></i>
+            Login
+          </a>
+        </li>
       }
     </div>
   `,
@@ -58,16 +58,23 @@ import { HomeLang } from '../../languages/interfaces/home-lang.interface';
       #menuBarProfili {
         a {
           cursor: pointer;
+          color: var(--text-color);
+          transition: background-color 0.2s ease;
 
           &:hover {
-            background-color: #bebebe;
+            background-color: var(--bg-hover);
           }
+        }
+
+        span.dropdown-item {
+          color: var(--text-muted);
+          cursor: default;
         }
 
         li {
           &:not(:last-child) {
             margin-bottom: 3px;
-            border-bottom: 1px solid #e0e0e0;
+            border-bottom: 1px solid var(--border-color);
           }
         }
       }

@@ -20,79 +20,96 @@ import { Profilo } from '../../../../../../shared/interfaces/http.interface';
       <div class="d-flex justify-content-between align-items-center">
         <h3
           style="
-              font-size: 20px;
-              font-weight: bold;
-              color: #0f1419;
-              margin: 0;
-            "
+        font-size: 20px;
+        font-weight: bold;
+        color: var(--text-color);
+        margin: 0;
+      "
         >
           Tweet
         </h3>
         <!-- Pulsante Nuovo Tweet -->
         @if (profiloPersonale) {
-        <button
-          class="btn btn-primary btn-sm"
-          (click)="modaleAperta.emit('new-tweet')"
-          style="font-size: 14px; font-weight: bold; border-radius: 8px"
-          title="Nuovo Tweet"
-        >
-          ✍️
-        </button>
+          <button
+            class="btn btn-sm"
+            (click)="modaleAperta.emit('new-tweet')"
+            style="
+        font-size: 14px;
+        font-weight: bold;
+        border-radius: 8px;
+        background-color: var(--primary-color);
+        color: var(--surface-color);
+        border: 1px solid var(--primary-color);
+      "
+            title="Nuovo Tweet"
+          >
+            ✍️
+          </button>
         }
       </div>
 
       @for (tweet of profilo.tweets; track $index) {
-      <div class="card mb-3 border-0 shadow-sm mt-3">
-        <div class="card-body" style="padding: 16px">
-          <div class="d-flex align-items-start">
-            @if (!postService.aggiornamentoPic()) {
+        <div class="card mb-3 border-0 shadow-sm mt-3">
+          <div class="card-body" style="padding: 16px">
+            <div class="d-flex align-items-start">
+              @if (!postService.aggiornamentoPic()) {
+                <img
+                  [src]="
+                    profilo.user.credenziali.profilePic ||
+                    'https://png.pngtree.com/png-vector/20191009/ourlarge/pngtree-user-icon-png-image_1796659.jpg'
+                  "
+                  alt="User"
+                  class="rounded-circle me-3"
+                  style="width: 50px; height: 50px"
+                />
+              } @else {
+                <ng-container
+                  *ngTemplateOutlet="spinnerTemplate"
+                ></ng-container>
+              }
 
-            <img
-              [src]="
-                profilo.user.credenziali.profilePic ||
-                'https://png.pngtree.com/png-vector/20191009/ourlarge/pngtree-user-icon-png-image_1796659.jpg'
-              "
-              alt="User"
-              class="rounded-circle me-3"
-              style="width: 50px; height: 50px"
-            />
-            } @else {
-            <ng-container *ngTemplateOutlet="spinnerTemplate"></ng-container>
-            }
+              <div class="flex-grow-1">
+                <h6
+                  class="mb-0"
+                  style="font-size: 16px; color: var(--text-color)"
+                >
+                  {{ profilo.user.credenziali.nome }}
+                  <span style="font-size: 14px; color: var(--text-muted)">
+                    {{ profilo.user.credenziali.email.split('@')[0] }} ·
+                    {{ tweet.dataCreazione | date }}
+                  </span>
+                </h6>
+                <p
+                  class="mt-2"
+                  style="font-size: 16px; color: var(--text-color)"
+                >
+                  {{ tweet.testo }}
+                </p>
+              </div>
 
-            <div class="flex-grow-1">
-              <h6 class="mb-0" style="font-size: 16px; color: #0f1419">
-                {{ profilo.user.credenziali.nome }}
-                <span class="text-muted" style="font-size: 14px">
-                  {{ profilo.user.credenziali.email.split('@')[0] }} ·
-                  {{ tweet.dataCreazione | date }}
-                </span>
-              </h6>
-              <p class="mt-2" style="font-size: 16px; color: #0f1419">
-                {{ tweet.testo }}
-              </p>
+              @if (profiloPersonale) {
+                <button
+                  class="btn btn-sm d-flex align-items-center justify-content-center"
+                  (click)="eliminaTweet.emit(tweet.id)"
+                  style="
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            font-size: 16px;
+            padding: 0;
+            line-height: 1;
+            border: 1px solid #dc3545;
+            color: #dc3545;
+            background-color: var(--surface-color);
+          "
+                  title="Elimina tweet"
+                >
+                  🗑️
+                </button>
+              }
             </div>
-
-            @if (profiloPersonale) {
-            <button
-              class="btn btn-outline-danger btn-sm d-flex align-items-center justify-content-center"
-              (click)="eliminaTweet.emit(tweet.id)"
-              style="
-                  width: 36px;
-                  height: 36px;
-                  border-radius: 50%;
-                  font-size: 16px;
-                  padding: 0;
-                  line-height: 1;
-                "
-              title="Elimina tweet"
-            >
-              🗑️
-            </button>
-            }
           </div>
         </div>
-      </div>
       }
     </div>
   `,

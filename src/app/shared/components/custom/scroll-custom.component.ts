@@ -6,15 +6,24 @@ import { Component, Input } from '@angular/core';
   imports: [],
   template: `
     <div class="d-flex justify-content-between align-items-center mb-4">
-      <h2 class="text-black">
+      <h2 style="color: var(--text-color);">
         <i class="bi bi-person-circle me-2"></i>
         {{ titolo }}
-        <span class="badge bg-success ms-2">{{ lunghezzaFiltro }}</span>
+        <span
+          class="badge ms-2"
+          style="background-color: #198754; color: white;"
+          >{{ lunghezzaFiltro }}</span
+        >
       </h2>
       <div>
         <button
-          class="btn btn-outline-light btn-sm text-black"
+          class="btn btn-sm"
           (click)="scrollFun()"
+          style="
+        border: 1px solid var(--border-color);
+        color: var(--text-color);
+        background-color: var(--surface-color);
+      "
         >
           <i class="me-1" [class]="icona"></i>
           {{ nomeIcona }}

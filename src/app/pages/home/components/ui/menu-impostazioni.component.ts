@@ -34,15 +34,17 @@ import { HomeLang } from '../../languages/interfaces/home-lang.interface';
       #menuBarImpostazioni {
         a {
           cursor: pointer;
+          color: var(--text-color);
+          transition: background-color 0.2s ease;
 
           &:hover {
-            background-color: var(--bg-light);
+            background-color: var(--bg-hover);
           }
         }
 
         li {
           &:not(:last-child) {
-            border-bottom: 1px solid var(--bg-light);
+            border-bottom: 1px solid var(--border-color);
           }
         }
       }

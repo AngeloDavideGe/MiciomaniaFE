@@ -35,7 +35,14 @@ export class PostService extends BaseService {
   }
 
   postPubblicazioni(tweet: Tweet): Observable<Tweet> {
-    return this.postCustom<Tweet>('pubblicazioni', tweet);
+    const body = {
+      testo: tweet.testo,
+      idUtente: tweet.idUtente,
+      immaginePost: 'aaa',
+    };
+    console.log(body);
+
+    return this.postCustom<Tweet>('Posts/post_tweet', body);
   }
 
   deletePubblicazioni(tweetId: number): Observable<void> {

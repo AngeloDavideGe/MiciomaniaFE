@@ -1,5 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { MiniPlayerService } from '../../../shared/services/template/mini-player.service';
+import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'app-mini-player',
@@ -7,23 +8,34 @@ import { MiniPlayerService } from '../../../shared/services/template/mini-player
   imports: [],
   template: `
     <div
-      class="d-flex align-items-center justify-content-between border-top bg-dark text-white px-4 pt-3 pb-2"
-      style="height: 8rem; position: fixed; bottom: 0; left: 0; right: 0; z-index: 1050;"
+      class="d-flex align-items-center justify-content-between border-top px-4 pt-3 pb-2"
+      style="
+    height: 8rem;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 1050;
+    background-color: var(--text-color);
+    color: var(--surface-color);
+  "
     >
       <button
         type="button"
-        class="btn-close btn-close-white position-absolute"
+        class="btn-close position-absolute"
         aria-label="Close"
-        style="top: 10px; right: 14px;"
+        style="
+      top: 10px;
+      right: 14px;
+      color: var(--surface-color);
+    "
         (click)="miniPlayerService.stopSong()"
       ></button>
+
       <!-- Info Canzone -->
       <div class="d-flex align-items-center">
         <img
-          [src]="
-            miniPlayerService.currentCanzone()?.copertina ||
-            'https://i.postimg.cc/NfmNs2FC/Miku.png'
-          "
+          [src]="miniPlayerService.currentCanzone()?.copertina || defaultPic"
           alt="Copertina"
           class="rounded shadow-sm"
           style="width: 64px; height: 64px; object-fit: cover; margin-right: 15px;"
@@ -32,7 +44,7 @@ import { MiniPlayerService } from '../../../shared/services/template/mini-player
           <div class="fw-semibold" style="font-size: 1.1rem;">
             {{ miniPlayerService.currentCanzone()?.nome || 'Nessun titolo' }}
           </div>
-          <div class="text-white-50" style="font-size: 0.85rem;">
+          <div style="font-size: 0.85rem; color: rgba(255, 255, 255, 0.7);">
             {{
               miniPlayerService.currentCanzone()?.genere || 'Genere sconosciuto'
             }}
@@ -43,21 +55,21 @@ import { MiniPlayerService } from '../../../shared/services/template/mini-player
       <!-- Controlli -->
       <div class="d-flex align-items-center">
         <button
-          class="btn btn-link text-white p-1 mx-2"
+          class="btn btn-link p-1 mx-2"
           style="font-size: 1.5rem;"
           (click)="miniPlayerService.prevSong()"
         >
           ⏮️
         </button>
         <button
-          class="btn btn-link text-white p-1 mx-2"
+          class="btn btn-link p-1 mx-2"
           style="font-size: 2rem;"
           (click)="miniPlayerService.isPlayngFunc()"
         >
           {{ miniPlayerService.isPlaying() ? '⏸️' : '▶️' }}
         </button>
         <button
-          class="btn btn-link text-white p-1 mx-2"
+          class="btn btn-link p-1 mx-2"
           style="font-size: 1.5rem;"
           (click)="miniPlayerService.nextSong()"
         >
@@ -69,4 +81,5 @@ import { MiniPlayerService } from '../../../shared/services/template/mini-player
 })
 export class MiniPlayerComponent {
   public miniPlayerService = inject(MiniPlayerService);
+  public readonly defaultPic: string = environment.defaultPicsUrl.song;
 }

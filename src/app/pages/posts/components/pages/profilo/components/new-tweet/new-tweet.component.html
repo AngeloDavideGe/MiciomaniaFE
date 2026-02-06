@@ -1,21 +1,20 @@
 <div
   class="position-fixed top-0 start-0 w-100 h-100 d-flex justify-content-center align-items-center"
-  style="background: rgba(0, 0, 0, 0.5); z-index: 1050"
+  style="background: var(--border-hover); z-index: 1050"
 >
   <div
     class="card shadow"
     style="
       width: 400px;
-      background: white;
+      background: var(--surface-color);
       border-radius: 12px;
       overflow: hidden;
     "
   >
-    <!-- Header -->
     <div
       class="card-header text-white"
       style="
-        background-color: #007bff;
+        background-color: var(--primary-color);
         font-size: 18px;
         font-weight: bold;
         text-align: center;
@@ -24,7 +23,6 @@
       {{ profiloLang.nuovoTweet }}
     </div>
 
-    <!-- Body -->
     <div class="card-body" style="padding: 20px">
       <form (ngSubmit)="inviaTweet()">
         <div class="mb-3">
@@ -39,21 +37,26 @@
               border-radius: 8px;
               padding: 10px;
               resize: none;
+              background-color: var(--surface-color);
+              border-color: var(--border-color);
+              color: var(--text-color);
             "
             required
           ></textarea>
         </div>
 
-        <!-- Footer -->
         <div class="d-flex justify-content-end">
           <button
             type="button"
-            class="btn btn-outline-secondary me-2"
+            class="btn me-2"
             style="
               font-size: 14px;
               font-weight: bold;
               border-radius: 8px;
               padding: 8px 16px;
+              border: 1px solid var(--border-color);
+              color: var(--text-secondary);
+              background-color: var(--surface-color);
             "
             (click)="chiudiModale()"
           >
@@ -61,12 +64,15 @@
           </button>
           <button
             type="submit"
-            class="btn btn-primary"
+            class="btn"
             style="
               font-size: 14px;
               font-weight: bold;
               border-radius: 8px;
               padding: 8px 16px;
+              border: 1px solid var(--primary-color);
+              color: var(--surface-color);
+              background-color: var(--primary-color);
             "
           >
             Tweet
