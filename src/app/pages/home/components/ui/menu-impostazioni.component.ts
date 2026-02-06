@@ -36,14 +36,13 @@ import { HomeLang } from '../../languages/interfaces/home-lang.interface';
           cursor: pointer;
 
           &:hover {
-            background-color: #bebebe;
+            background-color: var(--bg-background-color);
           }
         }
 
         li {
           &:not(:last-child) {
-            margin-bottom: 3px;
-            border-bottom: 1px solid #e0e0e0;
+            border-bottom: 1px solid var(--bg-background-color);
           }
         }
       }

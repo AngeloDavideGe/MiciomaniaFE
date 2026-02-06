@@ -20,28 +20,29 @@ import { Lingua } from '../../../../shared/interfaces/http.interface';
       <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
         <div class="container">
           <div class="navbar-brand d-flex align-items-center">
-            @if(credenziali && credenziali.profilePic) {
-            <div>
-              <img
-                [src]="credenziali.profilePic"
-                alt="Profile Picture"
-                style="height: 3.3rem; width: 3.3rem; border-radius: 50%"
-              />
-            </div>
+            @if (credenziali && credenziali.profilePic) {
+              <div>
+                <img
+                  [src]="credenziali.profilePic"
+                  alt="Profile Picture"
+                  style="height: 3.3rem; width: 3.3rem; border-radius: 50%"
+                />
+              </div>
             } @else {
-            <div
-              class="d-flex align-items-center justify-content-center div-profilo-pic"
-            >
-              {{ inizialiUser }}
-            </div>
-            } @if(credenziali && credenziali.nome) {
-            <span class="ms-2" style="font-size: 1.2rem; font-weight: bold">
-              {{ credenziali.nome }}
-            </span>
+              <div
+                class="d-flex align-items-center justify-content-center div-profilo-pic"
+              >
+                {{ inizialiUser }}
+              </div>
+            }
+            @if (credenziali && credenziali.nome) {
+              <span class="ms-2" style="font-size: 1.2rem; font-weight: bold">
+                {{ credenziali.nome }}
+              </span>
             } @else {
-            <span class="ms-2" style="font-size: 1.2rem; font-weight: bold">
-              {{ homeLang.anonimo || 'Anonimo' }}</span
-            >
+              <span class="ms-2" style="font-size: 1.2rem; font-weight: bold">
+                {{ homeLang.anonimo || 'Anonimo' }}</span
+              >
             }
           </div>
           <button
@@ -145,18 +146,24 @@ import { Lingua } from '../../../../shared/interfaces/http.interface';
         height: 3.3rem;
         width: 3.3rem;
         border-radius: 50%;
-        background-color: #5a9bf6;
-        color: white;
+        background-color: var(--primary-color);
+        color: var(--surface-color);
         font-weight: bold;
         font-size: 1.5rem;
       }
 
       .stile-bottoni {
-        background-color: white;
-        border: 1px solid #ccc;
-        color: black;
+        background-color: var(--surface-color);
+        border: 1px solid var(--border-color);
+        color: var(--text-color);
         padding: 0.5rem 1rem;
         font-size: 1rem;
+        transition: all 0.2s ease;
+
+        &:hover {
+          background-color: var(--bg-hover);
+          border-color: var(--border-hover);
+        }
       }
     `,
   ],

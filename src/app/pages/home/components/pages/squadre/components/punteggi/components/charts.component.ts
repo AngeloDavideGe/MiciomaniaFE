@@ -30,7 +30,7 @@ declare var google: any;
       #Charts {
         .charts-class {
           width: 100%;
-          max-width: 70rem;
+          max-width: 50rem;
           height: 30rem;
           border: 1px solid #695555ff;
           border-radius: 12px;

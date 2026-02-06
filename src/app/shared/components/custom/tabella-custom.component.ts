@@ -1,20 +1,19 @@
 import { Component, computed, Input, Signal, signal } from '@angular/core';
-import { CapitalizeFirstLetterPipe } from '../../pipes/capitalize.pipe';
 
 @Component({
   selector: 'app-table-custom',
   standalone: true,
-  imports: [CapitalizeFirstLetterPipe],
+  imports: [],
   template: `
     <div [style]="{ width: lunghezzaTotale }">
-      @if (elemTable().length > 0) {
-        <div class="table-wrapper">
+      <div class="table-wrapper">
+        @if (elemTable().length > 0) {
           @if (titoloTabella) {
             <div class="table-header">
               <div class="header-content">
                 <i class="bi bi-table header-icon"></i>
                 <h3 class="header-title">
-                  {{ titoloTabella | capitalizeFirstLetter }}
+                  {{ titoloTabella }}
                 </h3>
                 <div class="header-info">
                   <span class="total-items">
@@ -32,7 +31,7 @@ import { CapitalizeFirstLetterPipe } from '../../pipes/capitalize.pipe';
                 <tr>
                   @for (key of keyofElem; track $index; let idx = $index) {
                     <th [style.width]="colonne[key].lunghezza">
-                      {{ key }}
+                      {{ colonne[key].titolo }}
                     </th>
                   }
                   @if (azioni.length > 0) {
@@ -83,62 +82,67 @@ import { CapitalizeFirstLetterPipe } from '../../pipes/capitalize.pipe';
                 </span>
               </div>
 
-              <div class="pagination-controls">
-                <button
-                  class="pagination-btn prev-btn"
-                  (click)="previousPage()"
-                  [disabled]="currentPage() === 1"
-                  [class.disabled]="currentPage() === 1"
-                  aria-label="Pagina precedente"
-                >
-                  <i class="bi bi-chevron-left"></i>
-                </button>
+              @if (elemForPage > 0) {
+                <div class="pagination-controls">
+                  <button
+                    class="pagination-btn prev-btn"
+                    (click)="previousPage()"
+                    [disabled]="currentPage() === 1"
+                    [class.disabled]="currentPage() === 1"
+                    aria-label="Pagina precedente"
+                  >
+                    <i class="bi bi-chevron-left"></i>
+                  </button>
 
-                <div class="page-indicator">
-                  <span class="current-page">{{ currentPage() }}</span>
-                  <span class="separator">/</span>
-                  <span class="total-pages">{{ totalPage() }}</span>
+                  <div class="page-indicator">
+                    <span class="current-page">{{ currentPage() }}</span>
+                    <span class="separator">/</span>
+                    <span class="total-pages">{{ totalPage() }}</span>
+                  </div>
+
+                  <button
+                    class="pagination-btn next-btn"
+                    (click)="nextPage()"
+                    [disabled]="currentPage() === totalPage()"
+                    [class.disabled]="currentPage() === totalPage()"
+                    aria-label="Pagina successiva"
+                  >
+                    <i class="bi bi-chevron-right"></i>
+                  </button>
                 </div>
-
-                <button
-                  class="pagination-btn next-btn"
-                  (click)="nextPage()"
-                  [disabled]="currentPage() === totalPage()"
-                  [class.disabled]="currentPage() === totalPage()"
-                  aria-label="Pagina successiva"
-                >
-                  <i class="bi bi-chevron-right"></i>
-                </button>
+              }
+            </div>
+          }
+        } @else {
+          @if (titoloTabella) {
+            <div class="table-header">
+              <div class="header-content">
+                <i class="bi bi-table header-icon"></i>
+                <h3 class="header-title">
+                  {{ titoloTabella }}
+                </h3>
+                <div class="header-info">
+                  <span class="total-items">
+                    <i class="bi bi-list-ol me-1"></i>
+                    {{ elemTable().length }} elementi
+                  </span>
+                </div>
               </div>
             </div>
           }
-        </div>
-      } @else {
-        @if (titoloTabella) {
-          <div class="table-header">
-            <div class="header-content">
-              <i class="bi bi-table header-icon"></i>
-              <h3 class="header-title">
-                {{ titoloTabella | capitalizeFirstLetter }}
-              </h3>
-              <div class="header-info">
-                <span class="total-items">
-                  <i class="bi bi-list-ol me-1"></i>
-                  {{ elemTable().length }} elementi
-                </span>
-              </div>
-            </div>
+
+          <div class="empty-state">
+            <i class="bi bi-inbox empty-icon"></i>
+            <p class="empty-text">{{ noElement }}</p>
           </div>
         }
-
-        <div class="empty-state">
-          <i class="bi bi-inbox empty-icon"></i>
-          <p class="empty-text">{{ noElement }}</p>
-        </div>
-      }
+      </div>
     </div>
   `,
-  styleUrl: '../styles/table-custom.scss',
+  styleUrls: [
+    '../styles/table-custom.scss',
+    '../styles/pagination-custom.scss',
+  ],
 })
 export class TabellaCustomComponent<T> {
   @Input() elemTable!: Signal<T[]>;
@@ -149,7 +153,7 @@ export class TabellaCustomComponent<T> {
   @Input() lunghezzaTotale: string = '30rem';
   @Input() lunghezzaAzioni: string = '10rem';
   @Input() azioni: AzioniTabella<T>[] = [];
-  @Input() elemForPage: number = 10;
+  @Input() elemForPage: number = 0;
 
   public currentPage = signal<number>(1);
 

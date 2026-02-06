@@ -16,5 +16,5 @@ import { Component, Input } from '@angular/core';
   `,
 })
 export class SpinnerComponent {
-  @Input() mt: number = 0;
+  @Input() mt: string = '0';
 }

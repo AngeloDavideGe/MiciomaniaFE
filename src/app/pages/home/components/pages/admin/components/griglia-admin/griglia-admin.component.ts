@@ -24,7 +24,7 @@ import { AdminLang } from '../../languages/interfaces/admin-lang.interface';
   standalone: true,
   imports: [TabellaCustomComponent],
   template: `
-    <div class="table-grid">
+    <div class="grid-card-layout" style="--card-width: 30rem;">
       @for (ruolo of ruoli; track $index) {
         <app-table-custom
           [titoloTabella]="ruolo"
@@ -34,23 +34,10 @@ import { AdminLang } from '../../languages/interfaces/admin-lang.interface';
           [keyofElem]="['nome', 'id']"
           [colonne]="colonne"
           [azioni]="pulsanti"
-          [lunghezzaAzioni]="'10rem'"
-          [lunghezzaTotale]="'30rem'"
         ></app-table-custom>
       }
     </div>
   `,
-  styles: [
-    `
-      .table-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(30rem, 1fr));
-        gap: 1.5rem;
-        margin: 0 auto;
-        width: 100%;
-      }
-    `,
-  ],
 })
 export class GrigliaAdminComponent {
   private router = inject(Router);
