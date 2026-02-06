@@ -18,12 +18,17 @@ import { HomeLang } from '../../languages/interfaces/home-lang.interface';
             <div class="card-body text-center">
               <i
                 class="bi bi-cursor"
-                style="font-size: 2rem; color: #007bff;"
+                style="font-size: 2rem; color: var(--primary-color);"
               ></i>
-              <h5 class="card-title mt-1" style="font-size: 1rem;">Default</h5>
+              <h5
+                class="card-title mt-1"
+                style="font-size: 1rem; color: var(--text-color);"
+              >
+                Default
+              </h5>
               <button
-                class="btn btn-danger btn-sm"
-                style="font-size: 0.875rem; padding: 0.25rem 0.75rem;"
+                class="btn btn-sm"
+                style="font-size: 0.875rem; padding: 0.25rem 0.75rem; background-color: #dc3545; color: white; border: 1px solid #dc3545;"
                 (click)="rimuoviCursore()"
               >
                 {{ homeLang.rimuovi }}
@@ -34,26 +39,32 @@ import { HomeLang } from '../../languages/interfaces/home-lang.interface';
 
         <!-- Lista dei cursori personalizzati -->
         @for (cursore of cursori; track $index) {
-        <div class="col-auto">
-          <div class="card mb-4 shadow-sm" style="width: 8rem; margin: 0.1rem;">
-            <div class="card-body text-center">
-              <i
-                class="{{ 'bi bi-' + cursore.iconClass }}"
-                style="font-size: 2rem; color: #007bff;"
-              ></i>
-              <h5 class="card-title mt-1" style="font-size: 1rem;">
-                {{ cursore.nome }}
-              </h5>
-              <button
-                class="btn btn-primary btn-sm"
-                style="font-size: 0.875rem; padding: 0.25rem 0.75rem;"
-                (click)="cambiaCursore(cursore.iconClass)"
-              >
-                {{ homeLang.seleziona }}
-              </button>
+          <div class="col-auto">
+            <div
+              class="card mb-4 shadow-sm"
+              style="width: 8rem; margin: 0.1rem;"
+            >
+              <div class="card-body text-center">
+                <i
+                  class="{{ 'bi bi-' + cursore.iconClass }}"
+                  style="font-size: 2rem; color: var(--primary-color);"
+                ></i>
+                <h5
+                  class="card-title mt-1"
+                  style="font-size: 1rem; color: var(--text-color);"
+                >
+                  {{ cursore.nome }}
+                </h5>
+                <button
+                  class="btn btn-sm"
+                  style="font-size: 0.875rem; padding: 0.25rem 0.75rem; background-color: var(--primary-color); color: var(--surface-color); border: 1px solid var(--primary-color);"
+                  (click)="cambiaCursore(cursore.iconClass)"
+                >
+                  {{ homeLang.seleziona }}
+                </button>
+              </div>
             </div>
           </div>
-        </div>
         }
       </div>
     </div>

@@ -11,14 +11,14 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
       [style]="
         'border-radius: 30px; padding: 10px 20px; background-color: ' +
         color +
-        '; color: black; border-width: 2px; box-shadow: 0 2px 6px rgba(0,0,0,0.1); transition: all 0.2s ease-in-out;'
+        '; color: var(--text-color); border-width: 2px; box-shadow: 0 2px 6px var(--border-light); transition: all 0.2s ease-in-out;'
       "
       (mouseover)="
         btn.style.boxShadow = '0 4px 12px ' + color;
         btn.style.transform = 'scale(1.05)'
       "
       (mouseout)="
-        btn.style.boxShadow = '0 2px 6px rgba(0,0,0,0.1)';
+        btn.style.boxShadow = '0 2px 6px var(--border-light)';
         btn.style.transform = 'scale(1)'
       "
       (click)="clickBotton.emit()"

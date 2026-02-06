@@ -1,8 +1,4 @@
 :root {
-  // Colori base
-  --bg-background-color: #f8fafc;
-  --text-color: #1e293b;
-
   // Colori superficie e bordi
   --surface-color: #ffffff;
   --border-color: #e2e8f0;
@@ -11,38 +7,18 @@
 
   // Colori azioni
   --primary-color: #3b82f6;
-  --primary-hover: #2563eb;
+  --primary-hover: #60a5fa;
 
   // Colori testo
+  --text-color: #1e293b;
   --text-secondary: #64748b;
   --text-muted: #94a3b8;
 
   // Colori sfondo
-  --bg-hover: rgba(0, 0, 0, 0.02);
-  --bg-active: rgba(0, 0, 0, 0.04);
   --bg-light: #f8fafc;
   --bg-lighter: #f1f5f9;
-}
-
-.dark-mode {
-  --bg-background-color: #0f172a;
-  --text-color: #f1f5f9;
-
-  --surface-color: #1e293b;
-  --border-color: #334155;
-  --border-light: rgba(255, 255, 255, 0.08);
-  --border-hover: rgba(255, 255, 255, 0.12);
-
-  --primary-color: #60a5fa;
-  --primary-hover: #93c5fd;
-
-  --text-secondary: #94a3b8;
-  --text-muted: #64748b;
-
-  --bg-hover: rgba(255, 255, 255, 0.05);
-  --bg-active: rgba(255, 255, 255, 0.08);
-  --bg-light: #1e293b;
-  --bg-lighter: #0f172a;
+  --bg-hover: rgba(0, 0, 0, 0.02);
+  --bg-active: rgba(0, 0, 0, 0.04);
 }
 
 .pc-only {

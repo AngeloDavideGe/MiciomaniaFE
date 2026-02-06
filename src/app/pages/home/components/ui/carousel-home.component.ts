@@ -21,7 +21,9 @@ import { Lingua } from '../../../../shared/interfaces/http.interface';
     <section id="CardsRow">
       <div class="container position-relative">
         <div class="text-center mb-5">
-          <h4 class="fw-bold display-4">Home - Miciomania</h4>
+          <h4 class="fw-bold display-4" style="color: var(--text-color);">
+            Home - Miciomania
+          </h4>
         </div>
 
         <div
@@ -30,9 +32,16 @@ import { Lingua } from '../../../../shared/interfaces/http.interface';
           <!-- Freccia sinistra -->
           @if (visualizzaButtoni() && !disableLeft()) {
             <button
-              class="btn btn-light position-absolute start-0 top-50 translate-middle-y shadow"
-              style="z-index: 100; border: 1px solid #9ed0e5;"
+              class="btn position-absolute start-0 top-50 translate-middle-y shadow"
+              style="
+            z-index: 100;
+            border: 1px solid var(--primary-color);
+            background-color: var(--surface-color);
+            color: var(--primary-color);
+          "
               (click)="scrollCards(-1)"
+              onmouseover="this.style.backgroundColor='var(--bg-hover)'; this.style.borderColor='var(--primary-hover)'; this.style.color='var(--primary-hover)'"
+              onmouseout="this.style.backgroundColor='var(--surface-color)'; this.style.borderColor='var(--primary-color)'; this.style.color='var(--primary-color)'"
             >
               <i class="bi bi-chevron-left fs-4"></i>
             </button>
@@ -59,9 +68,16 @@ import { Lingua } from '../../../../shared/interfaces/http.interface';
           <!-- Freccia destra -->
           @if (visualizzaButtoni() && !disableRight()) {
             <button
-              class="btn btn-light position-absolute end-0 top-50 translate-middle-y shadow"
-              style="z-index: 100; border: 1px solid #9ed0e5;"
+              class="btn position-absolute end-0 top-50 translate-middle-y shadow"
+              style="
+            z-index: 100;
+            border: 1px solid var(--primary-color);
+            background-color: var(--surface-color);
+            color: var(--primary-color);
+          "
               (click)="scrollCards(1)"
+              onmouseover="this.style.backgroundColor='var(--bg-hover)'; this.style.borderColor='var(--primary-hover)'; this.style.color='var(--primary-hover)'"
+              onmouseout="this.style.backgroundColor='var(--surface-color)'; this.style.borderColor='var(--primary-color)'; this.style.color='var(--primary-color)'"
             >
               <i class="bi bi-chevron-right fs-4"></i>
             </button>

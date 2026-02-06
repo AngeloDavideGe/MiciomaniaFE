@@ -7,7 +7,7 @@ import { mn_imports } from './imports/m-n.import';
   selector: 'app-m-n',
   imports: mn_imports,
   template: `
-    <div class="mt-5" style="overflow-x: hidden;">
+    <div style="overflow-x: hidden; margin-top: 4rem">
       <app-header-custom
         [titolo]="squadreLang.mnTitolo"
         [descrizione]="squadreLang.mnSottotitolo"

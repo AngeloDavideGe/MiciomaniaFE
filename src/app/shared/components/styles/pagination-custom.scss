@@ -3,7 +3,7 @@
   align-items: center;
   justify-content: space-between;
   padding: 12px 20px;
-  border-top: 1px solid #e5e7eb;
+  border-top: 1px solid var(--border-color);
 }
 
 .pagination-controls {
@@ -14,15 +14,15 @@
 
 .pagination-btn {
   padding: 6px 12px;
-  border: 1px solid #e5e7eb;
-  background: #ffffff;
+  border: 1px solid var(--border-color);
+  background: var(--surface-color);
   border-radius: 4px;
   cursor: pointer;
-  color: #374151;
+  color: var(--text-secondary);
   transition: all 0.15s ease;
 
   &:hover:not(.disabled) {
-    background: #f3f4f6;
+    background: var(--bg-hover);
   }
 
   &.disabled {

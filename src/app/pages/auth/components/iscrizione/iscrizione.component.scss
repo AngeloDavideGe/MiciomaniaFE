@@ -17,8 +17,8 @@
     width: 50px;
     height: 50px;
     border-radius: 50%;
-    background-color: #ccc;
-    color: white;
+    background-color: var(--border-color);
+    color: var(--surface-color);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -27,7 +27,7 @@
     font-weight: bold;
     transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s;
     z-index: 1;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 4px 10px var(--border-light);
     position: relative;
     overflow: hidden;
     border: 2px solid transparent;
@@ -57,20 +57,20 @@
   .label {
     margin-top: 10px;
     font-size: 16px;
-    color: #333;
+    color: var(--text-color);
     transition: color 0.3s;
     font-weight: 500;
   }
 
   &.active .circle {
-    background-color: #007bff; /* Blue color */
+    background-color: var(--primary-color);
     transform: scale(1.2);
-    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
-    border: 2px solid #0056b3; /* Darker blue border */
+    box-shadow: 0 8px 15px var(--border-hover);
+    border: 2px solid var(--primary-hover);
   }
 
   &.active .label {
-    color: #007bff;
+    color: var(--primary-color);
   }
 }
 
@@ -81,7 +81,7 @@
   left: 10%; /* Align to the start padding */
   width: 80%; /* Full width minus the start and end padding */
   height: 4px;
-  background: linear-gradient(to right, #007bff, #0056b3); /* Gradient line */
+  background: linear-gradient(to right, var(--primary-color), var(--primary-hover));
   z-index: 0;
   border-radius: 2px;
   transition: background 0.3s;

@@ -14,7 +14,9 @@ import { SpinnerComponent } from '../../../../shared/components/dialogs/spinner.
     <section data-bs-version="5.1" class="social02 py-5" id="social02-2">
       <div class="container">
         <div class="text-center mb-5">
-          <h6 class="fw-bold display-6">Seguiteci su</h6>
+          <h6 class="fw-bold display-6" style="color: var(--text-color);">
+            Seguiteci su
+          </h6>
         </div>
         <div class="row g-4">
           @if (gitHubService.social.length > 0) {
@@ -26,9 +28,19 @@ import { SpinnerComponent } from '../../../../shared/components/dialogs/spinner.
                   [class]="s.icona"
                   [style]="{ color: s.colore }"
                 ></i>
-                <div (click)="openLink(s.link)" style="cursor: pointer;">
+                <div
+                  (click)="openLink(s.link)"
+                  style="
+                cursor: pointer;
+                color: var(--text-color);
+              "
+                  onmouseover="this.style.color='var(--text-secondary)'"
+                  onmouseout="this.style.color='var(--text-color)'"
+                >
                   <h4 class="fw-bold">{{ s.nome }}</h4>
-                  <p class="mb-0">{{ s.descrizione[lingua] }}</p>
+                  <p class="mb-0" style="color: var(--text-muted);">
+                    {{ s.descrizione[lingua] }}
+                  </p>
                 </div>
               </div>
             }
@@ -39,16 +51,6 @@ import { SpinnerComponent } from '../../../../shared/components/dialogs/spinner.
       </div>
     </section>
   `,
-  styles: [
-    `
-      .spinner-template-stile {
-        width: 100%;
-        height: 100%;
-        background: rgba(255, 255, 255, 0.8);
-        border-radius: 8px;
-      }
-    `,
-  ],
 })
 export class SocialLinkComponent implements OnInit {
   public gitHubService = inject(GitHubService);

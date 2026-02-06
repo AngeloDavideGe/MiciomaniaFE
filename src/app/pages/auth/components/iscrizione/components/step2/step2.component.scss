@@ -1,43 +1,48 @@
 .profile-card {
   border-radius: 1.25rem;
   overflow: hidden;
-  background: #ffffffcc;
+  background: rgba(var(--surface-color), 0.8); // Mantenuta trasparenza
   backdrop-filter: blur(8px);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 
   &:hover {
-    box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.1);
+    box-shadow: 0 1rem 2rem var(--border-light);
   }
 
   .gradient-header {
-    background: linear-gradient(90deg, #0d6efd, #0b5ed7);
-    border-bottom: 3px solid rgba(255, 255, 255, 0.25);
+    background: linear-gradient(90deg, var(--primary-color), var(--primary-hover));
+    border-bottom: 3px solid rgba(255, 255, 255, 0.25); // Mantenuto effetto visivo
 
     .card-title {
       font-weight: 600;
       letter-spacing: 0.3px;
+      color: var(--surface-color);
     }
   }
 
   .card-body {
-    background-color: #f8f9fa;
+    background-color: var(--bg-light);
 
     form {
       .form-label {
         font-weight: 600;
-        color: #212529;
+        color: var(--text-color);
+      }
+
+      select {
+        cursor: pointer;
       }
 
       .readonly-input {
-        background-color: #e9ecef !important;
+        background-color: var(--bg-lighter) !important;
         border: none;
-        color: #495057;
+        color: var(--text-secondary);
         font-weight: 500;
         border-radius: 0.75rem;
       }
 
       .bg-soft-blue {
-        background-color: #e7f3fe !important;
+        background-color: rgba(var(--primary-color), 0.1) !important; // Versione più leggera del primario
       }
 
       .border-transition {
@@ -56,18 +61,18 @@
             transition: all 0.2s ease;
 
             &:checked {
-              background-color: #0d6efd;
-              border-color: #0d6efd;
+              background-color: var(--primary-color);
+              border-color: var(--primary-color);
             }
 
             &:focus {
-              box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+              box-shadow: 0 0 0 0.25rem rgba(var(--primary-color), 0.25);
             }
           }
 
           .form-check-label {
             margin-left: 0.25rem;
-            color: #343a40;
+            color: var(--text-color);
           }
         }
       }
@@ -75,13 +80,13 @@
       .form-select {
         border: none;
         border-radius: 0.75rem;
-        box-shadow: 0 0.1rem 0.3rem rgba(0, 0, 0, 0.05);
-        background-color: #e7f3fe !important;
+        box-shadow: 0 0.1rem 0.3rem var(--border-light);
+        background-color: rgba(var(--primary-color), 0.1) !important;
         transition: border-color 0.25s ease, box-shadow 0.25s ease;
 
         &:focus {
-          border-color: #0d6efd;
-          box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+          border-color: var(--primary-color);
+          box-shadow: 0 0 0 0.25rem rgba(var(--primary-color), 0.25);
         }
 
         &.is-valid {
@@ -103,7 +108,6 @@
       .valid-feedback {
         font-size: 0.875rem;
         margin-top: 0.35rem;
-        animation: fadeIn 0.35s ease-in-out;
       }
     }
   }

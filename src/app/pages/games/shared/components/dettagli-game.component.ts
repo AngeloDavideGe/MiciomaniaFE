@@ -8,8 +8,11 @@ import { ButtonCustomComponent } from '../../../../shared/components/custom/bott
   imports: [ButtonCustomComponent],
   template: `
     <h2
-      class="display-3 font-weight-bold text-primary mb-4"
-      style="text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1)"
+      class="display-3 font-weight-bold mb-4"
+      style="
+    text-shadow: 1px 1px 2px var(--border-light);
+    color: var(--primary-color);
+  "
     >
       {{ titolo }}
     </h2>
@@ -17,29 +20,29 @@ import { ButtonCustomComponent } from '../../../../shared/components/custom/bott
     <div
       class="mb-4"
       style="
-      border-bottom: 2px solid #dee2e6;
-      width: 80%;
-      margin: 0 auto 2rem auto;
-    "
+    border-bottom: 2px solid var(--border-color);
+    width: 80%;
+    margin: 0 auto 2rem auto;
+  "
     ></div>
 
     <p
       class="lead mb-4"
       style="
-      font-style: italic;
-      color: #6c757d;
-      font-size: 1.35rem;
-      margin-bottom: 2rem !important;
-    "
+    font-style: italic;
+    color: var(--text-muted);
+    font-size: 1.35rem;
+    margin-bottom: 2rem !important;
+  "
     >
       Benvenuto in questo gioco di
       <strong
         class="d-inline-block font-weight-bold"
         style="
-        color: #fd7e14;
-        font-size: 1.3em;
-        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
-      "
+      color: #fd7e14;
+      font-size: 1.3em;
+      text-shadow: 1px 1px 2px var(--border-light);
+    "
         >Miciomania</strong
       >
       {{ ', ' + descrizione }}

@@ -57,10 +57,10 @@ declare var google: any;
             flex: 0 0 300px;
             aspect-ratio: 1 / 1;
             padding: 1.2rem;
-            background: #f8f9fa;
+            background: var(--bg-light);
             border-radius: 14px;
-            box-shadow: 0 10px 24px rgba(0, 0, 0, 0.1);
-            border: 2px solid #83b2e3;
+            box-shadow: 0 10px 24px var(--border-light);
+            border: 2px solid var(--primary-color);
             margin-top: 2rem;
 
             #chart_pie_mappa {

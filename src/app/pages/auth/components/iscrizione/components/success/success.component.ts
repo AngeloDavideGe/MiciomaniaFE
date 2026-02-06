@@ -57,7 +57,7 @@ import { ButtonCustomComponent } from '../../../../../../shared/components/custo
           <app-button-custom
             [text]="'Torna alla Home'"
             [icon1]="'bi bi-arrow-left'"
-            [color]="'#e9ecef'"
+            [color]="'var(--bg-lighter)'"
             (clickBotton)="navigateToHome()"
           ></app-button-custom>
 

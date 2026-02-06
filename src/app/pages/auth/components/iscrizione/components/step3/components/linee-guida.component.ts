@@ -18,25 +18,26 @@ import { Component, EventEmitter, Output } from '@angular/core';
       <div class="card-body p-4" style="background-color: #f8f9fa;">
         <ul class="list-group list-group-flush">
           @for (linea of lineeGuida; track $index) {
-          <li
-            class="list-group-item d-flex align-items-start p-3 fs-5"
-            style="background-color: #ffffff;"
-          >
-            <div class="form-check me-3 mt-1">
-              <input
-                type="checkbox"
-                class="form-check-input"
-                [checked]="linea.checked"
-                (change)="toggleCheck($index)"
-              />
-            </div>
-            <label
-              class="form-check-label flex-grow-1 mb-0"
-              style="line-height: 1.4;"
+            <li
+              class="list-group-item d-flex align-items-start p-3 fs-5"
+              style="background-color: #ffffff;"
             >
-              {{ linea.frase }}
-            </label>
-          </li>
+              <div class="form-check me-3 mt-1">
+                <input
+                  type="checkbox"
+                  class="form-check-input"
+                  [checked]="linea.checked"
+                  (change)="toggleCheck($index)"
+                  style="cursor: pointer;"
+                />
+              </div>
+              <label
+                class="form-check-label flex-grow-1 mb-0"
+                style="line-height: 1.4;"
+              >
+                {{ linea.frase }}
+              </label>
+            </li>
           }
         </ul>
       </div>
@@ -65,7 +66,7 @@ export class LineeGuidaComponent {
   toggleCheck(index: number): void {
     this.lineeGuida[index].checked = !this.lineeGuida[index].checked;
     const accettate: boolean = this.lineeGuida.every(
-      (linea: LineaGuida) => linea.checked
+      (linea: LineaGuida) => linea.checked,
     );
     this.lineeGuidaChanged.emit(accettate);
   }

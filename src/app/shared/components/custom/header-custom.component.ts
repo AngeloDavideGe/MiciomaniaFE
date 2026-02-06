@@ -41,11 +41,11 @@ import { ButtonCustomComponent } from './botton-custom.component';
       .custom-header {
         background: linear-gradient(
           135deg,
-          #0f172a 0%,
-          #1e293b 50%,
-          #334155 100%
+          var(--text-color) 0%,
+          var(--text-secondary) 50%,
+          var(--text-muted) 100%
         );
-        color: #f8fafc;
+        color: var(--bg-light);
         position: relative;
         overflow: hidden;
         padding: 1rem 1rem;
@@ -60,7 +60,7 @@ import { ButtonCustomComponent } from './botton-custom.component';
           background:
             radial-gradient(
               circle at 20% 30%,
-              rgba(59, 130, 246, 0.08) 0%,
+              rgba(var(--primary-color), 0.08) 0%,
               transparent 50%
             ),
             radial-gradient(
@@ -92,7 +92,11 @@ import { ButtonCustomComponent } from './botton-custom.component';
         .header-title {
           font-size: 2.5rem;
           font-weight: 800;
-          background: linear-gradient(135deg, #60a5fa 0%, #a78bfa 100%);
+          background: linear-gradient(
+            135deg,
+            var(--primary-hover) 0%,
+            #a78bfa 100%
+          );
           -webkit-background-clip: text;
           background-clip: text;
           color: transparent;
@@ -104,7 +108,12 @@ import { ButtonCustomComponent } from './botton-custom.component';
         .title-line {
           height: 3px;
           width: 60%;
-          background: linear-gradient(90deg, transparent, #60a5fa, transparent);
+          background: linear-gradient(
+            90deg,
+            transparent,
+            var(--primary-hover),
+            transparent
+          );
           margin: 0.5rem auto 0;
           border-radius: 3px;
         }
@@ -112,7 +121,7 @@ import { ButtonCustomComponent } from './botton-custom.component';
         .header-description {
           font-size: 1.125rem;
           line-height: 1.7;
-          color: #cbd5e1;
+          color: var(--border-color);
           max-width: 720px;
           margin: 0 auto 1rem;
           font-weight: 400;

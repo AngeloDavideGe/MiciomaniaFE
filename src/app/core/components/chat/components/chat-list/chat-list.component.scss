@@ -1,6 +1,6 @@
 #ChatHeader {
-  background-color: #128c7e;
-  color: white;
+  background-color: #128c7e; // Specifico WhatsApp, mantenuto
+  color: white; // Mantenuto (contrasto con sfondo specifico)
   padding: 0;
   text-align: center;
   font-weight: bold;
@@ -27,12 +27,12 @@
   .whatsapp-spinner-small {
     width: 20px;
     height: 20px;
-    border: 2px solid #f3f3f3;
-    border-top: 2px solid #128c7e;
+    border: 2px solid #f3f3f3; // Mantenuto (grigio chiaro per spinner)
+    border-top: 2px solid #128c7e; // Specifico WhatsApp, mantenuto
     border-radius: 50%;
     animation: spin 1s linear infinite;
-    background-color: white;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    background-color: white; // Mantenuto per contrasto
+    box-shadow: 0 2px 5px var(--border-light);
   }
 
   @keyframes spin {
@@ -40,4 +40,3 @@
     100% { transform: rotate(360deg); }
   }
 }
-

@@ -1,13 +1,13 @@
 .table-wrapper {
-  background: #ffffff;
-  border: 1px solid #e5e7eb;
+  background: var(--surface-color);
+  border: 1px solid var(--border-color);
   border-radius: 8px;
   overflow: hidden;
 }
 
 .table-header {
   padding: 16px 20px;
-  border-bottom: 1px solid #e5e7eb;
+  border-bottom: 1px solid var(--border-color);
 }
 
 .header-content {
@@ -19,13 +19,13 @@
 .header-title {
   font-size: 1rem;
   font-weight: 600;
-  color: #1f2937;
+  color: var(--text-color);
   margin: 0;
 }
 
 .total-items {
   font-size: 0.75rem;
-  color: #6b7280;
+  color: var(--text-secondary);
   padding: 4px 8px;
   border-radius: 4px;
 }
@@ -39,15 +39,15 @@
   border-collapse: collapse;
 
   thead {
-    background: #f9fafb;
+    background: var(--bg-light);
 
     tr th {
       padding: 12px;
       text-align: left;
       font-weight: 500;
       font-size: 0.75rem;
-      color: #374151;
-      border-bottom: 1px solid #e5e7eb;
+      color: var(--text-secondary);
+      border-bottom: 1px solid var(--border-color);
       white-space: nowrap;
 
       &:first-child {
@@ -58,16 +58,16 @@
 
   tbody {
     tr {
-      border-bottom: 1px solid #f3f4f6;
+      border-bottom: 1px solid var(--border-light);
 
       &:hover {
-        background: #f9fafb;
+        background: var(--bg-hover);
       }
 
       td {
         padding: 12px;
         font-size: 0.75rem;
-        color: #4b5563;
+        color: var(--text-color);
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
@@ -85,15 +85,15 @@
 
         .action-btn {
           background: transparent;
-          border: 1px solid #e5e7eb;
+          border: 1px solid var(--border-color);
           padding: 6px;
           border-radius: 4px;
           cursor: pointer;
-          color: #6b7280;
+          color: var(--text-muted);
           transition: all 0.15s ease;
 
           &:hover {
-            background: #f3f4f6;
+            background: var(--bg-active);
           }
         }
       }
@@ -104,11 +104,11 @@
 .empty-state {
   padding: 48px 20px;
   text-align: center;
-  background: #ffffff;
+  background: var(--surface-color);
 }
 
 .empty-text {
   font-size: 0.875rem;
-  color: #6b7280;
+  color: var(--text-secondary);
   margin: 0;
 }

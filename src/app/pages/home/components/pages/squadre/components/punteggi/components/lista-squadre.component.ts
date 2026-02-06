@@ -14,10 +14,10 @@ import { SquadreLang } from '../../../languages/interfaces/squadre-lang.interfac
     <!-- Titolo e descrizione -->
     <div class="row mb-4">
       <div class="col-12 text-center">
-        <h2 class="display-6 text-primary fw-bold mb-2">
+        <h2 class="display-6 fw-bold mb-2" style="color: var(--primary-color);">
           {{ squadreLang.andamento }}
         </h2>
-        <p class="lead text-muted mb-0">
+        <p class="lead mb-0" style="color: var(--text-secondary);">
           {{ squadreLang.aggiornamento }}
         </p>
       </div>
@@ -33,7 +33,7 @@ import { SquadreLang } from '../../../languages/interfaces/squadre-lang.interfac
           <span
             class="badge fs-6 px-3 py-2 rounded-pill shadow-sm"
             [style.backgroundColor]="squadra.colore"
-            [style.color]="'#fff'"
+            style="color: var(--surface-color);"
           >
             {{ squadra.nome }}
           </span>
@@ -41,8 +41,8 @@ import { SquadreLang } from '../../../languages/interfaces/squadre-lang.interfac
           <!-- VS (solo se non è l'ultima squadra) -->
           @if (i != teamSquadre().length - 1) {
             <span
-              class="fw-semibold text-secondary mx-2"
-              style="font-size: 1rem;"
+              class="fw-semibold mx-2"
+              style="color: var(--text-secondary); font-size: 1rem;"
             >
               VS
             </span>

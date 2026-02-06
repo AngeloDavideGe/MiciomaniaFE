@@ -47,7 +47,7 @@ import { CursorUtilities } from './shared/utilities/cursor.utilities';
   styles: [
     `
       .all-component {
-        background-color: var(--bg-background-color);
+        background-color: var(--bg-light);
       }
     `,
   ],
