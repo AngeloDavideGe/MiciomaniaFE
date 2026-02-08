@@ -50,7 +50,7 @@ export class ChatService extends BaseService {
     sender: string,
     text: string,
     risposta: number | null,
-    separator: boolean
+    separator: boolean,
   ): Observable<any> {
     const message: MessaggioSend[] = [
       {
@@ -100,7 +100,7 @@ export class ChatService extends BaseService {
       appConfig: this.appConfig,
       file: file,
       id: chatId,
-      nameStorage: 'ProfileGroup',
+      nameStorage: 'GroupPic',
       switchMapCall: (url: string) => {
         const body = {
           chat_id: chatId,

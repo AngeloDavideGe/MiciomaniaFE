@@ -13,6 +13,7 @@ import { modaleApertaType } from '../interfaces/profilo.interface';
 import { Profilo } from '../../../../../../shared/interfaces/http.interface';
 import { ProfiloLang } from '../languages/interfaces/profilo-lang.interface';
 import { errorPageProfilo } from '../error/error.profilo';
+import { environment } from '../../../../../../../environments/environment';
 
 @Component({
   selector: 'app-card-profilo',
@@ -34,10 +35,7 @@ import { errorPageProfilo } from '../error/error.profilo';
       >
         @if (!postService.aggiornamentoPic()) {
           <img
-            [src]="
-              profilo.user.credenziali.profilePic ||
-              'https://png.pngtree.com/png-vector/20191009/ourlarge/pngtree-user-icon-png-image_1796659.jpg'
-            "
+            [src]="profilo.user.credenziali.profilePic || defaultImg"
             alt="Profile Picture"
             class="rounded-circle border border-white me-3"
             style="width: 10rem; height: 10rem"
@@ -149,6 +147,8 @@ import { errorPageProfilo } from '../error/error.profilo';
 })
 export class CardProfiloComponent {
   public postService = inject(PostService);
+  public readonly defaultImg: string = environment.defaultPicsUrl.user;
+
   @Input() profiloLang!: ProfiloLang;
   @Input() socialArray!: EditableSocial[];
   @Input() profilo!: Profilo;

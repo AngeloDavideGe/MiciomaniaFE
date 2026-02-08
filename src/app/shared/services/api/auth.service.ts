@@ -63,6 +63,7 @@ export class AuthService extends BaseService {
       bio: user.profile.bio || '',
       telefono: user.profile.telefono || '',
       squadra: user.iscrizione.squadra || '',
+      social: user.profile.social,
       compleanno: getCompleanno(user.profile.compleanno || new Date()),
     };
 

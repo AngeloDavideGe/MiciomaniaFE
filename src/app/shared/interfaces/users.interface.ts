@@ -26,7 +26,7 @@ export interface Profile {
   bio: string | null;
   telefono: string | null;
   compleanno: Date | string | null;
-  social: JSON | null;
+  social: Record<string, string> | null;
 }
 
 export interface UserParams {
@@ -50,5 +50,5 @@ export interface UserDb {
   bio: string | null;
   telefono: string | null;
   compleanno: Date | string | null;
-  social: JSON | null;
+  social: Record<string, string> | null;
 }

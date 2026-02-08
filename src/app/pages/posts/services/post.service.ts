@@ -40,12 +40,21 @@ export class PostService extends BaseService {
       idUtente: tweet.idUtente,
       immaginePost: 'aaa',
     };
-    console.log(body);
 
     return this.postCustom<Tweet>('Posts/post_tweet', body);
   }
 
+  updatePubblicazioni(tweet: Tweet): Observable<Tweet> {
+    const body = {
+      testo: tweet.testo,
+      idUtente: tweet.idUtente,
+      immaginePost: 'aaa',
+    };
+
+    return this.postCustom<Tweet>(`Posts/update_tweet/${tweet.id}`, body);
+  }
+
   deletePubblicazioni(tweetId: number): Observable<void> {
-    return this.deleteCustom<void>('Posts/delete_post/' + tweetId);
+    return this.deleteCustom<void>(`Posts/delete_post/${tweetId}`);
   }
 }

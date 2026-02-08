@@ -35,7 +35,7 @@ export class TabSocialComponent extends TabProfiloBase implements OnInit {
       ([key, link]) => ({
         key,
         link,
-      })
+      }),
     );
     this.socialArrayCopy = structuredClone(this.socialArray);
   }
@@ -68,18 +68,22 @@ export class TabSocialComponent extends TabProfiloBase implements OnInit {
 
     return a.every(
       (item, index) =>
-        item.key === b[index].key && item.link?.trim() === b[index].link?.trim()
+        item.key === b[index].key &&
+        item.link?.trim() === b[index].link?.trim(),
     );
   }
 
   private formatUser(): User {
-    const updatedSocials = this.socialArray.reduce((map, social) => {
-      if (social.link?.trim()) map[social.key] = social.link.trim();
-      return map;
-    }, {} as Record<string, string>);
+    const updatedSocials = this.socialArray.reduce(
+      (map, social) => {
+        if (social.link?.trim()) map[social.key] = social.link.trim();
+        return map;
+      },
+      {} as Record<string, string>,
+    );
 
     const userTemp: User = structuredClone(DataHttp.profiloPersonale!.user);
-    userTemp.profile!.social = updatedSocials as unknown as JSON;
+    userTemp.profile!.social = updatedSocials;
 
     return userTemp;
   }
