@@ -32,16 +32,8 @@ import { Lingua } from '../../../../shared/interfaces/http.interface';
           <!-- Freccia sinistra -->
           @if (visualizzaButtoni() && !disableLeft()) {
             <button
-              class="btn position-absolute start-0 top-50 translate-middle-y shadow"
-              style="
-            z-index: 100;
-            border: 1px solid var(--primary-color);
-            background-color: var(--surface-color);
-            color: var(--primary-color);
-          "
+              class="btn position-absolute start-0 top-50 translate-middle-y shadow button-carousel"
               (click)="scrollCards(-1)"
-              onmouseover="this.style.backgroundColor='var(--bg-hover)'; this.style.borderColor='var(--primary-hover)'; this.style.color='var(--primary-hover)'"
-              onmouseout="this.style.backgroundColor='var(--surface-color)'; this.style.borderColor='var(--primary-color)'; this.style.color='var(--primary-color)'"
             >
               <i class="bi bi-chevron-left fs-4"></i>
             </button>
@@ -68,16 +60,8 @@ import { Lingua } from '../../../../shared/interfaces/http.interface';
           <!-- Freccia destra -->
           @if (visualizzaButtoni() && !disableRight()) {
             <button
-              class="btn position-absolute end-0 top-50 translate-middle-y shadow"
-              style="
-            z-index: 100;
-            border: 1px solid var(--primary-color);
-            background-color: var(--surface-color);
-            color: var(--primary-color);
-          "
+              class="btn position-absolute end-0 top-50 translate-middle-y shadow button-carousel"
               (click)="scrollCards(1)"
-              onmouseover="this.style.backgroundColor='var(--bg-hover)'; this.style.borderColor='var(--primary-hover)'; this.style.color='var(--primary-hover)'"
-              onmouseout="this.style.backgroundColor='var(--surface-color)'; this.style.borderColor='var(--primary-color)'; this.style.color='var(--primary-color)'"
             >
               <i class="bi bi-chevron-right fs-4"></i>
             </button>
@@ -86,6 +70,21 @@ import { Lingua } from '../../../../shared/interfaces/http.interface';
       </div>
     </section>
   `,
+  styles: [
+    `
+      .button-carousel {
+        z-index: 100;
+        border: 1px solid var(--primary-color);
+        background-color: var(--surface-color);
+        color: var(--primary-color);
+
+        &:hover {
+          background-color: var(--primary-hover);
+          color: var(--bg-lighter);
+        }
+      }
+    `,
+  ],
 })
 export class CarouselHomeComponent {
   private router = inject(Router);

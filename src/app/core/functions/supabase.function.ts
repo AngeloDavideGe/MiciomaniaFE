@@ -4,7 +4,7 @@ export type RealTimeFilter = RealtimePostgresChangesFilter<any>;
 
 export function getRealTimeFilter(
   schema: string,
-  table: string
+  table: string,
 ): RealTimeFilter {
   return {
     event: '*',
