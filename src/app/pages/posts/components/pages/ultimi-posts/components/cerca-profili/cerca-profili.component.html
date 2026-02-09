@@ -1,7 +1,7 @@
 <div class="filter-list-container">
   @if (users().length > 0) {
     <div class="results" id="RisultatiUtenti">
-      @for (user of userSlice(); track user.id) {
+      @for (user of filtri.elemFilter(); track user.id) {
         <div
           class="result-item"
           (click)="
@@ -22,24 +22,12 @@
         </div>
       }
     </div>
+
+    <app-paginazione-custom
+      [filtri]="filtri"
+      [currentPage]="currentPage"
+    ></app-paginazione-custom>
   } @else {
     <app-spinner></app-spinner>
   }
-
-  <!-- PAGINAZIONE -->
-  <div class="pagination-container">
-    <button
-      (click)="previousPage()"
-      class="btn btn-light border btn-sm pagination-btn"
-    >
-      &lt;
-    </button>
-    <span class="page-info">{{ currentPage() + "/" + totalPages() }}</span>
-    <button
-      (click)="nextPage()"
-      class="btn btn-light border btn-sm pagination-btn"
-    >
-      &gt;
-    </button>
-  </div>
 </div>

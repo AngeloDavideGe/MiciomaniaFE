@@ -16,11 +16,16 @@ import { sottoscrizioneUtentiCustom } from '../../../../../../../shared/handlers
 import { UserParams } from '../../../../../../../shared/interfaces/users.interface';
 import { AuthService } from '../../../../../../../shared/services/api/auth.service';
 import { SpinnerComponent } from '../../../../../../../shared/components/dialogs/spinner.component';
+import {
+  FiltriInterface,
+  GetFiltriCustom,
+} from '../../../../../../../shared/utilities/pagination.utilities';
+import { PaginazioneCustomComponent } from '../../../../../../../shared/components/custom/pagination.component';
 
 @Component({
   selector: 'app-cerca-profili',
   standalone: true,
-  imports: [FormsModule, SpinnerComponent],
+  imports: [FormsModule, SpinnerComponent, PaginazioneCustomComponent],
   templateUrl: './cerca-profili.component.html',
   styleUrl: './cerca-profili.component.scss',
 })
@@ -30,51 +35,22 @@ export class CercaProfiliComponent implements OnInit {
   public router = inject(Router);
   private authService = inject(AuthService);
 
-  private readonly itemsPerPage: number = 3;
+  private readonly itemsPerPage: number = 1;
   public readonly defaultPic = environment.defaultPicsUrl.user;
+  public filtri: FiltriInterface<UserParams> = {} as any;
 
   public currentPage = signal<number>(1);
   private debounceQuery = signal<string>('');
 
-  public users = computed<UserParams[]>(() => this.authService.users());
-
-  private filteredUsers = computed<UserParams[]>(() => {
-    const users: UserParams[] = this.users();
-    const query: string = this.debounceQuery().toLowerCase();
-
-    let filteredUsers: UserParams[] = [];
-
-    if (!query.trim()) {
-      filteredUsers = users;
-    } else {
-      filteredUsers = users.filter(
-        (user: UserParams) =>
-          user.nome.toLowerCase().includes(query) ||
-          user.id.toLowerCase().includes(query),
-      );
-    }
-
-    return filteredUsers;
-  });
-
-  public userSlice = computed<UserParams[]>(() => {
-    const filteredUsers: UserParams[] = this.filteredUsers();
-    const currentPage: number = this.currentPage();
-
-    const startIndex: number = (currentPage - 1) * this.itemsPerPage;
-    const endIndex: number = startIndex + this.itemsPerPage;
-
-    return filteredUsers.slice(startIndex, endIndex);
-  });
-
-  public totalPages = computed<number>(() => {
-    return Math.ceil(this.filteredUsers().length / this.itemsPerPage) || 1;
+  public users = computed<UserParams[]>(() => {
+    this.setFiltri();
+    return this.authService.users();
   });
 
   constructor() {
     const debounced: Function = debounceTimeoutCustom((value: string) => {
       this.debounceQuery.set(value);
-      this.currentPage.set(this.totalPages() > 0 ? 1 : 0);
+      this.currentPage.set(this.filtri.totalPage() > 0 ? 1 : 0);
     });
 
     effect(() => debounced(this.searchQuery()));
@@ -85,23 +61,17 @@ export class CercaProfiliComponent implements OnInit {
       authService: this.authService,
       nextCall: () => {},
     });
+
+    this.setFiltri();
   }
 
-  clearSearch(): void {
-    if (this.searchQuery()) {
-      this.searchQuery.set('');
-    }
-  }
-
-  nextPage(): void {
-    if (this.currentPage() < this.totalPages()) {
-      this.currentPage.update((x: number) => x + 1);
-    }
-  }
-
-  previousPage(): void {
-    if (this.currentPage() > 1) {
-      this.currentPage.update((x: number) => x - 1);
-    }
+  private setFiltri(): void {
+    this.filtri = GetFiltriCustom(
+      this.users,
+      this.itemsPerPage,
+      this.currentPage,
+      this.debounceQuery,
+      'id',
+    );
   }
 }

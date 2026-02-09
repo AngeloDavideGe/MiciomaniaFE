@@ -1,26 +1,69 @@
-import { Component, computed, inject, OnInit } from '@angular/core';
+import {
+  Component,
+  computed,
+  effect,
+  inject,
+  OnInit,
+  signal,
+} from '@angular/core';
 import { take } from 'rxjs';
-import { CardCustomComponent } from '../../../../../shared/components/custom/card-custom.component';
-import { CustomScrollComponent } from '../../../../../shared/components/custom/scroll-custom.component';
-import { SpinnerComponent } from '../../../../../shared/components/dialogs/spinner.component';
-import { CanzoniParodia } from '../../../../../shared/interfaces/elementiUtente.interface';
+import { environment } from '../../../../../../environments/environment';
+import {
+  CanzoniParodia,
+  MangaSong,
+} from '../../../../../shared/interfaces/elementiUtente.interface';
 import { ElementiUtenteService } from '../../../../../shared/services/api/elementiUtente.service';
 import { MangaSongUtilities } from '../../../../../shared/utilities/mangaSong.utilities';
-import { environment } from '../../../../../../environments/environment';
+import {
+  FiltriInterface,
+  GetFiltriCustom,
+} from '../../../../../shared/utilities/pagination.utilities';
+import { canzoniMiciomania_imports } from './imports/canzoni-miciomania.import';
 
 @Component({
   selector: 'app-canzoni-miciomania',
-  imports: [CustomScrollComponent, SpinnerComponent, CardCustomComponent],
+  imports: canzoniMiciomania_imports,
   templateUrl: './canzoni-miciomania.component.html',
 })
 export class CanzoniMiciomaniaComponent implements OnInit {
-  public readonly defaultPic: string = environment.defaultPicsUrl.song;
-  private euService = inject(ElementiUtenteService);
   public msu = new MangaSongUtilities();
+  private euService = inject(ElementiUtenteService);
 
-  public canzoniParodia = computed<CanzoniParodia | null>(() =>
-    this.euService.canzoniParodia(),
-  );
+  public readonly defaultPic: string = environment.defaultPicsUrl.song;
+  public readonly canzoniForPage: number = 2;
+  public filtriMiciomania: FiltriInterface<MangaSong> = {} as any;
+  public filtriUtente: FiltriInterface<MangaSong> = {} as any;
+
+  public currentPageMiciomania = signal<number>(1);
+  public currentPageUtente = signal<number>(1);
+
+  public canzoniMiciomania = computed<MangaSong[]>(() => {
+    const canzoni: CanzoniParodia | null = this.euService.canzoniParodia();
+    return canzoni ? canzoni.canzoniMiciomania : [];
+  });
+
+  public canzoniUtente = computed<MangaSong[]>(() => {
+    const canzoni: CanzoniParodia | null = this.euService.canzoniParodia();
+    return canzoni ? canzoni.canzoniUtente : [];
+  });
+
+  constructor() {
+    effect(() => {
+      this.filtriMiciomania = GetFiltriCustom(
+        this.canzoniMiciomania,
+        this.canzoniForPage,
+        this.currentPageMiciomania,
+      );
+    });
+
+    effect(() => {
+      this.filtriUtente = GetFiltriCustom(
+        this.canzoniUtente,
+        this.canzoniForPage,
+        this.currentPageUtente,
+      );
+    });
+  }
 
   ngOnInit(): void {
     if (!this.euService.caricamentoCanzoni) {

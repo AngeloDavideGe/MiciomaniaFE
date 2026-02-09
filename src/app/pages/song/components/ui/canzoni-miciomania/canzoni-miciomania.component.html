@@ -1,15 +1,20 @@
-@if (canzoniParodia()) {
+@if (canzoniMiciomania().length > 0) {
   <section id="CanzoniMiciomania" style="margin-top: 5rem">
     <app-custom-scroll
       [titolo]="'Canzoni Miciomania'"
       [icona]="'bi bi-arrow-down'"
       [nomeIcona]="'Vai a canzoni Utente'"
       [idComponent]="'CanzoniUtente'"
-      [lunghezzaFiltro]="canzoniParodia()?.canzoniMiciomania?.length || 0"
+      [lunghezzaFiltro]="canzoniMiciomania().length"
     ></app-custom-scroll>
 
+    <app-paginazione-custom
+      [filtri]="filtriMiciomania"
+      [currentPage]="currentPageMiciomania"
+    ></app-paginazione-custom>
+
     <div class="grid-card-layout px-2 mt-3">
-      @for (canzone of canzoniParodia()?.canzoniMiciomania; track $index) {
+      @for (canzone of filtriMiciomania.elemFilter(); track canzone.idUtente) {
         <app-card-custom
           [titolo]="canzone.nome"
           [link]="canzone.copertina || defaultPic"
@@ -21,25 +26,32 @@
           [tipo]="'Song'"
           [classBody]="'manga-class'"
           [setCanzone]="msu.sc.currentCanzone()"
-          (clickBotton)="
-            msu.playSong(canzone, canzoniParodia()?.canzoniMiciomania)
-          "
+          (clickBotton)="msu.playSong(canzone, canzoniMiciomania())"
           (click2Botton)="msu.sc.stopSong()"
         ></app-card-custom>
       }
     </div>
   </section>
+} @else {
+  <app-spinner [mt]="'10rem'"></app-spinner>
+}
 
-  <section id="CanzoniUtente" class="mt-4">
+@if (canzoniUtente().length > 0) {
+  <section id="CanzoniUtente" style="margin-top: 5rem">
     <app-custom-scroll
       [titolo]="'Canzoni Utente'"
       [icona]="'bi bi-arrow-up'"
-      [nomeIcona]="'Torna Su'"
-      [lunghezzaFiltro]="canzoniParodia()?.canzoniUtente?.length || 0"
+      [nomeIcona]="'Vai a canzoni Miciomania'"
+      [lunghezzaFiltro]="canzoniUtente().length"
     ></app-custom-scroll>
 
+    <app-paginazione-custom
+      [filtri]="filtriUtente"
+      [currentPage]="currentPageUtente"
+    ></app-paginazione-custom>
+
     <div class="grid-card-layout px-2 mt-3">
-      @for (canzone of canzoniParodia()?.canzoniUtente; track $index) {
+      @for (canzone of filtriUtente.elemFilter(); track canzone.idUtente) {
         <app-card-custom
           [titolo]="canzone.nome"
           [link]="canzone.copertina || defaultPic"
@@ -51,7 +63,7 @@
           [tipo]="'Song'"
           [classBody]="'manga-class'"
           [setCanzone]="msu.sc.currentCanzone()"
-          (clickBotton)="msu.playSong(canzone, canzoniParodia()?.canzoniUtente)"
+          (clickBotton)="msu.playSong(canzone, canzoniUtente())"
           (click2Botton)="msu.sc.stopSong()"
         ></app-card-custom>
       }

@@ -72,6 +72,10 @@ export class CardCustomComponent {
   @Output() clickBotton = new EventEmitter<void>();
   @Output() click2Botton = new EventEmitter<void>();
 
+  ngOnInit(): void {
+    // this.songButton.set(!(canzone && canzone.nome == this.titolo));
+  }
+
   public clickSongButton(): void {
     this.songButton() ? this.clickBotton.emit() : this.click2Botton.emit();
     this.songButton.update((x: boolean) => !x);

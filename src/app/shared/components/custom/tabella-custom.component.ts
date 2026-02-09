@@ -1,4 +1,8 @@
 import { Component, computed, Input, Signal, signal } from '@angular/core';
+import {
+  FiltriInterface,
+  GetFiltriCustom,
+} from '../../utilities/pagination.utilities';
 
 @Component({
   selector: 'app-table-custom',
@@ -40,7 +44,7 @@ import { Component, computed, Input, Signal, signal } from '@angular/core';
                 </tr>
               </thead>
               <tbody>
-                @for (elem of elemFilter(); track $index) {
+                @for (elem of filtri.elemFilter(); track $index) {
                   <tr>
                     @for (key of keyofElem; track $index; let idx = $index) {
                       <td
@@ -86,7 +90,7 @@ import { Component, computed, Input, Signal, signal } from '@angular/core';
                 <div class="pagination-controls">
                   <button
                     class="pagination-btn prev-btn"
-                    (click)="previousPage()"
+                    (click)="filtri.previousPage()"
                     [disabled]="currentPage() === 1"
                     [class.disabled]="currentPage() === 1"
                     aria-label="Pagina precedente"
@@ -97,14 +101,14 @@ import { Component, computed, Input, Signal, signal } from '@angular/core';
                   <div class="page-indicator">
                     <span class="current-page">{{ currentPage() }}</span>
                     <span class="separator">/</span>
-                    <span class="total-pages">{{ totalPage() }}</span>
+                    <span class="total-pages">{{ filtri.totalPage() }}</span>
                   </div>
 
                   <button
                     class="pagination-btn next-btn"
-                    (click)="nextPage()"
-                    [disabled]="currentPage() === totalPage()"
-                    [class.disabled]="currentPage() === totalPage()"
+                    (click)="filtri.nextPage()"
+                    [disabled]="currentPage() === filtri.totalPage()"
+                    [class.disabled]="currentPage() === filtri.totalPage()"
                     aria-label="Pagina successiva"
                   >
                     <i class="bi bi-chevron-right"></i>
@@ -156,28 +160,14 @@ export class TabellaCustomComponent<T> {
   @Input() elemForPage: number = 0;
 
   public currentPage = signal<number>(1);
+  public filtri: FiltriInterface<T> = {} as FiltriInterface<T>;
 
-  public totalPage = computed<number>(() =>
-    Math.ceil(this.elemTable().length / this.elemForPage),
-  );
-
-  public elemFilter = computed<T[]>(() =>
-    this.elemTable().slice(
-      (this.currentPage() - 1) * this.elemForPage,
-      this.currentPage() * this.elemForPage,
-    ),
-  );
-
-  previousPage(): void {
-    if (this.currentPage() > 1) {
-      this.currentPage.update((x: number) => x - 1);
-    }
-  }
-
-  nextPage(): void {
-    if (this.currentPage() < this.totalPage()) {
-      this.currentPage.update((x: number) => x + 1);
-    }
+  ngOnInit(): void {
+    this.filtri = GetFiltriCustom(
+      this.elemTable,
+      this.elemForPage,
+      this.currentPage,
+    );
   }
 }
 

@@ -1,23 +1,22 @@
 import { Component, computed, inject, OnInit, signal } from '@angular/core';
+import { take } from 'rxjs';
 import { DataHttp } from '../../../../../core/api/http.data';
 import { ChatService } from '../../../../../core/components/chat/services/chat.service';
+import { NavBarButton } from '../../../../../shared/components/custom/navbar-custom.component';
 import { loadSquadre } from '../../../../../shared/handlers/squadre.handler';
+import {
+  Conquiste,
+  MN,
+} from '../../../../../shared/interfaces/github.interface';
 import { Lingua } from '../../../../../shared/interfaces/http.interface';
+import { Classifica } from '../../../../../shared/interfaces/squadre.interface';
+import { GitHubService } from '../../../../../shared/services/api/github.service';
 import { SquadreService } from '../../../../../shared/services/api/squadre.service';
-import { LoadingService } from '../../../../../shared/services/template/loading.service';
 import { squadreimports } from './imports/squadre.import';
 import {
   SquadreLang,
   SquadreLangType,
 } from './languages/interfaces/squadre-lang.interface';
-import { NavBarButton } from '../../../../../shared/components/custom/navbar-custom.component';
-import { GitHubService } from '../../../../../shared/services/api/github.service';
-import {
-  Conquiste,
-  MN,
-} from '../../../../../shared/interfaces/github.interface';
-import { take } from 'rxjs';
-import { Classifica } from '../../../../../shared/interfaces/squadre.interface';
 
 @Component({
   selector: 'app-squadre',
