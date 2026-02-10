@@ -16,6 +16,7 @@ import {
   effectTimeoutCustom,
 } from '../../shared/functions/utilities.function';
 import { Lingua, MangaUtente } from '../../shared/interfaces/http.interface';
+import { GetFiltriCustom } from '../../shared/utilities/pagination.utilities';
 import { alfabetoManga } from './constants/alfabeto.constant';
 import { generiManga } from './constants/genere.constant';
 import {
@@ -34,10 +35,6 @@ import {
   MangaLangType,
 } from './languages/interfaces/manga-lang.interface';
 import { MangaService } from './services/manga.service';
-import {
-  FiltriInterface,
-  GetFiltriCustom,
-} from '../../shared/utilities/pagination.utilities';
 
 @Component({
   selector: 'app-manga',
@@ -56,7 +53,6 @@ export class MangaComponent implements OnDestroy {
   public idUtente: string | null = null;
   public erroreHttp = signal<boolean>(false);
   public perIniziale = signal<string>('lista');
-  private currentPage = signal<number>(1);
   public selezionaOpera: Function = (path: string) => window.open(path);
 
   public pulsanti: PulsantiHeader[] = getPulsanti((path: string) =>
@@ -96,11 +92,9 @@ export class MangaComponent implements OnDestroy {
     return raggruppamento;
   });
 
-  public filtri: FiltriInterface<ListaManga> = GetFiltriCustom<ListaManga>(
-    this.mangaService.listaManga,
-    100,
-    this.currentPage,
-    [
+  public filtri = GetFiltriCustom<ListaManga, boolean>({
+    elemTable: this.mangaService.listaManga,
+    select: [
       {
         key: 'nome',
         query: this.debounce.nome,
@@ -114,11 +108,11 @@ export class MangaComponent implements OnDestroy {
         query: this.filterSelect.genere,
       },
     ],
-    {
+    tabs: {
       key: 'completato',
       query: this.filterSelect.tabBoolean,
     },
-  );
+  });
 
   public tabs: TabsManga[] = getTabsManga(
     (cond: boolean | null, index: number) =>

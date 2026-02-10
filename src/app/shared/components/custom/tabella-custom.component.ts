@@ -163,11 +163,11 @@ export class TabellaCustomComponent<T> {
   public filtri: FiltriInterface<T> = {} as FiltriInterface<T>;
 
   ngOnInit(): void {
-    this.filtri = GetFiltriCustom(
-      this.elemTable,
-      this.elemForPage,
-      this.currentPage,
-    );
+    this.filtri = GetFiltriCustom<T, null>({
+      elemTable: this.elemTable,
+      elemForPage: this.elemForPage,
+      currentPage: this.currentPage,
+    });
   }
 }
 

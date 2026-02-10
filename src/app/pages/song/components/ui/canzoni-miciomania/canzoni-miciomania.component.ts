@@ -49,19 +49,19 @@ export class CanzoniMiciomaniaComponent implements OnInit {
 
   constructor() {
     effect(() => {
-      this.filtriMiciomania = GetFiltriCustom(
-        this.canzoniMiciomania,
-        this.canzoniForPage,
-        this.currentPageMiciomania,
-      );
+      this.filtriMiciomania = GetFiltriCustom<MangaSong, null>({
+        elemTable: this.canzoniMiciomania,
+        elemForPage: this.canzoniForPage,
+        currentPage: this.currentPageMiciomania,
+      });
     });
 
     effect(() => {
-      this.filtriUtente = GetFiltriCustom(
-        this.canzoniUtente,
-        this.canzoniForPage,
-        this.currentPageUtente,
-      );
+      this.filtriUtente = GetFiltriCustom<MangaSong, null>({
+        elemTable: this.canzoniUtente,
+        elemForPage: this.canzoniForPage,
+        currentPage: this.currentPageUtente,
+      });
     });
   }
 

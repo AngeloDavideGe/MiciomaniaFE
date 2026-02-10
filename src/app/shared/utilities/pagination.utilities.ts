@@ -1,53 +1,51 @@
 import { computed, Signal, WritableSignal } from '@angular/core';
 
-export function GetFiltriCustom<T>(
-  elemTable: Signal<T[]>,
-  elemForPage: number,
-  currentPage: WritableSignal<number>,
-  select?: FiltriSelect<T, string>[],
-  tabs?: FiltriSelect<T, boolean | null>,
+export function GetFiltriCustom<T, F>(
+  params: InputFiltri<T, F>,
 ): FiltriInterface<T> {
-  const searcElems = computed<T[]>(() => {
-    const elemTot: T[] = elemTable();
+  const searchElems = computed<T[]>(() => {
+    const elemTot: T[] = params.elemTable();
 
     return elemTot.filter(
       (x: T) =>
-        (!select ||
-          select.every((w: FiltriSelect<T, string>) =>
+        (!params.select ||
+          params.select.every((w: FiltriSelect<T, string>) =>
             String(x[w.key]).toLowerCase().includes(w.query().toLowerCase()),
           )) &&
-        (!tabs || tabs.query() == null || x[tabs.key] == tabs.query()),
+        (!params.tabs ||
+          params.tabs.query() == null ||
+          x[params.tabs.key] == params.tabs.query()),
     );
   });
 
   const totalPage = computed<number>(() =>
-    Math.ceil(searcElems().length / elemForPage),
+    Math.ceil(searchElems().length / (params.elemForPage || 1)),
   );
 
   const elemFilter = computed<T[]>(() => {
-    const totElem: T[] = searcElems();
-    const currentPages: number = currentPage();
+    const totElem: T[] = searchElems();
+    const currentPages: number = params.currentPage ? params.currentPage() : 1;
 
     return totElem.slice(
-      (currentPages - 1) * elemForPage,
-      currentPages * elemForPage,
+      (currentPages - 1) * (params.elemForPage || 1),
+      currentPages * (params.elemForPage || 1),
     );
   });
 
   const previousPage: Function = () => {
-    if (currentPage() > 1) {
-      currentPage.update((x: number) => x - 1);
+    if (params.currentPage && params.currentPage() > 1) {
+      params.currentPage.update((x: number) => x - 1);
     }
   };
 
   const nextPage: Function = () => {
-    if (currentPage() < totalPage()) {
-      currentPage.update((x: number) => x + 1);
+    if (params.currentPage && params.currentPage() < totalPage()) {
+      params.currentPage.update((x: number) => x + 1);
     }
   };
 
   return {
-    searchElems: searcElems,
+    searchElems: searchElems,
     totalPage: totalPage,
     elemFilter: elemFilter,
     previousPage: previousPage,
@@ -66,4 +64,12 @@ export interface FiltriInterface<T> {
 export interface FiltriSelect<T, F> {
   key: keyof T;
   query: WritableSignal<F>;
+}
+
+interface InputFiltri<T, F> {
+  elemTable: Signal<T[]>;
+  elemForPage?: number;
+  currentPage?: WritableSignal<number>;
+  select?: FiltriSelect<T, string>[];
+  tabs?: FiltriSelect<T, F | null>;
 }

@@ -11,16 +11,16 @@ import {
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { environment } from '../../../../../../../../environments/environment';
-import { debounceTimeoutCustom } from '../../../../../../../shared/functions/utilities.function';
+import { PaginazioneCustomComponent } from '../../../../../../../shared/components/custom/pagination.component';
+import { SpinnerComponent } from '../../../../../../../shared/components/dialogs/spinner.component';
 import { sottoscrizioneUtentiCustom } from '../../../../../../../shared/handlers/auth.handler';
 import { UserParams } from '../../../../../../../shared/interfaces/users.interface';
 import { AuthService } from '../../../../../../../shared/services/api/auth.service';
-import { SpinnerComponent } from '../../../../../../../shared/components/dialogs/spinner.component';
 import {
   FiltriInterface,
   GetFiltriCustom,
 } from '../../../../../../../shared/utilities/pagination.utilities';
-import { PaginazioneCustomComponent } from '../../../../../../../shared/components/custom/pagination.component';
+import { debounceTimeoutCustom } from '../../../../../../../shared/functions/utilities.function';
 
 @Component({
   selector: 'app-cerca-profili',
@@ -34,8 +34,9 @@ export class CercaProfiliComponent implements OnInit {
 
   public router = inject(Router);
   private authService = inject(AuthService);
+  // private injector = inject(Injector);
 
-  private readonly itemsPerPage: number = 5;
+  private readonly itemsPerPage: number = 1;
   public readonly defaultPic = environment.defaultPicsUrl.user;
   public filtri: FiltriInterface<UserParams> = {} as any;
 
@@ -66,11 +67,11 @@ export class CercaProfiliComponent implements OnInit {
   }
 
   private setFiltri(): void {
-    this.filtri = GetFiltriCustom(
-      this.users,
-      this.itemsPerPage,
-      this.currentPage,
-      [
+    this.filtri = GetFiltriCustom<UserParams, null>({
+      elemTable: this.users,
+      elemForPage: this.itemsPerPage,
+      currentPage: this.currentPage,
+      select: [
         {
           key: 'id',
           query: this.debounceQuery,
@@ -80,6 +81,6 @@ export class CercaProfiliComponent implements OnInit {
           query: this.debounceQuery,
         },
       ],
-    );
+    });
   }
 }
