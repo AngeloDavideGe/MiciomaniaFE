@@ -1,20 +1,23 @@
-import { computed, signal, Signal, WritableSignal } from '@angular/core';
+import { computed, Signal, WritableSignal } from '@angular/core';
 
 export function GetFiltriCustom<T>(
   elemTable: Signal<T[]>,
   elemForPage: number,
   currentPage: WritableSignal<number>,
-  searchQuery?: WritableSignal<string>,
-  key?: keyof T,
+  select?: FiltriSelect<T, string>[],
+  tabs?: FiltriSelect<T, boolean | null>,
 ): FiltriInterface<T> {
   const searcElems = computed<T[]>(() => {
     const elemTot: T[] = elemTable();
 
-    if (searchQuery && key) {
-      return elemTot.filter((x: T) => String(x[key]).includes(searchQuery()));
-    } else {
-      return elemTot;
-    }
+    return elemTot.filter(
+      (x: T) =>
+        (!select ||
+          select.every((w: FiltriSelect<T, string>) =>
+            String(x[w.key]).toLowerCase().includes(w.query().toLowerCase()),
+          )) &&
+        (!tabs || tabs.query() == null || x[tabs.key] == tabs.query()),
+    );
   });
 
   const totalPage = computed<number>(() =>
@@ -43,19 +46,12 @@ export function GetFiltriCustom<T>(
     }
   };
 
-  const clearSearch: Function = () => {
-    if (searchQuery) {
-      searchQuery.set('');
-    }
-  };
-
   return {
     searchElems: searcElems,
     totalPage: totalPage,
     elemFilter: elemFilter,
     previousPage: previousPage,
     nextPage: nextPage,
-    clearSearch: clearSearch,
   };
 }
 
@@ -65,5 +61,9 @@ export interface FiltriInterface<T> {
   elemFilter: Signal<T[]>;
   previousPage: Function;
   nextPage: Function;
-  clearSearch: Function;
+}
+
+export interface FiltriSelect<T, F> {
+  key: keyof T;
+  query: WritableSignal<F>;
 }

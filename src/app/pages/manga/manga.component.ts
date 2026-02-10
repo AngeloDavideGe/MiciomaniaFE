@@ -34,6 +34,10 @@ import {
   MangaLangType,
 } from './languages/interfaces/manga-lang.interface';
 import { MangaService } from './services/manga.service';
+import {
+  FiltriInterface,
+  GetFiltriCustom,
+} from '../../shared/utilities/pagination.utilities';
 
 @Component({
   selector: 'app-manga',
@@ -52,6 +56,7 @@ export class MangaComponent implements OnDestroy {
   public idUtente: string | null = null;
   public erroreHttp = signal<boolean>(false);
   public perIniziale = signal<string>('lista');
+  private currentPage = signal<number>(1);
   public selezionaOpera: Function = (path: string) => window.open(path);
 
   public pulsanti: PulsantiHeader[] = getPulsanti((path: string) =>
@@ -91,7 +96,29 @@ export class MangaComponent implements OnDestroy {
     return raggruppamento;
   });
 
-  public filteredManga = computed<ListaManga[]>(() => this.logFilterChanges());
+  public filtri: FiltriInterface<ListaManga> = GetFiltriCustom<ListaManga>(
+    this.mangaService.listaManga,
+    100,
+    this.currentPage,
+    [
+      {
+        key: 'nome',
+        query: this.debounce.nome,
+      },
+      {
+        key: 'autore',
+        query: this.debounce.autore,
+      },
+      {
+        key: 'genere',
+        query: this.filterSelect.genere,
+      },
+    ],
+    {
+      key: 'completato',
+      query: this.filterSelect.tabBoolean,
+    },
+  );
 
   public tabs: TabsManga[] = getTabsManga(
     (cond: boolean | null, index: number) =>
@@ -162,31 +189,9 @@ export class MangaComponent implements OnDestroy {
       this.tabs.forEach((tab, i) => {
         tab.class = i === index ? 'active' : '';
       });
-      this.logFilterChanges();
     };
 
     return func;
-  }
-
-  private logFilterChanges(): ListaManga[] {
-    return this.mangaService.listaManga().filter((manga: ListaManga) => {
-      const cond: boolean =
-        (this.filterSelect.genere() === this.mangaLang.qualsiasi ||
-          manga.genere.includes(this.filterSelect.genere())) &&
-        (this.debounce.autore() === '' ||
-          manga.autore
-            .toLowerCase()
-            .includes(this.debounce.autore().toLowerCase())) &&
-        (this.debounce.nome() === '' ||
-          manga.nome
-            .toLowerCase()
-            .includes(this.debounce.nome().toLowerCase())) &&
-        (this.filterSelect.tabBoolean() === null ||
-          (this.filterSelect.tabBoolean() === false && !manga.completato) ||
-          (this.filterSelect.tabBoolean() === true && manga.completato));
-
-      return cond;
-    });
   }
 
   private loadFilteredManga(): void {
@@ -220,11 +225,6 @@ export class MangaComponent implements OnDestroy {
         (valore: number) => (this.mangaPreferiti[valore] = true),
       );
     }
-  }
-
-  onGenreChange(event: Event) {
-    const target = event.target as HTMLSelectElement;
-    this.filterSelect.genere.set(target.value);
   }
 
   private upsertOnDestroy($event: BeforeUnloadEvent | null): void {

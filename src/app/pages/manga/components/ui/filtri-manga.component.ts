@@ -27,7 +27,7 @@ import { MangaLang } from '../../languages/interfaces/manga-lang.interface';
           class="form-select bg-light border-primary rounded-3 w-100"
           aria-label="Select an option"
           style="min-height: 44px; font-size: 1rem; max-width: 100%;"
-          (change)="onGenreChange.emit($event)"
+          (change)="setGenere($event)"
         >
           <option selected>{{ mangaLang.qualsiasi }}</option>
           @for (genere of mangaGeneri; track $index) {
@@ -76,7 +76,7 @@ import { MangaLang } from '../../languages/interfaces/manga-lang.interface';
 })
 export class FiltriMangaComponent {
   public mangaGeneri = generiManga;
-  @Output() onGenreChange = new EventEmitter<Event>();
+  @Output() onGenreChange = new EventEmitter<string>();
   @Input() mangaLang!: MangaLang;
   @Input() filterSelect!: {
     genere: WritableSignal<string>;
@@ -84,4 +84,10 @@ export class FiltriMangaComponent {
     nome: WritableSignal<string>;
     tabBoolean: WritableSignal<boolean | null>;
   };
+
+  public setGenere(event: Event): void {
+    const target = event.target as HTMLSelectElement;
+    const value: string = target.value;
+    this.onGenreChange.emit(value == this.mangaLang.qualsiasi ? '' : value);
+  }
 }

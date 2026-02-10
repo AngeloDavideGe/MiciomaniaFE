@@ -1,7 +1,5 @@
 @if (isManga$ | async) {
-  <!-- Chiamata riuscita -->
   @if (!erroreHttp()) {
-    <!-- Dettagli Manga -->
     <app-header-custom
       [titolo]="mangaLang.titolo"
       [descrizione]="mangaLang.descrizione"
@@ -9,14 +7,12 @@
     ></app-header-custom>
 
     @if (mangaNonVuoti()) {
-      <!-- Filtri Manga -->
       <app-filtri-manga
         [mangaLang]="mangaLang"
         [filterSelect]="filterSelect"
-        (onGenreChange)="onGenreChange($event)"
+        (onGenreChange)="filterSelect.genere.set($event)"
       ></app-filtri-manga>
 
-      <!-- Tabs Navigation -->
       <app-tabs-manga [tabs]="tabs"></app-tabs-manga>
 
       <app-icone-lista
@@ -27,18 +23,14 @@
         (classNGChange)="perIniziale.set($event)"
       ></app-icone-lista>
 
-      <!-- Manga list display per iniziale-->
       @if (perIniziale() === "iniziale") {
-        <!-- Lista lettere -->
         @for (lettera of alfabeto; track $index) {
-          <!-- Titolo lettera -->
           @if (mangaPerIniziale()[lettera].length > 0) {
             <div class="mt-5">
               <h5 class="text-black fw-bold border-bottom pb-2">
                 {{ lettera }}
               </h5>
             </div>
-            <!-- Griglia manga -->
             <div class="row mt-3 g-3">
               @for (manga of mangaPerIniziale()[lettera]; track manga.id) {
                 <div
@@ -54,11 +46,9 @@
             </div>
           }
         }
-      }
-      <!-- Manga list display-->
-      @else {
+      } @else {
         <div class="mt-4 d-flex flex-wrap">
-          @for (manga of filteredManga(); track manga.id) {
+          @for (manga of filtri.searchElems(); track manga.id) {
             <div class="d-flex" style="padding: 0.2rem">
               <app-card-manga
                 [manga]="manga"

@@ -35,7 +35,7 @@ export class CercaProfiliComponent implements OnInit {
   public router = inject(Router);
   private authService = inject(AuthService);
 
-  private readonly itemsPerPage: number = 1;
+  private readonly itemsPerPage: number = 5;
   public readonly defaultPic = environment.defaultPicsUrl.user;
   public filtri: FiltriInterface<UserParams> = {} as any;
 
@@ -70,8 +70,16 @@ export class CercaProfiliComponent implements OnInit {
       this.users,
       this.itemsPerPage,
       this.currentPage,
-      this.debounceQuery,
-      'id',
+      [
+        {
+          key: 'id',
+          query: this.debounceQuery,
+        },
+        {
+          key: 'nome',
+          query: this.debounceQuery,
+        },
+      ],
     );
   }
 }
