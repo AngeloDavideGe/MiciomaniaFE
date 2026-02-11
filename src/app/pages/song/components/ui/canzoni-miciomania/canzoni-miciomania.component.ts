@@ -30,7 +30,7 @@ export class CanzoniMiciomaniaComponent implements OnInit {
   private euService = inject(ElementiUtenteService);
 
   public readonly defaultPic: string = environment.defaultPicsUrl.song;
-  public readonly canzoniForPage: number = 2;
+  public readonly canzoniForPage: number = 10;
   public filtriMiciomania: FiltriInterface<MangaSong> = {} as any;
   public filtriUtente: FiltriInterface<MangaSong> = {} as any;
 

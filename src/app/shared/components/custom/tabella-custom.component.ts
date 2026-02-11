@@ -1,33 +1,51 @@
-import { Component, computed, Input, Signal, signal } from '@angular/core';
+import {
+  Component,
+  computed,
+  effect,
+  Input,
+  Signal,
+  signal,
+} from '@angular/core';
 import {
   FiltriInterface,
   GetFiltriCustom,
 } from '../../utilities/pagination.utilities';
+import { FormsModule } from '@angular/forms';
+import { debounceTimeoutCustom } from '../../functions/utilities.function';
+import { NgTemplateOutlet } from '@angular/common';
+import { CapitalizeFirstLetterPipe } from '../../pipes/capitalize.pipe';
+import { PaginazioneCustomComponent } from './pagination.component';
 
 @Component({
   selector: 'app-table-custom',
   standalone: true,
-  imports: [],
+  imports: [
+    FormsModule,
+    NgTemplateOutlet,
+    CapitalizeFirstLetterPipe,
+    PaginazioneCustomComponent,
+  ],
   template: `
     <div [style]="{ width: lunghezzaTotale }">
       <div class="table-wrapper">
         @if (elemTable().length > 0) {
-          @if (titoloTabella) {
-            <div class="table-header">
-              <div class="header-content">
-                <i class="bi bi-table header-icon"></i>
-                <h3 class="header-title">
-                  {{ titoloTabella }}
-                </h3>
-                <div class="header-info">
-                  <span class="total-items">
-                    <i class="bi bi-list-ol me-1"></i>
-                    {{ elemTable().length }} elementi
-                  </span>
-                </div>
-              </div>
-            </div>
-          }
+          <ng-container
+            *ngTemplateOutlet="titoloTabellaTemplate"
+          ></ng-container>
+
+          <div class="search-filter">
+            <i class="bi bi-search search-icon"></i>
+            <input
+              type="text"
+              class="search-input"
+              placeholder="Cerca..."
+              [(ngModel)]="searchQuery"
+              (ngModelChange)="searchQuery.set($event)"
+            />
+            <button class="clear-btn" (click)="searchQuery.set('')">
+              <i class="bi bi-x-circle"></i>
+            </button>
+          </div>
 
           <div class="table-container">
             <table class="table-custom">
@@ -76,64 +94,14 @@ import {
             </table>
           </div>
 
-          @if (elemTable().length > elemForPage) {
-            <div class="pagination-container">
-              <div class="pagination-info">
-                <span class="pagination-text">
-                  Mostrando {{ (currentPage() - 1) * elemForPage + 1 }} -
-                  {{ currentPage() * elemForPage }}
-                  di {{ elemTable().length }} elementi
-                </span>
-              </div>
-
-              @if (elemForPage > 0) {
-                <div class="pagination-controls">
-                  <button
-                    class="pagination-btn prev-btn"
-                    (click)="filtri.previousPage()"
-                    [disabled]="currentPage() === 1"
-                    [class.disabled]="currentPage() === 1"
-                    aria-label="Pagina precedente"
-                  >
-                    <i class="bi bi-chevron-left"></i>
-                  </button>
-
-                  <div class="page-indicator">
-                    <span class="current-page">{{ currentPage() }}</span>
-                    <span class="separator">/</span>
-                    <span class="total-pages">{{ filtri.totalPage() }}</span>
-                  </div>
-
-                  <button
-                    class="pagination-btn next-btn"
-                    (click)="filtri.nextPage()"
-                    [disabled]="currentPage() === filtri.totalPage()"
-                    [class.disabled]="currentPage() === filtri.totalPage()"
-                    aria-label="Pagina successiva"
-                  >
-                    <i class="bi bi-chevron-right"></i>
-                  </button>
-                </div>
-              }
-            </div>
-          }
+          <app-paginazione-custom
+            [filtri]="filtri"
+            [currentPage]="currentPage"
+          ></app-paginazione-custom>
         } @else {
-          @if (titoloTabella) {
-            <div class="table-header">
-              <div class="header-content">
-                <i class="bi bi-table header-icon"></i>
-                <h3 class="header-title">
-                  {{ titoloTabella }}
-                </h3>
-                <div class="header-info">
-                  <span class="total-items">
-                    <i class="bi bi-list-ol me-1"></i>
-                    {{ elemTable().length }} elementi
-                  </span>
-                </div>
-              </div>
-            </div>
-          }
+          <ng-container
+            *ngTemplateOutlet="titoloTabellaTemplate"
+          ></ng-container>
 
           <div class="empty-state">
             <i class="bi bi-inbox empty-icon"></i>
@@ -142,6 +110,25 @@ import {
         }
       </div>
     </div>
+
+    <ng-template #titoloTabellaTemplate>
+      @if (titoloTabella) {
+        <div class="table-header">
+          <div class="header-content">
+            <i class="bi bi-table header-icon"></i>
+            <h3 class="header-title">
+              {{ titoloTabella | capitalizeFirstLetter }}
+            </h3>
+            <div class="header-info">
+              <span class="total-items">
+                <i class="bi bi-list-ol me-1"></i>
+                {{ elemTable().length }} elementi
+              </span>
+            </div>
+          </div>
+        </div>
+      }
+    </ng-template>
   `,
   styleUrls: [
     '../styles/table-custom.scss',
@@ -161,12 +148,29 @@ export class TabellaCustomComponent<T> {
 
   public currentPage = signal<number>(1);
   public filtri: FiltriInterface<T> = {} as FiltriInterface<T>;
+  public searchQuery = signal<string>('');
+  private debounceQuery = signal<string>('');
+
+  constructor() {
+    const debounced: Function = debounceTimeoutCustom((value: string) => {
+      this.debounceQuery.set(value);
+      this.currentPage.set(this.filtri.totalPage() > 0 ? 1 : 0);
+    });
+
+    effect(() => debounced(this.searchQuery()));
+  }
 
   ngOnInit(): void {
     this.filtri = GetFiltriCustom<T, null>({
       elemTable: this.elemTable,
       elemForPage: this.elemForPage,
       currentPage: this.currentPage,
+      select: this.keyofElem.map((x: keyof T) => {
+        return {
+          key: x,
+          query: this.debounceQuery,
+        };
+      }),
     });
   }
 }

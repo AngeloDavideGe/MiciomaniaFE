@@ -9,7 +9,7 @@ export function GetFiltriCustom<T, F>(
     return elemTot.filter(
       (x: T) =>
         (!params.select ||
-          params.select.every((w: FiltriSelect<T, string>) =>
+          params.select.some((w: FiltriSelect<T, string>) =>
             String(x[w.key]).toLowerCase().includes(w.query().toLowerCase()),
           )) &&
         (!params.tabs ||
@@ -19,7 +19,7 @@ export function GetFiltriCustom<T, F>(
   });
 
   const totalPage = computed<number>(() =>
-    Math.ceil(searchElems().length / (params.elemForPage || 1)),
+    Math.ceil(searchElems().length / (params.elemForPage || 100)),
   );
 
   const elemFilter = computed<T[]>(() => {
@@ -27,8 +27,8 @@ export function GetFiltriCustom<T, F>(
     const currentPages: number = params.currentPage ? params.currentPage() : 1;
 
     return totElem.slice(
-      (currentPages - 1) * (params.elemForPage || 1),
-      currentPages * (params.elemForPage || 1),
+      (currentPages - 1) * (params.elemForPage || 100),
+      currentPages * (params.elemForPage || 100),
     );
   });
 

@@ -36,7 +36,7 @@ export class CercaProfiliComponent implements OnInit {
   private authService = inject(AuthService);
   // private injector = inject(Injector);
 
-  private readonly itemsPerPage: number = 1;
+  private readonly itemsPerPage: number = 5;
   public readonly defaultPic = environment.defaultPicsUrl.user;
   public filtri: FiltriInterface<UserParams> = {} as any;
 
