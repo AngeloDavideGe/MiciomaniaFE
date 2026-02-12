@@ -30,7 +30,7 @@ import { AdminLang } from '../../languages/interfaces/admin-lang.interface';
           [titoloTabella]="ruolo"
           [elemTable]="userMapByRuolo[ruolo]"
           [noElement]="adminLang.nessunUtente"
-          [elemForPage]="1"
+          [elemForPage]="5"
           [keyofElem]="['nome', 'id']"
           [colonne]="colonne"
           [azioni]="pulsanti"

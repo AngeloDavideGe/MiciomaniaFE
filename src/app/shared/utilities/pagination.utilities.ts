@@ -3,24 +3,41 @@ import { computed, Signal, WritableSignal } from '@angular/core';
 export function GetFiltriCustom<T, F>(
   params: InputFiltri<T, F>,
 ): FiltriInterface<T> {
+  const RecordFiltri: Record<string, Function> = GetRecordFiltri<T, F>(params);
+
   const searchElems = computed<T[]>(() => {
     const elemTot: T[] = params.elemTable();
+    const ordina = params.ordinaElem ? params.ordinaElem() : null;
 
-    return elemTot.filter(
-      (x: T) =>
-        (!params.select ||
-          params.select.some((w: FiltriSelect<T, string>) =>
-            String(x[w.key]).toLowerCase().includes(w.query().toLowerCase()),
-          )) &&
-        (!params.tabs ||
-          params.tabs.query() == null ||
-          x[params.tabs.key] == params.tabs.query()),
+    let filter = elemTot.filter(
+      (x: T) => RecordFiltri['select'](x) && RecordFiltri['tabs'](x),
     );
+
+    if (ordina) {
+      const k: keyof T = ordina.key;
+      const desc: boolean = ordina.order == 'desc';
+
+      filter = filter.sort((a: T, b: T) => {
+        if (typeof a[k] === 'number' && typeof b[k] === 'number') {
+          return desc ? a[k] - b[k] : b[k] - a[k];
+        }
+
+        if (typeof a[k] === 'string' && typeof b[k] === 'string') {
+          return desc ? a[k].localeCompare(b[k]) : b[k].localeCompare(a[k]);
+        }
+
+        return 0;
+      });
+    }
+
+    return filter;
   });
 
-  const totalPage = computed<number>(() =>
-    Math.ceil(searchElems().length / (params.elemForPage || 100)),
-  );
+  const totalPage = computed<number>(() => {
+    const search: T[] = searchElems();
+
+    return Math.ceil(search.length / (params.elemForPage || 100));
+  });
 
   const elemFilter = computed<T[]>(() => {
     const totElem: T[] = searchElems();
@@ -53,6 +70,37 @@ export function GetFiltriCustom<T, F>(
   };
 }
 
+function GetRecordFiltri<T, F>(
+  params: InputFiltri<T, F>,
+): Record<string, Function> {
+  const RecordFiltri: Record<string, Function> = {
+    tabs: (x: T) => true,
+    select: (x: T) => true,
+  };
+
+  if (params.select) {
+    if (params.tipoSelect == 'every') {
+      RecordFiltri['select'] = (x: T) =>
+        params.select!.every((w: FiltriSelect<T, string>) =>
+          String(x[w.key]).toLowerCase().includes(w.query().toLowerCase()),
+        );
+    } else {
+      RecordFiltri['select'] = (x: T) =>
+        params.select!.some((w: FiltriSelect<T, string>) =>
+          String(x[w.key]).toLowerCase().includes(w.query().toLowerCase()),
+        );
+    }
+  }
+
+  if (params.tabs) {
+    RecordFiltri['tabs'] = (x: T) =>
+      params.tabs!.query() == null ||
+      x[params.tabs!.key] == params.tabs!.query();
+  }
+
+  return RecordFiltri;
+}
+
 export interface FiltriInterface<T> {
   totalPage: Signal<number>;
   searchElems: Signal<T[]>;
@@ -66,10 +114,17 @@ export interface FiltriSelect<T, F> {
   query: WritableSignal<F>;
 }
 
+export interface Ordinamento<T, F> {
+  key: keyof T;
+  order: F;
+}
+
 interface InputFiltri<T, F> {
   elemTable: Signal<T[]>;
   elemForPage?: number;
   currentPage?: WritableSignal<number>;
+  tipoSelect?: 'some' | 'every';
   select?: FiltriSelect<T, string>[];
   tabs?: FiltriSelect<T, F | null>;
+  ordinaElem?: WritableSignal<Ordinamento<T, 'desc' | 'cresc'> | null>;
 }

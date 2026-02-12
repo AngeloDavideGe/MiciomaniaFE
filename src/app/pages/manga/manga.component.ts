@@ -71,11 +71,6 @@ export class MangaComponent implements OnDestroy {
     tabBoolean: signal<boolean | null>(null),
   };
 
-  public mangaNonVuoti = computed<boolean>(() => {
-    const listaManga: ListaManga[] = this.mangaService.listaManga();
-    return listaManga.length > 0;
-  });
-
   public mangaPerIniziale = computed<Record<string, ListaManga[]>>(() => {
     const listaManga: ListaManga[] = this.mangaService.listaManga();
     const raggruppamento: Record<string, ListaManga[]> = {};
@@ -94,6 +89,7 @@ export class MangaComponent implements OnDestroy {
 
   public filtri = GetFiltriCustom<ListaManga, boolean>({
     elemTable: this.mangaService.listaManga,
+    tipoSelect: 'every',
     select: [
       {
         key: 'nome',
@@ -131,13 +127,11 @@ export class MangaComponent implements OnDestroy {
   constructor() {
     this.loadLanguage();
 
-    effectTimeoutCustom(this.filterSelect.autore, (value: string) =>
-      this.debounce.autore.set(value),
-    );
-
-    effectTimeoutCustom(this.filterSelect.nome, (value: string) =>
-      this.debounce.nome.set(value),
-    );
+    (['autore', 'nome'] as const).forEach((x) => {
+      effectTimeoutCustom(this.filterSelect[x], (value: string) =>
+        this.debounce[x].set(value),
+      );
+    });
 
     effect(() => {
       const mangaUtente: MangaUtente | null = DataHttp.mangaUtente();

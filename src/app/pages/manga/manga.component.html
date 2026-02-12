@@ -6,7 +6,7 @@
       [bottoni]="pulsanti"
     ></app-header-custom>
 
-    @if (mangaNonVuoti()) {
+    @if (mangaService.listaManga().length > 0) {
       <app-filtri-manga
         [mangaLang]="mangaLang"
         [filterSelect]="filterSelect"

@@ -49,6 +49,7 @@
       color: var(--text-secondary);
       border-bottom: 1px solid var(--border-color);
       white-space: nowrap;
+      cursor: pointer;
 
       &:first-child {
         padding-left: 20px;

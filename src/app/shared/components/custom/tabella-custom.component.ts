@@ -1,19 +1,13 @@
-import {
-  Component,
-  computed,
-  effect,
-  Input,
-  Signal,
-  signal,
-} from '@angular/core';
+import { NgTemplateOutlet } from '@angular/common';
+import { Component, effect, Input, Signal, signal } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { debounceTimeoutCustom } from '../../functions/utilities.function';
+import { CapitalizeFirstLetterPipe } from '../../pipes/capitalize.pipe';
 import {
   FiltriInterface,
   GetFiltriCustom,
+  Ordinamento,
 } from '../../utilities/pagination.utilities';
-import { FormsModule } from '@angular/forms';
-import { debounceTimeoutCustom } from '../../functions/utilities.function';
-import { NgTemplateOutlet } from '@angular/common';
-import { CapitalizeFirstLetterPipe } from '../../pipes/capitalize.pipe';
 import { PaginazioneCustomComponent } from './pagination.component';
 
 @Component({
@@ -42,7 +36,10 @@ import { PaginazioneCustomComponent } from './pagination.component';
               [(ngModel)]="searchQuery"
               (ngModelChange)="searchQuery.set($event)"
             />
-            <button class="clear-btn" (click)="searchQuery.set('')">
+            <button
+              class="clear-btn"
+              (click)="searchQuery.set(''); ordinaElem.set(null)"
+            >
               <i class="bi bi-x-circle"></i>
             </button>
           </div>
@@ -52,8 +49,12 @@ import { PaginazioneCustomComponent } from './pagination.component';
               <thead>
                 <tr>
                   @for (key of keyofElem; track $index; let idx = $index) {
-                    <th [style.width]="colonne[key].lunghezza">
+                    <th
+                      [style.width]="colonne[key].lunghezza"
+                      (click)="ordinaColonna(key)"
+                    >
                       {{ colonne[key].titolo }}
+                      <span>&nbsp;↕️</span>
                     </th>
                   }
                   @if (azioni.length > 0) {
@@ -130,10 +131,7 @@ import { PaginazioneCustomComponent } from './pagination.component';
       }
     </ng-template>
   `,
-  styleUrls: [
-    '../styles/table-custom.scss',
-    '../styles/pagination-custom.scss',
-  ],
+  styleUrl: '../styles/table-custom.scss',
 })
 export class TabellaCustomComponent<T> {
   @Input() elemTable!: Signal<T[]>;
@@ -147,9 +145,11 @@ export class TabellaCustomComponent<T> {
   @Input() elemForPage: number = 0;
 
   public currentPage = signal<number>(1);
-  public filtri: FiltriInterface<T> = {} as FiltriInterface<T>;
   public searchQuery = signal<string>('');
   private debounceQuery = signal<string>('');
+  public ordinaElem = signal<Ordinamento<T, 'desc' | 'cresc'> | null>(null);
+  public filtri: FiltriInterface<T> = {} as FiltriInterface<T>;
+  private order: Record<keyof T, boolean> = {} as any;
 
   constructor() {
     const debounced: Function = debounceTimeoutCustom((value: string) => {
@@ -158,6 +158,10 @@ export class TabellaCustomComponent<T> {
     });
 
     effect(() => debounced(this.searchQuery()));
+    effect(() => {
+      const ord = this.ordinaElem();
+      if (ord) this.order[ord.key] = !this.order[ord.key];
+    });
   }
 
   ngOnInit(): void {
@@ -165,12 +169,20 @@ export class TabellaCustomComponent<T> {
       elemTable: this.elemTable,
       elemForPage: this.elemForPage,
       currentPage: this.currentPage,
+      ordinaElem: this.ordinaElem,
       select: this.keyofElem.map((x: keyof T) => {
         return {
           key: x,
           query: this.debounceQuery,
         };
       }),
+    });
+  }
+
+  public ordinaColonna(key: keyof T) {
+    this.ordinaElem.set({
+      key: key,
+      order: this.order[key] ? 'desc' : 'cresc',
     });
   }
 }
