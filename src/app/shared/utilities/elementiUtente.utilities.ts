@@ -7,9 +7,6 @@ export class ElementiUtenteUtilities {
   public elementiUtenteService = inject(ElementiUtenteService);
 
   public getElementiUtente(idUtente: string): Observable<UtenteParodie> {
-    const elementiUtente: UtenteParodie | null =
-      this.elementiUtenteService.utenteParodie();
-
     return this.elementiUtenteService.getElementiUtente(idUtente).pipe(
       take(1),
       tap((elementiUtente) =>

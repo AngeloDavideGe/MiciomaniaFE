@@ -1,4 +1,5 @@
 import { computed, Signal, WritableSignal } from '@angular/core';
+import { GetOrderCustom } from '../functions/utilities.function';
 
 export function GetFiltriCustom<T, F>(
   params: InputFiltri<T, F>,
@@ -14,20 +15,7 @@ export function GetFiltriCustom<T, F>(
     );
 
     if (ordina) {
-      const k: keyof T = ordina.key;
-      const desc: boolean = ordina.order == 'desc';
-
-      filter = filter.sort((a: T, b: T) => {
-        if (typeof a[k] === 'number' && typeof b[k] === 'number') {
-          return desc ? a[k] - b[k] : b[k] - a[k];
-        }
-
-        if (typeof a[k] === 'string' && typeof b[k] === 'string') {
-          return desc ? a[k].localeCompare(b[k]) : b[k].localeCompare(a[k]);
-        }
-
-        return 0;
-      });
+      filter = GetOrderCustom(filter, ordina.key, ordina.order == 'desc');
     }
 
     return filter;

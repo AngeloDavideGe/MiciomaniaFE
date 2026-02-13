@@ -151,6 +151,13 @@ export class TabellaCustomComponent<T> {
   public filtri: FiltriInterface<T> = {} as FiltriInterface<T>;
   private order: Record<keyof T, boolean> = {} as any;
 
+  public ordinaColonna: Function = debounceTimeoutCustom((key: keyof T) => {
+    this.ordinaElem.set({
+      key: key,
+      order: this.order[key] ? 'desc' : 'cresc',
+    });
+  }, true);
+
   constructor() {
     const debounced: Function = debounceTimeoutCustom((value: string) => {
       this.debounceQuery.set(value);
@@ -176,13 +183,6 @@ export class TabellaCustomComponent<T> {
           query: this.debounceQuery,
         };
       }),
-    });
-  }
-
-  public ordinaColonna(key: keyof T) {
-    this.ordinaElem.set({
-      key: key,
-      order: this.order[key] ? 'desc' : 'cresc',
     });
   }
 }
