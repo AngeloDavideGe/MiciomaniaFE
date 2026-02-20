@@ -48,12 +48,13 @@ import { Lingua } from '../../../../shared/interfaces/http.interface';
               <app-card-custom
                 [link]="card.link"
                 [titolo]="card.titolo[lingua()]"
-                [descrizioneHTML]="card.descrizione[lingua()]"
                 [titoloBottone]="card.titoloBottone[lingua()]"
                 [classBody]="card.bgClass + ' home-class'"
                 [icona]="card.icon"
                 (clickBotton)="card.func()"
-              ></app-card-custom>
+              >
+                <p descrizioneContent>{{ card.descrizione[lingua()] }}</p>
+              </app-card-custom>
             }
           </div>
 

@@ -5,6 +5,7 @@ import { CustomNavBarComponent } from '../../../../../../shared/components/custo
 import { SpinnerComponent } from '../../../../../../shared/components/dialogs/spinner.component';
 import { CercaProfiliComponent } from '../components/cerca-profili/cerca-profili.component';
 import { NoPostComponent } from '../components/no-post.component';
+import { DescrizionePostComponent } from '../components/descrizione-post.component';
 
 export const ultimiPost_import: Type<any>[] = [
   NoPostComponent,
@@ -13,4 +14,5 @@ export const ultimiPost_import: Type<any>[] = [
   NgClass,
   SpinnerComponent,
   CardCustomComponent,
+  DescrizionePostComponent,
 ];

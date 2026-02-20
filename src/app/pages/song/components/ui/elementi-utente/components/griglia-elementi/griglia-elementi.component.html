@@ -5,16 +5,18 @@
       <app-card-custom
         [link]="eu.mangaUtente.copertina || defaultMangaPic"
         [titolo]="eu.mangaUtente.nome"
-        [descrizioneHTML]="
-          `Genere: <strong>${eu.mangaUtente.genere}</strong><br>
-          Autore: <em>${eu.mangaUtente.idUtente}</em>`
-        "
         [classBody]="'manga-class'"
         [titoloBottone]="elemLang.scarica"
         [tipo]="'Manga'"
         [altezzaImg]="'20rem'"
         (clickBotton)="msu.downloadManga(eu.mangaUtente)"
-      ></app-card-custom>
+      >
+        <div descrizioneContent>
+          Genere: <strong>{{ eu.mangaUtente.genere }}</strong
+          ><br />
+          Autore: <em>{{ eu.mangaUtente.idUtente }}</em>
+        </div>
+      </app-card-custom>
     } @else {
       <app-card-custom
         [link]="defaultMangaPic"
@@ -31,17 +33,19 @@
       <app-card-custom
         [titolo]="eu.mangaUtente.nome"
         [link]="eu.mangaUtente.copertina || defaultSongPic"
-        [descrizioneHTML]="
-          `Genere: <strong>${eu.canzoniUtente.genere}</strong><br>
-          Autore: <em>${eu.canzoniUtente.idUtente}</em>`
-        "
         [altezzaImg]="'20rem'"
         [tipo]="'Song'"
         [classBody]="'manga-class'"
         [setCanzone]="msu.sc.currentCanzone()"
         (clickBotton)="msu.playSong(eu.mangaUtente)"
         (click2Botton)="msu.sc.stopSong()"
-      ></app-card-custom>
+      >
+        <div descrizioneContent>
+          Genere: <strong>{{ eu.mangaUtente.genere }}</strong
+          ><br />
+          Autore: <em>{{ eu.mangaUtente.idUtente }}</em>
+        </div>
+      </app-card-custom>
     } @else {
       <app-card-custom
         [link]="defaultSongPic"

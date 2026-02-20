@@ -8,16 +8,18 @@ import { ButtonCustomComponent } from './botton-custom.component';
   imports: [ButtonCustomComponent],
   template: `
     <div
-      id="CardCustomComponent"
       class="card flex-shrink-0"
-      style="scroll-snap-align: center;"
+      style="scroll-snap-align: center; max-width: 95%"
+      [style]="{ width: lunghezzaCard }"
     >
-      <img [src]="link" [style]="{ height: altezzaImg }" />
+      @if (link) {
+        <img [src]="link" [style]="{ height: altezzaImg }" />
+      }
 
       <div class="card-body" [class]="classBody">
         <h5 class="fw-bold">{{ titolo }}</h5>
 
-        <div [innerHTML]="descrizioneHTML"></div>
+        <ng-content select="[descrizioneContent]"></ng-content>
 
         <div class="mt-auto">
           @switch (tipo) {
@@ -47,9 +49,6 @@ import { ButtonCustomComponent } from './botton-custom.component';
                 {{ songButton() ? '▶ Ascolta' : '⏹ Stop' }}
               </button>
             }
-            @case ('Content') {
-              <ng-content select="[buttonContent]"></ng-content>
-            }
           }
         </div>
       </div>
@@ -62,12 +61,12 @@ export class CardCustomComponent {
 
   @Input() link!: string;
   @Input() titolo!: string;
-  @Input() descrizioneHTML!: string;
   @Input() titoloBottone!: string;
   @Input() classBody: string = '';
   @Input() icona: string = '';
   @Input() altezzaImg: string = '13rem';
   @Input() tipo: tipoCard = 'Default';
+  @Input() lunghezzaCard: string = '20rem';
   @Input() set setCanzone(canzone: MangaSong | null) {
     this.songButton.set(!(canzone && canzone.nome == this.titolo));
   }
@@ -75,14 +74,10 @@ export class CardCustomComponent {
   @Output() clickBotton = new EventEmitter<void>();
   @Output() click2Botton = new EventEmitter<void>();
 
-  ngOnInit(): void {
-    // this.songButton.set(!(canzone && canzone.nome == this.titolo));
-  }
-
   public clickSongButton(): void {
     this.songButton() ? this.clickBotton.emit() : this.click2Botton.emit();
     this.songButton.update((x: boolean) => !x);
   }
 }
 
-type tipoCard = 'Default' | 'Manga' | 'Song' | 'Content';
+type tipoCard = 'Default' | 'Manga' | 'Song' | 'NO';

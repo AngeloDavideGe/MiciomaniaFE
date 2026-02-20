@@ -15,55 +15,51 @@
     }
 
     <!-- Colonna dei post (centrata rispetto allo spazio rimanente) -->
-    <div class="col-12 col-lg-6 mx-lg-auto">
-      <div [ngClass]="searchActive() ? 'margin-posts' : ''">
-        @if (postCaricati()) {
-          @if (postService.newPosts.length > 0) {
-            @for (post of postService.newPosts; track $index) {
+
+    <div [ngClass]="searchActive() ? 'margin-posts' : ''">
+      @if (postCaricati()) {
+        @if (postService.newPosts.length > 0) {
+          @for (post of postService.oldPosts; track $index) {
+            <div class="d-flex justify-content-center mb-4">
               <app-card-custom
-                [link]="post.profilePic"
-                [descrizioneHTML]="``"
-                [tipo]="'Content'"
+                [link]="post.userProfilePic"
+                [tipo]="'NO'"
+                [lunghezzaCard]="'30rem'"
+                [altezzaImg]="'30rem'"
               >
-                <div
-                  class="card-footer d-flex justify-content-between post-actions"
-                >
-                  <i class="bi bi-heart fs-5"></i>
-                  <i class="bi bi-chat fs-5"></i>
-                  <i class="bi bi-share fs-5"></i>
+                <div descrizioneContent>
+                  <app-descrizione-post [post]="post"></app-descrizione-post>
                 </div>
               </app-card-custom>
-            }
-          } @else {
-            <app-no-post></app-no-post>
+            </div>
           }
         } @else {
-          <app-spinner [mt]="'10rem'"></app-spinner>
+          <app-no-post></app-no-post>
         }
+      } @else {
+        <app-spinner [mt]="'10rem'"></app-spinner>
+      }
 
-        @if (postService.oldPosts.length > 0) {
-          <div class="post-separator text-center my-4">
-            <span>Post già visti</span>
-          </div>
+      @if (postService.oldPosts.length > 0) {
+        <div class="post-separator text-center my-4">
+          <span>Post già visti</span>
+        </div>
 
-          @for (post of postService.oldPosts; track $index) {
+        @for (post of postService.oldPosts; track $index) {
+          <div class="d-flex justify-content-center mb-4">
             <app-card-custom
-              [link]="post.profilePic"
-              [descrizioneHTML]="``"
-              [tipo]="'Content'"
+              [link]="post.userProfilePic"
+              [tipo]="'NO'"
+              [lunghezzaCard]="'30rem'"
+              [altezzaImg]="'30rem'"
             >
-              <div
-                buttonContent
-                class="card-footer d-flex justify-content-between post-actions"
-              >
-                <i class="bi bi-heart fs-5"></i>
-                <i class="bi bi-chat fs-5"></i>
-                <i class="bi bi-share fs-5"></i>
+              <div descrizioneContent>
+                <app-descrizione-post [post]="post"></app-descrizione-post>
               </div>
             </app-card-custom>
-          }
+          </div>
         }
-      </div>
+      }
     </div>
   </div>
 </div>

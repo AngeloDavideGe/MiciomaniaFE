@@ -1,15 +1,15 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { setPunteggioOttenuto } from '../../../../../shared/handlers/squadre.handler';
+import { sudokuCellEmpty } from '../../../constants/boardEmpty.const';
+import { shuffleArray } from '../../../functions/deck-card.function';
+import { boardEmpty } from '../../../functions/games.function';
 import {
   EsitoGame,
   SudokuCell,
   SudokuNumber,
 } from '../../../interfaces/games.interfaces';
-import { shuffleArray } from '../../../functions/deck-card.function';
-import { DettagliGameComponent } from '../../../shared/components/dettagli-game.component';
-import { boardEmpty } from '../../../functions/games.function';
-import { sudokuCellEmpty } from '../../../constants/boardEmpty.const';
-import { setPunteggioOttenuto } from '../../../../../shared/handlers/squadre.handler';
 import { AlertGamesService } from '../../../services/alert-games.service';
+import { DettagliGameComponent } from '../../shared/components/dettagli-game.component';
 
 @Component({
   selector: 'app-sudoku',
@@ -80,7 +80,7 @@ export class SudokuComponent {
     board: SudokuCell[][],
     row: number,
     col: number,
-    num: SudokuNumber
+    num: SudokuNumber,
   ): boolean {
     for (let i = 0; i < 9; i++) {
       if (board[row][i].value === num) return false;

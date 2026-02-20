@@ -1,6 +1,6 @@
 import { Component, inject, Input } from '@angular/core';
 import { Router } from '@angular/router';
-import { ButtonCustomComponent } from '../../../../shared/components/custom/botton-custom.component';
+import { ButtonCustomComponent } from '../../../../../shared/components/custom/botton-custom.component';
 
 @Component({
   selector: 'app-dettagli-game',

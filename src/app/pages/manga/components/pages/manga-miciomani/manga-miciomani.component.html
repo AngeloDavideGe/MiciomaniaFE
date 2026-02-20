@@ -22,16 +22,18 @@
           <app-card-custom
             [link]="manga.copertina || mangaDefaultPic"
             [titolo]="manga.nome"
-            [descrizioneHTML]="
-              `Genere: <strong>${manga.genere}</strong><br>
-              Autore: <em>${manga.idUtente}</em>`
-            "
             [titoloBottone]="mmicioLang.scarica"
             [classBody]="'manga-class'"
             [tipo]="'Manga'"
             [altezzaImg]="'20rem'"
             (clickBotton)="mangaSongUtilities.downloadManga(manga)"
-          ></app-card-custom>
+          >
+            <div descrizioneContent>
+              Genere: <strong>{{ manga.genere }}</strong
+              ><br />
+              Autore: <em>{{ manga.idUtente }}</em>
+            </div>
+          </app-card-custom>
         }
       </div>
     </section>
@@ -51,16 +53,18 @@
           <app-card-custom
             [link]="manga.copertina || mangaDefaultPic"
             [titolo]="manga.nome"
-            [descrizioneHTML]="
-              `Genere: <strong>${manga.genere}</strong><br>
-              Autore: <em>${manga.idUtente}</em>`
-            "
             [classBody]="'manga-class'"
             [titoloBottone]="mmicioLang.scarica"
             [tipo]="'Manga'"
             [altezzaImg]="'20rem'"
             (clickBotton)="mangaSongUtilities.downloadManga(manga)"
-          ></app-card-custom>
+          >
+            <div descrizioneContent>
+              Genere: <strong>{{ manga.genere }}</strong
+              ><br />
+              Autore: <em>{{ manga.idUtente }}</em>
+            </div>
+          </app-card-custom>
         }
       </div>
     </section>

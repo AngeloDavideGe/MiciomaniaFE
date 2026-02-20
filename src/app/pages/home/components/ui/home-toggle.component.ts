@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, signal } from '@angular/core';
 import { DataHttp } from '../../../../core/api/http.data';
 import { Lingua } from '../../../../shared/interfaces/http.interface';
 import { Credenziali } from '../../../../shared/interfaces/users.interface';
@@ -12,12 +12,16 @@ import { HomeLang } from '../../languages/interfaces/home-lang.interface';
     <div class="home-navbar-wrapper">
       <button
         class="btn stile-bottoni toggle-btn"
-        (click)="menuOpen = !menuOpen"
+        (click)="menuOpen.set(!menuOpen())"
       >
-        <i class="bi" [class.bi-list]="!menuOpen" [class.bi-x]="menuOpen"></i>
+        <i
+          class="bi"
+          [class.bi-list]="!menuOpen()"
+          [class.bi-x]="menuOpen()"
+        ></i>
       </button>
 
-      @if (menuOpen) {
+      @if (menuOpen()) {
         <div class="dropdown-panel">
           <ul class="custom-nav">
             <!-- Impostazioni -->
@@ -112,27 +116,27 @@ import { HomeLang } from '../../languages/interfaces/home-lang.interface';
 
           .custom-nav {
             display: flex;
-            flex-direction: row;
+            flex-direction: column;
             gap: 1rem;
             margin: 0;
             padding: 0;
-          }
 
-          .nav-item {
-            list-style: none;
-          }
+            .nav-item {
+              list-style: none;
 
-          .stile-bottoni {
-            background-color: var(--surface-color);
-            border: 1px solid var(--border-color);
-            color: var(--text-color);
-            padding: 0.5rem 1rem;
-            font-size: 1rem;
-            transition: all 0.2s ease;
+              .stile-bottoni {
+                background-color: var(--surface-color);
+                border: 1px solid var(--border-color);
+                color: var(--text-color);
+                padding: 0.5rem 1rem;
+                font-size: 1rem;
+                transition: all 0.2s ease;
 
-            &:hover {
-              background-color: var(--bg-hover);
-              border-color: var(--border-hover);
+                &:hover {
+                  background-color: var(--bg-hover);
+                  border-color: var(--border-hover);
+                }
+              }
             }
           }
         }
@@ -146,7 +150,7 @@ export class HomeToggleComponent {
   @Input() inizialiUser!: string;
 
   public Lingua = Lingua;
-  public menuOpen: boolean = false;
+  public menuOpen = signal<boolean>(false);
 
   public cambiaLingua(lang: Lingua): void {
     DataHttp.lingua.set(lang);

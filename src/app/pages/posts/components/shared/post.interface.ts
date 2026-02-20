@@ -1,6 +1,6 @@
 export interface TweetAll extends Tweet {
-  nome: string;
-  profilePic: string;
+  userName: string;
+  userProfilePic: string;
 }
 
 export interface Tweet {

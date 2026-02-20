@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { EsitoGame } from '../../interfaces/games.interfaces';
+import { EsitoGame } from '../../../interfaces/games.interfaces';
 import { NgClass } from '@angular/common';
 
 @Component({
@@ -16,7 +16,7 @@ import { NgClass } from '@angular/common';
         [ngClass]="{
           'bg-success border-success': esito === 'vittoria',
           'bg-danger border-danger': esito === 'sconfitta',
-          'bg-warning border-warning text-dark': esito === 'pareggio'
+          'bg-warning border-warning text-dark': esito === 'pareggio',
         }"
         style="
           border-radius: 1rem;

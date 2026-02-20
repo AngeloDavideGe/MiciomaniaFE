@@ -20,12 +20,13 @@
         <app-card-custom
           [link]="gioco.linkImg"
           [titolo]="gioco.nome"
-          [descrizioneHTML]="gioco.descrizione"
           [titoloBottone]="'Gioca'"
           [classBody]="'games-class'"
           [altezzaImg]="'15rem'"
           (clickBotton)="router.navigate(['games/' + gioco.routerLink])"
-        ></app-card-custom>
+        >
+          <p descrizioneContent>{{ gioco.descrizione }}</p>
+        </app-card-custom>
       }
     </div>
   </div>

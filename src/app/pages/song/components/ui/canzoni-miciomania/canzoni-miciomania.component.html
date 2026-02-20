@@ -18,17 +18,19 @@
         <app-card-custom
           [titolo]="canzone.nome"
           [link]="canzone.copertina || defaultPic"
-          [descrizioneHTML]="
-            `Genere: <strong>${canzone.genere}</strong><br>
-            Autore: <em>${canzone.idUtente}</em>`
-          "
           [altezzaImg]="'20rem'"
           [tipo]="'Song'"
           [classBody]="'manga-class'"
           [setCanzone]="msu.sc.currentCanzone()"
           (clickBotton)="msu.playSong(canzone, canzoniMiciomania())"
           (click2Botton)="msu.sc.stopSong()"
-        ></app-card-custom>
+        >
+          <div descrizioneContent>
+            Genere: <strong>{{ canzone.genere }}</strong
+            ><br />
+            Autore: <em>{{ canzone.idUtente }}</em>
+          </div>
+        </app-card-custom>
       }
     </div>
   </section>
@@ -55,17 +57,19 @@
         <app-card-custom
           [titolo]="canzone.nome"
           [link]="canzone.copertina || defaultPic"
-          [descrizioneHTML]="
-            `Genere: <strong>${canzone.genere}</strong><br>
-            Autore: <em>${canzone.idUtente}</em>`
-          "
           [altezzaImg]="'20rem'"
           [tipo]="'Song'"
           [classBody]="'manga-class'"
           [setCanzone]="msu.sc.currentCanzone()"
           (clickBotton)="msu.playSong(canzone, canzoniUtente())"
           (click2Botton)="msu.sc.stopSong()"
-        ></app-card-custom>
+        >
+          <div descrizioneContent>
+            Genere: <strong>{{ canzone.genere }}</strong
+            ><br />
+            Autore: <em>{{ canzone.idUtente }}</em>
+          </div></app-card-custom
+        >
       }
     </div>
   </section>

@@ -5,7 +5,7 @@ import {
   EnvironmentInjector,
 } from '@angular/core';
 import { createComponent } from '@angular/core';
-import { AlertsGameComponent } from '../shared/components/alert-games.component';
+import { AlertsGameComponent } from '../components/shared/components/alert-games.component';
 import { EsitoGame } from '../interfaces/games.interfaces';
 
 @Injectable({
@@ -16,7 +16,7 @@ export class AlertGamesService {
 
   constructor(
     private appRef: ApplicationRef,
-    private environmentInjector: EnvironmentInjector
+    private environmentInjector: EnvironmentInjector,
   ) {}
 
   alert(esito: EsitoGame): void {

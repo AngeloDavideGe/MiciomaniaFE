@@ -5,8 +5,8 @@ import { take } from 'rxjs';
 import { LoadingService } from '../../../../../shared/services/template/loading.service';
 import { getCasualQuiz } from '../../../functions/quiz.function';
 import { CasualQuiz } from '../../../interfaces/games.interfaces';
-import { GamesBase } from '../../../shared/base/games.base';
-import { DettagliGameComponent } from '../../../shared/components/dettagli-game.component';
+import { GamesBase } from '../../shared/base/games.base';
+import { DettagliGameComponent } from '../../shared/components/dettagli-game.component';
 import { GitHubService } from '../../../../../shared/services/api/github.service';
 import {
   Quiz,
@@ -39,7 +39,7 @@ export class QuizComponent extends GamesBase implements OnInit {
         .getGistFormGithub(
           'AngeloDavideGe',
           'c4a646a0fbe86f97fbcf4520af119386',
-          'Quiz.json'
+          'Quiz.json',
         )
         .pipe(take(1))
         .subscribe({
@@ -61,7 +61,7 @@ export class QuizComponent extends GamesBase implements OnInit {
       this.loadinService.show();
     } else if (this.numDomanda < 5) {
       this.selectDomanda(
-        getCasualQuiz(this.gitHubService.quizFilter) as CasualQuiz
+        getCasualQuiz(this.gitHubService.quizFilter) as CasualQuiz,
       );
     }
   }

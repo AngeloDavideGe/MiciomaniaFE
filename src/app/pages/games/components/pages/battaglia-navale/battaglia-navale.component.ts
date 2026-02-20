@@ -8,8 +8,8 @@ import {
   Nave,
   PosizionaNave,
 } from '../../../interfaces/games.interfaces';
-import { GamesBase } from '../../../shared/base/games.base';
-import { DettagliGameComponent } from '../../../shared/components/dettagli-game.component';
+import { GamesBase } from '../../shared/base/games.base';
+import { DettagliGameComponent } from '../../shared/components/dettagli-game.component';
 import { BotBattagliaNavale } from './bot/battaglia-navale.bot';
 import {
   cellaOccupata,
@@ -93,7 +93,7 @@ export class BattagliaNavaleComponent extends GamesBase implements OnInit {
       while (!posizioneValida && tentativi < maxTentativi) {
         const riga: number = Math.floor(Math.random() * this.dimGriglia);
         const colonna: number = Math.floor(
-          Math.random() * (this.dimGriglia - nave.lunghezzaNave + 1)
+          Math.random() * (this.dimGriglia - nave.lunghezzaNave + 1),
         );
 
         const pn: PosizionaNave = {

@@ -1,12 +1,11 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { setPunteggioOttenuto } from '../../../../../shared/handlers/squadre.handler';
-import { EsitoGame, Forza4, Turno } from '../../../interfaces/games.interfaces';
-import { AlertGamesService } from '../../../services/alert-games.service';
-import { GamesBase } from '../../../shared/base/games.base';
-import { DettagliGameComponent } from '../../../shared/components/dettagli-game.component';
-import { Forza4BotClass } from './bot/forza-4.bot';
-import { boardEmpty } from '../../../functions/games.function';
 import { forza4CellEmpty } from '../../../constants/boardEmpty.const';
+import { boardEmpty } from '../../../functions/games.function';
+import { EsitoGame, Forza4, Turno } from '../../../interfaces/games.interfaces';
+import { GamesBase } from '../../shared/base/games.base';
+import { DettagliGameComponent } from '../../shared/components/dettagli-game.component';
+import { Forza4BotClass } from './bot/forza-4.bot';
 
 @Component({
   selector: 'app-forza-4',
@@ -15,8 +14,6 @@ import { forza4CellEmpty } from '../../../constants/boardEmpty.const';
   templateUrl: './forza-4.component.html',
 })
 export class Forza4Component extends GamesBase {
-  private alertService = inject(AlertGamesService);
-
   public readonly dimCampo: number = 6;
   public gameOver: boolean = false;
   private bot = new Forza4BotClass();
@@ -109,7 +106,7 @@ export class Forza4Component extends GamesBase {
   private resetGame(p: number, e: EsitoGame): void {
     this.gameOver = false;
     this.turno = 'Player';
-    this.alertService.alert(e);
+    this.alertGameService.alert(e);
     setPunteggioOttenuto(p);
     this.campo = boardEmpty<Forza4>(this.dimCampo, forza4CellEmpty);
   }
