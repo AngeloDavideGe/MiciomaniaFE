@@ -3,16 +3,21 @@ import { DataHttp } from '../../../../core/api/http.data';
 import { Lingua } from '../../../../shared/interfaces/http.interface';
 import { Credenziali } from '../../../../shared/interfaces/users.interface';
 import { HomeLang } from '../../languages/interfaces/home-lang.interface';
+import { NgClass } from '@angular/common';
 
 @Component({
   selector: 'app-home-toggle',
   standalone: true,
-  imports: [],
+  imports: [NgClass],
   template: `
     <div class="home-navbar-wrapper">
       <button
-        class="btn stile-bottoni toggle-btn"
+        class="btn toggle-btn"
         (click)="menuOpen.set(!menuOpen())"
+        [ngClass]="{
+          'btn-primary': menuOpen(),
+          'btn-outline-primary': !menuOpen(),
+        }"
       >
         <i
           class="bi"
@@ -22,127 +27,73 @@ import { HomeLang } from '../../languages/interfaces/home-lang.interface';
       </button>
 
       @if (menuOpen()) {
-        <div class="dropdown-panel">
+        <div class="dropdown-panel shadow-sm">
           <ul class="custom-nav">
-            <!-- Impostazioni -->
             <li class="nav-item dropdown">
               <button
-                class="btn dropdown-toggle stile-bottoni"
+                class="btn dropdown-toggle"
                 type="button"
-                data-bs-toggle="dropdown"
+                (click)="cambiaDropdown('impostazioni')"
               >
-                <i class="bi bi-gear"></i>
+                <i class="bi bi-gear me-2"></i>
                 {{ homeLang.impostazioni }}
               </button>
-
-              <ul class="dropdown-menu dropdown-menu-end">
+              @if (currentButton() == 'impostazioni') {
                 <ng-content select="[impostazioniContent]"></ng-content>
-              </ul>
+              }
             </li>
 
-            <!-- Profili -->
             <li class="nav-item dropdown">
               <button
-                class="btn dropdown-toggle stile-bottoni"
+                class="btn dropdown-toggle"
                 type="button"
-                data-bs-toggle="dropdown"
+                (click)="cambiaDropdown('profili')"
               >
-                <i class="bi bi-person"></i>
+                <i class="bi bi-person me-2"></i>
                 {{ homeLang.profili }}
               </button>
-
-              <ul class="dropdown-menu dropdown-menu-end">
+              @if (currentButton() == 'profili') {
                 <ng-content select="[profiliContent]"></ng-content>
-              </ul>
+              }
             </li>
 
-            <!-- Lingua -->
             <li class="nav-item dropdown">
               <button
-                class="btn dropdown-toggle stile-bottoni"
+                class="btn dropdown-toggle"
                 type="button"
-                data-bs-toggle="dropdown"
+                (click)="cambiaDropdown('lingua')"
               >
-                <i class="bi bi-translate"></i>
+                <i class="bi bi-translate me-2"></i>
                 {{ homeLang.lingua }}
               </button>
 
-              <ul class="dropdown-menu dropdown-menu-end">
-                <li>
-                  <button
-                    class="dropdown-item"
-                    (click)="cambiaLingua(Lingua.it)"
-                  >
-                    🇮🇹 Italiano
-                  </button>
-                </li>
-                <li>
-                  <button
-                    class="dropdown-item"
-                    (click)="cambiaLingua(Lingua.en)"
-                  >
-                    🇬🇧 English
-                  </button>
-                </li>
-              </ul>
+              @if (currentButton() == 'lingua') {
+                <ul class="language-list">
+                  <li>
+                    <button
+                      class="dropdown-item"
+                      (click)="cambiaLingua(Lingua.it)"
+                    >
+                      🇮🇹 Italiano
+                    </button>
+                  </li>
+                  <li>
+                    <button
+                      class="dropdown-item"
+                      (click)="cambiaLingua(Lingua.en)"
+                    >
+                      🇬🇧 English
+                    </button>
+                  </li>
+                </ul>
+              }
             </li>
           </ul>
         </div>
       }
     </div>
   `,
-  styles: [
-    `
-      .home-navbar-wrapper {
-        position: relative;
-        display: flex;
-        align-items: center;
-
-        .toggle-btn {
-          z-index: 2;
-        }
-
-        .dropdown-panel {
-          position: absolute;
-          top: 100%;
-          right: 0;
-          margin-top: 0.5rem;
-          background-color: var(--surface-color);
-          border: 1px solid var(--border-color);
-          border-radius: 0.5rem;
-          padding: 0.5rem;
-          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-          display: flex;
-
-          .custom-nav {
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-            margin: 0;
-            padding: 0;
-
-            .nav-item {
-              list-style: none;
-
-              .stile-bottoni {
-                background-color: var(--surface-color);
-                border: 1px solid var(--border-color);
-                color: var(--text-color);
-                padding: 0.5rem 1rem;
-                font-size: 1rem;
-                transition: all 0.2s ease;
-
-                &:hover {
-                  background-color: var(--bg-hover);
-                  border-color: var(--border-hover);
-                }
-              }
-            }
-          }
-        }
-      }
-    `,
-  ],
+  styleUrl: '../styles/toggle.styles.scss',
 })
 export class HomeToggleComponent {
   @Input() homeLang!: HomeLang;
@@ -151,8 +102,17 @@ export class HomeToggleComponent {
 
   public Lingua = Lingua;
   public menuOpen = signal<boolean>(false);
+  public currentButton = signal<DropdownCurrent>(null);
+
+  public cambiaDropdown(drop: DropdownCurrent) {
+    this.currentButton.update((x: DropdownCurrent) =>
+      x == drop ? null : drop,
+    );
+  }
 
   public cambiaLingua(lang: Lingua): void {
     DataHttp.lingua.set(lang);
   }
 }
+
+type DropdownCurrent = 'impostazioni' | 'profili' | 'lingua' | null;

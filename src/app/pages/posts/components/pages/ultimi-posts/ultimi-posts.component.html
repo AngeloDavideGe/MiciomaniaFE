@@ -5,61 +5,57 @@
   (searchActiveFunc)="searchActive.set($event)"
 ></app-custom-navbar>
 
-<div id="ListaPosts" class="container-fluid py-5 mt-5">
-  <div class="row">
-    <!-- Colonna dei filtri (sempre a sinistra con posizione fissa) -->
-    @if (searchActive()) {
-      <div class="cerca-profili-wrapper">
-        <app-cerca-profili [searchQuery]="searchQuery"></app-cerca-profili>
+<div id="ListaPosts" class="container-fluid" style="margin-top: 4.5rem">
+  <!-- Colonna dei filtri (sempre a sinistra con posizione fissa) -->
+  @if (searchActive()) {
+    <div class="cerca-profili-wrapper">
+      <app-cerca-profili [searchQuery]="searchQuery"></app-cerca-profili>
+    </div>
+  }
+
+  <!-- Colonna dei post (centrata rispetto allo spazio rimanente) -->
+
+  @if (postCaricati()) {
+    @if (postService.newPosts.length > 0) {
+      @for (post of postService.oldPosts; track $index) {
+        <div class="d-flex justify-content-center mb-4">
+          <app-card-custom
+            [link]="post.userProfilePic"
+            [tipo]="'NO'"
+            [lunghezzaCard]="'30rem'"
+            [altezzaImg]="'30rem'"
+          >
+            <div descrizioneContent>
+              <app-descrizione-post [post]="post"></app-descrizione-post>
+            </div>
+          </app-card-custom>
+        </div>
+      }
+    } @else {
+      <app-no-post></app-no-post>
+    }
+  } @else {
+    <app-spinner [mt]="'10rem'"></app-spinner>
+  }
+
+  @if (postService.oldPosts.length > 0) {
+    <div class="post-separator text-center my-4">
+      <span>Post già visti</span>
+    </div>
+
+    @for (post of postService.oldPosts; track $index) {
+      <div class="d-flex justify-content-center mb-4">
+        <app-card-custom
+          [link]="post.userProfilePic"
+          [tipo]="'NO'"
+          [lunghezzaCard]="'30rem'"
+          [altezzaImg]="'30rem'"
+        >
+          <div descrizioneContent>
+            <app-descrizione-post [post]="post"></app-descrizione-post>
+          </div>
+        </app-card-custom>
       </div>
     }
-
-    <!-- Colonna dei post (centrata rispetto allo spazio rimanente) -->
-
-    <div [ngClass]="searchActive() ? 'margin-posts' : ''">
-      @if (postCaricati()) {
-        @if (postService.newPosts.length > 0) {
-          @for (post of postService.oldPosts; track $index) {
-            <div class="d-flex justify-content-center mb-4">
-              <app-card-custom
-                [link]="post.userProfilePic"
-                [tipo]="'NO'"
-                [lunghezzaCard]="'30rem'"
-                [altezzaImg]="'30rem'"
-              >
-                <div descrizioneContent>
-                  <app-descrizione-post [post]="post"></app-descrizione-post>
-                </div>
-              </app-card-custom>
-            </div>
-          }
-        } @else {
-          <app-no-post></app-no-post>
-        }
-      } @else {
-        <app-spinner [mt]="'10rem'"></app-spinner>
-      }
-
-      @if (postService.oldPosts.length > 0) {
-        <div class="post-separator text-center my-4">
-          <span>Post già visti</span>
-        </div>
-
-        @for (post of postService.oldPosts; track $index) {
-          <div class="d-flex justify-content-center mb-4">
-            <app-card-custom
-              [link]="post.userProfilePic"
-              [tipo]="'NO'"
-              [lunghezzaCard]="'30rem'"
-              [altezzaImg]="'30rem'"
-            >
-              <div descrizioneContent>
-                <app-descrizione-post [post]="post"></app-descrizione-post>
-              </div>
-            </app-card-custom>
-          </div>
-        }
-      }
-    </div>
-  </div>
+  }
 </div>
