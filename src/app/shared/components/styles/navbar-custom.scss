@@ -4,7 +4,7 @@
   left: 0;
   right: 0;
   z-index: 1000;
-  height: 72px;
+  height: 4rem;
   padding: 0 10px;
   background: var(--bg-light);
   border-bottom: 1px solid var(--border-light);
@@ -194,7 +194,6 @@
   }
 
   @media (max-width: 768px) {
-    height: 64px;
     padding: 0;
     .btn-label {
       display: none;

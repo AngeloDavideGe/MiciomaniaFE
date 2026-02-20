@@ -15,16 +15,16 @@ import { Component } from '@angular/core';
   styles: [
     `
       .no-posts {
-        background: #fafafa;
-        border: 2px dashed #e0e0e0;
+        background: var(--bg-light);
+        border: 2px dashed var(--border-color);
         border-radius: 16px;
         padding: 2rem;
-        max-width: 450px;
+        max-width: 30rem;
         margin: 2rem auto;
         transition: background 0.3s;
 
         &:hover {
-          background: #f5f5f5;
+          background: var(--surface-color);
         }
 
         i {

@@ -20,14 +20,14 @@ import { Lingua } from '../../../../shared/interfaces/http.interface';
   template: `
     <section id="CardsRow">
       <div class="container position-relative">
-        <div class="text-center mb-5">
+        <div class="text-center" style="margin-top: 4rem;">
           <h4 class="fw-bold display-4" style="color: var(--text-color);">
             Home - Miciomania
           </h4>
         </div>
 
         <div
-          class="position-relative d-flex justify-content-center align-items-center"
+          class="position-relative d-flex justify-content-center align-items-center mt-5"
         >
           <!-- Freccia sinistra -->
           @if (visualizzaButtoni() && !disableLeft()) {

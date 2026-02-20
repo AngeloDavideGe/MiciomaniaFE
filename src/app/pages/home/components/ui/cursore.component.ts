@@ -7,12 +7,8 @@ import { HomeLang } from '../../languages/interfaces/home-lang.interface';
   standalone: true,
   imports: [],
   template: `
-    <div style="height: 1rem">
-      <!-- Spazio Vuoto -->
-    </div>
-    <div class="container">
+    <div class="container" style="margin-top: 4.5rem;">
       <div class="row justify-content-center">
-        <!-- Riquadro per il cursore di default -->
         <div class="col-auto">
           <div class="card mb-4 shadow-sm" style="width: 8rem; margin: 0.1rem;">
             <div class="card-body text-center">
@@ -37,7 +33,6 @@ import { HomeLang } from '../../languages/interfaces/home-lang.interface';
           </div>
         </div>
 
-        <!-- Lista dei cursori personalizzati -->
         @for (cursore of cursori; track $index) {
           <div class="col-auto">
             <div

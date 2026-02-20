@@ -3,13 +3,18 @@
   [filtro]="true"
   (filtroChanged)="searchQuery.set($event)"
   (searchActiveFunc)="searchActive.set($event)"
-></app-custom-navbar>
+>
+  <div rightContent style="width: 6.5rem" class="pc-only"></div>
+</app-custom-navbar>
 
-<div id="ListaPosts" class="container-fluid" style="margin-top: 4.5rem">
+<div id="ListaPosts" class="container-fluid" style="margin-top: 4.2rem">
   <!-- Colonna dei filtri (sempre a sinistra con posizione fissa) -->
   @if (searchActive()) {
     <div class="cerca-profili-wrapper">
-      <app-cerca-profili [searchQuery]="searchQuery"></app-cerca-profili>
+      <app-cerca-profili
+        style="width: 30rem"
+        [searchQuery]="searchQuery"
+      ></app-cerca-profili>
     </div>
   }
 
