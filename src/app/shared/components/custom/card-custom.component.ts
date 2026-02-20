@@ -47,6 +47,9 @@ import { ButtonCustomComponent } from './botton-custom.component';
                 {{ songButton() ? '▶ Ascolta' : '⏹ Stop' }}
               </button>
             }
+            @case ('Content') {
+              <ng-content select="[buttonContent]"></ng-content>
+            }
           }
         </div>
       </div>
@@ -64,7 +67,7 @@ export class CardCustomComponent {
   @Input() classBody: string = '';
   @Input() icona: string = '';
   @Input() altezzaImg: string = '13rem';
-  @Input() tipo: 'Default' | 'Manga' | 'Song' = 'Default';
+  @Input() tipo: tipoCard = 'Default';
   @Input() set setCanzone(canzone: MangaSong | null) {
     this.songButton.set(!(canzone && canzone.nome == this.titolo));
   }
@@ -81,3 +84,5 @@ export class CardCustomComponent {
     this.songButton.update((x: boolean) => !x);
   }
 }
+
+type tipoCard = 'Default' | 'Manga' | 'Song' | 'Content';

@@ -29,6 +29,10 @@ import { Router } from '@angular/router';
             </button>
           }
 
+          <ng-content select="[leftContent]"></ng-content>
+        </div>
+
+        <div class="navbar-center-group">
           <!-- Extra Buttons -->
           @if (altriBottoni.length > 0) {
             <div class="action-buttons">
@@ -46,10 +50,7 @@ import { Router } from '@angular/router';
               }
             </div>
           }
-        </div>
 
-        <!-- Right group: search -->
-        <div class="navbar-right-group">
           @if (filtro) {
             <div class="search-container">
               <div class="search-input-wrapper" [class.active]="searchActive">
@@ -86,6 +87,11 @@ import { Router } from '@angular/router';
               </button>
             </div>
           }
+        </div>
+
+        <!-- Right group: search -->
+        <div class="navbar-right-group">
+          <ng-content select="[rightContent]"></ng-content>
         </div>
       </div>
     </nav>

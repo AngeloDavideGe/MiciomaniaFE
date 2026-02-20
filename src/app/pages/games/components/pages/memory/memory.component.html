@@ -1,41 +1,37 @@
-<div
-  class="container border border-primary rounded-lg p-4 shadow-lg text-center"
-  style="max-width: 75rem; background-color: #f8f9fa"
+<app-dettagli-game
+  [titolo]="'Memory 🧠'"
+  [descrizione]="
+    'Vediamo quanto ci metti per trovare tutte le coppie, mettici troppo e KoronVVX manderà tutti i suoi iscritti a infrangere i tuoi sogni e cucinerà la tua anima'
+  "
 >
-  <app-dettagli-game
-    [titolo]="'Memory 🧠'"
-    [descrizione]="
-      'Vediamo quanto ci metti per trovare tutte le coppie, mettici troppo e KoronVVX manderà tutti i suoi iscritti a infrangere i tuoi sogni e cucinerà la tua anima'
-    "
-  ></app-dettagli-game>
-
-  <div class="row no-gutters justify-content-center">
+  <div giocoContent class="row no-gutters justify-content-center">
     @for (card of cards(); track $index) {
-    <div class="col-auto p-1">
-      <!-- Non selezionata -->
-      @if (!selectedCards.has($index)) {
-      <div class="card" style="width: 160px; height: 240px">
-        <img
-          src="https://deckofcardsapi.com/static/img/back.png"
-          class="card-img-top h-100 w-100"
-          alt="Card back"
-          style="cursor: pointer"
-          (click)="selectCardFunc(card, $index)"
-        />
+      <div class="col-auto p-1">
+        <!-- Non selezionata -->
+        @if (!selectedCards.has($index)) {
+          <div class="card" style="width: 160px; height: 240px">
+            <img
+              src="https://deckofcardsapi.com/static/img/back.png"
+              class="card-img-top h-100 w-100"
+              alt="Card back"
+              style="cursor: pointer"
+              (click)="selectCardFunc(card, $index)"
+            />
+          </div>
+        } @else {
+          <!-- Selezionata -->
+          @if (!coppieTrovate().includes(card.code)) {
+            <div class="card" style="width: 160px; height: 240px">
+              <img
+                [src]="card.image"
+                class="card-img-top h-100 w-100"
+                [alt]="card.code"
+                style="cursor: pointer"
+              />
+            </div>
+          }
+        }
       </div>
-      } @else {
-      <!-- Selezionata -->
-      @if (!coppieTrovate().includes(card.code)) {
-      <div class="card" style="width: 160px; height: 240px">
-        <img
-          [src]="card.image"
-          class="card-img-top h-100 w-100"
-          [alt]="card.code"
-          style="cursor: pointer"
-        />
-      </div>
-      } }
-    </div>
     }
   </div>
-</div>
+</app-dettagli-game>

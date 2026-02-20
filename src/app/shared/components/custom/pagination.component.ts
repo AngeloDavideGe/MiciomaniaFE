@@ -1,11 +1,4 @@
-import {
-  Component,
-  EventEmitter,
-  Input,
-  Output,
-  Signal,
-  WritableSignal,
-} from '@angular/core';
+import { Component, Input, WritableSignal } from '@angular/core';
 import { FiltriInterface } from '../../utilities/pagination.utilities';
 
 @Component({

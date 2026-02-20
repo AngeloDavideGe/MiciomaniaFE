@@ -44,4 +44,20 @@
       padding-left: 3rem;
     }
   }
+
+  .post-actions {
+    background: #fff;
+    border-top: none;
+    padding: 0.5rem 1rem;
+
+    i {
+      cursor: pointer;
+      transition: transform 0.2s;
+
+      &:hover {
+        transform: scale(1.2);
+        color: #e03131;
+      }
+    }
+  }
 }

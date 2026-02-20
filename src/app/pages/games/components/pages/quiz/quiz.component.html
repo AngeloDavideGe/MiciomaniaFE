@@ -1,16 +1,11 @@
-<div
-  class="container border border-primary rounded-lg p-4 shadow-lg text-center"
-  style="max-width: 55rem; background-color: #f8f9fa"
+<app-dettagli-game
+  [titolo]="'Quiz 🧠'"
+  [descrizione]="
+    'Vediamo quante ne sai di questa banda di derisori di sentimenti, più risposte indovinerai e meno piangerai quando Indy ti mostrerà il motivo per il quale Sirius li ha bloccati tutti'
+  "
 >
-  <app-dettagli-game
-    [titolo]="'Quiz 🧠'"
-    [descrizione]="
-      'Vediamo quante ne sai di questa banda di derisori di sentimenti, più risposte indovinerai e meno piangerai quando Indy ti mostrerà il motivo per il quale Sirius li ha bloccati tutti'
-    "
-  ></app-dettagli-game>
-
-  <!-- Domanda corrente -->
   <div
+    giocoContent
     class="card shadow"
     style="
       border-radius: 15px;
@@ -167,4 +162,4 @@
       </div>
     </div>
   </div>
-</div>
+</app-dettagli-game>

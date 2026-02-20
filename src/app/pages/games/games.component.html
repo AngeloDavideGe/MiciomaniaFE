@@ -24,6 +24,7 @@
           [titoloBottone]="'Gioca'"
           [classBody]="'games-class'"
           [altezzaImg]="'15rem'"
+          (clickBotton)="router.navigate(['games/' + gioco.routerLink])"
         ></app-card-custom>
       }
     </div>

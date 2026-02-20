@@ -1,15 +1,10 @@
-<div
-  class="container border border-primary rounded-lg p-4 shadow-lg text-center"
-  style="max-width: 70rem; background-color: #f8f9fa; padding: 2rem !important"
+<app-dettagli-game
+  [titolo]="'Battaglia Navale 🚢'"
+  [descrizione]="
+    'Immergiti in questo gioco, oppure fai immergere le navi di quel dannato del tuo avversario, mentre è poi agonizzante in mezzo al mare umilialo e deridilo, altrimenti sarai tu ad esserlo.'
+  "
 >
-  <app-dettagli-game
-    [titolo]="'Battaglia Navale 🚢'"
-    [descrizione]="
-      'Immergiti in questo gioco, oppure fai immergere le navi di quel dannato del tuo avversario, mentre è poi agonizzante in mezzo al mare umilialo e deridilo, altrimenti sarai tu ad esserlo.'
-    "
-  ></app-dettagli-game>
-
-  <div class="row mt-4" style="margin-top: 2rem !important">
+  <div giocoContent class="row mt-4" style="margin-top: 2rem !important">
     <!-- Griglia del Player -->
     @for (key of keysCelle; track $index) {
       <div class="col-md-6 mb-4">
@@ -66,7 +61,7 @@
       </div>
     }
   </div>
-</div>
+</app-dettagli-game>
 
 <style>
   #cellaPlayer,

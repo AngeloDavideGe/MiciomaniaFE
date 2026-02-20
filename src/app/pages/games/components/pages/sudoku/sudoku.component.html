@@ -1,17 +1,10 @@
-<div
-  class="container border border-primary rounded-lg p-4 shadow-lg text-center"
-  style="max-width: 75rem; background-color: #f8f9fa"
+<app-dettagli-game
+  [titolo]="'Sudoku 🧩'"
+  [descrizione]="
+    'Il Sudoku è un gioco di logica e ragionamento che sfida la tua mente a completare una griglia 9x9 con numeri da 1 a 9, assicurandoti che ogni numero appaia una sola volta in ogni riga, colonna e regione 3x3. Mettiti alla prova con questo classico rompicapo altrimenti Carlotta non ti prenderà come cagnolino 🧠✨'
+  "
 >
-  <!-- Dettagli -->
-  <app-dettagli-game
-    [titolo]="'Sudoku 🧩'"
-    [descrizione]="
-      'Il Sudoku è un gioco di logica e ragionamento che sfida la tua mente a completare una griglia 9x9 con numeri da 1 a 9, assicurandoti che ogni numero appaia una sola volta in ogni riga, colonna e regione 3x3. Mettiti alla prova con questo classico rompicapo altrimenti Carlotta non ti prenderà come cagnolino 🧠✨'
-    "
-  ></app-dettagli-game>
-
-  <!-- Tabella -->
-  <div id="SudokuTable">
+  <div giocoContent id="SudokuTable">
     <div class="sudoku-container">
       <table class="sudoku-table">
         <tbody>
@@ -37,4 +30,4 @@
       </table>
     </div>
   </div>
-</div>
+</app-dettagli-game>

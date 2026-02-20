@@ -1,28 +1,60 @@
 @if (isHome$ | async) {
-  <app-home-navbar
-    [homeLang]="homeLang()"
-    [credenziali]="user.credenziali"
-    [inizialiUser]="inizialiUser"
-    [profilesMenu]="menuBarProfili"
-    [settingsMenu]="menuBarImpostazioni"
-  ></app-home-navbar>
+  <app-custom-navbar>
+    <div leftContent>
+      <div class="d-flex align-items-center">
+        <!-- Foto o iniziali -->
+        @if (user.credenziali.profilePic) {
+          <img
+            [src]="user.credenziali.profilePic"
+            alt="Profile Picture"
+            class="rounded-circle"
+            style="width: 3.3rem; height: 3.3rem"
+          />
+        } @else {
+          <div
+            class="d-flex align-items-center justify-content-center bg-secondary text-white rounded-circle"
+            style="width: 3.3rem; height: 3.3rem; font-weight: bold"
+          >
+            {{ inizialiUser }}
+          </div>
+        }
 
-  <ng-template #menuBarImpostazioni>
-    <app-menu-impostazioni
-      [homeLang]="homeLang()"
-      [user]="user"
-      (cursore)="cursoreAperto.set(!cursoreAperto())"
-    >
-    </app-menu-impostazioni>
-  </ng-template>
+        <!-- Nome utente -->
+        <span class="ms-2 fw-bold" style="font-size: 1.2rem">
+          @if (user.credenziali.nome) {
+            {{ user.credenziali.nome }}
+          } @else {
+            {{ homeLang().anonimo }}
+          }
+        </span>
+      </div>
+    </div>
 
-  <ng-template #menuBarProfili>
-    <app-menu-profili
-      [homeLang]="homeLang()"
-      [user]="user"
-      (logout)="logout()"
-    ></app-menu-profili>
-  </ng-template>
+    <div rightContent>
+      <app-home-toggle
+        [homeLang]="homeLang()"
+        [credenziali]="user.credenziali"
+        [inizialiUser]="inizialiUser"
+      >
+        <div impostazioniContent>
+          <app-menu-impostazioni
+            [homeLang]="homeLang()"
+            [user]="user"
+            (cursore)="cursoreAperto.set(!cursoreAperto())"
+          >
+          </app-menu-impostazioni>
+        </div>
+
+        <div profiliContent>
+          <app-menu-profili
+            [homeLang]="homeLang()"
+            [user]="user"
+            (logout)="logout()"
+          ></app-menu-profili>
+        </div>
+      </app-home-toggle>
+    </div>
+  </app-custom-navbar>
 
   @if (cursoreAperto()) {
     <app-cursore class="pc-only" [homeLang]="homeLang()"></app-cursore>

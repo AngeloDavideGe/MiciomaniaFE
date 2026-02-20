@@ -9,5 +9,5 @@ export function getExtension(file: File): string {
 
 export const titoloPulsantiSong: Record<string, string> = {
   song: 'Canzoni Miciomania',
-  proposta: 'Proponi una canzone',
+  proposta: 'Proponi una Parodia',
 };

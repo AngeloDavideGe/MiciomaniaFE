@@ -10,9 +10,7 @@
     <!-- Colonna dei filtri (sempre a sinistra con posizione fissa) -->
     @if (searchActive()) {
       <div class="cerca-profili-wrapper">
-        <div class="">
-          <app-cerca-profili [searchQuery]="searchQuery"></app-cerca-profili>
-        </div>
+        <app-cerca-profili [searchQuery]="searchQuery"></app-cerca-profili>
       </div>
     }
 
@@ -22,7 +20,19 @@
         @if (postCaricati()) {
           @if (postService.newPosts.length > 0) {
             @for (post of postService.newPosts; track $index) {
-              <app-card-post [post]="post"></app-card-post>
+              <app-card-custom
+                [link]="post.profilePic"
+                [descrizioneHTML]="``"
+                [tipo]="'Content'"
+              >
+                <div
+                  class="card-footer d-flex justify-content-between post-actions"
+                >
+                  <i class="bi bi-heart fs-5"></i>
+                  <i class="bi bi-chat fs-5"></i>
+                  <i class="bi bi-share fs-5"></i>
+                </div>
+              </app-card-custom>
             }
           } @else {
             <app-no-post></app-no-post>
@@ -37,7 +47,20 @@
           </div>
 
           @for (post of postService.oldPosts; track $index) {
-            <app-card-post [post]="post"></app-card-post>
+            <app-card-custom
+              [link]="post.profilePic"
+              [descrizioneHTML]="``"
+              [tipo]="'Content'"
+            >
+              <div
+                buttonContent
+                class="card-footer d-flex justify-content-between post-actions"
+              >
+                <i class="bi bi-heart fs-5"></i>
+                <i class="bi bi-chat fs-5"></i>
+                <i class="bi bi-share fs-5"></i>
+              </div>
+            </app-card-custom>
           }
         }
       </div>
