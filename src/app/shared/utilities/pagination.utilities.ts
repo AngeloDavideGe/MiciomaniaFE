@@ -1,5 +1,6 @@
 import { computed, Signal, WritableSignal } from '@angular/core';
 import { GetOrderCustom } from '../functions/utilities.function';
+import { environment } from '../../../environments/environment';
 
 export function GetFiltriCustom<T, F>(
   params: InputFiltri<T, F>,
@@ -23,19 +24,27 @@ export function GetFiltriCustom<T, F>(
 
   const totalPage = computed<number>(() => {
     const search: T[] = searchElems();
+    const elemForPage: number =
+      params.elemForPage || environment.maxElement.elemPagine;
 
-    return Math.ceil(search.length / (params.elemForPage || 100));
+    return Math.ceil(search.length / elemForPage);
   });
 
   const elemFilter = computed<T[]>(() => {
     const totElem: T[] = searchElems();
     const currentPages: number = params.currentPage ? params.currentPage() : 1;
+    const elemForPage: number =
+      params.elemForPage || environment.maxElement.elemPagine;
 
     return totElem.slice(
-      (currentPages - 1) * (params.elemForPage || 100),
-      currentPages * (params.elemForPage || 100),
+      (currentPages - 1) * elemForPage,
+      currentPages * elemForPage,
     );
   });
+
+  const arrayPage = computed<number[]>(() =>
+    Array.from({ length: totalPage() }, (_, i) => i + 1),
+  );
 
   const previousPage: Function = () => {
     if (params.currentPage && params.currentPage() > 1) {
@@ -49,12 +58,20 @@ export function GetFiltriCustom<T, F>(
     }
   };
 
+  const selectPage: Function = (page: number) => {
+    if (params.currentPage && page >= 1 && page <= totalPage()) {
+      params.currentPage.set(page);
+    }
+  };
+
   return {
     searchElems: searchElems,
     totalPage: totalPage,
     elemFilter: elemFilter,
+    arrayPage: arrayPage,
     previousPage: previousPage,
     nextPage: nextPage,
+    selectPage: selectPage,
   };
 }
 
@@ -93,8 +110,10 @@ export interface FiltriInterface<T> {
   totalPage: Signal<number>;
   searchElems: Signal<T[]>;
   elemFilter: Signal<T[]>;
+  arrayPage: Signal<number[]>;
   previousPage: Function;
   nextPage: Function;
+  selectPage: Function;
 }
 
 export interface FiltriSelect<T, F> {

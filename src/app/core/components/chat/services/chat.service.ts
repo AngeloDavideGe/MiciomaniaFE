@@ -38,7 +38,7 @@ export class ChatService extends BaseService {
   loadChatGruppi(): Observable<GruppiChat> {
     const body = {
       last_updated: DataHttp.gruppiChat.ultimoAggiornamento,
-      max_message: environment.maxMessagesForchat,
+      max_message: environment.maxElement.message,
       last_message_id: DataHttp.gruppiChat.ultimoId,
     };
 

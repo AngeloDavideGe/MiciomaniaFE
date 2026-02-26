@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output, signal } from '@angular/core';
-import { ColonnaCustom } from '../../../../../../../shared/components/custom/tabella-custom.component';
+import { RecordColonne } from '../../../../../../../shared/components/custom/tabella-custom.component';
 import {
   Classifica,
   Giocatori,
@@ -32,7 +32,6 @@ import { punteggi_imports } from './imports/punteggi.import';
           <div class="grid-card-layout" style="--card-width: 30rem;">
             <app-table-custom
               [elemTable]="giocatori"
-              [keyofElem]="['idUtente', 'punteggio', 'squadra']"
               [colonne]="colonneUtenti"
               [titoloTabella]="'Punteggio Utenti'"
               [elemForPage]="5"
@@ -40,7 +39,6 @@ import { punteggi_imports } from './imports/punteggi.import';
 
             <app-table-custom
               [elemTable]="squadre"
-              [keyofElem]="['nome', 'punteggio']"
               [colonne]="colonneSquadre"
               [titoloTabella]="'Punteggio Squadre'"
               [elemForPage]="5"
@@ -75,7 +73,7 @@ export class PunteggiComponent {
     }
   }
 
-  public colonneSquadre: Record<keyof Squadre, ColonnaCustom> = {
+  public colonneSquadre: Partial<RecordColonne<Squadre>> = {
     nome: {
       titolo: 'Nome',
       lunghezza: '15rem',
@@ -84,11 +82,9 @@ export class PunteggiComponent {
       titolo: 'Punteggio',
       lunghezza: '15rem',
     },
-    descrizione: {} as ColonnaCustom,
-    colore: {} as ColonnaCustom,
   };
 
-  public colonneUtenti: Record<keyof Giocatori, ColonnaCustom> = {
+  public colonneUtenti: RecordColonne<Giocatori> = {
     idUtente: {
       titolo: 'Nome',
       lunghezza: '10rem',

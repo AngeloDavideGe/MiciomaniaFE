@@ -7,7 +7,10 @@ export const environment: IEnvironment = {
     PY: 'http://localhost:5000/api/',
     DB2: 'https://qxstdfesxeseopikjayt.supabase.co/rest/v1/',
   },
-  maxMessagesForchat: 20,
+  maxElement: {
+    message: 20,
+    elemPagine: 100,
+  },
   defaultPicsUrl: {
     user: 'https://png.pngtree.com/png-vector/20191009/ourlarge/pngtree-user-icon-png-image_1796659.jpg',
     group:

@@ -6,13 +6,13 @@ import { ChatService } from '../services/chat.service';
 
 export function insertMessageRealtime(
   payload: RealtimePayload<any>,
-  chatService: ChatService
+  chatService: ChatService,
 ): void {
   const chatId: number = payload.new.chat_id;
   const currentMessages: Messaggio[] = [
     ...(DataHttp.gruppiChat.messaggi[chatId] || []),
     payload.new,
-  ].slice(-environment.maxMessagesForchat);
+  ].slice(-environment.maxElement.message);
 
   DataHttp.gruppiChat = {
     ...DataHttp.gruppiChat,
@@ -31,7 +31,7 @@ export function insertMessageRealtime(
 
 export function updateMessageRealtime(
   payload: RealtimePayload<any>,
-  chatService: ChatService
+  chatService: ChatService,
 ): void {
   const chatId: number = payload.new.chat_id;
   const msgId: number = payload.new.id;
@@ -41,7 +41,7 @@ export function updateMessageRealtime(
     messaggi = messaggi.filter((x: Messaggio) => x.id != msgId);
   } else {
     messaggi = messaggi.map((x: Messaggio) =>
-      x.id == msgId ? payload.new : x
+      x.id == msgId ? payload.new : x,
     );
   }
 

@@ -43,7 +43,7 @@ export function sendMessage(params: {
         DataHttp.user()!.id,
         params.newMessage,
         params.risposta,
-        params.separator
+        params.separator,
       )
       .pipe(take(1))
       .subscribe({
@@ -88,7 +88,7 @@ function addNewMessage(gruppi: GruppiChat): void {
 
         for (let i = existingMessages.length - 1; i >= 0; i--) {
           const update: MessaggioUpdate | undefined = cambiatiMap[chatId].get(
-            existingMessages[i].id
+            existingMessages[i].id,
           );
 
           if (update && update.contentNew != '') {
@@ -99,7 +99,7 @@ function addNewMessage(gruppi: GruppiChat): void {
       }
 
       const newMessages: Messaggio[] = gruppi.messaggi[chatId] || [];
-      const maxMessages: number = environment.maxMessagesForchat;
+      const maxMessages: number = environment.maxElement.message;
       const allMessages: Messaggio[] = messaggi[chatId].concat(newMessages);
 
       if (allMessages.length > maxMessages) {

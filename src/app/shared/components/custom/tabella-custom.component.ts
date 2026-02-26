@@ -8,7 +8,11 @@ import {
   GetFiltriCustom,
   Ordinamento,
 } from '../../utilities/pagination.utilities';
-import { PaginazioneCustomComponent } from './pagination.component';
+import {
+  PaginazioneCustomComponent,
+  TipoPaginazione,
+} from './pagination.component';
+import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'app-table-custom',
@@ -50,10 +54,10 @@ import { PaginazioneCustomComponent } from './pagination.component';
                 <tr>
                   @for (key of keyofElem; track $index; let idx = $index) {
                     <th
-                      [style.width]="colonne[key].lunghezza"
+                      [style.width]="colonne[key]!.lunghezza"
                       (click)="ordinaColonna(key)"
                     >
-                      {{ colonne[key].titolo }}
+                      {{ colonne[key]!.titolo }}
                       <span>&nbsp;↕️</span>
                     </th>
                   }
@@ -68,7 +72,7 @@ import { PaginazioneCustomComponent } from './pagination.component';
                     @for (key of keyofElem; track $index; let idx = $index) {
                       <td
                         [attr.data-label]="key"
-                        [style.width]="colonne[key].lunghezza"
+                        [style.width]="colonne[key]!.lunghezza"
                       >
                         <div class="cell-content">{{ elem[key] }}</div>
                       </td>
@@ -98,6 +102,7 @@ import { PaginazioneCustomComponent } from './pagination.component';
           <app-paginazione-custom
             [filtri]="filtri"
             [currentPage]="currentPage"
+            [tipo]="tipoPaginazione"
           ></app-paginazione-custom>
         } @else {
           <ng-container
@@ -135,15 +140,16 @@ import { PaginazioneCustomComponent } from './pagination.component';
 })
 export class TabellaCustomComponent<T> {
   @Input() elemTable!: Signal<T[]>;
-  @Input() keyofElem!: (keyof T)[];
-  @Input() colonne!: Record<keyof T, ColonnaCustom>;
+  @Input() colonne!: Partial<RecordColonne<T>>;
   @Input() noElement: string = 'Nessun Elemento';
   @Input() titoloTabella: string = '';
   @Input() lunghezzaTotale: string = '30rem';
   @Input() lunghezzaAzioni: string = '10rem';
   @Input() azioni: AzioniTabella<T>[] = [];
-  @Input() elemForPage: number = 0;
+  @Input() elemForPage: number = environment.maxElement.elemPagine;
+  @Input() tipoPaginazione: TipoPaginazione = 'multiplo';
 
+  public keyofElem: Array<keyof T> = [];
   public currentPage = signal<number>(1);
   public searchQuery = signal<string>('');
   private debounceQuery = signal<string>('');
@@ -172,6 +178,8 @@ export class TabellaCustomComponent<T> {
   }
 
   ngOnInit(): void {
+    this.keyofElem = Object.keys(this.colonne) as (keyof T)[];
+
     this.filtri = GetFiltriCustom<T, null>({
       elemTable: this.elemTable,
       elemForPage: this.elemForPage,
@@ -193,7 +201,9 @@ export interface AzioniTabella<T> {
   azione: (elem: T, index: number) => void;
 }
 
-export interface ColonnaCustom {
+export type RecordColonne<T> = Record<keyof T, ColonnaCustom>;
+
+interface ColonnaCustom {
   titolo: string;
   lunghezza: string; // e.g., '3rem', '100px', 'auto'
 }

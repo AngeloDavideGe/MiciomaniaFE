@@ -8,6 +8,7 @@ import {
 } from '@angular/core';
 import { Router } from '@angular/router';
 import { DataHttp } from '../../../../../core/api/http.data';
+import { PulsantiHeader } from '../../../../../shared/components/custom/header-custom.component';
 import { Ruolo } from '../../../../../shared/enums/users.enum';
 import { sottoscrizioneUtentiCustom } from '../../../../../shared/handlers/auth.handler';
 import { Lingua } from '../../../../../shared/interfaces/http.interface';
@@ -25,7 +26,6 @@ import {
   AdminLang,
   AdminLangType,
 } from './languages/interfaces/admin-lang.interface';
-import { PulsantiHeader } from '../../../../../shared/components/custom/header-custom.component';
 
 @Component({
   selector: 'app-admin',

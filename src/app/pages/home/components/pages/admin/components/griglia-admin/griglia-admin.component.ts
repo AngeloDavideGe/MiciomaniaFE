@@ -9,7 +9,7 @@ import {
 import { Router } from '@angular/router';
 import {
   AzioniTabella,
-  ColonnaCustom,
+  RecordColonne,
   TabellaCustomComponent,
 } from '../../../../../../../shared/components/custom/tabella-custom.component';
 import { Ruolo } from '../../../../../../../shared/enums/users.enum';
@@ -31,7 +31,6 @@ import { AdminLang } from '../../languages/interfaces/admin-lang.interface';
           [elemTable]="userMapByRuolo[ruolo]"
           [noElement]="adminLang.nessunUtente"
           [elemForPage]="5"
-          [keyofElem]="['nome', 'id']"
           [colonne]="colonne"
           [azioni]="pulsanti"
         ></app-table-custom>
@@ -45,11 +44,11 @@ export class GrigliaAdminComponent {
 
   @Input() adminLang!: AdminLang;
   @Input() user!: User | null;
-  @Input() userMapByRuolo!: { [ruolo: string]: Signal<UserParams[]> };
+  @Input() userMapByRuolo!: Record<Ruolo, Signal<UserParams[]>>;
   @Output() modificaRuolo = new EventEmitter<UserParams>();
   @Output() eliminaRuolo = new EventEmitter<UserParams>();
 
-  public colonne: Record<keyof UserParams, ColonnaCustom> = {
+  public colonne: Partial<RecordColonne<UserParams>> = {
     nome: {
       titolo: 'Nome',
       lunghezza: '10rem',
@@ -58,8 +57,6 @@ export class GrigliaAdminComponent {
       titolo: 'ID',
       lunghezza: '10rem',
     },
-    profilePic: {} as ColonnaCustom,
-    ruolo: {} as ColonnaCustom,
   };
 
   public pulsanti: AzioniTabella<UserParams>[] = [

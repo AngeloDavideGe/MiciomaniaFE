@@ -5,7 +5,10 @@ export interface IEnvironment {
     PY: string;
     DB2: string;
   };
-  maxMessagesForchat: number;
+  maxElement: {
+    message: number;
+    elemPagine: number;
+  };
   defaultPicsUrl: {
     user: string;
     group: string;
