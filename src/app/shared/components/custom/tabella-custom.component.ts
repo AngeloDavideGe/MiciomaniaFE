@@ -1,5 +1,12 @@
 import { NgTemplateOutlet } from '@angular/common';
-import { Component, effect, Input, Signal, signal } from '@angular/core';
+import {
+  Component,
+  effect,
+  Input,
+  Signal,
+  signal,
+  WritableSignal,
+} from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { debounceTimeoutCustom } from '../../functions/utilities.function';
 import { CapitalizeFirstLetterPipe } from '../../pipes/capitalize.pipe';
@@ -31,22 +38,24 @@ import { environment } from '../../../../environments/environment';
             *ngTemplateOutlet="titoloTabellaTemplate"
           ></ng-container>
 
-          <div class="search-filter">
-            <i class="bi bi-search search-icon"></i>
-            <input
-              type="text"
-              class="search-input"
-              placeholder="Cerca..."
-              [(ngModel)]="searchQuery"
-              (ngModelChange)="searchQuery.set($event)"
-            />
-            <button
-              class="clear-btn"
-              (click)="searchQuery.set(''); ordinaElem.set(null)"
-            >
-              <i class="bi bi-x-circle"></i>
-            </button>
-          </div>
+          @if (filtroDefault) {
+            <div class="search-filter">
+              <i class="bi bi-search search-icon"></i>
+              <input
+                type="text"
+                class="search-input"
+                placeholder="Cerca..."
+                [(ngModel)]="searchQuery"
+                (ngModelChange)="searchQuery.set($event)"
+              />
+              <button
+                class="clear-btn"
+                (click)="searchQuery.set(''); ordinaElem.set(null)"
+              >
+                <i class="bi bi-x-circle"></i>
+              </button>
+            </div>
+          }
 
           <div class="table-container">
             <table class="table-custom">
@@ -156,6 +165,7 @@ export class TabellaCustomComponent<T> {
   public ordinaElem = signal<Ordinamento<T, 'desc' | 'cresc'> | null>(null);
   public filtri: FiltriInterface<T> = {} as FiltriInterface<T>;
   private order: Record<keyof T, boolean> = {} as any;
+  public filtroDefault: boolean = true;
 
   public ordinaColonna: Function = debounceTimeoutCustom((key: keyof T) => {
     this.ordinaElem.set({
@@ -179,16 +189,20 @@ export class TabellaCustomComponent<T> {
 
   ngOnInit(): void {
     this.keyofElem = Object.keys(this.colonne) as (keyof T)[];
+    this.filtroDefault = this.keyofElem.every(
+      (key) => !this.colonne[key]!.filtro,
+    );
 
     this.filtri = GetFiltriCustom<T, null>({
       elemTable: this.elemTable,
       elemForPage: this.elemForPage,
       currentPage: this.currentPage,
       ordinaElem: this.ordinaElem,
+      tipoSelect: this.filtroDefault ? 'some' : 'every',
       select: this.keyofElem.map((x: keyof T) => {
         return {
           key: x,
-          query: this.debounceQuery,
+          query: this.colonne[x]!.filtro || this.debounceQuery,
         };
       }),
     });
@@ -205,5 +219,6 @@ export type RecordColonne<T> = Record<keyof T, ColonnaCustom>;
 
 interface ColonnaCustom {
   titolo: string;
-  lunghezza: string; // e.g., '3rem', '100px', 'auto'
+  lunghezza: string;
+  filtro?: WritableSignal<string>;
 }

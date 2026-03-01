@@ -1,42 +1,46 @@
-#ChatHeader {
-  background-color: #128c7e; // Specifico WhatsApp, mantenuto
-  color: white; // Mantenuto (contrasto con sfondo specifico)
-  padding: 0;
-  text-align: center;
-  font-weight: bold;
-  border-top-left-radius: 10px;
-  border-top-right-radius: 10px;
+.chatListContainer{
+  width: 55vh;
 
-  i {
-    cursor: pointer;
-  }
-}
+  #ChatHeader {
+    background-color: #128c7e; // Specifico WhatsApp, mantenuto
+    color: white; // Mantenuto (contrasto con sfondo specifico)
+    padding: 0;
+    text-align: center;
+    font-weight: bold;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
 
-.spinner-overlay {
-  position: absolute;
-  top: 70px;
-  left: 0;
-  right: 0;
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  padding-top: 20px;
-  z-index: 1000;
-  pointer-events: none;
-
-  .whatsapp-spinner-small {
-    width: 20px;
-    height: 20px;
-    border: 2px solid #f3f3f3; // Mantenuto (grigio chiaro per spinner)
-    border-top: 2px solid #128c7e; // Specifico WhatsApp, mantenuto
-    border-radius: 50%;
-    animation: spin 1s linear infinite;
-    background-color: white; // Mantenuto per contrasto
-    box-shadow: 0 2px 5px var(--border-light);
+    i {
+      cursor: pointer;
+    }
   }
 
-  @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
+  .spinner-overlay {
+    position: absolute;
+    top: 70px;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding-top: 20px;
+    z-index: 1000;
+    pointer-events: none;
+
+    .whatsapp-spinner-small {
+      width: 20px;
+      height: 20px;
+      border: 2px solid #f3f3f3; // Mantenuto (grigio chiaro per spinner)
+      border-top: 2px solid #128c7e; // Specifico WhatsApp, mantenuto
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      background-color: white; // Mantenuto per contrasto
+      box-shadow: 0 2px 5px var(--border-light);
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
   }
 }

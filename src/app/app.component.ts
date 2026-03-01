@@ -23,22 +23,18 @@ import { CursorUtilities } from './shared/utilities/cursor.utilities';
   imports: [RouterOutlet, MiniPlayerComponent, ChatComponent],
   template: `
     <div class="all-component">
-      <!-- Componenti delle rotte -->
       <router-outlet></router-outlet>
 
-      <!-- Spaczio Vuoto-->
       <div
         [style]="{
-          height: miniPlayerService.currentCanzone() ? '13rem' : '5rem',
+          height: miniPlayerService.currentCanzone() ? '11rem' : '5rem',
         }"
       ></div>
 
-      <!-- Chat -->
       @if (chatService.chatVisibile()) {
         <app-chat [canzoniAperte]="miniPlayerService.currentCanzone"></app-chat>
       }
 
-      <!-- Mini Player -->
       @if (miniPlayerService.currentCanzone()) {
         <app-mini-player></app-mini-player>
       }

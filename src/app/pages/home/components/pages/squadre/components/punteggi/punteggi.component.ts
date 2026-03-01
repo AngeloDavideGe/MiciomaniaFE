@@ -73,7 +73,7 @@ export class PunteggiComponent {
     }
   }
 
-  public colonneSquadre: Partial<RecordColonne<Squadre>> = {
+  public readonly colonneSquadre: Partial<RecordColonne<Squadre>> = {
     nome: {
       titolo: 'Nome',
       lunghezza: '15rem',
@@ -84,7 +84,7 @@ export class PunteggiComponent {
     },
   };
 
-  public colonneUtenti: RecordColonne<Giocatori> = {
+  public readonly colonneUtenti: RecordColonne<Giocatori> = {
     idUtente: {
       titolo: 'Nome',
       lunghezza: '10rem',

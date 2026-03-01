@@ -1,29 +1,29 @@
-<div id="ChatInput">
+<div id="ChatInput" class="p-2">
   <!-- Messaggio di risposta -->
   @if (risposta) {
-    <div class="reply-container">
-      <div class="reply-indicator">
-        <svg viewBox="0 0 24 24" width="16" height="16" class="reply-icon">
+    <div class="edit-container" style="--edit-color: #4caf50">
+      <div class="edit-indicator">
+        <svg viewBox="0 0 24 24" width="16" height="16" class="edit-icon">
           <path
             fill="currentColor"
             d="M10 9V5l-7 7 7 7v-4.1c5 0 8.5 1.6 11 5.1-1-5-4-10-11-11z"
           />
         </svg>
       </div>
-      <div class="reply-content">
-        <div class="reply-header">
-          <span class="reply-name">{{ risposta.idUser }}</span>
-          <span class="reply-label">Rispondi a</span>
-          <button class="reply-close" (click)="closeRisposta.emit()">✕</button>
+      <div class="edit-content">
+        <div class="edit-header">
+          <span class="edit-name">{{ risposta.idUser }}</span>
+          <span class="edit-label ms-2">Rispondi a</span>
+          <button class="edit-close" (click)="closeRisposta.emit()">✕</button>
         </div>
-        <p class="reply-message">{{ risposta.content }}</p>
+        <p class="edit-message">{{ risposta.content }}</p>
       </div>
     </div>
   }
 
   <!-- Modifica Messaggio -->
   @if (modifica) {
-    <div class="edit-container">
+    <div class="edit-container" style="--edit-color: #ff9100">
       <div class="edit-indicator">
         <svg viewBox="0 0 24 24" width="16" height="16" class="edit-icon">
           <path

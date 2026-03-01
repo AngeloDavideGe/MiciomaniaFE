@@ -1,92 +1,19 @@
 #ChatInput {
   display: flex;
   flex-direction: column;
-  padding: 8px 16px 16px;
   background-color: #f0f0f0;
   border-top: 1px solid #e0e0e0;
   border-bottom-left-radius: 10px;
   border-bottom-right-radius: 10px;
 
-  .reply-container {
-    display: flex;
-    background-color: #e9edef;
-    border-left: 4px solid #25d366;
-    border-radius: 8px;
-    margin-bottom: 8px;
-    padding: 8px 12px;
-    position: relative;
-    overflow: hidden;
-
-    .reply-indicator {
-      display: flex;
-      align-items: center;
-      margin-right: 8px;
-
-      .reply-icon {
-        color: #25d366;
-      }
-    }
-
-    .reply-content {
-      flex: 1;
-      overflow: hidden;
-
-      .reply-message {
-        margin: 0;
-        font-size: 14px;
-        color: #3b4a54;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-      }
-
-      .reply-header {
-        display: flex;
-        align-items: center;
-        margin-bottom: 4px;
-
-        .reply-name {
-          font-weight: 600;
-          font-size: 14px;
-          color: #075e54;
-          margin-right: 6px;
-        }
-
-        .reply-label {
-          font-size: 12px;
-          color: #667781;
-          flex: 1;
-        }
-
-        .reply-close {
-          background: none;
-          border: none;
-          color: #667781;
-          cursor: pointer;
-          font-size: 14px;
-          padding: 0;
-          width: 20px;
-          height: 20px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          border-radius: 50%;
-
-          &:hover {
-            background-color: rgba(0, 0, 0, 0.05);
-          }
-        }
-      }
-    }
-  }
-
   .edit-container {
+    --edit-color: #caff9f;
+
     display: flex;
-    background-color: #fff8e1;
-    border-left: 4px solid #ffc107;
+    background-color: transparent;
+    border-left: 4px solid var(--edit-color);
     border-radius: 8px;
     margin-bottom: 8px;
-    padding: 8px 12px;
     position: relative;
     overflow: hidden;
 
@@ -96,7 +23,7 @@
       margin-right: 8px;
 
       .edit-icon {
-        color: #ff9800;
+        color: var(--edit-color);
       }
     }
 
@@ -121,17 +48,16 @@
         .edit-label {
           font-weight: 600;
           font-size: 14px;
-          color: #ff9800;
+          color: var(--edit-color);
           flex: 1;
         }
 
         .edit-close {
           background: none;
           border: none;
-          color: #ff9800;
+          color: var(--edit-color);
           cursor: pointer;
           font-size: 14px;
-          padding: 0;
           width: 20px;
           height: 20px;
           display: flex;
@@ -153,10 +79,9 @@
 
     input {
       flex: 1;
-      padding: 12px 16px;
       border: none;
-      border-radius: 20px;
-      margin-right: 10px;
+      border-radius: 15px;
+      height: 2.5rem;
       outline: none;
       font-size: 15px;
       background-color: white;
@@ -174,7 +99,6 @@
   }
 
   button {
-    padding: 10px;
     background-color: #25d366;
     color: white;
     border: none;

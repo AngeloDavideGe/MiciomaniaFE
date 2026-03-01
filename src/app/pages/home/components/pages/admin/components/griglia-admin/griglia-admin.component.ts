@@ -48,7 +48,7 @@ export class GrigliaAdminComponent {
   @Output() modificaRuolo = new EventEmitter<UserParams>();
   @Output() eliminaRuolo = new EventEmitter<UserParams>();
 
-  public colonne: Partial<RecordColonne<UserParams>> = {
+  public readonly colonne: Partial<RecordColonne<UserParams>> = {
     nome: {
       titolo: 'Nome',
       lunghezza: '10rem',

@@ -1,11 +1,10 @@
 #ChatContainer {
   display: flex;
   flex-direction: column;
-  height: 100%;
   background-color: #e6ddd4;
   position: relative;
   overflow: hidden;
-  max-height: 26rem;
+  max-height: 27rem;
 
 
   &::before {

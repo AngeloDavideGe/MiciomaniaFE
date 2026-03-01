@@ -1,16 +1,14 @@
 #ChatAllContainer {
   background-color: var(--surface-color);
   border-right: 1px solid var(--border-color);
-
-  .chat-header {
-    background-color: var(--bg-lighter) !important;
-  }
+  height: 27rem;
 
   .search-container {
     background-color: var(--bg-lighter);
 
     input {
       background-color: var(--surface-color);
+      height: 2.5rem;
     }
   }
 
@@ -32,6 +30,7 @@
   }
 
   .chat-list {
+    height: 17rem;
     .chat-item {
       cursor: pointer;
       transition: background-color 0.2s;
