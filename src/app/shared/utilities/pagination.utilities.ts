@@ -1,10 +1,20 @@
-import { computed, Signal, WritableSignal } from '@angular/core';
-import { GetOrderCustom } from '../functions/utilities.function';
+import {
+  computed,
+  effect,
+  signal,
+  Signal,
+  WritableSignal,
+} from '@angular/core';
+import {
+  debounceTimeoutCustom,
+  GetOrderCustom,
+} from '../functions/utilities.function';
 import { environment } from '../../../environments/environment';
 
 export function GetFiltriCustom<T, F>(
   params: InputFiltri<T, F>,
 ): FiltriInterface<T> {
+  const currentPage = signal<number>(1);
   const RecordFiltri: Record<string, Function> = GetRecordFiltri<T, F>(params);
 
   const searchElems = computed<T[]>(() => {
@@ -32,7 +42,7 @@ export function GetFiltriCustom<T, F>(
 
   const elemFilter = computed<T[]>(() => {
     const totElem: T[] = searchElems();
-    const currentPages: number = params.currentPage ? params.currentPage() : 1;
+    const currentPages: number = currentPage();
     const elemForPage: number =
       params.elemForPage || environment.maxElement.elemPagine;
 
@@ -46,21 +56,38 @@ export function GetFiltriCustom<T, F>(
     Array.from({ length: totalPage() }, (_, i) => i + 1),
   );
 
+  const dettaglioPage = computed<string>(() => {
+    const currentPages: number = currentPage();
+    const totalElem: number = searchElems().length;
+
+    const elpage: number =
+      params.elemForPage || environment.maxElement.elemPagine;
+
+    const start: number = Math.max(0, 1 + (currentPages - 1) * elpage);
+    const end: number = Math.min(start + elpage - 1, totalElem);
+
+    if (totalElem < 2) {
+      return `${totalElem} elementi`;
+    } else {
+      return `${start} - ${end} elementi di ${totalElem}`;
+    }
+  });
+
   const previousPage: Function = () => {
-    if (params.currentPage && params.currentPage() > 1) {
-      params.currentPage.update((x: number) => x - 1);
+    if (currentPage() > 1) {
+      currentPage.update((x: number) => x - 1);
     }
   };
 
   const nextPage: Function = () => {
-    if (params.currentPage && params.currentPage() < totalPage()) {
-      params.currentPage.update((x: number) => x + 1);
+    if (currentPage() < totalPage()) {
+      currentPage.update((x: number) => x + 1);
     }
   };
 
   const selectPage: Function = (page: number) => {
-    if (params.currentPage && page >= 1 && page <= totalPage()) {
-      params.currentPage.set(page);
+    if (page >= 1 && page <= totalPage()) {
+      currentPage.set(page);
     }
   };
 
@@ -69,6 +96,8 @@ export function GetFiltriCustom<T, F>(
     totalPage: totalPage,
     elemFilter: elemFilter,
     arrayPage: arrayPage,
+    currentPage: currentPage,
+    dettaglioPage: dettaglioPage,
     previousPage: previousPage,
     nextPage: nextPage,
     selectPage: selectPage,
@@ -111,6 +140,8 @@ export interface FiltriInterface<T> {
   searchElems: Signal<T[]>;
   elemFilter: Signal<T[]>;
   arrayPage: Signal<number[]>;
+  currentPage: WritableSignal<number>;
+  dettaglioPage: Signal<string>;
   previousPage: Function;
   nextPage: Function;
   selectPage: Function;
@@ -129,7 +160,6 @@ export interface Ordinamento<T, F> {
 interface InputFiltri<T, F> {
   elemTable: Signal<T[]>;
   elemForPage?: number;
-  currentPage?: WritableSignal<number>;
   tipoSelect?: 'some' | 'every';
   select?: FiltriSelect<T, string>[];
   tabs?: FiltriSelect<T, F | null>;

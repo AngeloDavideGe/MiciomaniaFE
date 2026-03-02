@@ -34,9 +34,6 @@ export class CanzoniMiciomaniaComponent implements OnInit {
   public filtriMiciomania: FiltriInterface<MangaSong> = {} as any;
   public filtriUtente: FiltriInterface<MangaSong> = {} as any;
 
-  public currentPageMiciomania = signal<number>(1);
-  public currentPageUtente = signal<number>(1);
-
   public canzoniMiciomania = computed<MangaSong[]>(() => {
     const canzoni: CanzoniParodia | null = this.euService.canzoniParodia();
     return canzoni ? canzoni.canzoniMiciomania : [];
@@ -52,7 +49,6 @@ export class CanzoniMiciomaniaComponent implements OnInit {
       this.filtriMiciomania = GetFiltriCustom<MangaSong, null>({
         elemTable: this.canzoniMiciomania,
         elemForPage: this.canzoniForPage,
-        currentPage: this.currentPageMiciomania,
       });
     });
 
@@ -60,7 +56,6 @@ export class CanzoniMiciomaniaComponent implements OnInit {
       this.filtriUtente = GetFiltriCustom<MangaSong, null>({
         elemTable: this.canzoniUtente,
         elemForPage: this.canzoniForPage,
-        currentPage: this.currentPageUtente,
       });
     });
   }

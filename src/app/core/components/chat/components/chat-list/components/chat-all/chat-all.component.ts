@@ -5,6 +5,7 @@ import {
   EventEmitter,
   inject,
   Input,
+  OnInit,
   Output,
   signal,
 } from '@angular/core';
@@ -15,6 +16,10 @@ import { effectTimeoutCustom } from '../../../../../../../shared/functions/utili
 import { DataHttp } from '../../../../../../api/http.data';
 import { Gruppo, LastMess } from '../../../../interfaces/chat.interface';
 import { ChatService } from '../../../../services/chat.service';
+import {
+  FiltriInterface,
+  GetFiltriCustom,
+} from '../../../../../../../shared/utilities/pagination.utilities';
 
 @Component({
   selector: 'app-chat-all',
@@ -23,9 +28,14 @@ import { ChatService } from '../../../../services/chat.service';
   templateUrl: './chat-all.component.html',
   styleUrl: './chat-all.component.scss',
 })
-export class ChatAllComponent {
-  public editGruppoPic = signal<boolean>(false);
+export class ChatAllComponent implements OnInit {
   public chatService = inject(ChatService);
+
+  public editGruppoPic = signal<boolean>(false);
+  public searchTerm = signal<string>('');
+  private debounce = signal<string>('');
+
+  public filtri: FiltriInterface<Gruppo> = {} as FiltriInterface<Gruppo>;
 
   @Input() allGruppi!: Gruppo[];
   @Input() allGruppiRecord!: Record<number, LastMess>;
@@ -33,24 +43,21 @@ export class ChatAllComponent {
 
   constructor() {
     effectTimeoutCustom(this.searchTerm, (value: string) =>
-      this.debounce.set(value)
+      this.debounce.set(value),
     );
   }
 
-  public searchTerm = signal<string>('');
-  private debounce = signal<string>('');
-
-  public filteredGruppi = computed<Gruppo[]>(() => {
-    const filtro: string = this.debounce();
-
-    if (!filtro) {
-      return this.allGruppi;
-    } else {
-      return this.allGruppi.filter((gruppo: Gruppo) =>
-        gruppo.nome.toLowerCase().includes(filtro.toLowerCase())
-      );
-    }
-  });
+  ngOnInit(): void {
+    this.filtri = GetFiltriCustom<Gruppo, null>({
+      elemTable: signal<Gruppo[]>(this.allGruppi),
+      select: [
+        {
+          key: 'nome',
+          query: this.debounce,
+        },
+      ],
+    });
+  }
 
   apriCambioPic(chatId: number): void {
     this.editGruppoPic.set(true);
@@ -63,7 +70,7 @@ export class ChatAllComponent {
       .uploadProfileImage(file as File, this.chatService.aggiornamentoPic())
       .pipe(
         take(1),
-        finalize(() => this.chatService.aggiornamentoPic.set(0))
+        finalize(() => this.chatService.aggiornamentoPic.set(0)),
       )
       .subscribe({
         next: (url: string) => this.completeEdit(url),
@@ -74,7 +81,7 @@ export class ChatAllComponent {
 
   private completeEdit(url: string): void {
     let index: number = DataHttp.gruppiChat.listaGruppi.findIndex(
-      (gruppo) => gruppo.id === this.chatService.aggiornamentoPic()
+      (gruppo) => gruppo.id === this.chatService.aggiornamentoPic(),
     );
     if (index !== -1) {
       DataHttp.gruppiChat.listaGruppi[index].pic = url;

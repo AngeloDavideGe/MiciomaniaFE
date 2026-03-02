@@ -110,7 +110,6 @@ import { environment } from '../../../../environments/environment';
 
           <app-paginazione-custom
             [filtri]="filtri"
-            [currentPage]="currentPage"
             [tipo]="tipoPaginazione"
           ></app-paginazione-custom>
         } @else {
@@ -137,7 +136,7 @@ import { environment } from '../../../../environments/environment';
             <div class="header-info">
               <span class="total-items">
                 <i class="bi bi-list-ol me-1"></i>
-                {{ elemTable().length }} elementi
+                {{ filtri.dettaglioPage() }}
               </span>
             </div>
           </div>
@@ -159,7 +158,6 @@ export class TabellaCustomComponent<T> {
   @Input() tipoPaginazione: TipoPaginazione = 'multiplo';
 
   public keyofElem: Array<keyof T> = [];
-  public currentPage = signal<number>(1);
   public searchQuery = signal<string>('');
   private debounceQuery = signal<string>('');
   public ordinaElem = signal<Ordinamento<T, 'desc' | 'cresc'> | null>(null);
@@ -177,7 +175,7 @@ export class TabellaCustomComponent<T> {
   constructor() {
     const debounced: Function = debounceTimeoutCustom((value: string) => {
       this.debounceQuery.set(value);
-      this.currentPage.set(this.filtri.totalPage() > 0 ? 1 : 0);
+      this.filtri.currentPage.set(this.filtri.totalPage() > 0 ? 1 : 0);
     });
 
     effect(() => debounced(this.searchQuery()));
@@ -196,7 +194,6 @@ export class TabellaCustomComponent<T> {
     this.filtri = GetFiltriCustom<T, null>({
       elemTable: this.elemTable,
       elemForPage: this.elemForPage,
-      currentPage: this.currentPage,
       ordinaElem: this.ordinaElem,
       tipoSelect: this.filtroDefault ? 'some' : 'every',
       select: this.keyofElem.map((x: keyof T) => {

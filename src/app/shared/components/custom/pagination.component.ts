@@ -1,4 +1,4 @@
-import { Component, computed, Input, WritableSignal } from '@angular/core';
+import { Component, computed, Input } from '@angular/core';
 import { FiltriInterface } from '../../utilities/pagination.utilities';
 
 @Component({
@@ -12,8 +12,8 @@ import { FiltriInterface } from '../../utilities/pagination.utilities';
           <button
             class="pagination-btn prev-btn"
             (click)="filtri.previousPage()"
-            [disabled]="currentPage() === 1"
-            [class.disabled]="currentPage() === 1"
+            [disabled]="filtri.currentPage() === 1"
+            [class.disabled]="filtri.currentPage() === 1"
             aria-label="Pagina precedente"
           >
             <i class="bi bi-chevron-left"></i>
@@ -22,7 +22,7 @@ import { FiltriInterface } from '../../utilities/pagination.utilities';
           @switch (tipo) {
             @case ('singolo') {
               <div class="page-indicator">
-                <span class="current-page">{{ currentPage() }}</span>
+                <span class="current-page">{{ filtri.currentPage() }}</span>
                 <span class="separator">/</span>
                 <span class="total-pages">{{ filtri.totalPage() }}</span>
               </div>
@@ -36,7 +36,7 @@ import { FiltriInterface } from '../../utilities/pagination.utilities';
                   <button
                     class="page-btn"
                     (click)="filtri.selectPage(page)"
-                    [class.active]="currentPage() === page"
+                    [class.active]="filtri.currentPage() === page"
                     aria-label="Pagina {{ page }}"
                   >
                     {{ page }}
@@ -55,8 +55,8 @@ import { FiltriInterface } from '../../utilities/pagination.utilities';
           <button
             class="pagination-btn next-btn"
             (click)="filtri.nextPage()"
-            [disabled]="currentPage() === filtri.totalPage()"
-            [class.disabled]="currentPage() === filtri.totalPage()"
+            [disabled]="filtri.currentPage() === filtri.totalPage()"
+            [class.disabled]="filtri.currentPage() === filtri.totalPage()"
             aria-label="Pagina successiva"
           >
             <i class="bi bi-chevron-right"></i>
@@ -69,13 +69,12 @@ import { FiltriInterface } from '../../utilities/pagination.utilities';
 })
 export class PaginazioneCustomComponent<T> {
   @Input() filtri!: FiltriInterface<T>;
-  @Input() currentPage!: WritableSignal<number>;
   @Input() tipo: TipoPaginazione = 'multiplo';
   @Input() maxNumberPage: number = 4;
 
   public pagineVisibili = computed<number[]>(() => {
     const allPages: number[] = this.filtri.arrayPage();
-    const currentIndex: number = this.currentPage() - 1;
+    const currentIndex: number = this.filtri.currentPage() - 1;
     const lastIndex: number = this.filtri.totalPage() - 1;
     const half: number = Math.floor(this.maxNumberPage / 2);
 

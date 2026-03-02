@@ -10,7 +10,6 @@
 
     <app-paginazione-custom
       [filtri]="filtriMiciomania"
-      [currentPage]="currentPageMiciomania"
     ></app-paginazione-custom>
 
     <div class="grid-card-layout px-2 mt-3">
@@ -47,10 +46,7 @@
       [lunghezzaFiltro]="canzoniUtente().length"
     ></app-custom-scroll>
 
-    <app-paginazione-custom
-      [filtri]="filtriUtente"
-      [currentPage]="currentPageUtente"
-    ></app-paginazione-custom>
+    <app-paginazione-custom [filtri]="filtriUtente"></app-paginazione-custom>
 
     <div class="grid-card-layout px-2 mt-3">
       @for (canzone of filtriUtente.elemFilter(); track canzone.idUtente) {

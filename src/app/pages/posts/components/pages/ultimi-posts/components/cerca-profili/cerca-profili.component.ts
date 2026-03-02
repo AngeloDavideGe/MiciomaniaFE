@@ -34,13 +34,11 @@ export class CercaProfiliComponent implements OnInit {
 
   public router = inject(Router);
   private authService = inject(AuthService);
-  // private injector = inject(Injector);
 
   private readonly itemsPerPage: number = 5;
   public readonly defaultPic = environment.defaultPicsUrl.user;
   public filtri: FiltriInterface<UserParams> = {} as any;
 
-  public currentPage = signal<number>(1);
   private debounceQuery = signal<string>('');
 
   public users = computed<UserParams[]>(() => {
@@ -51,7 +49,7 @@ export class CercaProfiliComponent implements OnInit {
   constructor() {
     const debounced: Function = debounceTimeoutCustom((value: string) => {
       this.debounceQuery.set(value);
-      this.currentPage.set(this.filtri.totalPage() > 0 ? 1 : 0);
+      this.filtri.currentPage.set(this.filtri.totalPage() > 0 ? 1 : 0);
     });
 
     effect(() => debounced(this.searchQuery()));
@@ -70,7 +68,6 @@ export class CercaProfiliComponent implements OnInit {
     this.filtri = GetFiltriCustom<UserParams, null>({
       elemTable: this.users,
       elemForPage: this.itemsPerPage,
-      currentPage: this.currentPage,
       select: [
         {
           key: 'id',
