@@ -14,7 +14,7 @@ import {
   FiltriInterface,
   GetFiltriCustom,
   Ordinamento,
-} from '../../utilities/pagination.utilities';
+} from '../../utilities/functions/pagination.utilities';
 import {
   PaginazioneCustomComponent,
   TipoPaginazione,

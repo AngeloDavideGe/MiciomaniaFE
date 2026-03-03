@@ -13,11 +13,11 @@ import {
   MangaSong,
 } from '../../../../../shared/interfaces/elementiUtente.interface';
 import { ElementiUtenteService } from '../../../../../shared/services/api/elementiUtente.service';
-import { MangaSongUtilities } from '../../../../../shared/utilities/mangaSong.utilities';
+import { MangaSongUtilities } from '../../../../../shared/utilities/class/mangaSong.utilities';
 import {
   FiltriInterface,
   GetFiltriCustom,
-} from '../../../../../shared/utilities/pagination.utilities';
+} from '../../../../../shared/utilities/functions/pagination.utilities';
 import { canzoniMiciomania_imports } from './imports/canzoni-miciomania.import';
 
 @Component({

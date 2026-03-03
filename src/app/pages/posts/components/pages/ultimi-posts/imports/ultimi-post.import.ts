@@ -5,6 +5,7 @@ import { SpinnerComponent } from '../../../../../../shared/components/dialogs/sp
 import { CercaProfiliComponent } from '../components/cerca-profili/cerca-profili.component';
 import { DescrizionePostComponent } from '../components/descrizione-post.component';
 import { NoPostComponent } from '../components/no-post.component';
+import { FiltriPostComponent } from '../components/filtri-post.component';
 
 export const ultimiPost_import: Type<any>[] = [
   NoPostComponent,
@@ -13,4 +14,5 @@ export const ultimiPost_import: Type<any>[] = [
   SpinnerComponent,
   CardCustomComponent,
   DescrizionePostComponent,
+  FiltriPostComponent,
 ];

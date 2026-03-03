@@ -16,7 +16,7 @@ import {
   effectTimeoutCustom,
 } from '../../shared/functions/utilities.function';
 import { Lingua, MangaUtente } from '../../shared/interfaces/http.interface';
-import { GetFiltriCustom } from '../../shared/utilities/pagination.utilities';
+import { GetFiltriCustom } from '../../shared/utilities/functions/pagination.utilities';
 import { alfabetoManga } from './constants/alfabeto.constant';
 import { generiManga } from './constants/genere.constant';
 import {

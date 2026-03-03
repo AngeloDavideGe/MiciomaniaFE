@@ -19,7 +19,7 @@ import { AuthService } from '../../../../../../../shared/services/api/auth.servi
 import {
   FiltriInterface,
   GetFiltriCustom,
-} from '../../../../../../../shared/utilities/pagination.utilities';
+} from '../../../../../../../shared/utilities/functions/pagination.utilities';
 import { debounceTimeoutCustom } from '../../../../../../../shared/functions/utilities.function';
 
 @Component({

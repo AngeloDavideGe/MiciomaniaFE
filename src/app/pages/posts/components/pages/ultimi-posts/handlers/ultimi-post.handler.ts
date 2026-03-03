@@ -20,6 +20,9 @@ export function getAllPubblicazioni(params: {
             oldPosts: getOldPosts(data, maxPosts),
             lastUpdated: new Date(),
           };
+          params.postService.allPosts.update((posts: TweetAll[]) =>
+            posts.concat(data),
+          );
           params.postService.newPosts = data;
           params.nextCall(data);
         },

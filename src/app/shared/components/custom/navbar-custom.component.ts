@@ -53,7 +53,7 @@ import { Router } from '@angular/router';
 
           @if (filtro) {
             <div class="search-container">
-              <div class="search-input-wrapper" [class.active]="searchActive">
+              <div class="search-input-wrapper" [class.active]="true">
                 <i class="bi bi-search search-icon"></i>
                 <input
                   type="text"
@@ -75,15 +75,11 @@ import { Router } from '@angular/router';
               </div>
               <button
                 class="nav-btn search-toggle-btn"
-                (click)="toggleSearch()"
-                [class.active]="searchActive"
-                aria-label="Attiva ricerca"
+                (click)="toggleFilters()"
+                aria-label="Apri filtri di ricerca"
+                [attr.aria-expanded]="filterActive()"
               >
-                <i
-                  class="bi"
-                  [class.bi-search]="!searchActive"
-                  [class.bi-x]="searchActive"
-                ></i>
+                <i class="bi bi-sliders2"></i>
               </button>
             </div>
           }
@@ -100,7 +96,7 @@ import { Router } from '@angular/router';
 })
 export class CustomNavBarComponent {
   public router = inject(Router);
-  public searchActive = false;
+  public filterActive = signal<boolean>(false);
   public searchValue = '';
 
   @Input() goHomeBotton: string | null = null;
@@ -109,23 +105,7 @@ export class CustomNavBarComponent {
   @Input() selected = signal<string>('');
 
   @Output() filtroChanged = new EventEmitter<string>();
-  @Output() searchActiveFunc = new EventEmitter<boolean>();
-
-  public toggleSearch(): void {
-    this.searchActive = !this.searchActive;
-    this.searchActiveFunc.emit(this.searchActive);
-
-    if (this.searchActive) {
-      setTimeout(() => {
-        const input = document.querySelector(
-          '.search-input',
-        ) as HTMLInputElement;
-        input?.focus();
-      }, 300);
-    } else {
-      this.clearSearch();
-    }
-  }
+  @Output() toggleFilter = new EventEmitter<void>();
 
   public onSearchInput(event: Event): void {
     const value = (event.target as HTMLInputElement).value;
@@ -136,6 +116,11 @@ export class CustomNavBarComponent {
   public clearSearch(): void {
     this.searchValue = '';
     this.filtroChanged.emit('');
+  }
+
+  public toggleFilters(): void {
+    this.filterActive.update((active) => !active);
+    this.toggleFilter.emit();
   }
 }
 

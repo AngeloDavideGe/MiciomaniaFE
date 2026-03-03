@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { CardCustomComponent } from '../../../../../../../shared/components/custom/card-custom.component';
 import { UtenteParodie } from '../../../../../../../shared/interfaces/elementiUtente.interface';
-import { MangaSongUtilities } from '../../../../../../../shared/utilities/mangaSong.utilities';
+import { MangaSongUtilities } from '../../../../../../../shared/utilities/class/mangaSong.utilities';
 import { ElemLang } from '../../languages/interfaces/elem-lang.interface';
 import { environment } from '../../../../../../../../environments/environment';
 

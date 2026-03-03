@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { CursorUtilities } from '../../../../shared/utilities/cursor.utilities';
+import { CursorUtilities } from '../../../../shared/utilities/class/cursor.utilities';
 import { HomeLang } from '../../languages/interfaces/home-lang.interface';
 
 @Component({

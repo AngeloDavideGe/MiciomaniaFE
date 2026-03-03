@@ -1,6 +1,6 @@
 import { inject } from '@angular/core';
-import { MangaSong, Proposta } from '../interfaces/elementiUtente.interface';
-import { MiniPlayerService } from '../services/template/mini-player.service';
+import { MangaSong, Proposta } from '../../interfaces/elementiUtente.interface';
+import { MiniPlayerService } from '../../services/template/mini-player.service';
 
 export class MangaSongUtilities {
   private loading = false;

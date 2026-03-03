@@ -58,10 +58,6 @@ export class ElementiUtenteComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.loadElementiUtente();
-  }
-
-  private loadElementiUtente(): void {
     const user: User | null = DataHttp.user();
 
     if (user) {

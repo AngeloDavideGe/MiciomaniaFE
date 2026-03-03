@@ -1,5 +1,5 @@
 import { Component, computed, Input } from '@angular/core';
-import { FiltriInterface } from '../../utilities/pagination.utilities';
+import { FiltriInterface } from '../../utilities/functions/pagination.utilities';
 
 @Component({
   selector: 'app-paginazione-custom',

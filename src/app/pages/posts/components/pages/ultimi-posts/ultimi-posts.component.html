@@ -2,26 +2,58 @@
   [goHomeBotton]="'/home'"
   [filtro]="true"
   (filtroChanged)="searchQuery.set($event)"
-  (searchActiveFunc)="searchActive.set($event)"
+  (toggleFilter)="searchActive.set(searchActive() !== 'filter' ? 'filter' : '')"
 >
   <div rightContent style="width: 6.5rem" class="pc-only"></div>
 </app-custom-navbar>
 
 <div id="ListaPosts" class="container-fluid" style="margin-top: 4.2rem">
-  <!-- Colonna dei filtri (sempre a sinistra con posizione fissa) -->
-  @if (searchActive()) {
-    <div class="cerca-profili-wrapper">
-      <app-cerca-profili
-        style="width: 30rem"
-        [searchQuery]="searchQuery"
-      ></app-cerca-profili>
-    </div>
-  }
+  <div class="cerca-profili-wrapper">
+    @switch (searchActive()) {
+      @case ("users") {
+        <app-cerca-profili
+          style="width: 30rem"
+          [searchQuery]="searchQuery"
+        ></app-cerca-profili>
+      }
+      @case ("filter") {
+        <app-filtri-post
+          [selectedFilter]="selectedFilter()"
+          (filterApplied)="applicaFiltro($event)"
+        ></app-filtri-post>
+      }
+    }
+  </div>
 
-  <!-- Colonna dei post (centrata rispetto allo spazio rimanente) -->
+  @if (selectedFilter() !== "post") {
+    @if (postCaricati()) {
+      @if (postService.newPosts.length > 0) {
+        @for (post of postService.newPosts; track $index) {
+          <div class="d-flex justify-content-center mb-4">
+            <app-card-custom
+              [link]="post.userProfilePic"
+              [tipo]="'NO'"
+              [lunghezzaCard]="'30rem'"
+              [altezzaImg]="'30rem'"
+            >
+              <div descrizioneContent>
+                <app-descrizione-post [post]="post"></app-descrizione-post>
+              </div>
+            </app-card-custom>
+          </div>
+        }
+      } @else {
+        <app-no-post></app-no-post>
+      }
+    } @else {
+      <app-spinner [mt]="'5rem'"></app-spinner>
+    }
 
-  @if (postCaricati()) {
-    @if (postService.newPosts.length > 0) {
+    @if (postService.oldPosts.length > 0) {
+      <div class="post-separator text-center my-4">
+        <span>Post già visti</span>
+      </div>
+
       @for (post of postService.oldPosts; track $index) {
         <div class="d-flex justify-content-center mb-4">
           <app-card-custom
@@ -36,31 +68,27 @@
           </app-card-custom>
         </div>
       }
-    } @else {
-      <app-no-post></app-no-post>
     }
   } @else {
-    <app-spinner [mt]="'10rem'"></app-spinner>
-  }
-
-  @if (postService.oldPosts.length > 0) {
-    <div class="post-separator text-center my-4">
-      <span>Post già visti</span>
-    </div>
-
-    @for (post of postService.oldPosts; track $index) {
-      <div class="d-flex justify-content-center mb-4">
-        <app-card-custom
-          [link]="post.userProfilePic"
-          [tipo]="'NO'"
-          [lunghezzaCard]="'30rem'"
-          [altezzaImg]="'30rem'"
-        >
-          <div descrizioneContent>
-            <app-descrizione-post [post]="post"></app-descrizione-post>
-          </div>
-        </app-card-custom>
+    @if (postService.allPosts().length > 0) {
+      <div class="post-separator text-center my-4">
+        <span>Post filtrati</span>
       </div>
+
+      @for (post of postFiltri.elemFilter(); track $index) {
+        <div class="d-flex justify-content-center mb-4">
+          <app-card-custom
+            [link]="post.userProfilePic"
+            [tipo]="'NO'"
+            [lunghezzaCard]="'30rem'"
+            [altezzaImg]="'30rem'"
+          >
+            <div descrizioneContent>
+              <app-descrizione-post [post]="post"></app-descrizione-post>
+            </div>
+          </app-card-custom>
+        </div>
+      }
     }
   }
 </div>

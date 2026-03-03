@@ -15,7 +15,7 @@ import {
   refreshSessionStorage,
 } from './core/functions/storage.function';
 import { MiniPlayerService } from './shared/services/template/mini-player.service';
-import { CursorUtilities } from './shared/utilities/cursor.utilities';
+import { CursorUtilities } from './shared/utilities/class/cursor.utilities';
 
 @Component({
   selector: 'app-root',

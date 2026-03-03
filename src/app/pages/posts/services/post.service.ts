@@ -14,6 +14,7 @@ export class PostService extends BaseService {
   public loadPostsBool: boolean = false;
   public oldPosts: TweetAll[] = structuredClone(DataHttp.postVisti.oldPosts);
   public newPosts: TweetAll[] = [];
+  public allPosts = signal<TweetAll[]>(this.oldPosts);
   public readonly maxPostsVisible: number = 20;
 
   constructor() {

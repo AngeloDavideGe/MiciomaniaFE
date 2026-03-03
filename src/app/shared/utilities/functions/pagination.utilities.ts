@@ -1,15 +1,6 @@
-import {
-  computed,
-  effect,
-  signal,
-  Signal,
-  WritableSignal,
-} from '@angular/core';
-import {
-  debounceTimeoutCustom,
-  GetOrderCustom,
-} from '../functions/utilities.function';
-import { environment } from '../../../environments/environment';
+import { computed, signal, Signal, WritableSignal } from '@angular/core';
+import { environment } from '../../../../environments/environment';
+import { GetOrderCustom } from '../../functions/utilities.function';
 
 export function GetFiltriCustom<T, F>(
   params: InputFiltri<T, F>,

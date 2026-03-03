@@ -6,7 +6,7 @@ import { PulsantiHeader } from '../../../../../shared/components/custom/header-c
 import { MangaParodia } from '../../../../../shared/interfaces/elementiUtente.interface';
 import { Lingua } from '../../../../../shared/interfaces/http.interface';
 import { ElementiUtenteService } from '../../../../../shared/services/api/elementiUtente.service';
-import { MangaSongUtilities } from '../../../../../shared/utilities/mangaSong.utilities';
+import { MangaSongUtilities } from '../../../../../shared/utilities/class/mangaSong.utilities';
 import { mangaMiciomania_imports } from './imports/manga-miciomania.import';
 import {
   MmicioLang,

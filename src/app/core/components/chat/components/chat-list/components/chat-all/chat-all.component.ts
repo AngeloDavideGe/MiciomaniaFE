@@ -19,7 +19,7 @@ import { ChatService } from '../../../../services/chat.service';
 import {
   FiltriInterface,
   GetFiltriCustom,
-} from '../../../../../../../shared/utilities/pagination.utilities';
+} from '../../../../../../../shared/utilities/functions/pagination.utilities';
 
 @Component({
   selector: 'app-chat-all',

@@ -1,7 +1,7 @@
 import { AbstractControl, ValidationErrors } from '@angular/forms';
 
 export function fileValidator(
-  control: AbstractControl
+  control: AbstractControl,
 ): ValidationErrors | null {
   const file: File | null = control.value;
 
@@ -9,10 +9,9 @@ export function fileValidator(
     return null;
   }
 
-  const fileName = file.name.toLowerCase();
-  const fileExtension = fileName.substring(fileName.lastIndexOf('.'));
-
-  const allowedExtensions = ['.pdf', '.mp3'];
+  const fileName: string = file.name.toLowerCase();
+  const fileExtension: string = fileName.substring(fileName.lastIndexOf('.'));
+  const allowedExtensions: string[] = ['.pdf', '.mp3'];
 
   if (!allowedExtensions.includes(fileExtension)) {
     return { invalidFileType: true };
