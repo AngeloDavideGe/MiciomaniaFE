@@ -1,11 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { setPunteggioOttenuto } from '../../../../../shared/handlers/squadre.handler';
 import { forza4CellEmpty } from '../../../constants/boardEmpty.const';
 import { boardEmpty } from '../../../functions/games.function';
 import { EsitoGame, Forza4, Turno } from '../../../interfaces/games.interfaces';
-import { GamesBase } from '../../shared/base/games.base';
 import { DettagliGameComponent } from '../../shared/components/dettagli-game.component';
 import { Forza4BotClass } from './bot/forza-4.bot';
+import { AlertGamesService } from '../../../services/alert-games.service';
 
 @Component({
   selector: 'app-forza-4',
@@ -13,7 +13,9 @@ import { Forza4BotClass } from './bot/forza-4.bot';
   imports: [DettagliGameComponent],
   templateUrl: './forza-4.component.html',
 })
-export class Forza4Component extends GamesBase {
+export class Forza4Component {
+  private alertGameService = inject(AlertGamesService);
+
   public readonly dimCampo: number = 6;
   public gameOver: boolean = false;
   private bot = new Forza4BotClass();

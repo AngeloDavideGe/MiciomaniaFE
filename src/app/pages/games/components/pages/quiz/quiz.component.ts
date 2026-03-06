@@ -5,7 +5,6 @@ import { take } from 'rxjs';
 import { LoadingService } from '../../../../../shared/services/template/loading.service';
 import { getCasualQuiz } from '../../../functions/quiz.function';
 import { CasualQuiz } from '../../../interfaces/games.interfaces';
-import { GamesBase } from '../../shared/base/games.base';
 import { DettagliGameComponent } from '../../shared/components/dettagli-game.component';
 import { GitHubService } from '../../../../../shared/services/api/github.service';
 import {
@@ -20,7 +19,7 @@ import { setPunteggioOttenuto } from '../../../../../shared/handlers/squadre.han
   imports: [FormsModule, DettagliGameComponent, NgClass],
   templateUrl: './quiz.component.html',
 })
-export class QuizComponent extends GamesBase implements OnInit {
+export class QuizComponent implements OnInit {
   public rispostaSelezionata: Risposta | null = null;
   public rispostaConfermata: boolean = false;
   public numDomanda: number = 1;

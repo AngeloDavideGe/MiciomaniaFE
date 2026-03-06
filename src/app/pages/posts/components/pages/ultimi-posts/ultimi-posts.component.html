@@ -11,10 +11,7 @@
   <div class="cerca-profili-wrapper">
     @switch (searchActive()) {
       @case ("users") {
-        <app-cerca-profili
-          style="width: 30rem"
-          [searchQuery]="searchQuery"
-        ></app-cerca-profili>
+        <app-cerca-profili [searchQuery]="searchQuery"></app-cerca-profili>
       }
       @case ("filter") {
         <app-filtri-post
@@ -43,7 +40,10 @@
           </div>
         }
       } @else {
-        <app-no-post></app-no-post>
+        <app-no-post
+          [message]="'Nessun post da mostrare'"
+          [subMessage]="'Prova a modificare i filtri o a cercare altri utenti'"
+        ></app-no-post>
       }
     } @else {
       <app-spinner [mt]="'5rem'"></app-spinner>
@@ -70,7 +70,7 @@
       }
     }
   } @else {
-    @if (postService.allPosts().length > 0) {
+    @if (postFiltri.elemFilter().length > 0) {
       <div class="post-separator text-center my-4">
         <span>Post filtrati</span>
       </div>
@@ -89,6 +89,13 @@
           </app-card-custom>
         </div>
       }
+    } @else {
+      <app-no-post
+        [message]="'Nessun post filtrato'"
+        [subMessage]="
+          'Prova a modificare i filtri per vedere i post corrispondenti'
+        "
+      ></app-no-post>
     }
   }
 </div>

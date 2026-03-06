@@ -49,4 +49,12 @@ export const gamesConstant: CardGioco[] = [
       'https://th.bing.com/th/id/R.bcd32f680832e366bbd152eaa0e6bddd?rik=EhKn0ubH2LygUw&riu=http%3a%2f%2figm.univ-mlv.fr%2f%7edr%2fXPOSE2013%2fsudoku%2fimg%2fsudoku1.jpeg&ehk=d53WwForN1gZLuEbFMh1HYmbXClMiIQYpAeNytmmBdM%3d&risl=&pid=ImgRaw&r=0',
     routerLink: 'sudoku',
   },
+  {
+    nome: 'Ruota della Fortuna',
+    descrizione:
+      'Gira la ruota e vedi cosa ti riserva il destino! Inserisci i numeri da 1 a 9 in ogni riga, colonna e regione 3x3 senza ripetizioni. Ma attento, se sbagli, Indy Kun ti dirà: "Forse il Sudoku non è il tuo forte, vero?"',
+    linkImg:
+      'https://th.bing.com/th/id/R.bcd32f680832e366bbd152eaa0e6bddd?rik=EhKn0ubH2LygUw&riu=http%3a%2f%2figm.univ-mlv.fr%2f%7edr%2fXPOSE2013%2fsudoku%2fimg%2fsudoku1.jpeg&ehk=d53WwForN1gZLuEbFMh1HYmbXClMiIQYpAeNytmmBdM%3d&risl=&pid=ImgRaw&r=0',
+    routerLink: 'ruota-della-fortuna',
+  },
 ];

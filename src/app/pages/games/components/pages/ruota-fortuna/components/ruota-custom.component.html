@@ -1,0 +1,22 @@
+<!-- ruota-fortuna.component.html -->
+<div class="ruota-fortuna">
+  <div class="score">
+    <span>Punteggio</span>
+    <strong>{{ score() }}</strong>
+  </div>
+
+  <div class="wheel-container">
+    <div class="pointer"></div>
+    <app-svg-custom
+      [paths]="segments"
+      [width]="300"
+      [height]="300"
+      [transform]="'rotate(' + rotation() + 'deg)'"
+      class="wheel"
+    ></app-svg-custom>
+  </div>
+
+  <button (click)="spin()" [disabled]="spinning()">
+    {{ spinning() ? "Girando..." : "Gira la ruota" }}
+  </button>
+</div>

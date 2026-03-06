@@ -12,27 +12,38 @@ import { Mappa } from '../../app/shared/interfaces/github.interface';
         baseprofile="tiny"
         [attr.height]="height"
         [attr.width]="width"
-        stroke="#4a5568"
+        stroke="var(--border-light)"
         stroke-linecap="round"
         stroke-linejoin="round"
         stroke-width="1.2"
         version="1.2"
         [attr.viewBox]="'0 0 ' + width + ' ' + height"
         xmlns="http://www.w3.org/2000/svg"
+        [style.transform]="transform"
       >
         <g [attr.transform]="translate">
-          <g id="features">
-            @for (path of paths; track $index) {
-              <path
-                [attr.d]="path.d"
-                [attr.id]="path.title"
-                [attr.fill]="colori[path.title] || '#e2e5e8'"
-                (click)="onPathClick(path.title, $event)"
-              >
-                <title>{{ path.title }}</title>
-              </path>
-            }
-          </g>
+          @for (path of paths; track $index) {
+            <path
+              [attr.d]="path.d"
+              [attr.id]="path.title"
+              [attr.fill]="path.fill || colori[path.title] || '#e2e5e8'"
+              (click)="onPathClick(path.title, $event)"
+            >
+              <title>{{ path.title }}</title>
+            </path>
+
+            <text
+              [attr.x]="path.textX"
+              [attr.y]="path.textY"
+              text-anchor="middle"
+              dominant-baseline="middle"
+              fill="white"
+              font-weight="bold"
+              font-size="16"
+            >
+              {{ path.title }}
+            </text>
+          }
         </g>
       </svg>
 
@@ -56,15 +67,30 @@ import { Mappa } from '../../app/shared/interfaces/github.interface';
             stroke-width: 1.5;
           }
         }
+
+        text {
+          fill: var(--text-color);
+          font-size: 12px;
+          font-weight: 500;
+          letter-spacing: 0.02em;
+          pointer-events: none;
+          user-select: none;
+          font-size: 16px;
+          transition: fill 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        &:hover text {
+          fill: var(--text-color);
+        }
       }
 
       .popup {
         position: absolute;
         background: white;
-        border: 2px solid #007bff;
+        border: 2px solid var(--primary-color);
         border-radius: 4px;
         padding: 8px;
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        box-shadow: 0 2px 10px var(--border-hover);
         z-index: 1000;
         min-width: 200px;
         transform: translate(10px, 10px);
@@ -92,6 +118,7 @@ export class SvgCustomComponent {
   @Input() colori: Record<string, string> = {};
   @Input() paths: PathSvgCustom[] = [];
   @Input() translate: string = '';
+  @Input() transform: string = '';
   @Input() width: number = 1;
   @Input() height: number = 1;
   @Input() set modale(value: Mappa | null) {
@@ -128,4 +155,7 @@ export class SvgCustomComponent {
 export interface PathSvgCustom {
   title: string;
   d: string;
+  fill?: string;
+  textX?: number;
+  textY?: number;
 }

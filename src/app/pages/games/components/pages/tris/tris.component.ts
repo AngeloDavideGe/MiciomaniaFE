@@ -1,8 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { EsitoGame, TrisCell } from '../../../interfaces/games.interfaces';
-import { GamesBase } from '../../shared/base/games.base';
 import { DettagliGameComponent } from '../../shared/components/dettagli-game.component';
 import { setPunteggioOttenuto } from '../../../../../shared/handlers/squadre.handler';
+import { AlertGamesService } from '../../../services/alert-games.service';
 
 @Component({
   selector: 'app-tris',
@@ -10,7 +10,9 @@ import { setPunteggioOttenuto } from '../../../../../shared/handlers/squadre.han
   imports: [DettagliGameComponent],
   templateUrl: './tris.component.html',
 })
-export class TrisComponent extends GamesBase {
+export class TrisComponent {
+  private alertGameService = inject(AlertGamesService);
+
   public tabella: TrisCell[][] = [
     [{} as TrisCell, {} as TrisCell, {} as TrisCell],
     [{} as TrisCell, {} as TrisCell, {} as TrisCell],

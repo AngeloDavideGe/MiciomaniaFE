@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { setPunteggioOttenuto } from '../../../../../shared/handlers/squadre.handler';
 import { NumNavi } from '../../../enums/games.enum';
 import {
@@ -8,7 +8,6 @@ import {
   Nave,
   PosizionaNave,
 } from '../../../interfaces/games.interfaces';
-import { GamesBase } from '../../shared/base/games.base';
 import { DettagliGameComponent } from '../../shared/components/dettagli-game.component';
 import { BotBattagliaNavale } from './bot/battaglia-navale.bot';
 import {
@@ -17,6 +16,7 @@ import {
 } from './utilities/battaglia-navale.utilities';
 import { boardEmpty } from '../../../functions/games.function';
 import { navaleCellEmpty } from '../../../constants/boardEmpty.const';
+import { AlertGamesService } from '../../../services/alert-games.service';
 
 @Component({
   selector: 'app-battaglia-navale',
@@ -24,7 +24,9 @@ import { navaleCellEmpty } from '../../../constants/boardEmpty.const';
   imports: [DettagliGameComponent],
   templateUrl: './battaglia-navale.component.html',
 })
-export class BattagliaNavaleComponent extends GamesBase implements OnInit {
+export class BattagliaNavaleComponent implements OnInit {
+  private alertGameService = inject(AlertGamesService);
+
   public keysCelle: (keyof CelleBattaglia)[] = ['cellaPlayer', 'cellaBot'];
   private botBN = new BotBattagliaNavale();
   private dimGriglia: number = 6;
@@ -37,10 +39,6 @@ export class BattagliaNavaleComponent extends GamesBase implements OnInit {
     Player: 0,
     Bot: 0,
   };
-
-  constructor() {
-    super();
-  }
 
   ngOnInit(): void {
     this.iniziaGioco();

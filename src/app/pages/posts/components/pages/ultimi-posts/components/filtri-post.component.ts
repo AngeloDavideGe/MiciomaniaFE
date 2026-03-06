@@ -38,14 +38,14 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
         <div class="filter-actions">
           <button
             class="clear-btn"
-            (click)="clearFilters()"
+            (click)="applyFilters(null)"
             [disabled]="selectedFilter === null"
           >
             Azzera filtri
           </button>
           <button
             class="apply-btn"
-            (click)="applyFilters()"
+            (click)="applyFilters(selectedFilter)"
             [disabled]="selectedFilter === null"
           >
             Applica filtri
@@ -172,16 +172,9 @@ export class FiltriPostComponent {
     }
   }
 
-  applyFilters(): void {
-    if (this.selectedFilter !== null) {
-      this.filterApplied.emit(this.selectedFilter);
-      this.selectedFilter = null;
-    }
-  }
-
-  clearFilters(): void {
-    this.selectedFilter = null;
-    this.filterApplied.emit(null);
+  applyFilters(filter: filterType): void {
+    this.selectedFilter = filter;
+    this.filterApplied.emit(filter);
   }
 }
 

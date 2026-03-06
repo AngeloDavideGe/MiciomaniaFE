@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   standalone: true,
@@ -6,10 +6,8 @@ import { Component } from '@angular/core';
   imports: [],
   template: `
     <div class="no-posts text-center py-5">
-      <h5 class="fw-semibold text-muted">Ancora nessun post</h5>
-      <p class="text-secondary mb-0">
-        Quando qualcuno pubblicherà dei post li vedrai qui 📸
-      </p>
+      <h5 class="fw-semibold text-muted">{{ message }}</h5>
+      <p class="text-secondary mb-0">{{ subMessage }}</p>
     </div>
   `,
   styles: [
@@ -42,4 +40,7 @@ import { Component } from '@angular/core';
     `,
   ],
 })
-export class NoPostComponent {}
+export class NoPostComponent {
+  @Input() message!: string;
+  @Input() subMessage!: string;
+}

@@ -9,7 +9,6 @@
     span {
       padding: 0 0.75rem;
       background: var(--surface-color);
-      z-index: 1;
     }
 
     &::before,
@@ -21,14 +20,14 @@
   }
 
   .cerca-profili-wrapper {
-    overflow-y: auto;
-    position: static;
-    display: flex;
-    justify-content: center;
+    position: fixed;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1000;
   }
 
   .post-actions {
-    background: #fff;
+    background: var(--surface-color);
     border-top: none;
     padding: 0.5rem 1rem;
 

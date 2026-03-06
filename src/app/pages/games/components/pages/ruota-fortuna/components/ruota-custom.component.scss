@@ -1,0 +1,107 @@
+.ruota-fortuna {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+  font-family: 'Segoe UI', Tahoma, Verdana, sans-serif;
+  padding: 20px;
+
+  .score {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: var(--bg-light);
+    padding: 15px 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border: 1px solid var(--border-light);
+
+    span {
+      color: var(--text-secondary);
+      font-size: 14px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    strong {
+      font-size: 48px;
+      color: var(--text-color);
+      line-height: 1;
+    }
+  }
+
+  .wheel-container {
+    position: relative;
+    width: 300px;
+    height: 300px;
+    margin: 20px auto;
+
+    .pointer {
+      position: absolute;
+      top: -15px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 0;
+      height: 0;
+      border-left: 20px solid transparent;
+      border-right: 20px solid transparent;
+      border-top: 30px solid var(--primary-color);
+      z-index: 10;
+      filter: drop-shadow(0 4px 4px rgba(0, 0, 0, 0.25));
+
+      &::after {
+        content: '';
+        position: absolute;
+        bottom: 25px; // Cambiato da top a bottom
+        left: -6px;
+        width: 12px;
+        height: 12px;
+        background: var(--primary-color);
+        border-radius: 50%;
+      }
+    }
+
+    .wheel {
+      width: 100%;
+      height: 100%;
+      transition: transform 0.1s linear;
+      filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.2));
+      border-radius: 50%;
+      background: var(--surface-color);
+
+      &:hover {
+        filter: drop-shadow(0 12px 20px rgba(0, 0, 0, 0.25));
+      }
+    }
+  }
+
+  button {
+    padding: 14px 42px;
+    border-radius: 50px;
+    border: none;
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-hover) 100%);
+    color: white;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 18px;
+    letter-spacing: 0.5px;
+    box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
+    transition: all 0.3s ease;
+
+    &:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(59, 130, 246, 0.5);
+    }
+
+    &:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      background: linear-gradient(135deg, var(--text-muted) 0%, var(--text-secondary) 100%);
+    }
+
+    &:active:not(:disabled) {
+      transform: translateY(0);
+      box-shadow: 0 2px 10px rgba(59, 130, 246, 0.4);
+    }
+  }
+}
