@@ -18,9 +18,7 @@ import { ProfiloLang } from '../../languages/interfaces/profilo-lang.interface';
       <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
           <!-- Modal Header -->
-          <div
-            class="modal-header d-flex align-items-center justify-content-between border-bottom-0 pb-0"
-          >
+          <div class="modal-header elementi-laterali border-bottom-0 pb-0">
             <h5 class="modal-title mb-0">
               {{ profiloLang.modificaProfilo }}
             </h5>
@@ -67,23 +65,24 @@ import { ProfiloLang } from '../../languages/interfaces/profilo-lang.interface';
 
             <!-- Tab Content -->
             <div class="tab-content">
-              @switch(tab) {
-              <!-- Info -->
-              @case('info') {
-              <tab-info-profilo
-                [profiloLang]="profiloLang"
-                [user]="user"
-                (chiudi)="chiudi.emit()"
-              ></tab-info-profilo>
+              @switch (tab) {
+                <!-- Info -->
+                @case ('info') {
+                  <tab-info-profilo
+                    [profiloLang]="profiloLang"
+                    [user]="user"
+                    (chiudi)="chiudi.emit()"
+                  ></tab-info-profilo>
+                }
+                <!-- Social -->
+                @case ('social') {
+                  <tab-social-profilo
+                    [profiloLang]="profiloLang"
+                    [user]="user"
+                    (chiudi)="chiudi.emit()"
+                  ></tab-social-profilo>
+                }
               }
-              <!-- Social -->
-              @case('social') {
-              <tab-social-profilo
-                [profiloLang]="profiloLang"
-                [user]="user"
-                (chiudi)="chiudi.emit()"
-              ></tab-social-profilo>
-              } }
             </div>
           </div>
         </div>

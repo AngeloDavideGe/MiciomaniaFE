@@ -39,7 +39,7 @@ import { Lingua } from '../../../../shared/interfaces/http.interface';
 
           <!-- Carousel container -->
           <div
-            class="d-flex flex-nowrap justify-content-center gap-4 px-2"
+            class="elemento-centrato flex-nowrap gap-4 px-2"
             style="scroll-snap-type: x mandatory;"
           >
             @for (card of cardElementSlice(); track $index) {

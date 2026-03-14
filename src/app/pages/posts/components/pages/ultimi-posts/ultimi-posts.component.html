@@ -26,7 +26,7 @@
     @if (postCaricati()) {
       @if (postService.newPosts.length > 0) {
         @for (post of postService.newPosts; track $index) {
-          <div class="d-flex justify-content-center mb-4">
+          <div class="elemento-centrato mb-4">
             <app-card-custom
               [link]="post.userProfilePic"
               [tipo]="'NO'"
@@ -55,7 +55,7 @@
       </div>
 
       @for (post of postService.oldPosts; track $index) {
-        <div class="d-flex justify-content-center mb-4">
+        <div class="elemento-centrato mb-4">
           <app-card-custom
             [link]="post.userProfilePic"
             [tipo]="'NO'"
@@ -76,7 +76,7 @@
       </div>
 
       @for (post of postFiltri.elemFilter(); track $index) {
-        <div class="d-flex justify-content-center mb-4">
+        <div class="elemento-centrato mb-4">
           <app-card-custom
             [link]="post.userProfilePic"
             [tipo]="'NO'"

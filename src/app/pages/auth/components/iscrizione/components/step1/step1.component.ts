@@ -7,7 +7,7 @@ import { Squadre } from '../../../../../../shared/interfaces/squadre.interface';
   imports: [],
   template: `
     <div
-      class="d-flex flex-column align-items-center min-vh-70"
+      class="elementi-colonna min-vh-70"
       style="background: #f9fafb; padding: 2rem;"
     >
       <div class="w-100" style="max-width: 900px;">
@@ -39,33 +39,33 @@ import { Squadre } from '../../../../../../shared/interfaces/squadre.interface';
 
           <div class="row g-4">
             @for (squadra of squadreInGame(); track $index; let i = $index) {
-            <div class="col-12 col-md-4">
-              <div
-                class="d-flex flex-column h-100 p-3 rounded-3 shadow-sm"
-                style="background: #ffffff; border: 1px solid #e5e7eb;"
-              >
-                <div class="d-flex align-items-center mb-2">
-                  <div
-                    class="rounded-circle me-2"
-                    [style.background]="squadra.colore.toLowerCase()"
-                    style="width: 14px; height: 14px;"
-                  ></div>
-                  <h5
-                    class="fw-semibold mb-0"
-                    style="font-size: 1.05rem;"
-                    [style.color]="squadra.colore.toLowerCase()"
-                  >
-                    {{ squadra.nome || '... caricamento' }}
-                  </h5>
-                </div>
-                <p
-                  class="text-secondary mb-0"
-                  style="font-size: 0.95rem; line-height: 1.5;"
+              <div class="col-12 col-md-4">
+                <div
+                  class="elementi-colonna h-100 p-3 rounded-3 shadow-sm"
+                  style="background: #ffffff; border: 1px solid #e5e7eb;"
                 >
-                  {{ squadra.descrizione || '... caricamento' }}
-                </p>
+                  <div class="elemento-centrato mb-2">
+                    <div
+                      class="rounded-circle me-2"
+                      [style.background]="squadra.colore.toLowerCase()"
+                      style="width: 14px; height: 14px;"
+                    ></div>
+                    <h5
+                      class="fw-semibold mb-0"
+                      style="font-size: 1.05rem;"
+                      [style.color]="squadra.colore.toLowerCase()"
+                    >
+                      {{ squadra.nome || '... caricamento' }}
+                    </h5>
+                  </div>
+                  <p
+                    class="text-secondary mb-0"
+                    style="font-size: 0.95rem; line-height: 1.5;"
+                  >
+                    {{ squadra.descrizione || '... caricamento' }}
+                  </p>
+                </div>
               </div>
-            </div>
             }
           </div>
         </section>

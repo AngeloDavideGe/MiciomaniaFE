@@ -20,30 +20,31 @@ import { SpinnerComponent } from '../../../../shared/components/dialogs/spinner.
         </div>
         <div class="row g-4">
           @if (gitHubService.social.length > 0) {
-            <!-- Lista social -->
-            @for (s of gitHubService.social; track s.nome) {
-              <div class="col-12 col-md-6 col-lg-4 d-flex align-items-center">
-                <i
-                  class="bi fs-1 me-3"
-                  [class]="s.icona"
-                  [style]="{ color: s.colore }"
-                ></i>
-                <div
-                  (click)="openLink(s.link)"
-                  style="
-                cursor: pointer;
-                color: var(--text-color);
-              "
-                  onmouseover="this.style.color='var(--text-secondary)'"
-                  onmouseout="this.style.color='var(--text-color)'"
-                >
-                  <h4 class="fw-bold">{{ s.nome }}</h4>
-                  <p class="mb-0" style="color: var(--text-muted);">
-                    {{ s.descrizione[lingua] }}
-                  </p>
+            <div class="grid-card-layout">
+              @for (s of gitHubService.social; track s.nome) {
+                <div class="elemento-centrato">
+                  <i
+                    class="bi fs-1 me-3"
+                    [class]="s.icona"
+                    [style]="{ color: s.colore }"
+                  ></i>
+                  <div
+                    (click)="openLink(s.link)"
+                    style="
+                  cursor: pointer;
+                  color: var(--text-color);
+                "
+                    onmouseover="this.style.color='var(--text-secondary)'"
+                    onmouseout="this.style.color='var(--text-color)'"
+                  >
+                    <h4 class="fw-bold">{{ s.nome }}</h4>
+                    <p class="mb-0" style="color: var(--text-muted);">
+                      {{ s.descrizione[lingua] }}
+                    </p>
+                  </div>
                 </div>
-              </div>
-            }
+              }
+            </div>
           } @else {
             <app-spinner></app-spinner>
           }

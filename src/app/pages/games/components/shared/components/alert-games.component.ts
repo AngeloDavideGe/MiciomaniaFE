@@ -8,7 +8,7 @@ import { NgClass } from '@angular/common';
   imports: [NgClass],
   template: `
     <div
-      class="position-fixed top-0 start-50 translate-middle-x w-100 d-flex justify-content-center"
+      class="position-fixed top-0 start-50 translate-middle-x w-100 elemento-centrato"
       style="z-index: 1050; pointer-events: none; padding-top: 1.5rem;"
     >
       <div

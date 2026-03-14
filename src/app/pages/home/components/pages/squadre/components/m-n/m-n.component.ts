@@ -19,7 +19,7 @@ import { mn_imports } from './imports/m-n.import';
             class="pc-only"
             [classNG]="classMN()"
             [ngClass1]="'row-cols-1 row-cols-md-2 row-cols-lg-3 g-4'"
-            [ngClass2]="'d-flex flex-column gap-3 mb-5'"
+            [ngClass2]="'elementi-colonna gap-3 mb-5'"
             (classNGChange)="classMN.set($event)"
           ></app-icone-lista>
 

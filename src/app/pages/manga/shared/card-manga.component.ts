@@ -6,41 +6,40 @@ import { ListaManga } from '../interfaces/manga.interface';
   standalone: true,
   imports: [],
   template: `
-    <div class="card shadow-sm h-100" style="width: 200px;">
+    <div class="card shadow-sm h-100" style="width: 15rem;">
       <img
         [src]="manga.copertina"
         alt="manga Copertina"
         class="card-img-top"
         style="height: 300px; object-fit: cover;"
       />
-      <div class="card-body d-flex flex-column">
+      <div class="card-body elemento-colonna">
         <h5 class="card-title text-truncate">{{ manga.nome }}</h5>
         <p class="card-text"><strong>Autore:</strong> {{ manga.autore }}</p>
         <p class="card-text"><strong>Genere:</strong> {{ manga.genere }}</p>
         <div class="mt-auto">
           <div
-            class="card-footer d-flex align-items-center justify-content-between p-0 border-0 bg-transparent"
+            class="card-footer elementi-laterali p-0 border-0 bg-transparent"
           >
-            @if(visualizzaPreferito) {
-            <button
-              class="p-0 border-0 bg-transparent"
-              style="font-size: 1.5rem"
-            >
-              @if(preferito) {
-              <i class="bi bi-star-fill stella-icon"></i>
-              } @else {
-              <i class="bi bi-star stella-icon"></i>
-              }
-            </button>
-
+            @if (visualizzaPreferito) {
+              <button
+                class="p-0 border-0 bg-transparent"
+                style="font-size: 1.5rem"
+              >
+                @if (preferito) {
+                  <i class="bi bi-star-fill stella-icon"></i>
+                } @else {
+                  <i class="bi bi-star stella-icon"></i>
+                }
+              </button>
             } @else {
-            <button
-              class="p-0 border-0 bg-transparent"
-              style="font-size: 1.5rem"
-              (click)="rimuoviPreferito.emit()"
-            >
-              <i class="bi bi-x"></i>
-            </button>
+              <button
+                class="p-0 border-0 bg-transparent"
+                style="font-size: 1.5rem"
+                (click)="rimuoviPreferito.emit()"
+              >
+                <i class="bi bi-x"></i>
+              </button>
             }
             <button
               class="btn btn-primary btn-sm"
@@ -52,15 +51,15 @@ import { ListaManga } from '../interfaces/manga.interface';
         </div>
       </div>
 
-      @if(seleziona) {
-      <div class="position-absolute top-0 end-0 p-2">
-        <input
-          type="checkbox"
-          class="form-check-input border-warning custom-checkbox"
-          (change)="clickCheckbox()"
-          id="checkboxSeleziona"
-        />
-      </div>
+      @if (seleziona) {
+        <div class="position-absolute top-0 end-0 p-2">
+          <input
+            type="checkbox"
+            class="form-check-input border-warning custom-checkbox"
+            (change)="clickCheckbox()"
+            id="checkboxSeleziona"
+          />
+        </div>
       }
     </div>
   `,

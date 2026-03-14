@@ -13,18 +13,15 @@ import { MN } from '../../../../../../../../shared/interfaces/github.interface';
         [style.borderLeft]="'5px solid ' + mn.colore"
       >
         <div class="card-body p-4">
-          <div class="d-flex align-items-start gap-3 mb-3">
+          <div class="elemento-iniziale gap-3 mb-3">
             <span
-              class="badge rounded-pill p-2"
+              class="badge rounded-pill p-2 elemento-centrato"
               [style.backgroundColor]="mn.colore"
               style="
                 color: white;
                 font-size: 0.8rem;
                 min-width: 36px;
                 height: 36px;
-                display: inline-flex;
-                align-items: center;
-                justify-content: center;
               "
             >
               {{ mn.valore }}

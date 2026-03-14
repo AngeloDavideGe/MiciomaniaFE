@@ -23,7 +23,7 @@ import { environment } from '../../../../../../../environments/environment';
     <div class="card shadow-sm border-0 mt-3">
       <!-- Immagine di copertina -->
       <div
-        class="position-relative d-flex align-items-center"
+        class="position-relative elemento-centrato"
         style="
       height: 150px;
       border-top-left-radius: 15px;
@@ -45,7 +45,7 @@ import { environment } from '../../../../../../../environments/environment';
         }
         @if (profiloPersonale) {
           <button
-            class="btn btn-sm d-flex align-items-center justify-content-center shadow"
+            class="btn btn-sm elemento-centrato shadow"
             style="
         border-radius: 50%;
         width: 36px;

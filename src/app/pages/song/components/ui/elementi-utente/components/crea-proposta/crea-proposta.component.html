@@ -7,9 +7,7 @@
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <!-- Modal Header -->
-      <div
-        class="modal-header d-flex align-items-center justify-content-between border-bottom-0 pb-0"
-      >
+      <div class="modal-header elementi-laterali border-bottom-0 pb-0">
         <h5 class="modal-title mb-0">
           {{ elemLang.modificaProfilo }}
         </h5>
@@ -35,18 +33,18 @@
               class="form-control form-control-lg"
               formControlName="nome"
               [class]="{
-                'is-invalid': f['nome'].touched && f['nome'].invalid
+                'is-invalid': f['nome'].touched && f['nome'].invalid,
               }"
             />
 
-            @if (f['nome'].touched && f['nome'].invalid) {
-            <div class="invalid-feedback">
-              @if (f['nome'].errors?.['required']) {
-              <div>
-                {{ elemLang.nomeObbligatorio }}
+            @if (f["nome"].touched && f["nome"].invalid) {
+              <div class="invalid-feedback">
+                @if (f["nome"].errors?.["required"]) {
+                  <div>
+                    {{ elemLang.nomeObbligatorio }}
+                  </div>
+                }
               </div>
-              }
-            </div>
             }
           </div>
 
@@ -63,18 +61,18 @@
               rows="3"
               [class]="{
                 'is-invalid':
-                  f['descrizione'].touched && f['descrizione'].invalid
+                  f['descrizione'].touched && f['descrizione'].invalid,
               }"
             ></textarea>
 
-            @if (f['descrizione'].touched && f['descrizione'].invalid) {
-            <div class="invalid-feedback">
-              @if (f['descrizione'].errors?.['required']) {
-              <div>
-                {{ elemLang.descrizioneObbligatoria }}
+            @if (f["descrizione"].touched && f["descrizione"].invalid) {
+              <div class="invalid-feedback">
+                @if (f["descrizione"].errors?.["required"]) {
+                  <div>
+                    {{ elemLang.descrizioneObbligatoria }}
+                  </div>
+                }
               </div>
-              }
-            </div>
             }
           </div>
 
@@ -88,22 +86,23 @@
               (change)="onFileSelected($event)"
               accept=".pdf,.mp3"
               [class]="{
-                'is-invalid': f['file'].touched && f['file'].invalid
+                'is-invalid': f['file'].touched && f['file'].invalid,
               }"
             />
 
-            @if (f['file'].touched && f['file'].invalid) {
-            <div class="invalid-feedback">
-              @if (f['file'].errors?.['required']) {
-              <div>
-                {{ elemLang.fileObbligatorio }}
+            @if (f["file"].touched && f["file"].invalid) {
+              <div class="invalid-feedback">
+                @if (f["file"].errors?.["required"]) {
+                  <div>
+                    {{ elemLang.fileObbligatorio }}
+                  </div>
+                }
+                @if (f["file"].errors?.["invalidFileType"]) {
+                  <div>
+                    {{ elemLang.fileAccettati }}
+                  </div>
+                }
               </div>
-              } @if (f['file'].errors?.['invalidFileType']) {
-              <div>
-                {{ elemLang.fileAccettati }}
-              </div>
-              }
-            </div>
             }
             <small class="text-muted">{{ elemLang.formatiAccettati }}</small>
           </div>

@@ -5,9 +5,7 @@ import { Component } from '@angular/core';
   standalone: true,
   imports: [],
   template: `
-    <div
-      class="d-flex flex-column align-items-center justify-content-center vh-100 text-center bg-light"
-    >
+    <div class="elemento-centrato flex-column vh-100 text-center bg-light">
       <div class="error-container p-4 rounded shadow">
         <div class="icon mb-3">🚧</div>
         <h1 class="text-danger mb-3">Servizio non disponibile</h1>

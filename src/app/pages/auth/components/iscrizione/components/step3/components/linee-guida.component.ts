@@ -19,7 +19,7 @@ import { Component, EventEmitter, Output } from '@angular/core';
         <ul class="list-group list-group-flush">
           @for (linea of lineeGuida; track $index) {
             <li
-              class="list-group-item d-flex align-items-start p-3 fs-5"
+              class="list-group-item elemento-iniziale p-3 fs-5"
               style="background-color: #ffffff;"
             >
               <div class="form-check me-3 mt-1">

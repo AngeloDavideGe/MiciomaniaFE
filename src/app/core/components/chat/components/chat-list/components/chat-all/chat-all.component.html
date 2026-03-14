@@ -1,4 +1,4 @@
-<div id="ChatAllContainer" class="d-flex flex-column">
+<div id="ChatAllContainer">
   <!-- Barra di ricerca -->
   <div class="search-container p-2 border-bottom">
     <div class="input-group">
@@ -32,7 +32,7 @@
             <!-- Iniziale Gruppo -->
             @else {
               <div
-                class="avatar-placeholder rounded-circle bg-secondary elementi-laterali justify-content-center"
+                class="avatar-placeholder rounded-circle bg-secondary elementi-laterali"
                 (click)="apriCambioPic(gruppo.id)"
               >
                 <span class="text-white">{{ gruppo.nome.charAt(0) }}</span>
@@ -40,9 +40,7 @@
             }
           } @else {
             <!-- Spinner al posto dell'immagine profilo -->
-            <div
-              class="avatar-spinner elementi-laterali justify-content-center"
-            >
+            <div class="avatar-spinner elementi-laterali">
               <div
                 class="spinner-border spinner-border-sm text-primary"
                 role="status"

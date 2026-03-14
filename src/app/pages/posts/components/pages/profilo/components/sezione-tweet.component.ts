@@ -51,7 +51,7 @@ import { Profilo } from '../../../../../../shared/interfaces/http.interface';
       @for (tweet of profilo.tweets; track $index) {
         <div class="card mb-3 border-0 shadow-sm mt-3">
           <div class="card-body" style="padding: 16px">
-            <div class="d-flex align-items-start">
+            <div class="elemento-iniziale">
               @if (!postService.aggiornamentoPic()) {
                 <img
                   [src]="
@@ -89,7 +89,7 @@ import { Profilo } from '../../../../../../shared/interfaces/http.interface';
 
               @if (profiloPersonale) {
                 <button
-                  class="btn btn-sm d-flex align-items-center justify-content-center"
+                  class="btn btn-sm elemento-centrato"
                   (click)="eliminaTweet.emit(tweet.id)"
                   style="
             width: 36px;

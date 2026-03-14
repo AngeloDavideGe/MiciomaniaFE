@@ -50,10 +50,26 @@
   }
 }
 
+.elemento-iniziale {
+  display: flex;
+  justify-content: flex-start;
+}
+
 .elemento-centrato {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.elemento-finale {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.elementi-colonna {
+  display: flex;
+  flex-direction: column;
+  align-items: center
 }
 
 .elementi-laterali {

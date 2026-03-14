@@ -24,11 +24,9 @@ import { SquadreLang } from '../../../languages/interfaces/squadre-lang.interfac
     </div>
 
     <!-- Lista squadre -->
-    <div class="row justify-content-center align-items-center g-2 mb-4">
+    <div class="row elemento-centrato g-2 mb-4">
       @for (squadra of teamSquadre(); track $index; let i = $index) {
-        <div
-          class="{{ col() }} d-flex align-items-center justify-content-center"
-        >
+        <div class="{{ col() }} elemento-centrato">
           <!-- Badge squadra -->
           <span
             class="badge fs-6 px-3 py-2 rounded-pill shadow-sm"

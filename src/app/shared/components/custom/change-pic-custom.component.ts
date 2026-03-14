@@ -14,9 +14,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
       <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
           <!-- Modal Header -->
-          <div
-            class="modal-header d-flex align-items-center justify-content-between border-bottom-0 pb-0"
-          >
+          <div class="modal-header elementi-laterali border-bottom-0 pb-0">
             <h5 class="modal-title mb-0">
               {{ 'Modifica Immagine ' + nome }}
             </h5>
@@ -37,25 +35,25 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
                 role="tablist"
               >
                 <div
-                  class="container d-flex flex-column justify-content-center align-items-center"
+                  class="container elemento-centrato flex-column"
                   style="min-height: 60vh; max-width: 400px; margin: 3rem auto; background: #f8f9fa; border-radius: 16px; box-shadow: 0 4px 24px rgba(0,0,0,0.08); padding: 2rem;"
                 >
                   <h4 class="mb-4 text-primary" style="font-weight: bold;">
                     {{ 'Carica Immagine ' + nome }}
                   </h4>
-                  <div class="mb-4 w-100 d-flex justify-content-center">
-                    @if(previewUrl){
-                    <img
-                      [src]="previewUrl"
-                      alt="Anteprima"
-                      style="width: 120px; height: 120px; object-fit: cover; border-radius: 50%; border: 2px solid #dee2e6;"
-                    />
+                  <div class="mb-4 w-100 elemento-centrato">
+                    @if (previewUrl) {
+                      <img
+                        [src]="previewUrl"
+                        alt="Anteprima"
+                        style="width: 120px; height: 120px; object-fit: cover; border-radius: 50%; border: 2px solid #dee2e6;"
+                      />
                     } @else {
-                    <div
-                      style="width: 120px; height: 120px; border-radius: 50%; background: #e9ecef; display: flex; align-items: center; justify-content: center; color: #adb5bd; font-size: 2.5rem; border: 2px dashed #dee2e6;"
-                    >
-                      <i class="bi bi-person"></i>
-                    </div>
+                      <div
+                        style="width: 120px; height: 120px; border-radius: 50%; background: #e9ecef; display: flex; align-items: center; justify-content: center; color: #adb5bd; font-size: 2.5rem; border: 2px dashed #dee2e6;"
+                      >
+                        <i class="bi bi-person"></i>
+                      </div>
                     }
                   </div>
                   <input

@@ -34,9 +34,7 @@ import { CapitalizeFirstLetterPipe } from '../../../../../../../shared/pipes/cap
       >
         <div class="modal-content">
           <!-- Modal Header -->
-          <div
-            class="modal-header d-flex align-items-center justify-content-between border-bottom-0 pb-0"
-          >
+          <div class="modal-header elementi-laterali border-bottom-0 pb-0">
             <h5 class="modal-title mb-0">
               {{ adminLang.modifica }}
             </h5>
