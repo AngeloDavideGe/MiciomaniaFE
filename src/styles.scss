@@ -50,6 +50,18 @@
   }
 }
 
+.elemento-centrato {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.elementi-laterali {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
 .grid-card-layout {
   --card-width: 20rem; /* Valore di default */
 

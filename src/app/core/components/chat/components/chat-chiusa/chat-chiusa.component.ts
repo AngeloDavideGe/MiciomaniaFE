@@ -4,7 +4,7 @@ import { Component, EventEmitter, Output } from '@angular/core';
   selector: 'app-chat-chiusa',
   imports: [],
   template: ` <div
-    class="d-flex align-items-center rounded-pill shadow"
+    class="elementi-laterali rounded-pill shadow"
     style="
     background: linear-gradient(135deg, #fd5949 0%, #d6249f 50%, #285aeb 100%);
     color: var(--surface-color);

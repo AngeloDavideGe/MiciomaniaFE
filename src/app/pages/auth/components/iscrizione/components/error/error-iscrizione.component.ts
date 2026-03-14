@@ -5,9 +5,7 @@ import { Component } from '@angular/core';
   standalone: true,
   imports: [],
   template: `
-    <div
-      class="d-flex justify-content-center align-items-center vh-100 bg-light"
-    >
+    <div class="elemento-centrato vh-100 bg-light">
       <div
         class="text-center p-4 border rounded shadow bg-white"
         style="max-width: 400px;"

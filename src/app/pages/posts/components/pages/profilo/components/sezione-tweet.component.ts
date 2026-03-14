@@ -17,7 +17,7 @@ import { Profilo } from '../../../../../../shared/interfaces/http.interface';
   imports: [DatePipe, NgTemplateOutlet],
   template: `
     <div class="mt-4">
-      <div class="d-flex justify-content-between align-items-center">
+      <div class="elementi-laterali">
         <h3
           style="
         font-size: 20px;

@@ -9,7 +9,7 @@ import { filter, map, Observable, startWith } from 'rxjs';
   imports: [RouterOutlet, AsyncPipe],
   template: `
     @if (isAuth$ | async) {
-      <div class="container d-flex justify-content-center align-items-center">
+      <div class="container">
         <div class="row w-100">
           <div class="mx-auto" [class]="col()" [style.margin-top]="marginTop()">
             <div class="card shadow-sm">

@@ -14,4 +14,5 @@ export interface AdminLang {
   modifica: string;
   elimina: string;
   nessunUtente: string;
+  tuttiGliUtenti: string;
 }

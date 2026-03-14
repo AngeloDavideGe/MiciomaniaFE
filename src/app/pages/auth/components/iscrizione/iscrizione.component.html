@@ -1,16 +1,14 @@
 @if (caricaPersona) {
   <!-- Wizard Container -->
   @if (!(user.iscrizione.squadra && viewSuccespage)) {
-    <div
-      class="wizard-header d-flex justify-content-center align-items-center mb-4 p-3"
-    >
+    <div class="wizard-header elemento-centrato mb-4 p-3">
       @for (step of wizard; track $index) {
         <div
           class="wizard-step text-center mx-3 position-relative"
           [class.active]="currentStep() === step.step"
         >
           <div
-            class="circle mx-auto mb-1 d-flex justify-content-center align-items-center"
+            class="circle mx-auto mb-1 elemento-centrato"
             [style]="{
               'background-color':
                 currentStep() === step.step
@@ -79,7 +77,7 @@
 
     <!-- Pulsanti -->
     @if (user.id || currentStep() != 2) {
-      <div class="d-flex justify-content-between px-5 mt-3">
+      <div class="elementi-laterali px-5 mt-3">
         <app-button-custom
           [text]="'Indietro'"
           [icon1]="'bi bi-arrow-left'"

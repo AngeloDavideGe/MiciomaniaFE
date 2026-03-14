@@ -26,9 +26,7 @@ import { Lingua } from '../../../../shared/interfaces/http.interface';
           </h4>
         </div>
 
-        <div
-          class="position-relative d-flex justify-content-center align-items-center mt-5"
-        >
+        <div class="position-relative elemento-centrato mt-5">
           <!-- Freccia sinistra -->
           @if (visualizzaButtoni() && !disableLeft()) {
             <button

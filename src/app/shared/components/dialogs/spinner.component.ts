@@ -6,7 +6,7 @@ import { Component, Input } from '@angular/core';
   imports: [],
   template: `
     <div
-      class="d-flex justify-content-center align-items-center spinner-template-stile"
+      class="elemento-centrato spinner-template-stile"
       [style]="{ 'margin-top': mt }"
     >
       <div class="spinner-border text-primary" role="status">

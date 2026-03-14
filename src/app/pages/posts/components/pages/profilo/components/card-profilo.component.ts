@@ -68,7 +68,7 @@ import { environment } from '../../../../../../../environments/environment';
 
       <!-- Informazioni del profilo -->
       <div class="card-body" style="margin-top: 60px; padding: 20px">
-        <div class="d-flex justify-content-between align-items-center">
+        <div class="elementi-laterali">
           <div>
             <h2
               class="mb-0"

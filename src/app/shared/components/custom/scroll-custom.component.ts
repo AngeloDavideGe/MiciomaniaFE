@@ -5,7 +5,7 @@ import { Component, Input } from '@angular/core';
   standalone: true,
   imports: [],
   template: `
-    <div class="d-flex justify-content-between align-items-center mb-4">
+    <div class="elementi-laterali mb-4">
       <h2 style="color: var(--text-color);">
         <i class="bi bi-person-circle me-2"></i>
         {{ titolo }}

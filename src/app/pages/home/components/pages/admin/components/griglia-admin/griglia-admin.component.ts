@@ -1,12 +1,16 @@
 import {
   Component,
+  computed,
   EventEmitter,
   inject,
   Input,
   Output,
+  signal,
   Signal,
+  WritableSignal,
 } from '@angular/core';
 import { Router } from '@angular/router';
+import { IconeListaComponent } from '../../../../../../../shared/components/custom/icone-lista.component';
 import {
   AzioniTabella,
   RecordColonne,
@@ -18,29 +22,65 @@ import {
   UserParams,
 } from '../../../../../../../shared/interfaces/users.interface';
 import { AdminLang } from '../../languages/interfaces/admin-lang.interface';
+import { AuthService } from '../../../../../../../shared/services/api/auth.service';
+import { converUserParams } from '../../../../../functions/home.functions';
 
 @Component({
   selector: 'app-griglia-admin',
   standalone: true,
-  imports: [TabellaCustomComponent],
+  imports: [TabellaCustomComponent, IconeListaComponent],
   template: `
-    <div class="grid-card-layout" style="--card-width: 30rem;">
-      @for (ruolo of ruoli; track $index) {
+    <app-icone-lista
+      [classNG]="tabellaView()"
+      [ngClass1]="'single'"
+      [ngClass2]="'multiple'"
+      (classNGChange)="tabellaView.set($event)"
+    ></app-icone-lista>
+
+    @if (tabellaView() === 'single') {
+      <div class="elemento-centrato">
         <app-table-custom
-          [titoloTabella]="ruolo"
-          [elemTable]="userMapByRuolo[ruolo]"
+          [titoloTabella]="adminLang.tuttiGliUtenti"
+          [elemTable]="allUSers"
           [noElement]="adminLang.nessunUtente"
           [elemForPage]="5"
-          [colonne]="colonne"
+          [lunghezzaTotale]="'40rem'"
+          [colonne]="colonneSingle"
           [azioni]="pulsanti"
         ></app-table-custom>
-      }
-    </div>
+      </div>
+    } @else {
+      <div class="grid-card-layout" style="--card-width: 30rem;">
+        @for (ruolo of ruoli; track $index) {
+          <app-table-custom
+            [titoloTabella]="ruolo"
+            [elemTable]="userMapByRuolo[ruolo]"
+            [noElement]="adminLang.nessunUtente"
+            [elemForPage]="5"
+            [colonne]="colonne"
+            [azioni]="pulsanti"
+          ></app-table-custom>
+        }
+      </div>
+    }
   `,
 })
 export class GrigliaAdminComponent {
   private router = inject(Router);
+  public authService = inject(AuthService);
+
   public ruoli = Object.values(Ruolo);
+  public tabellaView = signal<string>('single');
+
+  public allUSers = computed<UserParams[]>(() => {
+    const others: UserParams[] = this.authService.users();
+
+    if (this.user) {
+      return [converUserParams(this.user), ...others];
+    } else {
+      return others;
+    }
+  });
 
   @Input() adminLang!: AdminLang;
   @Input() user!: User | null;
@@ -55,6 +95,14 @@ export class GrigliaAdminComponent {
     },
     id: {
       titolo: 'ID',
+      lunghezza: '10rem',
+    },
+  };
+
+  public readonly colonneSingle: Partial<RecordColonne<UserParams>> = {
+    ...this.colonne,
+    ruolo: {
+      titolo: 'Ruolo',
       lunghezza: '10rem',
     },
   };
@@ -90,7 +138,7 @@ export class GrigliaAdminComponent {
   ];
 
   private controlliCustom(str: string, user: UserParams): number {
-    if (this.user?.credenziali.ruolo !== Ruolo.MICIOMANE || !this.user) {
+    if (!this.user || this.user.credenziali.ruolo !== Ruolo.MICIOMANE) {
       alert(`Non hai i permessi per ${str} questo ruolo.`);
       return -1;
     }

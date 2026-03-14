@@ -52,8 +52,8 @@ import { ButtonCustomComponent } from '../../../../../../shared/components/custo
       </div>
 
       <!-- Button Container -->
-      <div class="d-flex justify-content-center gap-3 mt-4">
-        <div class="d-flex gap-3 justify-content-center mt-4">
+      <div class="elemento-centrato gap-3 mt-4">
+        <div class="gap-3 elementi-laterali">
           <app-button-custom
             [text]="'Torna alla Home'"
             [icon1]="'bi bi-arrow-left'"

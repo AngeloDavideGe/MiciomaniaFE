@@ -14,4 +14,5 @@ export const adminLang: AdminLang = {
   modifica: 'Edit Role',
   elimina: 'Delete',
   nessunUtente: 'No users found',
+  tuttiGliUtenti: 'All Users',
 };

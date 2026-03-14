@@ -17,7 +17,7 @@
   <!-- Lista delle chat -->
   <div class="chat-list flex-grow-1 overflow-auto">
     @for (gruppo of filtri.elemFilter(); track $index) {
-      <div class="chat-item d-flex align-items-center p-3 border-bottom">
+      <div class="chat-item elementi-laterali p-3 border-bottom">
         <div class="avatar-container me-3">
           @if (chatService.aggiornamentoPic() != gruppo.id) {
             <!-- Immagine Profilo -->
@@ -32,7 +32,7 @@
             <!-- Iniziale Gruppo -->
             @else {
               <div
-                class="avatar-placeholder rounded-circle bg-secondary d-flex align-items-center justify-content-center"
+                class="avatar-placeholder rounded-circle bg-secondary elementi-laterali justify-content-center"
                 (click)="apriCambioPic(gruppo.id)"
               >
                 <span class="text-white">{{ gruppo.nome.charAt(0) }}</span>
@@ -41,7 +41,7 @@
           } @else {
             <!-- Spinner al posto dell'immagine profilo -->
             <div
-              class="avatar-spinner d-flex align-items-center justify-content-center"
+              class="avatar-spinner elementi-laterali justify-content-center"
             >
               <div
                 class="spinner-border spinner-border-sm text-primary"
@@ -53,13 +53,13 @@
           }
         </div>
         <div class="chat-info flex-grow-1" (click)="apriGruppo.emit(gruppo.id)">
-          <div class="d-flex justify-content-between align-items-center">
+          <div class="elementi-laterali">
             <h6 class="mb-0">{{ gruppo.nome }}</h6>
             <small class="text-muted">{{
               allGruppiRecord[gruppo.id].orario | date: "HH:mm"
             }}</small>
           </div>
-          <div class="d-flex justify-content-between align-items-center">
+          <div class="elementi-laterali">
             <p class="mb-0 text-truncate text-muted">
               {{ allGruppiRecord[gruppo.id].content }}
             </p>

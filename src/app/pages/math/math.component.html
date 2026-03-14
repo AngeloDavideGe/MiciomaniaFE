@@ -41,9 +41,7 @@
 
               <!-- Tastiera Speciale -->
               <div class="special-keyboard" [class.show]="showKeyboard">
-                <div
-                  class="keyboard-header d-flex justify-content-between align-items-center mb-3"
-                >
+                <div class="keyboard-header elementi-laterali mb-3">
                   <h6 class="mb-0">Caratteri Speciali Matematici</h6>
                   <button
                     class="btn btn-sm btn-outline-danger"
@@ -54,31 +52,35 @@
                 </div>
 
                 @if (mathService.simboliBase) {
-                <!-- Lista Simboli -->
-                @for(key of keySimboli; track $index) {
-                <div class="keyboard-section mb-3">
-                  <h6 class="section-title">{{ key }}</h6>
-                  <div class="keyboard-grid">
-                    @for (char of mathService.simboliBase[key]; track $index) {
-                    <button
-                      class="keyboard-key btn btn-outline-primary"
-                      (click)="insertCharacter(char)"
-                    >
-                      {{ char }}
-                    </button>
-                    }
-                  </div>
-                </div>
-                } }
+                  <!-- Lista Simboli -->
+                  @for (key of keySimboli; track $index) {
+                    <div class="keyboard-section mb-3">
+                      <h6 class="section-title">{{ key }}</h6>
+                      <div class="keyboard-grid">
+                        @for (
+                          char of mathService.simboliBase[key];
+                          track $index
+                        ) {
+                          <button
+                            class="keyboard-key btn btn-outline-primary"
+                            (click)="insertCharacter(char)"
+                          >
+                            {{ char }}
+                          </button>
+                        }
+                      </div>
+                    </div>
+                  }
+                }
               </div>
 
               <!-- Risultato -->
               @if (result !== null) {
-              <div class="result-section mt-4">
-                <div class="alert alert-success">
-                  <strong>Risultato:</strong> {{ result }}
+                <div class="result-section mt-4">
+                  <div class="alert alert-success">
+                    <strong>Risultato:</strong> {{ result }}
+                  </div>
                 </div>
-              </div>
               }
 
               <!-- Azioni -->

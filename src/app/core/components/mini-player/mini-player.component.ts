@@ -7,9 +7,7 @@ import { environment } from '../../../../environments/environment';
   standalone: true,
   imports: [],
   template: `
-    <div
-      class="play-container d-flex align-items-center justify-content-between border-top px-4 pt-3 pb-2"
-    >
+    <div class="play-container elementi-laterali border-top px-4 pt-3 pb-2">
       <button
         type="button"
         class="btn-close position-absolute button-close"
@@ -18,7 +16,7 @@ import { environment } from '../../../../environments/environment';
       ></button>
 
       <!-- Info Canzone con effetto hover migliorato -->
-      <div class="d-flex align-items-center song-info">
+      <div class="elementi-laterali song-info">
         <div class="image-wrapper">
           <img
             [src]="miniPlayerService.currentCanzone()?.copertina || defaultPic"
@@ -44,7 +42,7 @@ import { environment } from '../../../../environments/environment';
       </div>
 
       <!-- Controlli con design moderno -->
-      <div class="d-flex align-items-center controls-wrapper">
+      <div class="elementi-laterali controls-wrapper">
         <button
           class="control-btn prev-btn"
           (click)="miniPlayerService.prevSong()"
