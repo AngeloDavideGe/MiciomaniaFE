@@ -24,45 +24,36 @@ import { SquadreLang } from '../../../languages/interfaces/squadre-lang.interfac
     </div>
 
     <!-- Lista squadre -->
-    <div class="row elemento-centrato g-2 mb-4">
+    <div class="elemento-centrato flex-wrap mb-4">
       @for (squadra of teamSquadre(); track $index; let i = $index) {
-        <div class="{{ col() }} elemento-centrato">
-          <!-- Badge squadra -->
+        <div>
           <span
-            class="badge fs-6 px-3 py-2 rounded-pill shadow-sm"
+            class="badge fs-6 px-3 py-2 rounded-pill shadow-sm mt-2 mx-2"
             [style.backgroundColor]="squadra.colore"
-            style="color: var(--surface-color);"
           >
             {{ squadra.nome }}
           </span>
-
-          <!-- VS (solo se non è l'ultima squadra) -->
-          @if (i != teamSquadre().length - 1) {
-            <span
-              class="fw-semibold mx-2"
-              style="color: var(--text-secondary); font-size: 1rem;"
-            >
-              VS
-            </span>
-          }
         </div>
       }
     </div>
   `,
+  styles: [
+    `
+      span {
+        width: 11rem;
+        color: var(--surface-color);
+      }
+    `,
+  ],
 })
 export class ListaSquadreComponent {
   public router = inject(Router);
-
   public teamSquadre = signal<Squadre[]>([]);
-  public col = signal<string>('col-md-4 col-6');
 
   @Input() squadreLang!: SquadreLang;
   @Input() set classifica(value: Classifica) {
     if (value) {
       this.teamSquadre.set(value.squadre);
-      this.col.set(
-        `col-md-${Math.floor(12 / this.teamSquadre().length)} col-6`,
-      );
     }
   }
 }

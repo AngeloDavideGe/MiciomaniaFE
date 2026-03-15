@@ -5,10 +5,7 @@ import { Component, EventEmitter, Output } from '@angular/core';
   standalone: true,
   imports: [],
   template: `
-    <div
-      class="card shadow-lg border-0 mt-4"
-      style="border-radius: 12px; max-width: 900px;"
-    >
+    <div class="card shadow-lg border-0 mt-4" style="border-radius: 12px;">
       <div
         class="card-header text-white"
         style="background: linear-gradient(90deg, #0d6efd, #0b5ed7);"

@@ -31,98 +31,92 @@ import { environment } from '../../../../environments/environment';
     PaginazioneCustomComponent,
   ],
   template: `
-    <div [style]="{ width: lunghezzaTotale }">
-      <div class="table-wrapper">
-        @if (elemTable().length > 0) {
-          <ng-container
-            *ngTemplateOutlet="titoloTabellaTemplate"
-          ></ng-container>
+    <div class="table-wrapper">
+      @if (elemTable().length > 0) {
+        <ng-container *ngTemplateOutlet="titoloTabellaTemplate"></ng-container>
 
-          @if (filtroDefault) {
-            <div class="search-filter">
-              <i class="bi bi-search search-icon"></i>
-              <input
-                type="text"
-                class="search-input"
-                placeholder="Cerca..."
-                [(ngModel)]="searchQuery"
-                (ngModelChange)="searchQuery.set($event)"
-              />
-              <button
-                class="clear-btn"
-                (click)="searchQuery.set(''); ordinaElem.set(null)"
-              >
-                <i class="bi bi-x-circle"></i>
-              </button>
-            </div>
-          }
-
-          <div class="table-container">
-            <table class="table-custom">
-              <thead>
-                <tr>
-                  @for (key of keyofElem; track $index; let idx = $index) {
-                    <th
-                      [style.width]="colonne[key]!.lunghezza"
-                      (click)="ordinaColonna(key)"
-                    >
-                      {{ colonne[key]!.titolo }}
-                      <span>&nbsp;↕️</span>
-                    </th>
-                  }
-                  @if (azioni.length > 0) {
-                    <th [style.width]="lunghezzaAzioni">Azioni</th>
-                  }
-                </tr>
-              </thead>
-              <tbody>
-                @for (elem of filtri.elemFilter(); track $index) {
-                  <tr>
-                    @for (key of keyofElem; track $index; let idx = $index) {
-                      <td
-                        [attr.data-label]="key"
-                        [style.width]="colonne[key]!.lunghezza"
-                      >
-                        <div class="cell-content">{{ elem[key] }}</div>
-                      </td>
-                    }
-                    @if (azioni.length > 0) {
-                      <td [style.width]="lunghezzaAzioni" class="actions-cell">
-                        <div class="actions-wrapper">
-                          @for (azione of azioni; track $index) {
-                            <button
-                              class="action-btn"
-                              (click)="azione.azione(elem, $index)"
-                              [title]="azione.titolo"
-                              [attr.aria-label]="azione.titolo"
-                            >
-                              <i [class]="azione.icona"></i>
-                            </button>
-                          }
-                        </div>
-                      </td>
-                    }
-                  </tr>
-                }
-              </tbody>
-            </table>
-          </div>
-
-          <app-paginazione-custom
-            [filtri]="filtri"
-            [tipo]="tipoPaginazione"
-          ></app-paginazione-custom>
-        } @else {
-          <ng-container
-            *ngTemplateOutlet="titoloTabellaTemplate"
-          ></ng-container>
-
-          <div class="empty-state">
-            <i class="bi bi-inbox empty-icon"></i>
-            <p class="empty-text">{{ noElement }}</p>
+        @if (filtroDefault) {
+          <div class="search-filter">
+            <i class="bi bi-search search-icon"></i>
+            <input
+              type="text"
+              class="search-input"
+              placeholder="Cerca..."
+              [(ngModel)]="searchQuery"
+              (ngModelChange)="searchQuery.set($event)"
+            />
+            <button
+              class="clear-btn"
+              (click)="searchQuery.set(''); ordinaElem.set(null)"
+            >
+              <i class="bi bi-x-circle"></i>
+            </button>
           </div>
         }
-      </div>
+
+        <div class="table-container">
+          <table class="table-custom">
+            <thead>
+              <tr>
+                @for (key of keyofElem; track $index; let idx = $index) {
+                  <th
+                    [style.width]="colonne[key]!.lunghezza"
+                    (click)="ordinaColonna(key)"
+                  >
+                    {{ colonne[key]!.titolo }}
+                    <span>&nbsp;↕️</span>
+                  </th>
+                }
+                @if (azioni.length > 0) {
+                  <th [style.width]="lunghezzaAzioni">Azioni</th>
+                }
+              </tr>
+            </thead>
+            <tbody>
+              @for (elem of filtri.elemFilter(); track $index) {
+                <tr>
+                  @for (key of keyofElem; track $index; let idx = $index) {
+                    <td
+                      [attr.data-label]="key"
+                      [style.width]="colonne[key]!.lunghezza"
+                    >
+                      <div class="cell-content">{{ elem[key] }}</div>
+                    </td>
+                  }
+                  @if (azioni.length > 0) {
+                    <td [style.width]="lunghezzaAzioni" class="actions-cell">
+                      <div class="actions-wrapper">
+                        @for (azione of azioni; track $index) {
+                          <button
+                            class="action-btn"
+                            (click)="azione.azione(elem, $index)"
+                            [title]="azione.titolo"
+                            [attr.aria-label]="azione.titolo"
+                          >
+                            <i [class]="azione.icona"></i>
+                          </button>
+                        }
+                      </div>
+                    </td>
+                  }
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+
+        <app-paginazione-custom
+          [filtri]="filtri"
+          [tipo]="tipoPaginazione"
+        ></app-paginazione-custom>
+      } @else {
+        <ng-container *ngTemplateOutlet="titoloTabellaTemplate"></ng-container>
+
+        <div class="empty-state">
+          <i class="bi bi-inbox empty-icon"></i>
+          <p class="empty-text">{{ noElement }}</p>
+        </div>
+      }
     </div>
 
     <ng-template #titoloTabellaTemplate>
@@ -151,7 +145,6 @@ export class TabellaCustomComponent<T> {
   @Input() colonne!: Partial<RecordColonne<T>>;
   @Input() noElement: string = 'Nessun Elemento';
   @Input() titoloTabella: string = '';
-  @Input() lunghezzaTotale: string = '30rem';
   @Input() lunghezzaAzioni: string = '10rem';
   @Input() azioni: AzioniTabella<T>[] = [];
   @Input() elemForPage: number = environment.maxElement.elemPagine;

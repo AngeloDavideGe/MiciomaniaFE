@@ -1,9 +1,10 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { ButtonCustomComponent } from '../../../../../../shared/components/custom/botton-custom.component';
 
 @Component({
   standalone: true,
   selector: 'app-filtri-post',
-  imports: [],
+  imports: [ButtonCustomComponent],
   template: `
     <div class="filtri-container">
       <div class="filters-panel">
@@ -36,20 +37,17 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
         </div>
 
         <div class="filter-actions">
-          <button
-            class="clear-btn"
-            (click)="applyFilters(null)"
+          <app-button-custom
+            [text]="'Azzera'"
             [disabled]="selectedFilter === null"
-          >
-            Azzera filtri
-          </button>
-          <button
-            class="apply-btn"
-            (click)="applyFilters(selectedFilter)"
-            [disabled]="selectedFilter === null"
-          >
-            Applica filtri
-          </button>
+            [color]="'secondary-custom'"
+            (clickBotton)="applyFilters(null)"
+          ></app-button-custom>
+          <app-button-custom
+            [text]="'Applica'"
+            [color]="'primary-custom'"
+            (clickBotton)="applyFilters(selectedFilter)"
+          ></app-button-custom>
         </div>
       </div>
     </div>
@@ -121,39 +119,6 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
             justify-content: flex-end;
             border-top: 1px solid var(--border-color);
             padding-top: 16px;
-
-            .apply-btn {
-              background-color: var(--primary-color);
-              color: var(--surface-color);
-              border: none;
-              border-radius: 9999px;
-              padding: 6px 16px;
-              font-size: 13px;
-              font-weight: 600;
-
-              &:hover:not(:disabled) {
-                background-color: var(--primary-hover);
-              }
-
-              &:disabled {
-                opacity: 0.5;
-                cursor: not-allowed;
-              }
-            }
-
-            .clear-btn {
-              background-color: transparent;
-              color: var(--primary-color);
-              border: none;
-              padding: 6px 16px;
-              font-size: 13px;
-              font-weight: 600;
-
-              &:disabled {
-                opacity: 0.5;
-                cursor: not-allowed;
-              }
-            }
           }
         }
       }

@@ -44,7 +44,6 @@ import { converUserParams } from '../../../../../functions/home.functions';
           [elemTable]="allUSers"
           [noElement]="adminLang.nessunUtente"
           [elemForPage]="5"
-          [lunghezzaTotale]="'40rem'"
           [colonne]="colonneSingle"
           [azioni]="pulsanti"
         ></app-table-custom>

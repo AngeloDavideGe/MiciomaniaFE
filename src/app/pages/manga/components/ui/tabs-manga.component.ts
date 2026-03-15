@@ -8,7 +8,7 @@ import { DataHttp } from '../../../../core/api/http.data';
   standalone: true,
   imports: [],
   template: `
-    <ul class="nav nav-tabs">
+    <ul class="nav nav-tabs ms-2">
       @for (tab of tabs; track $index) {
         <li class="nav-item">
           <a

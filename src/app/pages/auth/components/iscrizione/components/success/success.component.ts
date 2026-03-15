@@ -57,14 +57,12 @@ import { ButtonCustomComponent } from '../../../../../../shared/components/custo
           <app-button-custom
             [text]="'Torna alla Home'"
             [icon1]="'bi bi-arrow-left'"
-            [color]="'var(--bg-lighter)'"
             (clickBotton)="navigateToHome()"
           ></app-button-custom>
 
           <app-button-custom
             [text]="'Modifica Info'"
             [icon1]="'bi bi-pencil'"
-            [color]="'#20c997'"
             (clickBotton)="editInfo.emit()"
           ></app-button-custom>
         </div>

@@ -49,7 +49,7 @@ import { TuoiMangaLang } from '../languages/interfaces/tuoiManga-lang.interface'
       #tabs .stile-bottoni {
         color: white;
         border-radius: 10px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        box-shadow: 0 4px 8px var(--border-light);
         transition: all 0.3s;
       }
     `,

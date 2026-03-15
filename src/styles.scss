@@ -21,6 +21,7 @@
   --bg-active: rgba(0, 0, 0, 0.04);
 }
 
+// :root {
 :root.dark {
   // Colori superficie e bordi
   --surface-color: #1e1e1e;
@@ -50,39 +51,41 @@
   }
 }
 
-.elemento-iniziale {
-  display: flex;
-  justify-content: flex-start;
+@mixin flex-justify($posizione, $aling: start, $direction: row, $display: flex) {
+  display: $display;
+  justify-content: $posizione;
+  align-items: $aling;
+
+  @if ($direction != row) {
+    flex-direction: $direction;
+  }
 }
 
-.elemento-centrato {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+.elemento-iniziale {
+  @include flex-justify(flex-start);
 }
 
 .elemento-finale {
-  display: flex;
-  justify-content: flex-end;
+  @include flex-justify(flex-end);
 }
 
-.elementi-colonna {
-  display: flex;
-  flex-direction: column;
-  align-items: center
+.elemento-centrato {
+  @include flex-justify(center, center);
 }
 
 .elementi-laterali {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  @include flex-justify(space-between, center);
+}
+
+.elementi-colonna {
+  @include flex-justify(center, center, column);
 }
 
 .grid-card-layout {
-  --card-width: 20rem; /* Valore di default */
+  --card-width: 20rem;   // variabile per la larghezza delle card
 
-  display: grid;
-  grid-template-columns: repeat(auto-fill, var(--card-width));
   gap: 1.5rem;
-  justify-content: center;
+  grid-template-columns: repeat(auto-fill, var(--card-width));
+
+  @include flex-justify(center, center, row, grid);
 }

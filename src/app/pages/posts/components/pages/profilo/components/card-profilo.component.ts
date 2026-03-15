@@ -83,16 +83,8 @@ import { environment } from '../../../../../../../environments/environment';
           <!-- Pulsante Modifica Profilo -->
           @if (profiloPersonale) {
             <button
-              class="btn btn-sm"
+              class="btn btn-sm button-profilo"
               (click)="modaleAperta.emit('edit-profilo')"
-              style="
-          font-size: 14px;
-          font-weight: bold;
-          border-radius: 8px;
-          border: 1px solid var(--border-color);
-          color: var(--text-secondary);
-          background-color: var(--surface-color);
-        "
               title="Modifica dati profilo"
             >
               ✏️
@@ -121,29 +113,40 @@ import { environment } from '../../../../../../../environments/environment';
         </div>
 
         @if (socialArray.length > 0) {
-          <div class="d-flex flex-wrap">
-            @for (social of socialArray; track $index) {
-              <a
-                (click)="openLink(social.link)"
-                target="_blank"
-                class="btn btn-sm me-2 mb-2"
-                style="
-          font-size: 14px;
-          border-radius: 20px;
-          padding: 4px 12px;
-          border: 1px solid var(--primary-color);
-          color: var(--primary-color);
-          background-color: var(--surface-color);
-        "
-              >
-                {{ social.key | titlecase }}
-              </a>
-            }
-          </div>
+          @for (social of socialArray; track $index) {
+            <a
+              (click)="openLink(social.link)"
+              target="_blank"
+              class="btn btn-sm a-profilo me-2 mb-2"
+            >
+              {{ social.key | titlecase }}
+            </a>
+          }
         }
       </div>
     </div>
   `,
+  styles: [
+    `
+      .a-profilo {
+        font-size: 14px;
+        border-radius: 20px;
+        padding: 4px 12px;
+        border: 1px solid var(--primary-color);
+        color: var(--primary-color);
+        background-color: var(--surface-color);
+      }
+
+      .button-profilo {
+        font-size: 14px;
+        font-weight: bold;
+        border-radius: 8px;
+        border: 1px solid var(--border-color);
+        color: var(--text-secondary);
+        background-color: var(--surface-color);
+      }
+    `,
+  ],
 })
 export class CardProfiloComponent {
   public postService = inject(PostService);

@@ -23,7 +23,7 @@ import { Subject } from 'rxjs';
         >
           <!-- Header con bordo inferiore sottile e colore più moderno -->
           <div
-            class="modal-header"
+            class="modal-header elementi-laterali"
             style="background-color: white; color: #333; padding: 1.25rem 1.5rem; border-bottom: 1px solid #e9ecef;"
           >
             <h5

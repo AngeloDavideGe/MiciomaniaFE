@@ -81,14 +81,12 @@
         <app-button-custom
           [text]="'Indietro'"
           [icon1]="'bi bi-arrow-left'"
-          [color]="'var(--bg-lighter)'"
           (clickBotton)="prevStep()"
         ></app-button-custom>
 
         <app-button-custom
           [text]="currentStep() == 3 ? 'Invia' : 'Avanti'"
           [icon2]="'bi bi-arrow-right'"
-          [color]="currentStep() == 3 ? '#20c997' : 'var(--primary-color)'"
           (clickBotton)="nextStep()"
           [disabled]="squadreInGame().length == 0"
         ></app-button-custom>

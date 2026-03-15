@@ -5,7 +5,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
   standalone: true,
   imports: [],
   template: `
-    <div class="elemento-finale mb-3">
+    <div class="elemento-finale mb-3 me-2">
       <button
         class="btn btn-outline-secondary me-2"
         [class.active]="classNG === ngClass1"
