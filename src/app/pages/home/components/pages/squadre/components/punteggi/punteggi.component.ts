@@ -34,14 +34,14 @@ import { punteggi_imports } from './imports/punteggi.import';
               [elemTable]="giocatori"
               [colonne]="colonneUtenti"
               [titoloTabella]="'Punteggio Utenti'"
-              [elemForPage]="5"
+              [elemForPage]="elemForPage"
             ></app-table-custom>
 
             <app-table-custom
               [elemTable]="squadre"
               [colonne]="colonneSquadre"
               [titoloTabella]="'Punteggio Squadre'"
-              [elemForPage]="5"
+              [elemForPage]="elemForPage"
             ></app-table-custom>
           </div>
         }
@@ -60,6 +60,7 @@ export class PunteggiComponent {
   public giocatori = signal<Giocatori[]>([]);
   public squadre = signal<Squadre[]>([]);
   public classifica = signal<Classifica>({} as Classifica);
+  public elemForPage = signal<number>(5);
 
   @Input() squadreLang!: SquadreLang;
   @Output() captureElement = new EventEmitter<void>();

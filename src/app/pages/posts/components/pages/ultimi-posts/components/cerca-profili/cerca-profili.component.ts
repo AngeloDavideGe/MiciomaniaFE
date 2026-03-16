@@ -67,7 +67,7 @@ export class CercaProfiliComponent implements OnInit {
   private setFiltri(): void {
     this.filtri = GetFiltriCustom<UserParams, null>({
       elemTable: this.users,
-      elemForPage: this.itemsPerPage,
+      elemForPage: signal<number>(this.itemsPerPage),
       select: [
         {
           key: 'id',

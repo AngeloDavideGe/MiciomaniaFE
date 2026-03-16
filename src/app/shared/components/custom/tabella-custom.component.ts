@@ -109,6 +109,28 @@ import { environment } from '../../../../environments/environment';
           [filtri]="filtri"
           [tipo]="tipoPaginazione"
         ></app-paginazione-custom>
+
+        <div
+          class="elemento-finale px-2 mt-2 mb-2"
+          style="--aling-end: center;"
+        >
+          <label class="label-elementi-pagina" for="perPageSelect">
+            Elementi per pagina:
+          </label>
+
+          <select
+            id="perPageSelect"
+            class="select-elementi-pagina"
+            [ngModel]="elemForPage()"
+            (ngModelChange)="elemForPage.set($event)"
+          >
+            @for (numElem of arrayElemForPage; track numElem) {
+              <option [ngValue]="numElem">
+                {{ numElem }}
+              </option>
+            }
+          </select>
+        </div>
       } @else {
         <ng-container *ngTemplateOutlet="titoloTabellaTemplate"></ng-container>
 
@@ -147,8 +169,9 @@ export class TabellaCustomComponent<T> {
   @Input() titoloTabella: string = '';
   @Input() lunghezzaAzioni: string = '10rem';
   @Input() azioni: AzioniTabella<T>[] = [];
-  @Input() elemForPage: number = environment.maxElement.elemPagine;
   @Input() tipoPaginazione: TipoPaginazione = 'multiplo';
+  @Input() arrayElemForPage: number[] = [1, 5, 10, 20, 50, 100];
+  @Input() elemForPage = signal<number>(environment.maxElement.elemPagine);
 
   public keyofElem: Array<keyof T> = [];
   public searchQuery = signal<string>('');
@@ -199,13 +222,13 @@ export class TabellaCustomComponent<T> {
   }
 }
 
+export type RecordColonne<T> = Record<keyof T, ColonnaCustom>;
+
 export interface AzioniTabella<T> {
   icona: string;
   titolo: string;
   azione: (elem: T, index: number) => void;
 }
-
-export type RecordColonne<T> = Record<keyof T, ColonnaCustom>;
 
 interface ColonnaCustom {
   titolo: string;

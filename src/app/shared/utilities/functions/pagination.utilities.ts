@@ -25,8 +25,9 @@ export function GetFiltriCustom<T, F>(
 
   const totalPage = computed<number>(() => {
     const search: T[] = searchElems();
-    const elemForPage: number =
-      params.elemForPage || environment.maxElement.elemPagine;
+    const elemForPage: number = params.elemForPage
+      ? params.elemForPage()
+      : environment.maxElement.elemPagine;
 
     return Math.ceil(search.length / elemForPage);
   });
@@ -34,8 +35,9 @@ export function GetFiltriCustom<T, F>(
   const elemFilter = computed<T[]>(() => {
     const totElem: T[] = searchElems();
     const currentPages: number = currentPage();
-    const elemForPage: number =
-      params.elemForPage || environment.maxElement.elemPagine;
+    const elemForPage: number = params.elemForPage
+      ? params.elemForPage()
+      : environment.maxElement.elemPagine;
 
     return totElem.slice(
       (currentPages - 1) * elemForPage,
@@ -50,12 +52,12 @@ export function GetFiltriCustom<T, F>(
   const dettaglioPage = computed<string>(() => {
     const currentPages: number = currentPage();
     const totalElem: number = searchElems().length;
+    const elemForPage: number = params.elemForPage
+      ? params.elemForPage()
+      : environment.maxElement.elemPagine;
 
-    const elpage: number =
-      params.elemForPage || environment.maxElement.elemPagine;
-
-    const start: number = Math.max(0, 1 + (currentPages - 1) * elpage);
-    const end: number = Math.min(start + elpage - 1, totalElem);
+    const start: number = Math.max(0, 1 + (currentPages - 1) * elemForPage);
+    const end: number = Math.min(start + elemForPage - 1, totalElem);
 
     if (totalElem < 2) {
       return `${totalElem} elementi`;
@@ -150,7 +152,7 @@ export interface Ordinamento<T, F> {
 
 interface InputFiltri<T, F> {
   elemTable: Signal<T[]>;
-  elemForPage?: number;
+  elemForPage?: WritableSignal<number>;
   tipoSelect?: 'some' | 'every';
   select?: FiltriSelect<T, string>[];
   tabs?: FiltriSelect<T, F | null>;

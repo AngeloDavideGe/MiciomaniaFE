@@ -21,9 +21,9 @@ import {
   User,
   UserParams,
 } from '../../../../../../../shared/interfaces/users.interface';
-import { AdminLang } from '../../languages/interfaces/admin-lang.interface';
 import { AuthService } from '../../../../../../../shared/services/api/auth.service';
 import { converUserParams } from '../../../../../functions/home.functions';
+import { AdminLang } from '../../languages/interfaces/admin-lang.interface';
 
 @Component({
   selector: 'app-griglia-admin',
@@ -43,7 +43,7 @@ import { converUserParams } from '../../../../../functions/home.functions';
           [titoloTabella]="adminLang.tuttiGliUtenti"
           [elemTable]="allUSers"
           [noElement]="adminLang.nessunUtente"
-          [elemForPage]="5"
+          [elemForPage]="elemForAllPage"
           [colonne]="colonneSingle"
           [azioni]="pulsanti"
         ></app-table-custom>
@@ -55,7 +55,7 @@ import { converUserParams } from '../../../../../functions/home.functions';
             [titoloTabella]="ruolo"
             [elemTable]="userMapByRuolo[ruolo]"
             [noElement]="adminLang.nessunUtente"
-            [elemForPage]="5"
+            [elemForPage]="elemForPage[ruolo]"
             [colonne]="colonne"
             [azioni]="pulsanti"
           ></app-table-custom>
@@ -68,8 +68,17 @@ export class GrigliaAdminComponent {
   private router = inject(Router);
   public authService = inject(AuthService);
 
-  public ruoli = Object.values(Ruolo);
+  public ruoli: Ruolo[] = Object.values(Ruolo);
   public tabellaView = signal<string>('single');
+  public elemForAllPage = signal<number>(5);
+
+  public elemForPage = this.ruoli.reduce(
+    (acc, ruolo) => {
+      acc[ruolo] = signal<number>(5);
+      return acc;
+    },
+    {} as Record<Ruolo, WritableSignal<number>>,
+  );
 
   public allUSers = computed<UserParams[]>(() => {
     const others: UserParams[] = this.authService.users();

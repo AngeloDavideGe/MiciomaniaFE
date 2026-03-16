@@ -43,7 +43,8 @@
 }
 
 .elemento-finale {
-  @include flex-justify(flex-end);
+  --aling-end: start;
+  @include flex-justify(flex-end, var(--aling-end));
 }
 
 .elemento-centrato {

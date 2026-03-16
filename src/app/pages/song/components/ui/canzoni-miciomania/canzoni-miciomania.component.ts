@@ -48,14 +48,14 @@ export class CanzoniMiciomaniaComponent implements OnInit {
     effect(() => {
       this.filtriMiciomania = GetFiltriCustom<MangaSong, null>({
         elemTable: this.canzoniMiciomania,
-        elemForPage: this.canzoniForPage,
+        elemForPage: signal<number>(this.canzoniForPage),
       });
     });
 
     effect(() => {
       this.filtriUtente = GetFiltriCustom<MangaSong, null>({
         elemTable: this.canzoniUtente,
-        elemForPage: this.canzoniForPage,
+        elemForPage: signal<number>(this.canzoniForPage),
       });
     });
   }
