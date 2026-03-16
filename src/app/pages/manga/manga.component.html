@@ -45,7 +45,10 @@
           }
         }
       } @else {
-        <div class="mt-4 grid-card-layout" style="--card-width: 15rem">
+        <div
+          class="grid-card-layout mt-4 px-2"
+          style="--card-width: 15rem; --card-position: start"
+        >
           @for (manga of filtri.searchElems(); track manga.id) {
             <div class="d-flex" style="padding: 0.2rem">
               <app-card-manga

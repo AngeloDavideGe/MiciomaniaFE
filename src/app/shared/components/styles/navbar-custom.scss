@@ -20,25 +20,6 @@
     justify-content: space-between;
     gap: 20px;
 
-    .navbar-left-group,
-    .navbar-center-group,
-    .navbar-right-group {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-    }
-
-    .navbar-left-group {
-      justify-content: flex-start;
-    }
-    .navbar-center-group {
-      justify-content: center;
-      flex: 1;
-    }
-    .navbar-right-group {
-      justify-content: flex-end;
-    }
-
     .nav-btn {
       display: flex;
       align-items: center;
@@ -217,10 +198,6 @@
   @media (max-width: 480px) {
     .search-input-wrapper.active {
       width: 160px;
-    }
-    .navbar-left-group,
-    .navbar-right-group {
-      gap: 8px;
     }
   }
 }

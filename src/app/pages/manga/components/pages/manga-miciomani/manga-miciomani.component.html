@@ -17,7 +17,7 @@
         [lunghezzaFiltro]="elem()?.mangaMiciomania?.length || 0"
       ></app-custom-scroll>
 
-      <div class="grid-card-layout px-2 mt-3">
+      <div class="grid-card-layout px-2 mt-3" style="--card-position: start">
         @for (manga of elem()?.mangaMiciomania; track $index) {
           <app-card-custom
             [link]="manga.copertina || mangaDefaultPic"
@@ -48,7 +48,7 @@
         [lunghezzaFiltro]="elem()?.mangaUtentePars?.length || 0"
       ></app-custom-scroll>
 
-      <div class="grid-card-layout px-2 mt-3">
+      <div class="grid-card-layout px-2 mt-3" style="--card-position: start">
         @for (manga of elem()?.mangaUtentePars; track $index) {
           <app-card-custom
             [link]="manga.copertina || mangaDefaultPic"

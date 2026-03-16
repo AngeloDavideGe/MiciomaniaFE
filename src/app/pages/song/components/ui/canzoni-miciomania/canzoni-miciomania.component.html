@@ -12,7 +12,7 @@
       [filtri]="filtriMiciomania"
     ></app-paginazione-custom>
 
-    <div class="grid-card-layout px-2 mt-3">
+    <div class="grid-card-layout px-2 mt-3" style="--card-position: start">
       @for (canzone of filtriMiciomania.elemFilter(); track canzone.idUtente) {
         <app-card-custom
           [titolo]="canzone.nome"
@@ -48,7 +48,7 @@
 
     <app-paginazione-custom [filtri]="filtriUtente"></app-paginazione-custom>
 
-    <div class="grid-card-layout px-2 mt-3">
+    <div class="grid-card-layout px-2 mt-3" style="--card-position: start">
       @for (canzone of filtriUtente.elemFilter(); track canzone.idUtente) {
         <app-card-custom
           [titolo]="canzone.nome"
@@ -64,8 +64,8 @@
             Genere: <strong>{{ canzone.genere }}</strong
             ><br />
             Autore: <em>{{ canzone.idUtente }}</em>
-          </div></app-card-custom
-        >
+          </div>
+        </app-card-custom>
       }
     </div>
   </section>

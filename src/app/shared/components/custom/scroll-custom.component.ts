@@ -6,7 +6,7 @@ import { Component, Input } from '@angular/core';
   imports: [],
   template: `
     <div class="elementi-laterali mb-4">
-      <h2 style="color: var(--text-color);">
+      <h2 class="px-2" style="color: var(--text-color);">
         <i class="bi bi-person-circle me-2"></i>
         {{ titolo }}
         <span

@@ -18,10 +18,7 @@ import { TuoiMangaLang } from '../languages/interfaces/tuoiManga-lang.interface'
   standalone: true,
   imports: [FormsModule],
   template: `
-    <div
-      class="elemento-centrato mt-4 position-relative w-100"
-      id="input-ricerca"
-    >
+    <div class="elemento-centrato mt-4 px-2" id="input-ricerca">
       <input
         type="text"
         class="form-control w-100 w-sm-75 w-md-50"
@@ -37,10 +34,7 @@ import { TuoiMangaLang } from '../languages/interfaces/tuoiManga-lang.interface'
 
       <!-- Lista di risultati della ricerca (dropdown) -->
       @if (allMangaSearch().length > 0 && searchQuery().length > 0) {
-        <div
-          class="position-absolute w-100 w-sm-75 w-md-50"
-          style="z-index: 1050; margin-top: 3.5rem"
-        >
+        <div class="position-absolute lista-ricerca">
           <ul
             class="list-group stile-gruppo-lista"
             style="max-height: 200px; overflow-y: auto"
@@ -48,8 +42,8 @@ import { TuoiMangaLang } from '../languages/interfaces/tuoiManga-lang.interface'
             @for (result of allMangaSearch(); track $index) {
               <li
                 class="list-group-item elemento-centrato"
+                style="cursor: pointer;"
                 (click)="aggiungiMangaTab.emit(result.id)"
-                style="cursor: pointer"
               >
                 <img
                   [src]="result.copertina"
@@ -85,6 +79,13 @@ import { TuoiMangaLang } from '../languages/interfaces/tuoiManga-lang.interface'
           @media (min-width: 993px) {
             max-height: 400px;
           }
+        }
+
+        .lista-ricerca {
+          z-index: 1050;
+          margin-top: 2.6rem;
+          width: 100%;
+          max-width: 20rem;
         }
 
         .stile-immagine-profilo {

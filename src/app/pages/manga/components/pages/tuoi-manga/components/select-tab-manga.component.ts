@@ -7,7 +7,7 @@ import { TuoiMangaLang } from '../languages/interfaces/tuoiManga-lang.interface'
   imports: [],
   template: `
     <select
-      class="form-select form-select-lg mb-3 mt-3"
+      class="form-select form-select-lg mb-3 mt-3 ms-2"
       aria-label="Sposta i selezionati"
       (change)="spostaMangaSelezionati.emit($event)"
       style="width: auto; display: inline-block; margin-right: 10px"

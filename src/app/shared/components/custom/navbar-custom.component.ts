@@ -17,7 +17,7 @@ import { Router } from '@angular/router';
     <nav class="navbar">
       <div class="navbar-container">
         <!-- Left group: back + search -->
-        <div class="navbar-left-group">
+        <div class="elemento-iniziale">
           @if (goHomeBotton) {
             <button
               class="nav-btn back-btn"
@@ -32,7 +32,7 @@ import { Router } from '@angular/router';
           <ng-content select="[leftContent]"></ng-content>
         </div>
 
-        <div class="navbar-center-group">
+        <div class="elemento-centrato">
           <!-- Extra Buttons -->
           @if (altriBottoni.length > 0) {
             <div class="action-buttons">
@@ -86,7 +86,7 @@ import { Router } from '@angular/router';
         </div>
 
         <!-- Right group: search -->
-        <div class="navbar-right-group">
+        <div class="elemento-finale">
           <ng-content select="[rightContent]"></ng-content>
         </div>
       </div>
