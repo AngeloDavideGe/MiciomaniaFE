@@ -11,7 +11,7 @@
       [paths]="segments"
       [width]="300"
       [height]="300"
-      [transform]="'rotate(' + rotation() + 'deg)'"
+      [transform]="'rotate(' + (rotation() - rotationOffset) + 'deg)'"
       class="wheel"
     ></app-svg-custom>
   </div>

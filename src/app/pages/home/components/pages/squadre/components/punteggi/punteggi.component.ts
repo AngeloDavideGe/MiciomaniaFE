@@ -29,20 +29,22 @@ import { punteggi_imports } from './imports/punteggi.import';
         @if (classNg() == 'chart') {
           <app-chart-custom [classifica]="classifica()"></app-chart-custom>
         } @else {
-          <div class="grid-card-layout" style="--card-width: 30rem;">
-            <app-table-custom
-              [elemTable]="giocatori"
-              [colonne]="colonneUtenti"
-              [titoloTabella]="'Punteggio Utenti'"
-              [elemForPage]="elemForPage"
-            ></app-table-custom>
+          <div class="container">
+            <div class="grid-card-layout" style="--card-width: 30rem; ">
+              <app-table-custom
+                [elemTable]="giocatori"
+                [colonne]="colonneUtenti"
+                [titoloTabella]="'Punteggio Utenti'"
+                [elemForPage]="elemForPage.utenti"
+              ></app-table-custom>
 
-            <app-table-custom
-              [elemTable]="squadre"
-              [colonne]="colonneSquadre"
-              [titoloTabella]="'Punteggio Squadre'"
-              [elemForPage]="elemForPage"
-            ></app-table-custom>
+              <app-table-custom
+                [elemTable]="squadre"
+                [colonne]="colonneSquadre"
+                [titoloTabella]="'Punteggio Squadre'"
+                [elemForPage]="elemForPage.squadre"
+              ></app-table-custom>
+            </div>
           </div>
         }
 
@@ -60,7 +62,11 @@ export class PunteggiComponent {
   public giocatori = signal<Giocatori[]>([]);
   public squadre = signal<Squadre[]>([]);
   public classifica = signal<Classifica>({} as Classifica);
-  public elemForPage = signal<number>(5);
+
+  public elemForPage = {
+    utenti: signal<number>(5),
+    squadre: signal<number>(5),
+  };
 
   @Input() squadreLang!: SquadreLang;
   @Output() captureElement = new EventEmitter<void>();

@@ -1,0 +1,9 @@
+@mixin flex-justify($posizione, $aling: start, $direction: row, $display: flex) {
+  display: $display;
+  justify-content: $posizione;
+  align-items: $aling;
+
+  @if ($direction != row) {
+    flex-direction: $direction;
+  }
+}

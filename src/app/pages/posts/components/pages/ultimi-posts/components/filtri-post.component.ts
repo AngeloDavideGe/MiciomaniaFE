@@ -1,39 +1,23 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { ButtonCustomComponent } from '../../../../../../shared/components/custom/botton-custom.component';
+import {
+  CheckBoxCustomComponent,
+  ICheckBox,
+} from '../../../../../../shared/components/custom/checkbox-custom.component';
 
 @Component({
   standalone: true,
   selector: 'app-filtri-post',
-  imports: [ButtonCustomComponent],
+  imports: [ButtonCustomComponent, CheckBoxCustomComponent],
   template: `
     <div class="filtri-container">
       <div class="filters-panel">
         <div class="filter-options">
-          <div class="filter-option" (click)="selectFilter('user')">
-            <input
-              class="form-check-input"
-              type="checkbox"
-              [checked]="selectedFilter === 'user'"
-              id="filterUser"
-            />
-            <label class="form-check-label" for="filterUser">
-              <i class="bi bi-person"></i>
-              Utenti
-            </label>
-          </div>
-
-          <div class="filter-option" (click)="selectFilter('post')">
-            <input
-              class="form-check-input"
-              type="checkbox"
-              [checked]="selectedFilter === 'post'"
-              id="filterPost"
-            />
-            <label class="form-check-label" for="filterPost">
-              <i class="bi bi-file-text"></i>
-              Post
-            </label>
-          </div>
+          <app-checkbox-custom
+            [checks]="checks"
+            [initialChecked]="selectedFilter"
+            (checkChange)="selectFilter($event)"
+          ></app-checkbox-custom>
         </div>
 
         <div class="filter-actions">
@@ -129,11 +113,24 @@ export class FiltriPostComponent {
   @Input() selectedFilter!: filterType;
   @Output() filterApplied = new EventEmitter<filterType>();
 
-  selectFilter(filter: 'user' | 'post'): void {
+  public checks: ICheckBox[] = [
+    {
+      testo: 'User',
+      id: 'user',
+      icon: 'person',
+    },
+    {
+      testo: 'Post',
+      id: 'post',
+      icon: 'file-text',
+    },
+  ];
+
+  selectFilter(filter: string): void {
     if (this.selectedFilter === filter) {
       this.selectedFilter = null;
     } else {
-      this.selectedFilter = filter;
+      this.selectedFilter = filter as filterType;
     }
   }
 

@@ -69,7 +69,19 @@
     </div>
   </div>
 </div>
-<!-- Linee Guida Section -->
-<app-linee-guida
-  (lineeGuidaChanged)="lineeGuidaAccettate.set($event)"
-></app-linee-guida>
+
+<div class="card shadow-lg border-0 mt-4" style="border-radius: 12px">
+  <div
+    class="card-header text-white"
+    style="background: linear-gradient(90deg, #0d6efd, #0b5ed7)"
+  >
+    <h5 class="mb-0 fs-4">Linee Guida</h5>
+  </div>
+  <div class="card-body p-4" style="background-color: #f8f9fa">
+    <app-checkbox-custom
+      [checks]="lineeGuida"
+      [tipo]="'multiple'"
+      (allChacked)="lineeGuidaAccettate.set($event)"
+    ></app-checkbox-custom>
+  </div>
+</div>

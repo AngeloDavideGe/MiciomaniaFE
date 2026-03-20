@@ -7,7 +7,7 @@
     [bottoni]="pulsanti()"
   ></app-header-custom>
 
-  <div class="container">
+  <div class="container" style="max-width: 86rem">
     @if (showDetails()) {
       <app-punteggi-games
         [punteggioPersonale]="punteggioPersonale"
@@ -15,7 +15,7 @@
       ></app-punteggi-games>
     }
 
-    <div class="grid-card-layout px-2 mt-3">
+    <div class="grid-card-layout mt-3">
       @for (gioco of gamesConstant; track gioco.nome) {
         <app-card-custom
           [link]="gioco.linkImg"

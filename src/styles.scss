@@ -1,26 +1,5 @@
-:root {
-  // Colori superficie e bordi
-  --surface-color: #ffffff;
-  --border-color: #e2e8f0;
-  --border-light: rgba(0, 0, 0, 0.08);
-  --border-hover: rgba(0, 0, 0, 0.12);
-
-  // Colori azioni
-  --primary-color: #3b82f6;
-  --primary-hover: #60a5fa;
-
-  // Colori testo
-  --text-color: #1e293b;
-  --text-secondary: #64748b;
-  --text-muted: #94a3b8;
-
-  // Colori sfondo
-  --bg-light: #f8fafc;
-  --bg-lighter: #f1f5f9;
-  --bg-hover: rgba(0, 0, 0, 0.06);
-  --bg-active: rgba(0, 0, 0, 0.04);
-}
-
+@use './scss/mixin.scss' as *;
+@use './scss/variables.scss' as *;
 
 .pc-only {
   @media (max-width: 767.98px) {
@@ -28,35 +7,31 @@
   }
 }
 
-@mixin flex-justify($posizione, $aling: start, $direction: row, $display: flex) {
-  display: $display;
-  justify-content: $posizione;
-  align-items: $aling;
+.elemento {
+  &-iniziale {
+    --aling-start: start;
+    @include flex-justify(flex-start, var(--aling-start));
+  }
 
-  @if ($direction != row) {
-    flex-direction: $direction;
+  &-finale {
+    --aling-end: start;
+    @include flex-justify(flex-end, var(--aling-end));
+  }
+
+  &-centrato {
+    --aling-center: baseline;
+    @include flex-justify(center, var(--aling-center));
   }
 }
 
-.elemento-iniziale {
-  @include flex-justify(flex-start);
-}
+.elementi {
+  &-laterali {
+    @include flex-justify(space-between, center);
+  }
 
-.elemento-finale {
-  --aling-end: start;
-  @include flex-justify(flex-end, var(--aling-end));
-}
-
-.elemento-centrato {
-  @include flex-justify(center, baseline);
-}
-
-.elementi-laterali {
-  @include flex-justify(space-between, center);
-}
-
-.elementi-colonna {
-  @include flex-justify(center, center, column);
+  &-colonna {
+    @include flex-justify(center, center, column);
+  }
 }
 
 .grid-card-layout {
@@ -68,26 +43,3 @@
 
   @include flex-justify(var(--card-position), stretch, row, grid);
 }
-
-// :root.dark {
-//   // Colori superficie e bordi
-//   --surface-color: #1e1e1e;
-//   --border-color: #2d2d2d;
-//   --border-light: rgba(255, 255, 255, 0.08);
-//   --border-hover: rgba(255, 255, 255, 0.12);
-
-//   // Colori azioni
-//   --primary-color: #60a5fa;
-//   --primary-hover: #3b82f6;
-
-//   // Colori testo
-//   --text-color: #f5f5f5;
-//   --text-secondary: #cccccc;
-//   --text-muted: #999999;
-
-//   // Colori sfondo
-//   --bg-light: #121212;
-//   --bg-lighter: #1a1a1a;
-//   --bg-hover: rgba(255, 255, 255, 0.05);
-//   --bg-active: rgba(255, 255, 255, 0.08);
-// }

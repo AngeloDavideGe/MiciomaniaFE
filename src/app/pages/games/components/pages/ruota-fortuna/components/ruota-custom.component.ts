@@ -22,8 +22,9 @@ export class RuotaCustomComponent implements OnInit {
   public spinning = signal<boolean>(false);
   public rotation = signal<number>(0);
   public segments: PathSvgCustom[] = [];
-  private currentRotation: number = 0;
+  public rotationOffset: number = 0;
   private animationFrame: number = 0;
+  private currentRotation: number = 0;
 
   @Output() resultSpin = new EventEmitter<string>();
   @Input() baseSegments!: BaseSegment[];
@@ -34,6 +35,8 @@ export class RuotaCustomComponent implements OnInit {
 
     const total: number = this.baseSegments.length;
     const anglePerSegment: number = (2 * Math.PI) / total;
+
+    this.rotationOffset = 360 / total / 2;
 
     this.segments = this.baseSegments.map((segment, index) => {
       const startAngle: number = index * anglePerSegment - Math.PI / 2;

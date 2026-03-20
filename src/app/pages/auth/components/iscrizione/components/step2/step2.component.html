@@ -45,21 +45,11 @@
             'border border-success': pulsantePremuto && f['squadra'].valid,
           }"
         >
-          @for (t of team; track $index) {
-            <div class="form-check mb-2">
-              <input
-                type="checkbox"
-                [id]="'squadra-' + $index"
-                class="form-check-input"
-                [value]="t"
-                [checked]="profileForm.get('squadra')?.value?.includes(t)"
-                (change)="onTeamChange($event)"
-              />
-              <label [for]="'squadra-' + $index" class="form-check-label">{{
-                t
-              }}</label>
-            </div>
-          }
+          <app-checkbox-custom
+            [checks]="formTeams"
+            (checkChange)="onTeamChange($event)"
+          >
+          </app-checkbox-custom>
         </div>
 
         @if (

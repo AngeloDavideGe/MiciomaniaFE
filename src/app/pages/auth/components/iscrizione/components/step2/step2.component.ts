@@ -14,10 +14,10 @@ import {
   Validators,
 } from '@angular/forms';
 import { Subject, takeUntil } from 'rxjs';
-import { environment } from '../../../../../../../environments/environment';
 import { DataHttp } from '../../../../../../core/api/http.data';
 import { StatoPersona } from '../../../../../../shared/enums/users.enum';
 import { User } from '../../../../../../shared/interfaces/users.interface';
+import { Step2Form } from '../../../../interfaces/auth-forms.interface';
 import { Provincia } from '../../../../interfaces/region.interface';
 import { FormWizard } from '../../../../interfaces/wizard.interface';
 import { WizardService } from '../../../../services/wizard.service';
@@ -26,12 +26,15 @@ import {
   getProvinceByRegione,
   getRegioniMap,
 } from '../../functions/region.function';
-import { Step2Form } from '../../../../interfaces/auth-forms.interface';
+import {
+  CheckBoxCustomComponent,
+  ICheckBox,
+} from '../../../../../../shared/components/custom/checkbox-custom.component';
 
 @Component({
   selector: 'app-step2',
   standalone: true,
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, CheckBoxCustomComponent],
   templateUrl: './step2.component.html',
   styleUrl: './step2.component.scss',
 })
@@ -43,6 +46,7 @@ export class Step2Component implements OnInit, OnDestroy {
   public province: Provincia[] = [];
   public nomeUtente: string = '';
   public email: string = '';
+  public formTeams: ICheckBox[] = [];
   public regioni = getRegioniMap();
 
   @Input() team!: string[];
@@ -56,6 +60,7 @@ export class Step2Component implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.setFormTeams();
     this.inizializzaForm();
     this.associaUtenteFunc(DataHttp.user());
   }
@@ -104,16 +109,9 @@ export class Step2Component implements OnInit, OnDestroy {
     this.wizardService.setWizardForm(wizardForm);
   }
 
-  onTeamChange(event: Event): void {
-    const checkbox = event.target as HTMLInputElement;
-
+  onTeamChange(check: string): void {
     const teamControl = this.profileForm.get('squadra');
-    if (checkbox.checked) {
-      teamControl?.setValue(checkbox.value);
-    } else {
-      teamControl?.setValue('');
-    }
-
+    teamControl?.setValue(check);
     teamControl?.updateValueAndValidity();
   }
 
@@ -157,6 +155,15 @@ export class Step2Component implements OnInit, OnDestroy {
   private associaUtente(nome: string, email: string): void {
     this.nomeUtente = nome;
     this.email = email;
+  }
+
+  private setFormTeams(): void {
+    this.formTeams = this.team.map((nome: string) => {
+      return {
+        testo: nome,
+        id: nome,
+      };
+    });
   }
 
   onSubmit(): void {}
