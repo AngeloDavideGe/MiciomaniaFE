@@ -9,18 +9,18 @@
 
 .elemento {
   &-iniziale {
-    --aling-start: start;
-    @include flex-justify(flex-start, var(--aling-start));
+    --align-start: start;
+    @include flex-justify(flex-start, var(--align-start));
   }
 
   &-finale {
-    --aling-end: start;
-    @include flex-justify(flex-end, var(--aling-end));
+    --align-end: start;
+    @include flex-justify(flex-end, var(--align-end));
   }
 
   &-centrato {
-    --aling-center: baseline;
-    @include flex-justify(center, var(--aling-center));
+    --align-center: baseline;
+    @include flex-justify(center, var(--align-center));
   }
 }
 

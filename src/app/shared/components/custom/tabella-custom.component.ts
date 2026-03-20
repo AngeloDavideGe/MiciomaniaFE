@@ -112,7 +112,7 @@ import { environment } from '../../../../environments/environment';
 
         <div
           class="elemento-finale px-2 mt-2 mb-2"
-          style="--aling-end: center;"
+          style="--align-end: center;"
         >
           <label class="label-elementi-pagina" for="perPageSelect">
             Elementi per pagina:

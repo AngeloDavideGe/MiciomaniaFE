@@ -5,6 +5,7 @@ import {
   OnInit,
   Output,
   signal,
+  WritableSignal,
 } from '@angular/core';
 
 @Component({
@@ -12,39 +13,66 @@ import {
   standalone: true,
   imports: [],
   template: `
-    @for (check of checks; track $index) {
-      <div class="form-check mb-2">
+    @for (check of checks; track check.id) {
+      <div class="elemento-iniziale px-2 mb-2" style="--align-start: center">
         <input
-          style="cursor: pointer;"
+          class="check-input-custom"
           type="checkbox"
-          [id]="check.id + '-' + $index"
-          class="form-check-input"
+          [id]="check.id"
           [value]="check"
-          [checked]="checked().includes(check.id)"
+          [checked]="checkRecord[check.id]()"
           (change)="onCheckChange($event, check.id)"
         />
-        <label [for]="check.id + '-' + $index" class="form-check-label">
-          <i class="bi bi-{{ check.icon }}"></i>
+        <label [for]="check.id" class="check-label-custom">
+          @if (check.icon) {
+            <i class="bi bi-{{ check.icon }}"></i>
+          }
           {{ check.testo }}
         </label>
       </div>
     }
   `,
+  styles: [
+    `
+      .check-input-custom {
+        cursor: pointer;
+        width: 1.2em;
+        height: 1.2em;
+      }
+
+      .check-label-custom {
+        font-weight: 600;
+        color: var(--text-color);
+        cursor: pointer;
+        margin-left: 1rem;
+
+        i {
+          font-size: 1.1em;
+          line-height: 1;
+        }
+      }
+    `,
+  ],
 })
 export class CheckBoxCustomComponent implements OnInit {
   @Input() checks!: ICheckBox[];
-  @Input() tipo: 'single' | 'multiple' = 'single';
   @Input() initialChecked: string | null = null;
+  @Input() tipo: 'single' | 'multiple' = 'single';
 
   @Output() checkChange = new EventEmitter<string>();
-  @Output() allChacked = new EventEmitter<boolean>();
+  @Output() allChecked = new EventEmitter<boolean>();
 
-  public checked = signal<string[]>([]);
+  public checked: string[] = [];
+  public checkRecord: Record<string, WritableSignal<boolean>> = {};
 
   ngOnInit(): void {
     if (this.initialChecked) {
-      this.checked.set([this.initialChecked]);
+      this.checked = [this.initialChecked];
     }
+
+    this.checks.forEach((check: ICheckBox) => {
+      this.checkRecord[check.id] = signal(this.initialChecked == check.id);
+    });
   }
 
   public onCheckChange(event: Event, id: string): void {
@@ -52,39 +80,28 @@ export class CheckBoxCustomComponent implements OnInit {
 
     switch (this.tipo) {
       case 'single': {
-        this.singleCheck(id, checkbox.checked);
+        if (checkbox.checked) {
+          this.checks.forEach((check: ICheckBox) =>
+            this.checkRecord[check.id].set(check.id == id),
+          );
+          this.checked = [id];
+        } else {
+          this.checkRecord[id].set(false);
+          this.checked = [];
+        }
         break;
       }
       case 'multiple': {
-        this.multipleCheck(id, checkbox.checked);
+        this.checkRecord[id].set(checkbox.checked);
+        this.checked = checkbox.checked
+          ? [...this.checked, id]
+          : this.checked.filter((item: string) => item !== id);
         break;
       }
     }
 
-    this.checkChange.emit(this.checked().join(', '));
-    this.allChacked.emit(this.checked().length == this.checks.length);
-  }
-
-  private singleCheck(checkboxId: string, isChecked: boolean): void {
-    if (isChecked) {
-      this.checked.set([checkboxId]);
-    } else {
-      if (this.checked().includes(checkboxId)) {
-        this.checked.set([]);
-      }
-    }
-  }
-
-  private multipleCheck(checkboxId: string, isChecked: boolean): void {
-    if (isChecked) {
-      if (!this.checked().includes(checkboxId)) {
-        this.checked.update((current: string[]) => [...current, checkboxId]);
-      }
-    } else {
-      this.checked.update((current: string[]) =>
-        current.filter((id: string) => id !== checkboxId),
-      );
-    }
+    this.checkChange.emit(this.checked.join(', '));
+    this.allChecked.emit(this.checked.length == this.checks.length);
   }
 }
 
