@@ -9,6 +9,14 @@ import { HomeLang } from '../../languages/interfaces/home-lang.interface';
   imports: [RouterLink],
   template: `
     <div>
+      @if (user.id) {
+        <li>
+          <a [routerLink]="'/posts/profilo/' + user.id">
+            <i class="bi bi-person-circle me-2"></i>
+            {{ homeLang.mioProfilo }}
+          </a>
+        </li>
+      }
       <li>
         <a [routerLink]="'/posts/ultimi-post'">
           <i class="bi bi-grid-3x3-gap me-2"></i>
@@ -22,18 +30,6 @@ import { HomeLang } from '../../languages/interfaces/home-lang.interface';
         </a>
       </li>
       @if (user.id) {
-        <li>
-          <a [routerLink]="'/posts/profilo/' + user.id">
-            <i class="bi bi-person-circle me-2"></i>
-            {{ homeLang.mioProfilo }}
-          </a>
-        </li>
-        <li>
-          <a routerLink="/auth/new-login">
-            <i class="bi bi-box-arrow-right me-2"></i>
-            Aggiungi Profilo
-          </a>
-        </li>
         <li>
           <a (click)="logout.emit()">
             <i class="bi bi-box-arrow-right me-2"></i>

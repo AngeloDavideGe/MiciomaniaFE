@@ -45,7 +45,7 @@ export function setUserDataNull(
       DataHttp.allUsers.push(user);
       authService.users.update((users: UserParams[]) =>
         users.map((x: UserParams) => {
-          if (x.id == DataHttp.allUsers[0].id) {
+          if (x.id == user.id) {
             return converUserParams(DataHttp.user()!);
           } else {
             return x;
@@ -60,16 +60,16 @@ export function setUserDataNull(
         (userTemp: User) => userTemp.id != user.id,
       );
       if (DataHttp.allUsers.length > 0) {
+        DataHttp.user.set(DataHttp.allUsers[0]);
         authService.users.update((users: UserParams[]) =>
           users.map((x: UserParams) => {
-            if (x.id == DataHttp.allUsers[0].id) {
+            if (x.id == DataHttp.user()!.id) {
               return converUserParams(user);
             } else {
               return x;
             }
           }),
         );
-        DataHttp.user.set(DataHttp.allUsers[0]);
       } else {
         authService.users.update((users: UserParams[]) => [
           ...users,
@@ -87,5 +87,30 @@ export function setUserDataNull(
       );
       break;
     }
+    case 'change-user': {
+      authService.users.update((users: UserParams[]) =>
+        users.map((x: UserParams) => {
+          if (x.id == user.id) {
+            return converUserParams(DataHttp.user()!);
+          } else {
+            return x;
+          }
+        }),
+      );
+      DataHttp.user.set(user);
+      break;
+    }
+    case 'logout-all': {
+      authService.users.update((users: UserParams[]) => [
+        ...users,
+        ...DataHttp.allUsers.map((x: User) => converUserParams(x)),
+      ]);
+      DataHttp.allUsers = [];
+      DataHttp.user.set(null);
+      break;
+    }
   }
+
+  console.log('miei user : ', DataHttp.allUsers);
+  console.log('altri user : ', authService.users());
 }

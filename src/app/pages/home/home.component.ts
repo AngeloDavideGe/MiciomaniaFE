@@ -3,19 +3,19 @@ import { NavigationEnd, Router } from '@angular/router';
 import 'bootstrap'; // Importa Bootstrap JS (incluso Popper.js)
 import { filter, map, Observable, startWith, tap } from 'rxjs';
 import { DataHttp } from '../../core/api/http.data';
+import { setUserDataNull } from '../../core/functions/storage.function';
 import { sottoscrizioneUtenti } from '../../shared/handlers/auth.handler';
 import { getVoidUser } from '../../shared/handlers/functions/user.function';
 import { Lingua } from '../../shared/interfaces/http.interface';
 import { User, UserParams } from '../../shared/interfaces/users.interface';
 import { AuthService } from '../../shared/services/api/auth.service';
 import { ConfirmService } from '../../shared/services/template/confirm.service';
-import { converUserParams, getConfirmParams } from './functions/home.functions';
+import { getConfirmParams } from './functions/home.functions';
 import { home_imports } from './imports/home.imports';
 import {
   HomeLang,
   HomeLangType,
 } from './languages/interfaces/home-lang.interface';
-import { setUserDataNull } from '../../core/functions/storage.function';
 
 @Component({
   selector: 'app-home',
@@ -83,18 +83,10 @@ export class HomeComponent {
   private handleUserSubscription(user: User | null): void {
     if (user) {
       this.user = user;
-      this.inizialiUser = this.calculateUserInitials(user.credenziali.nome);
+      this.inizialiUser = this.user.id.slice(0, 2).toUpperCase();
     } else {
       this.setAnonymousUser();
     }
-  }
-
-  private calculateUserInitials(nome: string): string {
-    const nomi: string[] = nome.split(' ');
-    if (nomi.length > 1) {
-      return nomi[0][0] + nomi[1][0];
-    }
-    return nome.slice(0, 2);
   }
 
   private setAnonymousUser(): void {

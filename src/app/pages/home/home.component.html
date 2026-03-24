@@ -1,33 +1,11 @@
 @if (isHome$ | async) {
   <app-custom-navbar>
     <div leftContent>
-      <div class="elemento-iniziale" style="--align-start: center">
-        <!-- Foto o iniziali -->
-        @if (user.credenziali.profilePic) {
-          <img
-            [src]="user.credenziali.profilePic"
-            alt="Profile Picture"
-            class="rounded-circle"
-            style="width: 3.3rem; height: 3.3rem"
-          />
-        } @else {
-          <div
-            class="bg-secondary text-white rounded-circle"
-            style="width: 3.3rem; height: 3.3rem; font-weight: bold"
-          >
-            {{ inizialiUser }}
-          </div>
-        }
-
-        <!-- Nome utente -->
-        <span class="ms-2 fw-bold" style="font-size: 1.2rem">
-          @if (user.credenziali.nome) {
-            {{ user.credenziali.nome }}
-          } @else {
-            {{ homeLang().anonimo }}
-          }
-        </span>
-      </div>
+      <app-user-active
+        [homeLang]="homeLang()"
+        [user]="user"
+        [inizialiUser]="inizialiUser"
+      ></app-user-active>
     </div>
 
     <div rightContent>

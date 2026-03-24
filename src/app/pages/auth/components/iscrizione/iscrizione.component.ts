@@ -23,8 +23,9 @@ import { Squadre } from '../../../../shared/interfaces/squadre.interface';
 export class IscrizioneComponent extends WizardBase {
   private squadreService = inject(SquadreService);
   public squadreInGame = signal<Squadre[]>([]);
+
   public team = computed<string[]>(() =>
-    this.squadreInGame().map((s) => s.nome)
+    this.squadreInGame().map((s) => s.nome),
   );
 
   constructor() {

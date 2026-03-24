@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
-import { LoginBase } from '../../base/login-base.class';
+import { LoginBase } from '../../base/login.base';
 import { auth_shared_imports } from '../../shared/auth-shared.import';
 
 @Component({

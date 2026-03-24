@@ -1,8 +1,7 @@
 import { Component } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
 import { DataHttp } from '../../../../core/api/http.data';
 import { User } from '../../../../shared/interfaces/users.interface';
-import { LoginBase } from '../../base/login-base.class';
+import { LoginBase } from '../../base/login.base';
 import { auth_shared_imports } from '../../shared/auth-shared.import';
 
 @Component({

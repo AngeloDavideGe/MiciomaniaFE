@@ -1,13 +1,14 @@
 import { AsyncPipe } from '@angular/common';
 import { Type } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { CustomNavBarComponent } from '../../../shared/components/custom/navbar-custom.component';
+import { CarouselHomeComponent } from '../components/ui/carousel-home.component';
 import { CursoreComponent } from '../components/ui/cursore.component';
+import { HomeToggleComponent } from '../components/ui/home-toggle.component';
 import { MenuImpostazioniComponent } from '../components/ui/menu-impostazioni.component';
 import { MenuProfiliComponent } from '../components/ui/menu-profili.component';
-import { HomeToggleComponent } from '../components/ui/home-toggle.component';
 import { SocialLinkComponent } from '../components/ui/social-link.component';
-import { CarouselHomeComponent } from '../components/ui/carousel-home.component';
-import { CustomNavBarComponent } from '../../../shared/components/custom/navbar-custom.component';
+import { UserActiveComponent } from '../components/ui/user-active.component';
 
 export const home_imports: Type<any>[] = [
   CarouselHomeComponent,
@@ -19,4 +20,5 @@ export const home_imports: Type<any>[] = [
   MenuProfiliComponent,
   AsyncPipe,
   CustomNavBarComponent,
+  UserActiveComponent,
 ];
