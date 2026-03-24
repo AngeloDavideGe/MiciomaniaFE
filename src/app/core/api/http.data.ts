@@ -11,6 +11,7 @@ import { GruppiChat } from '../components/chat/interfaces/chat.interface';
 export class DataHttp {
   static lingua: WritableSignal<Lingua> = signal(Lingua.it);
   static user: WritableSignal<User | null> = signal(null);
+  static allUsers: User[] = [];
   static mangaUtente: WritableSignal<MangaUtente | null> = signal(null);
   static initialMangaUtente: MangaUtente = {} as MangaUtente;
 
@@ -27,45 +28,50 @@ export class DataHttp {
   };
 
   static loadDataHttp(): void {
-    const lingua = localStorage.getItem('lingua');
-    if (lingua) {
-      this.lingua.set(JSON.parse(lingua));
+    const userDataStr = localStorage.getItem('userData');
+    if (userDataStr) {
+      const userData = JSON.parse(userDataStr);
+
+      if (userData.user) {
+        this.user.set(userData.user);
+      }
+
+      if (userData.allUsers) {
+        this.allUsers = userData.allUsers;
+      }
+
+      if (userData.lingua) {
+        this.lingua.set(userData.lingua);
+      }
+
+      if (userData.postVisti) {
+        this.postVisti = userData.postVisti;
+      }
+
+      if (userData.gruppiChat) {
+        this.gruppiChat = userData.gruppiChat;
+      }
     }
 
-    // Auth Service
-    const userData = localStorage.getItem('user');
-    if (userData) {
-      this.user.set(JSON.parse(userData));
-    }
+    const userId = this.user()?.id;
+    if (userId) {
+      const sessionDataStr = sessionStorage.getItem(userId);
+      if (sessionDataStr) {
+        const sessionData = JSON.parse(sessionDataStr);
 
-    // Manga Service
-    const mangaUtente = sessionStorage.getItem('mangaUtente');
-    if (mangaUtente) {
-      this.mangaUtente.set(JSON.parse(mangaUtente));
-      this.initialMangaUtente = JSON.parse(mangaUtente);
-    }
+        if (sessionData.mangaUtente) {
+          this.mangaUtente.set(sessionData.mangaUtente);
+          this.initialMangaUtente = sessionData.mangaUtente;
+        }
 
-    // Post Service
-    const pubblicazioniJSON = sessionStorage.getItem('pubblicazioni');
-    if (pubblicazioniJSON) {
-      this.profiloPersonale = JSON.parse(pubblicazioniJSON);
-    }
+        if (sessionData.pubblicazioni) {
+          this.profiloPersonale = sessionData.pubblicazioni;
+        }
 
-    const postsVisti = localStorage.getItem('postVisti');
-    if (postsVisti) {
-      this.postVisti = JSON.parse(postsVisti);
-    }
-
-    // Squadre Service
-    const punteggioOttenuto = sessionStorage.getItem('punteggioOttenuto');
-    if (punteggioOttenuto) {
-      this.punteggioOttenuto = JSON.parse(punteggioOttenuto);
-    }
-
-    // Messaggi
-    const gruppiChat = localStorage.getItem('gruppiChat');
-    if (gruppiChat) {
-      this.gruppiChat = JSON.parse(gruppiChat);
+        if (sessionData.punteggioOttenuto) {
+          this.punteggioOttenuto = sessionData.punteggioOttenuto;
+        }
+      }
     }
   }
 }

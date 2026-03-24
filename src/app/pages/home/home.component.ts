@@ -15,6 +15,7 @@ import {
   HomeLang,
   HomeLangType,
 } from './languages/interfaces/home-lang.interface';
+import { setUserDataNull } from '../../core/functions/storage.function';
 
 @Component({
   selector: 'app-home',
@@ -71,20 +72,12 @@ export class HomeComponent {
       messaggio: 'Vuoi davvero effettuare il logout?',
       buttonNo: 'Annulla',
       buttonSi: 'Conferma',
-      confirmFunc: () => this.confirmLogout(),
       notConfirmFunc: () => {},
+      confirmFunc: () => {
+        setUserDataNull(this.user, this.authService, 'logout');
+        this.setAnonymousUser();
+      },
     });
-  }
-
-  private confirmLogout(): void {
-    this.authService.users.update((users) => [
-      ...users,
-      converUserParams(this.user),
-    ]);
-    DataHttp.user.set(null);
-    DataHttp.profiloPersonale = null;
-    DataHttp.mangaUtente.set(null);
-    this.setAnonymousUser();
   }
 
   private handleUserSubscription(user: User | null): void {

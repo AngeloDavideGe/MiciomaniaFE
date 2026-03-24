@@ -61,6 +61,3 @@ export class ElementiUtenteService extends BaseService {
     );
   }
 }
-function Signal<T>(arg0: null) {
-  throw new Error('Function not implemented.');
-}
