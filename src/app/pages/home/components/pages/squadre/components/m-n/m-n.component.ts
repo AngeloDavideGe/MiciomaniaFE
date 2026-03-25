@@ -29,7 +29,7 @@ import { mn_imports } from './imports/m-n.import';
             }
           </div>
         } @else {
-          <app-spinner></app-spinner>
+          <app-spinner [mt]="'5rem'"></app-spinner>
         }
       </div>
     </div>

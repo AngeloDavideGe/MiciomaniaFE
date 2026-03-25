@@ -7,7 +7,7 @@ import { Component, Input } from '@angular/core';
   template: `
     <div
       class="elemento-centrato spinner-template-stile"
-      [style]="{ 'margin-top': mt }"
+      [style]="{ 'padding-top': mt }"
     >
       <div class="spinner-border text-primary" role="status">
         <span class="visually-hidden">Loading...</span>

@@ -110,7 +110,4 @@ export function setUserDataNull(
       break;
     }
   }
-
-  console.log('miei user : ', DataHttp.allUsers);
-  console.log('altri user : ', authService.users());
 }

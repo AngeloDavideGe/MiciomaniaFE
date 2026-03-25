@@ -23,7 +23,7 @@
             <!-- Immagine Profilo -->
             @if (gruppo.pic) {
               <img
-                [src]="gruppo.pic"
+                [src]="gruppo.pic || groupPic"
                 alt="{{ gruppo.nome }}"
                 class="chat-avatar rounded-circle"
                 (click)="apriCambioPic(gruppo.id)"

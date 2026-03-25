@@ -17,7 +17,7 @@ import { Mappa } from '../../app/shared/interfaces/github.interface';
         stroke-linejoin="round"
         stroke-width="1.2"
         version="1.2"
-        [attr.viewBox]="'0 0 ' + width + ' ' + height"
+        [attr.viewBox]="viewbox || '0 0 ' + width + ' ' + height"
         xmlns="http://www.w3.org/2000/svg"
         [style.transform]="transform"
       >
@@ -117,6 +117,7 @@ import { Mappa } from '../../app/shared/interfaces/github.interface';
 export class SvgCustomComponent {
   @Input() colori: Record<string, string> = {};
   @Input() paths: PathSvgCustom[] = [];
+  @Input() viewbox: string = '';
   @Input() translate: string = '';
   @Input() transform: string = '';
   @Input() width: number = 1;

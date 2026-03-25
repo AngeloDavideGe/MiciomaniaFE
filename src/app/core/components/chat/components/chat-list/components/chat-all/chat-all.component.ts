@@ -1,7 +1,6 @@
 import { CommonModule, DatePipe } from '@angular/common';
 import {
   Component,
-  computed,
   EventEmitter,
   inject,
   Input,
@@ -13,13 +12,14 @@ import { FormsModule } from '@angular/forms';
 import { finalize, take } from 'rxjs';
 import { ChangePicCustomComponent } from '../../../../../../../shared/components/custom/change-pic-custom.component';
 import { effectTimeoutCustom } from '../../../../../../../shared/functions/utilities.function';
-import { DataHttp } from '../../../../../../api/http.data';
-import { Gruppo, LastMess } from '../../../../interfaces/chat.interface';
-import { ChatService } from '../../../../services/chat.service';
 import {
   FiltriInterface,
   GetFiltriCustom,
 } from '../../../../../../../shared/utilities/functions/pagination.utilities';
+import { DataHttp } from '../../../../../../api/http.data';
+import { Gruppo, LastMess } from '../../../../interfaces/chat.interface';
+import { ChatService } from '../../../../services/chat.service';
+import { environment } from '../../../../../../../../environments/environment';
 
 @Component({
   selector: 'app-chat-all',
@@ -36,6 +36,7 @@ export class ChatAllComponent implements OnInit {
   private debounce = signal<string>('');
 
   public filtri: FiltriInterface<Gruppo> = {} as FiltriInterface<Gruppo>;
+  public readonly groupPic: string = environment.defaultPicsUrl.group;
 
   @Input() allGruppi!: Gruppo[];
   @Input() allGruppiRecord!: Record<number, LastMess>;

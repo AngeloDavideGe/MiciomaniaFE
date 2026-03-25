@@ -11,30 +11,32 @@ import {
 import { renderPieChartMap } from '../functions/draw.function';
 import { PATH_REGIONI } from '../constants/path-regioni.constant';
 import { SpinnerComponent } from '../../../../../../shared/components/dialogs/spinner.component';
+import { NgClass } from '@angular/common';
 
 declare var google: any;
 
 @Component({
   selector: 'app-mappa-squadre',
   standalone: true,
-  imports: [SvgCustomComponent, SpinnerComponent],
+  imports: [SvgCustomComponent, SpinnerComponent, NgClass],
   template: `
-    <div id="ContainerMap" class="mt-5">
+    <div id="ContainerMap" class="mt-4">
       @if (loading()) {
-        <app-spinner></app-spinner>
+        <app-spinner [mt]="'5rem'"></app-spinner>
       } @else {
-        <div class="layout">
+        <div [ngClass]="classNg()">
           <div class="chart-wrapper">
             <div id="chart_pie_mappa"></div>
           </div>
 
-          <div class="map-wrapper mt-4">
+          <div class="mt-3">
             <app-svg-custom
               [paths]="paths"
               [colori]="coloriRegioni"
+              [viewbox]="'0 0 750 850'"
               [translate]="'translate(-120, -40)'"
-              [width]="750"
-              [height]="850"
+              [width]="550"
+              [height]="650"
               [modale]="territorioAperto()"
               (pathClicked)="openLegend($event)"
             ></app-svg-custom>
@@ -47,58 +49,21 @@ declare var google: any;
     `
       #ContainerMap {
         width: 100%;
+        padding: 1rem;
 
-        .layout {
-          display: flex;
-          justify-content: space-between;
-          align-items: flex-start;
+        .chart-wrapper {
+          flex: 0 0 300px;
+          aspect-ratio: 1 / 1;
+          padding: 1.2rem;
+          background: var(--bg-light);
+          border-radius: 14px;
+          box-shadow: 0 10px 24px var(--border-light);
+          border: 2px solid var(--primary-color);
+          margin-top: 2rem;
 
-          .chart-wrapper {
-            flex: 0 0 300px;
-            aspect-ratio: 1 / 1;
-            padding: 1.2rem;
-            background: var(--bg-light);
-            border-radius: 14px;
-            box-shadow: 0 10px 24px var(--border-light);
-            border: 2px solid var(--primary-color);
-            margin-top: 2rem;
-
-            #chart_pie_mappa {
-              width: 100%;
-              height: 100%;
-            }
-          }
-
-          .map-wrapper {
-            flex: 1;
-            display: flex;
-            justify-content: flex-end;
-            min-width: 0;
-          }
-
-          @media (min-width: 1800px) {
-            padding: 1rem 25rem;
-          }
-
-          @media (min-width: 1400px) and (max-width: 1799px) {
-            padding: 1rem 10rem;
-          }
-
-          @media (min-width: 1065px) and (max-width: 1399px) {
-            padding: 1rem 1rem;
-          }
-
-          @media (max-width: 1064px) {
-            flex-direction: column;
-            align-items: center;
-
-            .chart-wrapper {
-              margin-top: 2em;
-            }
-
-            .map-wrapper {
-              justify-content: center;
-            }
+          #chart_pie_mappa {
+            width: 100%;
+            height: 100%;
           }
         }
       }
@@ -113,6 +78,17 @@ export class MappaSquadreComponent {
   public coloriRegioni: Record<string, string> = {};
   public territorioAperto = signal<Mappa | null>(null);
   public loading = signal<boolean>(true);
+  public classNg = signal<string>(this.posizioneElem);
+
+  private get posizioneElem(): string {
+    if (window.innerWidth > 994) {
+      return 'elementi-laterali container';
+    } else if (window.innerWidth >= 892) {
+      return 'elementi-laterali';
+    } else {
+      return 'elementi-colonna';
+    }
+  }
 
   @Input() set setConquiste(value: Conquiste | null) {
     if (value) {
@@ -152,6 +128,7 @@ export class MappaSquadreComponent {
   @HostListener('window:resize')
   onResize = debounceTimeoutCustom(() => {
     renderPieChartMap(this.chartConquiste, this.colors, 'chart_pie_mappa');
+    this.classNg.set(this.posizioneElem);
   });
 
   public openLegend(regionId: string): void {

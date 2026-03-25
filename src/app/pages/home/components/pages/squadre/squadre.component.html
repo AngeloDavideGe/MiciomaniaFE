@@ -20,6 +20,9 @@
         [setConquiste]="githubService.conquiste()"
       ></app-mappa-squadre>
     }
+    @case ("Muscoli") {
+      <app-allenamento></app-allenamento>
+    }
     @case ("print") {
       <app-chart-print [classifica]="classifica()"></app-chart-print>
     }

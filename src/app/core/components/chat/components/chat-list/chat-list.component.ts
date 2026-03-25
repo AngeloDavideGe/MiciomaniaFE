@@ -115,7 +115,7 @@ export class ChatListComponent implements OnInit {
     let messaggi: Messaggio[] = DataHttp.gruppiChat.messaggi[idChat] || [];
     let messaggioComp: IMessaggioComponent[] = [];
     const messagesIdMap: Record<number, Messaggio> = {};
-    const defaultPic: string = environment.defaultPicsUrl.group;
+    const defaultPic: string = environment.defaultPicsUrl.user;
 
     if (messaggi.length !== 0) {
       messaggioComp = messaggi.map((message) => {

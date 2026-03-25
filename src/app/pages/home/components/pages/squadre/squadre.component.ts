@@ -18,6 +18,8 @@ import {
   SquadreLangType,
 } from './languages/interfaces/squadre-lang.interface';
 
+type componentType = 'Squadre' | 'print' | 'Mappa' | 'Muscoli' | 'M-N';
+
 @Component({
   selector: 'app-squadre',
   standalone: true,
@@ -31,7 +33,7 @@ export class SquadreComponent implements OnInit {
 
   public squadreLang: SquadreLang = {} as SquadreLang;
   public bottoniNavbar: NavBarButton[] = this.loadButton();
-  public component = signal<'Squadre' | 'print' | 'Mappa' | 'M-N'>('Squadre');
+  public component = signal<componentType>('Mappa');
   public error = signal<boolean>(false);
 
   public classifica = computed<Classifica>(() =>
@@ -117,7 +119,12 @@ export class SquadreComponent implements OnInit {
         action: () => this.component.set('Mappa'),
       },
       {
-        icon: 'bi bi-map',
+        icon: 'bi bi-person-standing',
+        title: 'Muscoli',
+        action: () => this.component.set('Muscoli'),
+      },
+      {
+        icon: 'bi bi-pen',
         title: 'M-N',
         action: () => this.component.set('M-N'),
       },

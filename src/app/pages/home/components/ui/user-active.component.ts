@@ -267,5 +267,6 @@ export class UserActiveComponent {
 
   public logoutAll(): void {
     setUserDataNull({} as User, this.authService, 'logout-all');
+    this.profiliOpen.set(false);
   }
 }
