@@ -10,7 +10,6 @@ import { titoloPulsantiSong } from './components/ui/elementi-utente/functions/es
   template: `
     <div style="overflow-x: hidden">
       <app-custom-navbar
-        [goHomeBotton]="'home'"
         [altriBottoni]="navbarButtons"
         [selected]="selectedPulsante"
       ></app-custom-navbar>

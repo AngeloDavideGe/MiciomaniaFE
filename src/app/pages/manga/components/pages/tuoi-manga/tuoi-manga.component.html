@@ -1,9 +1,5 @@
 @if (!erroreHttp()) {
-  <app-header-custom
-    [titolo]="tuoiMangaLang.titolo"
-    [descrizione]="tuoiMangaLang.messaggio"
-    [bottoni]="pulsanti"
-  ></app-header-custom>
+  <app-custom-navbar [altriBottoni]="pulsanti"></app-custom-navbar>
 
   @if (mangaNonVuoti()) {
     <app-tabs-tuoi-manga

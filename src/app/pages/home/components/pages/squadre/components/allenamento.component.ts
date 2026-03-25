@@ -16,7 +16,7 @@ import { PATH_MUSCOLI } from '../constants/path-muscoli.constant';
         <app-spinner [mt]="'5rem'"></app-spinner>
       } @else {
         <div style="">
-          <div class="elemento-centrato" style="margin-top: 4rem;">
+          <div class="elemento-centrato">
             <app-svg-custom
               [paths]="paths"
               [viewbox]="'0 0 700 1200'"

@@ -7,7 +7,7 @@ import { TuoiMangaLang } from '../languages/interfaces/tuoiManga-lang.interface'
   standalone: true,
   imports: [],
   template: `
-    <div class="container mt-4" id="tabs">
+    <div class="container" id="tabs">
       <div class="elemento-centrato gap-3 flex-wrap">
         <button
           class="btn btn-lg py-2 px-4 fw-bold stile-bottoni"

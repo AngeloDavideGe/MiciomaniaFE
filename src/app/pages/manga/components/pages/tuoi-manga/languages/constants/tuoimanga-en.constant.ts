@@ -1,9 +1,8 @@
 import { TuoiMangaLang } from '../interfaces/tuoiManga-lang.interface';
 
 export const tuoiMangaLang: TuoiMangaLang = {
-  titolo: 'Your Manga',
-  messaggio:
-    'Manage your favorite manga, those you are reading, and those you have completed.',
+  // Navbar
+  tuttiManga: 'Search all Manga',
   // Tabs Tuoi Manga
   preferiti: 'Favorites',
   leggendo: 'Reading',

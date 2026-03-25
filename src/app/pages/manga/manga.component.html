@@ -1,10 +1,6 @@
 @if (isManga$ | async) {
   @if (!erroreHttp()) {
-    <app-header-custom
-      [titolo]="mangaLang.titolo"
-      [descrizione]="mangaLang.descrizione"
-      [bottoni]="pulsanti"
-    ></app-header-custom>
+    <app-custom-navbar [altriBottoni]="pulsanti"></app-custom-navbar>
 
     @if (mangaService.listaManga().length > 0) {
       <app-filtri-manga

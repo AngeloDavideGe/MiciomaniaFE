@@ -1,6 +1,6 @@
-import { DataHttp } from '../../../core/api/http.data';
-import { PulsantiHeader } from '../../../shared/components/custom/header-custom.component';
+import { NavBarButton } from '../../../shared/components/custom/navbar-custom.component';
 import { TabsManga } from '../interfaces/filtri.interface';
+import { MangaLang } from '../languages/interfaces/manga-lang.interface';
 
 export function getTabsManga(clickCalls: Function): TabsManga[] {
   return [
@@ -37,34 +37,20 @@ export function getTabsManga(clickCalls: Function): TabsManga[] {
   ];
 }
 
-export function getPulsanti(routerFunc: Function): PulsantiHeader[] {
+export function getPulsanti(
+  routerFunc: Function,
+  mangaLang: MangaLang,
+): NavBarButton[] {
   return [
     {
-      click: () => routerFunc('/home'),
-      disabled: false,
-      titolo: {
-        it: 'Torna alla Home',
-        en: 'Back to Home',
-      },
-      icona: 'bi bi-house-door me-2',
+      title: mangaLang.tuoiMAnga,
+      icon: 'bi bi-book me-2',
+      action: () => routerFunc('/manga/tuoi-manga'),
     },
     {
-      click: () => routerFunc('/manga/tuoi-manga'),
-      disabled: !DataHttp.user(),
-      titolo: {
-        it: 'I tuoi Manga',
-        en: 'Your Manga',
-      },
-      icona: 'bi bi-book me-2',
-    },
-    {
-      click: () => routerFunc('/manga/manga-miciomani'),
-      disabled: !DataHttp.user(),
-      titolo: {
-        it: 'Manga Miciomani',
-        en: 'Miciomani Manga',
-      },
-      icona: 'bi bi-emoji-sunglasses me-2',
+      title: mangaLang.mangaMiciomania,
+      icon: 'bi bi-emoji-sunglasses me-2',
+      action: () => routerFunc('/manga/manga-miciomani'),
     },
   ];
 }

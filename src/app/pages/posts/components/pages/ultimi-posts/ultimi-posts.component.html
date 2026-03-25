@@ -1,5 +1,4 @@
 <app-custom-navbar
-  [goHomeBotton]="'/home'"
   [filtro]="true"
   (filtroChanged)="searchQuery.set($event)"
   (toggleFilter)="searchActive.set(searchActive() !== 'filter' ? 'filter' : '')"
@@ -7,7 +6,7 @@
   <div rightContent style="width: 6.5rem" class="pc-only"></div>
 </app-custom-navbar>
 
-<div id="ListaPosts" class="container-fluid" style="margin-top: 4.2rem">
+<div id="ListaPosts" class="container-fluid">
   <div class="cerca-profili-wrapper">
     @switch (searchActive()) {
       @case ("users") {

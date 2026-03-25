@@ -21,7 +21,6 @@ import { SquadreService } from '../../shared/services/api/squadre.service';
 import { games_imports } from './imports/games.import';
 import { CardGioco, SquadreGiocatore } from './interfaces/games.interfaces';
 import { DeckCardService } from './services/deck-card.service';
-import { PulsantiHeader } from '../../shared/components/custom/header-custom.component';
 import { gamesConstant } from './constants/games.constant';
 
 @Component({
@@ -43,7 +42,7 @@ export class GamesComponent implements OnInit, OnDestroy {
     avversario: [],
   });
 
-  public pulsanti = computed<PulsantiHeader[]>(() => this.getPulsanti());
+  // public pulsanti = computed<PulsantiHeader[]>(() => this.getPulsanti());
   public isGames$: Observable<boolean> = this.router.events.pipe(
     filter((event): event is NavigationEnd => event instanceof NavigationEnd),
     startWith({ url: this.router.url }),
@@ -139,26 +138,26 @@ export class GamesComponent implements OnInit, OnDestroy {
     }
   }
 
-  private getPulsanti(): PulsantiHeader[] {
-    return [
-      {
-        click: () => this.router.navigate(['/home']),
-        disabled: false,
-        titolo: {
-          it: 'Torna alla Home',
-          en: 'Go back to Home',
-        },
-        icona: 'bi bi arrow-left',
-      },
-      {
-        click: () => this.showDetails.update((x: boolean) => !x),
-        disabled: false,
-        titolo: {
-          it: 'Visualizza Dettagli',
-          en: 'View Details',
-        },
-        icona: this.showDetails() ? 'bi bi-eye-slash' : 'bi bi-eye',
-      },
-    ];
-  }
+  // private getPulsanti(): PulsantiHeader[] {
+  //   return [
+  //     {
+  //       click: () => this.router.navigate(['/home']),
+  //       disabled: false,
+  //       titolo: {
+  //         it: 'Torna alla Home',
+  //         en: 'Go back to Home',
+  //       },
+  //       icona: 'bi bi arrow-left',
+  //     },
+  //     {
+  //       click: () => this.showDetails.update((x: boolean) => !x),
+  //       disabled: false,
+  //       titolo: {
+  //         it: 'Visualizza Dettagli',
+  //         en: 'View Details',
+  //       },
+  //       icona: this.showDetails() ? 'bi bi-eye-slash' : 'bi bi-eye',
+  //     },
+  //   ];
+  // }
 }

@@ -1,8 +1,8 @@
 export type TuoiMangaLangType = { tuoiMangaLang: TuoiMangaLang };
 
 export interface TuoiMangaLang {
-  titolo: string;
-  messaggio: string;
+  // Navbar
+  tuttiManga: string;
   // Tabs Tuoi Manga
   preferiti: string;
   leggendo: string;

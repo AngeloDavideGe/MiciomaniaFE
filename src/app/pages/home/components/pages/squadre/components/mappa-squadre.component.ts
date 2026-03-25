@@ -20,7 +20,7 @@ declare var google: any;
   standalone: true,
   imports: [SvgCustomComponent, SpinnerComponent, NgClass],
   template: `
-    <div id="ContainerMap" class="mt-4">
+    <div id="ContainerMap">
       @if (loading()) {
         <app-spinner [mt]="'5rem'"></app-spinner>
       } @else {
@@ -49,7 +49,6 @@ declare var google: any;
     `
       #ContainerMap {
         width: 100%;
-        padding: 1rem;
 
         .chart-wrapper {
           flex: 0 0 300px;

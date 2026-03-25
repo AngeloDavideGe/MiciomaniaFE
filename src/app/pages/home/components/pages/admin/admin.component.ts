@@ -8,7 +8,6 @@ import {
 } from '@angular/core';
 import { Router } from '@angular/router';
 import { DataHttp } from '../../../../../core/api/http.data';
-import { PulsantiHeader } from '../../../../../shared/components/custom/header-custom.component';
 import { Ruolo } from '../../../../../shared/enums/users.enum';
 import { sottoscrizioneUtentiCustom } from '../../../../../shared/handlers/auth.handler';
 import { Lingua } from '../../../../../shared/interfaces/http.interface';
@@ -46,17 +45,17 @@ export class AdminComponent implements OnInit {
   public userMap = signal<Record<string, UserParams[]>>({});
   public userMapByRuolo: Record<string, Signal<UserParams[]>> = {};
   public adminLang: AdminLang = {} as AdminLang;
-  public pulsantiHeader: PulsantiHeader[] = [
-    {
-      click: () => this.router.navigate(['/home']),
-      disabled: false,
-      titolo: {
-        it: 'Torna alla Home',
-        en: 'Go to Home',
-      },
-      icona: 'bi bi-house-door me-2',
-    },
-  ];
+  // public pulsantiHeader: PulsantiHeader[] = [
+  //   {
+  //     click: () => this.router.navigate(['/home']),
+  //     disabled: false,
+  //     titolo: {
+  //       it: 'Torna alla Home',
+  //       en: 'Go to Home',
+  //     },
+  //     icona: 'bi bi-house-door me-2',
+  //   },
+  // ];
 
   constructor() {
     const lingua: Lingua = DataHttp.lingua();

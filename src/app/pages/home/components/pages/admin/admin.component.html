@@ -1,26 +1,18 @@
-<app-header-custom
-  [titolo]="adminLang.listaAdminUtenti"
-  [descrizione]="adminLang.visualizzaRuoli"
-  [bottoni]="pulsantiHeader"
-></app-header-custom>
+@if (loadedAdmin()) {
+  <app-griglia-admin
+    [adminLang]="adminLang"
+    [user]="user"
+    [userMapByRuolo]="userMapByRuolo"
+    (eliminaRuolo)="eliminaRuolo($event)"
+    (modificaRuolo)="modificaRuolo($event)"
+  ></app-griglia-admin>
+}
 
-<div class="mt-3">
-  @if (loadedAdmin()) {
-    <app-griglia-admin
-      [adminLang]="adminLang"
-      [user]="user"
-      [userMapByRuolo]="userMapByRuolo"
-      (eliminaRuolo)="eliminaRuolo($event)"
-      (modificaRuolo)="modificaRuolo($event)"
-    ></app-griglia-admin>
-  }
-
-  @if (editAdmin()) {
-    <app-edit-admin
-      [adminLang]="adminLang"
-      [userEdit]="userEdit"
-      (chiudiModale)="editAdmin.set(false)"
-      (ruoloModificato)="ruoloModificato($event)"
-    ></app-edit-admin>
-  }
-</div>
+@if (editAdmin()) {
+  <app-edit-admin
+    [adminLang]="adminLang"
+    [userEdit]="userEdit"
+    (chiudiModale)="editAdmin.set(false)"
+    (ruoloModificato)="ruoloModificato($event)"
+  ></app-edit-admin>
+}

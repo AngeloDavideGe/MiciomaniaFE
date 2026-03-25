@@ -33,7 +33,7 @@ export class SquadreComponent implements OnInit {
 
   public squadreLang: SquadreLang = {} as SquadreLang;
   public bottoniNavbar: NavBarButton[] = this.loadButton();
-  public component = signal<componentType>('Mappa');
+  public component = signal<componentType>('Squadre');
   public error = signal<boolean>(false);
 
   public classifica = computed<Classifica>(() =>

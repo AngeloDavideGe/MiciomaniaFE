@@ -1,14 +1,9 @@
-<!-- Hero Section -->
-<div style="overflow-x: hidden">
-  <app-header-custom
-    [bottoni]="pulsanti"
-    [titolo]="mmicioLang.titolo"
-    [descrizione]="mmicioLang.descrizione"
-  ></app-header-custom>
+<app-custom-navbar [altriBottoni]="pulsanti"></app-custom-navbar>
 
+<div style="overflow-x: hidden">
   @if (elem()) {
     <!-- Sezione Manga Miciomania -->
-    <section class="mt-3">
+    <section id="MangaMiciomania">
       <app-custom-scroll
         [titolo]="mmicioLang.titoloScrollGiu"
         [icona]="'bi bi-arrow-down'"

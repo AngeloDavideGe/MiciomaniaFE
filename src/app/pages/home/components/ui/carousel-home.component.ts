@@ -20,7 +20,7 @@ import { Lingua } from '../../../../shared/interfaces/http.interface';
   template: `
     <section id="CardsRow">
       <div class="container position-relative">
-        <div class="text-center" style="margin-top: 4rem;">
+        <div class="text-center">
           <h4 class="fw-bold display-4" style="color: var(--text-color);">
             Home - Miciomania
           </h4>

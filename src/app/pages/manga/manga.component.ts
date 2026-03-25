@@ -10,7 +10,6 @@ import {
 import { NavigationEnd, Router } from '@angular/router';
 import { filter, map, Observable, startWith, tap } from 'rxjs';
 import { DataHttp } from '../../core/api/http.data';
-import { PulsantiHeader } from '../../shared/components/custom/header-custom.component';
 import {
   compareObjectCustom,
   effectTimeoutCustom,
@@ -35,6 +34,7 @@ import {
   MangaLangType,
 } from './languages/interfaces/manga-lang.interface';
 import { MangaService } from './services/manga.service';
+import { NavBarButton } from '../../shared/components/custom/navbar-custom.component';
 
 @Component({
   selector: 'app-manga',
@@ -49,15 +49,12 @@ export class MangaComponent implements OnDestroy {
   public readonly mangaGeneri: string[] = generiManga;
   public readonly alfabeto: string[] = alfabetoManga;
   public mangaPreferiti: boolean[] = [];
+  public pulsanti: NavBarButton[] = [];
   public mangaLang: MangaLang = {} as MangaLang;
   public idUtente: string | null = null;
   public erroreHttp = signal<boolean>(false);
   public perIniziale = signal<string>('lista');
   public selezionaOpera: Function = (path: string) => window.open(path);
-
-  public pulsanti: PulsantiHeader[] = getPulsanti((path: string) =>
-    this.router.navigate([path]),
-  );
 
   private debounce = {
     autore: signal<string>(''),
@@ -163,7 +160,13 @@ export class MangaComponent implements OnDestroy {
       it: () => import('./languages/constants/manga-it.constant'),
       en: () => import('./languages/constants/manga-en.constant'),
     };
-    languageMap[lingua]().then((m) => (this.mangaLang = m.mangaLang));
+    languageMap[lingua]().then((m) => {
+      this.mangaLang = m.mangaLang;
+      this.pulsanti = getPulsanti(
+        (path: string) => this.router.navigate([path]),
+        this.mangaLang,
+      );
+    });
   }
 
   private getTabClickHandler(

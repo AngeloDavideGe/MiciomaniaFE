@@ -13,7 +13,7 @@ import { punteggi_imports } from './imports/punteggi.import';
   imports: punteggi_imports,
   template: `
     @if (classifica().squadre.length > 0) {
-      <div class="mt-5 p-4 rounded-3">
+      <div class="rounded-3">
         <app-lista-squadre
           [squadreLang]="squadreLang"
           [classifica]="classifica()"

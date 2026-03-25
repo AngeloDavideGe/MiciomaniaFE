@@ -9,7 +9,6 @@ import {
 } from '@angular/core';
 import { Router } from '@angular/router';
 import { DataHttp } from '../../../../../core/api/http.data';
-import { PulsantiHeader } from '../../../../../shared/components/custom/header-custom.component';
 import { effectTimeoutCustom } from '../../../../../shared/functions/utilities.function';
 import {
   Lingua,
@@ -33,6 +32,7 @@ import {
   TuoiMangaLang,
   TuoiMangaLangType,
 } from './languages/interfaces/tuoiManga-lang.interface';
+import { NavBarButton } from '../../../../../shared/components/custom/navbar-custom.component';
 
 @Component({
   selector: 'app-tuoi-manga',
@@ -49,6 +49,7 @@ export class TuoiMangaComponent implements OnInit, OnDestroy {
   private checkSplitManga: SplitMangaUtente = voidSplitManga();
   public erroreHttp = signal<boolean>(false);
   public searchQuery = signal<string>('');
+  public pulsanti: NavBarButton[] = [];
   private debouncedSearchQuery = signal<string>('');
   public selezionaOpera: Function = (path: string) => window.open(path);
 
@@ -66,18 +67,6 @@ export class TuoiMangaComponent implements OnInit, OnDestroy {
     letti: [],
     completati: [],
   });
-
-  public pulsanti: PulsantiHeader[] = [
-    {
-      click: () => this.router.navigate(['/manga']),
-      disabled: false,
-      titolo: {
-        it: '📚 Cerca tutti i manga',
-        en: '📚 Search all manga',
-      },
-      icona: '',
-    },
-  ];
 
   constructor() {
     this.loadLanguage();
@@ -129,7 +118,16 @@ export class TuoiMangaComponent implements OnInit, OnDestroy {
       it: () => import('./languages/constants/tuoimanga-it.constant'),
       en: () => import('./languages/constants/tuoimanga-en.constant'),
     };
-    languageMap[lingua]().then((m) => (this.tuoiMangaLang = m.tuoiMangaLang));
+    languageMap[lingua]().then((m) => {
+      this.tuoiMangaLang = m.tuoiMangaLang;
+      this.pulsanti = [
+        {
+          action: () => this.router.navigate(['/manga']),
+          title: this.tuoiMangaLang.tuttiManga,
+          icon: 'bi bi-book',
+        },
+      ];
+    });
   }
 
   private computedallMangaSearch(): ListaManga[] {

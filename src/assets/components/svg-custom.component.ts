@@ -26,7 +26,9 @@ import { Mappa } from '../../app/shared/interfaces/github.interface';
             <path
               [attr.d]="path.d"
               [attr.id]="path.title"
-              [attr.fill]="path.fill || colori[path.title] || '#e2e5e8'"
+              [attr.fill]="
+                path.fill || colori[path.title] || 'var(--fill-svg-void)'
+              "
               (click)="onPathClick(path.title, $event)"
             >
               <title>{{ path.title }}</title>

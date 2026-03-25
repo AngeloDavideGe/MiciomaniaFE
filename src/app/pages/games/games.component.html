@@ -1,12 +1,4 @@
 @if (isGames$ | async) {
-  <app-header-custom
-    [titolo]="'Games Miciomania'"
-    [descrizione]="
-      'Divertiti a giocare con i cuori delle persone e ottenere punti'
-    "
-    [bottoni]="pulsanti()"
-  ></app-header-custom>
-
   <div class="container" style="max-width: 86rem">
     @if (showDetails()) {
       <app-punteggi-games

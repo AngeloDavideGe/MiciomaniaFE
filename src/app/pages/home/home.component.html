@@ -1,5 +1,5 @@
 @if (isHome$ | async) {
-  <app-custom-navbar>
+  <app-custom-navbar [viewTornaIndietro]="false">
     <div leftContent>
       <app-user-active
         [homeLang]="homeLang()"

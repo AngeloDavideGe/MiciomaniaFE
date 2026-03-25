@@ -29,6 +29,7 @@ import {
   ProfiloLang,
   ProfiloLangType,
 } from './languages/interfaces/profilo-lang.interface';
+import { TornaIndietro } from '../../../../../shared/components/custom/navbar-custom.component';
 
 @Component({
   selector: 'app-profilo',
@@ -52,7 +53,7 @@ export class ProfiloComponent implements OnDestroy {
   public errorHttp = signal<boolean>(false);
   public modaleAperta: modaleApertaType = '';
   public socialArray: EditableSocial[] = [];
-  public tornaIndietroPath: string = '';
+  public tornaIndietroPath: TornaIndietro = {} as TornaIndietro;
   public profiloLang: ProfiloLang = {} as ProfiloLang;
   public profilo: Profilo = {
     user: getVoidUser(),
@@ -83,13 +84,22 @@ export class ProfiloComponent implements OnDestroy {
     const state = history.state?.['message'];
     switch (state) {
       case 'TableUserParams':
-        this.tornaIndietroPath = '/home/admin';
+        this.tornaIndietroPath = {
+          path: '/home/admin',
+          title: 'Torna a Admin',
+        };
         break;
       case 'CercaProfili':
-        this.tornaIndietroPath = '/posts/ultimi-post';
+        this.tornaIndietroPath = {
+          path: '/posts/ultimi-post',
+          title: 'torna a Ultimi Post',
+        };
         break;
       default:
-        this.tornaIndietroPath = '/home';
+        this.tornaIndietroPath = {
+          path: '/home',
+          title: 'Torna alla Home',
+        };
         break;
     }
   }
@@ -150,7 +160,7 @@ export class ProfiloComponent implements OnDestroy {
 
   loadSocial(): void {
     this.socialArray = Object.entries(
-      this.profilo.user.profile.social || {}
+      this.profilo.user.profile.social || {},
     ).map(([key, link]) => ({
       key,
       link,
@@ -176,7 +186,7 @@ export class ProfiloComponent implements OnDestroy {
       finalizeCall: () => this.loaderService.hide(),
       nextCall: () => {
         this.profilo.tweets = this.profilo.tweets.filter(
-          (tweet: Tweet) => tweet.id != tweetId
+          (tweet: Tweet) => tweet.id != tweetId,
         );
       },
     });
