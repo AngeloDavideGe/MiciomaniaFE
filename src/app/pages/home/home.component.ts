@@ -31,6 +31,8 @@ export class HomeComponent {
   public user: User = {} as User;
   public inizialiUser: string = '';
   public cursoreAperto = signal<boolean>(false);
+  public menuBarAperta = signal<boolean>(false);
+  public profiloAperto = signal<boolean>(false);
   public homeLang = signal<HomeLang>({} as HomeLang);
   private readonly punteggioCanzoni: number = 20;
 

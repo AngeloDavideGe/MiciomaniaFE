@@ -7,7 +7,7 @@ import { HomeLang } from '../../languages/interfaces/home-lang.interface';
   standalone: true,
   imports: [],
   template: `
-    <div class="container" style="margin-top: 4.5rem;">
+    <div class="container">
       <div class="row justify-content-center">
         <div class="col-auto">
           <div class="card mb-4 shadow-sm" style="width: 8rem; margin: 0.1rem;">

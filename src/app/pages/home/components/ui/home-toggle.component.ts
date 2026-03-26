@@ -1,4 +1,4 @@
-import { Component, Input, signal } from '@angular/core';
+import { Component, EventEmitter, Input, Output, signal } from '@angular/core';
 import { DataHttp } from '../../../../core/api/http.data';
 import { Lingua } from '../../../../shared/interfaces/http.interface';
 import { Credenziali } from '../../../../shared/interfaces/users.interface';
@@ -13,7 +13,7 @@ import { NgClass } from '@angular/common';
     <div class="home-navbar-wrapper">
       <button
         class="btn toggle-btn"
-        (click)="menuOpen.set(!menuOpen())"
+        (click)="toggleMenu()"
         [ngClass]="{
           'btn-primary': menuOpen(),
           'btn-outline-primary': !menuOpen(),
@@ -96,13 +96,20 @@ import { NgClass } from '@angular/common';
   styleUrl: '../styles/toggle.styles.scss',
 })
 export class HomeToggleComponent {
+  public Lingua = Lingua;
+  public currentButton = signal<DropdownCurrent>(null);
+
   @Input() homeLang!: HomeLang;
   @Input() credenziali!: Credenziali;
   @Input() inizialiUser!: string;
+  @Input() menuOpen = signal<boolean>(false);
 
-  public Lingua = Lingua;
-  public menuOpen = signal<boolean>(false);
-  public currentButton = signal<DropdownCurrent>(null);
+  @Output() aperturaMenu = new EventEmitter<boolean>();
+
+  public toggleMenu(): void {
+    this.menuOpen.update((x: boolean) => !x);
+    this.aperturaMenu.emit(this.menuOpen());
+  }
 
   public cambiaDropdown(drop: DropdownCurrent) {
     this.currentButton.update((x: DropdownCurrent) =>

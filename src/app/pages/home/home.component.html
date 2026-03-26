@@ -5,6 +5,11 @@
         [homeLang]="homeLang()"
         [user]="user"
         [inizialiUser]="inizialiUser"
+        [profiliOpen]="profiloAperto"
+        (profiloAperto)="
+          $event ? menuBarAperta.set(false) : null;
+          $event ? cursoreAperto.set(false) : null
+        "
       ></app-user-active>
     </div>
 
@@ -13,12 +18,21 @@
         [homeLang]="homeLang()"
         [credenziali]="user.credenziali"
         [inizialiUser]="inizialiUser"
+        [menuOpen]="menuBarAperta"
+        (aperturaMenu)="
+          $event ? profiloAperto.set(false) : null;
+          $event ? cursoreAperto.set(false) : null
+        "
       >
         <div impostazioniContent style="margin-left: 1rem">
           <app-menu-impostazioni
             [homeLang]="homeLang()"
             [user]="user"
-            (cursore)="cursoreAperto.set(!cursoreAperto())"
+            (cursore)="
+              cursoreAperto.set(!cursoreAperto());
+              cursoreAperto() ? menuBarAperta.set(false) : null;
+              cursoreAperto() ? profiloAperto.set(false) : null
+            "
           >
           </app-menu-impostazioni>
         </div>

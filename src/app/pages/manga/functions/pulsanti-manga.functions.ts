@@ -1,3 +1,4 @@
+import { DataHttp } from '../../../core/api/http.data';
 import { NavBarButton } from '../../../shared/components/custom/navbar-custom.component';
 import { TabsManga } from '../interfaces/filtri.interface';
 import { MangaLang } from '../languages/interfaces/manga-lang.interface';
@@ -46,11 +47,13 @@ export function getPulsanti(
       title: mangaLang.tuoiMAnga,
       icon: 'bi bi-book me-2',
       action: () => routerFunc('/manga/tuoi-manga'),
+      disabled: !DataHttp.user(),
     },
     {
       title: mangaLang.mangaMiciomania,
       icon: 'bi bi-emoji-sunglasses me-2',
       action: () => routerFunc('/manga/manga-miciomani'),
+      disabled: !DataHttp.user(),
     },
   ];
 }

@@ -1,6 +1,6 @@
 import {
   Component,
-  computed,
+  effect,
   HostListener,
   inject,
   OnDestroy,
@@ -8,8 +8,9 @@ import {
   signal,
 } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
-import { filter, map, Observable, startWith } from 'rxjs';
+import { filter, map, Observable, startWith, tap } from 'rxjs';
 import { DataHttp } from '../../core/api/http.data';
+import { NavBarButton } from '../../shared/components/custom/navbar-custom.component';
 import {
   getSquadreInGame,
   setPunteggioOttenuto,
@@ -18,10 +19,10 @@ import {
 import { Giocatori, Squadre } from '../../shared/interfaces/squadre.interface';
 import { User } from '../../shared/interfaces/users.interface';
 import { SquadreService } from '../../shared/services/api/squadre.service';
+import { gamesConstant } from './constants/games.constant';
 import { games_imports } from './imports/games.import';
 import { CardGioco, SquadreGiocatore } from './interfaces/games.interfaces';
 import { DeckCardService } from './services/deck-card.service';
-import { gamesConstant } from './constants/games.constant';
 
 @Component({
   selector: 'app-games',
@@ -36,18 +37,23 @@ export class GamesComponent implements OnInit, OnDestroy {
 
   public readonly gamesConstant: CardGioco[] = gamesConstant;
   public punteggioPersonale: number = 0;
+  public pulsanti = signal<NavBarButton[]>([]);
   public showDetails = signal<boolean>(false);
   public squadre = signal<SquadreGiocatore>({
     personale: [],
     avversario: [],
   });
 
-  // public pulsanti = computed<PulsantiHeader[]>(() => this.getPulsanti());
   public isGames$: Observable<boolean> = this.router.events.pipe(
     filter((event): event is NavigationEnd => event instanceof NavigationEnd),
     startWith({ url: this.router.url }),
     map((event) => event.url == '/games'),
+    tap((padre: boolean) => this.pulsanti.set(this.getPulsanti(padre))),
   );
+
+  constructor() {
+    effect(() => this.pulsanti.set(this.getPulsanti(true)));
+  }
 
   ngOnInit(): void {
     this.setPunteggioGiocatore();
@@ -138,26 +144,23 @@ export class GamesComponent implements OnInit, OnDestroy {
     }
   }
 
-  // private getPulsanti(): PulsantiHeader[] {
-  //   return [
-  //     {
-  //       click: () => this.router.navigate(['/home']),
-  //       disabled: false,
-  //       titolo: {
-  //         it: 'Torna alla Home',
-  //         en: 'Go back to Home',
-  //       },
-  //       icona: 'bi bi arrow-left',
-  //     },
-  //     {
-  //       click: () => this.showDetails.update((x: boolean) => !x),
-  //       disabled: false,
-  //       titolo: {
-  //         it: 'Visualizza Dettagli',
-  //         en: 'View Details',
-  //       },
-  //       icona: this.showDetails() ? 'bi bi-eye-slash' : 'bi bi-eye',
-  //     },
-  //   ];
-  // }
+  private getPulsanti(padre: boolean): NavBarButton[] {
+    if (padre) {
+      return [
+        {
+          action: () => this.showDetails.update((x: boolean) => !x),
+          title: 'Visualizza Dettagli',
+          icon: this.showDetails() ? 'bi bi-eye-slash' : 'bi bi-eye',
+        },
+      ];
+    } else {
+      return [
+        {
+          action: () => this.router.navigate(['/games']),
+          title: 'Seleziona gioco',
+          icon: 'bi bi-controller',
+        },
+      ];
+    }
+  }
 }

@@ -1,9 +1,11 @@
 import {
   AfterViewInit,
   Component,
+  computed,
   HostListener,
   inject,
   OnInit,
+  signal,
 } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { DataHttp } from './core/api/http.data';
@@ -14,6 +16,7 @@ import {
   refreshLocalStorage,
   refreshSessionStorage,
 } from './core/functions/storage.function';
+import { debounceTimeoutCustom } from './shared/functions/utilities.function';
 import { MiniPlayerService } from './shared/services/template/mini-player.service';
 import { CursorUtilities } from './shared/utilities/class/cursor.utilities';
 
@@ -22,36 +25,54 @@ import { CursorUtilities } from './shared/utilities/class/cursor.utilities';
   standalone: true,
   imports: [RouterOutlet, MiniPlayerComponent, ChatComponent],
   template: `
-    <div class="all-component">
+    <div style="background-color: var(--bg-light);">
       <router-outlet></router-outlet>
 
-      <div
-        [style]="{
-          height: miniPlayerService.currentCanzone() ? '11rem' : '5rem',
-        }"
-      ></div>
+      <div [style]="{ height: heigthVoid() }"></div>
 
-      @if (chatService.chatVisibile()) {
-        <app-chat [canzoniAperte]="miniPlayerService.currentCanzone"></app-chat>
-      }
+      <div class="translate-mobile">
+        @if (chatService.chatVisibile()) {
+          <app-chat
+            [canzoniAperte]="miniPlayerService.currentCanzone"
+          ></app-chat>
+        }
 
-      @if (miniPlayerService.currentCanzone()) {
-        <app-mini-player></app-mini-player>
-      }
+        @if (miniPlayerService.currentCanzone()) {
+          <app-mini-player></app-mini-player>
+        }
+      </div>
     </div>
   `,
   styles: [
     `
-      .all-component {
-        background-color: var(--bg-light);
+      .translate-mobile {
+        @media (max-width: 767.98px) {
+          transform: translateY(-4.3rem);
+        }
       }
     `,
   ],
 })
 export class AppComponent implements OnInit, AfterViewInit {
-  private cursorUtilities = new CursorUtilities();
   public miniPlayerService = inject(MiniPlayerService);
   public chatService = inject(ChatService);
+
+  private cursorUtilities = new CursorUtilities();
+  private resize = signal<boolean>(window.innerWidth < 768);
+
+  public heigthVoid = computed<string>(() => {
+    let value: number = 4.5;
+
+    if (this.miniPlayerService.currentCanzone()) {
+      value += 6;
+    }
+
+    if (this.resize()) {
+      value += 4;
+    }
+
+    return String(value) + 'rem';
+  });
 
   ngOnInit(): void {
     DataHttp.loadDataHttp();
@@ -66,4 +87,9 @@ export class AppComponent implements OnInit, AfterViewInit {
     refreshLocalStorage();
     refreshSessionStorage();
   }
+
+  @HostListener('window:resize')
+  onResize = debounceTimeoutCustom(() => {
+    this.resize.set(window.innerWidth < 768);
+  });
 }

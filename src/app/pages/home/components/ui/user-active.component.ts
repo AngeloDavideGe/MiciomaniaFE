@@ -1,4 +1,12 @@
-import { Component, computed, inject, Input, signal } from '@angular/core';
+import {
+  Component,
+  computed,
+  EventEmitter,
+  inject,
+  Input,
+  Output,
+  signal,
+} from '@angular/core';
 import { DataHttp } from '../../../../core/api/http.data';
 import { User } from '../../../../shared/interfaces/users.interface';
 import { HomeLang } from '../../languages/interfaces/home-lang.interface';
@@ -243,11 +251,13 @@ export class UserActiveComponent {
   @Input() homeLang!: HomeLang;
   @Input() user!: User;
   @Input() inizialiUser!: string;
+  @Input() profiliOpen = signal<boolean>(false);
+
+  @Output() profiloAperto = new EventEmitter<boolean>();
 
   private authService = inject(AuthService);
   public router = inject(Router);
 
-  public profiliOpen = signal<boolean>(false);
   public allProfili = computed<User[]>(() => {
     this.authService.users();
     return DataHttp.allUsers;
@@ -256,6 +266,7 @@ export class UserActiveComponent {
   public openProfili(): void {
     if (this.user.id) {
       this.profiliOpen.update((x: boolean) => !x);
+      this.profiloAperto.emit(this.profiliOpen());
     }
   }
 

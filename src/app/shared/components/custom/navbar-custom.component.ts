@@ -16,7 +16,7 @@ import { DataHttp } from '../../../core/api/http.data';
   standalone: true,
   imports: [NgClass],
   template: `
-    <section style="padding-bottom: 4.5rem;">
+    <section class="padding-pc">
       <nav class="navbar">
         <div class="navbar-container">
           <!-- Left group: back + search -->
@@ -43,9 +43,10 @@ import { DataHttp } from '../../../core/api/http.data';
                   <button
                     class="nav-btn action-btn"
                     [ngClass]="{ 'selected-btn': selected() == btn.title }"
-                    (click)="btn.action()"
                     [title]="btn.title"
                     aria-label="btn.title"
+                    [disabled]="btn.disabled"
+                    (click)="btn.action()"
                   >
                     <i [class]="btn.icon"></i>
                     <span class="btn-label">{{ btn.title }}</span>
@@ -140,7 +141,8 @@ export class CustomNavBarComponent {
 export interface NavBarButton {
   icon: string;
   title: string;
-  action: () => void;
+  action: Function;
+  disabled?: boolean;
 }
 
 export interface TornaIndietro {

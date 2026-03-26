@@ -1,11 +1,10 @@
 import { Component, inject, Input } from '@angular/core';
 import { Router } from '@angular/router';
-import { ButtonCustomComponent } from '../../../../../shared/components/custom/botton-custom.component';
 
 @Component({
   selector: 'app-dettagli-game',
   standalone: true,
-  imports: [ButtonCustomComponent],
+  imports: [],
   template: `
     <div
       class="container py-4 border border-primary rounded-lg p-4 shadow-lg text-center"
@@ -50,14 +49,6 @@ import { ButtonCustomComponent } from '../../../../../shared/components/custom/b
           >Miciomania</strong
         >
         {{ ', ' + descrizione }}
-        <br /><br />
-
-        Hai il coraggio di sfidarci?
-        <app-button-custom
-          [text]="'Torna indietro'"
-          [icon1]="'bi bi-arrow-left'"
-          (clickBotton)="router.navigate(['/games'])"
-        ></app-button-custom>
       </p>
       <ng-content select="[giocoContent]"></ng-content>
     </div>
