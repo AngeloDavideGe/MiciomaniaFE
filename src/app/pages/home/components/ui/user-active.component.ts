@@ -40,7 +40,7 @@ import { Router } from '@angular/router';
         </div>
       }
 
-      <span class="ms-2 fw-bold" style="font-size: 1.2rem">
+      <span class="ms-2 fw-bold pc-only" style="font-size: 1.2rem">
         @if (user.credenziali.nome) {
           {{ user.credenziali.nome }}
         } @else {

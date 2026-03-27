@@ -5,11 +5,8 @@
         [homeLang]="homeLang()"
         [user]="user"
         [inizialiUser]="inizialiUser"
-        [profiliOpen]="profiloAperto"
-        (profiloAperto)="
-          $event ? menuBarAperta.set(false) : null;
-          $event ? cursoreAperto.set(false) : null
-        "
+        [profiliOpen]="compAperto.profili"
+        (profiloAperto)="switchCompAperto(enumCompAperto.profili, $event)"
       ></app-user-active>
     </div>
 
@@ -18,20 +15,15 @@
         [homeLang]="homeLang()"
         [credenziali]="user.credenziali"
         [inizialiUser]="inizialiUser"
-        [menuOpen]="menuBarAperta"
-        (aperturaMenu)="
-          $event ? profiloAperto.set(false) : null;
-          $event ? cursoreAperto.set(false) : null
-        "
+        [menuOpen]="compAperto.menuBar"
+        (aperturaMenu)="switchCompAperto(enumCompAperto.menuBar, $event)"
       >
         <div impostazioniContent style="margin-left: 1rem">
           <app-menu-impostazioni
             [homeLang]="homeLang()"
             [user]="user"
             (cursore)="
-              cursoreAperto.set(!cursoreAperto());
-              cursoreAperto() ? menuBarAperta.set(false) : null;
-              cursoreAperto() ? profiloAperto.set(false) : null
+              switchCompAperto(enumCompAperto.cursore, !compAperto.cursore())
             "
           >
           </app-menu-impostazioni>
@@ -48,7 +40,7 @@
     </div>
   </app-custom-navbar>
 
-  @if (cursoreAperto()) {
+  @if (compAperto.cursore()) {
     <app-cursore class="pc-only" [homeLang]="homeLang()"></app-cursore>
   }
 

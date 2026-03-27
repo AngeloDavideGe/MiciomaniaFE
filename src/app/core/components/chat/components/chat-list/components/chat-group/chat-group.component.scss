@@ -4,7 +4,12 @@
   background-color: #e6ddd4;
   position: relative;
   overflow: hidden;
-  max-height: 27rem;
+  height: 27rem;
+
+  @media (max-width: 767.98px) {
+    height: calc(100% - 4.5rem);
+    z-index: 111;
+  }
 
 
   &::before {
@@ -45,8 +50,3 @@
   }
 }
 
-@media (max-width: 768px) {
-  #ChatContainer {
-    height: 100%;
-  }
-}

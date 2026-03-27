@@ -1,5 +1,12 @@
 import { NgStyle } from '@angular/common';
-import { Component, Input, signal } from '@angular/core';
+import {
+  Component,
+  computed,
+  HostListener,
+  Input,
+  signal,
+} from '@angular/core';
+import { debounceTimeoutCustom } from '../../../shared/functions/utilities.function';
 import { MangaSong } from '../../../shared/interfaces/elementiUtente.interface';
 import { ChatChiusaComponent } from './components/chat-chiusa/chat-chiusa.component';
 import { ChatListComponent } from './components/chat-list/chat-list.component';
@@ -9,10 +16,10 @@ import { ChatListComponent } from './components/chat-list/chat-list.component';
   standalone: true,
   imports: [ChatListComponent, ChatChiusaComponent, NgStyle],
   template: `
-    <!-- classe bootstrap che fa tipo right: 1 rem-->
     <div
       class="position-fixed end-0 me-1"
-      [ngStyle]="{ bottom: canzoniAperte() !== null ? '6.5rem' : '0.5rem' }"
+      style="z-index: 100;"
+      [ngStyle]="{ bottom: bottomValue }"
     >
       @if (chatAperta()) {
         <app-chat-list (chiudiChat)="chatAperta.set(false)"></app-chat-list>
@@ -24,5 +31,5 @@ import { ChatListComponent } from './components/chat-list/chat-list.component';
 })
 export class ChatComponent {
   public chatAperta = signal<boolean>(false);
-  @Input() canzoniAperte = signal<MangaSong | null>(null);
+  @Input() bottomValue!: string;
 }

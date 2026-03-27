@@ -3,6 +3,10 @@
   border-right: 1px solid var(--border-color);
   height: 27rem;
 
+  @media (max-width: 767.98px) {
+    height: calc(100% - 8.5rem);
+  }
+
   .search-container {
     background-color: var(--bg-lighter);
 

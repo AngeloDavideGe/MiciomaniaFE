@@ -7,6 +7,12 @@
   }
 }
 
+.mobile-only {
+  @media (min-width: 767.98px) {
+    display: none;
+  }
+}
+
 .elemento {
   &-iniziale {
     --align-start: start;

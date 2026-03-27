@@ -16,9 +16,9 @@ import {
   refreshLocalStorage,
   refreshSessionStorage,
 } from './core/functions/storage.function';
-import { debounceTimeoutCustom } from './shared/functions/utilities.function';
 import { MiniPlayerService } from './shared/services/template/mini-player.service';
 import { CursorUtilities } from './shared/utilities/class/cursor.utilities';
+import { debounceTimeoutCustom } from './shared/functions/utilities.function';
 
 @Component({
   selector: 'app-root',
@@ -28,50 +28,31 @@ import { CursorUtilities } from './shared/utilities/class/cursor.utilities';
     <div style="background-color: var(--bg-light);">
       <router-outlet></router-outlet>
 
-      <div [style]="{ height: heigthVoid() }"></div>
+      <div [style]="{ height: bottomArray()[0] }"></div>
 
-      <div class="translate-mobile">
-        @if (chatService.chatVisibile()) {
-          <app-chat
-            [canzoniAperte]="miniPlayerService.currentCanzone"
-          ></app-chat>
-        }
+      @if (chatService.chatVisibile()) {
+        <app-chat [bottomValue]="bottomArray()[1]"></app-chat>
+      }
 
-        @if (miniPlayerService.currentCanzone()) {
-          <app-mini-player></app-mini-player>
-        }
-      </div>
+      @if (miniPlayerService.currentCanzone()) {
+        <app-mini-player></app-mini-player>
+      }
     </div>
   `,
-  styles: [
-    `
-      .translate-mobile {
-        @media (max-width: 767.98px) {
-          transform: translateY(-4.3rem);
-        }
-      }
-    `,
-  ],
+  styles: [``],
 })
 export class AppComponent implements OnInit, AfterViewInit {
   public miniPlayerService = inject(MiniPlayerService);
   public chatService = inject(ChatService);
 
   private cursorUtilities = new CursorUtilities();
-  private resize = signal<boolean>(window.innerWidth < 768);
+  public resize = signal<boolean>(false);
 
-  public heigthVoid = computed<string>(() => {
-    let value: number = 4.5;
-
-    if (this.miniPlayerService.currentCanzone()) {
-      value += 6;
-    }
-
-    if (this.resize()) {
-      value += 4;
-    }
-
-    return String(value) + 'rem';
+  public bottomArray = computed<string[]>(() => {
+    if (this.resize()) return ['8.5rem', '5rem'];
+    else if (this.miniPlayerService.currentCanzone())
+      return ['10.5rem', '6.5rem'];
+    else return ['4.5rem', '0.5rem'];
   });
 
   ngOnInit(): void {

@@ -9,7 +9,7 @@
   top: 0;
   left: 0;
   right: 0;
-  z-index: 1000;
+  z-index: 110;
   height: 4rem;
   margin-bottom: 4rem;
   padding: 0 10px;
@@ -209,7 +209,6 @@
     }
   }
 
-  // Tablet styles (768px - 1024px)
   @media (max-width: 1024px) and (min-width: 769px) {
     .btn-label {
       display: inline-block;
@@ -220,7 +219,6 @@
     }
   }
 
-  // Mobile styles - Bottom navbar like Instagram
   @media (max-width: 768px) {
     position: fixed;
     top: auto;
@@ -244,32 +242,6 @@
       padding: 8px 12px;
       height: auto;
       min-height: 60px;
-
-      // Hide left group (back button) on mobile bottom navbar
-      .elemento-iniziale {
-        display: flex;
-        gap: 8px;
-
-        // Hide back button text and keep only icon if needed
-        .back-btn {
-          .btn-label {
-            display: none;
-          }
-        }
-      }
-
-      // Center group - action buttons
-      .elemento-centrato {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        flex: 1;
-      }
-
-      // Hide right group on mobile
-      .elemento-finale {
-        display: none;
-      }
 
       .nav-btn {
         background: transparent;
@@ -359,12 +331,11 @@
       }
 
       .search-container {
-        display: none; // Hide search on bottom navbar
+        display: none;
       }
     }
   }
 
-  // Small mobile devices
   @media (max-width: 480px) {
     .navbar-container {
       padding: 6px 8px;

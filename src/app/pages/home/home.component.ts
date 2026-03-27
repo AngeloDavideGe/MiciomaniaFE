@@ -10,6 +10,7 @@ import { Lingua } from '../../shared/interfaces/http.interface';
 import { User, UserParams } from '../../shared/interfaces/users.interface';
 import { AuthService } from '../../shared/services/api/auth.service';
 import { ConfirmService } from '../../shared/services/template/confirm.service';
+import { CompAperto, compApertoFunc, recordComp } from './enums/home.enum';
 import { getConfirmParams } from './functions/home.functions';
 import { home_imports } from './imports/home.imports';
 import {
@@ -30,10 +31,9 @@ export class HomeComponent {
 
   public user: User = {} as User;
   public inizialiUser: string = '';
-  public cursoreAperto = signal<boolean>(false);
-  public menuBarAperta = signal<boolean>(false);
-  public profiloAperto = signal<boolean>(false);
+  public compAperto: recordComp = {} as recordComp;
   public homeLang = signal<HomeLang>({} as HomeLang);
+  public readonly enumCompAperto = CompAperto;
   private readonly punteggioCanzoni: number = 20;
 
   public isHome$: Observable<boolean> = this.router.events.pipe(
@@ -44,6 +44,10 @@ export class HomeComponent {
   );
 
   constructor() {
+    compApertoFunc((key: CompAperto) => {
+      this.compAperto[key] = signal<boolean>(false);
+    });
+
     effect(() => {
       const user: User | null = DataHttp.user();
       this.handleUserSubscription(user);
@@ -60,7 +64,7 @@ export class HomeComponent {
   }
 
   private loadUsers(): void {
-    this.cursoreAperto.set(false);
+    this.compAperto.cursore.set(false);
     sottoscrizioneUtenti({
       authService: this.authService,
       elseCall: () => {},
@@ -125,5 +129,11 @@ export class HomeComponent {
         notConfirmFunc: () => {},
       });
     }
+  }
+
+  public switchCompAperto(compAperto: CompAperto, aperto: boolean): void {
+    compApertoFunc((key: CompAperto) => {
+      this.compAperto[key].set(key === compAperto && aperto);
+    });
   }
 }

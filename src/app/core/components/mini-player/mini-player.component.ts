@@ -227,6 +227,68 @@ import { environment } from '../../../../environments/environment';
           }
         }
       }
+
+      // Versione mobile
+      @media (max-width: 768px) {
+        .play-container {
+          height: 4.5rem;
+          padding: 0.5rem !important;
+
+          .button-close {
+            top: 4px;
+            right: 8px;
+            font-size: 0.6rem;
+          }
+        }
+
+        .song-info {
+          gap: 0.5rem;
+
+          .image-wrapper {
+            width: 48px;
+            height: 48px;
+
+            .play-overlay {
+              .play-icon {
+                font-size: 1.2rem;
+              }
+            }
+          }
+
+          .song-details {
+            .song-title {
+              font-size: 0.9rem;
+              margin-bottom: 2px;
+            }
+
+            .song-genre {
+              font-size: 0.7rem;
+            }
+          }
+        }
+
+        .controls-wrapper {
+          gap: 0.25rem;
+
+          .control-btn {
+            padding: 6px;
+
+            svg {
+              width: 18px;
+              height: 18px;
+            }
+          }
+
+          .play-btn {
+            margin: 0 4px;
+
+            svg {
+              width: 24px;
+              height: 24px;
+            }
+          }
+        }
+      }
     `,
   ],
 })
