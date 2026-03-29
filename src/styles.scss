@@ -1,3 +1,4 @@
+@use './scss/body.scss' as *;
 @use './scss/mixin.scss' as *;
 @use './scss/variables.scss' as *;
 
@@ -44,8 +45,14 @@
   --card-width: 20rem;
   --card-position: center;
 
-  gap: 1.5rem;
   grid-template-columns: repeat(auto-fill, var(--card-width));
+  gap: 1.5rem;
 
-  @include flex-justify(var(--card-position), stretch, row, grid);
+  @media (max-width: 767.98px) {
+    @include flex-justify(center, stretch, row, grid);
+  }
+
+  @media (min-width: 767.98px) {
+    @include flex-justify(var(--card-position), stretch, row, grid);
+  }
 }

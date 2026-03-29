@@ -30,6 +30,7 @@ export class ChatService extends BaseService {
   public chatVisibile = signal<boolean>(true);
   public aggiornamentoPic = signal<number>(0);
   public newMessaggiSignal = signal<number>(0);
+  public fullscreen = signal<boolean>(false);
 
   constructor() {
     super('DB2');

@@ -2,7 +2,6 @@
   background: var(--surface-color);
   border: 1px solid var(--border-color);
   border-radius: 8px;
-  overflow: auto;
 
   .table-header {
     padding: 16px 20px;
@@ -30,8 +29,6 @@
   }
 
   .table-container {
-    overflow-x: auto;
-
     .table-custom {
       width: 100%;
       border-collapse: collapse;
@@ -68,7 +65,6 @@
             font-size: 0.75rem;
             color: var(--text-color);
             white-space: nowrap;
-            overflow: hidden;
             text-overflow: ellipsis;
 
             &:first-child {

@@ -50,7 +50,7 @@ import { Router } from '@angular/router';
     </div>
 
     @if (profiliOpen()) {
-      <div class="dropdown-panel shadow-sm mt-3" style="left: 0; top: 3rem">
+      <div class="dropdown-panel shadow-sm">
         <div class="profiles-list">
           @for (userFor of allProfili(); track userFor.id) {
             <div
@@ -113,18 +113,26 @@ import { Router } from '@angular/router';
     `
       .dropdown-panel {
         position: absolute;
-        top: 100%;
         right: 0;
-        width: 280px;
+        width: 20rem;
         background: var(--surface-color);
         border-radius: 16px;
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-        overflow: hidden;
         z-index: 1000;
+        left: 0;
+        top: 4rem;
+
+        @media (max-width: 767.98px) {
+          top: auto;
+          bottom: 4.2rem;
+          width: 90%;
+          max-width: 20rem;
+          left: 50%;
+          transform: translateX(-50%);
+        }
 
         .profiles-list {
           max-height: 320px;
-          overflow-y: auto;
         }
 
         .profile-item {

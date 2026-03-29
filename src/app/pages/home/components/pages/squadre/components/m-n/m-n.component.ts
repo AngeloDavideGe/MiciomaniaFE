@@ -7,7 +7,7 @@ import { mn_imports } from './imports/m-n.import';
   selector: 'app-m-n',
   imports: mn_imports,
   template: `
-    <div style="overflow-x: hidden">
+    <div>
       <div class="mt-3">
         @if (mn().length > 0) {
           <app-icone-lista

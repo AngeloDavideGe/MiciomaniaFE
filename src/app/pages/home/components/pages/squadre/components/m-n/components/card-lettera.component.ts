@@ -8,7 +8,7 @@ import { MN } from '../../../../../../../../shared/interfaces/github.interface';
   template: `
     <div class="col">
       <div
-        class="card h-100 border-0 rounded-4 overflow-hidden shadow-lg-hover transition-all"
+        class="card h-100 border-0 rounded-4 shadow-lg-hover transition-all"
         style="transition: all 0.3s ease"
         [style.borderLeft]="'5px solid ' + mn.colore"
       >

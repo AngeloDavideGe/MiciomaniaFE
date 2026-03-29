@@ -19,7 +19,7 @@ import { Subject } from 'rxjs';
       >
         <div
           class="modal-content"
-          style="border: none; box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15); border-radius: 10px; overflow: hidden;"
+          style="border: none; box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15); border-radius: 10px;"
         >
           <!-- Header con bordo inferiore sottile e colore più moderno -->
           <div

@@ -1,4 +1,7 @@
-<div id="ChatAllContainer">
+<div
+  id="ChatAllContainer"
+  [style]="chatService.fullscreen() ? 'height: 100%;' : ''"
+>
   <!-- Barra di ricerca -->
   <div class="search-container p-2 border-bottom">
     <div class="input-group">
@@ -15,7 +18,7 @@
   </div>
 
   <!-- Lista delle chat -->
-  <div class="chat-list flex-grow-1 overflow-auto">
+  <div class="chat-list flex-grow-1">
     @for (gruppo of filtri.elemFilter(); track $index) {
       <div class="chat-item elementi-laterali p-3 border-bottom">
         <div class="avatar-container me-3">

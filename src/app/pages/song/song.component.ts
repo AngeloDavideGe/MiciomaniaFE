@@ -8,21 +8,19 @@ import { titoloPulsantiSong } from './components/ui/elementi-utente/functions/es
   standalone: true,
   imports: song_imports,
   template: `
-    <div style="overflow-x: hidden">
-      <app-custom-navbar
-        [altriBottoni]="navbarButtons"
-        [selected]="selectedPulsante"
-      ></app-custom-navbar>
+    <app-custom-navbar
+      [altriBottoni]="navbarButtons"
+      [selected]="selectedPulsante"
+    ></app-custom-navbar>
 
-      @switch (componente()) {
-        @case ('song') {
-          <app-canzoni-miciomania></app-canzoni-miciomania>
-        }
-        @case ('proposta') {
-          <app-elementi-utente></app-elementi-utente>
-        }
+    @switch (componente()) {
+      @case ('song') {
+        <app-canzoni-miciomania></app-canzoni-miciomania>
       }
-    </div>
+      @case ('proposta') {
+        <app-elementi-utente></app-elementi-utente>
+      }
+    }
   `,
 })
 export class SongComponent {

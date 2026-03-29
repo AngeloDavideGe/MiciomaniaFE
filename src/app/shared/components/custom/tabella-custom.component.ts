@@ -68,7 +68,7 @@ import { environment } from '../../../../environments/environment';
                   </th>
                 }
                 @if (azioni.length > 0) {
-                  <th [style.width]="lunghezzaAzioni">Azioni</th>
+                  <th [style.width]="lunghezzaAzioni">{{ titoloColAzioni }}</th>
                 }
               </tr>
             </thead>
@@ -168,6 +168,7 @@ export class TabellaCustomComponent<T> {
   @Input() noElement: string = 'Nessun Elemento';
   @Input() titoloTabella: string = '';
   @Input() lunghezzaAzioni: string = '10rem';
+  @Input() titoloColAzioni: string = 'Azioni';
   @Input() azioni: AzioniTabella<T>[] = [];
   @Input() tipoPaginazione: TipoPaginazione = 'multiplo';
   @Input() arrayElemForPage: number[] = [1, 5, 10, 20, 50, 100];

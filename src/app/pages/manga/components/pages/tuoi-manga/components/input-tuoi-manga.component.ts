@@ -35,10 +35,7 @@ import { TuoiMangaLang } from '../languages/interfaces/tuoiManga-lang.interface'
       <!-- Lista di risultati della ricerca (dropdown) -->
       @if (allMangaSearch().length > 0 && searchQuery().length > 0) {
         <div class="position-absolute lista-ricerca">
-          <ul
-            class="list-group stile-gruppo-lista"
-            style="max-height: 200px; overflow-y: auto"
-          >
+          <ul class="list-group stile-gruppo-lista" style="max-height: 200px;">
             @for (result of allMangaSearch(); track $index) {
               <li
                 class="list-group-item elemento-centrato"
@@ -65,7 +62,6 @@ import { TuoiMangaLang } from '../languages/interfaces/tuoiManga-lang.interface'
       #input-ricerca {
         .stile-gruppo-lista {
           border-radius: 20px;
-          overflow-y: auto;
           background-color: white;
 
           @media (max-width: 576px) {

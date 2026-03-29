@@ -47,7 +47,6 @@ import { ButtonCustomComponent } from './botton-custom.component';
         );
         color: var(--bg-light);
         position: relative;
-        overflow: hidden;
         padding: 1rem 1rem;
         font-family:
           -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu,

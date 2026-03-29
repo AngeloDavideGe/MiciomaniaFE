@@ -1,69 +1,64 @@
 <app-custom-navbar [altriBottoni]="pulsanti"></app-custom-navbar>
 
-<div style="overflow-x: hidden">
-  @if (elem()) {
-    <!-- Sezione Manga Miciomania -->
-    <section id="MangaMiciomania">
-      <app-custom-scroll
-        [titolo]="mmicioLang.titoloScrollGiu"
-        [icona]="'bi bi-arrow-down'"
-        [nomeIcona]="mmicioLang.iconaScrollGiu"
-        [idComponent]="'MangaUtente'"
-        [lunghezzaFiltro]="elem()?.mangaMiciomania?.length || 0"
-      ></app-custom-scroll>
+@if (elem()) {
+  <section id="MangaMiciomania">
+    <app-custom-scroll
+      [titolo]="mmicioLang.titoloScrollGiu"
+      [icona]="'bi bi-arrow-down'"
+      [nomeIcona]="mmicioLang.iconaScrollGiu"
+      [idComponent]="'MangaUtente'"
+      [lunghezzaFiltro]="elem()?.mangaMiciomania?.length || 0"
+    ></app-custom-scroll>
 
-      <div class="grid-card-layout px-2 mt-3" style="--card-position: start">
-        @for (manga of elem()?.mangaMiciomania; track $index) {
-          <app-card-custom
-            [link]="manga.copertina || mangaDefaultPic"
-            [titolo]="manga.nome"
-            [titoloBottone]="mmicioLang.scarica"
-            [classBody]="'manga-class'"
-            [tipo]="'Manga'"
-            [altezzaImg]="'20rem'"
-            (clickBotton)="mangaSongUtilities.downloadManga(manga)"
-          >
-            <div descrizioneContent>
-              Genere: <strong>{{ manga.genere }}</strong
-              ><br />
-              Autore: <em>{{ manga.idUtente }}</em>
-            </div>
-          </app-card-custom>
-        }
-      </div>
-    </section>
+    <div class="grid-card-layout px-2 mt-3" style="--card-position: start">
+      @for (manga of elem()?.mangaMiciomania; track $index) {
+        <app-card-custom
+          [link]="manga.copertina || mangaDefaultPic"
+          [titolo]="manga.nome"
+          [titoloBottone]="mmicioLang.scarica"
+          [classBody]="'manga-class'"
+          [tipo]="'Manga'"
+          [altezzaImg]="'20rem'"
+          (clickBotton)="mangaSongUtilities.downloadManga(manga)"
+        >
+          <div descrizioneContent>
+            Genere: <strong>{{ manga.genere }}</strong
+            ><br />
+            Autore: <em>{{ manga.idUtente }}</em>
+          </div>
+        </app-card-custom>
+      }
+    </div>
+  </section>
 
-    <!-- Sezione Manga Utente -->
-    <section id="MangaUtente" class="mt-3">
-      <app-custom-scroll
-        [titolo]="mmicioLang.titoloScrollSu"
-        [icona]="'bi bi-arrow-up'"
-        [nomeIcona]="mmicioLang.iconaScrollSu"
-        [top]="210"
-        [lunghezzaFiltro]="elem()?.mangaUtentePars?.length || 0"
-      ></app-custom-scroll>
+  <section id="MangaUtente" class="mt-3">
+    <app-custom-scroll
+      [titolo]="mmicioLang.titoloScrollSu"
+      [icona]="'bi bi-arrow-up'"
+      [nomeIcona]="mmicioLang.iconaScrollSu"
+      [lunghezzaFiltro]="elem()?.mangaUtentePars?.length || 0"
+    ></app-custom-scroll>
 
-      <div class="grid-card-layout px-2 mt-3" style="--card-position: start">
-        @for (manga of elem()?.mangaUtentePars; track $index) {
-          <app-card-custom
-            [link]="manga.copertina || mangaDefaultPic"
-            [titolo]="manga.nome"
-            [classBody]="'manga-class'"
-            [titoloBottone]="mmicioLang.scarica"
-            [tipo]="'Manga'"
-            [altezzaImg]="'20rem'"
-            (clickBotton)="mangaSongUtilities.downloadManga(manga)"
-          >
-            <div descrizioneContent>
-              Genere: <strong>{{ manga.genere }}</strong
-              ><br />
-              Autore: <em>{{ manga.idUtente }}</em>
-            </div>
-          </app-card-custom>
-        }
-      </div>
-    </section>
-  } @else {
-    <app-spinner [mt]="'10rem'"></app-spinner>
-  }
-</div>
+    <div class="grid-card-layout px-2 mt-3" style="--card-position: start">
+      @for (manga of elem()?.mangaUtentePars; track $index) {
+        <app-card-custom
+          [link]="manga.copertina || mangaDefaultPic"
+          [titolo]="manga.nome"
+          [classBody]="'manga-class'"
+          [titoloBottone]="mmicioLang.scarica"
+          [tipo]="'Manga'"
+          [altezzaImg]="'20rem'"
+          (clickBotton)="mangaSongUtilities.downloadManga(manga)"
+        >
+          <div descrizioneContent>
+            Genere: <strong>{{ manga.genere }}</strong
+            ><br />
+            Autore: <em>{{ manga.idUtente }}</em>
+          </div>
+        </app-card-custom>
+      }
+    </div>
+  </section>
+} @else {
+  <app-spinner [mt]="'10rem'"></app-spinner>
+}

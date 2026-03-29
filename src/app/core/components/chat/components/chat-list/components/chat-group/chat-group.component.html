@@ -1,4 +1,8 @@
-<div id="ChatContainer" (click)="dropdownAperta.set(null)">
+<div
+  id="ChatContainer"
+  (click)="dropdownAperta.set(null)"
+  [style]="chatService.fullscreen() ? 'height: calc(100% - 4.9rem);' : ''"
+>
   <div #chatMessages class="chat-messages">
     @for (message of messages; track message.id) {
       <!-- Separator -->

@@ -4,6 +4,7 @@ import {
   effect,
   EventEmitter,
   inject,
+  OnDestroy,
   OnInit,
   Output,
   signal,
@@ -38,7 +39,7 @@ import { AuthService } from '../../../../../shared/services/api/auth.service';
   templateUrl: './chat-list.component.html',
   styleUrl: './chat-list.component.scss',
 })
-export class ChatListComponent implements OnInit {
+export class ChatListComponent implements OnInit, OnDestroy {
   public chatService = inject(ChatService);
   private authService = inject(AuthService);
 
@@ -72,6 +73,10 @@ export class ChatListComponent implements OnInit {
         nextCall: () => this.loadComplete(),
       });
     }
+  }
+
+  ngOnDestroy(): void {
+    this.chatService.fullscreen.set(false);
   }
 
   public loadComplete(): void {

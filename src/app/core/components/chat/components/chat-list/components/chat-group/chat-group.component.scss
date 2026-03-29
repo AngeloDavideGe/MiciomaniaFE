@@ -3,14 +3,11 @@
   flex-direction: column;
   background-color: #e6ddd4;
   position: relative;
-  overflow: hidden;
   height: 27rem;
 
   @media (max-width: 767.98px) {
-    height: calc(100% - 4.5rem);
-    z-index: 111;
+    height: calc(100% - 9.2rem);
   }
-
 
   &::before {
     content: "";
@@ -27,11 +24,12 @@
   .chat-messages {
     flex: 1;
     padding: 16px;
-    overflow-y: auto;
     position: relative;
     z-index: 1;
     display: flex;
     flex-direction: column;
+    height: 23rem;
+    overflow-y: auto;
 
     .date-separator {
       display: flex;

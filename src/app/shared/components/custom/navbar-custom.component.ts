@@ -1,4 +1,3 @@
-import { NgClass } from '@angular/common';
 import {
   Component,
   computed,
@@ -9,14 +8,20 @@ import {
   signal,
 } from '@angular/core';
 import { Router } from '@angular/router';
+import { environment } from '../../../../environments/environment';
 import { DataHttp } from '../../../core/api/http.data';
+import { ChatService } from '../../../core/components/chat/services/chat.service';
+import { MiniPlayerService } from '../../services/template/mini-player.service';
 
 @Component({
   selector: 'app-custom-navbar',
   standalone: true,
-  imports: [NgClass],
+  imports: [],
   template: `
-    <section class="padding-pc">
+    <section
+      class="padding-pc"
+      [style]="chatService.fullscreen() ? 'display: none' : ''"
+    >
       <nav class="navbar">
         <div class="navbar-container">
           <!-- Left group: back + search -->
@@ -42,7 +47,7 @@ import { DataHttp } from '../../../core/api/http.data';
                 @for (btn of altriBottoni; track $index) {
                   <button
                     class="nav-btn action-btn"
-                    [ngClass]="{ 'selected-btn': selected() == btn.title }"
+                    [class]="selected() == btn.title ? 'selected-btn' : ''"
                     [title]="btn.title"
                     aria-label="btn.title"
                     [disabled]="btn.disabled"
@@ -91,6 +96,15 @@ import { DataHttp } from '../../../core/api/http.data';
 
           <!-- Right group: search -->
           <div class="elemento-finale">
+            @if (miniPlayerService.currentCanzone()?.copertina) {
+              <img
+                [src]="
+                  miniPlayerService.currentCanzone()?.copertina || defaultPic
+                "
+                alt="Copertina"
+                class="rounded shadow-sm album-cover mobile-only image-wrapper"
+              />
+            }
             <ng-content select="[rightContent]"></ng-content>
           </div>
         </div>
@@ -100,9 +114,13 @@ import { DataHttp } from '../../../core/api/http.data';
   styleUrl: `../styles/navbar-custom.scss`,
 })
 export class CustomNavBarComponent {
+  public miniPlayerService = inject(MiniPlayerService);
+  public chatService = inject(ChatService);
+
   public router = inject(Router);
   public filterActive = signal<boolean>(false);
   public searchValue = '';
+  public readonly defaultPic: string = environment.defaultPicsUrl.song;
 
   @Input() filtro: boolean = false;
   @Input() altriBottoni: NavBarButton[] = [];

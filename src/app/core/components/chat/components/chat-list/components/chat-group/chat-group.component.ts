@@ -35,7 +35,7 @@ import { MessaggioComponent } from './components/messaggio/messaggio.component';
   styleUrl: './chat-group.component.scss',
 })
 export class ChatGroupComponent implements AfterViewInit, AfterViewChecked {
-  private chatService = inject(ChatService);
+  public chatService = inject(ChatService);
 
   public user: User | null = DataHttp.user();
   private evitaSpam: boolean = true;
@@ -61,11 +61,11 @@ export class ChatGroupComponent implements AfterViewInit, AfterViewChecked {
           }
         });
       },
-      { root: null, threshold: 0.1 }
+      { root: null, threshold: 0.1 },
     );
 
     this.daySeparators.forEach((el: ElementRef) =>
-      observer.observe(el.nativeElement)
+      observer.observe(el.nativeElement),
     );
   }
 
@@ -147,7 +147,7 @@ export class ChatGroupComponent implements AfterViewInit, AfterViewChecked {
       };
 
       const rispOrModifica: Function = (
-        tipo: RispostaInput | ModificaInput
+        tipo: RispostaInput | ModificaInput,
       ) => {
         if ('idUser' in tipo) {
           this.modifica.set(null);

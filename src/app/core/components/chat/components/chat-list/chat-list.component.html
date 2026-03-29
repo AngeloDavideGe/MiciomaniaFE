@@ -1,4 +1,6 @@
-<div class="chatListContainer">
+<div
+  [class]="chatService.fullscreen() ? 'full-screen-chat' : 'chatListContainer'"
+>
   @if (spinner()) {
     <div class="spinner-overlay">
       <div class="whatsapp-spinner-small"></div>
@@ -7,8 +9,22 @@
     <!-- Lista delle Chat -->
     @if (!chatService.currentChat()) {
       <div id="ChatHeader" class="elementi-laterali p-3">
-        <i class="bi bi-arrow-left fs-3" (click)="chiudiChat.emit()"></i>
-        <h2 class="text-center flex-grow-1">Miciomania Chat</h2>
+        <div>
+          <h2 class="text-center flex-grow-1">Miciomania Chat</h2>
+        </div>
+        <div style="display: flex; align-items: center; gap: 0.5rem">
+          <i
+            class="pc-only"
+            style="font-size: 1.2rem; display: inline-block"
+            [class]="
+              chatService.fullscreen()
+                ? 'bi bi-fullscreen-exit'
+                : 'bi bi-fullscreen'
+            "
+            (click)="chatService.fullscreen.set(!chatService.fullscreen())"
+          ></i>
+          <i class="bi bi-x icon-size" (click)="chiudiChat.emit()"></i>
+        </div>
       </div>
 
       <app-chat-all
@@ -24,6 +40,19 @@
         <h2 class="text-center flex-grow-1">
           {{ allGruppiRecord[chatService.currentChat() || 0].chat || "N.B." }}
         </h2>
+        <div style="display: flex; align-items: center; gap: 0.5rem">
+          <i
+            class="pc-only"
+            style="font-size: 1.2rem; display: inline-block"
+            [class]="
+              chatService.fullscreen()
+                ? 'bi bi-fullscreen-exit'
+                : 'bi bi-fullscreen'
+            "
+            (click)="chatService.fullscreen.set(!chatService.fullscreen())"
+          ></i>
+          <i class="bi bi-x icon-size" (click)="chiudiChat.emit()"></i>
+        </div>
       </div>
 
       <app-chat-group
