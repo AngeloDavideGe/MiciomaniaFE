@@ -5,14 +5,12 @@ import { ChartsPrintComponent } from '../components/charts-print.component';
 import { MNComponent } from '../components/m-n/m-n.component';
 import { MappaSquadreComponent } from '../components/mappa-squadre.component';
 import { PunteggiComponent } from '../components/punteggi/punteggi.component';
-import { AllenamentoComponent } from '../components/allenamento.component';
 
-export const squadreimports: Type<any>[] = [
+export const squadre_imports: Type<any>[] = [
   ChartsPrintComponent,
   ErrorHttpComponent,
   MappaSquadreComponent,
   CustomNavBarComponent,
   MNComponent,
   PunteggiComponent,
-  AllenamentoComponent,
 ];

@@ -1,6 +1,6 @@
-export function chartOptionsMappa(colors: string[]): any {
+export function chartOptionsMappa(colors: string[], title: string): any {
   return {
-    title: 'Territori Conquistati',
+    title: title,
     pieHole: 0.3,
     colors: colors,
 

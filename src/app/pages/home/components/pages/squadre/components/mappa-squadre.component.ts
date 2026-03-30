@@ -1,17 +1,16 @@
+import { NgClass } from '@angular/common';
 import { Component, HostListener, Input, signal } from '@angular/core';
 import {
   PathSvgCustom,
   SvgCustomComponent,
 } from '../../../../../../../assets/components/svg-custom.component';
+import { SpinnerComponent } from '../../../../../../shared/components/dialogs/spinner.component';
 import { debounceTimeoutCustom } from '../../../../../../shared/functions/utilities.function';
 import {
   Conquiste,
   Mappa,
 } from '../../../../../../shared/interfaces/github.interface';
 import { renderPieChartMap } from '../functions/draw.function';
-import { PATH_REGIONI } from '../constants/path-regioni.constant';
-import { SpinnerComponent } from '../../../../../../shared/components/dialogs/spinner.component';
-import { NgClass } from '@angular/common';
 
 declare var google: any;
 
@@ -33,10 +32,10 @@ declare var google: any;
             <app-svg-custom
               [paths]="paths"
               [colori]="coloriRegioni"
-              [viewbox]="'0 0 750 850'"
-              [translate]="'translate(-120, -40)'"
-              [width]="550"
-              [height]="650"
+              [viewbox]="viewBox"
+              [translate]="translate"
+              [width]="dim[0]"
+              [height]="dim[1]"
               [modale]="territorioAperto()"
               (pathClicked)="openLegend($event)"
             ></app-svg-custom>
@@ -70,14 +69,17 @@ declare var google: any;
   ],
 })
 export class MappaSquadreComponent {
-  public readonly paths: PathSvgCustom[] = PATH_REGIONI;
-  private conquiste: Conquiste = { conquistatori: {}, territori: {} };
   public chartConquiste: ChartConquiste[] = [];
   public colors: string[] = [];
   public coloriRegioni: Record<string, string> = {};
   public territorioAperto = signal<Mappa | null>(null);
   public loading = signal<boolean>(true);
   public classNg = signal<string>(this.posizioneElem);
+  private conquiste: Conquiste = {
+    conquistatori: {},
+    territori: {},
+    muscoli: {},
+  };
 
   private get posizioneElem(): string {
     if (window.innerWidth > 994) {
@@ -89,18 +91,27 @@ export class MappaSquadreComponent {
     }
   }
 
+  @Input() paths!: PathSvgCustom[];
+  @Input() titleChart: string = 'Territori Conquistati';
+  @Input() viewBox: string = '0 0 750 850';
+  @Input() translate: string = 'translate(-120, -40)';
+  @Input() dim: number[] = [550, 650];
+  @Input() keyConquiste: keyof Conquiste = 'territori';
+
   @Input() set setConquiste(value: Conquiste | null) {
     if (value) {
       this.conquiste = value;
-      this.colors = Object.values(value.conquistatori);
+      this.colors = Object.values(this.conquiste.conquistatori);
 
-      const regioni: string[] = Object.keys(this.conquiste.territori);
+      const regioni: string[] = Object.keys(this.conquiste[this.keyConquiste]);
       const conquistatori: string[] = Object.keys(this.conquiste.conquistatori);
       const classifica: Record<string, number> = {};
 
       regioni.forEach((regione: string) => {
-        const proprietario: string = value.territori[regione].proprietario;
-        this.coloriRegioni[regione] = value.conquistatori[proprietario];
+        const reg: string | Mappa = this.conquiste[this.keyConquiste][regione];
+        const proprietario: string = (reg as Mappa).proprietario;
+        this.coloriRegioni[regione] =
+          this.conquiste.conquistatori[proprietario];
         classifica[proprietario] = (classifica[proprietario] || 0) + 1;
       });
 
@@ -116,6 +127,7 @@ export class MappaSquadreComponent {
             this.chartConquiste,
             this.colors,
             'chart_pie_mappa',
+            this.titleChart,
           );
         },
       });
@@ -126,13 +138,19 @@ export class MappaSquadreComponent {
 
   @HostListener('window:resize')
   onResize = debounceTimeoutCustom(() => {
-    renderPieChartMap(this.chartConquiste, this.colors, 'chart_pie_mappa');
+    renderPieChartMap(
+      this.chartConquiste,
+      this.colors,
+      'chart_pie_mappa',
+      this.titleChart,
+    );
     this.classNg.set(this.posizioneElem);
   });
 
   public openLegend(regionId: string): void {
-    const conquista: Mappa = this.conquiste.territori[regionId];
-    this.territorioAperto.set(conquista);
+    const conquista: Mappa | string =
+      this.conquiste[this.keyConquiste][regionId];
+    this.territorioAperto.set(conquista as Mappa);
   }
 }
 

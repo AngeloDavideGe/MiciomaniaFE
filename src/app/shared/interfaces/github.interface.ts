@@ -36,4 +36,5 @@ export interface Mappa {
 export interface Conquiste {
   conquistatori: Record<string, string>;
   territori: Record<string, Mappa>;
+  muscoli: Record<string, Mappa>;
 }

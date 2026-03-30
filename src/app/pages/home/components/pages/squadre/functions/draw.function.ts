@@ -59,6 +59,7 @@ export function renderPieChartMap(
   conquiste: ChartConquiste[],
   colors: string[],
   idChart: string,
+  title: string,
 ): void {
   const data = new google.visualization.DataTable();
   data.addColumn('string', 'Conquistatore');
@@ -72,5 +73,5 @@ export function renderPieChartMap(
   if (!chartContainer) return;
 
   const chart = new google.visualization.PieChart(chartContainer);
-  chart.draw(data, chartOptionsMappa(colors));
+  chart.draw(data, chartOptionsMappa(colors, title));
 }

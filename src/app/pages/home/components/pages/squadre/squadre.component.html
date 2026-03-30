@@ -16,11 +16,20 @@
     }
     @case ("Mappa") {
       <app-mappa-squadre
+        [paths]="pathRecord['regioni']"
         [setConquiste]="githubService.conquiste()"
       ></app-mappa-squadre>
     }
     @case ("Muscoli") {
-      <app-allenamento></app-allenamento>
+      <app-mappa-squadre
+        [paths]="pathRecord['muscoli']"
+        [viewBox]="'0 0 700 1200'"
+        [translate]="'translate(0, -60)'"
+        [dim]="[500, 700]"
+        [keyConquiste]="'muscoli'"
+        [titleChart]="'Muscoli Allenati'"
+        [setConquiste]="githubService.conquiste()"
+      ></app-mappa-squadre>
     }
     @case ("print") {
       <app-chart-print [classifica]="classifica()"></app-chart-print>

@@ -1,4 +1,11 @@
-import { Component, computed, inject, OnInit, signal } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  computed,
+  inject,
+  OnInit,
+  signal,
+} from '@angular/core';
 import { take } from 'rxjs';
 import { DataHttp } from '../../../../../core/api/http.data';
 import { ChatService } from '../../../../../core/components/chat/services/chat.service';
@@ -12,21 +19,24 @@ import { Lingua } from '../../../../../shared/interfaces/http.interface';
 import { Classifica } from '../../../../../shared/interfaces/squadre.interface';
 import { GitHubService } from '../../../../../shared/services/api/github.service';
 import { SquadreService } from '../../../../../shared/services/api/squadre.service';
-import { squadreimports } from './imports/squadre.import';
+import { squadre_imports } from './imports/squadre.import';
 import {
   SquadreLang,
   SquadreLangType,
 } from './languages/interfaces/squadre-lang.interface';
+import { PathSvgCustom } from '../../../../../../assets/components/svg-custom.component';
+import { PATH_MUSCOLI } from './constants/path-muscoli.constant';
+import { PATH_REGIONI } from './constants/path-regioni.constant';
 
 type componentType = 'Squadre' | 'print' | 'Mappa' | 'Muscoli' | 'M-N';
 
 @Component({
   selector: 'app-squadre',
   standalone: true,
-  imports: squadreimports,
+  imports: squadre_imports,
   templateUrl: './squadre.component.html',
 })
-export class SquadreComponent implements OnInit {
+export class SquadreComponent implements OnInit, AfterViewInit {
   private chatService = inject(ChatService);
   public githubService = inject(GitHubService);
   public squadreService = inject(SquadreService);
@@ -35,6 +45,7 @@ export class SquadreComponent implements OnInit {
   public bottoniNavbar: NavBarButton[] = this.loadButton();
   public component = signal<componentType>('Squadre');
   public error = signal<boolean>(false);
+  public pathRecord: Record<string, PathSvgCustom[]> = {};
 
   public classifica = computed<Classifica>(() =>
     this.squadreService.classifica(),
@@ -53,6 +64,13 @@ export class SquadreComponent implements OnInit {
     this.loadSquadre();
     this.loadMappa();
     this.loadMN();
+  }
+
+  ngAfterViewInit(): void {
+    this.pathRecord = {
+      regioni: PATH_REGIONI,
+      muscoli: PATH_MUSCOLI,
+    };
   }
 
   captureElement(): void {
