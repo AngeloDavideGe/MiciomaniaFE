@@ -125,7 +125,7 @@ export class MangaComponent implements OnDestroy {
     this.loadLanguage();
 
     (['autore', 'nome'] as const).forEach((x) => {
-      effectTimeoutCustom(this.filterSelect[x], (value: string) =>
+      effectTimeoutCustom<string>(this.filterSelect[x], (value: string) =>
         this.debounce[x].set(value),
       );
     });

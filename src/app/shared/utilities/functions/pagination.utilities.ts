@@ -150,6 +150,11 @@ export interface Ordinamento<T, F> {
   order: F;
 }
 
+export interface DataTableHttp<T> {
+  elems: Signal<T[]>;
+  totalPages: Signal<number>;
+}
+
 interface InputFiltri<T, F> {
   elemTable: Signal<T[]>;
   elemForPage?: WritableSignal<number>;

@@ -2,15 +2,21 @@ import { NgTemplateOutlet } from '@angular/common';
 import {
   Component,
   effect,
+  EventEmitter,
   Input,
+  Output,
   Signal,
   signal,
   WritableSignal,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { debounceTimeoutCustom } from '../../functions/utilities.function';
+import {
+  debounceTimeoutCustom,
+  effectTimeoutCustom,
+} from '../../functions/utilities.function';
 import { CapitalizeFirstLetterPipe } from '../../pipes/capitalize.pipe';
 import {
+  DataTableHttp,
   FiltriInterface,
   GetFiltriCustom,
   Ordinamento,
@@ -20,6 +26,7 @@ import {
   TipoPaginazione,
 } from './pagination.component';
 import { environment } from '../../../../environments/environment';
+import { SpinnerComponent } from '../dialogs/spinner.component';
 
 @Component({
   selector: 'app-table-custom',
@@ -29,6 +36,7 @@ import { environment } from '../../../../environments/environment';
     NgTemplateOutlet,
     CapitalizeFirstLetterPipe,
     PaginazioneCustomComponent,
+    SpinnerComponent,
   ],
   template: `
     <div class="table-wrapper">
@@ -108,6 +116,7 @@ import { environment } from '../../../../environments/environment';
         <app-paginazione-custom
           [filtri]="filtri"
           [tipo]="tipoPaginazione"
+          [dataTableHttp]="dataTableHttp"
         ></app-paginazione-custom>
 
         <div
@@ -118,26 +127,36 @@ import { environment } from '../../../../environments/environment';
             Elementi per pagina:
           </label>
 
-          <select
-            id="perPageSelect"
-            class="select-elementi-pagina"
-            [ngModel]="elemForPage()"
-            (ngModelChange)="elemForPage.set($event)"
-          >
-            @for (numElem of arrayElemForPage; track numElem) {
-              <option [ngValue]="numElem">
-                {{ numElem }}
-              </option>
-            }
-          </select>
+          @if (dataTableHttp) {
+            <label>{{ elemForPage() }}</label>
+          } @else {
+            <select
+              id="perPageSelect"
+              class="select-elementi-pagina"
+              [ngModel]="elemForPage()"
+              (ngModelChange)="
+                elemForPage.set($event); filtri.currentPage.set(1)
+              "
+            >
+              @for (numElem of arrayElemForPage; track numElem) {
+                <option [ngValue]="numElem">
+                  {{ numElem }}
+                </option>
+              }
+            </select>
+          }
         </div>
       } @else {
         <ng-container *ngTemplateOutlet="titoloTabellaTemplate"></ng-container>
 
-        <div class="empty-state">
-          <i class="bi bi-inbox empty-icon"></i>
-          <p class="empty-text">{{ noElement }}</p>
-        </div>
+        @if (dataTableHttp) {
+          <div class="empty-state">
+            <i class="bi bi-inbox empty-icon"></i>
+            <p class="empty-text">{{ noElement }}</p>
+          </div>
+        } @else {
+          <app-spinner [mt]="'2rem'"></app-spinner>
+        }
       }
     </div>
 
@@ -163,7 +182,7 @@ import { environment } from '../../../../environments/environment';
   styleUrl: '../styles/table-custom.scss',
 })
 export class TabellaCustomComponent<T> {
-  @Input() elemTable!: Signal<T[]>;
+  @Input() elemTable: Signal<T[]> = signal<T[]>([]);
   @Input() colonne!: Partial<RecordColonne<T>>;
   @Input() noElement: string = 'Nessun Elemento';
   @Input() titoloTabella: string = '';
@@ -171,13 +190,18 @@ export class TabellaCustomComponent<T> {
   @Input() titoloColAzioni: string = 'Azioni';
   @Input() azioni: AzioniTabella<T>[] = [];
   @Input() tipoPaginazione: TipoPaginazione = 'multiplo';
+  @Input() dataTableHttp: DataTableHttp<T> | null = null;
   @Input() arrayElemForPage: number[] = [1, 5, 10, 20, 50, 100];
   @Input() elemForPage = signal<number>(environment.maxElement.elemPagine);
+
+  @Output() search = new EventEmitter<string>();
+  @Output() selectPage = new EventEmitter<number>();
+  @Output() ordina = new EventEmitter<OrdinamentoHttp<T>>();
 
   public keyofElem: Array<keyof T> = [];
   public searchQuery = signal<string>('');
   private debounceQuery = signal<string>('');
-  public ordinaElem = signal<Ordinamento<T, 'desc' | 'cresc'> | null>(null);
+  public ordinaElem = signal<OrdinamentoHttp<T>>(null);
   public filtri: FiltriInterface<T> = {} as FiltriInterface<T>;
   private order: Record<keyof T, boolean> = {} as any;
   public filtroDefault: boolean = true;
@@ -195,35 +219,55 @@ export class TabellaCustomComponent<T> {
       this.filtri.currentPage.set(this.filtri.totalPage() > 0 ? 1 : 0);
     });
 
-    effect(() => debounced(this.searchQuery()));
-    effect(() => {
-      const ord = this.ordinaElem();
-      if (ord) this.order[ord.key] = !this.order[ord.key];
-    });
+    if (this.dataTableHttp) {
+      effectTimeoutCustom<string>(this.searchQuery, (value: string) =>
+        this.search.emit(value),
+      );
+
+      effectTimeoutCustom<OrdinamentoHttp<T>>(
+        this.ordinaElem,
+        (value: OrdinamentoHttp<T>) => this.ordina.emit(value),
+      );
+    } else {
+      effect(() => debounced(this.searchQuery()));
+
+      effect(() => {
+        const ord: OrdinamentoHttp<T> = this.ordinaElem();
+        if (ord) this.order[ord.key] = !this.order[ord.key];
+      });
+    }
   }
 
   ngOnInit(): void {
     this.keyofElem = Object.keys(this.colonne) as (keyof T)[];
     this.filtroDefault = this.keyofElem.every(
-      (key) => !this.colonne[key]!.filtro,
+      (key: keyof T) => !this.colonne[key]!.filtro,
     );
 
-    this.filtri = GetFiltriCustom<T, null>({
-      elemTable: this.elemTable,
-      elemForPage: this.elemForPage,
-      ordinaElem: this.ordinaElem,
-      tipoSelect: this.filtroDefault ? 'some' : 'every',
-      select: this.keyofElem.map((x: keyof T) => {
-        return {
-          key: x,
-          query: this.colonne[x]!.filtro || this.debounceQuery,
-        };
-      }),
-    });
+    if (this.dataTableHttp) {
+      this.filtri = GetFiltriCustom<T, null>({
+        elemTable: this.dataTableHttp.elems,
+        elemForPage: this.elemForPage,
+      });
+    } else {
+      this.filtri = GetFiltriCustom<T, null>({
+        elemTable: this.elemTable,
+        elemForPage: this.elemForPage,
+        ordinaElem: this.ordinaElem,
+        tipoSelect: this.filtroDefault ? 'some' : 'every',
+        select: this.keyofElem.map((x: keyof T) => {
+          return {
+            key: x,
+            query: this.colonne[x]!.filtro || this.debounceQuery,
+          };
+        }),
+      });
+    }
   }
 }
 
 export type RecordColonne<T> = Record<keyof T, ColonnaCustom>;
+export type OrdinamentoHttp<T> = Ordinamento<T, 'desc' | 'cresc'> | null;
 
 export interface AzioniTabella<T> {
   icona: string;

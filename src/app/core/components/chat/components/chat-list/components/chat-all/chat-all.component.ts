@@ -43,7 +43,7 @@ export class ChatAllComponent implements OnInit {
   @Output() apriGruppo = new EventEmitter<number>();
 
   constructor() {
-    effectTimeoutCustom(this.searchTerm, (value: string) =>
+    effectTimeoutCustom<string>(this.searchTerm, (value: string) =>
       this.debounce.set(value),
     );
   }

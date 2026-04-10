@@ -1,12 +1,15 @@
 import { Component, computed, Input } from '@angular/core';
-import { FiltriInterface } from '../../utilities/functions/pagination.utilities';
+import {
+  DataTableHttp,
+  FiltriInterface,
+} from '../../utilities/functions/pagination.utilities';
 
 @Component({
   selector: 'app-paginazione-custom',
   standalone: true,
   imports: [],
   template: `
-    @if (filtri.totalPage() > 1) {
+    @if (realTotalPage() > 1) {
       <div class="pagination-container">
         <div class="pagination-controls">
           <button
@@ -24,7 +27,7 @@ import { FiltriInterface } from '../../utilities/functions/pagination.utilities'
               <div class="page-indicator">
                 <span class="current-page">{{ filtri.currentPage() }}</span>
                 <span class="separator">/</span>
-                <span class="total-pages">{{ filtri.totalPage() }}</span>
+                <span class="total-pages">{{ realTotalPage() }}</span>
               </div>
             }
             @case ('multiplo') {
@@ -44,7 +47,7 @@ import { FiltriInterface } from '../../utilities/functions/pagination.utilities'
                 }
                 @if (
                   pagineVisibili()[pagineVisibili().length - 1] <
-                  filtri.totalPage()
+                  realTotalPage()
                 ) {
                   <span class="ellipsis">...</span>
                 }
@@ -55,8 +58,8 @@ import { FiltriInterface } from '../../utilities/functions/pagination.utilities'
           <button
             class="pagination-btn next-btn"
             (click)="filtri.nextPage()"
-            [disabled]="filtri.currentPage() === filtri.totalPage()"
-            [class.disabled]="filtri.currentPage() === filtri.totalPage()"
+            [disabled]="filtri.currentPage() === realTotalPage()"
+            [class.disabled]="filtri.currentPage() === realTotalPage()"
             aria-label="Pagina successiva"
           >
             <i class="bi bi-chevron-right"></i>
@@ -71,11 +74,20 @@ export class PaginazioneCustomComponent<T> {
   @Input() filtri!: FiltriInterface<T>;
   @Input() tipo: TipoPaginazione = 'multiplo';
   @Input() maxNumberPage: number = 4;
+  @Input() dataTableHttp: DataTableHttp<T> | null = null;
+
+  public realTotalPage = computed<number>(() => {
+    if (this.dataTableHttp) {
+      return this.dataTableHttp.totalPages();
+    } else {
+      return this.filtri.totalPage();
+    }
+  });
 
   public pagineVisibili = computed<number[]>(() => {
     const allPages: number[] = this.filtri.arrayPage();
     const currentIndex: number = this.filtri.currentPage() - 1;
-    const lastIndex: number = this.filtri.totalPage() - 1;
+    const lastIndex: number = this.realTotalPage() - 1;
     const half: number = Math.floor(this.maxNumberPage / 2);
 
     let startIdx: number = currentIndex - half;
