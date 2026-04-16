@@ -1,0 +1,20 @@
+{
+  "/becs": {
+    "target": "http://localhost:5019/api/",
+    "secure": false,
+    "logLevel": "debug",
+    "changeOrigin": true,
+    "pathRewrite": {
+      "^/becs": ""
+    }
+  },
+  "/bepy": {
+    "target": "http://localhost:5000/api/",
+    "secure": false,
+    "logLevel": "debug",
+    "changeOrigin": true,
+    "pathRewrite": {
+      "^/bepy": ""
+    }
+  }
+}
