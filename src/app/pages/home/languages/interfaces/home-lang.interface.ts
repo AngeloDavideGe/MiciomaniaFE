@@ -10,6 +10,7 @@ export interface HomeLang {
   iscrizioneTeam: string;
   squadre: string;
   cursore: string;
+  interazioni: string;
   // Menu Profili
   mioProfilo: string;
   accediVediProfili: string;

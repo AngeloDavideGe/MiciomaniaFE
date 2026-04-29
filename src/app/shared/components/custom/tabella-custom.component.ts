@@ -10,6 +10,7 @@ import {
   WritableSignal,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { environment } from '../../../../environments/environment';
 import {
   debounceTimeoutCustom,
   effectTimeoutCustom,
@@ -21,12 +22,11 @@ import {
   GetFiltriCustom,
   Ordinamento,
 } from '../../utilities/functions/pagination.utilities';
+import { SpinnerComponent } from '../dialogs/spinner.component';
 import {
   PaginazioneCustomComponent,
   TipoPaginazione,
 } from './pagination.component';
-import { environment } from '../../../../environments/environment';
-import { SpinnerComponent } from '../dialogs/spinner.component';
 
 @Component({
   selector: 'app-table-custom',
@@ -40,7 +40,7 @@ import { SpinnerComponent } from '../dialogs/spinner.component';
   ],
   template: `
     <div class="table-wrapper">
-      @if (elemTable().length > 0) {
+      @if (filtri.elemFilter().length > 0 || dataTableHttp) {
         <ng-container *ngTemplateOutlet="titoloTabellaTemplate"></ng-container>
 
         @if (filtroDefault) {
@@ -72,7 +72,10 @@ import { SpinnerComponent } from '../dialogs/spinner.component';
                     (click)="ordinaColonna(key)"
                   >
                     {{ colonne[key]!.titolo }}
-                    <span>&nbsp;↕️</span>
+
+                    @if (colonne[key]!.sortCol) {
+                      <span>&nbsp;↕️</span>
+                    }
                   </th>
                 }
                 @if (azioni.length > 0) {
@@ -127,35 +130,29 @@ import { SpinnerComponent } from '../dialogs/spinner.component';
             Elementi per pagina:
           </label>
 
-          @if (dataTableHttp) {
-            <label>{{ elemForPage() }}</label>
-          } @else {
-            <select
-              id="perPageSelect"
-              class="select-elementi-pagina"
-              [ngModel]="elemForPage()"
-              (ngModelChange)="
-                elemForPage.set($event); filtri.currentPage.set(1)
-              "
-            >
-              @for (numElem of arrayElemForPage; track numElem) {
-                <option [ngValue]="numElem">
-                  {{ numElem }}
-                </option>
-              }
-            </select>
-          }
+          <select
+            id="perPageSelect"
+            class="select-elementi-pagina"
+            [ngModel]="elemForPage()"
+            (ngModelChange)="elemForPage.set($event); filtri.currentPage.set(1)"
+          >
+            @for (numElem of arrayElemForPage; track numElem) {
+              <option [ngValue]="numElem">
+                {{ numElem }}
+              </option>
+            }
+          </select>
         </div>
       } @else {
         <ng-container *ngTemplateOutlet="titoloTabellaTemplate"></ng-container>
 
         @if (dataTableHttp) {
+          <app-spinner [mt]="'2rem'"></app-spinner>
+        } @else {
           <div class="empty-state">
             <i class="bi bi-inbox empty-icon"></i>
             <p class="empty-text">{{ noElement }}</p>
           </div>
-        } @else {
-          <app-spinner [mt]="'2rem'"></app-spinner>
         }
       }
     </div>
@@ -182,34 +179,44 @@ import { SpinnerComponent } from '../dialogs/spinner.component';
   styleUrl: '../styles/table-custom.scss',
 })
 export class TabellaCustomComponent<T> {
-  @Input() elemTable: Signal<T[]> = signal<T[]>([]);
   @Input() colonne!: Partial<RecordColonne<T>>;
+  @Input() elemTable: Signal<T[]> = signal<T[]>([]);
+  @Input() dataTableHttp: DataTableHttp<T> | null = null;
   @Input() noElement: string = 'Nessun Elemento';
   @Input() titoloTabella: string = '';
   @Input() lunghezzaAzioni: string = '10rem';
   @Input() titoloColAzioni: string = 'Azioni';
   @Input() azioni: AzioniTabella<T>[] = [];
   @Input() tipoPaginazione: TipoPaginazione = 'multiplo';
-  @Input() dataTableHttp: DataTableHttp<T> | null = null;
   @Input() arrayElemForPage: number[] = [1, 5, 10, 20, 50, 100];
   @Input() elemForPage = signal<number>(environment.maxElement.elemPagine);
 
-  @Output() search = new EventEmitter<string>();
-  @Output() selectPage = new EventEmitter<number>();
-  @Output() ordina = new EventEmitter<OrdinamentoHttp<T>>();
+  @Output() changeElements = new EventEmitter<ChangePageHttp>();
 
   public keyofElem: Array<keyof T> = [];
   public searchQuery = signal<string>('');
   private debounceQuery = signal<string>('');
   public ordinaElem = signal<OrdinamentoHttp<T>>(null);
   public filtri: FiltriInterface<T> = {} as FiltriInterface<T>;
-  private order: Record<keyof T, boolean> = {} as any;
   public filtroDefault: boolean = true;
+  private changePageHttp: ChangePageHttp = {
+    page: 1,
+    elemForPage: this.elemForPage(),
+    order: null,
+    orderKey: null,
+    search: null,
+    searchKey: null,
+  };
 
   public ordinaColonna: Function = debounceTimeoutCustom((key: keyof T) => {
+    if (!this.colonne[key]!.sortCol) return;
+
     this.ordinaElem.set({
       key: key,
-      order: this.order[key] ? 'desc' : 'cresc',
+      order:
+        this.ordinaElem()?.key === key && this.ordinaElem()?.order === 'desc'
+          ? 'cresc'
+          : 'desc',
     });
   }, true);
 
@@ -219,23 +226,29 @@ export class TabellaCustomComponent<T> {
       this.filtri.currentPage.set(this.filtri.totalPage() > 0 ? 1 : 0);
     });
 
-    if (this.dataTableHttp) {
-      effectTimeoutCustom<string>(this.searchQuery, (value: string) =>
-        this.search.emit(value),
-      );
+    const debouncedHttp: Function = debounceTimeoutCustom(() => {
+      this.changeElements.emit(this.changePageHttp);
+    }, true);
 
-      effectTimeoutCustom<OrdinamentoHttp<T>>(
-        this.ordinaElem,
-        (value: OrdinamentoHttp<T>) => this.ordina.emit(value),
-      );
-    } else {
-      effect(() => debounced(this.searchQuery()));
+    effect(() => debounced(this.searchQuery()));
 
-      effect(() => {
-        const ord: OrdinamentoHttp<T> = this.ordinaElem();
-        if (ord) this.order[ord.key] = !this.order[ord.key];
-      });
-    }
+    effect(() => {
+      const search: string = this.searchQuery();
+      const order: OrdinamentoHttp<T> = this.ordinaElem();
+      const elemForPage: number = this.elemForPage();
+      const currentPage: number = this.filtri.currentPage();
+
+      this.changePageHttp = {
+        page: currentPage,
+        elemForPage: elemForPage,
+        order: order ? order.order : null,
+        orderKey: order ? (order.key as string) : null,
+        search: search ? search : null,
+        searchKey: search ? (this.keyofElem[0] as string) : null,
+      };
+
+      debouncedHttp();
+    });
   }
 
   ngOnInit(): void {
@@ -248,6 +261,8 @@ export class TabellaCustomComponent<T> {
       this.filtri = GetFiltriCustom<T, null>({
         elemTable: this.dataTableHttp.elems,
         elemForPage: this.elemForPage,
+        totalPageHttp: this.dataTableHttp.totalPages,
+        totalElemHttp: this.dataTableHttp.totalElems,
       });
     } else {
       this.filtri = GetFiltriCustom<T, null>({
@@ -279,4 +294,14 @@ interface ColonnaCustom {
   titolo: string;
   lunghezza: string;
   filtro?: WritableSignal<string>;
+  sortCol?: boolean;
+}
+
+export interface ChangePageHttp {
+  page: number;
+  elemForPage: number;
+  order: 'desc' | 'cresc' | null;
+  orderKey: string | null;
+  search: string | null;
+  searchKey: string | null;
 }

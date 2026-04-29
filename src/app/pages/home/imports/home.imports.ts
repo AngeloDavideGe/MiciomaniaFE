@@ -9,6 +9,7 @@ import { MenuImpostazioniComponent } from '../components/ui/menu-impostazioni.co
 import { MenuProfiliComponent } from '../components/ui/menu-profili.component';
 import { SocialLinkComponent } from '../components/ui/social-link.component';
 import { UserActiveComponent } from '../components/ui/user-active.component';
+import { NotificheComponent } from '../components/ui/notifiche.component';
 
 export const home_imports: Type<any>[] = [
   CarouselHomeComponent,
@@ -21,4 +22,5 @@ export const home_imports: Type<any>[] = [
   AsyncPipe,
   CustomNavBarComponent,
   UserActiveComponent,
+  NotificheComponent,
 ];

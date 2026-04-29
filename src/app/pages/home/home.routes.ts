@@ -18,6 +18,13 @@ export const HOME_ROUTES: Routes = [
             (m) => m.SquadreComponent,
           ),
       },
+      {
+        path: 'interazioni',
+        loadComponent: () =>
+          import('./components/pages/interazioni/interazioni.component').then(
+            (m) => m.InterazioniComponent,
+          ),
+      },
     ],
   },
 ];

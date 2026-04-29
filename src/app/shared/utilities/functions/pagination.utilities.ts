@@ -11,6 +11,11 @@ export function GetFiltriCustom<T, F>(
   const searchElems = computed<T[]>(() => {
     const elemTot: T[] = params.elemTable();
     const ordina = params.ordinaElem ? params.ordinaElem() : null;
+    const totalPageHttp: number | null = params.totalPageHttp
+      ? params.totalPageHttp()
+      : null;
+
+    if (totalPageHttp !== null) return elemTot;
 
     let filter = elemTot.filter(
       (x: T) => RecordFiltri['select'](x) && RecordFiltri['tabs'](x),
@@ -24,12 +29,13 @@ export function GetFiltriCustom<T, F>(
   });
 
   const totalPage = computed<number>(() => {
+    const totalPageHttp = params.totalPageHttp ? params.totalPageHttp() : null;
     const search: T[] = searchElems();
     const elemForPage: number = params.elemForPage
       ? params.elemForPage()
       : environment.maxElement.elemPagine;
 
-    return Math.ceil(search.length / elemForPage);
+    return totalPageHttp || Math.ceil(search.length / elemForPage);
   });
 
   const elemFilter = computed<T[]>(() => {
@@ -38,6 +44,12 @@ export function GetFiltriCustom<T, F>(
     const elemForPage: number = params.elemForPage
       ? params.elemForPage()
       : environment.maxElement.elemPagine;
+
+    const totalPageHttp: number | null = params.totalPageHttp
+      ? params.totalPageHttp()
+      : null;
+
+    if (totalPageHttp !== null) return totElem;
 
     return totElem.slice(
       (currentPages - 1) * elemForPage,
@@ -51,7 +63,11 @@ export function GetFiltriCustom<T, F>(
 
   const dettaglioPage = computed<string>(() => {
     const currentPages: number = currentPage();
-    const totalElem: number = searchElems().length;
+
+    const totalElem: number = params.totalElemHttp
+      ? params.totalElemHttp()
+      : searchElems().length;
+
     const elemForPage: number = params.elemForPage
       ? params.elemForPage()
       : environment.maxElement.elemPagine;
@@ -151,13 +167,16 @@ export interface Ordinamento<T, F> {
 }
 
 export interface DataTableHttp<T> {
-  elems: Signal<T[]>;
-  totalPages: Signal<number>;
+  elems: WritableSignal<T[]>;
+  totalPages: WritableSignal<number>;
+  totalElems: WritableSignal<number>;
 }
 
 interface InputFiltri<T, F> {
   elemTable: Signal<T[]>;
   elemForPage?: WritableSignal<number>;
+  totalPageHttp?: Signal<number>;
+  totalElemHttp?: Signal<number>;
   tipoSelect?: 'some' | 'every';
   select?: FiltriSelect<T, string>[];
   tabs?: FiltriSelect<T, F | null>;

@@ -47,12 +47,17 @@ export function effectTimeoutCustom<T>(
   func: (value: T) => void,
   delay: number = 300,
   first: boolean = false,
+  otherSignals: WritableSignal<any>[] = [],
 ): void {
   let timeoutId: ReturnType<typeof setTimeout>;
   let isFirstClick: boolean = true;
 
   effect(() => {
     const value: T = signalVar();
+
+    for (const otherS of otherSignals) {
+      const i = otherS();
+    }
 
     const setFunc: Function = () => {
       isFirstClick = false;
@@ -83,6 +88,8 @@ function clearTimeoutCustom(
 
 // Ordinamento Custom
 export function GetOrderCustom<T>(vett: T[], k: keyof T, desc: boolean): T[] {
+  if (vett.length === 0) return vett;
+
   switch (typeof vett[0][k]) {
     case 'number': {
       if (desc) {

@@ -84,10 +84,12 @@ export class PunteggiComponent {
     nome: {
       titolo: 'Nome',
       lunghezza: '15rem',
+      sortCol: true,
     },
     punteggio: {
       titolo: 'Punteggio',
       lunghezza: '15rem',
+      sortCol: true,
     },
   };
 
@@ -95,14 +97,17 @@ export class PunteggiComponent {
     idUtente: {
       titolo: 'Nome',
       lunghezza: '10rem',
+      sortCol: true,
     },
     punteggio: {
       titolo: 'Punteggio',
       lunghezza: '10rem',
+      sortCol: true,
     },
     squadra: {
       titolo: 'Squadra',
       lunghezza: '10rem',
+      sortCol: true,
     },
   };
 }

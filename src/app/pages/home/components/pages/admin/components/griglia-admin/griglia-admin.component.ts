@@ -100,10 +100,12 @@ export class GrigliaAdminComponent {
     nome: {
       titolo: 'Nome',
       lunghezza: '10rem',
+      sortCol: true,
     },
     id: {
       titolo: 'ID',
       lunghezza: '10rem',
+      sortCol: true,
     },
   };
 
@@ -112,6 +114,7 @@ export class GrigliaAdminComponent {
     ruolo: {
       titolo: 'Ruolo',
       lunghezza: '10rem',
+      sortCol: true,
     },
   };
 

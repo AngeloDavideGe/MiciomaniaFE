@@ -28,7 +28,7 @@ import { NgClass } from '@angular/common';
     </div>
 
     @if (menuOpen()) {
-      <div class="dropdown-panel shadow-sm">
+      <div class="dropdown-panel shadow-sm" style="top: 4rem">
         <ul class="custom-nav">
           <li class="nav-item dropdown">
             <button

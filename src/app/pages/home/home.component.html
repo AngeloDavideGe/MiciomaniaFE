@@ -11,32 +11,36 @@
     </div>
 
     <div rightContent>
-      <app-home-toggle
-        [homeLang]="homeLang()"
-        [credenziali]="user.credenziali"
-        [inizialiUser]="inizialiUser"
-        [menuOpen]="compAperto.menuBar"
-        (aperturaMenu)="switchCompAperto(enumCompAperto.menuBar, $event)"
-      >
-        <div impostazioniContent style="margin-left: 1rem">
-          <app-menu-impostazioni
-            [homeLang]="homeLang()"
-            [user]="user"
-            (cursore)="
-              switchCompAperto(enumCompAperto.cursore, !compAperto.cursore())
-            "
-          >
-          </app-menu-impostazioni>
-        </div>
+      <div class="elementi-laterali">
+        <app-notifiche></app-notifiche>
 
-        <div profiliContent style="margin-left: 1rem">
-          <app-menu-profili
-            [homeLang]="homeLang()"
-            [user]="user"
-            (logout)="logout()"
-          ></app-menu-profili>
-        </div>
-      </app-home-toggle>
+        <app-home-toggle
+          [homeLang]="homeLang()"
+          [credenziali]="user.credenziali"
+          [inizialiUser]="inizialiUser"
+          [menuOpen]="compAperto.menuBar"
+          (aperturaMenu)="switchCompAperto(enumCompAperto.menuBar, $event)"
+        >
+          <div impostazioniContent style="margin-left: 1rem">
+            <app-menu-impostazioni
+              [homeLang]="homeLang()"
+              [user]="user"
+              (cursore)="
+                switchCompAperto(enumCompAperto.cursore, !compAperto.cursore())
+              "
+            >
+            </app-menu-impostazioni>
+          </div>
+
+          <div profiliContent style="margin-left: 1rem">
+            <app-menu-profili
+              [homeLang]="homeLang()"
+              [user]="user"
+              (logout)="logout()"
+            ></app-menu-profili>
+          </div>
+        </app-home-toggle>
+      </div>
     </div>
   </app-custom-navbar>
 

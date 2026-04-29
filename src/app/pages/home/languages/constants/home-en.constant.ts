@@ -10,6 +10,7 @@ export const homeLang: HomeLang = {
   iscrizioneTeam: 'Team Registration',
   squadre: 'Teams',
   cursore: 'Cursor',
+  interazioni: 'Interactions',
   // Menu Profili
   mioProfilo: 'My Profile',
   accediVediProfili: 'Log in to see profiles',

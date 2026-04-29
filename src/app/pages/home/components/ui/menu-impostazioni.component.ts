@@ -10,6 +10,12 @@ import { HomeLang } from '../../languages/interfaces/home-lang.interface';
   template: `
     <div>
       <li>
+        <a routerLink="/home/interazioni">
+          <i class="bi bi-chat-square-quote-fill me-2"></i>
+          {{ homeLang.interazioni }}
+        </a>
+      </li>
+      <li>
         <a routerLink="/auth/iscrizione">
           <i class="bi bi-person-plus me-2"></i>
           {{ homeLang.iscrizioneTeam }}
