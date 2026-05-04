@@ -36,7 +36,7 @@ import { TuoiMangaLang } from '../languages/interfaces/tuoiManga-lang.interface'
       @if (allMangaSearch().length > 0 && searchQuery().length > 0) {
         <div class="position-absolute lista-ricerca">
           <ul class="list-group stile-gruppo-lista" style="max-height: 200px;">
-            @for (result of allMangaSearch(); track $index) {
+            @for (result of allMangaSearch(); track result.id) {
               <li
                 class="list-group-item elemento-centrato"
                 style="cursor: pointer;"

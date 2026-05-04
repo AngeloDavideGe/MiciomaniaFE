@@ -32,7 +32,7 @@ import { environment } from '../../../../../../../environments/environment';
         }
       </div>
 
-      @for (tweet of profilo.tweets; track $index) {
+      @for (tweet of profilo.tweets; track tweet.id) {
         <div class="card mb-3 border-0 shadow-sm mt-3">
           <div class="card-body" style="padding: 16px">
             <div class="elemento-iniziale">

@@ -19,7 +19,7 @@ import { mn_imports } from './imports/m-n.import';
           ></app-icone-lista>
 
           <div class="row" [class]="classMN()">
-            @for (mn of mn(); track $index) {
+            @for (mn of mn(); track mn.valore) {
               <app-card-lettera [mn]="mn"></app-card-lettera>
             }
           </div>

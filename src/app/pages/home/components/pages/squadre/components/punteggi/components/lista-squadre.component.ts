@@ -25,7 +25,7 @@ import { SquadreLang } from '../../../languages/interfaces/squadre-lang.interfac
 
     <!-- Lista squadre -->
     <div class="elemento-centrato flex-wrap mb-4">
-      @for (squadra of teamSquadre(); track $index; let i = $index) {
+      @for (squadra of teamSquadre(); track squadra.nome; let i = $index) {
         <div>
           <span
             class="badge fs-6 px-3 py-2 rounded-pill shadow-sm mt-2 mx-2"

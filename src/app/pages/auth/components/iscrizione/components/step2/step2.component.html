@@ -81,7 +81,7 @@
             'is-valid': pulsantePremuto && f['stato'].valid,
           }"
         >
-          @for (stato of statiPersona; track $index) {
+          @for (stato of statiPersona; track stato) {
             <option [value]="stato">{{ stato }}</option>
           }
         </select>

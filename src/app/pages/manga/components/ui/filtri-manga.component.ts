@@ -30,7 +30,7 @@ import { MangaLang } from '../../languages/interfaces/manga-lang.interface';
           (change)="setGenere($event)"
         >
           <option selected>{{ mangaLang.qualsiasi }}</option>
-          @for (genere of mangaGeneri; track $index) {
+          @for (genere of mangaGeneri; track genere) {
             <option [value]="genere">{{ genere }}</option>
           }
         </select>

@@ -38,7 +38,11 @@ import { Squadre } from '../../../../../../shared/interfaces/squadre.interface';
           </h2>
 
           <div class="row g-4">
-            @for (squadra of squadreInGame(); track $index; let i = $index) {
+            @for (
+              squadra of squadreInGame();
+              track squadra.nome;
+              let i = $index
+            ) {
               <div class="col-12 col-md-4">
                 <div
                   class="elementi-colonna h-100 p-3 rounded-3 shadow-sm"

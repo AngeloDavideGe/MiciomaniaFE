@@ -27,6 +27,7 @@ import {
 import { AuthService } from '../../../../../../../shared/services/api/auth.service';
 import { converUserParams } from '../../../../../functions/home.functions';
 import { AdminLang } from '../../languages/interfaces/admin-lang.interface';
+import { CapitalizeFirstLetterPipe } from '../../../../../../../shared/pipes/capitalize.pipe';
 
 @Component({
   selector: 'app-griglia-admin',
@@ -121,6 +122,10 @@ export class GrigliaAdminComponent {
       titolo: 'Ruolo',
       lunghezza: '7rem',
       sortCol: true,
+      formatCell: (value: Ruolo) => {
+        console.log('aaaa');
+        return value.charAt(0).toUpperCase() + value.slice(1).toLowerCase();
+      },
     },
   };
 

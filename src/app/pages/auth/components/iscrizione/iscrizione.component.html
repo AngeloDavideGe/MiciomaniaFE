@@ -2,7 +2,7 @@
   <!-- Wizard Container -->
   @if (!(user.iscrizione.squadra && viewSuccespage)) {
     <div class="wizard-header elemento-centrato mb-4 p-3">
-      @for (step of wizard; track $index) {
+      @for (step of wizard; track step.step) {
         <div
           class="wizard-step text-center mx-3 position-relative"
           [class.active]="currentStep() === step.step"

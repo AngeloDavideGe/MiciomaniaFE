@@ -1,10 +1,10 @@
 import {
+  ChangeDetectionStrategy,
   Component,
   effect,
   EventEmitter,
   Input,
   Output,
-  PipeTransform,
   Signal,
   signal,
   WritableSignal,
@@ -24,12 +24,11 @@ import {
   PaginazioneCustomComponent,
   TipoPaginazione,
 } from './pagination.component';
-import { pipe } from 'rxjs';
-import { DefaultPipe } from '../../pipes/default.pipe';
 
 @Component({
   selector: 'app-table-custom',
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     FormsModule,
     CapitalizeFirstLetterPipe,
@@ -97,9 +96,12 @@ import { DefaultPipe } from '../../pipes/default.pipe';
               </tr>
             </thead>
             <tbody>
-              @for (elem of filtri.elemFilter(); track $index) {
+              @for (
+                elem of filtri.elemFilter();
+                track trackByFn($index, elem)
+              ) {
                 <tr>
-                  @for (key of keyofElem; track $index; let idx = $index) {
+                  @for (key of keyofElem; track $index) {
                     <td
                       [attr.data-label]="key"
                       [style.width]="colonne[key]!.lunghezza"
@@ -108,7 +110,7 @@ import { DefaultPipe } from '../../pipes/default.pipe';
                         class="cell-content"
                         [class]="recordBadge['' + elem[key]]"
                       >
-                        {{ colonne[key]!.pipeFormat!.transform(elem[key]) }}
+                        {{ colonne[key]!.formatCell!(elem[key]) }}
                       </div>
                     </td>
                   }
@@ -190,6 +192,7 @@ export class TabellaCustomComponent<T> {
   @Input() arrayElemForPage: number[] = [1, 5, 10, 20, 50, 100];
   @Input() elemForPage = signal<number>(environment.maxElement.elemPagine);
   @Input() recordBadge: Record<string, string> = {};
+  @Input() trackByKey: keyof T = 'id' as keyof T;
 
   @Output() changeElements = new EventEmitter<ChangePageHttp>();
 
@@ -258,9 +261,9 @@ export class TabellaCustomComponent<T> {
       (acc: Partial<RecordColonne<T>>, key: keyof T) => {
         acc[key] = {
           ...this.colonne[key],
-          pipeFormat:
-            this.colonne[key]!.pipeFormat ||
-            (new DefaultPipe<typeof key>() as PipeTransform),
+          formatCell:
+            this.colonne[key]!.formatCell ||
+            ((value: T[keyof T]) => String(value)),
         };
         return acc;
       },
@@ -293,10 +296,15 @@ export class TabellaCustomComponent<T> {
       });
     }
   }
+
+  public trackByFn(index: number, item: T): T[keyof T] | number {
+    const keyValue: T[keyof T] = item[this.trackByKey];
+    return keyValue ?? index;
+  }
 }
 
-export type RecordColonne<T> = Record<keyof T, ColonnaCustom>;
 export type OrdinamentoHttp<T> = Ordinamento<T, 'desc' | 'cresc'> | null;
+export type RecordColonne<T> = { [K in keyof T]: ColonnaConfig<T, K> };
 
 export interface AzioniTabella<T> {
   icona: string;
@@ -304,12 +312,12 @@ export interface AzioniTabella<T> {
   azione: (elem: T, index: number) => void;
 }
 
-interface ColonnaCustom {
+interface ColonnaConfig<T, K extends keyof T> {
   titolo: string;
   lunghezza: string;
   filtro?: WritableSignal<string>;
   sortCol?: boolean;
-  pipeFormat?: PipeTransform;
+  formatCell?: (value: T[K]) => string;
 }
 
 export interface ChangePageHttp {

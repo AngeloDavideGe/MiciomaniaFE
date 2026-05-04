@@ -16,46 +16,53 @@ export class DateFormatPipe implements PipeTransform {
     value: Date | string | null | undefined,
     format: DateFormatType = 'dd mmmm yyyy',
   ): string {
-    if (!value) return '';
+    return formatOnlyDate(value, format);
+  }
+}
 
-    const date = typeof value === 'string' ? new Date(value) : value;
+export function formatOnlyDate(
+  value: Date | string | null | undefined,
+  format: DateFormatType = 'dd mmmm yyyy',
+): string {
+  if (!value) return '';
 
-    if (isNaN(date.getTime())) return 'Data non disponibile';
+  const date = typeof value === 'string' ? new Date(value) : value;
 
-    const giorni: number = date.getDate();
-    const meseIndex: number = date.getMonth();
-    const anno: number = date.getFullYear();
+  if (isNaN(date.getTime())) return 'Data non disponibile';
 
-    const mesi: string[] = [
-      'gennaio',
-      'febbraio',
-      'marzo',
-      'aprile',
-      'maggio',
-      'giugno',
-      'luglio',
-      'agosto',
-      'settembre',
-      'ottobre',
-      'novembre',
-      'dicembre',
-    ];
+  const giorni: number = date.getDate();
+  const meseIndex: number = date.getMonth();
+  const anno: number = date.getFullYear();
 
-    switch (format) {
-      case 'dd/mm/yyyy':
-        return `${giorni.toString().padStart(2, '0')}/${(meseIndex + 1).toString().padStart(2, '0')}/${anno}`;
+  const mesi: string[] = [
+    'gennaio',
+    'febbraio',
+    'marzo',
+    'aprile',
+    'maggio',
+    'giugno',
+    'luglio',
+    'agosto',
+    'settembre',
+    'ottobre',
+    'novembre',
+    'dicembre',
+  ];
 
-      case 'yyyy-mm-dd':
-        return `${anno}-${(meseIndex + 1).toString().padStart(2, '0')}-${giorni.toString().padStart(2, '0')}`;
+  switch (format) {
+    case 'dd/mm/yyyy':
+      return `${giorni.toString().padStart(2, '0')}/${(meseIndex + 1).toString().padStart(2, '0')}/${anno}`;
 
-      case 'mmmm dd, yyyy':
-        return `${mesi[meseIndex]} ${giorni}, ${anno}`;
+    case 'yyyy-mm-dd':
+      return `${anno}-${(meseIndex + 1).toString().padStart(2, '0')}-${giorni.toString().padStart(2, '0')}`;
 
-      case 'dd mmmm yyyy':
-        return `${giorni} ${mesi[meseIndex]} ${anno}`;
+    case 'mmmm dd, yyyy':
+      return `${mesi[meseIndex]} ${giorni}, ${anno}`;
 
-      default:
-        return `${giorni} ${mesi[meseIndex]} ${anno}`;
-    }
+    case 'dd mmmm yyyy':
+      return `${giorni} ${mesi[meseIndex]} ${anno}`;
+
+    default:
+      return `${giorni} ${mesi[meseIndex]} ${anno}`;
   }
 }

@@ -3,11 +3,11 @@ import {
   RecordColonne,
   TabellaCustomComponent,
 } from '../../../../../../shared/components/custom/tabella-custom.component';
+import { SpinnerComponent } from '../../../../../../shared/components/dialogs/spinner.component';
 import { getAllPoke } from '../handlers/interazioni.handler';
 import { Interazione } from '../interfaces/interazioni.interface';
 import { InterazioniService } from '../services/interazioni.service';
-import { SpinnerComponent } from '../../../../../../shared/components/dialogs/spinner.component';
-import { DateFormatPipe } from '../../../../../../shared/pipes/date-format.pipe';
+import { formatOnlyDate } from '../../../../../../shared/pipes/date-format.pipe';
 
 @Component({
   selector: 'app-all-poke',
@@ -72,7 +72,7 @@ export class AllPokeComponent implements OnInit {
       titolo: 'Ultimo Invio',
       lunghezza: '10rem',
       sortCol: true,
-      pipeFormat: new DateFormatPipe(),
+      formatCell: (value: Date) => formatOnlyDate(value, 'dd mmmm yyyy'),
     },
     conteggio: {
       titolo: 'Conteggio',

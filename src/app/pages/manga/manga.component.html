@@ -20,7 +20,7 @@
       ></app-icone-lista>
 
       @if (perIniziale() === "iniziale") {
-        @for (lettera of alfabeto; track $index) {
+        @for (lettera of alfabeto; track lettera) {
           @if (mangaPerIniziale()[lettera].length > 0) {
             <div class="mt-5">
               <h5 class="text-black fw-bold border-bottom pb-2">

@@ -5,7 +5,7 @@
   "
 >
   <div giocoContent class="row no-gutters justify-content-center">
-    @for (card of cards(); track $index) {
+    @for (card of cards(); track card.code) {
       <div class="col-auto p-1">
         <!-- Non selezionata -->
         @if (!selectedCards.has($index)) {

@@ -19,7 +19,7 @@
 
   <!-- Lista delle chat -->
   <div class="chat-list flex-grow-1">
-    @for (gruppo of filtri.elemFilter(); track $index) {
+    @for (gruppo of filtri.elemFilter(); track gruppo.id) {
       <div class="chat-item elementi-laterali p-3 border-bottom">
         <div class="avatar-container me-3">
           @if (chatService.aggiornamentoPic() != gruppo.id) {
