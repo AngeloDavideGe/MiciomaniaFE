@@ -16,7 +16,10 @@ import {
   RecordColonne,
   TabellaCustomComponent,
 } from '../../../../../../../shared/components/custom/tabella-custom.component';
-import { Ruolo } from '../../../../../../../shared/enums/users.enum';
+import {
+  BadgeRuolo,
+  Ruolo,
+} from '../../../../../../../shared/enums/users.enum';
 import {
   User,
   UserParams,
@@ -46,6 +49,7 @@ import { AdminLang } from '../../languages/interfaces/admin-lang.interface';
           [elemForPage]="elemForAllPage"
           [colonne]="colonneSingle"
           [azioni]="pulsanti"
+          [recordBadge]="badgeRuolo"
         ></app-table-custom>
       </div>
     } @else {
@@ -96,6 +100,8 @@ export class GrigliaAdminComponent {
   @Output() modificaRuolo = new EventEmitter<UserParams>();
   @Output() eliminaRuolo = new EventEmitter<UserParams>();
 
+  public readonly badgeRuolo: Record<Ruolo, string> = BadgeRuolo;
+
   public readonly colonne: Partial<RecordColonne<UserParams>> = {
     nome: {
       titolo: 'Nome',
@@ -113,7 +119,7 @@ export class GrigliaAdminComponent {
     ...this.colonne,
     ruolo: {
       titolo: 'Ruolo',
-      lunghezza: '10rem',
+      lunghezza: '7rem',
       sortCol: true,
     },
   };
@@ -149,7 +155,7 @@ export class GrigliaAdminComponent {
   ];
 
   private controlliCustom(str: string, user: UserParams): number {
-    if (!this.user || this.user.credenziali.ruolo !== Ruolo.MICIOMANE) {
+    if (!this.user || this.user.credenziali.ruolo !== Ruolo.miciomane) {
       alert(`Non hai i permessi per ${str} questo ruolo.`);
       return -1;
     }

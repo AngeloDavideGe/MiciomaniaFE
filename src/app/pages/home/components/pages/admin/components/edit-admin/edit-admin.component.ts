@@ -113,7 +113,7 @@ export class EditAdminComponent implements OnInit {
       return;
     }
 
-    if (this.newRuolo === Ruolo.MICIOMANE) {
+    if (this.newRuolo === Ruolo.miciomane) {
       alert('Non puoi modificare il ruolo in Miciomane.');
       return;
     }

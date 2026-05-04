@@ -71,7 +71,7 @@ export class IscrizioneComponent extends WizardBase {
     };
 
     this.user.iscrizione = iscrizione;
-    this.user.credenziali.ruolo = ruolo == Ruolo.USER ? Ruolo.PLAYER : ruolo;
+    this.user.credenziali.ruolo = ruolo == Ruolo.user ? Ruolo.player : ruolo;
     this.loadingService.show();
   }
 

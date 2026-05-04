@@ -9,5 +9,4 @@ export interface Interazione {
 export interface InterazioniPaginate {
   elems: Interazione[];
   totElems: number;
-  totPags: number;
 }

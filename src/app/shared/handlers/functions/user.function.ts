@@ -15,7 +15,7 @@ export function mapUserByDb(db: any): User {
       email: db.email || '',
       password: db.password || '',
       profilePic: db.profilePic || null,
-      ruolo: db.ruolo || Ruolo.USER,
+      ruolo: db.ruolo || Ruolo.user,
     },
     profile: {
       bio: db.bio || null,

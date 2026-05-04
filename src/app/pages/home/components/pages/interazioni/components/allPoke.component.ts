@@ -1,22 +1,18 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import {
-  ChangePageHttp,
   RecordColonne,
   TabellaCustomComponent,
 } from '../../../../../../shared/components/custom/tabella-custom.component';
-import { DataTableHttp } from '../../../../../../shared/utilities/functions/pagination.utilities';
-import {
-  Interazione,
-  InterazioniPaginate,
-} from '../interfaces/interazioni.interface';
+import { getAllPoke } from '../handlers/interazioni.handler';
+import { Interazione } from '../interfaces/interazioni.interface';
 import { InterazioniService } from '../services/interazioni.service';
-import { getPokePaginate } from '../handlers/interazioni.handler';
-import { take } from 'rxjs';
+import { SpinnerComponent } from '../../../../../../shared/components/dialogs/spinner.component';
+import { DateFormatPipe } from '../../../../../../shared/pipes/date-format.pipe';
 
 @Component({
   selector: 'app-all-poke',
   standalone: true,
-  imports: [TabellaCustomComponent],
+  imports: [TabellaCustomComponent, SpinnerComponent],
   template: `
     <div class="row mb-4">
       <div class="col-12 text-center">
@@ -32,7 +28,7 @@ import { take } from 'rxjs';
     </div>
 
     <div class="elemento-centrato">
-      @if (interazioniHttp()) {
+      <!-- @if (interazioniHttp()) {
         <app-table-custom
           [colonne]="colonne"
           [dataTableHttp]="interazioniHttp()"
@@ -40,15 +36,26 @@ import { take } from 'rxjs';
           [titoloTabella]="'Top Miciomani Innamorati'"
           (changeElements)="changeElements($event)"
         ></app-table-custom>
+      } -->
+
+      @if (interazioniService.allInterazioni().length > 0) {
+        <app-table-custom
+          [colonne]="colonne"
+          [elemTable]="interazioniService.allInterazioni"
+          [elemForPage]="elemForPage"
+          [titoloTabella]="'Top Miciomani Innamorati'"
+        ></app-table-custom>
+      } @else {
+        <app-spinner mt="5rem"></app-spinner>
       }
     </div>
   `,
 })
 export class AllPokeComponent implements OnInit {
   public interazioniService = inject(InterazioniService);
-  private primaVolta: boolean = true;
-  public elemForPage = signal<number>(3);
-  public interazioniHttp = signal<DataTableHttp<Interazione> | null>(null);
+  public elemForPage = signal<number>(5);
+  // private primaVolta: boolean = true;
+  // public interazioniHttp = signal<DataTableHttp<Interazione> | null>(null);
 
   public readonly colonne: Partial<RecordColonne<Interazione>> = {
     user1: {
@@ -61,58 +68,64 @@ export class AllPokeComponent implements OnInit {
       lunghezza: '10rem',
       sortCol: true,
     },
+    ultimoInvio: {
+      titolo: 'Ultimo Invio',
+      lunghezza: '10rem',
+      sortCol: true,
+      pipeFormat: new DateFormatPipe(),
+    },
     conteggio: {
       titolo: 'Conteggio',
       lunghezza: '5rem',
       sortCol: true,
     },
-    ultimoInvio: {
-      titolo: 'Ultimo Invio',
-      lunghezza: '15rem',
-      sortCol: true,
-    },
   };
 
   ngOnInit(): void {
-    getPokePaginate({
+    // getPokePaginate({
+    //   interazioniService: this.interazioniService,
+    //   el: this.elemForPage(),
+    //   num: 1,
+    //   ord: 'desc',
+    //   key: 'conteggio',
+    //   nextCallback: (interazioni: InterazioniPaginate) => {
+    //     this.interazioniHttp.set({
+    //       elems: signal(interazioni.elems),
+    //       totalElems: signal(interazioni.totElems),
+    //       totalPages: signal(
+    //         Math.ceil(interazioni.totElems / this.elemForPage()),
+    //       ),
+    //     });
+    //   },
+    // });
+
+    getAllPoke({
       interazioniService: this.interazioniService,
-      el: this.elemForPage(),
-      num: 1,
-      ord: 'desc',
-      key: 'conteggio',
-      nextCallback: (interazioni: InterazioniPaginate) => {
-        this.interazioniHttp.set({
-          elems: signal(interazioni.elems),
-          totalElems: signal(interazioni.totElems),
-          totalPages: signal(
-            Math.ceil(interazioni.totElems / this.elemForPage()),
-          ),
-        });
-      },
+      nextCall: (interazioni: Interazione[]) => {},
     });
   }
 
-  public changeElements(change: ChangePageHttp): void {
-    if (this.primaVolta) {
-      this.primaVolta = false;
-      return;
-    }
+  // public changeElements(change: ChangePageHttp): void {
+  //   if (this.primaVolta) {
+  //     this.primaVolta = false;
+  //     return;
+  //   }
 
-    this.interazioniHttp()!.elems.set([]);
+  //   this.interazioniHttp()!.elems.set([]);
 
-    getPokePaginate({
-      interazioniService: this.interazioniService,
-      el: change.elemForPage,
-      num: change.page,
-      ord: change.order ? change.order : 'desc',
-      key: change.orderKey ? change.orderKey : 'conteggio',
-      nextCallback: (interazioni: InterazioniPaginate) => {
-        this.interazioniHttp()!.elems.set(interazioni.elems);
-        this.interazioniHttp()!.totalElems.set(interazioni.totElems);
-        this.interazioniHttp()!.totalPages.set(
-          Math.ceil(interazioni.totElems / this.elemForPage()),
-        );
-      },
-    });
-  }
+  //   getPokePaginate({
+  //     interazioniService: this.interazioniService,
+  //     el: change.elemForPage,
+  //     num: change.page,
+  //     ord: change.order ? change.order : 'desc',
+  //     key: change.orderKey ? change.orderKey : 'conteggio',
+  //     nextCallback: (interazioni: InterazioniPaginate) => {
+  //       this.interazioniHttp()!.elems.set(interazioni.elems);
+  //       this.interazioniHttp()!.totalElems.set(interazioni.totElems);
+  //       this.interazioniHttp()!.totalPages.set(
+  //         Math.ceil(interazioni.totElems / this.elemForPage()),
+  //       );
+  //     },
+  //   });
+  // }
 }

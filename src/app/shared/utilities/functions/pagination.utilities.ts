@@ -29,8 +29,12 @@ export function GetFiltriCustom<T, F>(
   });
 
   const totalPage = computed<number>(() => {
-    const totalPageHttp = params.totalPageHttp ? params.totalPageHttp() : null;
     const search: T[] = searchElems();
+
+    const totalPageHttp: number | null = params.totalPageHttp
+      ? params.totalPageHttp()
+      : null;
+
     const elemForPage: number = params.elemForPage
       ? params.elemForPage()
       : environment.maxElement.elemPagine;
@@ -41,6 +45,7 @@ export function GetFiltriCustom<T, F>(
   const elemFilter = computed<T[]>(() => {
     const totElem: T[] = searchElems();
     const currentPages: number = currentPage();
+
     const elemForPage: number = params.elemForPage
       ? params.elemForPage()
       : environment.maxElement.elemPagine;

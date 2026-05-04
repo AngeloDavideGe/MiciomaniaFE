@@ -11,7 +11,7 @@ export function mapToProfilo(dbResult: any): Profilo {
       email: dbResult.user.email || '',
       password: dbResult.user.password || '',
       profilePic: dbResult.user.profilePic || null,
-      ruolo: dbResult.user.ruolo || Ruolo.USER,
+      ruolo: dbResult.user.ruolo || Ruolo.user,
     },
     profile: {
       bio: dbResult.user.bio || null,

@@ -1,20 +1,17 @@
-import { NgTemplateOutlet } from '@angular/common';
 import {
   Component,
   effect,
   EventEmitter,
   Input,
   Output,
+  PipeTransform,
   Signal,
   signal,
   WritableSignal,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { environment } from '../../../../environments/environment';
-import {
-  debounceTimeoutCustom,
-  effectTimeoutCustom,
-} from '../../functions/utilities.function';
+import { debounceTimeoutCustom } from '../../functions/utilities.function';
 import { CapitalizeFirstLetterPipe } from '../../pipes/capitalize.pipe';
 import {
   DataTableHttp,
@@ -27,41 +24,57 @@ import {
   PaginazioneCustomComponent,
   TipoPaginazione,
 } from './pagination.component';
+import { pipe } from 'rxjs';
+import { DefaultPipe } from '../../pipes/default.pipe';
 
 @Component({
   selector: 'app-table-custom',
   standalone: true,
   imports: [
     FormsModule,
-    NgTemplateOutlet,
     CapitalizeFirstLetterPipe,
     PaginazioneCustomComponent,
     SpinnerComponent,
   ],
   template: `
     <div class="table-wrapper">
-      @if (filtri.elemFilter().length > 0 || dataTableHttp) {
-        <ng-container *ngTemplateOutlet="titoloTabellaTemplate"></ng-container>
-
-        @if (filtroDefault) {
-          <div class="search-filter">
-            <i class="bi bi-search search-icon"></i>
-            <input
-              type="text"
-              class="search-input"
-              placeholder="Cerca..."
-              [(ngModel)]="searchQuery"
-              (ngModelChange)="searchQuery.set($event)"
-            />
-            <button
-              class="clear-btn"
-              (click)="searchQuery.set(''); ordinaElem.set(null)"
-            >
-              <i class="bi bi-x-circle"></i>
-            </button>
+      @if (titoloTabella) {
+        <div class="table-header">
+          <div class="header-content">
+            <i class="bi bi-table header-icon"></i>
+            <h3 class="header-title">
+              {{ titoloTabella | capitalizeFirstLetter }}
+            </h3>
+            <div class="header-info">
+              <span class="total-items">
+                <i class="bi bi-list-ol me-1"></i>
+                {{ filtri.dettaglioPage() }}
+              </span>
+            </div>
           </div>
-        }
+        </div>
+      }
 
+      @if (filtroDefault) {
+        <div class="search-filter">
+          <i class="bi bi-search search-icon"></i>
+          <input
+            type="text"
+            class="search-input"
+            placeholder="Cerca..."
+            [(ngModel)]="searchQuery"
+            (ngModelChange)="searchQuery.set($event)"
+          />
+          <button
+            class="clear-btn"
+            (click)="searchQuery.set(''); ordinaElem.set(null)"
+          >
+            <i class="bi bi-x-circle"></i>
+          </button>
+        </div>
+      }
+
+      @if (filtri.elemFilter().length > 0 || dataTableHttp) {
         <div class="table-container">
           <table class="table-custom">
             <thead>
@@ -91,7 +104,12 @@ import {
                       [attr.data-label]="key"
                       [style.width]="colonne[key]!.lunghezza"
                     >
-                      <div class="cell-content">{{ elem[key] }}</div>
+                      <div
+                        class="cell-content"
+                        [class]="recordBadge['' + elem[key]]"
+                      >
+                        {{ colonne[key]!.pipeFormat!.transform(elem[key]) }}
+                      </div>
                     </td>
                   }
                   @if (azioni.length > 0) {
@@ -143,9 +161,9 @@ import {
             }
           </select>
         </div>
-      } @else {
-        <ng-container *ngTemplateOutlet="titoloTabellaTemplate"></ng-container>
+      }
 
+      @if (filtri.elemFilter().length == 0) {
         @if (dataTableHttp) {
           <app-spinner [mt]="'2rem'"></app-spinner>
         } @else {
@@ -156,25 +174,6 @@ import {
         }
       }
     </div>
-
-    <ng-template #titoloTabellaTemplate>
-      @if (titoloTabella) {
-        <div class="table-header">
-          <div class="header-content">
-            <i class="bi bi-table header-icon"></i>
-            <h3 class="header-title">
-              {{ titoloTabella | capitalizeFirstLetter }}
-            </h3>
-            <div class="header-info">
-              <span class="total-items">
-                <i class="bi bi-list-ol me-1"></i>
-                {{ filtri.dettaglioPage() }}
-              </span>
-            </div>
-          </div>
-        </div>
-      }
-    </ng-template>
   `,
   styleUrl: '../styles/table-custom.scss',
 })
@@ -190,6 +189,7 @@ export class TabellaCustomComponent<T> {
   @Input() tipoPaginazione: TipoPaginazione = 'multiplo';
   @Input() arrayElemForPage: number[] = [1, 5, 10, 20, 50, 100];
   @Input() elemForPage = signal<number>(environment.maxElement.elemPagine);
+  @Input() recordBadge: Record<string, string> = {};
 
   @Output() changeElements = new EventEmitter<ChangePageHttp>();
 
@@ -253,6 +253,20 @@ export class TabellaCustomComponent<T> {
 
   ngOnInit(): void {
     this.keyofElem = Object.keys(this.colonne) as (keyof T)[];
+
+    this.colonne = this.keyofElem.reduce(
+      (acc: Partial<RecordColonne<T>>, key: keyof T) => {
+        acc[key] = {
+          ...this.colonne[key],
+          pipeFormat:
+            this.colonne[key]!.pipeFormat ||
+            (new DefaultPipe<typeof key>() as PipeTransform),
+        };
+        return acc;
+      },
+      {},
+    );
+
     this.filtroDefault = this.keyofElem.every(
       (key: keyof T) => !this.colonne[key]!.filtro,
     );
@@ -295,6 +309,7 @@ interface ColonnaCustom {
   lunghezza: string;
   filtro?: WritableSignal<string>;
   sortCol?: boolean;
+  pipeFormat?: PipeTransform;
 }
 
 export interface ChangePageHttp {

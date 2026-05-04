@@ -5,15 +5,20 @@ import {
   InterazioniPaginate,
 } from '../interfaces/interazioni.interface';
 
-export function getAllPoke(interazioniService: InterazioniService): void {
-  if (interazioniService.allInterazioni().length > 0) return;
+export function getAllPoke(params: {
+  interazioniService: InterazioniService;
+  nextCall: (interazioni: Interazione[]) => void;
+}): void {
+  if (params.interazioniService.allInterazioni().length > 0) return;
 
-  interazioniService
+  params.interazioniService
     .getAllInterazioni()
     .pipe(take(1))
     .subscribe({
-      next: (interazioni: Interazione[]) =>
-        interazioniService.allInterazioni.set(interazioni),
+      next: (interazioni: Interazione[]) => {
+        params.interazioniService.allInterazioni.set(interazioni);
+        params.nextCall(interazioni);
+      },
       error: (err) => console.error(err),
     });
 }

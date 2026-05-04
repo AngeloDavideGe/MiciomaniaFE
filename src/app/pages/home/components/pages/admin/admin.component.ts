@@ -107,14 +107,14 @@ export class AdminComponent implements OnInit {
     const userRuolo: CambioRuoloUtente = {
       id: user.id,
       vecchioRuolo: user.ruolo,
-      nuovoRuolo: Ruolo.USER,
+      nuovoRuolo: Ruolo.user,
     };
 
     updateRuoloUtenteCustom({
       authService: this.authService,
       loadingService: this.loadingService,
       userId: user.id,
-      ruolo: Ruolo.USER,
+      ruolo: Ruolo.user,
       nextCall: () => this.ruoloModificato(userRuolo),
     });
   }
