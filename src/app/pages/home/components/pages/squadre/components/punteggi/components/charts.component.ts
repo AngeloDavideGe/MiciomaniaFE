@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, HostListener } from '@angular/core';
-import { debounceTimeoutCustom } from '../../../../../../../../shared/functions/utilities.function';
+import { debounceTimeoutCustom } from '../../../../../../../../../library/functions/debounce.function';
 import {
   Classifica,
   Giocatori,

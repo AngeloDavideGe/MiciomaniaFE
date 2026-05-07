@@ -4,7 +4,7 @@ import { filterType } from './components/filtri-post.component';
 import { getAllPubblicazioni } from './handlers/ultimi-post.handler';
 import { ultimiPost_import } from './imports/ultimi-post.import';
 import { TweetAll } from '../../shared/post.interface';
-import { GetFiltriCustom } from '../../../../../shared/utilities/functions/pagination.utilities';
+import { GetFiltriCustom } from '../../../../../../library/functions/pagination.function';
 
 @Component({
   standalone: true,

@@ -1,13 +1,5 @@
 import { NgStyle } from '@angular/common';
-import {
-  Component,
-  computed,
-  HostListener,
-  Input,
-  signal,
-} from '@angular/core';
-import { debounceTimeoutCustom } from '../../../shared/functions/utilities.function';
-import { MangaSong } from '../../../shared/interfaces/elementiUtente.interface';
+import { Component, Input, signal } from '@angular/core';
 import { ChatChiusaComponent } from './components/chat-chiusa/chat-chiusa.component';
 import { ChatListComponent } from './components/chat-list/chat-list.component';
 

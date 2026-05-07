@@ -40,3 +40,12 @@ export interface RaggioPage {
   width: number;
   raggio: number;
 }
+
+export type TipoPaginazione = 'singolo' | 'multiplo';
+
+export interface OtherPage {
+  startNumber: boolean;
+  startPointer: boolean;
+  endPointer: boolean;
+  endNumber: boolean;
+}

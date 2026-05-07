@@ -10,12 +10,9 @@ import {
 import { NavigationEnd, Router } from '@angular/router';
 import { filter, map, Observable, startWith, tap } from 'rxjs';
 import { DataHttp } from '../../core/api/http.data';
-import {
-  compareObjectCustom,
-  effectTimeoutCustom,
-} from '../../shared/functions/utilities.function';
+
 import { Lingua, MangaUtente } from '../../shared/interfaces/http.interface';
-import { GetFiltriCustom } from '../../shared/utilities/functions/pagination.utilities';
+import { GetFiltriCustom } from '../../../library/functions/pagination.function';
 import { alfabetoManga } from './constants/alfabeto.constant';
 import { generiManga } from './constants/genere.constant';
 import {
@@ -35,6 +32,8 @@ import {
 } from './languages/interfaces/manga-lang.interface';
 import { MangaService } from './services/manga.service';
 import { NavBarButton } from '../../shared/components/custom/navbar-custom.component';
+import { effectTimeoutCustom } from '../../../library/functions/debounce.function';
+import { compareObjectCustom } from '../../../library/functions/confronto.function';
 
 @Component({
   selector: 'app-manga',

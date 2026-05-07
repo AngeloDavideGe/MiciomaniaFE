@@ -1,7 +1,7 @@
 import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { DataHttp } from '../../../../../../../core/api/http.data';
-import { formatDataCustom } from '../../../../../../../shared/functions/utilities.function';
+import { formatDataCustom } from '../../../../../../../../library/functions/confronto.function';
 import { postPubblicazioni } from '../../handlers/profilo.handler';
 import { Tweet } from '../../../../shared/post.interface';
 import { ProfiloLang } from '../../languages/interfaces/profilo-lang.interface';

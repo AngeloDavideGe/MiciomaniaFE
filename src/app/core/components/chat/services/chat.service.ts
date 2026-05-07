@@ -2,7 +2,7 @@ import { Injectable, signal } from '@angular/core';
 import { from, Observable } from 'rxjs';
 import { environment } from '../../../../../environments/environment';
 import { uploadImage } from '../../../../shared/functions/upload-pic.function';
-import { formatDataCustom } from '../../../../shared/functions/utilities.function';
+import { formatDataCustom } from '../../../../../library/functions/confronto.function';
 import { RealtimePayload } from '../../../../shared/interfaces/supabase.interface';
 import { BaseService } from '../../../../shared/services/base/base.service';
 import { DataHttp } from '../../../api/http.data';

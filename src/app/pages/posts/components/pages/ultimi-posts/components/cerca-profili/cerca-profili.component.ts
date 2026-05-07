@@ -11,14 +11,14 @@ import {
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { environment } from '../../../../../../../../environments/environment';
-import { PaginazioneCustomComponent } from '../../../../../../../shared/components/custom/pagination.component';
-import { SpinnerComponent } from '../../../../../../../shared/components/dialogs/spinner.component';
+import { PaginazioneCustomComponent } from '../../../../../../../../library/components/pagination/pagination.component';
+import { SpinnerComponent } from '../../../../../../../../library/components/spinner/spinner.component';
 import { sottoscrizioneUtentiCustom } from '../../../../../../../shared/handlers/auth.handler';
 import { UserParams } from '../../../../../../../shared/interfaces/users.interface';
 import { AuthService } from '../../../../../../../shared/services/api/auth.service';
-import { GetFiltriCustom } from '../../../../../../../shared/utilities/functions/pagination.utilities';
-import { debounceTimeoutCustom } from '../../../../../../../shared/functions/utilities.function';
-import { FiltriInterface } from '../../../../../../../shared/utilities/interfaces/pagination.interface';
+import { GetFiltriCustom } from '../../../../../../../../library/functions/pagination.function';
+import { debounceTimeoutCustom } from '../../../../../../../../library/functions/debounce.function';
+import { FiltriInterface } from '../../../../../../../../library/interfaces/pagination.interface';
 
 @Component({
   selector: 'app-cerca-profili',

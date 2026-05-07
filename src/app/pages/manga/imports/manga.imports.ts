@@ -6,7 +6,7 @@ import { IconeListaComponent } from '../../../shared/components/custom/icone-lis
 import { FiltriMangaComponent } from '../components/ui/filtri-manga.component';
 import { TabsMangaComponent } from '../components/ui/tabs-manga.component';
 import { CardMangaComponent } from '../shared/card-manga.component';
-import { SpinnerComponent } from '../../../shared/components/dialogs/spinner.component';
+import { SpinnerComponent } from '../../../../library/components/spinner/spinner.component';
 import { CustomNavBarComponent } from '../../../shared/components/custom/navbar-custom.component';
 
 export const manga_imports: Type<any>[] = [

@@ -4,8 +4,8 @@ import {
   PathSvgCustom,
   SvgCustomComponent,
 } from '../../../../../../../assets/components/svg-custom.component';
-import { SpinnerComponent } from '../../../../../../shared/components/dialogs/spinner.component';
-import { debounceTimeoutCustom } from '../../../../../../shared/functions/utilities.function';
+import { SpinnerComponent } from '../../../../../../../library/components/spinner/spinner.component';
+import { debounceTimeoutCustom } from '../../../../../../../library/functions/debounce.function';
 import {
   Conquiste,
   Mappa,

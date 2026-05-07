@@ -18,7 +18,7 @@ import {
 } from './core/functions/storage.function';
 import { MiniPlayerService } from './shared/services/template/mini-player.service';
 import { CursorUtilities } from './shared/utilities/class/cursor.utilities';
-import { debounceTimeoutCustom } from './shared/functions/utilities.function';
+import { debounceTimeoutCustom } from '../library/functions/debounce.function';
 
 @Component({
   selector: 'app-root',

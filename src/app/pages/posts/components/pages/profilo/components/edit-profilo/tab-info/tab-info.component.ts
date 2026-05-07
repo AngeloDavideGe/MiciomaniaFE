@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { compareObjectCustom } from '../../../../../../../../shared/functions/utilities.function';
+import { compareObjectCustom } from '../../../../../../../../../library/functions/confronto.function';
 import { StatoPersona } from '../../../../../../../../shared/enums/users.enum';
 import { User } from '../../../../../../../../shared/interfaces/users.interface';
 import { TabProfiloBase } from '../../../base/tab-profilo.base';
@@ -93,11 +93,11 @@ export class TabInfoComponent extends TabProfiloBase {
   private areUsersEqual(user1: User, user2: User): boolean {
     const credenzia: boolean = compareObjectCustom(
       user1.credenziali,
-      user2.credenziali
+      user2.credenziali,
     );
     const iscrizione: boolean = compareObjectCustom(
       user1.iscrizione,
-      user2.iscrizione
+      user2.iscrizione,
     );
     const profilo: boolean = compareObjectCustom(user1.profile, user2.profile);
 

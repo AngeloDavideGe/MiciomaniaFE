@@ -14,7 +14,7 @@ import { AdminLang } from '../../languages/interfaces/admin-lang.interface';
 import { updateRuoloUtenteCustom } from '../../handlers/admin.handler';
 import { AuthService } from '../../../../../../../shared/services/api/auth.service';
 import { LoadingService } from '../../../../../../../shared/services/template/loading.service';
-import { CapitalizeFirstLetterPipe } from '../../../../../../../shared/pipes/capitalize.pipe';
+import { CapitalizeFirstLetterPipe } from '../../../../../../../../library/pipes/capitalize.pipe';
 
 @Component({
   selector: 'app-edit-admin',

@@ -9,7 +9,7 @@ import {
 } from '@angular/core';
 import { Router } from '@angular/router';
 import { DataHttp } from '../../../../../core/api/http.data';
-import { effectTimeoutCustom } from '../../../../../shared/functions/utilities.function';
+import { effectTimeoutCustom } from '../../../../../../library/functions/debounce.function';
 import {
   Lingua,
   MangaUtente,

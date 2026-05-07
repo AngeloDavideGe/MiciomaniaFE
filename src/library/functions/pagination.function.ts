@@ -1,11 +1,11 @@
 import { computed, signal } from '@angular/core';
-import { environment } from '../../../../environments/environment';
-import { GetOrderCustom } from '../../functions/utilities.function';
 import {
   FiltriInterface,
   FiltriSelect,
   InputFiltri,
 } from '../interfaces/pagination.interface';
+import { GetOrderCustom } from './ordinamento.function';
+import { maxElementForPage } from '../constants/lib.constant';
 
 export function GetFiltriCustom<T, F>(
   params: InputFiltri<T, F>,
@@ -38,7 +38,7 @@ export function GetFiltriCustom<T, F>(
 
     const elemForPage: number = params.elemForPage
       ? params.elemForPage()
-      : environment.maxElement.elemPagine;
+      : maxElementForPage;
 
     const numElems: number = params.totalElemHttp
       ? params.totalElemHttp()
@@ -53,7 +53,7 @@ export function GetFiltriCustom<T, F>(
 
     const elemForPage: number = params.elemForPage
       ? params.elemForPage()
-      : environment.maxElement.elemPagine;
+      : maxElementForPage;
 
     const totalPageHttp: number | null = params.totalElemHttp
       ? params.totalElemHttp()
@@ -76,7 +76,7 @@ export function GetFiltriCustom<T, F>(
 
     const elemForPage: number = params.elemForPage
       ? params.elemForPage()
-      : environment.maxElement.elemPagine;
+      : maxElementForPage;
 
     const start: number = Math.max(0, 1 + (currentPages - 1) * elemForPage);
     const end: number = Math.min(start + elemForPage - 1, totalElem);

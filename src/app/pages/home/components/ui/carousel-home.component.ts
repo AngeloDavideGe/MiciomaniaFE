@@ -10,7 +10,7 @@ import {
 import { Router } from '@angular/router';
 import { DataHttp } from '../../../../core/api/http.data';
 import { CardCustomComponent } from '../../../../shared/components/custom/card-custom.component';
-import { debounceTimeoutCustom } from '../../../../shared/functions/utilities.function';
+import { debounceTimeoutCustom } from '../../../../../library/functions/debounce.function';
 import { Lingua } from '../../../../shared/interfaces/http.interface';
 
 @Component({

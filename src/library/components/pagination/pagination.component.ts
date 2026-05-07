@@ -5,12 +5,14 @@ import {
   Input,
   signal,
 } from '@angular/core';
-import { debounceTimeoutCustom } from '../../functions/utilities.function';
+import { debounceTimeoutCustom } from '../../functions/debounce.function';
 import {
   DataTableHttp,
   FiltriInterface,
+  OtherPage,
   RaggioPage,
-} from '../../utilities/interfaces/pagination.interface';
+  TipoPaginazione,
+} from '../../interfaces/pagination.interface';
 
 @Component({
   selector: 'app-paginazione-custom',
@@ -97,7 +99,7 @@ import {
       </div>
     }
   `,
-  styleUrl: '../styles/pagination-custom.scss',
+  styleUrl: './pagination.component.scss',
 })
 export class PaginazioneCustomComponent<T> {
   @Input() filtri!: FiltriInterface<T>;
@@ -143,13 +145,4 @@ export class PaginazioneCustomComponent<T> {
 
     return raggioConfig ? raggioConfig.raggio : 2;
   }
-}
-
-export type TipoPaginazione = 'singolo' | 'multiplo';
-
-interface OtherPage {
-  startNumber: boolean;
-  startPointer: boolean;
-  endPointer: boolean;
-  endNumber: boolean;
 }

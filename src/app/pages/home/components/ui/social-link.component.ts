@@ -4,8 +4,7 @@ import { DataHttp } from '../../../../core/api/http.data';
 import { Social } from '../../../../shared/interfaces/github.interface';
 import { GitHubService } from '../../../../shared/services/api/github.service';
 import { Lingua } from '../../../../shared/interfaces/http.interface';
-import { SpinnerComponent } from '../../../../shared/components/dialogs/spinner.component';
-
+import { SpinnerComponent } from '../../../../../library/components/spinner/spinner.component';
 @Component({
   selector: 'app-social-link',
   standalone: true,

@@ -11,13 +11,13 @@ import {
 import { FormsModule } from '@angular/forms';
 import { finalize, take } from 'rxjs';
 import { ChangePicCustomComponent } from '../../../../../../../shared/components/custom/change-pic-custom.component';
-import { effectTimeoutCustom } from '../../../../../../../shared/functions/utilities.function';
-import { GetFiltriCustom } from '../../../../../../../shared/utilities/functions/pagination.utilities';
+import { effectTimeoutCustom } from '../../../../../../../../library/functions/debounce.function';
+import { GetFiltriCustom } from '../../../../../../../../library/functions/pagination.function';
 import { DataHttp } from '../../../../../../api/http.data';
 import { Gruppo, LastMess } from '../../../../interfaces/chat.interface';
 import { ChatService } from '../../../../services/chat.service';
 import { environment } from '../../../../../../../../environments/environment';
-import { FiltriInterface } from '../../../../../../../shared/utilities/interfaces/pagination.interface';
+import { FiltriInterface } from '../../../../../../../../library/interfaces/pagination.interface';
 
 @Component({
   selector: 'app-chat-all',
