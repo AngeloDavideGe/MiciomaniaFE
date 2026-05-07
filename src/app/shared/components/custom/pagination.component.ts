@@ -1,17 +1,16 @@
 import {
   Component,
   computed,
-  Host,
   HostListener,
   Input,
   signal,
 } from '@angular/core';
+import { debounceTimeoutCustom } from '../../functions/utilities.function';
 import {
   DataTableHttp,
   FiltriInterface,
   RaggioPage,
 } from '../../utilities/interfaces/pagination.interface';
-import { debounceTimeoutCustom } from '../../functions/utilities.function';
 
 @Component({
   selector: 'app-paginazione-custom',
@@ -19,84 +18,84 @@ import { debounceTimeoutCustom } from '../../functions/utilities.function';
   imports: [],
   template: `
     @if (filtri.totalPage() > 1) {
-  <div class="pagination-container">
-    <div class="pagination-controls">
-      <button
-        class="pagination-btn prev-btn"
-        (click)="filtri.previousPage()"
-        [disabled]="filtri.currentPage() === 1"
-        [class.disabled]="filtri.currentPage() === 1"
-        aria-label="Pagina precedente"
-      >
-        <i class="bi bi-chevron-left"></i>
-      </button>
+      <div class="pagination-container">
+        <div class="pagination-controls">
+          <button
+            class="pagination-btn prev-btn"
+            (click)="filtri.previousPage()"
+            [disabled]="filtri.currentPage() === 1"
+            [class.disabled]="filtri.currentPage() === 1"
+            aria-label="Pagina precedente"
+          >
+            <i class="bi bi-chevron-left"></i>
+          </button>
 
-      @switch (tipo) {
-        @case ('singolo') {
-          <div class="page-indicator">
-            <span class="current-page">{{ filtri.currentPage() }}</span>
-            <span class="separator">/</span>
-            <span class="total-pages">{{ filtri.totalPage() }}</span>
-          </div>
-        }
-        @case ('multiplo') {
-          <div class="page-indicator">
-            @if (othersPage().startNumber) {
-              <button
-                class="page-btn"
-                (click)="filtri.selectPage(1)"
-                [class.active]="filtri.currentPage() === 1"
-                aria-label="Pagina 1"
-              >
-                1
-              </button>
+          @switch (tipo) {
+            @case ('singolo') {
+              <div class="page-indicator">
+                <span class="current-page">{{ filtri.currentPage() }}</span>
+                <span class="separator">/</span>
+                <span class="total-pages">{{ filtri.totalPage() }}</span>
+              </div>
             }
+            @case ('multiplo') {
+              <div class="page-indicator">
+                @if (othersPage().startNumber) {
+                  <button
+                    class="page-btn"
+                    (click)="filtri.selectPage(1)"
+                    [class.active]="filtri.currentPage() === 1"
+                    aria-label="Pagina 1"
+                  >
+                    1
+                  </button>
+                }
 
-            @if (othersPage().startPointer) {
-              <span class="ellipsis">...</span>
+                @if (othersPage().startPointer) {
+                  <span class="ellipsis">...</span>
+                }
+
+                @for (page of arrayPage(); track $index) {
+                  <button
+                    class="page-btn"
+                    (click)="filtri.selectPage(page)"
+                    [class.active]="filtri.currentPage() === page"
+                    aria-label="Pagina {{ page }}"
+                  >
+                    {{ page }}
+                  </button>
+                }
+
+                @if (othersPage().endPointer) {
+                  <span class="ellipsis">...</span>
+                }
+
+                @if (othersPage().endNumber) {
+                  <button
+                    class="page-btn"
+                    (click)="filtri.selectPage(filtri.totalPage())"
+                    [class.active]="filtri.currentPage() === filtri.totalPage()"
+                    aria-label="Pagina {{ filtri.totalPage() }}"
+                  >
+                    {{ filtri.totalPage() }}
+                  </button>
+                }
+              </div>
             }
+          }
 
-            @for (page of arrayPage(); track $index) {
-              <button
-                class="page-btn"
-                (click)="filtri.selectPage(page)"
-                [class.active]="filtri.currentPage() === page"
-                aria-label="Pagina {{ page }}"
-              >
-                {{ page }}
-              </button>
-            }
-
-            @if (othersPage().endPointer) {
-              <span class="ellipsis">...</span>
-            }
-
-            @if (othersPage().endNumber) {
-              <button
-                class="page-btn"
-                (click)="filtri.selectPage(filtri.totalPage())"
-                [class.active]="filtri.currentPage() === filtri.totalPage()"
-                aria-label="Pagina {{ filtri.totalPage() }}"
-              >
-                {{ filtri.totalPage() }}
-              </button>
-            }
-          </div>
-        }
-      }
-
-      <button
-        class="pagination-btn next-btn"
-        (click)="filtri.nextPage()"
-        [disabled]="filtri.currentPage() === filtri.totalPage()"
-        [class.disabled]="filtri.currentPage() === filtri.totalPage()"
-        aria-label="Pagina successiva"
-      >
-        <i class="bi bi-chevron-right"></i>
-      </button>
-    </div>
-  </div>
-}
+          <button
+            class="pagination-btn next-btn"
+            (click)="filtri.nextPage()"
+            [disabled]="filtri.currentPage() === filtri.totalPage()"
+            [class.disabled]="filtri.currentPage() === filtri.totalPage()"
+            aria-label="Pagina successiva"
+          >
+            <i class="bi bi-chevron-right"></i>
+          </button>
+        </div>
+      </div>
+    }
   `,
   styleUrl: '../styles/pagination-custom.scss',
 })

@@ -9,7 +9,6 @@
     align-items: center;
     gap: 0.5rem;
 
-    // Bottoni di navigazione (precedente/successivo)
     .pagination-btn {
       padding: 8px 12px;
       border: none;
@@ -29,7 +28,7 @@
       }
 
       &:hover:not(:disabled):not(.disabled) {
-        background-color: var(--hover-bg, rgba(0, 0, 0, 0.05));
+        background-color: var(--bg-hover);
         color: var(--primary-color);
       }
 
@@ -41,7 +40,6 @@
       }
     }
 
-    // Bottoni delle pagine (non selezionati)
     .page-btn {
       min-width: 38px;
       height: 38px;
@@ -59,11 +57,10 @@
       justify-content: center;
 
       &:hover:not(.active) {
-        background-color: var(--hover-bg);
+        background-color: var(--bg-hover);
         color: var(--text-color);
       }
 
-      // Stile per la pagina attiva (selezionata)
       &.active {
         color: var(--primary-color);
         background: transparent;
@@ -74,7 +71,6 @@
       }
     }
 
-    // Indicatore pagine per modalità singolo
     .page-indicator {
       display: flex;
       align-items: center;

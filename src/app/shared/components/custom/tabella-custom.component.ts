@@ -91,7 +91,24 @@ import {
                     {{ colonne[key]!.titolo }}
 
                     @if (colonne[key]!.sortCol) {
-                      <span>&nbsp;↕️</span>
+                      @let ordinaElem =
+                        this.ordinaElem() || { key: null, order: null };
+
+                      @if (ordinaElem.key === key) {
+                        @switch (ordinaElem.order) {
+                          @case ('desc') {
+                            <i class="bi bi-arrow-down ms-1"></i>
+                          }
+                          @case ('cresc') {
+                            <i class="bi bi-arrow-up ms-1"></i>
+                          }
+                          @default {
+                            <i class="bi bi-arrow-down-up ms-1"></i>
+                          }
+                        }
+                      } @else {
+                        <i class="bi bi-arrow-down-up text-muted ms-1"></i>
+                      }
                     }
                   </th>
                 }
@@ -221,13 +238,31 @@ export class TabellaCustomComponent<T> {
   public ordinaColonna: Function = debounceTimeoutCustom((key: keyof T) => {
     if (!this.colonne[key]!.sortCol) return;
 
-    this.ordinaElem.set({
-      key: key,
-      order:
-        this.ordinaElem()?.key === key && this.ordinaElem()?.order === 'desc'
-          ? 'cresc'
-          : 'desc',
-    });
+    if (this.ordinaElem()?.key !== key) {
+      this.ordinaElem.set({
+        key: key,
+        order: 'desc',
+      });
+    } else {
+      let newOrder: 'desc' | 'cresc' | undefined = this.ordinaElem()?.order;
+
+      if (newOrder === 'desc') {
+        newOrder = 'cresc';
+      } else if (newOrder === 'cresc') {
+        newOrder = undefined;
+      } else {
+        newOrder = 'desc';
+      }
+
+      if (newOrder) {
+        this.ordinaElem.set({
+          key: key,
+          order: newOrder,
+        });
+      } else {
+        this.ordinaElem.set(null);
+      }
+    }
   }, true);
 
   constructor() {
