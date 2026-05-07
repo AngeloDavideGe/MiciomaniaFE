@@ -1,13 +1,11 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
-import {
-  RecordColonne,
-  TabellaCustomComponent,
-} from '../../../../../../shared/components/custom/tabella-custom.component';
+import { TabellaCustomComponent } from '../../../../../../shared/components/custom/tabella-custom.component';
 import { SpinnerComponent } from '../../../../../../shared/components/dialogs/spinner.component';
 import { getAllPoke } from '../handlers/interazioni.handler';
 import { Interazione } from '../interfaces/interazioni.interface';
 import { InterazioniService } from '../services/interazioni.service';
 import { formatOnlyDate } from '../../../../../../shared/pipes/date-format.pipe';
+import { RecordColonne } from '../../../../../../shared/utilities/interfaces/table.interface';
 
 @Component({
   selector: 'app-all-poke',

@@ -14,11 +14,9 @@ import {
 } from '../../../../../shared/interfaces/elementiUtente.interface';
 import { ElementiUtenteService } from '../../../../../shared/services/api/elementiUtente.service';
 import { MangaSongUtilities } from '../../../../../shared/utilities/class/mangaSong.utilities';
-import {
-  FiltriInterface,
-  GetFiltriCustom,
-} from '../../../../../shared/utilities/functions/pagination.utilities';
+import { GetFiltriCustom } from '../../../../../shared/utilities/functions/pagination.utilities';
 import { canzoniMiciomania_imports } from './imports/canzoni-miciomania.import';
+import { FiltriInterface } from '../../../../../shared/utilities/interfaces/pagination.interface';
 
 @Component({
   selector: 'app-canzoni-miciomania',

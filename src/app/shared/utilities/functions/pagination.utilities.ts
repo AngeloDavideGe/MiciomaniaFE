@@ -1,6 +1,11 @@
-import { computed, signal, Signal, WritableSignal } from '@angular/core';
+import { computed, signal } from '@angular/core';
 import { environment } from '../../../../environments/environment';
 import { GetOrderCustom } from '../../functions/utilities.function';
+import {
+  FiltriInterface,
+  FiltriSelect,
+  InputFiltri,
+} from '../interfaces/pagination.interface';
 
 export function GetFiltriCustom<T, F>(
   params: InputFiltri<T, F>,
@@ -11,8 +16,8 @@ export function GetFiltriCustom<T, F>(
   const searchElems = computed<T[]>(() => {
     const elemTot: T[] = params.elemTable();
     const ordina = params.ordinaElem ? params.ordinaElem() : null;
-    const totalPageHttp: number | null = params.totalPageHttp
-      ? params.totalPageHttp()
+    const totalPageHttp: number | null = params.totalElemHttp
+      ? params.totalElemHttp()
       : null;
 
     if (totalPageHttp !== null) return elemTot;
@@ -31,15 +36,15 @@ export function GetFiltriCustom<T, F>(
   const totalPage = computed<number>(() => {
     const search: T[] = searchElems();
 
-    const totalPageHttp: number | null = params.totalPageHttp
-      ? params.totalPageHttp()
-      : null;
-
     const elemForPage: number = params.elemForPage
       ? params.elemForPage()
       : environment.maxElement.elemPagine;
 
-    return totalPageHttp || Math.ceil(search.length / elemForPage);
+    const numElems: number = params.totalElemHttp
+      ? params.totalElemHttp()
+      : search.length;
+
+    return Math.ceil(numElems / elemForPage);
   });
 
   const elemFilter = computed<T[]>(() => {
@@ -50,8 +55,8 @@ export function GetFiltriCustom<T, F>(
       ? params.elemForPage()
       : environment.maxElement.elemPagine;
 
-    const totalPageHttp: number | null = params.totalPageHttp
-      ? params.totalPageHttp()
+    const totalPageHttp: number | null = params.totalElemHttp
+      ? params.totalElemHttp()
       : null;
 
     if (totalPageHttp !== null) return totElem;
@@ -61,10 +66,6 @@ export function GetFiltriCustom<T, F>(
       currentPages * elemForPage,
     );
   });
-
-  const arrayPage = computed<number[]>(() =>
-    Array.from({ length: totalPage() }, (_, i) => i + 1),
-  );
 
   const dettaglioPage = computed<string>(() => {
     const currentPages: number = currentPage();
@@ -109,7 +110,6 @@ export function GetFiltriCustom<T, F>(
     searchElems: searchElems,
     totalPage: totalPage,
     elemFilter: elemFilter,
-    arrayPage: arrayPage,
     currentPage: currentPage,
     dettaglioPage: dettaglioPage,
     previousPage: previousPage,
@@ -147,43 +147,4 @@ function GetRecordFiltri<T, F>(
   }
 
   return RecordFiltri;
-}
-
-export interface FiltriInterface<T> {
-  totalPage: Signal<number>;
-  searchElems: Signal<T[]>;
-  elemFilter: Signal<T[]>;
-  arrayPage: Signal<number[]>;
-  currentPage: WritableSignal<number>;
-  dettaglioPage: Signal<string>;
-  previousPage: Function;
-  nextPage: Function;
-  selectPage: Function;
-}
-
-export interface FiltriSelect<T, F> {
-  key: keyof T;
-  query: WritableSignal<F>;
-}
-
-export interface Ordinamento<T, F> {
-  key: keyof T;
-  order: F;
-}
-
-export interface DataTableHttp<T> {
-  elems: WritableSignal<T[]>;
-  totalPages: WritableSignal<number>;
-  totalElems: WritableSignal<number>;
-}
-
-interface InputFiltri<T, F> {
-  elemTable: Signal<T[]>;
-  elemForPage?: WritableSignal<number>;
-  totalPageHttp?: Signal<number>;
-  totalElemHttp?: Signal<number>;
-  tipoSelect?: 'some' | 'every';
-  select?: FiltriSelect<T, string>[];
-  tabs?: FiltriSelect<T, F | null>;
-  ordinaElem?: WritableSignal<Ordinamento<T, 'desc' | 'cresc'> | null>;
 }

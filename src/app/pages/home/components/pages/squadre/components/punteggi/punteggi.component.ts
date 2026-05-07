@@ -1,5 +1,4 @@
 import { Component, EventEmitter, Input, Output, signal } from '@angular/core';
-import { RecordColonne } from '../../../../../../../shared/components/custom/tabella-custom.component';
 import {
   Classifica,
   Giocatori,
@@ -7,6 +6,7 @@ import {
 } from '../../../../../../../shared/interfaces/squadre.interface';
 import { SquadreLang } from '../../languages/interfaces/squadre-lang.interface';
 import { punteggi_imports } from './imports/punteggi.import';
+import { RecordColonne } from '../../../../../../../shared/utilities/interfaces/table.interface';
 
 @Component({
   selector: 'app-punteggi-component',

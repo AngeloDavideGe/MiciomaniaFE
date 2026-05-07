@@ -7,18 +7,23 @@ import {
   Output,
   Signal,
   signal,
-  WritableSignal,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { environment } from '../../../../environments/environment';
 import { debounceTimeoutCustom } from '../../functions/utilities.function';
 import { CapitalizeFirstLetterPipe } from '../../pipes/capitalize.pipe';
+import { GetFiltriCustom } from '../../utilities/functions/pagination.utilities';
 import {
   DataTableHttp,
   FiltriInterface,
-  GetFiltriCustom,
-  Ordinamento,
-} from '../../utilities/functions/pagination.utilities';
+  RaggioPage,
+} from '../../utilities/interfaces/pagination.interface';
+import {
+  AzioniTabella,
+  ChangePageHttp,
+  OrdinamentoHttp,
+  RecordColonne,
+} from '../../utilities/interfaces/table.interface';
 import { SpinnerComponent } from '../dialogs/spinner.component';
 import {
   PaginazioneCustomComponent,
@@ -140,6 +145,7 @@ import {
           [filtri]="filtri"
           [tipo]="tipoPaginazione"
           [dataTableHttp]="dataTableHttp"
+          [arrayRaggi]="raggiPage"
         ></app-paginazione-custom>
 
         <div
@@ -202,6 +208,7 @@ export class TabellaCustomComponent<T> {
   public ordinaElem = signal<OrdinamentoHttp<T>>(null);
   public filtri: FiltriInterface<T> = {} as FiltriInterface<T>;
   public filtroDefault: boolean = true;
+  public raggiPage: RaggioPage[] = this.getRaggiPage();
   private changePageHttp: ChangePageHttp = {
     page: 1,
     elemForPage: this.elemForPage(),
@@ -278,7 +285,6 @@ export class TabellaCustomComponent<T> {
       this.filtri = GetFiltriCustom<T, null>({
         elemTable: this.dataTableHttp.elems,
         elemForPage: this.elemForPage,
-        totalPageHttp: this.dataTableHttp.totalPages,
         totalElemHttp: this.dataTableHttp.totalElems,
       });
     } else {
@@ -301,30 +307,14 @@ export class TabellaCustomComponent<T> {
     const keyValue: T[keyof T] = item[this.trackByKey];
     return keyValue ?? index;
   }
-}
 
-export type OrdinamentoHttp<T> = Ordinamento<T, 'desc' | 'cresc'> | null;
-export type RecordColonne<T> = { [K in keyof T]: ColonnaConfig<T, K> };
-
-export interface AzioniTabella<T> {
-  icona: string;
-  titolo: string;
-  azione: (elem: T, index: number) => void;
-}
-
-interface ColonnaConfig<T, K extends keyof T> {
-  titolo: string;
-  lunghezza: string;
-  filtro?: WritableSignal<string>;
-  sortCol?: boolean;
-  formatCell?: (value: T[K]) => string;
-}
-
-export interface ChangePageHttp {
-  page: number;
-  elemForPage: number;
-  order: 'desc' | 'cresc' | null;
-  orderKey: string | null;
-  search: string | null;
-  searchKey: string | null;
+  private getRaggiPage(): RaggioPage[] {
+    return [
+      { width: 576, raggio: 1 },
+      { width: 768, raggio: 2 },
+      { width: 992, raggio: 3 },
+      { width: 1200, raggio: 4 },
+      { width: Infinity, raggio: 5 },
+    ];
+  }
 }

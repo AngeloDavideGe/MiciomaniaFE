@@ -16,11 +16,9 @@ import { SpinnerComponent } from '../../../../../../../shared/components/dialogs
 import { sottoscrizioneUtentiCustom } from '../../../../../../../shared/handlers/auth.handler';
 import { UserParams } from '../../../../../../../shared/interfaces/users.interface';
 import { AuthService } from '../../../../../../../shared/services/api/auth.service';
-import {
-  FiltriInterface,
-  GetFiltriCustom,
-} from '../../../../../../../shared/utilities/functions/pagination.utilities';
+import { GetFiltriCustom } from '../../../../../../../shared/utilities/functions/pagination.utilities';
 import { debounceTimeoutCustom } from '../../../../../../../shared/functions/utilities.function';
+import { FiltriInterface } from '../../../../../../../shared/utilities/interfaces/pagination.interface';
 
 @Component({
   selector: 'app-cerca-profili',

@@ -11,11 +11,7 @@ import {
 } from '@angular/core';
 import { Router } from '@angular/router';
 import { IconeListaComponent } from '../../../../../../../shared/components/custom/icone-lista.component';
-import {
-  AzioniTabella,
-  RecordColonne,
-  TabellaCustomComponent,
-} from '../../../../../../../shared/components/custom/tabella-custom.component';
+import { TabellaCustomComponent } from '../../../../../../../shared/components/custom/tabella-custom.component';
 import {
   BadgeRuolo,
   Ruolo,
@@ -25,9 +21,12 @@ import {
   UserParams,
 } from '../../../../../../../shared/interfaces/users.interface';
 import { AuthService } from '../../../../../../../shared/services/api/auth.service';
+import {
+  AzioniTabella,
+  RecordColonne,
+} from '../../../../../../../shared/utilities/interfaces/table.interface';
 import { converUserParams } from '../../../../../functions/home.functions';
 import { AdminLang } from '../../languages/interfaces/admin-lang.interface';
-import { CapitalizeFirstLetterPipe } from '../../../../../../../shared/pipes/capitalize.pipe';
 
 @Component({
   selector: 'app-griglia-admin',
@@ -122,10 +121,8 @@ export class GrigliaAdminComponent {
       titolo: 'Ruolo',
       lunghezza: '7rem',
       sortCol: true,
-      formatCell: (value: Ruolo) => {
-        console.log('aaaa');
-        return value.charAt(0).toUpperCase() + value.slice(1).toLowerCase();
-      },
+      formatCell: (value: Ruolo) =>
+        value.charAt(0).toUpperCase() + value.slice(1).toLowerCase(),
     },
   };
 
