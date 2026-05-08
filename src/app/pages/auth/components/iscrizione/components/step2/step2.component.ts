@@ -29,7 +29,7 @@ import {
 import {
   CheckBoxCustomComponent,
   ICheckBox,
-} from '../../../../../../shared/components/custom/checkbox-custom.component';
+} from '../../../../../../../library/components/checkbox/checkbox.component';
 
 @Component({
   selector: 'app-step2',

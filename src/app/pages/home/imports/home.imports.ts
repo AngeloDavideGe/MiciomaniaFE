@@ -1,7 +1,7 @@
 import { AsyncPipe } from '@angular/common';
 import { Type } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { CustomNavBarComponent } from '../../../shared/components/custom/navbar-custom.component';
+import { CustomNavBarComponent } from '../../../../library/components/navbar/navbar.component';
 import { CarouselHomeComponent } from '../components/ui/carousel-home.component';
 import { CursoreComponent } from '../components/ui/cursore.component';
 import { HomeToggleComponent } from '../components/ui/home-toggle.component';

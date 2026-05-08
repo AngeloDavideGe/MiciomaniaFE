@@ -9,7 +9,7 @@ import { getVoidUser } from '../../shared/handlers/functions/user.function';
 import { Lingua } from '../../shared/interfaces/http.interface';
 import { User, UserParams } from '../../shared/interfaces/users.interface';
 import { AuthService } from '../../shared/services/api/auth.service';
-import { ConfirmService } from '../../shared/services/template/confirm.service';
+import { ConfirmService } from '../../../library/dialogs/confirm.service';
 import { CompAperto, compApertoFunc, recordComp } from './enums/home.enum';
 import { getConfirmParams } from './functions/home.functions';
 import { home_imports } from './imports/home.imports';

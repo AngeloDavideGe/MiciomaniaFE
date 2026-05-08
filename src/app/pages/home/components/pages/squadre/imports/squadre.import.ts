@@ -1,6 +1,6 @@
 import { Type } from '@angular/core';
 import { ErrorHttpComponent } from '../../../../../../shared/components/custom/errorhttp.component';
-import { CustomNavBarComponent } from '../../../../../../shared/components/custom/navbar-custom.component';
+import { CustomNavBarComponent } from '../../../../../../../library/components/navbar/navbar.component';
 import { ChartsPrintComponent } from '../components/charts-print.component';
 import { MNComponent } from '../components/m-n/m-n.component';
 import { MappaSquadreComponent } from '../components/mappa-squadre.component';

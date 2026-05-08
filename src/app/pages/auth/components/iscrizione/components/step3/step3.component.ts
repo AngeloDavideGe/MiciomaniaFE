@@ -6,11 +6,12 @@ import {
   Output,
   signal,
 } from '@angular/core';
+
+import { FormWizard } from '../../../../interfaces/wizard.interface';
 import {
   CheckBoxCustomComponent,
   ICheckBox,
-} from '../../../../../../shared/components/custom/checkbox-custom.component';
-import { FormWizard } from '../../../../interfaces/wizard.interface';
+} from '../../../../../../../library/components/checkbox/checkbox.component';
 
 @Component({
   selector: 'app-step3',

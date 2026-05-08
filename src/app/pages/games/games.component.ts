@@ -10,7 +10,7 @@ import {
 import { NavigationEnd, Router } from '@angular/router';
 import { filter, map, Observable, startWith, tap } from 'rxjs';
 import { DataHttp } from '../../core/api/http.data';
-import { NavBarButton } from '../../shared/components/custom/navbar-custom.component';
+import { NavBarButton } from '../../../library/interfaces/navbar.interface';
 import {
   getSquadreInGame,
   setPunteggioOttenuto,

@@ -12,7 +12,7 @@ import {
   MmicioLang,
   MmicioLangType,
 } from './languages/interfaces/mmicio-lang.interface';
-import { NavBarButton } from '../../../../../shared/components/custom/navbar-custom.component';
+import { NavBarButton } from '../../../../../../library/interfaces/navbar.interface';
 
 @Component({
   selector: 'app-manga-miciomani',

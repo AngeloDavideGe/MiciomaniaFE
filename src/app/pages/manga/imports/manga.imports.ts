@@ -7,7 +7,7 @@ import { FiltriMangaComponent } from '../components/ui/filtri-manga.component';
 import { TabsMangaComponent } from '../components/ui/tabs-manga.component';
 import { CardMangaComponent } from '../shared/card-manga.component';
 import { SpinnerComponent } from '../../../../library/components/spinner/spinner.component';
-import { CustomNavBarComponent } from '../../../shared/components/custom/navbar-custom.component';
+import { CustomNavBarComponent } from '../../../../library/components/navbar/navbar.component';
 
 export const manga_imports: Type<any>[] = [
   RouterOutlet,

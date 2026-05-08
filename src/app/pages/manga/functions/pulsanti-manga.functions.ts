@@ -1,5 +1,5 @@
 import { DataHttp } from '../../../core/api/http.data';
-import { NavBarButton } from '../../../shared/components/custom/navbar-custom.component';
+import { NavBarButton } from '../../../../library/interfaces/navbar.interface';
 import { TabsManga } from '../interfaces/filtri.interface';
 import { MangaLang } from '../languages/interfaces/manga-lang.interface';
 

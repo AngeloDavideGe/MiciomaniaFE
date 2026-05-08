@@ -6,7 +6,7 @@ import {
   Injectable,
 } from '@angular/core';
 import { finalize, Observable, take } from 'rxjs';
-import { ConfirmComponent } from '../../components/dialogs/confirm.component';
+import { ConfirmComponent } from './confirm.component';
 
 @Injectable({
   providedIn: 'root',
@@ -16,7 +16,7 @@ export class ConfirmService {
 
   constructor(
     private appRef: ApplicationRef,
-    private environmentInjector: EnvironmentInjector
+    private environmentInjector: EnvironmentInjector,
   ) {}
 
   public confirmCustom(params: {

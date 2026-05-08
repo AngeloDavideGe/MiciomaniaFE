@@ -1,5 +1,5 @@
 import { Component, signal } from '@angular/core';
-import { NavBarButton } from '../../shared/components/custom/navbar-custom.component';
+import { NavBarButton } from '../../../library/interfaces/navbar.interface';
 import { song_imports } from './components/imports/song.import';
 import { titoloPulsantiSong } from './components/ui/elementi-utente/functions/estenzione.function';
 

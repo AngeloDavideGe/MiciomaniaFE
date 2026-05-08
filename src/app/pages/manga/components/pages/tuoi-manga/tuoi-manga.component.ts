@@ -32,7 +32,7 @@ import {
   TuoiMangaLang,
   TuoiMangaLangType,
 } from './languages/interfaces/tuoiManga-lang.interface';
-import { NavBarButton } from '../../../../../shared/components/custom/navbar-custom.component';
+import { NavBarButton } from '../../../../../../library/interfaces/navbar.interface';
 
 @Component({
   selector: 'app-tuoi-manga',

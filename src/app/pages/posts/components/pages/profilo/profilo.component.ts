@@ -12,7 +12,7 @@ import {
 } from '../../../../../shared/interfaces/http.interface';
 import { User } from '../../../../../shared/interfaces/users.interface';
 import { AuthService } from '../../../../../shared/services/api/auth.service';
-import { ConfirmService } from '../../../../../shared/services/template/confirm.service';
+import { ConfirmService } from '../../../../../../library/dialogs/confirm.service';
 import { LoadingService } from '../../../../../shared/services/template/loading.service';
 import { PostService } from '../../../services/post.service';
 import { Tweet } from '../../shared/post.interface';
@@ -29,7 +29,7 @@ import {
   ProfiloLang,
   ProfiloLangType,
 } from './languages/interfaces/profilo-lang.interface';
-import { TornaIndietro } from '../../../../../shared/components/custom/navbar-custom.component';
+import { TornaIndietro } from '../../../../../../library/interfaces/navbar.interface';
 
 @Component({
   selector: 'app-profilo',

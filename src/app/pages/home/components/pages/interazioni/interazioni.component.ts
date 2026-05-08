@@ -1,10 +1,9 @@
 import { Component, signal } from '@angular/core';
-import {
-  CustomNavBarComponent,
-  NavBarButton,
-} from '../../../../../shared/components/custom/navbar-custom.component';
+
 import { componentInterazioni } from '../admin/interfaces/admin.interface';
 import { AllPokeComponent } from './components/allPoke.component';
+import { CustomNavBarComponent } from '../../../../../../library/components/navbar/navbar.component';
+import { NavBarButton } from '../../../../../../library/interfaces/navbar.interface';
 
 @Component({
   selector: 'app-interazioni.component',

@@ -31,7 +31,7 @@ import {
   MangaLangType,
 } from './languages/interfaces/manga-lang.interface';
 import { MangaService } from './services/manga.service';
-import { NavBarButton } from '../../shared/components/custom/navbar-custom.component';
+import { NavBarButton } from '../../../library/interfaces/navbar.interface';
 import { effectTimeoutCustom } from '../../../library/functions/debounce.function';
 import { compareObjectCustom } from '../../../library/functions/confronto.function';
 

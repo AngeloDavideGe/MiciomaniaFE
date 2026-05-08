@@ -3,7 +3,7 @@ import { FormsModule } from '@angular/forms';
 import { SelezionaOperazioneComponent } from './components/seleziona-operazione.component';
 import { SimboliBase } from './interfaces/math.interface';
 import { MathService } from './services/math.service';
-import { CustomNavBarComponent } from '../../shared/components/custom/navbar-custom.component';
+import { CustomNavBarComponent } from '../../../library/components/navbar/navbar.component';
 
 @Component({
   selector: 'app-math',

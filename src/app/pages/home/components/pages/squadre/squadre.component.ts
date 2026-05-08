@@ -9,7 +9,7 @@ import {
 import { take } from 'rxjs';
 import { DataHttp } from '../../../../../core/api/http.data';
 import { ChatService } from '../../../../../core/components/chat/services/chat.service';
-import { NavBarButton } from '../../../../../shared/components/custom/navbar-custom.component';
+import { NavBarButton } from '../../../../../../library/interfaces/navbar.interface';
 import { loadSquadre } from '../../../../../shared/handlers/squadre.handler';
 import {
   Conquiste,
