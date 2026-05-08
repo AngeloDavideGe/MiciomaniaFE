@@ -3,16 +3,15 @@ import {
   effect,
   EventEmitter,
   inject,
-  Input,
   Output,
   signal,
 } from '@angular/core';
 
-import { FormWizard } from '../../../../interfaces/wizard.interface';
 import {
   CheckBoxCustomComponent,
   ICheckBox,
 } from '../../../../../../../library/components/checkbox/checkbox.component';
+import { FormWizard } from '../../../../interfaces/wizard.interface';
 import { WizardService } from '../../../../services/wizard.service';
 
 @Component({

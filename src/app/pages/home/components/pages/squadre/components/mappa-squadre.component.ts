@@ -1,9 +1,6 @@
 import { NgClass } from '@angular/common';
 import { Component, HostListener, Input, signal } from '@angular/core';
-import {
-  PathSvgCustom,
-  SvgCustomComponent,
-} from '../../../../../../../assets/components/svg-custom.component';
+import { SvgCustomComponent } from '../../../../../../../library/components/svg/svg-custom.component';
 import { SpinnerComponent } from '../../../../../../../library/components/spinner/spinner.component';
 import { debounceTimeoutCustom } from '../../../../../../../library/functions/debounce.function';
 import {
@@ -11,6 +8,7 @@ import {
   Mappa,
 } from '../../../../../../shared/interfaces/github.interface';
 import { renderPieChartMap } from '../functions/draw.function';
+import { PathSvgCustom } from '../../../../../../../library/interfaces/svg.interface';
 
 declare var google: any;
 

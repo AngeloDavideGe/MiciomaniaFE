@@ -24,7 +24,7 @@ import {
   SquadreLang,
   SquadreLangType,
 } from './languages/interfaces/squadre-lang.interface';
-import { PathSvgCustom } from '../../../../../../assets/components/svg-custom.component';
+import { PathSvgCustom } from '../../../../../../library/interfaces/svg.interface';
 import { PATH_MUSCOLI } from './constants/path-muscoli.constant';
 import { PATH_REGIONI } from './constants/path-regioni.constant';
 

@@ -6,10 +6,8 @@ import {
   Output,
   signal,
 } from '@angular/core';
-import {
-  PathSvgCustom,
-  SvgCustomComponent,
-} from '../../../../../../../assets/components/svg-custom.component';
+import { SvgCustomComponent } from '../../../../../../../library/components/svg/svg-custom.component';
+import { PathSvgCustom } from '../../../../../../../library/interfaces/svg.interface';
 
 @Component({
   selector: 'app-ruota-custom',

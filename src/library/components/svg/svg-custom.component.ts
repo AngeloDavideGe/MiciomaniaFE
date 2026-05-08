@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, Output, signal } from '@angular/core';
-import { Mappa } from '../../app/shared/interfaces/github.interface';
+import { Mappa } from '../../../app/shared/interfaces/github.interface';
+import { PathSvgCustom } from '../../interfaces/svg.interface';
 
 @Component({
   selector: 'app-svg-custom',
@@ -153,12 +154,4 @@ export class SvgCustomComponent {
       this.popupY = event.clientY - containerRect.top;
     }
   }
-}
-
-export interface PathSvgCustom {
-  title: string;
-  d: string;
-  fill?: string;
-  textX?: number;
-  textY?: number;
 }

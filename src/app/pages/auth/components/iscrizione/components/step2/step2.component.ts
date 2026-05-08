@@ -36,7 +36,22 @@ import { regioniMock } from '../../constants/regioni.constant';
       (formValido)="formValido.emit($event)"
       (subscribeForm)="wizardService.setWizardForm($event)"
     ></app-form-custom>`,
-  styleUrl: './step2.component.scss',
+  styles: `
+    .gradient-header {
+      background: linear-gradient(
+        90deg,
+        var(--primary-color),
+        var(--primary-hover)
+      );
+      border-bottom: 3px solid rgba(255, 255, 255, 0.25); // Mantenuto effetto visivo
+
+      .card-title {
+        font-weight: 600;
+        letter-spacing: 0.3px;
+        color: var(--surface-color);
+      }
+    }
+  `,
 })
 export class Step2Component implements OnInit, OnDestroy {
   public wizardService = inject(WizardService);
@@ -127,10 +142,14 @@ export class Step2Component implements OnInit, OnDestroy {
   }
 
   private getProvince(nomeReg: string): string[] {
-    return (
-      regioniMock
-        .find((x: Regione) => x.nome == nomeReg)
-        ?.province.map((y: Provincia) => y.nome) || []
+    const regione: Regione | undefined = regioniMock.find(
+      (x: Regione) => x.nome == nomeReg,
     );
+
+    if (regione) {
+      return regione.province.map((y: Provincia) => y.nome);
+    }
+
+    return [];
   }
 }

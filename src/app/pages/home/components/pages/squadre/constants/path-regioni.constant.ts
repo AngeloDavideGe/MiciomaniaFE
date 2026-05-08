@@ -1,4 +1,4 @@
-import { PathSvgCustom } from '../../../../../../../assets/components/svg-custom.component';
+import { PathSvgCustom } from '../../../../../../../library/interfaces/svg.interface';
 
 export const PATH_REGIONI: PathSvgCustom[] = [
   {
