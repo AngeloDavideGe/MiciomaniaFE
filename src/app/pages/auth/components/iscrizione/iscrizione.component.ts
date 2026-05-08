@@ -6,12 +6,13 @@ import {
   Iscrizione,
   User,
 } from '../../../../shared/interfaces/users.interface';
-import { FormWizard } from '../../interfaces/wizard.interface';
 import { stepType, WizardBase } from './base/wizard.base';
 import { iscrizione_imports } from './imports/iscrizione.import';
 import { getSquadreInGame } from '../../../../shared/handlers/squadre.handler';
 import { SquadreService } from '../../../../shared/services/api/squadre.service';
 import { Squadre } from '../../../../shared/interfaces/squadre.interface';
+import { WizardService } from '../../services/wizard.service';
+import { FormWizard } from '../../interfaces/wizard.interface';
 
 @Component({
   selector: 'app-iscrizione',
@@ -21,6 +22,7 @@ import { Squadre } from '../../../../shared/interfaces/squadre.interface';
   styleUrl: './iscrizione.component.scss',
 })
 export class IscrizioneComponent extends WizardBase {
+  public wizardService = inject(WizardService);
   private squadreService = inject(SquadreService);
   public squadreInGame = signal<Squadre[]>([]);
 
@@ -88,8 +90,6 @@ export class IscrizioneComponent extends WizardBase {
       case 2:
         if (this.formValido) {
           this.currentStep.update((x) => (x + 1) as stepType);
-        } else {
-          this.wizardService.setAvantiStep2Premuto();
         }
         break;
       case 3:

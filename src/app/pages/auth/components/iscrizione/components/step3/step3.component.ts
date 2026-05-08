@@ -2,6 +2,7 @@ import {
   Component,
   effect,
   EventEmitter,
+  inject,
   Input,
   Output,
   signal,
@@ -12,6 +13,7 @@ import {
   CheckBoxCustomComponent,
   ICheckBox,
 } from '../../../../../../../library/components/checkbox/checkbox.component';
+import { WizardService } from '../../../../services/wizard.service';
 
 @Component({
   selector: 'app-step3',
@@ -21,7 +23,10 @@ import {
   styleUrl: './step3.component.scss',
 })
 export class Step3Component {
+  private wizardService = inject(WizardService);
+
   public lineeGuidaAccettate = signal<boolean>(false);
+  public wizardData: FormWizard = this.wizardService.getWizardForm();
 
   public lineeGuida: ICheckBox[] = [
     {
@@ -39,7 +44,6 @@ export class Step3Component {
     },
   ];
 
-  @Input() wizardData: FormWizard | null = null;
   @Output() lineeGuidaEvent = new EventEmitter<boolean>();
 
   constructor() {

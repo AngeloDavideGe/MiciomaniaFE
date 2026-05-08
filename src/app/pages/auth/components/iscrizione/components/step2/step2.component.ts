@@ -7,121 +7,110 @@ import {
   OnInit,
   Output,
 } from '@angular/core';
-import {
-  FormBuilder,
-  FormGroup,
-  ReactiveFormsModule,
-  Validators,
-} from '@angular/forms';
-import { Subject, takeUntil } from 'rxjs';
+import { Validators } from '@angular/forms';
+import { ICheckBox } from '../../../../../../../library/components/checkbox/checkbox.component';
+import { FormCustomComponent } from '../../../../../../../library/components/form/form.component';
+import { RecordStruttura } from '../../../../../../../library/interfaces/form.interface';
+import { arrayNotEmptyValidator } from '../../../../../../../library/validators/checkbox.validator';
 import { DataHttp } from '../../../../../../core/api/http.data';
 import { StatoPersona } from '../../../../../../shared/enums/users.enum';
 import { User } from '../../../../../../shared/interfaces/users.interface';
-import { Step2Form } from '../../../../interfaces/auth-forms.interface';
-import { Provincia } from '../../../../interfaces/region.interface';
+import { Provincia, Regione } from '../../../../interfaces/region.interface';
 import { FormWizard } from '../../../../interfaces/wizard.interface';
 import { WizardService } from '../../../../services/wizard.service';
-import { arrayNotEmptyValidator } from '../../../../validators/checkbox.validator';
-import {
-  getProvinceByRegione,
-  getRegioniMap,
-} from '../../functions/region.function';
-import {
-  CheckBoxCustomComponent,
-  ICheckBox,
-} from '../../../../../../../library/components/checkbox/checkbox.component';
+import { regioniMock } from '../../constants/regioni.constant';
 
 @Component({
   selector: 'app-step2',
   standalone: true,
-  imports: [ReactiveFormsModule, CheckBoxCustomComponent],
-  templateUrl: './step2.component.html',
+  imports: [FormCustomComponent],
+  template: `<div
+      class="card-header text-white text-center py-3 mb-2 gradient-header"
+    >
+      <h5 class="card-title mb-0">Modulo di Aggiornamento Profilo</h5>
+    </div>
+
+    <app-form-custom
+      [strutturaForm]="formConfig"
+      [visualizzaPulsanti]="false"
+      (formValido)="formValido.emit($event)"
+      (subscribeForm)="wizardService.setWizardForm($event)"
+    ></app-form-custom>`,
   styleUrl: './step2.component.scss',
 })
 export class Step2Component implements OnInit, OnDestroy {
-  public profileForm!: FormGroup<Step2Form>;
-  private destroy$ = new Subject<void>();
-  public statiPersona = Object.values(StatoPersona);
-  public pulsantePremuto: boolean = false;
-  public province: Provincia[] = [];
+  public wizardService = inject(WizardService);
   public nomeUtente: string = '';
   public email: string = '';
   public formTeams: ICheckBox[] = [];
-  public regioni = getRegioniMap();
+  public formConfig: RecordStruttura = {};
 
   @Input() team!: string[];
   @Output() formValido = new EventEmitter<boolean>();
 
-  private fb = inject(FormBuilder);
-  private wizardService = inject(WizardService);
-
-  get f() {
-    return this.profileForm.controls;
-  }
-
   ngOnInit(): void {
-    this.setFormTeams();
     this.inizializzaForm();
     this.associaUtenteFunc(DataHttp.user());
   }
 
-  ngAfterViewInit(): void {
-    this.sottoscrizioneForm();
-    this.pulsantePremutoFunc();
-  }
-
   ngOnDestroy(): void {
-    this.inviaForm();
-    this.destroy$.next();
-    this.destroy$.complete();
+    this.inviaForm(this.wizardService.getWizardForm());
   }
 
   private inizializzaForm(): void {
-    const wizardFormData: FormWizard = this.wizardService.getWizardForm();
+    const wizard = this.wizardService.getWizardForm();
 
-    if (wizardFormData.regione) {
-      this.province = getProvinceByRegione(wizardFormData.regione);
-    }
-
-    this.profileForm = this.fb.group({
-      squadra: [wizardFormData.squadra || '', arrayNotEmptyValidator()],
-      stato: [wizardFormData.stato || '', Validators.required],
-      regione: [wizardFormData.regione || '', Validators.required],
-      provincia: [wizardFormData.provincia || '', Validators.required],
-    });
-
-    if (this.profileForm.get('regione')?.value === '') {
-      this.profileForm.get('provincia')?.disable();
-    }
-
-    this.formValido.emit(this.profileForm.valid);
+    this.formConfig = {
+      squadra: {
+        titolo: 'Squadra',
+        valueInit: wizard.squadra,
+        validators: [arrayNotEmptyValidator()],
+        tipo: 'Checkbox',
+        checkbox: this.team.map((nome: string) => {
+          return {
+            testo: nome,
+            id: nome,
+          };
+        }),
+      },
+      stato: {
+        titolo: 'Stato',
+        valueInit: wizard.stato,
+        validators: [arrayNotEmptyValidator()],
+        tipo: 'Select',
+        optionsSelect: Object.values(StatoPersona),
+      },
+      regione: {
+        titolo: 'Regione',
+        valueInit: wizard.regione,
+        validators: [Validators.required],
+        tipo: 'Select',
+        optionsSelect: regioniMock.map((x: Regione) => x.nome),
+        onChange: (value: string) => {
+          this.formConfig['provincia'].optionsSelect = this.getProvince(value);
+        },
+      },
+      provincia: {
+        titolo: 'Provincia',
+        valueInit: wizard.provincia,
+        validators: [Validators.required],
+        tipo: 'Select',
+        optionsSelect: this.getProvince(wizard.regione),
+      },
+    };
   }
 
-  inviaForm(): void {
+  inviaForm(params: FormWizard): void {
     const wizardForm: FormWizard = {
       nome: this.nomeUtente,
       email: this.email,
-      squadra: this.profileForm.get('squadra')?.value || '',
-      stato: this.profileForm.get('stato')?.value || StatoPersona.Deriso,
-      regione: this.profileForm.get('regione')?.value || '',
-      provincia: this.profileForm.get('provincia')?.value || '',
+      squadra: params.squadra || '',
+      stato: (params.stato as StatoPersona) || StatoPersona.Deriso,
+      regione: params.regione || '',
+      provincia: params.provincia || '',
     };
+
     this.wizardService.setWizardForm(wizardForm);
-  }
-
-  onTeamChange(check: string): void {
-    const teamControl = this.profileForm.get('squadra');
-    teamControl?.setValue(check);
-    teamControl?.updateValueAndValidity();
-  }
-
-  onRegioneChange(event: any): void {
-    const codiceRegione = event.target.value;
-    const provinciaControl = this.profileForm.get('provincia');
-
-    provinciaControl?.enable();
-    provinciaControl?.setValue('');
-    this.province = getProvinceByRegione(codiceRegione);
   }
 
   private associaUtenteFunc(user: User | null): void {
@@ -132,39 +121,16 @@ export class Step2Component implements OnInit, OnDestroy {
     }
   }
 
-  private sottoscrizioneForm(): void {
-    this.profileForm.statusChanges
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(() => {
-        if (this.profileForm.valid) {
-          this.formValido.emit(true);
-        } else {
-          this.formValido.emit(false);
-        }
-        this.pulsantePremuto = false;
-      });
-  }
-
-  private pulsantePremutoFunc(): void {
-    this.wizardService
-      .getAvantiStep2Premuto$()
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(() => (this.pulsantePremuto = true));
-  }
-
   private associaUtente(nome: string, email: string): void {
     this.nomeUtente = nome;
     this.email = email;
   }
 
-  private setFormTeams(): void {
-    this.formTeams = this.team.map((nome: string) => {
-      return {
-        testo: nome,
-        id: nome,
-      };
-    });
+  private getProvince(nomeReg: string): string[] {
+    return (
+      regioniMock
+        .find((x: Regione) => x.nome == nomeReg)
+        ?.province.map((y: Provincia) => y.nome) || []
+    );
   }
-
-  onSubmit(): void {}
 }

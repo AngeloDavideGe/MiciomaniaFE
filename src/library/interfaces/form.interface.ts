@@ -10,8 +10,9 @@ export type BuildInterface = Record<string, (string | ValidatorFn[])[]>;
 export interface StrutturaForm {
   titolo: string;
   validators: ValidatorFn[];
-  tipo: 'Select' | 'Text' | 'Textarea' | 'Password' | 'Checkbox';
+  tipo: 'Select' | 'Text' | 'Textarea' | 'Password' | 'Checkbox' | 'Date';
   valueInit?: string;
   optionsSelect?: string[];
   checkbox?: ICheckBox[];
+  onChange?: (x: string) => void;
 }

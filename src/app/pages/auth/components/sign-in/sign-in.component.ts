@@ -5,7 +5,7 @@ import { take } from 'rxjs';
 import { FormCustomComponent } from '../../../../../library/components/form/form.component';
 import { RecordStruttura } from '../../../../../library/interfaces/form.interface';
 import { AuthService } from '../../../../shared/services/api/auth.service';
-import { usernameValidator } from '../../validators/username.validator';
+import { usernameValidator } from '../../../../../library/validators/username.validator';
 
 @Component({
   selector: 'app-sign-in',

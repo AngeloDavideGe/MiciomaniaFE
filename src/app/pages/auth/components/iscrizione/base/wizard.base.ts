@@ -1,7 +1,6 @@
 import { effect, inject, signal, WritableSignal } from '@angular/core';
 import { Router } from '@angular/router';
-import { DTO_Wizard, FormWizard } from '../../../interfaces/wizard.interface';
-import { WizardService } from '../../../services/wizard.service';
+import { DTO_Wizard } from '../../../interfaces/wizard.interface';
 import { LoadingService } from '../../../../../shared/services/template/loading.service';
 import { User } from '../../../../../shared/interfaces/users.interface';
 import { AuthService } from '../../../../../shared/services/api/auth.service';
@@ -11,7 +10,6 @@ export type stepType = 1 | 2 | 3;
 export abstract class WizardBase {
   protected router = inject(Router);
   protected authService = inject(AuthService);
-  protected wizardService = inject(WizardService);
   protected loadingService = inject(LoadingService);
 
   protected currentStep: WritableSignal<stepType>;
@@ -22,7 +20,6 @@ export abstract class WizardBase {
   public user: User = {} as User;
   public caricaPersona: boolean = false;
   public viewSuccespage: boolean = true;
-  public wizardData: FormWizard = {} as FormWizard;
 
   constructor() {
     this.scrollTopNextStep();

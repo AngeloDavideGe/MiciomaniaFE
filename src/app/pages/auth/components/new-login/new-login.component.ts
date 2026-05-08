@@ -47,7 +47,7 @@ export class NewLoginComponent extends LoginBase {
     let controllo: boolean = true;
 
     DataHttp.allUsers.forEach((user: User) => {
-      if (user.credenziali.email == this.f['email'].value) {
+      if (user.credenziali.email == params.email) {
         controllo = false;
       }
     });

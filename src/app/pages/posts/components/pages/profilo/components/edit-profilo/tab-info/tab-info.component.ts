@@ -1,53 +1,78 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Validators } from '@angular/forms';
+import { FormCustomComponent } from '../../../../../../../../../library/components/form/form.component';
 import { compareObjectCustom } from '../../../../../../../../../library/functions/confronto.function';
+import { RecordStruttura } from '../../../../../../../../../library/interfaces/form.interface';
+import { DataHttp } from '../../../../../../../../core/api/http.data';
 import { StatoPersona } from '../../../../../../../../shared/enums/users.enum';
 import { User } from '../../../../../../../../shared/interfaces/users.interface';
 import { TabProfiloBase } from '../../../base/tab-profilo.base';
-import { DataHttp } from '../../../../../../../../core/api/http.data';
 import { ProfiloLang } from '../../../languages/interfaces/profilo-lang.interface';
 
 @Component({
   selector: 'tab-info-profilo',
   standalone: true,
-  imports: [ReactiveFormsModule],
-  templateUrl: './tab-info.component.html',
+  imports: [FormCustomComponent],
+  template: `
+    <app-form-custom
+      [strutturaForm]="tabInfoConfig"
+      (invioDati)="onSave($event)"
+    >
+    </app-form-custom>
+  `,
 })
-export class TabInfoComponent extends TabProfiloBase {
+export class TabInfoComponent extends TabProfiloBase implements OnInit {
   public bottoneDisabilitato: boolean = false;
-  public profileForm: FormGroup;
   public statiPersona = Object.values(StatoPersona);
+  public tabInfoConfig: RecordStruttura = {};
 
   @Input() profiloLang!: ProfiloLang;
   @Input() user: User = {} as User;
   @Output() chiudi = new EventEmitter<void>();
 
-  constructor(private fb: FormBuilder) {
-    super();
-    this.profileForm = this.fb.group({
-      nome: [''],
-      email: [''],
-      password: [''],
-      bio: [''],
-      telefono: [''],
-      compleanno: [''],
-      // social: [''],
-    });
-  }
-
   ngOnInit(): void {
-    this.profileForm.patchValue({
-      nome: this.user.credenziali.nome,
-      email: this.user.credenziali.email,
-      password: this.user.credenziali.password,
-      bio: this.user.profile?.bio,
-      telefono: this.user.profile?.telefono,
-      compleanno: this.user.profile?.compleanno,
-    });
+    this.tabInfoConfig = {
+      nome: {
+        titolo: this.profiloLang.nome,
+        valueInit: this.user.credenziali.nome,
+        validators: [Validators.required],
+        tipo: 'Text',
+      },
+      email: {
+        titolo: 'Email',
+        valueInit: this.user.credenziali.email,
+        validators: [Validators.required, Validators.email],
+        tipo: 'Text',
+      },
+      password: {
+        titolo: 'Password',
+        valueInit: this.user.credenziali.password,
+        validators: [Validators.required, Validators.minLength(6)],
+        tipo: 'Password',
+      },
+      bio: {
+        titolo: 'Bio',
+        valueInit: this.user.profile.bio || '',
+        validators: [],
+        tipo: 'Textarea',
+      },
+      telefono: {
+        titolo: this.profiloLang.telefono,
+        valueInit: this.user.profile.telefono || '',
+        validators: [Validators.minLength(9), Validators.maxLength(9)],
+        tipo: 'Text',
+      },
+      compleanno: {
+        titolo: this.profiloLang.compleanno,
+        // valueInit: this.user.profile.compleanno || '',
+        validators: [],
+        tipo: 'Date',
+      },
+    };
   }
 
-  onSave(): void {
-    const updatedUser = this.getUpdateUser();
+  onSave(params: any): void {
+    const updatedUser = this.getUpdateUser(params);
 
     if (this.areUsersEqual(updatedUser, this.user)) {
       alert('Nessuna modifica rilevata');
@@ -68,23 +93,23 @@ export class TabInfoComponent extends TabProfiloBase {
     }
   }
 
-  private getUpdateUser(): User {
+  private getUpdateUser(params: any): User {
     return {
       ...this.user,
       credenziali: {
         ...this.user.credenziali,
-        nome: this.profileForm.value.nome,
-        email: this.profileForm.value.email,
-        password: this.profileForm.value.password,
+        nome: params.nome,
+        email: params.email,
+        password: params.password,
       },
       iscrizione: {
         ...this.user.iscrizione,
       },
       profile: {
         ...this.user.profile,
-        bio: this.profileForm.value.bio,
-        telefono: this.profileForm.value.telefono,
-        compleanno: this.profileForm.value.compleanno,
+        bio: params.bio,
+        telefono: params.telefono,
+        compleanno: params.compleanno,
         social: this.user.profile?.social || null,
       },
     };
