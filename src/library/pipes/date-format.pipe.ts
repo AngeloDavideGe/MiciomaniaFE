@@ -1,11 +1,7 @@
 // date-format.pipe.ts (versione estesa)
 import { Pipe, PipeTransform } from '@angular/core';
 
-type DateFormatType =
-  | 'dd mmmm yyyy'
-  | 'dd/mm/yyyy'
-  | 'yyyy-mm-dd'
-  | 'mmmm dd, yyyy';
+type DateFormatType = 'dd mmmm yyyy' | 'dd/mm/yyyy';
 
 @Pipe({
   name: 'dateFormat',
@@ -52,16 +48,8 @@ export function formatOnlyDate(
   switch (format) {
     case 'dd/mm/yyyy':
       return `${giorni.toString().padStart(2, '0')}/${(meseIndex + 1).toString().padStart(2, '0')}/${anno}`;
-
-    case 'yyyy-mm-dd':
-      return `${anno}-${(meseIndex + 1).toString().padStart(2, '0')}-${giorni.toString().padStart(2, '0')}`;
-
-    case 'mmmm dd, yyyy':
-      return `${mesi[meseIndex]} ${giorni}, ${anno}`;
-
     case 'dd mmmm yyyy':
       return `${giorni} ${mesi[meseIndex]} ${anno}`;
-
     default:
       return `${giorni} ${mesi[meseIndex]} ${anno}`;
   }

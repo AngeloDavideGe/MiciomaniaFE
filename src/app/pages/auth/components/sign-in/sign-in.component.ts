@@ -1,79 +1,79 @@
-import { AfterViewInit, Component, inject, OnDestroy } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
-import { Subject, take, takeUntil } from 'rxjs';
+import { Component, inject } from '@angular/core';
+import { Validators } from '@angular/forms';
+import { Router, RouterLink } from '@angular/router';
+import { take } from 'rxjs';
+import { FormCustomComponent } from '../../../../../library/components/form/form.component';
+import { RecordStruttura } from '../../../../../library/interfaces/form.interface';
 import { AuthService } from '../../../../shared/services/api/auth.service';
-import { SigninForm } from '../../interfaces/auth-forms.interface';
-import { auth_shared_imports } from '../../shared/auth-shared.import';
 import { usernameValidator } from '../../validators/username.validator';
 
 @Component({
   selector: 'app-sign-in',
   standalone: true,
-  imports: auth_shared_imports,
-  templateUrl: './sign-in.component.html',
+  imports: [FormCustomComponent, RouterLink],
+  template: `<div class="card-header text-center">
+      <h3 class="h4">Sign In</h3>
+    </div>
+
+    <app-form-custom
+      [strutturaForm]="signinConfig"
+      (invioDati)="registrazione($event)"
+    >
+      <div erroreCustom>
+        <div class="text-center mt-3">
+          <span>Hai già un account? </span>
+          <a routerLink="/auth/login" class="text-primary"> Accedi </a>
+        </div>
+      </div>
+    </app-form-custom> `,
 })
-export class SignInComponent implements AfterViewInit, OnDestroy {
+export class SignInComponent {
   private authService = inject(AuthService);
   private router = inject(Router);
 
-  public signInForm: FormGroup<SigninForm>;
-  public clickRegistrati: boolean = false;
-  private destroy$ = new Subject<void>();
-
-  constructor(private fb: FormBuilder) {
-    this.signInForm = this.fb.group({
-      nome: ['', [Validators.required, Validators.minLength(3)]],
-      username: [
-        '',
-        [Validators.required, Validators.minLength(3), usernameValidator()],
+  public signinConfig: RecordStruttura = {
+    nome: {
+      titolo: 'Nome',
+      validators: [Validators.required, Validators.minLength(3)],
+      tipo: 'Text',
+    },
+    username: {
+      titolo: 'Username',
+      validators: [
+        Validators.required,
+        Validators.minLength(3),
+        usernameValidator(),
       ],
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(6)]],
-    });
-  }
+      tipo: 'Text',
+    },
+    email: {
+      titolo: 'Email',
+      validators: [Validators.required, Validators.email],
+      tipo: 'Text',
+    },
+    password: {
+      titolo: 'Password',
+      validators: [Validators.required, Validators.minLength(6)],
+      tipo: 'Password',
+    },
+  };
 
-  get f() {
-    return this.signInForm.controls;
-  }
-
-  ngAfterViewInit(): void {
-    this.sottoscrizioneForm();
-  }
-
-  ngOnDestroy(): void {
-    this.destroy$.next();
-    this.destroy$.complete();
-  }
-
-  onSubmit(): void {
-    if (this.signInForm.valid) {
-      this.authService
-        .postUser(
-          this.f['nome'].value!,
-          this.f['username'].value!,
-          this.f['email'].value!,
-          this.f['password'].value!
-        )
-        .pipe(take(1))
-        .subscribe({
-          next: () => this.nextSignIn(),
-          error: (error) => console.error('errore nel sign-in', error),
-        });
-    } else {
-      this.clickRegistrati = true;
-    }
-  }
-
-  private sottoscrizioneForm(): void {
-    this.signInForm.statusChanges
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(() => (this.clickRegistrati = false));
-  }
-
-  private nextSignIn(): void {
-    this.router.navigate(['/auth/login'], {
-      state: { message: this.f['email'].value },
-    });
+  public registrazione(params: {
+    nome: string;
+    username: string;
+    email: string;
+    password: string;
+  }): void {
+    this.authService
+      .postUser(params.nome, params.username, params.email, params.password)
+      .pipe(take(1))
+      .subscribe({
+        next: () => {
+          this.router.navigate(['/auth/login'], {
+            state: { message: params.email },
+          });
+        },
+        error: (error) => console.error('errore nel sign-in', error),
+      });
   }
 }

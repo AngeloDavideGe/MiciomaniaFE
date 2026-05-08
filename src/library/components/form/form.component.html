@@ -1,0 +1,147 @@
+<div class="card profile-card">
+  <div class="card-body">
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      @for (field of arrayForm; track $index) {
+        <div class="form-field">
+          <label [for]="keys[$index]" class="form-label">
+            {{ field.titolo }}
+          </label>
+
+          @switch (field.tipo) {
+            @case ("Text") {
+              <input
+                [id]="keys[$index]"
+                [formControlName]="keys[$index]"
+                type="text"
+                class="form-input"
+                [class.is-invalid]="
+                  f[keys[$index]]?.invalid && f[keys[$index]]?.touched
+                "
+                [class.is-valid]="
+                  f[keys[$index]]?.valid && f[keys[$index]]?.touched
+                "
+              />
+            }
+
+            @case ("Password") {
+              <input
+                [id]="keys[$index]"
+                [formControlName]="keys[$index]"
+                type="password"
+                class="form-input"
+                [class.is-invalid]="
+                  f[keys[$index]]?.invalid && f[keys[$index]]?.touched
+                "
+                [class.is-valid]="
+                  f[keys[$index]]?.valid && f[keys[$index]]?.touched
+                "
+              />
+            }
+
+            @case ("Textarea") {
+              <textarea
+                [id]="keys[$index]"
+                [formControlName]="keys[$index]"
+                rows="4"
+                class="form-input"
+                [class.is-invalid]="
+                  f[keys[$index]]?.invalid && f[keys[$index]]?.touched
+                "
+                [class.is-valid]="
+                  f[keys[$index]]?.valid && f[keys[$index]]?.touched
+                "
+              ></textarea>
+            }
+
+            @case ("Select") {
+              <select
+                [id]="keys[$index]"
+                [formControlName]="keys[$index]"
+                class="form-select"
+                [class.is-invalid]="
+                  f[keys[$index]]?.invalid && f[keys[$index]]?.touched
+                "
+                [class.is-valid]="
+                  f[keys[$index]]?.valid && f[keys[$index]]?.touched
+                "
+              >
+                <option value="">Seleziona un'opzione</option>
+                @for (
+                  option of strutturaForm[keys[$index]].optionsSelect;
+                  track option
+                ) {
+                  <option [value]="option">{{ option }}</option>
+                }
+              </select>
+            }
+
+            @case ("Checkbox") {
+              <app-checkbox-custom
+                [checks]="strutturaForm[keys[$index]].checkbox || []"
+                (checkChange)="onCheckboxChange($event, keys[$index])"
+              >
+              </app-checkbox-custom>
+            }
+          }
+
+          @if (f[keys[$index]]?.invalid && f[keys[$index]]?.touched) {
+            <div class="error-message">
+              @if (f[keys[$index]]?.errors?.["required"]) {
+                <span>Campo obbligatorio</span>
+              }
+              @if (f[keys[$index]]?.errors?.["minlength"]) {
+                <span>
+                  Minimo
+                  {{ f[keys[$index]]?.errors?.["minlength"]?.requiredLength }}
+                  caratteri
+                </span>
+              }
+              @if (f[keys[$index]]?.errors?.["maxlength"]) {
+                <span>
+                  Massimo
+                  {{ f[keys[$index]]?.errors?.["maxlength"]?.requiredLength }}
+                  caratteri
+                </span>
+              }
+              @if (f[keys[$index]]?.errors?.["email"]) {
+                <span>Inserisci un'email valida</span>
+              }
+              @if (f[keys[$index]]?.errors?.["min"]) {
+                <span
+                  >Valore minimo:
+                  {{ f[keys[$index]]?.errors?.["min"]?.min }}</span
+                >
+              }
+              @if (f[keys[$index]]?.errors?.["max"]) {
+                <span
+                  >Valore massimo:
+                  {{ f[keys[$index]]?.errors?.["max"]?.max }}</span
+                >
+              }
+              @if (f[keys[$index]]?.errors?.["pattern"]) {
+                <span>Formato non valido</span>
+              }
+            </div>
+          }
+
+          @if (f[keys[$index]]?.valid && f[keys[$index]]?.touched) {
+            <div class="success-message">✓ Campo valido</div>
+          }
+
+          <div class="custom-error">
+            <ng-content select="[erroreCustom]"></ng-content>
+          </div>
+        </div>
+      }
+
+      <div class="form-actions">
+        <button type="submit" class="btn-submit" [disabled]="form.invalid">
+          Invia
+        </button>
+        <button type="button" class="btn-reset" (click)="onReset()">
+          Resetta
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

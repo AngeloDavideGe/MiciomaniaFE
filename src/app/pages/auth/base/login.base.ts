@@ -54,7 +54,7 @@ export abstract class LoginBase {
       });
   }
 
-  private getEmailRegistrata(): string | null {
+  protected getEmailRegistrata(): string | null {
     const navigation: Navigation | null = this.router.lastSuccessfulNavigation;
     return navigation?.extras.state?.['message'] ?? null;
   }
