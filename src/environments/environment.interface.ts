@@ -8,6 +8,7 @@ export interface IEnvironment {
   maxElement: {
     message: number;
     elemPagine: number;
+    postVisible: number;
   };
   defaultPicsUrl: {
     user: string;

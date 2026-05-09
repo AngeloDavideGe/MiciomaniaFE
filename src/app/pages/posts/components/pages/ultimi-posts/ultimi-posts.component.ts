@@ -1,10 +1,12 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
-import { PostService } from '../../../services/post.service';
-import { filterType } from './components/filtri-post.component';
-import { getAllPubblicazioni } from './handlers/ultimi-post.handler';
-import { ultimiPost_import } from './imports/ultimi-post.import';
-import { TweetAll } from '../../shared/post.interface';
+import { environment } from '../../../../../../environments/environment';
+import { handlerFunc } from '../../../../../../library/functions/handler.function';
 import { GetFiltriCustom } from '../../../../../../library/functions/pagination.function';
+import { DataHttp } from '../../../../../core/api/http.data';
+import { PostService } from '../../../services/post.service';
+import { TweetAll } from '../../shared/post.interface';
+import { filterType } from './components/filtri-post.component';
+import { ultimiPost_import } from './imports/ultimi-post.import';
 
 @Component({
   standalone: true,
@@ -33,10 +35,24 @@ export class UltimiPostsComponent implements OnInit {
   });
 
   ngOnInit(): void {
-    getAllPubblicazioni({
-      postService: this.postService,
-      nextCall: () => this.postCaricati.set(true),
+    handlerFunc<TweetAll[]>({
+      skipCall: this.postService.loadPostsBool,
+      callHttp: () => this.postService.getUltimiPosts(),
+      nextCall: (data: TweetAll[]) => {
+        DataHttp.postVisti = {
+          oldPosts: this.getOldPosts(data, environment.maxElement.postVisible),
+          lastUpdated: new Date(),
+        };
+        this.postService.allPosts.update((posts: TweetAll[]) =>
+          posts.concat(data),
+        );
+        this.postService.newPosts = data;
+        this.postCaricati.set(true);
+      },
+      elseCall: () => this.postCaricati.set(true),
     });
+
+    this.postService.loadPostsBool = true;
   }
 
   public applicaFiltro(filtro: filterType): void {
@@ -52,5 +68,9 @@ export class UltimiPostsComponent implements OnInit {
       default:
         this.searchActive.set('');
     }
+  }
+
+  private getOldPosts(posts: TweetAll[], maxPostsVisible: number): TweetAll[] {
+    return posts.concat(DataHttp.postVisti.oldPosts).slice(-maxPostsVisible);
   }
 }

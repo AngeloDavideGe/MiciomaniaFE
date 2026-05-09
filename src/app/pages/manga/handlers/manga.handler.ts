@@ -1,7 +1,6 @@
 import { take } from 'rxjs';
 import { DataHttp } from '../../../core/api/http.data';
 import { MangaService } from '../services/manga.service';
-import { caricaMangaEPreferiti } from './functions/manga.function';
 import { MangaUtente } from '../../../shared/interfaces/http.interface';
 import { ListaEUtenti, ListaManga } from '../interfaces/manga.interface';
 
@@ -154,4 +153,15 @@ function getMangaPreferiti(
         });
       },
     });
+}
+
+function caricaMangaEPreferiti(params: {
+  data: ListaEUtenti;
+  caricaMangaUtente: (mangaUtente: MangaUtente) => void;
+  caricaListaManga: (listaManga: ListaManga[]) => void;
+}): void {
+  if (params.data.mangaUtente) {
+    params.caricaMangaUtente(params.data.mangaUtente);
+  }
+  params.caricaListaManga(params.data.listaManga);
 }

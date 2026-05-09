@@ -7,14 +7,14 @@ import {
   Output,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { UserParams } from '../../../../../../../shared/interfaces/users.interface';
+import { handlerFunc } from '../../../../../../../../library/functions/handler.function';
+import { CapitalizeFirstLetterPipe } from '../../../../../../../../library/pipes/capitalize.pipe';
 import { Ruolo } from '../../../../../../../shared/enums/users.enum';
-import { CambioRuoloUtente } from '../../interfaces/admin.interface';
-import { AdminLang } from '../../languages/interfaces/admin-lang.interface';
-import { updateRuoloUtenteCustom } from '../../handlers/admin.handler';
+import { UserParams } from '../../../../../../../shared/interfaces/users.interface';
 import { AuthService } from '../../../../../../../shared/services/api/auth.service';
 import { LoadingService } from '../../../../../../../shared/services/template/loading.service';
-import { CapitalizeFirstLetterPipe } from '../../../../../../../../library/pipes/capitalize.pipe';
+import { CambioRuoloUtente } from '../../interfaces/admin.interface';
+import { AdminLang } from '../../languages/interfaces/admin-lang.interface';
 
 @Component({
   selector: 'app-edit-admin',
@@ -118,11 +118,12 @@ export class EditAdminComponent implements OnInit {
       return;
     }
 
-    updateRuoloUtenteCustom({
-      authService: this.authService,
-      loadingService: this.loadingService,
-      userId: this.userEdit.id,
-      ruolo: this.newRuolo,
+    this.loadingService.show();
+
+    handlerFunc<void>({
+      callHttp: () =>
+        this.authService.updateRuoloUtente(this.userEdit.id, this.newRuolo),
+      finalizeCall: () => this.loadingService.hide(),
       nextCall: () => this.nextUpdateRuoloUtente(),
     });
   }

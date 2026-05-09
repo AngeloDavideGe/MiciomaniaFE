@@ -5,6 +5,7 @@ import { Profilo } from '../../../shared/interfaces/http.interface';
 import { BaseService } from '../../../../library/services/base.service';
 import { Tweet, TweetAll } from '../components/shared/post.interface';
 import { HttpParams } from '@angular/common/http';
+import { environment } from '../../../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -15,7 +16,6 @@ export class PostService extends BaseService {
   public oldPosts: TweetAll[] = structuredClone(DataHttp.postVisti.oldPosts);
   public newPosts: TweetAll[] = [];
   public allPosts = signal<TweetAll[]>(this.oldPosts);
-  public readonly maxPostsVisible: number = 20;
 
   constructor() {
     super('CS');
@@ -30,7 +30,7 @@ export class PostService extends BaseService {
   getUltimiPosts(): Observable<TweetAll[]> {
     const params = new HttpParams()
       .set('time', DataHttp.postVisti.lastUpdated.toString())
-      .set('maxPost', this.maxPostsVisible);
+      .set('maxPost', environment.maxElement.postVisible);
 
     return this.getCustom<TweetAll[]>('Posts/get_all_last_posts', params);
   }

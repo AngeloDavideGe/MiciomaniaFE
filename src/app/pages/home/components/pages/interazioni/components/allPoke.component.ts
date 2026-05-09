@@ -1,11 +1,11 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
-import { TabellaCustomComponent } from '../../../../../../../library/components/table/table.component';
 import { SpinnerComponent } from '../../../../../../../library/components/spinner/spinner.component';
-import { getAllPoke } from '../handlers/interazioni.handler';
+import { TabellaCustomComponent } from '../../../../../../../library/components/table/table.component';
+import { handlerFunc } from '../../../../../../../library/functions/handler.function';
+import { RecordColonne } from '../../../../../../../library/interfaces/table.interface';
+import { formatOnlyDate } from '../../../../../../../library/pipes/date-format.pipe';
 import { Interazione } from '../interfaces/interazioni.interface';
 import { InterazioniService } from '../services/interazioni.service';
-import { formatOnlyDate } from '../../../../../../../library/pipes/date-format.pipe';
-import { RecordColonne } from '../../../../../../../library/interfaces/table.interface';
 
 @Component({
   selector: 'app-all-poke',
@@ -26,16 +26,6 @@ import { RecordColonne } from '../../../../../../../library/interfaces/table.int
     </div>
 
     <div class="elemento-centrato">
-      <!-- @if (interazioniHttp()) {
-        <app-table-custom
-          [colonne]="colonne"
-          [dataTableHttp]="interazioniHttp()"
-          [elemForPage]="elemForPage"
-          [titoloTabella]="'Top Miciomani Innamorati'"
-          (changeElements)="changeElements($event)"
-        ></app-table-custom>
-      } -->
-
       @if (interazioniService.allInterazioni().length > 0) {
         <app-table-custom
           [colonne]="colonne"
@@ -52,8 +42,6 @@ import { RecordColonne } from '../../../../../../../library/interfaces/table.int
 export class AllPokeComponent implements OnInit {
   public interazioniService = inject(InterazioniService);
   public elemForPage = signal<number>(5);
-  // private primaVolta: boolean = true;
-  // public interazioniHttp = signal<DataTableHttp<Interazione> | null>(null);
 
   public readonly colonne: Partial<RecordColonne<Interazione>> = {
     user1: {
@@ -80,50 +68,11 @@ export class AllPokeComponent implements OnInit {
   };
 
   ngOnInit(): void {
-    // getPokePaginate({
-    //   interazioniService: this.interazioniService,
-    //   el: this.elemForPage(),
-    //   num: 1,
-    //   ord: 'desc',
-    //   key: 'conteggio',
-    //   nextCallback: (interazioni: InterazioniPaginate) => {
-    //     this.interazioniHttp.set({
-    //       elems: signal(interazioni.elems),
-    //       totalElems: signal(interazioni.totElems),
-    //       totalPages: signal(
-    //         Math.ceil(interazioni.totElems / this.elemForPage()),
-    //       ),
-    //     });
-    //   },
-    // });
-
-    getAllPoke({
-      interazioniService: this.interazioniService,
-      nextCall: (interazioni: Interazione[]) => {},
+    handlerFunc<Interazione[]>({
+      skipCall: this.interazioniService.allInterazioni().length > 0,
+      callHttp: () => this.interazioniService.getAllInterazioni(),
+      nextCall: (interazioni: Interazione[]) =>
+        this.interazioniService.allInterazioni.set(interazioni),
     });
   }
-
-  // public changeElements(change: ChangePageHttp): void {
-  //   if (this.primaVolta) {
-  //     this.primaVolta = false;
-  //     return;
-  //   }
-
-  //   this.interazioniHttp()!.elems.set([]);
-
-  //   getPokePaginate({
-  //     interazioniService: this.interazioniService,
-  //     el: change.elemForPage,
-  //     num: change.page,
-  //     ord: change.order ? change.order : 'desc',
-  //     key: change.orderKey ? change.orderKey : 'conteggio',
-  //     nextCallback: (interazioni: InterazioniPaginate) => {
-  //       this.interazioniHttp()!.elems.set(interazioni.elems);
-  //       this.interazioniHttp()!.totalElems.set(interazioni.totElems);
-  //       this.interazioniHttp()!.totalPages.set(
-  //         Math.ceil(interazioni.totElems / this.elemForPage()),
-  //       );
-  //     },
-  //   });
-  // }
 }

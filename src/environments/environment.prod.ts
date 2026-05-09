@@ -10,6 +10,7 @@ export const environment: IEnvironment = {
   maxElement: {
     message: 20,
     elemPagine: 20,
+    postVisible: 20,
   },
   defaultPicsUrl: {
     user: 'https://png.pngtree.com/png-vector/20191009/ourlarge/pngtree-user-icon-png-image_1796659.jpg',

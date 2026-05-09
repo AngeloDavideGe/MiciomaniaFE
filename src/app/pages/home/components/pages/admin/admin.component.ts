@@ -7,6 +7,7 @@ import {
   Signal,
 } from '@angular/core';
 import { Router } from '@angular/router';
+import { handlerFunc } from '../../../../../../library/functions/handler.function';
 import { DataHttp } from '../../../../../core/api/http.data';
 import { Ruolo } from '../../../../../shared/enums/users.enum';
 import { sottoscrizioneUtentiCustom } from '../../../../../shared/handlers/auth.handler';
@@ -18,7 +19,6 @@ import {
 import { AuthService } from '../../../../../shared/services/api/auth.service';
 import { LoadingService } from '../../../../../shared/services/template/loading.service';
 import { converUserParams } from '../../../functions/home.functions';
-import { updateRuoloUtenteCustom } from './handlers/admin.handler';
 import { admin_imports } from './imports/admin.imports';
 import { CambioRuoloUtente } from './interfaces/admin.interface';
 import {
@@ -110,11 +110,11 @@ export class AdminComponent implements OnInit {
       nuovoRuolo: Ruolo.user,
     };
 
-    updateRuoloUtenteCustom({
-      authService: this.authService,
-      loadingService: this.loadingService,
-      userId: user.id,
-      ruolo: Ruolo.user,
+    this.loadingService.show();
+
+    handlerFunc<void>({
+      callHttp: () => this.authService.updateRuoloUtente(user.id, Ruolo.user),
+      finalizeCall: () => this.loadingService.hide(),
       nextCall: () => this.ruoloModificato(userRuolo),
     });
   }

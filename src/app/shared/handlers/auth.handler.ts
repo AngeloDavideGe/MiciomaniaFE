@@ -8,26 +8,22 @@ export function sottoscrizioneUtentiCustom(params: {
   authService: AuthService;
   nextCall: () => void;
 }): void {
-  if (params.authService.users().length == 0) {
-    params.authService.users.set([]);
-
-    handlerFunc<UserParams[]>({
-      callHttp: () => params.authService.getAllUsersHttp(),
-      nextCall: (data: UserParams[]) => {
-        const user: User | null = DataHttp.user();
-        if (user && user.id) {
-          params.authService.users.set(
-            data.filter((x: UserParams) => x.id !== user.id),
-          );
-        } else {
-          params.authService.users.set(data);
-        }
-        params.nextCall();
-      },
-    });
-  } else {
-    params.nextCall();
-  }
+  handlerFunc<UserParams[]>({
+    skipCall: params.authService.users().length > 0,
+    callHttp: () => params.authService.getAllUsersHttp(),
+    nextCall: (data: UserParams[]) => {
+      const user: User | null = DataHttp.user();
+      if (user && user.id) {
+        params.authService.users.set(
+          data.filter((x: UserParams) => x.id !== user.id),
+        );
+      } else {
+        params.authService.users.set(data);
+      }
+      params.nextCall();
+    },
+    elseCall: () => params.nextCall(),
+  });
 }
 
 export function updateUserCustom(params: {
