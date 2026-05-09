@@ -1,7 +1,7 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
-import { environment } from '../../../../../../environments/environment';
 import { handlerFunc } from '../../../../../../library/functions/handler.function';
 import { GetFiltriCustom } from '../../../../../../library/functions/pagination.function';
+import { AppConfigService } from '../../../../../core/api/appConfig.service';
 import { DataHttp } from '../../../../../core/api/http.data';
 import { PostService } from '../../../services/post.service';
 import { TweetAll } from '../../shared/post.interface';
@@ -17,6 +17,7 @@ import { ultimiPost_import } from './imports/ultimi-post.import';
 })
 export class UltimiPostsComponent implements OnInit {
   public postService = inject(PostService);
+  private appConfig = inject(AppConfigService);
 
   public selectedFilter = signal<filterType>(null);
   public searchQuery = signal<string>('');
@@ -40,7 +41,10 @@ export class UltimiPostsComponent implements OnInit {
       callHttp: () => this.postService.getUltimiPosts(),
       nextCall: (data: TweetAll[]) => {
         DataHttp.postVisti = {
-          oldPosts: this.getOldPosts(data, environment.maxElement.postVisible),
+          oldPosts: this.getOldPosts(
+            data,
+            this.appConfig.config.maxElement.postVisible,
+          ),
           lastUpdated: new Date(),
         };
         this.postService.allPosts.update((posts: TweetAll[]) =>

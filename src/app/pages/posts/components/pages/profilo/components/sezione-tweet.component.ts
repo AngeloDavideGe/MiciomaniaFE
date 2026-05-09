@@ -7,10 +7,10 @@ import {
   Output,
   TemplateRef,
 } from '@angular/core';
+import { AppConfigService } from '../../../../../../core/api/appConfig.service';
+import { Profilo } from '../../../../../../shared/interfaces/http.interface';
 import { PostService } from '../../../../services/post.service';
 import { modaleApertaType } from '../interfaces/profilo.interface';
-import { Profilo } from '../../../../../../shared/interfaces/http.interface';
-import { environment } from '../../../../../../../environments/environment';
 
 @Component({
   selector: 'app-sezione-tweet',
@@ -133,7 +133,9 @@ import { environment } from '../../../../../../../environments/environment';
 })
 export class SezioneTweetComponent {
   public postService = inject(PostService);
-  public readonly defaultPic = environment.defaultPicsUrl.user;
+  private appConfig = inject(AppConfigService);
+
+  public readonly defaultPic = this.appConfig.config.defaultPicsUrl.user;
 
   @Input() profilo!: Profilo;
   @Input() profiloPersonale!: boolean;

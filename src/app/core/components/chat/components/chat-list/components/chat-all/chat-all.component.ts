@@ -10,14 +10,14 @@ import {
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { finalize, take } from 'rxjs';
-import { ChangePicCustomComponent } from '../../../../../../../shared/components/custom/change-pic-custom.component';
 import { effectTimeoutCustom } from '../../../../../../../../library/functions/debounce.function';
 import { GetFiltriCustom } from '../../../../../../../../library/functions/pagination.function';
+import { FiltriInterface } from '../../../../../../../../library/interfaces/pagination.interface';
+import { ChangePicCustomComponent } from '../../../../../../../shared/components/custom/change-pic-custom.component';
+import { AppConfigService } from '../../../../../../api/appConfig.service';
 import { DataHttp } from '../../../../../../api/http.data';
 import { Gruppo, LastMess } from '../../../../interfaces/chat.interface';
 import { ChatService } from '../../../../services/chat.service';
-import { environment } from '../../../../../../../../environments/environment';
-import { FiltriInterface } from '../../../../../../../../library/interfaces/pagination.interface';
 
 @Component({
   selector: 'app-chat-all',
@@ -28,13 +28,15 @@ import { FiltriInterface } from '../../../../../../../../library/interfaces/pagi
 })
 export class ChatAllComponent implements OnInit {
   public chatService = inject(ChatService);
+  private configService = inject(AppConfigService);
 
   public editGruppoPic = signal<boolean>(false);
   public searchTerm = signal<string>('');
   private debounce = signal<string>('');
 
   public filtri: FiltriInterface<Gruppo> = {} as FiltriInterface<Gruppo>;
-  public readonly groupPic: string = environment.defaultPicsUrl.group;
+  public readonly groupPic: string =
+    this.configService.config.defaultPicsUrl.group;
 
   @Input() allGruppi!: Gruppo[];
   @Input() allGruppiRecord!: Record<number, LastMess>;

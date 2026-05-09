@@ -1,4 +1,4 @@
-import { environment } from '../../../../../environments/environment';
+import { AppConfigService } from '../../../api/appConfig.service';
 import { DataHttp } from '../../../api/http.data';
 import {
   DropDownMessaggi,
@@ -53,18 +53,22 @@ export function getMessaggioBenvenuto(): Messaggio {
 
 export function getMessaggioCompBenvenuto(
   message: Messaggio,
+  configService: AppConfigService,
 ): IMessaggioComponent {
   return {
     message: message,
     name: message.sender,
     replySender: '',
     replyText: '',
-    urlPic: environment.defaultPicsUrl.user,
+    urlPic: configService.config.defaultPicsUrl.user,
     class2: 'received',
   };
 }
 
-export function addNewMessage(gruppi: GruppiChat): void {
+export function addNewMessage(
+  gruppi: GruppiChat,
+  configService: AppConfigService,
+): void {
   const messaggi: Record<number, Messaggio[]> =
     DataHttp.gruppiChat.messaggi || {};
   const cambiati: Record<number, MessaggioUpdate[]> =
@@ -100,7 +104,7 @@ export function addNewMessage(gruppi: GruppiChat): void {
       }
 
       const newMessages: Messaggio[] = gruppi.messaggi[chatId] || [];
-      const maxMessages: number = environment.maxElement.message;
+      const maxMessages: number = configService.config.maxElement.message;
       const allMessages: Messaggio[] = messaggi[chatId].concat(newMessages);
 
       if (allMessages.length > maxMessages) {

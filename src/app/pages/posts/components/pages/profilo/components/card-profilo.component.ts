@@ -7,13 +7,15 @@ import {
   Output,
   TemplateRef,
 } from '@angular/core';
-import { EditableSocial } from '../interfaces/profilo.interface';
-import { PostService } from '../../../../services/post.service';
-import { modaleApertaType } from '../interfaces/profilo.interface';
+import { AppConfigService } from '../../../../../../core/api/appConfig.service';
 import { Profilo } from '../../../../../../shared/interfaces/http.interface';
-import { ProfiloLang } from '../languages/interfaces/profilo-lang.interface';
+import { PostService } from '../../../../services/post.service';
 import { errorPageProfilo } from '../error/error.profilo';
-import { environment } from '../../../../../../../environments/environment';
+import {
+  EditableSocial,
+  modaleApertaType,
+} from '../interfaces/profilo.interface';
+import { ProfiloLang } from '../languages/interfaces/profilo-lang.interface';
 
 @Component({
   selector: 'app-card-profilo',
@@ -150,7 +152,10 @@ import { environment } from '../../../../../../../environments/environment';
 })
 export class CardProfiloComponent {
   public postService = inject(PostService);
-  public readonly defaultImg: string = environment.defaultPicsUrl.user;
+  private appConfig = inject(AppConfigService);
+
+  public readonly defaultImg: string =
+    this.appConfig.config.defaultPicsUrl.user;
 
   @Input() profiloLang!: ProfiloLang;
   @Input() socialArray!: EditableSocial[];

@@ -1,5 +1,5 @@
-import { environment } from '../../../../../environments/environment';
 import { RealtimePayload } from '../../../../shared/interfaces/supabase.interface';
+import { AppConfigService } from '../../../api/appConfig.service';
 import { DataHttp } from '../../../api/http.data';
 import { Messaggio } from '../interfaces/chat.interface';
 import { ChatService } from '../services/chat.service';
@@ -7,12 +7,13 @@ import { ChatService } from '../services/chat.service';
 export function insertMessageRealtime(
   payload: RealtimePayload<any>,
   chatService: ChatService,
+  configService: AppConfigService,
 ): void {
   const chatId: number = payload.new.chat_id;
   const currentMessages: Messaggio[] = [
     ...(DataHttp.gruppiChat.messaggi[chatId] || []),
     payload.new,
-  ].slice(-environment.maxElement.message);
+  ].slice(-configService.config.maxElement.message);
 
   DataHttp.gruppiChat = {
     ...DataHttp.gruppiChat,

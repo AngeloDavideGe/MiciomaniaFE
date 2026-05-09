@@ -7,16 +7,16 @@ import {
   signal,
 } from '@angular/core';
 import { take } from 'rxjs';
-import { environment } from '../../../../../../environments/environment';
+import { GetFiltriCustom } from '../../../../../../library/functions/pagination.function';
+import { FiltriInterface } from '../../../../../../library/interfaces/pagination.interface';
+import { AppConfigService } from '../../../../../core/api/appConfig.service';
 import {
   CanzoniParodia,
   MangaSong,
 } from '../../../../../shared/interfaces/elementiUtente.interface';
 import { ElementiUtenteService } from '../../../../../shared/services/api/elementiUtente.service';
 import { MangaSongUtilities } from '../../../../../shared/utilities/class/mangaSong.utilities';
-import { GetFiltriCustom } from '../../../../../../library/functions/pagination.function';
 import { canzoniMiciomania_imports } from './imports/canzoni-miciomania.import';
-import { FiltriInterface } from '../../../../../../library/interfaces/pagination.interface';
 
 @Component({
   selector: 'app-canzoni-miciomania',
@@ -26,8 +26,10 @@ import { FiltriInterface } from '../../../../../../library/interfaces/pagination
 export class CanzoniMiciomaniaComponent implements OnInit {
   public msu = new MangaSongUtilities();
   private euService = inject(ElementiUtenteService);
+  private appConfig = inject(AppConfigService);
 
-  public readonly defaultPic: string = environment.defaultPicsUrl.song;
+  public readonly defaultPic: string =
+    this.appConfig.config.defaultPicsUrl.song;
   public readonly canzoniForPage: number = 10;
   public filtriMiciomania: FiltriInterface<MangaSong> = {} as any;
   public filtriUtente: FiltriInterface<MangaSong> = {} as any;

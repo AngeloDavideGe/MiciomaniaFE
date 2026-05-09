@@ -10,10 +10,10 @@ import {
   signal,
   ViewChild,
 } from '@angular/core';
-import { environment } from '../../../../../../environments/environment';
 import { handlerFunc } from '../../../../../../library/functions/handler.function';
 import { User } from '../../../../../shared/interfaces/users.interface';
 import { AuthService } from '../../../../../shared/services/api/auth.service';
+import { AppConfigService } from '../../../../api/appConfig.service';
 import { DataHttp } from '../../../../api/http.data';
 import {
   addNewMessage,
@@ -43,6 +43,7 @@ import { ChatGroupComponent } from './components/chat-group/chat-group.component
 export class ChatListComponent implements OnInit, OnDestroy {
   public chatService = inject(ChatService);
   private authService = inject(AuthService);
+  private configService = inject(AppConfigService);
 
   public user: User | null = null;
   public allGruppi: Gruppo[] = [];
@@ -51,7 +52,7 @@ export class ChatListComponent implements OnInit, OnDestroy {
   public spinner = signal<boolean>(false);
   public messages = computed<Messaggio[]>(() => this.computedMessage());
   public userMessageMap = computed<Record<string, UserReduced>>(() =>
-    mapUserMessage(this.authService),
+    mapUserMessage(this.authService, this.configService),
   );
 
   @Output() chiudiChat = new EventEmitter<void>();
@@ -73,7 +74,7 @@ export class ChatListComponent implements OnInit, OnDestroy {
       handlerFunc<GruppiChat>({
         callHttp: () => this.chatService.loadChatGruppi(),
         nextCall: (gruppi: GruppiChat) => {
-          addNewMessage(gruppi);
+          addNewMessage(gruppi, this.configService);
           this.chatService.activateListener();
           this.chatService.messaggiCaricatiBool = true;
           this.loadComplete();
@@ -127,7 +128,7 @@ export class ChatListComponent implements OnInit, OnDestroy {
     let messaggi: Messaggio[] = DataHttp.gruppiChat.messaggi[idChat] || [];
     let messaggioComp: IMessaggioComponent[] = [];
     const messagesIdMap: Record<number, Messaggio> = {};
-    const defaultPic: string = environment.defaultPicsUrl.user;
+    const defaultPic: string = this.configService.config.defaultPicsUrl.user;
 
     if (messaggi.length !== 0) {
       messaggioComp = messaggi.map((message) => {
@@ -168,7 +169,9 @@ export class ChatListComponent implements OnInit, OnDestroy {
       });
     } else {
       messaggi = [getMessaggioBenvenuto()];
-      messaggioComp = [getMessaggioCompBenvenuto(messaggi[0])];
+      messaggioComp = [
+        getMessaggioCompBenvenuto(messaggi[0], this.configService),
+      ];
     }
 
     this.messaggiComp = messaggioComp;

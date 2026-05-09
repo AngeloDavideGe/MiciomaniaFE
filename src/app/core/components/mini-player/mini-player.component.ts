@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { MiniPlayerService } from '../../../shared/services/template/mini-player.service';
-import { environment } from '../../../../environments/environment';
+import { AppConfigService } from '../../api/appConfig.service';
 
 @Component({
   selector: 'app-mini-player',
@@ -293,5 +293,7 @@ import { environment } from '../../../../environments/environment';
 })
 export class MiniPlayerComponent {
   public miniPlayerService = inject(MiniPlayerService);
-  public readonly defaultPic: string = environment.defaultPicsUrl.song;
+  private appConfig = inject(AppConfigService);
+  public readonly defaultPic: string =
+    this.appConfig.config.defaultPicsUrl.song;
 }

@@ -1,7 +1,8 @@
 import { Component, computed, inject, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { take } from 'rxjs';
-import { environment } from '../../../../../../environments/environment';
+import { NavBarButton } from '../../../../../../library/interfaces/navbar.interface';
+import { AppConfigService } from '../../../../../core/api/appConfig.service';
 import { DataHttp } from '../../../../../core/api/http.data';
 import { MangaParodia } from '../../../../../shared/interfaces/elementiUtente.interface';
 import { Lingua } from '../../../../../shared/interfaces/http.interface';
@@ -12,7 +13,6 @@ import {
   MmicioLang,
   MmicioLangType,
 } from './languages/interfaces/mmicio-lang.interface';
-import { NavBarButton } from '../../../../../../library/interfaces/navbar.interface';
 
 @Component({
   selector: 'app-manga-miciomani',
@@ -22,9 +22,11 @@ import { NavBarButton } from '../../../../../../library/interfaces/navbar.interf
 })
 export class MangaMiciomaniComponent implements OnInit {
   public euService = inject(ElementiUtenteService);
+  private appConfig = inject(AppConfigService);
   public router = inject(Router);
 
-  public readonly mangaDefaultPic: string = environment.defaultPicsUrl.manga;
+  public readonly mangaDefaultPic: string =
+    this.appConfig.config.defaultPicsUrl.manga;
   public mangaSongUtilities = new MangaSongUtilities();
   public mmicioLang: MmicioLang = {} as MmicioLang;
   public pulsanti: NavBarButton[] = [];

@@ -13,7 +13,7 @@ export abstract class BaseService {
 
   constructor(db: 'CS' | 'PY' | 'DB2') {
     this.baseUrl = environment.BE[db];
-    this.headers = getHeader(this.appConfig.config[db].KEY);
+    this.headers = getHeader(this.appConfig.config.HEADERS[db].KEY);
   }
 
   protected getCustom<T>(url: string, params: HttpParams): Observable<T> {

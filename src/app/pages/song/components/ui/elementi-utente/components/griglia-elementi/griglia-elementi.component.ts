@@ -1,21 +1,24 @@
-import { Component, Input } from '@angular/core';
+import { Component, inject, Input } from '@angular/core';
+import { AppConfigService } from '../../../../../../../core/api/appConfig.service';
 import { CardCustomComponent } from '../../../../../../../shared/components/custom/card-custom.component';
 import { UtenteParodie } from '../../../../../../../shared/interfaces/elementiUtente.interface';
 import { MangaSongUtilities } from '../../../../../../../shared/utilities/class/mangaSong.utilities';
 import { ElemLang } from '../../languages/interfaces/elem-lang.interface';
-import { environment } from '../../../../../../../../environments/environment';
 
 @Component({
   selector: 'app-griglia-elementi',
   standalone: true,
   imports: [CardCustomComponent],
   templateUrl: './griglia-elementi.component.html',
-  // styles: [``],
 })
 export class GrigliaElementiComponent {
+  private appConfig = inject(AppConfigService);
   public msu = new MangaSongUtilities();
-  public readonly defaultMangaPic: string = environment.defaultPicsUrl.manga;
-  public readonly defaultSongPic: string = environment.defaultPicsUrl.song;
+
+  public readonly defaultMangaPic: string =
+    this.appConfig.config.defaultPicsUrl.manga;
+  public readonly defaultSongPic: string =
+    this.appConfig.config.defaultPicsUrl.song;
 
   @Input() elemLang!: ElemLang;
   @Input() eu!: UtenteParodie;

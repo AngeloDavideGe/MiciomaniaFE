@@ -10,15 +10,15 @@ import {
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-import { environment } from '../../../../../../../../environments/environment';
 import { PaginazioneCustomComponent } from '../../../../../../../../library/components/pagination/pagination.component';
 import { SpinnerComponent } from '../../../../../../../../library/components/spinner/spinner.component';
+import { debounceTimeoutCustom } from '../../../../../../../../library/functions/debounce.function';
+import { GetFiltriCustom } from '../../../../../../../../library/functions/pagination.function';
+import { FiltriInterface } from '../../../../../../../../library/interfaces/pagination.interface';
+import { AppConfigService } from '../../../../../../../core/api/appConfig.service';
 import { sottoscrizioneUtentiCustom } from '../../../../../../../shared/handlers/auth.handler';
 import { UserParams } from '../../../../../../../shared/interfaces/users.interface';
 import { AuthService } from '../../../../../../../shared/services/api/auth.service';
-import { GetFiltriCustom } from '../../../../../../../../library/functions/pagination.function';
-import { debounceTimeoutCustom } from '../../../../../../../../library/functions/debounce.function';
-import { FiltriInterface } from '../../../../../../../../library/interfaces/pagination.interface';
 
 @Component({
   selector: 'app-cerca-profili',
@@ -32,9 +32,10 @@ export class CercaProfiliComponent implements OnInit {
 
   public router = inject(Router);
   private authService = inject(AuthService);
+  private appConfig = inject(AppConfigService);
 
   private readonly itemsPerPage: number = 5;
-  public readonly defaultPic = environment.defaultPicsUrl.user;
+  public readonly defaultPic = this.appConfig.config.defaultPicsUrl.user;
   public filtri: FiltriInterface<UserParams> = {} as any;
 
   private debounceQuery = signal<string>('');

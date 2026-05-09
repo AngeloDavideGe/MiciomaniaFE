@@ -1,10 +1,9 @@
 import { Injectable, signal } from '@angular/core';
 import { from, Observable } from 'rxjs';
-import { environment } from '../../../../../environments/environment';
-import { uploadImage } from '../../../../shared/functions/upload-pic.function';
 import { formatDataCustom } from '../../../../../library/functions/confronto.function';
-import { RealtimePayload } from '../../../../shared/interfaces/supabase.interface';
 import { BaseService } from '../../../../../library/services/base.service';
+import { uploadImage } from '../../../../shared/functions/upload-pic.function';
+import { RealtimePayload } from '../../../../shared/interfaces/supabase.interface';
 import { DataHttp } from '../../../api/http.data';
 import {
   getRealTimeFilter,
@@ -39,7 +38,7 @@ export class ChatService extends BaseService {
   loadChatGruppi(): Observable<GruppiChat> {
     const body = {
       last_updated: DataHttp.gruppiChat.ultimoAggiornamento,
-      max_message: environment.maxElement.message,
+      max_message: this.appConfig.config.maxElement.message,
       last_message_id: DataHttp.gruppiChat.ultimoId,
     };
 
@@ -84,7 +83,7 @@ export class ChatService extends BaseService {
       .on('postgres_changes', filter, (payload: RealtimePayload<any>) => {
         switch (payload.eventType) {
           case 'INSERT': {
-            insertMessageRealtime(payload, this);
+            insertMessageRealtime(payload, this, this.appConfig);
             break;
           }
           case 'UPDATE': {

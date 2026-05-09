@@ -1,4 +1,4 @@
-import { Injectable, signal } from '@angular/core';
+import { inject, Injectable, signal } from '@angular/core';
 import { Observable } from 'rxjs';
 import { DataHttp } from '../../../core/api/http.data';
 import { Profilo } from '../../../shared/interfaces/http.interface';
@@ -6,6 +6,7 @@ import { BaseService } from '../../../../library/services/base.service';
 import { Tweet, TweetAll } from '../components/shared/post.interface';
 import { HttpParams } from '@angular/common/http';
 import { environment } from '../../../../environments/environment';
+import { AppConfigService } from '../../../core/api/appConfig.service';
 
 @Injectable({
   providedIn: 'root',
@@ -30,7 +31,7 @@ export class PostService extends BaseService {
   getUltimiPosts(): Observable<TweetAll[]> {
     const params = new HttpParams()
       .set('time', DataHttp.postVisti.lastUpdated.toString())
-      .set('maxPost', environment.maxElement.postVisible);
+      .set('maxPost', this.appConfig.config.maxElement.postVisible);
 
     return this.getCustom<TweetAll[]>('Posts/get_all_last_posts', params);
   }

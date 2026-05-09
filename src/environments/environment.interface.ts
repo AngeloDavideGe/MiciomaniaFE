@@ -5,15 +5,4 @@ export interface IEnvironment {
     PY: string;
     DB2: string;
   };
-  maxElement: {
-    message: number;
-    elemPagine: number;
-    postVisible: number;
-  };
-  defaultPicsUrl: {
-    user: string;
-    group: string;
-    song: string;
-    manga: string;
-  };
 }
