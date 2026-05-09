@@ -32,20 +32,14 @@ export class IscrizioneComponent extends WizardBase {
 
   constructor() {
     super();
-    this.iscrizioneUser();
-    this.loadSquadre();
-  }
 
-  private loadSquadre(): void {
+    this.user = DataHttp.user() ?? ({} as User);
+    this.caricaPersona = true;
+
     getSquadreInGame({
       squadreService: this.squadreService,
       nextCall: (squadre: Squadre[]) => this.squadreInGame.set(squadre),
     });
-  }
-
-  private iscrizioneUser(): void {
-    this.user = DataHttp.user() ?? ({} as User);
-    this.caricaPersona = true;
   }
 
   private inviaIscrizione(): void {

@@ -1,6 +1,6 @@
 import { Injectable, signal } from '@angular/core';
 import { Observable } from 'rxjs';
-import { BaseService } from '../base/base.service';
+import { BaseService } from '../../../../library/services/base.service';
 import {
   Classifica,
   Squadre,

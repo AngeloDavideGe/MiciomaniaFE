@@ -1,6 +1,6 @@
-import { take } from 'rxjs';
+import { handlerFunc } from '../../../library/functions/handler.function';
 import { DataHttp } from '../../core/api/http.data';
-import { Classifica, Squadre } from '../interfaces/squadre.interface';
+import { Squadre } from '../interfaces/squadre.interface';
 import { SquadreService } from '../services/api/squadre.service';
 
 export function getSquadreInGame(params: {
@@ -8,58 +8,15 @@ export function getSquadreInGame(params: {
   nextCall: Function;
 }): void {
   if (params.squadreService.squadraInGame.length == 0) {
-    params.squadreService
-      .getSquadre()
-      .pipe(take(1))
-      .subscribe({
-        next: (data: Squadre[]) => {
-          params.squadreService.squadraInGame = data;
-          params.nextCall(data);
-        },
-        error: (err) => console.error('errore nel recupero squadre', err),
-      });
+    handlerFunc<Squadre[]>({
+      callHttp: () => params.squadreService.getSquadre(),
+      nextCall: (data: Squadre[]) => {
+        params.squadreService.squadraInGame = data;
+        params.nextCall(data);
+      },
+    });
   } else {
     params.nextCall(params.squadreService.squadraInGame);
-  }
-}
-
-export function updatePunteggioSquadra(params: {
-  squadreService: SquadreService;
-  userId: string;
-  nomeSquadra: string;
-  nextUpdatePunteggio: Function;
-}): void {
-  params.squadreService
-    .updatePunteggioSquadra(
-      params.userId,
-      params.nomeSquadra,
-      DataHttp.punteggioOttenuto,
-    )
-    .pipe(take(1))
-    .subscribe({
-      next: () => params.nextUpdatePunteggio(),
-      error: (err) => console.error('errore nel update punteggio', err),
-    });
-}
-
-export function loadSquadre(params: {
-  squadreService: SquadreService;
-  nextCall: Function;
-  errorCall: Function;
-}): void {
-  if (params.squadreService.classifica().squadre.length == 0) {
-    params.squadreService
-      .getClassifica()
-      .pipe(take(1))
-      .subscribe({
-        next: (data: Classifica) => params.nextCall(data),
-        error: (err) => {
-          console.error('errore nel recupero squadre', err);
-          params.errorCall();
-        },
-      });
-  } else {
-    params.nextCall(params.squadreService.classifica());
   }
 }
 

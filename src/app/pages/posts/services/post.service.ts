@@ -2,7 +2,7 @@ import { Injectable, signal } from '@angular/core';
 import { Observable } from 'rxjs';
 import { DataHttp } from '../../../core/api/http.data';
 import { Profilo } from '../../../shared/interfaces/http.interface';
-import { BaseService } from '../../../shared/services/base/base.service';
+import { BaseService } from '../../../../library/services/base.service';
 import { Tweet, TweetAll } from '../components/shared/post.interface';
 import { HttpParams } from '@angular/common/http';
 

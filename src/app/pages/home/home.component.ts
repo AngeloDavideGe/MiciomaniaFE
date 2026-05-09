@@ -2,14 +2,14 @@ import { Component, effect, inject, signal } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import 'bootstrap'; // Importa Bootstrap JS (incluso Popper.js)
 import { filter, map, Observable, startWith, tap } from 'rxjs';
+import { ConfirmService } from '../../../library/dialogs/confirm.service';
+import { handlerFunc } from '../../../library/functions/handler.function';
 import { DataHttp } from '../../core/api/http.data';
 import { setUserDataNull } from '../../core/functions/storage.function';
-import { sottoscrizioneUtenti } from '../../shared/handlers/auth.handler';
 import { getVoidUser } from '../../shared/handlers/functions/user.function';
 import { Lingua } from '../../shared/interfaces/http.interface';
 import { User, UserParams } from '../../shared/interfaces/users.interface';
 import { AuthService } from '../../shared/services/api/auth.service';
-import { ConfirmService } from '../../../library/dialogs/confirm.service';
 import { CompAperto, compApertoFunc, recordComp } from './enums/home.enum';
 import { getConfirmParams } from './functions/home.functions';
 import { home_imports } from './imports/home.imports';
@@ -65,9 +65,10 @@ export class HomeComponent {
 
   private loadUsers(): void {
     this.compAperto.cursore.set(false);
-    sottoscrizioneUtenti({
-      authService: this.authService,
-      elseCall: () => {},
+
+    handlerFunc<UserParams[]>({
+      skipCall: this.authService.users().length > 0,
+      callHttp: () => this.authService.getAllUsersHttp(),
       nextCall: (data: UserParams[]) => this.handleUsersSubscription(data),
     });
   }

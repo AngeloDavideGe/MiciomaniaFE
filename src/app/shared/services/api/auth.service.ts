@@ -3,7 +3,7 @@ import { Injectable, signal } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Ruolo } from '../../enums/users.enum';
 import { User, UserParams } from '../../interfaces/users.interface';
-import { BaseService } from '../base/base.service';
+import { BaseService } from '../../../../library/services/base.service';
 
 @Injectable({
   providedIn: 'root',

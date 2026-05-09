@@ -7,10 +7,11 @@ import {
   signal,
 } from '@angular/core';
 import { take } from 'rxjs';
+import { handlerFunc } from '../../../../../../library/functions/handler.function';
+import { NavBarButton } from '../../../../../../library/interfaces/navbar.interface';
+import { PathSvgCustom } from '../../../../../../library/interfaces/svg.interface';
 import { DataHttp } from '../../../../../core/api/http.data';
 import { ChatService } from '../../../../../core/components/chat/services/chat.service';
-import { NavBarButton } from '../../../../../../library/interfaces/navbar.interface';
-import { loadSquadre } from '../../../../../shared/handlers/squadre.handler';
 import {
   Conquiste,
   MN,
@@ -19,14 +20,13 @@ import { Lingua } from '../../../../../shared/interfaces/http.interface';
 import { Classifica } from '../../../../../shared/interfaces/squadre.interface';
 import { GitHubService } from '../../../../../shared/services/api/github.service';
 import { SquadreService } from '../../../../../shared/services/api/squadre.service';
+import { PATH_MUSCOLI } from './constants/path-muscoli.constant';
+import { PATH_REGIONI } from './constants/path-regioni.constant';
 import { squadre_imports } from './imports/squadre.import';
 import {
   SquadreLang,
   SquadreLangType,
 } from './languages/interfaces/squadre-lang.interface';
-import { PathSvgCustom } from '../../../../../../library/interfaces/svg.interface';
-import { PATH_MUSCOLI } from './constants/path-muscoli.constant';
-import { PATH_REGIONI } from './constants/path-regioni.constant';
 
 type componentType = 'Squadre' | 'print' | 'Mappa' | 'Muscoli' | 'M-N';
 
@@ -85,10 +85,9 @@ export class SquadreComponent implements OnInit, AfterViewInit {
   }
 
   private loadSquadre(): void {
-    loadSquadre({
-      squadreService: this.squadreService,
+    handlerFunc<Classifica>({
+      callHttp: () => this.squadreService.getClassifica(),
       nextCall: (data: Classifica) => this.squadreService.classifica.set(data),
-      errorCall: () => this.error.set(true),
     });
   }
 

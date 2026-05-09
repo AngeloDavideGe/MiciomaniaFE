@@ -1,8 +1,8 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { Observable } from 'rxjs';
-import { environment } from '../../../../environments/environment';
-import { AppConfigService } from '../../../core/api/appConfig.service';
+import { environment } from '../../environments/environment';
+import { AppConfigService } from '../../app/core/api/appConfig.service';
 
 export abstract class BaseService {
   protected http = inject(HttpClient);

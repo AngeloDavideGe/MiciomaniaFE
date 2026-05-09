@@ -7,7 +7,7 @@ import {
   Proposta,
   UtenteParodie,
 } from '../../interfaces/elementiUtente.interface';
-import { BaseService } from '../base/base.service';
+import { BaseService } from '../../../../library/services/base.service';
 
 @Injectable({
   providedIn: 'root',

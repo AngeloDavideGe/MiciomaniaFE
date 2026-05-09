@@ -1,6 +1,9 @@
 import { Component, inject, OnDestroy, signal } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Subject, takeUntil } from 'rxjs';
+import { ConfirmService } from '../../../../../../library/dialogs/confirm.service';
+import { handlerFunc } from '../../../../../../library/functions/handler.function';
+import { TornaIndietro } from '../../../../../../library/interfaces/navbar.interface';
 import { AppConfigService } from '../../../../../core/api/appConfig.service';
 import { DataHttp } from '../../../../../core/api/http.data';
 import { uploadImage } from '../../../../../shared/functions/upload-pic.function';
@@ -12,14 +15,10 @@ import {
 } from '../../../../../shared/interfaces/http.interface';
 import { User } from '../../../../../shared/interfaces/users.interface';
 import { AuthService } from '../../../../../shared/services/api/auth.service';
-import { ConfirmService } from '../../../../../../library/dialogs/confirm.service';
 import { LoadingService } from '../../../../../shared/services/template/loading.service';
+import { mapToProfilo } from '../../../../home/functions/profilo.function';
 import { PostService } from '../../../services/post.service';
 import { Tweet } from '../../shared/post.interface';
-import {
-  deletePubblicazioneById,
-  getProfiloById,
-} from './handlers/profilo.handler';
 import { profilo_imports } from './imports/profilo.imports';
 import {
   EditableSocial,
@@ -29,7 +28,6 @@ import {
   ProfiloLang,
   ProfiloLangType,
 } from './languages/interfaces/profilo-lang.interface';
-import { TornaIndietro } from '../../../../../../library/interfaces/navbar.interface';
 
 @Component({
   selector: 'app-profilo',
@@ -131,12 +129,15 @@ export class ProfiloComponent implements OnDestroy {
 
   private sottoscrizioneProfilo(userId: string): void {
     this.loaderService.show();
-    getProfiloById({
-      postService: this.postService,
-      userId: userId,
-      setLocalStorage: (profilo: Profilo) => this.setLocalStorage(profilo),
-      caricamentoCompletato: () => this.caricamentoCompletato(),
-      caricamentoFallito: () => this.caricamentoFallito(),
+
+    handlerFunc<Profilo>({
+      callHttp: () => this.postService.getProfiloById(userId),
+      mapCall: (valueDb: any) => mapToProfilo(valueDb),
+      nextCall: (data: Profilo) => {
+        this.setLocalStorage(data);
+        this.caricamentoCompletato();
+      },
+      errorCall: () => this.caricamentoFallito(),
     });
   }
 
@@ -180,15 +181,14 @@ export class ProfiloComponent implements OnDestroy {
 
   private confirmEliminaTweet(tweetId: number): void {
     this.loaderService.show();
-    deletePubblicazioneById({
-      postService: this.postService,
-      tweetId: tweetId,
+
+    handlerFunc<void>({
+      callHttp: () => this.postService.deletePubblicazioni(tweetId),
       finalizeCall: () => this.loaderService.hide(),
-      nextCall: () => {
-        this.profilo.tweets = this.profilo.tweets.filter(
+      nextCall: () =>
+        (this.profilo.tweets = this.profilo.tweets.filter(
           (tweet: Tweet) => tweet.id != tweetId,
-        );
-      },
+        )),
     });
   }
 

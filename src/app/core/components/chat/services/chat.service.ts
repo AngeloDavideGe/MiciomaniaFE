@@ -4,7 +4,7 @@ import { environment } from '../../../../../environments/environment';
 import { uploadImage } from '../../../../shared/functions/upload-pic.function';
 import { formatDataCustom } from '../../../../../library/functions/confronto.function';
 import { RealtimePayload } from '../../../../shared/interfaces/supabase.interface';
-import { BaseService } from '../../../../shared/services/base/base.service';
+import { BaseService } from '../../../../../library/services/base.service';
 import { DataHttp } from '../../../api/http.data';
 import {
   getRealTimeFilter,

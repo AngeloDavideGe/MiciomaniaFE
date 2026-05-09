@@ -1,11 +1,11 @@
 import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
 import { Validators } from '@angular/forms';
 import { FormCustomComponent } from '../../../../../../../library/components/form/form.component';
+import { handlerFunc } from '../../../../../../../library/functions/handler.function';
 import { RecordStruttura } from '../../../../../../../library/interfaces/form.interface';
 import { DataHttp } from '../../../../../../core/api/http.data';
 import { PostService } from '../../../../services/post.service';
 import { Tweet } from '../../../shared/post.interface';
-import { postPubblicazioni } from '../handlers/profilo.handler';
 import { ProfiloLang } from '../languages/interfaces/profilo-lang.interface';
 
 @Component({
@@ -80,9 +80,8 @@ export class NewTweetComponent {
       immaginePost: '',
     };
 
-    postPubblicazioni({
-      postService: this.postService,
-      tweet: tweet,
+    handlerFunc<Tweet>({
+      callHttp: () => this.postService.postPubblicazioni(tweet),
       nextCall: () => DataHttp.profiloPersonale?.tweets.unshift(tweet),
     });
 

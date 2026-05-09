@@ -1,5 +1,5 @@
 import { Injectable, signal } from '@angular/core';
-import { BaseService } from '../../../../../../shared/services/base/base.service';
+import { BaseService } from '../../../../../../../library/services/base.service';
 import {
   Interazione,
   InterazioniPaginate,

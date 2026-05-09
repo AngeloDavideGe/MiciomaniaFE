@@ -9,12 +9,12 @@ import {
 } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { filter, map, Observable, startWith, tap } from 'rxjs';
-import { DataHttp } from '../../core/api/http.data';
+import { handlerFunc } from '../../../library/functions/handler.function';
 import { NavBarButton } from '../../../library/interfaces/navbar.interface';
+import { DataHttp } from '../../core/api/http.data';
 import {
   getSquadreInGame,
   setPunteggioOttenuto,
-  updatePunteggioSquadra,
 } from '../../shared/handlers/squadre.handler';
 import { Giocatori, Squadre } from '../../shared/interfaces/squadre.interface';
 import { User } from '../../shared/interfaces/users.interface';
@@ -105,11 +105,14 @@ export class GamesComponent implements OnInit, OnDestroy {
         (squadra: Squadre) => squadra.nome,
       );
 
-      updatePunteggioSquadra({
-        squadreService: this.squadreService,
-        userId: user.id,
-        nomeSquadra: user.iscrizione.squadra || '',
-        nextUpdatePunteggio: () => this.nextUpdatePunteggio(squadre, punteggio),
+      handlerFunc<void>({
+        callHttp: () =>
+          this.squadreService.updatePunteggioSquadra(
+            user.id,
+            user.iscrizione.squadra || '',
+            DataHttp.punteggioOttenuto,
+          ),
+        nextCall: () => this.nextUpdatePunteggio(squadre, punteggio),
       });
     }
   }

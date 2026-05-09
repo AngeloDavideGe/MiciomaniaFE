@@ -18,7 +18,7 @@ import { ElementiUtenteService } from '../../../../../../../shared/services/api/
 import { ProposaPrePost } from '../../interfaces/dropbox.interface';
 import { ElemLang } from '../../languages/interfaces/elem-lang.interface';
 import { DropboxService } from '../../services/dropbox.service';
-import { fileValidator } from '../../validators/proposta.validator';
+import { fileValidator } from '../../../../../../../../library/validators/file.validator';
 import {
   PopostaNonExtend,
   Proposta,

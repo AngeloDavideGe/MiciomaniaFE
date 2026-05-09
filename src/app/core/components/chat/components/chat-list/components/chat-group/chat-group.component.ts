@@ -11,16 +11,17 @@ import {
   ViewChild,
   ViewChildren,
 } from '@angular/core';
+import { handlerFunc } from '../../../../../../../../library/functions/handler.function';
 import { User } from '../../../../../../../shared/interfaces/users.interface';
 import { DataHttp } from '../../../../../../api/http.data';
 import { getDropDown } from '../../../../functions/messaggi.function';
-import { sendMessage, updateMessage } from '../../../../handlers/chat.handler';
 import {
   DropDownAperta,
   IMessaggioComponent,
   Messaggio,
   ModificaInput,
   OutputDropdown,
+  ReturnEditMessage,
   RispostaInput,
 } from '../../../../interfaces/chat.interface';
 import { ChatService } from '../../../../services/chat.service';
@@ -93,10 +94,12 @@ export class ChatGroupComponent implements AfterViewInit, AfterViewChecked {
 
   sendOrEditMessaggio(newMessaggio: ModificaInput): void {
     if (newMessaggio.idMessaggio) {
-      updateMessage({
-        chatService: this.chatService,
-        id: newMessaggio.idMessaggio,
-        content: newMessaggio.content,
+      handlerFunc<ReturnEditMessage>({
+        callHttp: () =>
+          this.chatService.updateMessages(
+            newMessaggio.idMessaggio || 0,
+            newMessaggio.content,
+          ),
       });
       this.modifica.set(null);
     } else {
@@ -115,15 +118,19 @@ export class ChatGroupComponent implements AfterViewInit, AfterViewChecked {
       this.messages.length === 0 ||
       new Date(lastDate).getDate() !== new Date().getDate();
 
-    sendMessage({
-      chatService: this.chatService,
-      ifCond: this.evitaSpam,
+    handlerFunc<void>({
+      skipCall: !this.evitaSpam,
+      callHttp: () =>
+        this.chatService.sendMessage(
+          this.chatId,
+          DataHttp.user()!.id,
+          content,
+          this.risposta()?.idMessaggio || null,
+          separator,
+        ),
       nextCall: () => this.evitaSpamFunc(),
-      newMessage: content,
-      risposta: this.risposta()?.idMessaggio || null,
-      idChat: this.chatId,
-      separator: separator,
     });
+
     this.risposta.set(null);
   }
 
@@ -160,10 +167,9 @@ export class ChatGroupComponent implements AfterViewInit, AfterViewChecked {
       };
 
       const eliminaMessaggio: Function = () =>
-        updateMessage({
-          chatService: this.chatService,
-          id: event.idMessaggio,
-          content: '',
+        handlerFunc<ReturnEditMessage>({
+          callHttp: () =>
+            this.chatService.updateMessages(event.idMessaggio, ''),
         });
 
       this.dropdownAperta.set({

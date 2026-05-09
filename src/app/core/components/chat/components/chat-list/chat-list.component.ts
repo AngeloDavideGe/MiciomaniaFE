@@ -11,14 +11,16 @@ import {
   ViewChild,
 } from '@angular/core';
 import { environment } from '../../../../../../environments/environment';
+import { handlerFunc } from '../../../../../../library/functions/handler.function';
 import { User } from '../../../../../shared/interfaces/users.interface';
+import { AuthService } from '../../../../../shared/services/api/auth.service';
 import { DataHttp } from '../../../../api/http.data';
 import {
+  addNewMessage,
   getMessaggioBenvenuto,
   getMessaggioCompBenvenuto,
 } from '../../functions/messaggi.function';
 import { mapUserMessage } from '../../functions/user-map.function';
-import { loadMessages } from '../../handlers/chat.handler';
 import {
   GruppiChat,
   Gruppo,
@@ -30,7 +32,6 @@ import {
 import { ChatService } from '../../services/chat.service';
 import { ChatAllComponent } from './components/chat-all/chat-all.component';
 import { ChatGroupComponent } from './components/chat-group/chat-group.component';
-import { AuthService } from '../../../../../shared/services/api/auth.service';
 
 @Component({
   selector: 'app-chat-list',
@@ -68,9 +69,15 @@ export class ChatListComponent implements OnInit, OnDestroy {
       this.loadComplete();
     } else {
       this.spinner.set(true);
-      loadMessages({
-        chatService: this.chatService,
-        nextCall: () => this.loadComplete(),
+
+      handlerFunc<GruppiChat>({
+        callHttp: () => this.chatService.loadChatGruppi(),
+        nextCall: (gruppi: GruppiChat) => {
+          addNewMessage(gruppi);
+          this.chatService.activateListener();
+          this.chatService.messaggiCaricatiBool = true;
+          this.loadComplete();
+        },
       });
     }
   }
