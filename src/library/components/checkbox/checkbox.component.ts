@@ -56,7 +56,7 @@ import {
 })
 export class CheckBoxCustomComponent implements OnInit {
   @Input() checks!: ICheckBox[];
-  @Input() initialChecked: string | null = null;
+  @Input() initialChecked?: string;
   @Input() tipo: 'single' | 'multiple' = 'single';
 
   @Output() checkChange = new EventEmitter<string>();

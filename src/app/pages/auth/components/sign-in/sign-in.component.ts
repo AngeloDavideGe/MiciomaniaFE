@@ -36,6 +36,7 @@ export class SignInComponent {
       titolo: 'Nome',
       validators: [Validators.required, Validators.minLength(3)],
       tipo: 'Text',
+      errorMessage: 'Campo Obbligatorio (Almeno 3 lettere)',
     },
     username: {
       titolo: 'Username',
@@ -44,17 +45,20 @@ export class SignInComponent {
         Validators.minLength(3),
         usernameValidator(),
       ],
+      errorMessage: 'Campo Obbligatorio (Almeno 3 lettere minuscole)',
       tipo: 'Text',
     },
     email: {
       titolo: 'Email',
       validators: [Validators.required, Validators.email],
       tipo: 'Text',
+      errorMessage: 'Campo Obbligatorio (prova@ex)',
     },
     password: {
       titolo: 'Password',
       validators: [Validators.required, Validators.minLength(6)],
       tipo: 'Password',
+      errorMessage: 'Campo Obbligatorio (Almeno 6 lettere)',
     },
   };
 

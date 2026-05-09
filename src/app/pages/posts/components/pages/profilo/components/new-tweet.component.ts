@@ -31,7 +31,7 @@ import { ProfiloLang } from '../languages/interfaces/profilo-lang.interface';
         ></button>
       </div>
 
-      <div class="card-body" style="padding: 20px">
+      <div class="card-body" style="padding: 10px">
         <app-form-custom
           [strutturaForm]="newTweetConfig"
           (invioDati)="inviaTweet($event)"
@@ -68,6 +68,7 @@ export class NewTweetComponent {
       titolo: 'Descrizione',
       validators: [Validators.required],
       tipo: 'Textarea',
+      errorMessage: 'Campo Obbligatorio',
     },
   };
 

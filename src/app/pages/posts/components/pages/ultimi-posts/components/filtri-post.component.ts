@@ -23,9 +23,9 @@ import {
         <div class="filter-actions">
           <app-button-custom
             [text]="'Azzera'"
-            [disabled]="selectedFilter === null"
+            [disabled]="selectedFilter === undefined"
             [color]="'secondary-custom'"
-            (clickBotton)="applyFilters(null)"
+            (clickBotton)="applyFilters(undefined)"
           ></app-button-custom>
           <app-button-custom
             [text]="'Applica'"
@@ -128,7 +128,7 @@ export class FiltriPostComponent {
 
   selectFilter(filter: string): void {
     if (this.selectedFilter === filter) {
-      this.selectedFilter = null;
+      this.selectedFilter = undefined;
     } else {
       this.selectedFilter = filter as filterType;
     }
@@ -140,4 +140,4 @@ export class FiltriPostComponent {
   }
 }
 
-export type filterType = 'user' | 'post' | null;
+export type filterType = 'user' | 'post' | undefined;

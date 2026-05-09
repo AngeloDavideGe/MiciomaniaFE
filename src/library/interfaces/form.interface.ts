@@ -12,6 +12,7 @@ export interface StrutturaForm {
   validators: ValidatorFn[];
   tipo: 'Select' | 'Text' | 'Textarea' | 'Password' | 'Checkbox' | 'Date';
   valueInit?: string;
+  errorMessage?: string;
   optionsSelect?: string[];
   checkbox?: ICheckBox[];
   onChange?: (x: string) => void;

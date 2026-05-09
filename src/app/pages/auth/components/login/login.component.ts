@@ -32,11 +32,13 @@ export class LoginComponent extends LoginBase {
       titolo: 'Email',
       valueInit: this.getEmailRegistrata() || '',
       validators: [Validators.required, Validators.email],
+      errorMessage: 'Campo Obbligatorio (prova@ex)',
       tipo: 'Text',
     },
     password: {
       titolo: 'Password',
       validators: [Validators.required, Validators.minLength(6)],
+      errorMessage: 'Campo Obbligatorio (Almeno 6 lettere)',
       tipo: 'Password',
     },
   };

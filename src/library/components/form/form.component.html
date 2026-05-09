@@ -1,4 +1,4 @@
-<form [formGroup]="form" (ngSubmit)="onSubmit()">
+<form [formGroup]="form" (ngSubmit)="onSubmit()" class="p-3">
   @for (field of arrayForm; track $index) {
     <div class="form-field">
       <label [for]="keys[$index]" class="form-label">
@@ -96,6 +96,7 @@
         @case ("Checkbox") {
           <app-checkbox-custom
             [checks]="strutturaForm[keys[$index]].checkbox || []"
+            [initialChecked]="strutturaForm[keys[$index]].valueInit"
             (checkChange)="onCheckboxChange($event, keys[$index])"
           >
           </app-checkbox-custom>
@@ -104,39 +105,7 @@
 
       @if (f[keys[$index]]?.invalid && f[keys[$index]]?.touched) {
         <div class="error-message">
-          @if (f[keys[$index]]?.errors?.["required"]) {
-            <span>Campo obbligatorio</span>
-          }
-          @if (f[keys[$index]]?.errors?.["minlength"]) {
-            <span>
-              Minimo
-              {{ f[keys[$index]]?.errors?.["minlength"]?.requiredLength }}
-              caratteri
-            </span>
-          }
-          @if (f[keys[$index]]?.errors?.["maxlength"]) {
-            <span>
-              Massimo
-              {{ f[keys[$index]]?.errors?.["maxlength"]?.requiredLength }}
-              caratteri
-            </span>
-          }
-          @if (f[keys[$index]]?.errors?.["email"]) {
-            <span>Inserisci un'email valida</span>
-          }
-          @if (f[keys[$index]]?.errors?.["min"]) {
-            <span
-              >Valore minimo: {{ f[keys[$index]]?.errors?.["min"]?.min }}</span
-            >
-          }
-          @if (f[keys[$index]]?.errors?.["max"]) {
-            <span
-              >Valore massimo: {{ f[keys[$index]]?.errors?.["max"]?.max }}</span
-            >
-          }
-          @if (f[keys[$index]]?.errors?.["pattern"]) {
-            <span>Formato non valido</span>
-          }
+          {{ strutturaForm[keys[$index]]?.errorMessage || " " }}
         </div>
       }
 

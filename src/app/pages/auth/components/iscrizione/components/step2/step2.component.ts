@@ -81,6 +81,7 @@ export class Step2Component implements OnInit, OnDestroy {
         valueInit: wizard.squadra,
         validators: [arrayNotEmptyValidator()],
         tipo: 'Checkbox',
+        errorMessage: 'Campo Obbligatorio (1 opzione)',
         checkbox: this.team.map((nome: string) => {
           return {
             testo: nome,
@@ -93,6 +94,7 @@ export class Step2Component implements OnInit, OnDestroy {
         valueInit: wizard.stato,
         validators: [arrayNotEmptyValidator()],
         tipo: 'Select',
+        errorMessage: 'Campo Obbligatorio (1 Opzione)',
         optionsSelect: Object.values(StatoPersona),
       },
       regione: {
@@ -100,6 +102,7 @@ export class Step2Component implements OnInit, OnDestroy {
         valueInit: wizard.regione,
         validators: [Validators.required],
         tipo: 'Select',
+        errorMessage: 'Campo Obbligatorio (1 Opzione)',
         optionsSelect: regioniMock.map((x: Regione) => x.nome),
         onChange: (value: string) => {
           this.formConfig['provincia'].optionsSelect = this.getProvince(value);
@@ -110,6 +113,7 @@ export class Step2Component implements OnInit, OnDestroy {
         valueInit: wizard.provincia,
         validators: [Validators.required],
         tipo: 'Select',
+        errorMessage: 'Campo Obbligatorio (1 Opzione)',
         optionsSelect: this.getProvince(wizard.regione),
       },
     };

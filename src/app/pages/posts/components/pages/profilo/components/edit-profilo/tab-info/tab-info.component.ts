@@ -37,18 +37,21 @@ export class TabInfoComponent extends TabProfiloBase implements OnInit {
         valueInit: this.user.credenziali.nome,
         validators: [Validators.required],
         tipo: 'Text',
+        errorMessage: 'Campo Obbligatorio',
       },
       email: {
         titolo: 'Email',
         valueInit: this.user.credenziali.email,
         validators: [Validators.required, Validators.email],
         tipo: 'Text',
+        errorMessage: 'Campo Obbligatorio (prova@ex)',
       },
       password: {
         titolo: 'Password',
         valueInit: this.user.credenziali.password,
         validators: [Validators.required, Validators.minLength(6)],
         tipo: 'Password',
+        errorMessage: 'Campo Obbligatorio (Almeno 6 lettere)',
       },
       bio: {
         titolo: 'Bio',
@@ -61,6 +64,7 @@ export class TabInfoComponent extends TabProfiloBase implements OnInit {
         valueInit: this.user.profile.telefono || '',
         validators: [Validators.minLength(9), Validators.maxLength(9)],
         tipo: 'Text',
+        errorMessage: 'Campo Obbligatorio 9 numeri)',
       },
       compleanno: {
         titolo: this.profiloLang.compleanno,

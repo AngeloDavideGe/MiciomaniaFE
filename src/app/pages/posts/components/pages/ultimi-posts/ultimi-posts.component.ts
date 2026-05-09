@@ -19,7 +19,7 @@ export class UltimiPostsComponent implements OnInit {
   public postService = inject(PostService);
   private appConfig = inject(AppConfigService);
 
-  public selectedFilter = signal<filterType>(null);
+  public selectedFilter = signal<filterType>(undefined);
   public searchQuery = signal<string>('');
   public searchQueryPost = signal<string>('');
   public searchActive = signal<'filter' | 'users' | ''>('');

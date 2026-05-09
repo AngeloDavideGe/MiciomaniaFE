@@ -32,7 +32,7 @@ import { ProfiloLang } from '../../languages/interfaces/profilo-lang.interface';
 
           <!-- Modal Body -->
           <div class="modal-body pt-0 mt-2">
-            <nav class="mb-4">
+            <nav class="mb-2">
               <div
                 class="nav nav-tabs border-bottom-0"
                 id="nav-tab"
