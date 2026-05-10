@@ -9,19 +9,11 @@
       ></app-punteggi-games>
     }
 
-    <div class="grid-card-layout mt-3">
-      @for (gioco of gamesConstant; track gioco.nome) {
-        <app-card-custom
-          [link]="gioco.linkImg"
-          [titolo]="gioco.nome"
-          [titoloBottone]="'Gioca'"
-          [classBody]="'games-class'"
-          [altezzaImg]="'15rem'"
-          (clickBotton)="router.navigate(['games/' + gioco.routerLink])"
-        >
-          <p descrizioneContent>{{ gioco.descrizione }}</p>
-        </app-card-custom>
-      }
+    <div class="mt-3">
+      <app-card-custom
+        [elems]="gamesConstant"
+        [altezzaImg]="'15rem'"
+      ></app-card-custom>
     </div>
   </div>
 }

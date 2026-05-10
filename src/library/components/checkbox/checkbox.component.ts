@@ -7,6 +7,7 @@ import {
   signal,
   WritableSignal,
 } from '@angular/core';
+import { ICheckBox } from '../../interfaces/checkbox.interface';
 
 @Component({
   selector: 'app-checkbox-custom',
@@ -103,10 +104,4 @@ export class CheckBoxCustomComponent implements OnInit {
     this.checkChange.emit(this.checked.join(', '));
     this.allChecked.emit(this.checked.length == this.checks.length);
   }
-}
-
-export interface ICheckBox {
-  testo: string;
-  id: string;
-  icon?: string;
 }

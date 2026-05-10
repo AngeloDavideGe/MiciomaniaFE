@@ -1,5 +1,5 @@
 import { FormControl, ValidatorFn } from '@angular/forms';
-import { ICheckBox } from '../components/checkbox/checkbox.component';
+import { ICheckBox } from './checkbox.interface';
 
 export type RecordStruttura = Record<string, StrutturaForm>;
 

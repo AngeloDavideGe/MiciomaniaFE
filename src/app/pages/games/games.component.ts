@@ -10,6 +10,7 @@ import {
 import { NavigationEnd, Router } from '@angular/router';
 import { filter, map, Observable, startWith, tap } from 'rxjs';
 import { handlerFunc } from '../../../library/functions/handler.function';
+import { iCard } from '../../../library/interfaces/card.interface';
 import { NavBarButton } from '../../../library/interfaces/navbar.interface';
 import { DataHttp } from '../../core/api/http.data';
 import {
@@ -21,7 +22,7 @@ import { User } from '../../shared/interfaces/users.interface';
 import { SquadreService } from '../../shared/services/api/squadre.service';
 import { gamesConstant } from './constants/games.constant';
 import { games_imports } from './imports/games.import';
-import { CardGioco, SquadreGiocatore } from './interfaces/games.interfaces';
+import { SquadreGiocatore } from './interfaces/games.interfaces';
 import { DeckCardService } from './services/deck-card.service';
 
 @Component({
@@ -35,7 +36,7 @@ export class GamesComponent implements OnInit, OnDestroy {
   private deckCardService = inject(DeckCardService);
   public router = inject(Router);
 
-  public readonly gamesConstant: CardGioco[] = gamesConstant;
+  public readonly gamesConstant = signal<iCard[]>(gamesConstant);
   public punteggioPersonale: number = 0;
   public pulsanti = signal<NavBarButton[]>([]);
   public showDetails = signal<boolean>(false);

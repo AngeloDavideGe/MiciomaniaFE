@@ -7,12 +7,10 @@ import {
   signal,
 } from '@angular/core';
 
-import {
-  CheckBoxCustomComponent,
-  ICheckBox,
-} from '../../../../../../../library/components/checkbox/checkbox.component';
+import { CheckBoxCustomComponent } from '../../../../../../../library/components/checkbox/checkbox.component';
 import { FormWizard } from '../../../../interfaces/wizard.interface';
 import { WizardService } from '../../../../services/wizard.service';
+import { ICheckBox } from '../../../../../../../library/interfaces/checkbox.interface';
 
 @Component({
   selector: 'app-step3',

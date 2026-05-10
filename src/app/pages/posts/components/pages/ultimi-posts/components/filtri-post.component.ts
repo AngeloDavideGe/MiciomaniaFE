@@ -1,9 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { ButtonCustomComponent } from '../../../../../../shared/components/custom/botton-custom.component';
-import {
-  CheckBoxCustomComponent,
-  ICheckBox,
-} from '../../../../../../../library/components/checkbox/checkbox.component';
+import { CheckBoxCustomComponent } from '../../../../../../../library/components/checkbox/checkbox.component';
+import { ICheckBox } from '../../../../../../../library/interfaces/checkbox.interface';
 
 @Component({
   standalone: true,

@@ -8,7 +8,7 @@ import {
   Output,
 } from '@angular/core';
 import { Validators } from '@angular/forms';
-import { ICheckBox } from '../../../../../../../library/components/checkbox/checkbox.component';
+import { ICheckBox } from '../../../../../../../library/interfaces/checkbox.interface';
 import { FormCustomComponent } from '../../../../../../../library/components/form/form.component';
 import { RecordStruttura } from '../../../../../../../library/interfaces/form.interface';
 import { arrayNotEmptyValidator } from '../../../../../../../library/validators/checkbox.validator';

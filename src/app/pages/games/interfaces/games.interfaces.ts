@@ -5,13 +5,6 @@ export type EsitoGame = 'vittoria' | 'sconfitta' | 'pareggio';
 export type Turno = 'Player' | 'Bot';
 export type SudokuNumber = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | null;
 
-export interface CardGioco {
-  nome: string;
-  descrizione: string;
-  linkImg: string;
-  routerLink: string;
-}
-
 export interface SquadreGiocatore {
   personale: Squadre[];
   avversario: Squadre[];

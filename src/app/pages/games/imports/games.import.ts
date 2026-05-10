@@ -1,7 +1,7 @@
 import { AsyncPipe } from '@angular/common';
 import { Type } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { CardCustomComponent } from '../../../shared/components/custom/card-custom.component';
+import { CardCustomComponent } from '../../../../library/components/card/card.component';
 import { PunteggiGamesComponent } from '../components/ui/punteggi-games.component';
 import { CustomNavBarComponent } from '../../../../library/components/navbar/navbar.component';
 
