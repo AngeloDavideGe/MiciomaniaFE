@@ -1,4 +1,5 @@
 import { iCard } from '../../../../library/interfaces/card.interface';
+import { RaggioPage } from '../../../../library/interfaces/pagination.interface';
 
 export const gamesConstant: iCard[] = [
   {
@@ -63,5 +64,24 @@ export const gamesConstant: iCard[] = [
       'https://th.bing.com/th/id/R.bcd32f680832e366bbd152eaa0e6bddd?rik=EhKn0ubH2LygUw&riu=http%3a%2f%2figm.univ-mlv.fr%2f%7edr%2fXPOSE2013%2fsudoku%2fimg%2fsudoku1.jpeg&ehk=d53WwForN1gZLuEbFMh1HYmbXClMiIQYpAeNytmmBdM%3d&risl=&pid=ImgRaw&r=0',
     routerLink: '/games/ruota-della-fortuna',
     bottone: 'Gioca',
+  },
+];
+
+export const pagineGames: RaggioPage[] = [
+  {
+    width: 1400,
+    raggio: 4,
+  },
+  {
+    width: 1100,
+    raggio: 3,
+  },
+  {
+    width: 700,
+    raggio: 2,
+  },
+  {
+    width: 0,
+    raggio: 1,
   },
 ];

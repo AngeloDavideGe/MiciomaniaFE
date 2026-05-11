@@ -22,6 +22,10 @@ import {
     @if (filtri.totalPage() > 1) {
       <div class="pagination-container">
         <div class="pagination-controls">
+          @if (titoloLista) {
+            <h3>{{ titoloLista }}</h3>
+          }
+
           <button
             class="pagination-btn prev-btn"
             (click)="filtri.previousPage()"
@@ -103,6 +107,7 @@ import {
 })
 export class PaginazioneCustomComponent<T> {
   @Input() filtri!: FiltriInterface<T>;
+  @Input() titoloLista?: string;
   @Input() tipo: TipoPaginazione = 'multiplo';
   @Input() dataTableHttp: DataTableHttp<T> | null = null;
   @Input() arrayRaggi: RaggioPage[] = [{ width: Infinity, raggio: 2 }];

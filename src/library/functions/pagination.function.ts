@@ -11,6 +11,8 @@ export function GetFiltriCustom<T, F>(
   params: InputFiltri<T, F>,
 ): FiltriInterface<T> {
   const currentPage = signal<number>(1);
+  const currentSlice = signal<number>(0);
+
   const RecordFiltri: Record<string, Function> = GetRecordFiltri<T, F>(params);
 
   const searchElems = computed<T[]>(() => {
@@ -50,6 +52,7 @@ export function GetFiltriCustom<T, F>(
   const elemFilter = computed<T[]>(() => {
     const totElem: T[] = searchElems();
     const currentPages: number = currentPage();
+    const singleSlice: number = currentSlice();
 
     const elemForPage: number = params.elemForPage
       ? params.elemForPage()
@@ -60,6 +63,10 @@ export function GetFiltriCustom<T, F>(
       : null;
 
     if (totalPageHttp !== null) return totElem;
+
+    if (params.slice && params.slice == 'single') {
+      return totElem.slice(singleSlice, singleSlice + elemForPage);
+    }
 
     return totElem.slice(
       (currentPages - 1) * elemForPage,
@@ -106,15 +113,34 @@ export function GetFiltriCustom<T, F>(
     }
   };
 
+  const previousSlice: Function = () => {
+    if (currentSlice() > 0) {
+      currentSlice.update((x: number) => x - 1);
+    }
+  };
+
+  const nextSlice: Function = () => {
+    const elemForPage: number = params.elemForPage
+      ? params.elemForPage()
+      : maxElementForPage;
+
+    if (currentSlice() < params.elemTable().length - elemForPage) {
+      currentSlice.update((x: number) => x + 1);
+    }
+  };
+
   return {
     searchElems: searchElems,
     totalPage: totalPage,
     elemFilter: elemFilter,
     currentPage: currentPage,
+    currentSlice: currentSlice,
     dettaglioPage: dettaglioPage,
     previousPage: previousPage,
     nextPage: nextPage,
     selectPage: selectPage,
+    previousSlice: previousSlice,
+    nextSlice: nextSlice,
   };
 }
 

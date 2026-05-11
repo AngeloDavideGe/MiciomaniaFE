@@ -11,12 +11,18 @@ import { Lingua } from '../../shared/interfaces/http.interface';
 import { User, UserParams } from '../../shared/interfaces/users.interface';
 import { AuthService } from '../../shared/services/api/auth.service';
 import { CompAperto, compApertoFunc, recordComp } from './enums/home.enum';
-import { getConfirmParams } from './functions/home.functions';
+import {
+  getCardsHome,
+  getConfirmParams,
+  pagineHome,
+} from './functions/home.functions';
 import { home_imports } from './imports/home.imports';
 import {
   HomeLang,
   HomeLangType,
 } from './languages/interfaces/home-lang.interface';
+import { iCard } from '../../../library/interfaces/card.interface';
+import { RaggioPage } from '../../../library/interfaces/pagination.interface';
 
 @Component({
   selector: 'app-home',
@@ -33,8 +39,11 @@ export class HomeComponent {
   public inizialiUser: string = '';
   public compAperto: recordComp = {} as recordComp;
   public homeLang = signal<HomeLang>({} as HomeLang);
+  public cardsHome = signal<iCard[]>([]);
+
   public readonly enumCompAperto = CompAperto;
   private readonly punteggioCanzoni: number = 20;
+  public readonly pagineHome: RaggioPage[] = pagineHome();
 
   public isHome$: Observable<boolean> = this.router.events.pipe(
     filter((event): event is NavigationEnd => event instanceof NavigationEnd),
@@ -60,6 +69,9 @@ export class HomeComponent {
         en: () => import('./languages/constants/home-en.constant'),
       };
       languageMap[lingua]().then((m) => this.homeLang.set(m.homeLang));
+      this.cardsHome.set(
+        getCardsHome(this.router, () => this.controlloPunteggio()),
+      );
     });
   }
 

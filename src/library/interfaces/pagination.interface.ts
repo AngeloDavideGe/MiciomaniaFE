@@ -5,10 +5,13 @@ export interface FiltriInterface<T> {
   searchElems: Signal<T[]>;
   elemFilter: Signal<T[]>;
   currentPage: WritableSignal<number>;
+  currentSlice: WritableSignal<number>;
   dettaglioPage: Signal<string>;
   previousPage: Function;
   nextPage: Function;
   selectPage: Function;
+  previousSlice: Function;
+  nextSlice: Function;
 }
 
 export interface FiltriSelect<T, F> {
@@ -31,6 +34,7 @@ export interface InputFiltri<T, F> {
   elemForPage?: WritableSignal<number>;
   totalElemHttp?: Signal<number>;
   tipoSelect?: 'some' | 'every';
+  slice?: 'page' | 'single';
   select?: FiltriSelect<T, string>[];
   tabs?: FiltriSelect<T, F | null>;
   ordinaElem?: WritableSignal<Ordinamento<T, 'desc' | 'cresc'> | null>;

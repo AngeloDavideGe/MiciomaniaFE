@@ -12,7 +12,7 @@ import { SpinnerComponent } from '../../../../../library/components/spinner/spin
   template: `
     <section data-bs-version="5.1" class="social02 py-5" id="social02-2">
       <div class="container">
-        <div class="text-center mb-5">
+        <div class="text-center mb-3">
           <h6 class="fw-bold display-6" style="color: var(--text-color);">
             Seguiteci su
           </h6>

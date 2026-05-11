@@ -1,15 +1,20 @@
 import {
   Component,
+  HostListener,
   inject,
   Input,
   OnInit,
   signal,
   WritableSignal,
 } from '@angular/core';
-import { iCard } from '../../interfaces/card.interface';
 import { Router } from '@angular/router';
-import { FiltriInterface } from '../../interfaces/pagination.interface';
+import { debounceTimeoutCustom } from '../../functions/debounce.function';
 import { GetFiltriCustom } from '../../functions/pagination.function';
+import { iCard } from '../../interfaces/card.interface';
+import {
+  FiltriInterface,
+  RaggioPage,
+} from '../../interfaces/pagination.interface';
 import { PaginazioneCustomComponent } from '../pagination/pagination.component';
 
 @Component({
@@ -17,41 +22,64 @@ import { PaginazioneCustomComponent } from '../pagination/pagination.component';
   standalone: true,
   imports: [PaginazioneCustomComponent],
   template: `
-    <app-paginazione-custom
-      [filtri]="filtri"
-      [tipo]="'singolo'"
-    ></app-paginazione-custom>
+    <div class="position-relative w-100">
+      @if (tipoSlice == 'page') {
+        <app-paginazione-custom
+          [filtri]="filtri"
+          [tipo]="'singolo'"
+          [titoloLista]="titoloLista"
+        ></app-paginazione-custom>
+      }
 
-    <div class="grid-card-layout" style="--card-width: {{ lunghezzaCard }}">
-      @for (elem of filtri.elemFilter(); track elem.titolo) {
-        <div class="card h-100" [style]="{ width: lunghezzaCard }">
-          @if (elem.urlPic) {
-            <img
-              [src]="elem.urlPic"
-              [style]="{ height: altezzaImg }"
-              class="card-img-top object-fit-cover"
-            />
-          }
+      @if (tipoSlice == 'single') {
+        <button
+          class="btn position-absolute start-0 top-50 translate-middle-y shadow button-carousel"
+          (click)="filtri.previousSlice()"
+        >
+          <i class="bi bi-chevron-left fs-4"></i>
+        </button>
+      }
 
-          <div class="card-body d-flex flex-column" [class]="classBody">
-            <h5 class="fw-bold">
-              {{ elem.titolo }}
-            </h5>
-
-            @if (elem.descrizione) {
-              <div class="card-text" [innerHTML]="elem.descrizione"></div>
+      <div class="grid-card-layout" style="--card-width: {{ lunghezzaCard }}">
+        @for (elem of filtri.elemFilter(); track elem.titolo) {
+          <div class="card h-100" [style]="{ width: lunghezzaCard }">
+            @if (elem.urlPic) {
+              <img
+                [src]="elem.urlPic"
+                [style]="{ height: altezzaImg }"
+                class="card-img-top object-fit-cover"
+              />
             }
 
-            @if (elem.bottone) {
-              <button
-                class="btn btn-primary mt-auto"
-                (click)="clickButton($index)"
-              >
-                {{ elem.bottone }}
-              </button>
-            }
+            <div class="card-body d-flex flex-column" [class]="classBody">
+              <h5 class="fw-bold">
+                {{ elem.titolo }}
+              </h5>
+
+              @if (elem.descrizione) {
+                <div class="card-text" [innerHTML]="elem.descrizione"></div>
+              }
+
+              @if (elem.bottone) {
+                <button
+                  class="btn btn-primary mt-auto"
+                  (click)="clickButton($index)"
+                >
+                  {{ elem.bottone }}
+                </button>
+              }
+            </div>
           </div>
-        </div>
+        }
+      </div>
+
+      @if (tipoSlice == 'single') {
+        <button
+          class="btn position-absolute end-0 top-50 translate-middle-y shadow button-carousel"
+          (click)="filtri.nextSlice()"
+        >
+          <i class="bi bi-chevron-right fs-4"></i>
+        </button>
       }
     </div>
   `,
@@ -64,6 +92,18 @@ import { PaginazioneCustomComponent } from '../pagination/pagination.component';
       .card-text {
         margin-bottom: 1rem;
       }
+
+      .button-carousel {
+        z-index: 100;
+        border: 1px solid var(--primary-color);
+        background-color: var(--surface-color);
+        color: var(--primary-color);
+
+        &:hover {
+          background-color: var(--primary-hover);
+          color: var(--bg-lighter);
+        }
+      }
     `,
   ],
 })
@@ -71,25 +111,54 @@ export class CardCustomComponent implements OnInit {
   public router = inject(Router);
 
   public filtri: FiltriInterface<iCard> = {} as FiltriInterface<iCard>;
+  public elemForPage = signal<number>(0);
 
   @Input() elems!: WritableSignal<iCard[]>;
   @Input() lunghezzaCard: string = '20rem';
   @Input() altezzaImg: string = '20rem';
+  @Input() titoloLista: string = '';
   @Input() classBody: string = '';
-  @Input() elemForPage = signal<number>(4);
-
-  public clickButton(index: number): void {
-    if (this.elems()[index].routerLink) {
-      this.router.navigate([this.elems()[index].routerLink]);
-    } else if (this.elems()[index].azione) {
-      this.elems()[index].azione!();
-    }
-  }
+  @Input() tipoSlice: 'page' | 'single' = 'page';
+  @Input() arrayPags: RaggioPage[] = [];
 
   ngOnInit(): void {
+    this.elemForPage.set(this.getNumCards());
+
     this.filtri = GetFiltriCustom<iCard, null>({
       elemTable: this.elems,
       elemForPage: this.elemForPage,
+      slice: this.tipoSlice,
     });
+  }
+
+  @HostListener('window:resize')
+  onResize = debounceTimeoutCustom(() => {
+    this.elemForPage.set(this.getNumCards());
+  });
+
+  private getNumCards(): number {
+    const width: number = window.innerWidth;
+
+    const raggioConfig: RaggioPage | undefined = this.arrayPags.find(
+      (config: RaggioPage) => width >= config.width,
+    );
+
+    return raggioConfig ? raggioConfig.raggio : 2;
+  }
+
+  public clickButton(index: number): void {
+    let realIndex: number;
+
+    if (this.tipoSlice == 'page') {
+      realIndex = index + (this.filtri.currentPage() - 1) * this.elemForPage();
+    } else {
+      realIndex = index + this.filtri.currentSlice();
+    }
+
+    if (this.elems()[realIndex].routerLink) {
+      this.router.navigate([this.elems()[realIndex].routerLink]);
+    } else if (this.elems()[realIndex].azione) {
+      this.elems()[realIndex].azione!();
+    }
   }
 }
