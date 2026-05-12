@@ -34,11 +34,13 @@ export interface InputFiltri<T, F> {
   elemForPage?: WritableSignal<number>;
   totalElemHttp?: Signal<number>;
   tipoSelect?: 'some' | 'every';
-  slice?: 'page' | 'single';
+  slice?: TypePagination;
   select?: FiltriSelect<T, string>[];
   tabs?: FiltriSelect<T, F | null>;
   ordinaElem?: WritableSignal<Ordinamento<T, 'desc' | 'cresc'> | null>;
 }
+
+export type TypePagination = 'page' | 'single' | 'all';
 
 export interface RaggioPage {
   width: number;

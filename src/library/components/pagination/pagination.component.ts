@@ -22,10 +22,6 @@ import {
     @if (filtri.totalPage() > 1) {
       <div class="pagination-container">
         <div class="pagination-controls">
-          @if (titoloLista) {
-            <h3>{{ titoloLista }}</h3>
-          }
-
           <button
             class="pagination-btn prev-btn"
             (click)="filtri.previousPage()"
@@ -46,7 +42,9 @@ import {
             }
             @case ('multiplo') {
               <div class="page-indicator">
-                @if (othersPage().startNumber) {
+                @let oPage = othersPage();
+
+                @if (oPage.startNumber) {
                   <button
                     class="page-btn"
                     (click)="filtri.selectPage(1)"
@@ -57,7 +55,7 @@ import {
                   </button>
                 }
 
-                @if (othersPage().startPointer) {
+                @if (oPage.startPointer) {
                   <span class="ellipsis">...</span>
                 }
 
@@ -72,11 +70,11 @@ import {
                   </button>
                 }
 
-                @if (othersPage().endPointer) {
+                @if (oPage.endPointer) {
                   <span class="ellipsis">...</span>
                 }
 
-                @if (othersPage().endNumber) {
+                @if (oPage.endNumber) {
                   <button
                     class="page-btn"
                     (click)="filtri.selectPage(filtri.totalPage())"
@@ -107,7 +105,6 @@ import {
 })
 export class PaginazioneCustomComponent<T> {
   @Input() filtri!: FiltriInterface<T>;
-  @Input() titoloLista?: string;
   @Input() tipo: TipoPaginazione = 'multiplo';
   @Input() dataTableHttp: DataTableHttp<T> | null = null;
   @Input() arrayRaggi: RaggioPage[] = [{ width: Infinity, raggio: 2 }];

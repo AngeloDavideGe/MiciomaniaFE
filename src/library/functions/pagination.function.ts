@@ -64,14 +64,26 @@ export function GetFiltriCustom<T, F>(
 
     if (totalPageHttp !== null) return totElem;
 
-    if (params.slice && params.slice == 'single') {
-      return totElem.slice(singleSlice, singleSlice + elemForPage);
+    switch (params.slice) {
+      case 'single': {
+        return totElem.slice(singleSlice, singleSlice + elemForPage);
+      }
+      case 'page': {
+        return totElem.slice(
+          (currentPages - 1) * elemForPage,
+          currentPages * elemForPage,
+        );
+      }
+      case 'all': {
+        return totElem;
+      }
+      default: {
+        return totElem.slice(
+          (currentPages - 1) * elemForPage,
+          currentPages * elemForPage,
+        );
+      }
     }
-
-    return totElem.slice(
-      (currentPages - 1) * elemForPage,
-      currentPages * elemForPage,
-    );
   });
 
   const dettaglioPage = computed<string>(() => {

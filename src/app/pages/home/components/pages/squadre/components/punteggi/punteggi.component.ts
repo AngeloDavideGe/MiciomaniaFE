@@ -43,6 +43,8 @@ import { RecordColonne } from '../../../../../../../../library/interfaces/table.
                 [colonne]="colonneSquadre"
                 [titoloTabella]="'Punteggio Squadre'"
                 [elemForPage]="elemForPage.squadre"
+                [keyPrimary]="'nome'"
+                [templateCustom]="detailTpl"
               ></app-table-custom>
             </div>
           </div>
@@ -55,6 +57,8 @@ import { RecordColonne } from '../../../../../../../../library/interfaces/table.
     } @else {
       <app-spinner [mt]="'10rem'"></app-spinner>
     }
+
+    <ng-template #detailTpl let-row> CALANDRAAAA </ng-template>
   `,
 })
 export class PunteggiComponent {

@@ -107,6 +107,21 @@
                 </td>
               }
             </tr>
+
+            @if (keyPrimary && expandedRow() === elem[keyPrimary]) {
+              <tr class="sub-row">
+                <td>
+                  <!-- Template custom -->
+                  <ng-container
+                    *ngTemplateOutlet="
+                      templateCustom;
+                      context: { $implicit: elem }
+                    "
+                  >
+                  </ng-container>
+                </td>
+              </tr>
+            }
           }
         </tbody>
       </table>

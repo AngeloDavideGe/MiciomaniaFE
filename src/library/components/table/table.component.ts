@@ -7,6 +7,7 @@ import {
   Output,
   Signal,
   signal,
+  TemplateRef,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { maxElementForPage } from '../../constants/lib.constant';
@@ -27,6 +28,7 @@ import {
 import { CapitalizeFirstLetterPipe } from '../../pipes/capitalize.pipe';
 import { PaginazioneCustomComponent } from '../pagination/pagination.component';
 import { SpinnerComponent } from '../spinner/spinner.component';
+import { NgTemplateOutlet } from '@angular/common';
 
 @Component({
   selector: 'app-table-custom',
@@ -37,6 +39,7 @@ import { SpinnerComponent } from '../spinner/spinner.component';
     CapitalizeFirstLetterPipe,
     PaginazioneCustomComponent,
     SpinnerComponent,
+    NgTemplateOutlet,
   ],
   templateUrl: './table.component.html',
   styleUrl: './table.component.scss',
@@ -55,6 +58,8 @@ export class TabellaCustomComponent<T> {
   @Input() elemForPage = signal<number>(maxElementForPage);
   @Input() recordBadge: Record<string, string> = {};
   @Input() trackByKey: keyof T = 'id' as keyof T;
+  @Input() templateCustom?: TemplateRef<any>;
+  @Input() keyPrimary?: keyof T;
 
   @Output() changeElements = new EventEmitter<ChangePageHttp>();
 
@@ -65,6 +70,7 @@ export class TabellaCustomComponent<T> {
   public filtri: FiltriInterface<T> = {} as FiltriInterface<T>;
   public filtroDefault: boolean = true;
   public raggiPage: RaggioPage[] = this.getRaggiPage();
+  public expandedRow = signal<any>(null);
   private changePageHttp: ChangePageHttp = {
     page: 1,
     elemForPage: this.elemForPage(),
@@ -136,6 +142,8 @@ export class TabellaCustomComponent<T> {
   }
 
   ngOnInit(): void {
+    this.setButtonSub();
+
     this.keyofElem = Object.keys(this.colonne) as (keyof T)[];
 
     this.colonne = this.keyofElem.reduce(
@@ -190,5 +198,20 @@ export class TabellaCustomComponent<T> {
       { width: 1200, raggio: 4 },
       { width: Infinity, raggio: 5 },
     ];
+  }
+
+  private setButtonSub(): void {
+    if (this.keyPrimary) {
+      this.azioni.push({
+        icona: 'bi bi-person-circle',
+        titolo: 'Dettagli',
+        azione: (elem: T, index: number) => {
+          this.expandedRow.update((x: any) => {
+            if (x == elem[this.keyPrimary!]) return null;
+            else return elem[this.keyPrimary!];
+          });
+        },
+      });
+    }
   }
 }

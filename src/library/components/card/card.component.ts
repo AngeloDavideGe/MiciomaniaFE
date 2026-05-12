@@ -1,5 +1,6 @@
 import {
   Component,
+  computed,
   HostListener,
   inject,
   Input,
@@ -14,6 +15,7 @@ import { iCard } from '../../interfaces/card.interface';
 import {
   FiltriInterface,
   RaggioPage,
+  TypePagination,
 } from '../../interfaces/pagination.interface';
 import { PaginazioneCustomComponent } from '../pagination/pagination.component';
 
@@ -21,76 +23,11 @@ import { PaginazioneCustomComponent } from '../pagination/pagination.component';
   selector: 'app-card-custom',
   standalone: true,
   imports: [PaginazioneCustomComponent],
-  template: `
-    <div class="position-relative w-100">
-      @if (tipoSlice == 'page') {
-        <app-paginazione-custom
-          [filtri]="filtri"
-          [tipo]="'singolo'"
-          [titoloLista]="titoloLista"
-        ></app-paginazione-custom>
-      }
-
-      @if (tipoSlice == 'single') {
-        <button
-          class="btn position-absolute start-0 top-50 translate-middle-y shadow button-carousel"
-          (click)="filtri.previousSlice()"
-        >
-          <i class="bi bi-chevron-left fs-4"></i>
-        </button>
-      }
-
-      <div class="grid-card-layout" style="--card-width: {{ lunghezzaCard }}">
-        @for (elem of filtri.elemFilter(); track elem.titolo) {
-          <div class="card h-100" [style]="{ width: lunghezzaCard }">
-            @if (elem.urlPic) {
-              <img
-                [src]="elem.urlPic"
-                [style]="{ height: altezzaImg }"
-                class="card-img-top object-fit-cover"
-              />
-            }
-
-            <div class="card-body d-flex flex-column" [class]="classBody">
-              <h5 class="fw-bold">
-                {{ elem.titolo }}
-              </h5>
-
-              @if (elem.descrizione) {
-                <div class="card-text" [innerHTML]="elem.descrizione"></div>
-              }
-
-              @if (elem.bottone) {
-                <button
-                  class="btn btn-primary mt-auto"
-                  (click)="clickButton($index)"
-                >
-                  {{ elem.bottone }}
-                </button>
-              }
-            </div>
-          </div>
-        }
-      </div>
-
-      @if (tipoSlice == 'single') {
-        <button
-          class="btn position-absolute end-0 top-50 translate-middle-y shadow button-carousel"
-          (click)="filtri.nextSlice()"
-        >
-          <i class="bi bi-chevron-right fs-4"></i>
-        </button>
-      }
-    </div>
-  `,
+  templateUrl: './card.component.html',
   styles: [
     `
       .card {
         height: 100%;
-      }
-
-      .card-text {
-        margin-bottom: 1rem;
       }
 
       .button-carousel {
@@ -118,8 +55,22 @@ export class CardCustomComponent implements OnInit {
   @Input() altezzaImg: string = '20rem';
   @Input() titoloLista: string = '';
   @Input() classBody: string = '';
-  @Input() tipoSlice: 'page' | 'single' = 'page';
+  @Input() tipoSlice: TypePagination = 'all';
   @Input() arrayPags: RaggioPage[] = [];
+
+  public viewFirstButton = computed<boolean>(() => {
+    const currentSlice: number = this.filtri.currentSlice();
+
+    return this.tipoSlice == 'single' && currentSlice > 0;
+  });
+
+  public viewLastButton = computed<boolean>(() => {
+    const currentSlice: number = this.filtri.currentSlice();
+    const totElem: number = this.filtri.searchElems().length;
+    const elemForPage: number = this.elemForPage();
+
+    return this.tipoSlice == 'single' && totElem > elemForPage + currentSlice;
+  });
 
   ngOnInit(): void {
     this.elemForPage.set(this.getNumCards());
@@ -133,6 +84,8 @@ export class CardCustomComponent implements OnInit {
 
   @HostListener('window:resize')
   onResize = debounceTimeoutCustom(() => {
+    this.filtri.currentPage.set(1);
+    this.filtri.currentSlice.set(0);
     this.elemForPage.set(this.getNumCards());
   });
 
@@ -149,10 +102,23 @@ export class CardCustomComponent implements OnInit {
   public clickButton(index: number): void {
     let realIndex: number;
 
-    if (this.tipoSlice == 'page') {
-      realIndex = index + (this.filtri.currentPage() - 1) * this.elemForPage();
-    } else {
-      realIndex = index + this.filtri.currentSlice();
+    switch (this.tipoSlice) {
+      case 'all': {
+        realIndex = index;
+        break;
+      }
+      case 'page': {
+        realIndex =
+          index + (this.filtri.currentPage() - 1) * this.elemForPage();
+        break;
+      }
+      case 'single': {
+        realIndex = index + this.filtri.currentSlice();
+        break;
+      }
+      default: {
+        realIndex = index;
+      }
     }
 
     if (this.elems()[realIndex].routerLink) {
