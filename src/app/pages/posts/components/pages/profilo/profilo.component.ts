@@ -128,8 +128,6 @@ export class ProfiloComponent implements OnDestroy {
   }
 
   private sottoscrizioneProfilo(userId: string): void {
-    this.loaderService.show();
-
     handlerFunc<Profilo>({
       callHttp: () => this.postService.getProfiloById(userId),
       mapCall: (valueDb: any) => mapToProfilo(valueDb),
@@ -143,12 +141,10 @@ export class ProfiloComponent implements OnDestroy {
 
   private caricamentoCompletato(): void {
     this.loadSocial();
-    this.loaderService.hide();
     this.utenteCaricato = true;
   }
 
   private caricamentoFallito(): void {
-    this.loaderService.hide();
     this.errorHttp.set(true);
   }
 
@@ -180,11 +176,8 @@ export class ProfiloComponent implements OnDestroy {
   }
 
   private confirmEliminaTweet(tweetId: number): void {
-    this.loaderService.show();
-
     handlerFunc<void>({
       callHttp: () => this.postService.deletePubblicazioni(tweetId),
-      finalizeCall: () => this.loaderService.hide(),
       nextCall: () =>
         (this.profilo.tweets = this.profilo.tweets.filter(
           (tweet: Tweet) => tweet.id != tweetId,

@@ -1,12 +1,10 @@
 import { Injectable, signal } from '@angular/core';
 import { from, Observable } from 'rxjs';
-import { CasualQuiz } from '../../../pages/games/interfaces/games.interfaces';
 import {
   Conquiste,
   GitHubType,
   Mappa,
   MN,
-  Quiz,
   Social,
 } from '../../interfaces/github.interface';
 
@@ -14,8 +12,6 @@ import {
   providedIn: 'root',
 })
 export class GitHubService {
-  public quiz: Quiz[] = [];
-  public quizFilter: Quiz[] = [];
   public social: Social[] = [];
   public mn = signal<MN[]>([]);
   public conquiste = signal<Conquiste | null>(null);
@@ -38,15 +34,5 @@ export class GitHubService {
     });
 
     return from(fetchPromise);
-  }
-
-  restoreQuizFilter(casualQuiz: CasualQuiz, cond: boolean): void {
-    if (cond) {
-      this.quizFilter.splice(casualQuiz.index, 1);
-
-      if (this.quizFilter.length == 0) {
-        this.quizFilter = structuredClone(this.quiz);
-      }
-    }
   }
 }

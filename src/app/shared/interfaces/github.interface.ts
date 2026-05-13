@@ -1,6 +1,6 @@
 import { Lingua } from './http.interface';
 
-export type GitHubType = Social[] | Quiz[] | MN[] | Conquiste;
+export type GitHubType = Social[] | MN[] | Conquiste;
 
 export interface Social {
   nome: string;
@@ -8,11 +8,6 @@ export interface Social {
   icona: string;
   colore: string;
   link: string;
-}
-
-export interface Quiz {
-  domanda: string;
-  risposte: Risposta[];
 }
 
 export interface Risposta {

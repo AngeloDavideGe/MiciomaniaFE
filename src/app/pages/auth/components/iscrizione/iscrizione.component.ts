@@ -2,17 +2,17 @@ import { Component, computed, inject, signal } from '@angular/core';
 import { DataHttp } from '../../../../core/api/http.data';
 import { Ruolo } from '../../../../shared/enums/users.enum';
 import { updateUserCustom } from '../../../../shared/handlers/auth.handler';
+import { getSquadreInGame } from '../../../../shared/handlers/squadre.handler';
+import { Squadre } from '../../../../shared/interfaces/squadre.interface';
 import {
   Iscrizione,
   User,
 } from '../../../../shared/interfaces/users.interface';
+import { SquadreService } from '../../../../shared/services/api/squadre.service';
+import { FormWizard } from '../../interfaces/wizard.interface';
+import { WizardService } from '../../services/wizard.service';
 import { stepType, WizardBase } from './base/wizard.base';
 import { iscrizione_imports } from './imports/iscrizione.import';
-import { getSquadreInGame } from '../../../../shared/handlers/squadre.handler';
-import { SquadreService } from '../../../../shared/services/api/squadre.service';
-import { Squadre } from '../../../../shared/interfaces/squadre.interface';
-import { WizardService } from '../../services/wizard.service';
-import { FormWizard } from '../../interfaces/wizard.interface';
 
 @Component({
   selector: 'app-iscrizione',
@@ -48,7 +48,8 @@ export class IscrizioneComponent extends WizardBase {
     updateUserCustom({
       authService: this.authService,
       user: this.user,
-      finalizeFunc: () => this.loadingService.hide(),
+      finalizeFunc: () => {},
+      context: true,
     }).subscribe({
       next: () => this.nextCallIscrizione(),
       error: (err) =>
@@ -68,7 +69,6 @@ export class IscrizioneComponent extends WizardBase {
 
     this.user.iscrizione = iscrizione;
     this.user.credenziali.ruolo = ruolo == Ruolo.user ? Ruolo.player : ruolo;
-    this.loadingService.show();
   }
 
   private errorUpdateUtente(err: string, messaggio: string): void {

@@ -1,4 +1,3 @@
-import { Quiz } from '../../../shared/interfaces/github.interface';
 import { Squadre } from '../../../shared/interfaces/squadre.interface';
 
 export type EsitoGame = 'vittoria' | 'sconfitta' | 'pareggio';
@@ -20,12 +19,6 @@ export interface TrisCell {
 export interface Forza4 {
   player: boolean;
   bot: boolean;
-}
-
-// QUIZ
-export interface CasualQuiz {
-  quiz: Quiz;
-  index: number;
 }
 
 // BATTAGLIA NAVALE

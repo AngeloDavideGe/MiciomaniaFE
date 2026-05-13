@@ -1,8 +1,8 @@
 import { finalize, map, Observable, take } from 'rxjs';
+import { handlerFunc } from '../../../library/functions/handler.function';
 import { DataHttp } from '../../core/api/http.data';
 import { User, UserParams } from '../interfaces/users.interface';
 import { AuthService } from '../services/api/auth.service';
-import { handlerFunc } from '../../../library/functions/handler.function';
 
 export function sottoscrizioneUtentiCustom(params: {
   authService: AuthService;
@@ -30,8 +30,9 @@ export function updateUserCustom(params: {
   authService: AuthService;
   user: User;
   finalizeFunc: Function;
+  context?: boolean;
 }): Observable<User> {
-  return params.authService.updateUser(params.user).pipe(
+  return params.authService.updateUser(params.user, params.context).pipe(
     take(1),
     finalize(() => params.finalizeFunc()),
     map(() => {

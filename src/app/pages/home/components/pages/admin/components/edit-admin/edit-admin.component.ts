@@ -118,12 +118,9 @@ export class EditAdminComponent implements OnInit {
       return;
     }
 
-    this.loadingService.show();
-
     handlerFunc<void>({
       callHttp: () =>
         this.authService.updateRuoloUtente(this.userEdit.id, this.newRuolo),
-      finalizeCall: () => this.loadingService.hide(),
       nextCall: () => this.nextUpdateRuoloUtente(),
     });
   }

@@ -17,7 +17,6 @@ import {
   UserParams,
 } from '../../../../../shared/interfaces/users.interface';
 import { AuthService } from '../../../../../shared/services/api/auth.service';
-import { LoadingService } from '../../../../../shared/services/template/loading.service';
 import { converUserParams } from '../../../functions/home.functions';
 import { admin_imports } from './imports/admin.imports';
 import { CambioRuoloUtente } from './interfaces/admin.interface';
@@ -33,7 +32,6 @@ import {
   templateUrl: './admin.component.html',
 })
 export class AdminComponent implements OnInit {
-  private loadingService = inject(LoadingService);
   public authService = inject(AuthService);
   public router = inject(Router);
 
@@ -56,22 +54,15 @@ export class AdminComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.loadUtenti();
+    sottoscrizioneUtentiCustom({
+      authService: this.authService,
+      nextCall: () => this.mapUsersByRuolo(),
+    });
 
     this.ruoli.forEach((ruolo: Ruolo) => {
       this.userMapByRuolo[ruolo] = computed<UserParams[]>(
         () => this.userMap()[ruolo] ?? [],
       );
-    });
-  }
-
-  private loadUtenti(): void {
-    const users: UserParams[] = this.authService.users();
-    users.length == 0 ? this.loadingService.show() : null;
-
-    sottoscrizioneUtentiCustom({
-      authService: this.authService,
-      nextCall: () => this.mapUsersByRuolo(),
     });
   }
 
@@ -95,7 +86,6 @@ export class AdminComponent implements OnInit {
 
     this.userMap.set(newMap);
     this.loadedAdmin.set(true);
-    this.loadingService.hide();
   }
 
   modificaRuolo(user: UserParams): void {
@@ -110,11 +100,8 @@ export class AdminComponent implements OnInit {
       nuovoRuolo: Ruolo.user,
     };
 
-    this.loadingService.show();
-
     handlerFunc<void>({
       callHttp: () => this.authService.updateRuoloUtente(user.id, Ruolo.user),
-      finalizeCall: () => this.loadingService.hide(),
       nextCall: () => this.ruoloModificato(userRuolo),
     });
   }

@@ -10,7 +10,6 @@ export type stepType = 1 | 2 | 3;
 export abstract class WizardBase {
   protected router = inject(Router);
   protected authService = inject(AuthService);
-  protected loadingService = inject(LoadingService);
 
   protected currentStep: WritableSignal<stepType>;
   protected wizard: DTO_Wizard[];

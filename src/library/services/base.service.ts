@@ -1,4 +1,10 @@
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import {
+  HttpClient,
+  HttpContext,
+  HttpContextToken,
+  HttpHeaders,
+  HttpParams,
+} from '@angular/common/http';
 import { inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
@@ -16,10 +22,21 @@ export abstract class BaseService {
     this.headers = getHeader(this.appConfig.config.HEADERS[db].KEY);
   }
 
-  protected getCustom<T>(url: string, params: HttpParams): Observable<T> {
+  protected getCustom<T>(
+    url: string,
+    params: HttpParams,
+    contextToken?: HttpContextToken<boolean>,
+  ): Observable<T> {
+    let context = new HttpContext();
+
+    if (contextToken) {
+      context = context.set(contextToken, true);
+    }
+
     return this.http.get<T>(`${this.baseUrl}${url}`, {
       headers: this.headers,
       params: params,
+      context: context,
     });
   }
 
@@ -29,15 +46,36 @@ export abstract class BaseService {
     });
   }
 
-  protected putCustom<T>(url: string, body: any): Observable<T> {
+  protected putCustom<T>(
+    url: string,
+    body: any,
+    contextToken?: HttpContextToken<boolean>,
+  ): Observable<T> {
+    let context = new HttpContext();
+
+    if (contextToken) {
+      context = context.set(contextToken, true);
+    }
+
     return this.http.put<T>(`${this.baseUrl}${url}`, body, {
       headers: this.headers,
+      context: context,
     });
   }
 
-  protected deleteCustom<T>(url: string): Observable<T> {
+  protected deleteCustom<T>(
+    url: string,
+    contextToken?: HttpContextToken<boolean>,
+  ): Observable<T> {
+    let context = new HttpContext();
+
+    if (contextToken) {
+      context = context.set(contextToken, true);
+    }
+
     return this.http.delete<T>(`${this.baseUrl}${url}`, {
       headers: this.headers,
+      context: context,
     });
   }
 }

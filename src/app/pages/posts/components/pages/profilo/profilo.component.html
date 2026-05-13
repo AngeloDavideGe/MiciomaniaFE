@@ -2,12 +2,10 @@
   <div class="container">
     <div class="row">
       <div class="col-md-8 offset-md-2">
-        <!-- Pulsante Torna alla Home -->
         <app-custom-navbar
           [tornaIndietro]="tornaIndietroPath"
         ></app-custom-navbar>
 
-        <!-- Card del profilo -->
         <app-card-profilo
           [profiloLang]="profiloLang"
           [profilo]="profilo"
@@ -17,7 +15,6 @@
           (modaleAperta)="modaleAperta = $event"
         ></app-card-profilo>
 
-        <!-- Sezione Tweet -->
         <app-sezione-tweet
           [profilo]="profilo"
           [profiloPersonale]="profiloPersonale"
@@ -29,9 +26,7 @@
     </div>
   </div>
 
-  <!-- Lista Modali  -->
   @switch (modaleAperta) {
-    <!-- Nuovo Tweet -->
     @case ("new-tweet") {
       <app-new-tweet
         [profiloLang]="profiloLang"
@@ -40,7 +35,6 @@
       ></app-new-tweet>
     }
 
-    <!-- Edit Profilo -->
     @case ("edit-profilo") {
       <app-edit-profilo
         [profiloLang]="profiloLang"
@@ -49,7 +43,6 @@
       ></app-edit-profilo>
     }
 
-    <!--Cambia Immagine  -->
     @case ("change-pic") {
       <app-change-pic-custom
         [nome]="'Profilo'"
@@ -61,11 +54,10 @@
   }
 }
 
-<!-- Error -->
 @if (errorHttp()) {
   <app-error-http></app-error-http>
 }
 
 <ng-template #spinnerTemplate>
-  <app-spinner></app-spinner>
+  <app-spinner [mt]="'10rem'"></app-spinner>
 </ng-template>

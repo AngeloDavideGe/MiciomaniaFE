@@ -7,6 +7,7 @@ import { Tweet, TweetAll } from '../components/shared/post.interface';
 import { HttpParams } from '@angular/common/http';
 import { environment } from '../../../../environments/environment';
 import { AppConfigService } from '../../../core/api/appConfig.service';
+import { LOADING_CONTEXT } from '../../../../library/interceptors/loading.interceptor';
 
 @Injectable({
   providedIn: 'root',
@@ -25,7 +26,11 @@ export class PostService extends BaseService {
   getProfiloById(idUtente: string): Observable<Profilo> {
     const params = new HttpParams().set('idUtente', idUtente);
 
-    return this.getCustom<Profilo>('Posts/get_profilo', params);
+    return this.getCustom<Profilo>(
+      'Posts/get_profilo',
+      params,
+      LOADING_CONTEXT,
+    );
   }
 
   getUltimiPosts(): Observable<TweetAll[]> {
@@ -57,6 +62,9 @@ export class PostService extends BaseService {
   }
 
   deletePubblicazioni(tweetId: number): Observable<void> {
-    return this.deleteCustom<void>(`Posts/delete_post/${tweetId}`);
+    return this.deleteCustom<void>(
+      `Posts/delete_post/${tweetId}`,
+      LOADING_CONTEXT,
+    );
   }
 }

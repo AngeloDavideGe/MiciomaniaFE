@@ -30,15 +30,6 @@ export const gamesConstant: iCard[] = [
     bottone: 'Gioca',
   },
   {
-    titolo: 'Quiz Pazzesco',
-    descrizione:
-      'Metti alla prova la tua conoscenza e preparati a essere deriso! Domande così difficili che ti faranno dubitare della tua intelligenza. E se fallisci, Indy Kun sarà lì a dirti: "Ma come hai fatto a non saperlo? È roba da asilo!"',
-    urlPic:
-      'https://img.freepik.com/vettori-premium/quiz-in-stile-fumetto-pop-art-quiz-parola-gioco-intelligente-disegno-di-illustrazione-vettoriale_180786-81.jpg',
-    routerLink: '/games/quiz',
-    bottone: 'Gioca',
-  },
-  {
     titolo: 'Memory',
     descrizione:
       'Devi indovinare le coppie presenti tra le carte coperte, quando le trovi verranno tolte da terra, altrimenti saranno rigirate',

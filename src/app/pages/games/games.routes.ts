@@ -19,13 +19,6 @@ export const GAMES_ROUTES: Routes = [
           ),
       },
       {
-        path: 'quiz',
-        loadComponent: () =>
-          import('./components/pages/quiz/quiz.component').then(
-            (m) => m.QuizComponent,
-          ),
-      },
-      {
         path: 'battaglia-navale',
         loadComponent: () =>
           import('./components/pages/battaglia-navale/battaglia-navale.component').then(

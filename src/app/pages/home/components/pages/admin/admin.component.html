@@ -8,6 +8,8 @@
     (eliminaRuolo)="eliminaRuolo($event)"
     (modificaRuolo)="modificaRuolo($event)"
   ></app-griglia-admin>
+} @else {
+  <app-spinner [mt]="'10rem'"></app-spinner>
 }
 
 @if (editAdmin()) {

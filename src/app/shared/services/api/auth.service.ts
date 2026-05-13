@@ -1,9 +1,10 @@
-import { HttpParams } from '@angular/common/http';
+import { HttpContextToken, HttpParams } from '@angular/common/http';
 import { Injectable, signal } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Ruolo } from '../../enums/users.enum';
 import { User, UserParams } from '../../interfaces/users.interface';
 import { BaseService } from '../../../../library/services/base.service';
+import { LOADING_CONTEXT } from '../../../../library/interceptors/loading.interceptor';
 
 @Injectable({
   providedIn: 'root',
@@ -45,7 +46,7 @@ export class AuthService extends BaseService {
     return this.postCustom<void>('Utenti/post_utente', body);
   }
 
-  updateUser(user: User): Observable<any> {
+  updateUser(user: User, context?: boolean): Observable<any> {
     const getCompleanno: Function = (data: Date) => {
       const date = new Date(data);
       return `${date.getFullYear()}-${(date.getMonth() + 1)
@@ -67,7 +68,15 @@ export class AuthService extends BaseService {
       compleanno: getCompleanno(user.profile.compleanno || new Date()),
     };
 
-    return this.putCustom<any>(`Utenti/update_utente/${user.id}`, body);
+    if (context) {
+      return this.putCustom<any>(
+        `Utenti/update_utente/${user.id}`,
+        body,
+        LOADING_CONTEXT,
+      );
+    } else {
+      return this.putCustom<any>(`Utenti/update_utente/${user.id}`, body);
+    }
   }
 
   updateRuoloUtente(id: string, ruolo: Ruolo): Observable<void> {
@@ -75,6 +84,10 @@ export class AuthService extends BaseService {
       ruolo: ruolo,
     };
 
-    return this.putCustom<void>(`Utenti/update_ruolo_admin/${id}`, body);
+    return this.putCustom<void>(
+      `Utenti/update_ruolo_admin/${id}`,
+      body,
+      LOADING_CONTEXT,
+    );
   }
 }
