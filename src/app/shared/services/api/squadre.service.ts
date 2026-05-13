@@ -3,10 +3,9 @@ import { Observable } from 'rxjs';
 import { BaseService } from '../../../../library/services/base.service';
 import {
   Classifica,
-  Squadre,
   Giocatori,
+  Squadre,
 } from '../../interfaces/squadre.interface';
-import { HttpParams } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root',
@@ -24,18 +23,11 @@ export class SquadreService extends BaseService {
   }
 
   getSquadre(): Observable<Squadre[]> {
-    const params = new HttpParams();
-
-    return this.getCustom<Squadre[]>('Squadre/get_squadre', params);
+    return this.getCustom<Squadre[]>('Squadre/get_squadre');
   }
 
   getClassifica(): Observable<Classifica> {
-    const params = new HttpParams();
-
-    return this.getCustom<Classifica>(
-      'Squadre/get_squadre_e_giocatori',
-      params,
-    );
+    return this.getCustom<Classifica>('Squadre/get_squadre_e_giocatori');
   }
 
   updatePunteggioSquadra(
@@ -50,7 +42,7 @@ export class SquadreService extends BaseService {
 
     return this.putCustom<void>(
       `Squadre/update_punteggio_giocatore/${userId}`,
-      body,
+      { body: body },
     );
   }
 }

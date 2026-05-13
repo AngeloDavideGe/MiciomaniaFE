@@ -19,20 +19,12 @@ export class InterazioniService extends BaseService {
   }
 
   getAllInterazioni(): Observable<Interazione[]> {
-    const params = new HttpParams();
-
-    return this.getCustom<Interazione[]>(
-      'Interazioni/get_all_interazioni',
-      params,
-    );
+    return this.getCustom<Interazione[]>('Interazioni/get_all_interazioni');
   }
 
   getInterazioniPersonali(idUtente: string): Observable<Interazione[]> {
-    const params = new HttpParams();
-
     return this.getCustom<Interazione[]>(
       `Interazioni/get_interazioni_by_id/${idUtente}`,
-      params,
     );
   }
 
@@ -50,7 +42,7 @@ export class InterazioniService extends BaseService {
 
     return this.getCustom<InterazioniPaginate>(
       'Interazioni/get_interazioni_paginate',
-      params,
+      { params: params },
     );
   }
 
@@ -64,6 +56,8 @@ export class InterazioniService extends BaseService {
       user2: orderUser[1],
     };
 
-    return this.postCustom<void>('Interazioni/upsert_interazione', body);
+    return this.putCustom<void>('Interazioni/upsert_interazione', {
+      body: body,
+    });
   }
 }

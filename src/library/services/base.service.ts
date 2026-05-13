@@ -22,40 +22,29 @@ export abstract class BaseService {
     this.headers = getHeader(this.appConfig.config.HEADERS[db].KEY);
   }
 
-  protected getCustom<T>(
-    url: string,
-    params: HttpParams,
-    contextToken?: HttpContextToken<boolean>,
-  ): Observable<T> {
-    let context = new HttpContext();
-
-    if (contextToken) {
-      context = context.set(contextToken, true);
-    }
+  protected getCustom<T>(url: string, input?: HttpBaseInput): Observable<T> {
+    const context = getContext(input?.contextToken, input?.valueContext);
 
     return this.http.get<T>(`${this.baseUrl}${url}`, {
       headers: this.headers,
-      params: params,
+      params: input?.params,
       context: context,
     });
   }
 
-  protected postCustom<T>(url: string, body: any): Observable<T> {
+  protected postCustom<T>(url: string, input?: HttpBaseInput): Observable<T> {
+    const body = input?.body || {};
+    const context = getContext(input?.contextToken, input?.valueContext);
+
     return this.http.post<T>(`${this.baseUrl}${url}`, body, {
       headers: this.headers,
+      context: context,
     });
   }
 
-  protected putCustom<T>(
-    url: string,
-    body: any,
-    contextToken?: HttpContextToken<boolean>,
-  ): Observable<T> {
-    let context = new HttpContext();
-
-    if (contextToken) {
-      context = context.set(contextToken, true);
-    }
+  protected putCustom<T>(url: string, input?: HttpBaseInput): Observable<T> {
+    const body = input?.body || {};
+    const context = getContext(input?.contextToken, input?.valueContext);
 
     return this.http.put<T>(`${this.baseUrl}${url}`, body, {
       headers: this.headers,
@@ -63,15 +52,8 @@ export abstract class BaseService {
     });
   }
 
-  protected deleteCustom<T>(
-    url: string,
-    contextToken?: HttpContextToken<boolean>,
-  ): Observable<T> {
-    let context = new HttpContext();
-
-    if (contextToken) {
-      context = context.set(contextToken, true);
-    }
+  protected deleteCustom<T>(url: string, input?: HttpBaseInput): Observable<T> {
+    const context = getContext(input?.contextToken, input?.valueContext);
 
     return this.http.delete<T>(`${this.baseUrl}${url}`, {
       headers: this.headers,
@@ -85,4 +67,24 @@ function getHeader(key: string): HttpHeaders {
     apikey: key,
     Authorization: `Bearer ${key}`,
   });
+}
+
+function getContext(
+  contextToken?: HttpContextToken<boolean>,
+  value?: boolean,
+): HttpContext {
+  let context = new HttpContext();
+
+  if (contextToken) {
+    context = context.set(contextToken, value || true);
+  }
+
+  return context;
+}
+
+interface HttpBaseInput {
+  body?: any;
+  params?: HttpParams;
+  contextToken?: HttpContextToken<boolean>;
+  valueContext?: boolean;
 }

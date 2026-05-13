@@ -5,7 +5,7 @@ import {
   HttpRequest,
 } from '@angular/common/http';
 import { inject } from '@angular/core';
-import { LoadingService } from '../../app/shared/services/template/loading.service';
+import { LoadingService } from '../dialogs/loading.service';
 import { finalize } from 'rxjs';
 
 export const LOADING_CONTEXT = new HttpContextToken<boolean>(() => false);

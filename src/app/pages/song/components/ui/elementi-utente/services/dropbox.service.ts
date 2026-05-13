@@ -1,14 +1,14 @@
-import { HttpHeaders, HttpParams } from '@angular/common/http';
+import { HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
+import { BaseService } from '../../../../../../../library/services/base.service';
+import { getExtension } from '../functions/estenzione.function';
 import { DropboxResponse } from '../interfaces/dropbox.interface';
 import {
   createHeaders,
   readFileAsArrayBuffer,
 } from '../utilities/dropbox.utilities';
-import { getExtension } from '../functions/estenzione.function';
-import { BaseService } from '../../../../../../../library/services/base.service';
 
 @Injectable({
   providedIn: 'root',
@@ -23,8 +23,7 @@ export class DropboxService extends BaseService {
   }
 
   getDropboxToken(): Observable<DropboxResponse> {
-    const params = new HttpParams();
-    return this.getCustom<DropboxResponse>('dropbox/get_access_token', params);
+    return this.getCustom<DropboxResponse>('dropbox/get_access_token');
   }
 
   uploadFile(

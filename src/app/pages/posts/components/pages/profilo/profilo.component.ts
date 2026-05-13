@@ -15,7 +15,6 @@ import {
 } from '../../../../../shared/interfaces/http.interface';
 import { User } from '../../../../../shared/interfaces/users.interface';
 import { AuthService } from '../../../../../shared/services/api/auth.service';
-import { LoadingService } from '../../../../../shared/services/template/loading.service';
 import { mapToProfilo } from '../../../../home/functions/profilo.function';
 import { PostService } from '../../../services/post.service';
 import { Tweet } from '../../shared/post.interface';
@@ -40,7 +39,6 @@ export class ProfiloComponent implements OnDestroy {
   private authService = inject(AuthService);
   private appConfig = inject(AppConfigService);
   public router = inject(Router);
-  private loaderService = inject(LoadingService);
   public postService = inject(PostService);
   private confirmService = inject(ConfirmService);
 

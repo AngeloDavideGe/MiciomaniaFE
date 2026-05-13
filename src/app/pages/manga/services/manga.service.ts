@@ -1,8 +1,8 @@
 import { HttpParams } from '@angular/common/http';
 import { Injectable, signal } from '@angular/core';
 import { Observable } from 'rxjs';
-import { MangaUtente } from '../../../shared/interfaces/http.interface';
 import { BaseService } from '../../../../library/services/base.service';
+import { MangaUtente } from '../../../shared/interfaces/http.interface';
 import { ListaEUtenti, ListaManga } from '../interfaces/manga.interface';
 
 @Injectable({
@@ -16,24 +16,23 @@ export class MangaService extends BaseService {
   }
 
   getAllManga(): Observable<ListaManga[]> {
-    const params = new HttpParams();
-
-    return this.getCustom<ListaManga[]>('Manga/get_all_manga', params);
+    return this.getCustom<ListaManga[]>('Manga/get_all_manga');
   }
 
   getMangaPreferiti(idUtente: string): Observable<MangaUtente> {
     const params = new HttpParams().set('idUtente', idUtente);
 
-    return this.getCustom<MangaUtente>('Manga/get_manga_preferiti', params);
+    return this.getCustom<MangaUtente>('Manga/get_manga_preferiti', {
+      params: params,
+    });
   }
 
   getAllMangaEPreferiti(idUtente: string): Observable<ListaEUtenti> {
     const params = new HttpParams().set('idUtente', idUtente);
 
-    return this.getCustom<ListaEUtenti>(
-      'Manga/get_all_manga_e_preferiti',
-      params,
-    );
+    return this.getCustom<ListaEUtenti>('Manga/get_all_manga_e_preferiti', {
+      params: params,
+    });
   }
 
   postOrUpdateMangaUtente(
@@ -46,6 +45,8 @@ export class MangaService extends BaseService {
       completati: mangaUtente.completati,
     };
 
-    return this.putCustom<void>(`Manga/upsert_manga_preferiti/${id}`, body);
+    return this.putCustom<void>(`Manga/upsert_manga_preferiti/${id}`, {
+      body: body,
+    });
   }
 }

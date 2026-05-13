@@ -1,10 +1,10 @@
-import { HttpContextToken, HttpParams } from '@angular/common/http';
+import { HttpParams } from '@angular/common/http';
 import { Injectable, signal } from '@angular/core';
 import { Observable } from 'rxjs';
+import { LOADING_CONTEXT } from '../../../../library/interceptors/loading.interceptor';
+import { BaseService } from '../../../../library/services/base.service';
 import { Ruolo } from '../../enums/users.enum';
 import { User, UserParams } from '../../interfaces/users.interface';
-import { BaseService } from '../../../../library/services/base.service';
-import { LOADING_CONTEXT } from '../../../../library/interceptors/loading.interceptor';
 
 @Injectable({
   providedIn: 'root',
@@ -17,9 +17,7 @@ export class AuthService extends BaseService {
   }
 
   getAllUsersHttp(): Observable<UserParams[]> {
-    const params = new HttpParams();
-
-    return this.getCustom<UserParams[]>('Utenti/get_all_utenti', params);
+    return this.getCustom<UserParams[]>('Utenti/get_all_utenti');
   }
 
   getUserByEmailAndPassword(email: string, password: string): Observable<User> {
@@ -27,7 +25,9 @@ export class AuthService extends BaseService {
       .set('email', email)
       .set('password', password);
 
-    return this.getCustom<User>('Utenti/get_utente_by_email', params);
+    return this.getCustom<User>('Utenti/get_utente_by_email', {
+      params: params,
+    });
   }
 
   postUser(
@@ -43,7 +43,7 @@ export class AuthService extends BaseService {
       password: password,
     };
 
-    return this.postCustom<void>('Utenti/post_utente', body);
+    return this.postCustom<void>('Utenti/post_utente', { body: body });
   }
 
   updateUser(user: User, context?: boolean): Observable<any> {
@@ -68,15 +68,10 @@ export class AuthService extends BaseService {
       compleanno: getCompleanno(user.profile.compleanno || new Date()),
     };
 
-    if (context) {
-      return this.putCustom<any>(
-        `Utenti/update_utente/${user.id}`,
-        body,
-        LOADING_CONTEXT,
-      );
-    } else {
-      return this.putCustom<any>(`Utenti/update_utente/${user.id}`, body);
-    }
+    return this.putCustom<any>(`Utenti/update_utente/${user.id}`, {
+      body: body,
+      contextToken: LOADING_CONTEXT,
+    });
   }
 
   updateRuoloUtente(id: string, ruolo: Ruolo): Observable<void> {
@@ -84,10 +79,9 @@ export class AuthService extends BaseService {
       ruolo: ruolo,
     };
 
-    return this.putCustom<void>(
-      `Utenti/update_ruolo_admin/${id}`,
-      body,
-      LOADING_CONTEXT,
-    );
+    return this.putCustom<void>(`Utenti/update_ruolo_admin/${id}`, {
+      body: body,
+      contextToken: LOADING_CONTEXT,
+    });
   }
 }

@@ -12,7 +12,6 @@ import { CapitalizeFirstLetterPipe } from '../../../../../../../../library/pipes
 import { Ruolo } from '../../../../../../../shared/enums/users.enum';
 import { UserParams } from '../../../../../../../shared/interfaces/users.interface';
 import { AuthService } from '../../../../../../../shared/services/api/auth.service';
-import { LoadingService } from '../../../../../../../shared/services/template/loading.service';
 import { CambioRuoloUtente } from '../../interfaces/admin.interface';
 import { AdminLang } from '../../languages/interfaces/admin-lang.interface';
 
@@ -93,7 +92,6 @@ import { AdminLang } from '../../languages/interfaces/admin-lang.interface';
 })
 export class EditAdminComponent implements OnInit {
   private authService = inject(AuthService);
-  private loadingService = inject(LoadingService);
 
   @Input() adminLang!: AdminLang;
   @Input() userEdit!: UserParams;

@@ -42,7 +42,7 @@ export class ChatService extends BaseService {
       last_message_id: DataHttp.gruppiChat.ultimoId,
     };
 
-    return this.postCustom<GruppiChat>('rpc/get_all_chats', body);
+    return this.postCustom<GruppiChat>('rpc/get_all_chats', { body: body });
   }
 
   sendMessage(
@@ -72,7 +72,9 @@ export class ChatService extends BaseService {
       content_new: content,
     };
 
-    return this.postCustom<ReturnEditMessage>('rpc/update_message', body);
+    return this.postCustom<ReturnEditMessage>('rpc/update_message', {
+      body: body,
+    });
   }
 
   activateListener(): void {
@@ -107,7 +109,7 @@ export class ChatService extends BaseService {
           pic_url: url,
         };
 
-        return this.postCustom<string>('rpc/update_group_pic', body);
+        return this.postCustom<string>('rpc/update_group_pic', { body: body });
       },
     });
   }

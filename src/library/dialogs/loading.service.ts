@@ -5,7 +5,7 @@ import {
   EnvironmentInjector,
 } from '@angular/core';
 import { createComponent } from '@angular/core';
-import { LoadingComponent } from '../../components/dialogs/loading.component';
+import { LoadingComponent } from './loading.component';
 
 @Injectable({
   providedIn: 'root',
@@ -15,7 +15,7 @@ export class LoadingService {
 
   constructor(
     private appRef: ApplicationRef,
-    private environmentInjector: EnvironmentInjector
+    private environmentInjector: EnvironmentInjector,
   ) {}
 
   show(): void {

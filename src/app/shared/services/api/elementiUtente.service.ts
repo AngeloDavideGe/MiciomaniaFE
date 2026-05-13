@@ -1,13 +1,12 @@
-import { HttpParams } from '@angular/common/http';
 import { Injectable, signal } from '@angular/core';
 import { Observable } from 'rxjs';
+import { BaseService } from '../../../../library/services/base.service';
 import {
   CanzoniParodia,
   MangaParodia,
   Proposta,
   UtenteParodie,
 } from '../../interfaces/elementiUtente.interface';
-import { BaseService } from '../../../../library/services/base.service';
 
 @Injectable({
   providedIn: 'root',
@@ -26,23 +25,16 @@ export class ElementiUtenteService extends BaseService {
   }
 
   getListaCanzoniMiciomani(): Observable<CanzoniParodia> {
-    return this.getCustom<CanzoniParodia>(
-      'Parodie/get_all_canzoni_parodia',
-      {} as HttpParams,
-    );
+    return this.getCustom<CanzoniParodia>('Parodie/get_all_canzoni_parodia');
   }
 
   getListaMangaMiciomani(): Observable<MangaParodia> {
-    return this.getCustom<MangaParodia>(
-      'Parodie/get_all_manga_parodia',
-      {} as HttpParams,
-    );
+    return this.getCustom<MangaParodia>('Parodie/get_all_manga_parodia');
   }
 
   getElementiUtente(idUtente: string): Observable<UtenteParodie> {
     return this.getCustom<UtenteParodie>(
       'Parodie/get_manga_e_canzone_utente/' + idUtente,
-      {} as HttpParams,
     );
   }
 
@@ -57,7 +49,7 @@ export class ElementiUtenteService extends BaseService {
 
     return this.putCustom<Proposta>(
       `Parodie/upsert_manga_o_canzone/${proposta.idUtente}`,
-      body,
+      { body: body },
     );
   }
 }

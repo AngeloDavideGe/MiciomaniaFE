@@ -1,9 +1,8 @@
 import { effect, inject, signal, WritableSignal } from '@angular/core';
 import { Router } from '@angular/router';
-import { DTO_Wizard } from '../../../interfaces/wizard.interface';
-import { LoadingService } from '../../../../../shared/services/template/loading.service';
 import { User } from '../../../../../shared/interfaces/users.interface';
 import { AuthService } from '../../../../../shared/services/api/auth.service';
+import { DTO_Wizard } from '../../../interfaces/wizard.interface';
 
 export type stepType = 1 | 2 | 3;
 
