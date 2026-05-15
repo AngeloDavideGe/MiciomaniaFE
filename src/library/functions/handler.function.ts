@@ -45,7 +45,7 @@ export function handlerFunc<T, S = T, M = S>(
       .subscribe({
         next: (value: M) => params.nextCall?.(value),
         error: (error: Error) => {
-          console.log(error);
+          console.error(error);
           params.errorCall?.();
         },
         complete: () => params.completeCall?.(),

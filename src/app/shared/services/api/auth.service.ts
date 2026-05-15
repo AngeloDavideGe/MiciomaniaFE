@@ -46,7 +46,7 @@ export class AuthService extends BaseService {
     return this.postCustom<void>('Utenti/post_utente', { body: body });
   }
 
-  updateUser(user: User, context?: boolean): Observable<any> {
+  updateUser(user: User, valueContext: boolean): Observable<any> {
     const getCompleanno: Function = (data: Date) => {
       const date = new Date(data);
       return `${date.getFullYear()}-${(date.getMonth() + 1)
@@ -71,6 +71,7 @@ export class AuthService extends BaseService {
     return this.putCustom<any>(`Utenti/update_utente/${user.id}`, {
       body: body,
       contextToken: LOADING_CONTEXT,
+      valueContext: valueContext,
     });
   }
 
@@ -82,6 +83,7 @@ export class AuthService extends BaseService {
     return this.putCustom<void>(`Utenti/update_ruolo_admin/${id}`, {
       body: body,
       contextToken: LOADING_CONTEXT,
+      valueContext: true,
     });
   }
 }

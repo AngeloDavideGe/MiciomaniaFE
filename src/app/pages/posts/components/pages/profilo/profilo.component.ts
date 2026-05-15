@@ -201,6 +201,7 @@ export class ProfiloComponent implements OnDestroy {
             credenziali: { ...user.credenziali, profilePic: url },
           },
           finalizeFunc: () => this.postService.aggiornamentoPic.set(false),
+          valueContext: false,
         });
       },
     }).subscribe({

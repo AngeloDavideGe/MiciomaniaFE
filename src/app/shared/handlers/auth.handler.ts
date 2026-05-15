@@ -30,9 +30,9 @@ export function updateUserCustom(params: {
   authService: AuthService;
   user: User;
   finalizeFunc: Function;
-  context?: boolean;
+  valueContext: boolean;
 }): Observable<User> {
-  return params.authService.updateUser(params.user, params.context).pipe(
+  return params.authService.updateUser(params.user, params.valueContext).pipe(
     take(1),
     finalize(() => params.finalizeFunc()),
     map(() => {

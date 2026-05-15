@@ -82,6 +82,13 @@ form {
       line-height: 1.5;
     }
 
+     .counter {
+        align-self: flex-end;
+        font-size: 14px;
+        color: var(--text-muted);
+        margin-top: 4px;
+      }
+
     .form-select {
       cursor: pointer;
       padding-right: 3rem;

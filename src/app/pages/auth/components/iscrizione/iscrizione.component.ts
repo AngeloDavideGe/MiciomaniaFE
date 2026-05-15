@@ -49,7 +49,7 @@ export class IscrizioneComponent extends WizardBase {
       authService: this.authService,
       user: this.user,
       finalizeFunc: () => {},
-      context: true,
+      valueContext: true,
     }).subscribe({
       next: () => this.nextCallIscrizione(),
       error: (err) =>

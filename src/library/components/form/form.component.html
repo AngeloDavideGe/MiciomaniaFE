@@ -52,6 +52,10 @@
             "
             (input)="onInputChange($event, keys[$index])"
           ></textarea>
+
+          <div class="counter">
+            {{ f[keys[$index]].value?.length || 0 + " / 200" }}
+          </div>
         }
 
         @case ("Date") {
@@ -100,6 +104,26 @@
             (checkChange)="onCheckboxChange($event, keys[$index])"
           >
           </app-checkbox-custom>
+        }
+
+        @case ("File") {
+          <input
+            [id]="keys[$index]"
+            type="file"
+            class="form-control mb-3"
+            style="border-radius: 30px"
+            [accept]="strutturaForm[keys[$index]].file?.accept ?? 'image/*'"
+            (change)="onFileSelected($event, keys[$index])"
+          />
+
+          @if (strutturaForm[keys[$index]].file?.previewUrl) {
+            <img
+              [src]="strutturaForm[keys[$index]].file?.previewUrl"
+              alt="preview"
+              class="img-thumbnail mt-2"
+              width="200"
+            />
+          }
         }
       }
 

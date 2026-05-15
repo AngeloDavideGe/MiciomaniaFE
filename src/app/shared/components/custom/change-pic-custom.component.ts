@@ -1,9 +1,12 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, signal } from '@angular/core';
+import { FormCustomComponent } from '../../../../library/components/form/form.component';
+import { RecordStruttura } from '../../../../library/interfaces/form.interface';
+import { Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-change-pic-custom',
   standalone: true,
-  imports: [],
+  imports: [FormCustomComponent],
   template: `
     <div
       class="modal"
@@ -38,36 +41,17 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
                   class="container elemento-centrato flex-column"
                   style="min-height: 60vh; max-width: 400px; margin: 3rem auto; background: #f8f9fa; border-radius: 16px; box-shadow: 0 4px 24px rgba(0,0,0,0.08); padding: 2rem;"
                 >
-                  <h4 class="mb-4 text-primary" style="font-weight: bold;">
-                    {{ 'Carica Immagine ' + nome }}
-                  </h4>
-                  <div class="mb-4 w-100 elemento-centrato">
-                    @if (previewUrl) {
-                      <img
-                        [src]="previewUrl"
-                        alt="Anteprima"
-                        style="width: 120px; height: 120px; object-fit: cover; border-radius: 50%; border: 2px solid #dee2e6;"
-                      />
-                    } @else {
-                      <div
-                        style="width: 120px; height: 120px; border-radius: 50%; background: #e9ecef; display: flex; align-items: center; justify-content: center; color: #adb5bd; font-size: 2.5rem; border: 2px dashed #dee2e6;"
-                      >
-                        <i class="bi bi-person"></i>
-                      </div>
-                    }
-                  </div>
-                  <input
-                    type="file"
-                    accept="image/*"
-                    class="form-control mb-3"
-                    style="border-radius: 30px;"
-                    (change)="onFileSelected($event)"
-                  />
+                  <app-form-custom
+                    [strutturaForm]="strutturaForm"
+                    [visualizzaPulsanti]="false"
+                    (subscribeForm)="this.selectedFile.set($event.imgProfilo)"
+                  ></app-form-custom>
+
                   <button
                     class="btn btn-primary w-100"
                     style="border-radius: 30px; font-weight: 500;"
-                    [disabled]="!selectedFile"
-                    (click)="conferma.emit(selectedFile)"
+                    [disabled]="!this.selectedFile()"
+                    (click)="conferma.emit(this.selectedFile())"
                   >
                     {{ 'Carica Immagine' }}
                   </button>
@@ -81,56 +65,25 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
   `,
 })
 export class ChangePicCustomComponent {
-  public previewUrl: string | ArrayBuffer | null = null;
-  public selectedFile: File | null = null;
-
   @Input() nome!: string;
   @Output() chiudi = new EventEmitter();
   @Output() conferma = new EventEmitter<File | null>();
 
-  onFileSelected(event: Event) {
-    const input = event.target as HTMLInputElement;
-    if (input.files && input.files[0]) {
-      const file: File = input.files[0];
+  public selectedFile = signal<File | null>(null);
 
-      const allowedExtensions: string[] = [
-        'jpg',
-        'jpeg',
-        'png',
-        'gif',
-        'bmp',
-        'webp',
-      ];
-
-      const allowedTypes: string[] = [
-        'image/jpeg',
-        'image/png',
-        'image/gif',
-        'image/bmp',
-        'image/webp',
-      ];
-
-      const fileExtension: string | undefined = file.name
-        .split('.')
-        .pop()
-        ?.toLowerCase();
-
-      if (
-        !fileExtension ||
-        !allowedExtensions.includes(fileExtension) ||
-        !allowedTypes.includes(file.type)
-      ) {
-        alert('Formato non supportato. Seleziona un file immagine valido.');
-        input.value = '';
-        this.selectedFile = null;
-        this.previewUrl = null;
-        return;
-      }
-
-      this.selectedFile = file;
-      const reader = new FileReader();
-      reader.onload = () => (this.previewUrl = reader.result);
-      reader.readAsDataURL(file);
-    }
-  }
+  public strutturaForm: RecordStruttura = {
+    imgProfilo: {
+      titolo: 'Cambia Immagine Profilo',
+      validators: [Validators.required],
+      tipo: 'File',
+      // valueInit?: string;
+      errorMessage: 'Immagine obbligatori',
+      file: {
+        previewUrl: null,
+        allowedExtensions: ['jpg', 'jpeg', 'png'],
+        allowedTypes: ['image/jpeg', 'image/png', 'image/pjpeg'],
+        accept: 'image/*',
+      },
+    },
+  };
 }

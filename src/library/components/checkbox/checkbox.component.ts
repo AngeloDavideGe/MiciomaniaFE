@@ -7,7 +7,7 @@ import {
   signal,
   WritableSignal,
 } from '@angular/core';
-import { ICheckBox } from '../../interfaces/checkbox.interface';
+import { ICheckBox } from '../../interfaces/form.interface';
 
 @Component({
   selector: 'app-checkbox-custom',

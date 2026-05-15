@@ -27,6 +27,7 @@ export class PostService extends BaseService {
     return this.getCustom<Profilo>('Posts/get_profilo', {
       params: params,
       contextToken: LOADING_CONTEXT,
+      valueContext: true,
     });
   }
 
@@ -65,6 +66,7 @@ export class PostService extends BaseService {
   deletePubblicazioni(tweetId: number): Observable<void> {
     return this.deleteCustom<void>(`Posts/delete_post/${tweetId}`, {
       contextToken: LOADING_CONTEXT,
+      valueContext: true,
     });
   }
 }

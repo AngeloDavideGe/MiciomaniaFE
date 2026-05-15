@@ -10,7 +10,7 @@ import {
 import { CheckBoxCustomComponent } from '../../../../../../../library/components/checkbox/checkbox.component';
 import { FormWizard } from '../../../../interfaces/wizard.interface';
 import { WizardService } from '../../../../services/wizard.service';
-import { ICheckBox } from '../../../../../../../library/interfaces/checkbox.interface';
+import { ICheckBox } from '../../../../../../../library/interfaces/form.interface';
 
 @Component({
   selector: 'app-step3',

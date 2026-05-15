@@ -74,7 +74,7 @@ export class FormCustomComponent implements OnInit, OnDestroy {
     }
   }
 
-  public onReset() {
+  public onReset(): void {
     this.form.reset();
   }
 
@@ -84,10 +84,56 @@ export class FormCustomComponent implements OnInit, OnDestroy {
     teamControl?.updateValueAndValidity();
   }
 
-  onInputChange(event: Event, index: string) {
-    const value = (event.target as HTMLInputElement).value;
-    this.strutturaForm[index].onChange
-      ? this.strutturaForm[index].onChange(value)
-      : null;
+  public onInputChange(event: Event, index: string): void {
+    const value: string = (event.target as HTMLInputElement).value;
+    this.strutturaForm[index].onChange?.(value);
+  }
+
+  public onFileSelected(event: Event, index: string): void {
+    const input = event.target as HTMLInputElement;
+
+    if (!input.files || !input.files[0]) {
+      return;
+    }
+
+    const file: File = input.files[0];
+    const allowedExtensions: string[] =
+      this.strutturaForm[index]!.file!.allowedExtensions;
+    const allowedTypes: string[] =
+      this.strutturaForm[index]!.file!.allowedExtensions;
+
+    const fileExtension: string | undefined = file.name
+      .split('.')
+      .pop()
+      ?.toLowerCase();
+
+    const isValidFile =
+      fileExtension &&
+      (allowedExtensions.includes(fileExtension) ||
+        allowedTypes.includes(file.type));
+
+    if (!isValidFile) {
+      alert('Formato non supportato. Seleziona un file immagine valido.');
+
+      input.value = '';
+      this.strutturaForm[index].file!.previewUrl = null;
+
+      this.form.get(index)?.setValue(null);
+      this.form.get(index)?.updateValueAndValidity();
+
+      return;
+    }
+
+    this.form.get(index)?.setValue(file);
+    this.form.get(index)?.markAsDirty();
+    this.form.get(index)?.updateValueAndValidity();
+
+    const reader = new FileReader();
+
+    reader.onload = () => {
+      this.strutturaForm[index].file!.previewUrl = reader.result;
+    };
+
+    reader.readAsDataURL(file);
   }
 }

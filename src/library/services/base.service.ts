@@ -75,8 +75,8 @@ function getContext(
 ): HttpContext {
   let context = new HttpContext();
 
-  if (contextToken) {
-    context = context.set(contextToken, value || true);
+  if (contextToken && value != undefined) {
+    context = context.set(contextToken, value);
   }
 
   return context;
