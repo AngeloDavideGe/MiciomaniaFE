@@ -50,6 +50,7 @@ export class ProfiloComponent implements OnDestroy {
   public profiloPersonale: boolean = false;
   public utenteCaricato: boolean = false;
   public errorHttp = signal<boolean>(false);
+  public newProfilePic = signal<File | null>(null);
   public modaleAperta: modaleApertaType = '';
   public socialArray: EditableSocial[] = [];
   public tornaIndietroPath: TornaIndietro = {} as TornaIndietro;
@@ -90,6 +91,21 @@ export class ProfiloComponent implements OnDestroy {
       validators: [Validators.required],
       errorMessage: '',
       tipo: 'Textarea',
+    },
+  };
+
+  public changePicForm: RecordStruttura = {
+    imgProfilo: {
+      titolo: 'Cambia Immagine',
+      validators: [Validators.required],
+      tipo: 'File',
+      errorMessage: 'Immagine obbligatoria (jpg, jpeg o png)',
+      file: {
+        previewUrl: null,
+        allowedExtensions: ['jpg', 'jpeg', 'png'],
+        allowedTypes: ['image/jpeg', 'image/png', 'image/pjpeg'],
+        accept: 'image/*',
+      },
     },
   };
 
@@ -237,7 +253,10 @@ export class ProfiloComponent implements OnDestroy {
             ...user,
             credenziali: { ...user.credenziali, profilePic: url },
           },
-          finalizeFunc: () => this.postService.aggiornamentoPic.set(false),
+          finalizeFunc: () => {
+            this.postService.aggiornamentoPic.set(false);
+            this.newProfilePic.set(null);
+          },
           valueContext: false,
         });
       },

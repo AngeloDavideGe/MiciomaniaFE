@@ -71,12 +71,30 @@
     }
 
     @case ("change-pic") {
-      <app-change-pic-custom
-        [nome]="'Profilo'"
-        (chiudi)="modaleAperta = ''"
-        (conferma)="onUpload($event)"
+      <app-modal-custom
+        [title]="'Cambia Immagine'"
+        [subtitle]="'Vietate foto di Colonvv'"
+        [width]="'sm'"
+        [showFooter]="false"
+        (close)="modaleAperta = ''; this.newProfilePic.set(null)"
       >
-      </app-change-pic-custom>
+        <div bodyModal>
+          <app-form-custom
+            [strutturaForm]="changePicForm"
+            [visualizzaPulsanti]="false"
+            (subscribeForm)="this.newProfilePic.set($event.imgProfilo)"
+          ></app-form-custom>
+
+          <button
+            class="btn btn-primary w-100"
+            style="border-radius: 30px; font-weight: 500"
+            [disabled]="!this.newProfilePic()"
+            (click)="onUpload(this.newProfilePic())"
+          >
+            {{ "Carica Immagine" }}
+          </button>
+        </div>
+      </app-modal-custom>
     }
   }
 }

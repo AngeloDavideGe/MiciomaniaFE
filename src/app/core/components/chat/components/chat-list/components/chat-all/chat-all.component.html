@@ -23,7 +23,6 @@
       <div class="chat-item elementi-laterali p-3 border-bottom">
         <div class="avatar-container me-3">
           @if (chatService.aggiornamentoPic() != gruppo.id) {
-            <!-- Immagine Profilo -->
             @if (gruppo.pic) {
               <img
                 [src]="gruppo.pic || groupPic"
@@ -31,9 +30,7 @@
                 class="chat-avatar rounded-circle"
                 (click)="apriCambioPic(gruppo.id)"
               />
-            }
-            <!-- Iniziale Gruppo -->
-            @else {
+            } @else {
               <div
                 class="avatar-placeholder rounded-circle bg-secondary elementi-laterali"
                 (click)="apriCambioPic(gruppo.id)"
@@ -42,7 +39,6 @@
               </div>
             }
           } @else {
-            <!-- Spinner al posto dell'immagine profilo -->
             <div class="avatar-spinner elementi-laterali">
               <div
                 class="spinner-border spinner-border-sm text-primary"
@@ -73,9 +69,28 @@
 </div>
 
 @if (editGruppoPic()) {
-  <app-change-pic-custom
-    [nome]="'Gruppo'"
-    (chiudi)="editGruppoPic.set(false)"
-    (conferma)="cambiaPic($event)"
-  ></app-change-pic-custom>
+  <app-modal-custom
+    [title]="'Cambia Immagine Gruppo'"
+    [subtitle]="'Vietate foto di Colonvv'"
+    [width]="'sm'"
+    [showFooter]="false"
+    (close)="editGruppoPic.set(false); chatService.aggiornamentoPic.set(0)"
+  >
+    <div bodyModal>
+      <app-form-custom
+        [strutturaForm]="changePicForm"
+        [visualizzaPulsanti]="false"
+        (subscribeForm)="this.newProfilePic.set($event.imgProfilo)"
+      ></app-form-custom>
+
+      <button
+        class="btn btn-primary w-100"
+        style="border-radius: 30px; font-weight: 500"
+        [disabled]="!this.newProfilePic()"
+        (click)="cambiaPic(this.newProfilePic())"
+      >
+        {{ "Carica Immagine" }}
+      </button>
+    </div>
+  </app-modal-custom>
 }
