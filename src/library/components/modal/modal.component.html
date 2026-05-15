@@ -1,0 +1,55 @@
+<div class="custom-modal-backdrop" [class.blur-backdrop]="blurBackdrop">
+  <div class="custom-modal" [class.centered]="centered" [class]="modalWidth">
+    <div class="custom-modal-content">
+      <div class="custom-modal-header">
+        <div class="header-content">
+          <h2 class="modal-title">
+            {{ title }}
+          </h2>
+
+          @if (subtitle) {
+            <p class="modal-subtitle">
+              {{ subtitle }}
+            </p>
+          }
+
+          <ng-content select="[headerModal]"></ng-content>
+        </div>
+
+        <button type="button" class="close-button" (click)="close.emit()">
+          ✕
+        </button>
+      </div>
+
+      @if (showBody) {
+        <div class="custom-modal-body">
+          <ng-content select="[bodyModal]"></ng-content>
+        </div>
+      }
+
+      @if (showFooter) {
+        <div class="custom-modal-footer">
+          <ng-content select="[footerModal]"></ng-content>
+
+          <div class="footer-actions">
+            <button
+              type="button"
+              class="secondary-btn"
+              (click)="secondaryAction.emit()"
+            >
+              {{ secondaryButtonText }}
+            </button>
+
+            <button
+              type="button"
+              class="primary-btn"
+              (click)="primaryAction.emit()"
+            >
+              {{ primaryButtonText }}
+            </button>
+          </div>
+        </div>
+      }
+    </div>
+  </div>
+</div>

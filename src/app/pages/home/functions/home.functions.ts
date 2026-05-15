@@ -61,15 +61,6 @@ export function getCardsHome(router: Router, canzoneFunc: Function): iCard[] {
       descrizione:
         'Prova i vari minigiochi Miciomani, non solo quelli con cui tratti male una donna conoscente dei membri di Miciomania.',
     },
-    {
-      urlPic:
-        'https://www.flashgames.it/giochi/abilita/my.virtual.pet.shop/my.virtual.pet.shop.jpg',
-      azione: () => router.navigate(['/games']),
-      titolo: 'Gioca con i sentimenti',
-      bottone: '🎮 Gioca',
-      descrizione:
-        'Prova i vari minigiochi Miciomani, non solo quelli con cui tratti male una donna conoscente dei membri di Miciomania.',
-    },
   ];
 }
 

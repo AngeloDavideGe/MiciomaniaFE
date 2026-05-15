@@ -1,4 +1,3 @@
-// date-format.pipe.ts (versione estesa)
 import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({

@@ -53,7 +53,6 @@ import { Router } from '@angular/router';
       <ng-content select="[giocoContent]"></ng-content>
     </div>
   `,
-  // styles: [``],
 })
 export class DettagliGameComponent {
   @Input() titolo!: string;
