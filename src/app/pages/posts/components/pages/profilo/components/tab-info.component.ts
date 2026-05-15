@@ -1,13 +1,13 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Validators } from '@angular/forms';
-import { FormCustomComponent } from '../../../../../../../../../library/components/form/form.component';
-import { compareObjectCustom } from '../../../../../../../../../library/functions/confronto.function';
-import { RecordStruttura } from '../../../../../../../../../library/interfaces/form.interface';
-import { DataHttp } from '../../../../../../../../core/api/http.data';
-import { StatoPersona } from '../../../../../../../../shared/enums/users.enum';
-import { User } from '../../../../../../../../shared/interfaces/users.interface';
-import { TabProfiloBase } from '../../../base/tab-profilo.base';
-import { ProfiloLang } from '../../../languages/interfaces/profilo-lang.interface';
+import { User } from '../../../../../../shared/interfaces/users.interface';
+import { FormCustomComponent } from '../../../../../../../library/components/form/form.component';
+import { compareObjectCustom } from '../../../../../../../library/functions/confronto.function';
+import { RecordStruttura } from '../../../../../../../library/interfaces/form.interface';
+import { DataHttp } from '../../../../../../core/api/http.data';
+import { StatoPersona } from '../../../../../../shared/enums/users.enum';
+import { TabProfiloBase } from '../base/tab-profilo.base';
+import { ProfiloLang } from '../languages/interfaces/profilo-lang.interface';
 
 @Component({
   selector: 'tab-info-profilo',

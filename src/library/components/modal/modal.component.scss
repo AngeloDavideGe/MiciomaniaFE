@@ -38,7 +38,7 @@
   justify-content: space-between;
   align-items: flex-start;
   gap: 1rem;
-  padding: 1.5rem 1.5rem 1rem;
+  padding: 1rem 1rem 1rem;
   border-bottom: 1px solid var(--border-color);
 }
 
@@ -76,7 +76,7 @@
 }
 
 .custom-modal-body {
-  padding: 1.5rem;
+  padding: 1rem;
   overflow-y: auto;
   max-height: 70vh;
 }
@@ -86,7 +86,7 @@
   justify-content: flex-end;
   align-items: center;
   gap: 1rem;
-  padding: 1rem 1.5rem 1.5rem;
+  padding: 1rem 1rem 1rem;
   border-top: 1px solid var(--border-color);
 }
 

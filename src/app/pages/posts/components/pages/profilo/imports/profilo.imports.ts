@@ -3,18 +3,24 @@ import { ChangePicCustomComponent } from '../../../../../../shared/components/cu
 import { ErrorHttpComponent } from '../../../../../../shared/components/custom/errorhttp.component';
 import { CustomNavBarComponent } from '../../../../../../../library/components/navbar/navbar.component';
 import { CardProfiloComponent } from '../components/card-profilo.component';
-import { EditProfiloComponent } from '../components/edit-profilo/edit-profilo.component';
-import { NewTweetComponent } from '../components/new-tweet.component';
 import { SezioneTweetComponent } from '../components/sezione-tweet.component';
 import { SpinnerComponent } from '../../../../../../../library/components/spinner/spinner.component';
+import { ModalCustomComponent } from '../../../../../../../library/components/modal/modal.component';
+import { TabsComponent } from '../../../../../../../library/components/tabs/tabs.component';
+import { TabInfoComponent } from '../components/tab-info.component';
+import { TabSocialComponent } from '../components/tab-social.component';
+import { FormCustomComponent } from '../../../../../../../library/components/form/form.component';
 
 export const profilo_imports: Type<any>[] = [
-  NewTweetComponent,
-  EditProfiloComponent,
   ChangePicCustomComponent,
   ErrorHttpComponent,
   CardProfiloComponent,
   SezioneTweetComponent,
   CustomNavBarComponent,
   SpinnerComponent,
+  ModalCustomComponent,
+  TabsComponent,
+  TabInfoComponent,
+  TabSocialComponent,
+  FormCustomComponent,
 ];

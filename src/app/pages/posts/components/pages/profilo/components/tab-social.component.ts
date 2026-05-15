@@ -1,17 +1,80 @@
 import { TitleCasePipe } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { User } from '../../../../../../../../shared/interfaces/users.interface';
-import { EditableSocial } from '../../../interfaces/profilo.interface';
-import { TabProfiloBase } from '../../../base/tab-profilo.base';
-import { DataHttp } from '../../../../../../../../core/api/http.data';
-import { ProfiloLang } from '../../../languages/interfaces/profilo-lang.interface';
+import { User } from '../../../../../../shared/interfaces/users.interface';
+import { EditableSocial } from '../interfaces/profilo.interface';
+import { TabProfiloBase } from '../base/tab-profilo.base';
+import { DataHttp } from '../../../../../../core/api/http.data';
+import { ProfiloLang } from '../languages/interfaces/profilo-lang.interface';
 
 @Component({
   selector: 'tab-social-profilo',
   standalone: true,
   imports: [FormsModule, TitleCasePipe],
-  templateUrl: './tab-social.component.html',
+  template: `
+    <div class="social-form-container">
+      @for (social of socialArray; track $index) {
+        <div class="social-row row g-2 align-items-center mb-3">
+          <div class="col-3">
+            <select
+              class="form-select form-select-sm"
+              [(ngModel)]="social.key"
+              style="min-width: 100px"
+            >
+              @for (soc of availableSocials; track $index) {
+                <option [value]="soc">
+                  {{ soc | titlecase }}
+                </option>
+              }
+            </select>
+          </div>
+
+          <div class="col-8">
+            <input
+              type="text"
+              class="form-control form-control-sm"
+              [(ngModel)]="social.link"
+              [placeholder]="'link di' + ' ' + social.key"
+            />
+          </div>
+
+          <div class="col-1 text-end">
+            <button
+              class="btn btn-sm btn-outline-danger"
+              (click)="removeSocial($index)"
+              style="width: 30px"
+              title="Rimuovi"
+            >
+              &minus;
+            </button>
+          </div>
+        </div>
+      }
+
+      <div class="justify-content-between">
+        <button
+          class="btn btn-sm btn-outline-primary"
+          (click)="addNewSocial()"
+          style="width: 40px"
+          title="Aggiungi social"
+        >
+          &plus;
+        </button>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary" (click)="saveChanges()">
+            {{ profiloLang.salva || 'Salva' }}
+          </button>
+          <button
+            type="button"
+            class="btn btn-secondary"
+            (click)="chiudi.emit()"
+          >
+            {{ profiloLang.chiudi || 'Chiudi' }}
+          </button>
+        </div>
+      </div>
+    </div>
+  `,
 })
 export class TabSocialComponent extends TabProfiloBase implements OnInit {
   public socialArray: EditableSocial[] = [];

@@ -23,7 +23,6 @@ import { ProfiloLang } from '../languages/interfaces/profilo-lang.interface';
   imports: [NgTemplateOutlet, DatePipe, TitleCasePipe],
   template: `
     <div class="card shadow-sm border-0 mt-3">
-      <!-- Immagine di copertina -->
       <div
         class="position-relative elemento-centrato"
         style="

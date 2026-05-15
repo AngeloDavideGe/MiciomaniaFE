@@ -27,6 +27,9 @@ import {
   ProfiloLang,
   ProfiloLangType,
 } from './languages/interfaces/profilo-lang.interface';
+import { iTab } from '../../../../../../library/components/tabs/tabs.component';
+import { RecordStruttura } from '../../../../../../library/interfaces/form.interface';
+import { Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-profilo',
@@ -51,9 +54,43 @@ export class ProfiloComponent implements OnDestroy {
   public socialArray: EditableSocial[] = [];
   public tornaIndietroPath: TornaIndietro = {} as TornaIndietro;
   public profiloLang: ProfiloLang = {} as ProfiloLang;
+  public selectTab = signal<string>('info');
   public profilo: Profilo = {
     user: getVoidUser(),
     tweets: [] as Tweet[],
+  };
+
+  public tabs: iTab[] = [
+    {
+      id: 'info',
+      label: 'Info',
+      color: 'red',
+    },
+    {
+      id: 'social',
+      label: 'Social',
+      color: 'blue',
+    },
+  ];
+
+  public newTweetForm: RecordStruttura = {
+    tweet: {
+      titolo: 'Immagine',
+      tipo: 'File',
+      validators: [],
+      file: {
+        previewUrl: null,
+        allowedExtensions: ['jpg', 'jpeg', 'png'],
+        allowedTypes: ['image/jpeg', 'image/png', 'image/pjpeg'],
+        accept: 'image/*',
+      },
+    },
+    descrizione: {
+      titolo: 'Descrizione',
+      validators: [Validators.required],
+      errorMessage: '',
+      tipo: 'Textarea',
+    },
   };
 
   constructor() {
@@ -208,5 +245,22 @@ export class ProfiloComponent implements OnDestroy {
       next: (user: User) => (DataHttp.profiloPersonale!.user = user),
       error: (err: Error) => console.error('Errore chiamata:', err),
     });
+  }
+
+  inviaTweet(event: any): void {
+    const tweet: Tweet = {
+      id: 0,
+      dataCreazione: new Date(),
+      testo: event.descrizione,
+      idUtente: this.idUtente!,
+      immaginePost: '',
+    };
+
+    handlerFunc<Tweet>({
+      callHttp: () => this.postService.postPubblicazioni(tweet),
+      nextCall: () => DataHttp.profiloPersonale?.tweets.unshift(tweet),
+    });
+
+    this.modaleAperta = '';
   }
 }
