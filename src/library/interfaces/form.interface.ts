@@ -13,7 +13,7 @@ export interface StrutturaForm {
   optionsSelect?: string[];
   checkbox?: ICheckBox[];
   file?: TipoFileForm;
-  onChange?: (x: string) => void;
+  onChange?: (x: any) => void;
 }
 
 export type tipoForm =

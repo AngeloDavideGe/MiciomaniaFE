@@ -127,6 +127,7 @@ export class FormCustomComponent implements OnInit, OnDestroy {
     this.form.get(index)?.setValue(file);
     this.form.get(index)?.markAsDirty();
     this.form.get(index)?.updateValueAndValidity();
+    this.strutturaForm[index].onChange?.(file);
 
     const reader = new FileReader();
 

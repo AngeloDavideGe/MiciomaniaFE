@@ -89,14 +89,14 @@
             @if (currentButton() == elem.titolo) {
               <button
                 (click)="stopFunc()"
-                class="btn w-100 button-manga stop-button"
+                class="btn w-100 button-manga stop-button mt-auto"
               >
                 {{ "⏹ Stop" }}
               </button>
             } @else {
               <button
                 (click)="clickSongButton(elem)"
-                class="btn w-100 button-manga play-button"
+                class="btn w-100 button-manga play-button mt-auto"
               >
                 {{ "▶ Ascolta" }}
               </button>

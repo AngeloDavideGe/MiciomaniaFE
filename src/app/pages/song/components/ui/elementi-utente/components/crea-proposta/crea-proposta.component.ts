@@ -6,39 +6,34 @@ import {
   OnInit,
   Output,
 } from '@angular/core';
-import {
-  FormBuilder,
-  FormGroup,
-  ReactiveFormsModule,
-  Validators,
-} from '@angular/forms';
+import { FormGroup, Validators } from '@angular/forms';
 import { finalize, map, switchMap, take } from 'rxjs';
 
-import { ElementiUtenteService } from '../../../../../../../shared/services/api/elementiUtente.service';
-import { ProposaPrePost } from '../../interfaces/dropbox.interface';
-import { ElemLang } from '../../languages/interfaces/elem-lang.interface';
-import { DropboxService } from '../../services/dropbox.service';
-import { fileValidator } from '../../../../../../../../library/validators/file.validator';
+import { FormCustomComponent } from '../../../../../../../../library/components/form/form.component';
+import { ModalCustomComponent } from '../../../../../../../../library/components/modal/modal.component';
+import { RecordStruttura } from '../../../../../../../../library/interfaces/form.interface';
 import {
   PopostaNonExtend,
   Proposta,
   PropostaTipo,
   UtenteParodie,
 } from '../../../../../../../shared/interfaces/elementiUtente.interface';
+import { ElementiUtenteService } from '../../../../../../../shared/services/api/elementiUtente.service';
+import { ProposaPrePost } from '../../interfaces/dropbox.interface';
+import { ElemLang } from '../../languages/interfaces/elem-lang.interface';
+import { DropboxService } from '../../services/dropbox.service';
 
 @Component({
   selector: 'app-crea-proposta',
   standalone: true,
-  imports: [ReactiveFormsModule],
+  imports: [ModalCustomComponent, FormCustomComponent],
   templateUrl: './crea-proposta.component.html',
 })
 export class CreaPropostaComponent implements OnInit {
-  public propostaForm!: FormGroup;
-  private currentFileLink: string = '';
-
-  private fb = inject(FormBuilder);
   private dropboxService = inject(DropboxService);
   private elementiUtenteService = inject(ElementiUtenteService);
+  private currentFileLink: string = '';
+  private propostaPrimo: PropostaTipo = {} as PropostaTipo;
 
   @Input() parodieUtente!: UtenteParodie;
   @Input() elemLang!: ElemLang;
@@ -46,13 +41,38 @@ export class CreaPropostaComponent implements OnInit {
   @Input() tornaAllaHome!: Function;
   @Output() chiudi = new EventEmitter<void>();
 
-  get f() {
-    return this.propostaForm.controls;
-  }
+  public changePicForm: RecordStruttura = {
+    nome: {
+      titolo: 'Nome',
+      validators: [Validators.required],
+      tipo: 'Text',
+      errorMessage: 'Nome Obbligatorio',
+    },
+    descrizione: {
+      titolo: 'Descrizione',
+      validators: [Validators.required],
+      tipo: 'Textarea',
+      errorMessage: 'Descrizione Obbligatoria',
+    },
+    file: {
+      titolo: 'File',
+      validators: [Validators.required],
+      tipo: 'File',
+      errorMessage: 'Opera Obbligatoria',
+      onChange: (x: File) => {
+        this.currentFileLink = this.updateLinkByFile(x);
+      },
+      file: {
+        previewUrl: null,
+        allowedExtensions: ['pdf', 'mp3'],
+        allowedTypes: [],
+        accept: '',
+      },
+    },
+  };
 
   ngOnInit(): void {
     this.getDropboxToken();
-    this.inizializzaForm();
   }
 
   private getDropboxToken(): void {
@@ -68,45 +88,22 @@ export class CreaPropostaComponent implements OnInit {
     }
   }
 
-  private inizializzaForm(): void {
-    this.propostaForm = this.fb.group({
-      id_utente: [this.userId || ''],
-      tipo: ['', Validators.required],
-      nome: ['', [Validators.required, Validators.maxLength(100)]],
-      descrizione: ['', [Validators.required, Validators.maxLength(500)]],
-      file: [null, [Validators.required, fileValidator]],
-    });
-  }
-
-  onFileSelected(event: Event): void {
-    const input = event.target as HTMLInputElement;
-    if (input.files && input.files.length > 0) {
-      const file: File = input.files[0];
-      this.propostaForm.patchValue({
-        file: file,
-      });
-      this.propostaForm.get('file')?.updateValueAndValidity();
-      this.currentFileLink = this.updateLinkByFile(file);
-    }
-  }
-
-  upload(): void {
-    let { proposta, file, basePath } = this.getPropostaPrePost();
-    if (!this.controlloPrePost({ proposta, file, basePath })) return;
+  upload(event: any): void {
+    let { proposta, file, basePath } = this.getPropostaPrePost(event);
     this.uploadFileHttp({ proposta, file, basePath });
     this.tornaAllaHome();
   }
 
-  private getPropostaPrePost(): ProposaPrePost {
-    const file: File = this.propostaForm.get('file')?.value;
-    const tipo: PropostaTipo = this.propostaForm.get('tipo')?.value || '';
+  private getPropostaPrePost(event: any): ProposaPrePost {
+    const file: File = event.file;
+    const tipo: PropostaTipo = this.propostaPrimo;
     const basePath: string = tipo.charAt(0).toUpperCase() + tipo.slice(1);
 
     const proposta: Proposta = {
       idUtente: this.userId,
       tipo: tipo,
-      nome: this.propostaForm.get('nome')?.value,
-      genere: this.propostaForm.get('descrizione')?.value,
+      nome: event.nome,
+      genere: event.descrizione,
       copertina: '',
       url: '',
     };
@@ -116,25 +113,6 @@ export class CreaPropostaComponent implements OnInit {
       file: file,
       basePath: basePath,
     } as ProposaPrePost;
-  }
-
-  private controlloPrePost(p: ProposaPrePost): boolean {
-    if (!this.dropboxService.dropboxResponse.access_token) {
-      alert('Attendere un momento il caricamento per il file');
-      return false;
-    }
-
-    if (p.basePath == 'Manga' && p.file.type !== 'application/pdf') {
-      alert('Il tipo manga deve essere in formato pdf');
-      return false;
-    }
-
-    if (p.basePath == 'Canzone' && p.file.type !== 'audio/mpeg') {
-      alert('Il tipo canzone deve essere in formato mp3');
-      return false;
-    }
-
-    return true;
   }
 
   private uploadFileHttp(p: ProposaPrePost): void {
@@ -182,18 +160,18 @@ export class CreaPropostaComponent implements OnInit {
     switch (file.type) {
       case 'application/pdf':
         if (this.parodieUtente.mangaUtente) {
-          this.propostaForm.get('tipo')?.setValue('manga');
+          this.propostaPrimo = 'manga';
           return this.parodieUtente.mangaUtente.url;
         } else {
-          this.propostaForm.get('tipo')?.setValue('mangaPrimo');
+          this.propostaPrimo = 'mangaPrimo';
           return '';
         }
       case 'audio/mpeg':
         if (this.parodieUtente.canzoniUtente) {
-          this.propostaForm.get('tipo')?.setValue('canzone');
+          this.propostaPrimo = 'canzone';
           return this.parodieUtente.canzoniUtente.url;
         } else {
-          this.propostaForm.get('tipo')?.setValue('canzonePrimo');
+          this.propostaPrimo = 'canzonePrimo';
           return '';
         }
       default:

@@ -2,6 +2,7 @@
   @if (eu && eu.mangaUtente && eu.mangaUtente.idUtente) {
     <app-card-custom
       [singleElem]="{
+        titolo: 'Manga Personale',
         bottone: elemLang.scarica,
         urlPic: eu.mangaUtente.copertina || defaultMangaPic,
         azione: downloadManga.bind(this, eu.mangaUtente),
@@ -10,7 +11,7 @@
       [tipoBottone]="'Download'"
       [altezzaImg]="'20rem'"
     >
-      <div descrizioneContent>
+      <div descrizioneContent class="mb-4">
         Genere: <strong>{{ eu.mangaUtente.genere }}</strong
         ><br />
         Autore: <em>{{ eu.mangaUtente.idUtente }}</em>
@@ -18,7 +19,7 @@
     </app-card-custom>
   } @else {
     <app-card-custom
-      [singleElem]="{ urlPic: defaultMangaPic }"
+      [singleElem]="{ urlPic: defaultMangaPic, titolo: elemLang.noManga }"
       [classBody]="'manga-class'"
       [altezzaImg]="'20rem'"
     ></app-card-custom>
@@ -27,7 +28,7 @@
   @if (eu && eu.canzoniUtente && eu.canzoniUtente.idUtente) {
     <app-card-custom
       [singleElem]="{
-        titolo: 'ola',
+        titolo: 'Canzone Personale',
         bottone: elemLang.scarica,
         urlPic: eu.canzoniUtente.copertina || defaultSongPic,
         azione: playSong.bind(this, eu.canzoniUtente),
@@ -37,7 +38,7 @@
       [altezzaImg]="'20rem'"
       (clickStopBotton)="msu.sc.stopSong()"
     >
-      <div descrizioneContent>
+      <div descrizioneContent class="mb-4">
         Genere: <strong>{{ eu.mangaUtente.genere }}</strong
         ><br />
         Autore: <em>{{ eu.mangaUtente.idUtente }}</em>
@@ -45,7 +46,7 @@
     </app-card-custom>
   } @else {
     <app-card-custom
-      [singleElem]="{ urlPic: defaultMangaPic }"
+      [singleElem]="{ urlPic: defaultMangaPic, titolo: elemLang.noCanzone }"
       [classBody]="'manga-class'"
       [altezzaImg]="'20rem'"
     ></app-card-custom>
