@@ -1,5 +1,5 @@
 import { Type } from '@angular/core';
-import { CardCustomComponent } from '../../../../../../shared/components/custom/card-custom.component';
+import { CardCustomComponent } from '../../../../../../../library/components/card/card.component';
 import { CustomNavBarComponent } from '../../../../../../../library/components/navbar/navbar.component';
 import { SpinnerComponent } from '../../../../../../../library/components/spinner/spinner.component';
 import { CercaProfiliComponent } from '../components/cerca-profili/cerca-profili.component';

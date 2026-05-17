@@ -41,7 +41,7 @@ export interface InputFiltri<T, F> {
 }
 
 export type TypePagination = 'page' | 'single' | 'all';
-export type TypeButton = 'Default' | 'Play' | 'Download';
+export type TypeButton = 'Default' | 'Play' | 'Download' | 'No';
 
 export interface RaggioPage {
   width: number;

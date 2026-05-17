@@ -102,7 +102,7 @@ export class CardCustomComponent implements OnInit {
   public clickSongButton(elem: iCard): void {
     this.clickButton(elem);
     this.currentButton.update((x: string | null) =>
-      x == elem.titolo ? null : elem.titolo,
+      x == elem.titolo ? null : elem.titolo || null,
     );
   }
 

@@ -1,14 +1,14 @@
 <div class="grid-card-layout px-2" style="--card-position: start">
-  <!-- Sezione Manga -->
   @if (eu && eu.mangaUtente && eu.mangaUtente.idUtente) {
     <app-card-custom
-      [link]="eu.mangaUtente.copertina || defaultMangaPic"
-      [titolo]="eu.mangaUtente.nome"
+      [singleElem]="{
+        bottone: elemLang.scarica,
+        urlPic: eu.mangaUtente.copertina || defaultMangaPic,
+        azione: downloadManga.bind(this, eu.mangaUtente),
+      }"
       [classBody]="'manga-class'"
-      [titoloBottone]="elemLang.scarica"
-      [tipo]="'Manga'"
+      [tipoBottone]="'Download'"
       [altezzaImg]="'20rem'"
-      (clickBotton)="msu.downloadManga(eu.mangaUtente)"
     >
       <div descrizioneContent>
         Genere: <strong>{{ eu.mangaUtente.genere }}</strong
@@ -18,26 +18,24 @@
     </app-card-custom>
   } @else {
     <app-card-custom
-      [link]="defaultMangaPic"
-      [titolo]="elemLang.noManga"
+      [singleElem]="{ urlPic: defaultMangaPic }"
       [classBody]="'manga-class'"
-      [titoloBottone]="''"
       [altezzaImg]="'20rem'"
-      (clickBotton)="(null)"
     ></app-card-custom>
   }
 
-  <!-- Sezione Canzone -->
   @if (eu && eu.canzoniUtente && eu.canzoniUtente.idUtente) {
     <app-card-custom
-      [titolo]="eu.mangaUtente.nome"
-      [link]="eu.mangaUtente.copertina || defaultSongPic"
+      [singleElem]="{
+        titolo: 'ola',
+        bottone: elemLang.scarica,
+        urlPic: eu.canzoniUtente.copertina || defaultSongPic,
+        azione: playSong.bind(this, eu.canzoniUtente),
+      }"
+      [classBody]="'song-class'"
+      [tipoBottone]="'Play'"
       [altezzaImg]="'20rem'"
-      [tipo]="'Song'"
-      [classBody]="'manga-class'"
-      [setCanzone]="msu.sc.currentCanzone()"
-      (clickBotton)="msu.playSong(eu.mangaUtente)"
-      (click2Botton)="msu.sc.stopSong()"
+      (clickStopBotton)="msu.sc.stopSong()"
     >
       <div descrizioneContent>
         Genere: <strong>{{ eu.mangaUtente.genere }}</strong
@@ -47,12 +45,9 @@
     </app-card-custom>
   } @else {
     <app-card-custom
-      [link]="defaultSongPic"
-      [titolo]="elemLang.noCanzone"
+      [singleElem]="{ urlPic: defaultMangaPic }"
       [classBody]="'manga-class'"
-      [titoloBottone]="''"
       [altezzaImg]="'20rem'"
-      (clickBotton)="(null)"
     ></app-card-custom>
   }
 

@@ -1,7 +1,10 @@
 import { Component, inject, Input } from '@angular/core';
 import { AppConfigService } from '../../../../../../../core/api/appConfig.service';
-import { CardCustomComponent } from '../../../../../../../shared/components/custom/card-custom.component';
-import { UtenteParodie } from '../../../../../../../shared/interfaces/elementiUtente.interface';
+import { CardCustomComponent } from '../../../../../../../../library/components/card/card.component';
+import {
+  MangaSong,
+  UtenteParodie,
+} from '../../../../../../../shared/interfaces/elementiUtente.interface';
 import { MangaSongUtilities } from '../../../../../../../shared/utilities/class/mangaSong.utilities';
 import { ElemLang } from '../../languages/interfaces/elem-lang.interface';
 
@@ -28,4 +31,12 @@ export class GrigliaElementiComponent {
     componente: boolean;
     punteggio: boolean;
   };
+
+  downloadManga(manga: MangaSong) {
+    this.msu.downloadManga(manga);
+  }
+
+  playSong(song: MangaSong) {
+    this.msu.playSong(song);
+  }
 }

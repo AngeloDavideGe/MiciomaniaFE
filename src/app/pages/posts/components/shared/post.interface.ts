@@ -8,7 +8,7 @@ export interface Tweet {
   dataCreazione: Date;
   testo: string;
   idUtente: string;
-  immaginePost: string;
+  immaginePost?: string;
 }
 
 export interface Posts {

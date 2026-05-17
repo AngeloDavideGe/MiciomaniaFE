@@ -27,8 +27,8 @@
         @for (post of postService.newPosts; track post.id) {
           <div class="elemento-centrato mb-4">
             <app-card-custom
-              [link]="post.userProfilePic"
-              [tipo]="'NO'"
+              [singleElem]="{ urlPic: post.immaginePost }"
+              [tipoBottone]="'No'"
               [lunghezzaCard]="'30rem'"
               [altezzaImg]="'30rem'"
             >
@@ -56,8 +56,8 @@
       @for (post of postService.oldPosts; track post.id) {
         <div class="elemento-centrato mb-4">
           <app-card-custom
-            [link]="post.userProfilePic"
-            [tipo]="'NO'"
+            [singleElem]="{ urlPic: post.immaginePost }"
+            [tipoBottone]="'No'"
             [lunghezzaCard]="'30rem'"
             [altezzaImg]="'30rem'"
           >
@@ -77,8 +77,7 @@
       @for (post of postFiltri.elemFilter(); track post.id) {
         <div class="elemento-centrato mb-4">
           <app-card-custom
-            [link]="post.userProfilePic"
-            [tipo]="'NO'"
+            [tipoBottone]="'No'"
             [lunghezzaCard]="'30rem'"
             [altezzaImg]="'30rem'"
           >

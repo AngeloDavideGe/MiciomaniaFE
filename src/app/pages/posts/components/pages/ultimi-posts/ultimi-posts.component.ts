@@ -7,6 +7,7 @@ import { PostService } from '../../../services/post.service';
 import { TweetAll } from '../../shared/post.interface';
 import { filterType } from './components/filtri-post.component';
 import { ultimiPost_import } from './imports/ultimi-post.import';
+import { iCard } from '../../../../../../library/interfaces/card.interface';
 
 @Component({
   standalone: true,
