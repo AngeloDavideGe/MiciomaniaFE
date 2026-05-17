@@ -54,7 +54,6 @@ import { ButtonCustomComponent } from './botton-custom.component';
       </div>
     </div>
   `,
-  styleUrl: '../styles/card-custom.scss',
 })
 export class CardCustomComponent {
   public songButton = signal<boolean>(true);

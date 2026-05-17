@@ -1,14 +1,6 @@
-import {
-  Component,
-  computed,
-  effect,
-  inject,
-  OnInit,
-  signal,
-} from '@angular/core';
+import { Component, computed, inject, OnInit } from '@angular/core';
 import { take } from 'rxjs';
-import { GetFiltriCustom } from '../../../../../../library/functions/pagination.function';
-import { FiltriInterface } from '../../../../../../library/interfaces/pagination.interface';
+import { iCard } from '../../../../../../library/interfaces/card.interface';
 import { AppConfigService } from '../../../../../core/api/appConfig.service';
 import {
   CanzoniParodia,
@@ -30,35 +22,46 @@ export class CanzoniMiciomaniaComponent implements OnInit {
 
   public readonly defaultPic: string =
     this.appConfig.config.defaultPicsUrl.song;
-  public readonly canzoniForPage: number = 10;
-  public filtriMiciomania: FiltriInterface<MangaSong> = {} as any;
-  public filtriUtente: FiltriInterface<MangaSong> = {} as any;
 
-  public canzoniMiciomania = computed<MangaSong[]>(() => {
+  public canzoniMiciomania = computed<iCard[]>(() => {
     const canzoni: CanzoniParodia | null = this.euService.canzoniParodia();
-    return canzoni ? canzoni.canzoniMiciomania : [];
+
+    if (canzoni) {
+      return canzoni.canzoniMiciomania.map((x: MangaSong) => {
+        return {
+          titolo: x.nome,
+          urlPic: x.copertina || this.defaultPic,
+          azione: () => this.msu.playSong(x, canzoni.canzoniMiciomania),
+          descrizione: `Genere: <strong>${x.genere}</strong
+            ><br />
+            Autore: <em>${x.idUtente}</em>`,
+          bottone: 'si',
+        } as iCard;
+      });
+    }
+
+    return [];
   });
 
-  public canzoniUtente = computed<MangaSong[]>(() => {
+  public canzoniUtente = computed<iCard[]>(() => {
     const canzoni: CanzoniParodia | null = this.euService.canzoniParodia();
-    return canzoni ? canzoni.canzoniUtente : [];
+
+    if (canzoni) {
+      return canzoni.canzoniUtente.map((x: MangaSong) => {
+        return {
+          titolo: x.nome,
+          urlPic: x.copertina || this.defaultPic,
+          azione: () => this.msu.playSong(x, canzoni.canzoniUtente),
+          descrizione: `Genere: <strong>${x.genere}</strong
+            ><br />
+            Autore: <em>${x.idUtente}</em>`,
+          bottone: 'si',
+        } as iCard;
+      });
+    }
+
+    return [];
   });
-
-  constructor() {
-    effect(() => {
-      this.filtriMiciomania = GetFiltriCustom<MangaSong, null>({
-        elemTable: this.canzoniMiciomania,
-        elemForPage: signal<number>(this.canzoniForPage),
-      });
-    });
-
-    effect(() => {
-      this.filtriUtente = GetFiltriCustom<MangaSong, null>({
-        elemTable: this.canzoniUtente,
-        elemForPage: signal<number>(this.canzoniForPage),
-      });
-    });
-  }
 
   ngOnInit(): void {
     if (!this.euService.caricamentoCanzoni) {

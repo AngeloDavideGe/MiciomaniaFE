@@ -1,12 +1,15 @@
+import { NgTemplateOutlet } from '@angular/common';
 import {
   Component,
   computed,
+  EventEmitter,
   HostListener,
   inject,
   Input,
   OnInit,
+  Output,
+  Signal,
   signal,
-  WritableSignal,
 } from '@angular/core';
 import { Router } from '@angular/router';
 import { debounceTimeoutCustom } from '../../functions/debounce.function';
@@ -15,6 +18,7 @@ import { iCard } from '../../interfaces/card.interface';
 import {
   FiltriInterface,
   RaggioPage,
+  TypeButton,
   TypePagination,
 } from '../../interfaces/pagination.interface';
 import { PaginazioneCustomComponent } from '../pagination/pagination.component';
@@ -22,41 +26,28 @@ import { PaginazioneCustomComponent } from '../pagination/pagination.component';
 @Component({
   selector: 'app-card-custom',
   standalone: true,
-  imports: [PaginazioneCustomComponent],
+  imports: [PaginazioneCustomComponent, NgTemplateOutlet],
   templateUrl: './card.component.html',
-  styles: [
-    `
-      .card {
-        height: 100%;
-      }
-
-      .button-carousel {
-        z-index: 100;
-        border: 1px solid var(--primary-color);
-        background-color: var(--surface-color);
-        color: var(--primary-color);
-
-        &:hover {
-          background-color: var(--primary-hover);
-          color: var(--bg-lighter);
-        }
-      }
-    `,
-  ],
+  styleUrl: './card.component.scss',
 })
 export class CardCustomComponent implements OnInit {
   public router = inject(Router);
 
   public filtri: FiltriInterface<iCard> = {} as FiltriInterface<iCard>;
   public elemForPage = signal<number>(0);
+  public currentButton = signal<string | null>(null);
 
-  @Input() elems!: WritableSignal<iCard[]>;
+  @Input() elems?: Signal<iCard[]>;
+  @Input() singleElem?: iCard;
   @Input() lunghezzaCard: string = '20rem';
   @Input() altezzaImg: string = '20rem';
   @Input() titoloLista: string = '';
   @Input() classBody: string = '';
   @Input() tipoSlice: TypePagination = 'all';
+  @Input() tipoBottone: TypeButton = 'Default';
   @Input() arrayPags: RaggioPage[] = [];
+
+  @Output() clickStopBotton = new EventEmitter<void>();
 
   public viewFirstButton = computed<boolean>(() => {
     const currentSlice: number = this.filtri.currentSlice();
@@ -73,13 +64,14 @@ export class CardCustomComponent implements OnInit {
   });
 
   ngOnInit(): void {
-    this.elemForPage.set(this.getNumCards());
-
-    this.filtri = GetFiltriCustom<iCard, null>({
-      elemTable: this.elems,
-      elemForPage: this.elemForPage,
-      slice: this.tipoSlice,
-    });
+    if (this.elems) {
+      this.elemForPage.set(this.getNumCards());
+      this.filtri = GetFiltriCustom<iCard, null>({
+        elemTable: this.elems,
+        elemForPage: this.elemForPage,
+        slice: this.tipoSlice,
+      });
+    }
   }
 
   @HostListener('window:resize')
@@ -99,32 +91,23 @@ export class CardCustomComponent implements OnInit {
     return raggioConfig ? raggioConfig.raggio : 2;
   }
 
-  public clickButton(index: number): void {
-    let realIndex: number;
-
-    switch (this.tipoSlice) {
-      case 'all': {
-        realIndex = index;
-        break;
-      }
-      case 'page': {
-        realIndex =
-          index + (this.filtri.currentPage() - 1) * this.elemForPage();
-        break;
-      }
-      case 'single': {
-        realIndex = index + this.filtri.currentSlice();
-        break;
-      }
-      default: {
-        realIndex = index;
-      }
+  public clickButton(elem: iCard): void {
+    if (elem.routerLink) {
+      this.router.navigate([elem.routerLink]);
+    } else if (elem.azione) {
+      elem.azione();
     }
+  }
 
-    if (this.elems()[realIndex].routerLink) {
-      this.router.navigate([this.elems()[realIndex].routerLink]);
-    } else if (this.elems()[realIndex].azione) {
-      this.elems()[realIndex].azione!();
-    }
+  public clickSongButton(elem: iCard): void {
+    this.clickButton(elem);
+    this.currentButton.update((x: string | null) =>
+      x == elem.titolo ? null : elem.titolo,
+    );
+  }
+
+  public stopFunc(): void {
+    this.currentButton.set(null);
+    this.clickStopBotton.emit();
   }
 }

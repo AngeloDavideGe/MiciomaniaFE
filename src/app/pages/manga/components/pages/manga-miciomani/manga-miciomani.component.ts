@@ -4,7 +4,10 @@ import { take } from 'rxjs';
 import { NavBarButton } from '../../../../../../library/interfaces/navbar.interface';
 import { AppConfigService } from '../../../../../core/api/appConfig.service';
 import { DataHttp } from '../../../../../core/api/http.data';
-import { MangaParodia } from '../../../../../shared/interfaces/elementiUtente.interface';
+import {
+  MangaParodia,
+  MangaSong,
+} from '../../../../../shared/interfaces/elementiUtente.interface';
 import { Lingua } from '../../../../../shared/interfaces/http.interface';
 import { ElementiUtenteService } from '../../../../../shared/services/api/elementiUtente.service';
 import { MangaSongUtilities } from '../../../../../shared/utilities/class/mangaSong.utilities';
@@ -13,6 +16,7 @@ import {
   MmicioLang,
   MmicioLangType,
 } from './languages/interfaces/mmicio-lang.interface';
+import { iCard } from '../../../../../../library/interfaces/card.interface';
 
 @Component({
   selector: 'app-manga-miciomani',
@@ -31,9 +35,45 @@ export class MangaMiciomaniComponent implements OnInit {
   public mmicioLang: MmicioLang = {} as MmicioLang;
   public pulsanti: NavBarButton[] = [];
 
-  public elem = computed<MangaParodia | null>(() =>
-    this.euService.mangaParodia(),
-  );
+  public mangaUtente = computed<iCard[]>(() => {
+    const mangaParodia: MangaParodia | null = this.euService.mangaParodia();
+
+    if (mangaParodia) {
+      return mangaParodia.mangaUtentePars.map((x: MangaSong) => {
+        return {
+          titolo: x.nome,
+          urlPic: x.copertina || this.mangaDefaultPic,
+          bottone: this.mmicioLang.scarica,
+          azione: () => this.mangaSongUtilities.downloadManga(x),
+          descrizione: `Genere: <strong>${x.genere}</strong
+            ><br />
+            Autore: <em>${x.idUtente}</em>`,
+        } as iCard;
+      });
+    }
+
+    return [];
+  });
+
+  public mangaMiciomania = computed<iCard[]>(() => {
+    const mangaParodia: MangaParodia | null = this.euService.mangaParodia();
+
+    if (mangaParodia) {
+      return mangaParodia.mangaMiciomania.map((x: MangaSong) => {
+        return {
+          titolo: x.nome,
+          urlPic: x.copertina || this.mangaDefaultPic,
+          bottone: this.mmicioLang.scarica,
+          azione: () => this.mangaSongUtilities.downloadManga(x),
+          descrizione: `Genere: <strong>${x.genere}</strong
+            ><br />
+            Autore: <em>${x.idUtente}</em>`,
+        } as iCard;
+      });
+    }
+
+    return [];
+  });
 
   constructor() {
     const lingua: Lingua = DataHttp.lingua();

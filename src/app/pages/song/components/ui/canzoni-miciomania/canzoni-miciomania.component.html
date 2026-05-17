@@ -8,30 +8,14 @@
       [lunghezzaFiltro]="canzoniMiciomania().length"
     ></app-custom-scroll>
 
-    <app-paginazione-custom
-      [filtri]="filtriMiciomania"
-    ></app-paginazione-custom>
-
-    <div class="grid-card-layout px-2 mt-3" style="--card-position: start">
-      @for (canzone of filtriMiciomania.elemFilter(); track canzone.idUtente) {
-        <app-card-custom
-          [titolo]="canzone.nome"
-          [link]="canzone.copertina || defaultPic"
-          [altezzaImg]="'20rem'"
-          [tipo]="'Song'"
-          [classBody]="'manga-class'"
-          [setCanzone]="msu.sc.currentCanzone()"
-          (clickBotton)="msu.playSong(canzone, canzoniMiciomania())"
-          (click2Botton)="msu.sc.stopSong()"
-        >
-          <div descrizioneContent>
-            Genere: <strong>{{ canzone.genere }}</strong
-            ><br />
-            Autore: <em>{{ canzone.idUtente }}</em>
-          </div>
-        </app-card-custom>
-      }
-    </div>
+    <app-card-custom
+      [elems]="canzoniMiciomania"
+      [altezzaImg]="'20rem'"
+      [tipoBottone]="'Play'"
+      [classBody]="'manga-class'"
+      (clickStopBotton)="msu.sc.stopSong()"
+    >
+    </app-card-custom>
   </section>
 } @else {
   <app-spinner [mt]="'10rem'"></app-spinner>
@@ -46,28 +30,14 @@
       [lunghezzaFiltro]="canzoniUtente().length"
     ></app-custom-scroll>
 
-    <app-paginazione-custom [filtri]="filtriUtente"></app-paginazione-custom>
-
-    <div class="grid-card-layout px-2 mt-3" style="--card-position: start">
-      @for (canzone of filtriUtente.elemFilter(); track canzone.idUtente) {
-        <app-card-custom
-          [titolo]="canzone.nome"
-          [link]="canzone.copertina || defaultPic"
-          [altezzaImg]="'20rem'"
-          [tipo]="'Song'"
-          [classBody]="'manga-class'"
-          [setCanzone]="msu.sc.currentCanzone()"
-          (clickBotton)="msu.playSong(canzone, canzoniUtente())"
-          (click2Botton)="msu.sc.stopSong()"
-        >
-          <div descrizioneContent>
-            Genere: <strong>{{ canzone.genere }}</strong
-            ><br />
-            Autore: <em>{{ canzone.idUtente }}</em>
-          </div>
-        </app-card-custom>
-      }
-    </div>
+    <app-card-custom
+      [elems]="canzoniUtente"
+      [altezzaImg]="'20rem'"
+      [tipoBottone]="'Play'"
+      [classBody]="'manga-class'"
+      (clickStopBotton)="msu.sc.stopSong()"
+    >
+    </app-card-custom>
   </section>
 } @else {
   <app-spinner [mt]="'10rem'"></app-spinner>
