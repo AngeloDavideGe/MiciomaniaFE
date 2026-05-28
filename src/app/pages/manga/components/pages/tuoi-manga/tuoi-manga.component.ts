@@ -33,6 +33,8 @@ import {
   TuoiMangaLangType,
 } from './languages/interfaces/tuoiManga-lang.interface';
 import { NavBarButton } from '../../../../../../library/interfaces/navbar.interface';
+import { iTab } from '../../../../../../library/components/tabs/tabs.component';
+import { getTabsTuoiManga } from '../../../functions/pulsanti-manga.functions';
 
 @Component({
   selector: 'app-tuoi-manga',
@@ -45,6 +47,7 @@ export class TuoiMangaComponent implements OnInit, OnDestroy {
   private router = inject(Router);
 
   public selectedTab: keyofMangaUtente = 'preferiti';
+  public tabs = signal<iTab[]>([]);
   public tuoiMangaLang: TuoiMangaLang = {} as TuoiMangaLang;
   private checkSplitManga: SplitMangaUtente = voidSplitManga();
   public searchQuery = signal<string>('');
@@ -119,6 +122,7 @@ export class TuoiMangaComponent implements OnInit, OnDestroy {
     };
     languageMap[lingua]().then((m) => {
       this.tuoiMangaLang = m.tuoiMangaLang;
+
       this.pulsanti = [
         {
           action: () => this.router.navigate(['/manga']),
@@ -126,6 +130,13 @@ export class TuoiMangaComponent implements OnInit, OnDestroy {
           icon: 'bi bi-book',
         },
       ];
+
+      this.tabs.set(
+        getTabsTuoiManga(
+          (tab: keyofMangaUtente) => this.filterMangaFunc(tab),
+          this.tuoiMangaLang,
+        ),
+      );
     });
   }
 
@@ -140,18 +151,6 @@ export class TuoiMangaComponent implements OnInit, OnDestroy {
     } else {
       return [] as ListaManga[];
     }
-  }
-
-  private loadListaManga(idUtente: string | null): void {
-    inizializzaLista({
-      mangaService: this.mangaService,
-      idUtente: idUtente || '',
-      caricaMangaUtente: (manga_utente: MangaUtente) =>
-        DataHttp.mangaUtente.set(manga_utente),
-      caricaListaManga: (lista_manga: ListaManga[]) =>
-        this.caricaManga(lista_manga),
-      caricamentoFallito: () => {},
-    });
   }
 
   private caricaManga(lista: ListaManga[]): void {
@@ -169,10 +168,14 @@ export class TuoiMangaComponent implements OnInit, OnDestroy {
     );
   }
 
-  filterMangaFunc(tab: keyofMangaUtente): void {
-    this.searchQuery.set('');
-    this.selectedTab = tab;
-    this.checkSplitManga = voidSplitManga();
+  private filterMangaFunc(tab: keyofMangaUtente): Function {
+    const func: Function = () => {
+      this.searchQuery.set('');
+      this.selectedTab = tab;
+      this.checkSplitManga = voidSplitManga();
+    };
+
+    return func;
   }
 
   rimuoviMangaTab(idManga: number): void {

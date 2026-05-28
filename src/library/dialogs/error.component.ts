@@ -55,7 +55,6 @@ import { ErrorParams } from '../interfaces/error.interface';
       padding: 24px;
     }
 
-    /* ===== ERROR WRAPPER ===== */
     .error {
       width: 100%;
       display: flex;
@@ -124,7 +123,6 @@ import { ErrorParams } from '../interfaces/error.interface';
       }
     }
 
-    /* ===== BUTTONS ===== */
     .btn {
       border: 1px solid transparent;
       border-radius: 12px;
@@ -159,7 +157,6 @@ import { ErrorParams } from '../interfaces/error.interface';
       }
     }
 
-    /* ===== ANIMATION ===== */
     @keyframes fadeIn {
       from {
         opacity: 0;
@@ -171,7 +168,6 @@ import { ErrorParams } from '../interfaces/error.interface';
       }
     }
 
-    /* ===== MOBILE ===== */
     @media (max-width: 600px) {
       .error__card {
         padding: 20px;

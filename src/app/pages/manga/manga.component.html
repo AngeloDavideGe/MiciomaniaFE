@@ -8,8 +8,9 @@
       (onGenreChange)="filterSelect.genere.set($event)"
     ></app-filtri-manga>
 
-    <app-tabs-manga [tabs]="tabs"></app-tabs-manga>
-
+    @if (tabs().length > 0) {
+      <app-tabs-custom [tabs]="tabs()"></app-tabs-custom>
+    }
     <app-icone-lista
       class="pc-only"
       [classNG]="perIniziale()"

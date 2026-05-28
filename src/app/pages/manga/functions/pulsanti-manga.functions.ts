@@ -1,39 +1,54 @@
 import { DataHttp } from '../../../core/api/http.data';
 import { NavBarButton } from '../../../../library/interfaces/navbar.interface';
-import { TabsManga } from '../interfaces/filtri.interface';
 import { MangaLang } from '../languages/interfaces/manga-lang.interface';
+import { iTab } from '../../../../library/components/tabs/tabs.component';
+import { TuoiMangaLang } from '../components/pages/tuoi-manga/languages/interfaces/tuoiManga-lang.interface';
 
-export function getTabsManga(clickCalls: Function): TabsManga[] {
+export function getTabsManga(clickCalls: Function): iTab[] {
   return [
     {
-      class: 'active',
-      href: '#tutti',
+      id: 'tutti',
+      label: 'Tutti',
       color: '#6c5ce7',
-      testo: {
-        it: 'Tutti',
-        en: 'All',
-      },
-      clickCall: clickCalls(null, 0),
+      azione: () => clickCalls(null),
     },
     {
-      class: '',
-      href: '#in-corso',
+      id: 'in-corso',
+      label: 'In corso',
       color: '#00b894',
-      testo: {
-        it: 'In corso',
-        en: 'In progress',
-      },
-      clickCall: clickCalls(false, 1),
+      azione: () => clickCalls(false),
     },
     {
-      class: '',
-      href: '#terminati',
+      id: 'terminati',
+      label: 'Terminati',
       color: '#e84393',
-      testo: {
-        it: 'Terminati',
-        en: 'Completed',
-      },
-      clickCall: clickCalls(true, 2),
+      azione: () => clickCalls(true),
+    },
+  ];
+}
+
+export function getTabsTuoiManga(
+  clickCalls: Function,
+  lang: TuoiMangaLang,
+): iTab[] {
+  return [
+    {
+      id: 'preferiti',
+      label: '⭐ ' + lang.preferiti,
+      color: '#6c5ce7',
+      azione: clickCalls('preferiti'),
+    },
+    {
+      id: 'leggendo',
+      label: '📖 ' + lang.leggendo,
+      color: '#00b894',
+      azione: clickCalls('letti'),
+    },
+    {
+      id: 'completati',
+      label: '✅ ' + lang.completati,
+      color: '#e84393',
+      azione: clickCalls('completati'),
     },
   ];
 }

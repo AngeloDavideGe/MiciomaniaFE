@@ -24,7 +24,6 @@ import {
   postOrUpdateMangaUtente,
 } from './handlers/manga.handler';
 import { manga_imports } from './imports/manga.imports';
-import { TabsManga } from './interfaces/filtri.interface';
 import { ListaManga } from './interfaces/manga.interface';
 import {
   MangaLang,
@@ -34,6 +33,7 @@ import { MangaService } from './services/manga.service';
 import { NavBarButton } from '../../../library/interfaces/navbar.interface';
 import { effectTimeoutCustom } from '../../../library/functions/debounce.function';
 import { compareObjectCustom } from '../../../library/functions/confronto.function';
+import { iTab } from '../../../library/components/tabs/tabs.component';
 
 @Component({
   selector: 'app-manga',
@@ -49,6 +49,7 @@ export class MangaComponent implements OnDestroy {
   public readonly alfabeto: string[] = alfabetoManga;
   public mangaPreferiti: boolean[] = [];
   public pulsanti: NavBarButton[] = [];
+  public tabs = signal<iTab[]>([]);
   public mangaLang: MangaLang = {} as MangaLang;
   public idUtente: string | null = null;
   public perIniziale = signal<string>('lista');
@@ -105,11 +106,6 @@ export class MangaComponent implements OnDestroy {
     },
   });
 
-  public tabs: TabsManga[] = getTabsManga(
-    (cond: boolean | null, index: number) =>
-      this.getTabClickHandler(cond, index),
-  );
-
   public isManga$: Observable<boolean> = this.router.events.pipe(
     filter((event): event is NavigationEnd => event instanceof NavigationEnd),
     startWith({
@@ -160,27 +156,20 @@ export class MangaComponent implements OnDestroy {
     };
     languageMap[lingua]().then((m) => {
       this.mangaLang = m.mangaLang;
+
       this.pulsanti = getPulsanti(
         (path: string) => this.router.navigate([path]),
         this.mangaLang,
       );
+
+      this.tabs.set(
+        getTabsManga((cond: boolean | null) => {
+          if (this.filterSelect.tabBoolean() !== cond) {
+            this.filterSelect.tabBoolean.set(cond);
+          }
+        }),
+      );
     });
-  }
-
-  private getTabClickHandler(
-    condition: boolean | null,
-    index: number,
-  ): Function {
-    const func: Function = () => {
-      if (this.filterSelect.tabBoolean() == condition) return;
-
-      this.filterSelect.tabBoolean.set(condition);
-      this.tabs.forEach((tab, i) => {
-        tab.class = i === index ? 'active' : '';
-      });
-    };
-
-    return func;
   }
 
   private loadFilteredManga(): void {

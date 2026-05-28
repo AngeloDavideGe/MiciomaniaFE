@@ -1,12 +1,9 @@
 <app-custom-navbar [altriBottoni]="pulsanti"></app-custom-navbar>
 
 @if (mangaNonVuoti()) {
-  <app-tabs-tuoi-manga
-    [tuoiMangaLang]="tuoiMangaLang"
-    [selectedTab]="selectedTab"
-    (filterMangaFunc)="filterMangaFunc($event)"
-  ></app-tabs-tuoi-manga>
-
+  @if (tabs().length > 0) {
+    <app-tabs-custom [tabs]="tabs()"></app-tabs-custom>
+  }
   <app-input-tuoi-manga
     [tuoiMangaLang]="tuoiMangaLang"
     [allMangaSearch]="allMangaSearch"
