@@ -51,7 +51,6 @@ export class MangaComponent implements OnDestroy {
   public pulsanti: NavBarButton[] = [];
   public mangaLang: MangaLang = {} as MangaLang;
   public idUtente: string | null = null;
-  public erroreHttp = signal<boolean>(false);
   public perIniziale = signal<string>('lista');
   public selezionaOpera: Function = (path: string) => window.open(path);
 
@@ -195,7 +194,7 @@ export class MangaComponent implements OnDestroy {
         this.identificaPreferiti(mangaUtente),
       caricaListaManga: (listaManga: ListaManga[]) =>
         this.caricaManga(listaManga),
-      caricamentoFallito: () => this.erroreHttp.set(true),
+      caricamentoFallito: () => {},
     });
   }
 

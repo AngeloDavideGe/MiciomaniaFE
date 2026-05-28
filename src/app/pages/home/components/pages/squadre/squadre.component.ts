@@ -44,7 +44,6 @@ export class SquadreComponent implements OnInit, AfterViewInit {
   public squadreLang: SquadreLang = {} as SquadreLang;
   public bottoniNavbar: NavBarButton[] = this.loadButton();
   public component = signal<componentType>('Squadre');
-  public error = signal<boolean>(false);
   public pathRecord: Record<string, PathSvgCustom[]> = {};
 
   public classifica = computed<Classifica>(() =>

@@ -1,5 +1,4 @@
 import { Type } from '@angular/core';
-import { ErrorHttpComponent } from '../../../../../../shared/components/custom/errorhttp.component';
 import { CardMangaComponent } from '../../../../shared/card-manga.component';
 import { InputTuoiMangaComponent } from '../components/input-tuoi-manga.component';
 import { SelectTabMangaComponent } from '../components/select-tab-manga.component';
@@ -9,7 +8,6 @@ import { CustomNavBarComponent } from '../../../../../../../library/components/n
 
 export const tuoi_manga_imports: Type<any>[] = [
   CardMangaComponent,
-  ErrorHttpComponent,
   TabsTuoiMangaComponent,
   InputTuoiMangaComponent,
   SelectTabMangaComponent,

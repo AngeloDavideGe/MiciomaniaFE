@@ -47,7 +47,6 @@ export class TuoiMangaComponent implements OnInit, OnDestroy {
   public selectedTab: keyofMangaUtente = 'preferiti';
   public tuoiMangaLang: TuoiMangaLang = {} as TuoiMangaLang;
   private checkSplitManga: SplitMangaUtente = voidSplitManga();
-  public erroreHttp = signal<boolean>(false);
   public searchQuery = signal<string>('');
   public pulsanti: NavBarButton[] = [];
   private debouncedSearchQuery = signal<string>('');
@@ -93,7 +92,7 @@ export class TuoiMangaComponent implements OnInit, OnDestroy {
         DataHttp.mangaUtente.set(manga_utente),
       caricaListaManga: (lista_manga: ListaManga[]) =>
         this.caricaManga(lista_manga),
-      caricamentoFallito: () => this.erroreHttp.set(true),
+      caricamentoFallito: () => {},
     });
   }
 
@@ -151,7 +150,7 @@ export class TuoiMangaComponent implements OnInit, OnDestroy {
         DataHttp.mangaUtente.set(manga_utente),
       caricaListaManga: (lista_manga: ListaManga[]) =>
         this.caricaManga(lista_manga),
-      caricamentoFallito: () => this.erroreHttp.set(true),
+      caricamentoFallito: () => {},
     });
   }
 

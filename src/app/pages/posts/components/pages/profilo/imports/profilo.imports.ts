@@ -4,14 +4,12 @@ import { ModalCustomComponent } from '../../../../../../../library/components/mo
 import { CustomNavBarComponent } from '../../../../../../../library/components/navbar/navbar.component';
 import { SpinnerComponent } from '../../../../../../../library/components/spinner/spinner.component';
 import { TabsComponent } from '../../../../../../../library/components/tabs/tabs.component';
-import { ErrorHttpComponent } from '../../../../../../shared/components/custom/errorhttp.component';
 import { CardProfiloComponent } from '../components/card-profilo.component';
 import { SezioneTweetComponent } from '../components/sezione-tweet.component';
 import { TabInfoComponent } from '../components/tab-info.component';
 import { TabSocialComponent } from '../components/tab-social.component';
 
 export const profilo_imports: Type<any>[] = [
-  ErrorHttpComponent,
   CardProfiloComponent,
   SezioneTweetComponent,
   CustomNavBarComponent,

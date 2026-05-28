@@ -19,9 +19,9 @@ export const appConfig: ApplicationConfig = {
         anchorScrolling: 'enabled',
       }),
     ),
-    provideAppInitializer(() => {
+    provideAppInitializer(async () => {
       const configService = inject(AppConfigService);
-      return configService.loadConfig();
+      await configService.loadConfig();
     }),
   ],
 };

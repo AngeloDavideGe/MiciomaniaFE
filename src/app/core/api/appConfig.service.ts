@@ -13,15 +13,29 @@ export class AppConfigService {
   public config: IAppConfig = {} as IAppConfig;
   public client: SupabaseClient = {} as SupabaseClient;
 
-  loadConfig(): Promise<void> {
+  public async loadConfig(): Promise<void> {
+    try {
+      const config: IAppConfig = await firstValueFrom(
+        this.http.get<IAppConfig>('assets/data/appConfig.json'),
+      );
+
+      this.config = config;
+      this.client = getClient(config);
+    } catch (err: unknown) {
+      console.error('Errore caricamento appConfig.json', err);
+      this.config = {} as IAppConfig;
+    }
+  }
+
+  public async loadConfigEx(): Promise<void> {
     return firstValueFrom(
-      this.http.get<IAppConfig>('assets/data/appConfig.json')
+      this.http.get<IAppConfig>('assets/data/appConfig.json'),
     )
       .then((config: IAppConfig) => {
         this.config = config;
         this.client = getClient(config);
       })
-      .catch((err) => {
+      .catch((err: unknown) => {
         console.error('Errore caricamento appConfig.json', err);
         this.config = {} as IAppConfig;
       });

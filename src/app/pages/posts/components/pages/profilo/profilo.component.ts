@@ -48,8 +48,7 @@ export class ProfiloComponent implements OnDestroy {
   private destroy$ = new Subject<void>();
   private idUtente: string | null = null;
   public profiloPersonale: boolean = false;
-  public utenteCaricato: boolean = false;
-  public errorHttp = signal<boolean>(false);
+  public utenteCaricato = signal<boolean>(false);
   public newProfilePic = signal<File | null>(null);
   public modaleAperta: modaleApertaType = '';
   public socialArray: EditableSocial[] = [];
@@ -186,17 +185,12 @@ export class ProfiloComponent implements OnDestroy {
         this.setLocalStorage(data);
         this.caricamentoCompletato();
       },
-      errorCall: () => this.caricamentoFallito(),
     });
   }
 
   private caricamentoCompletato(): void {
     this.loadSocial();
-    this.utenteCaricato = true;
-  }
-
-  private caricamentoFallito(): void {
-    this.errorHttp.set(true);
+    this.utenteCaricato.set(true);
   }
 
   private setLocalStorage(data: Profilo): void {

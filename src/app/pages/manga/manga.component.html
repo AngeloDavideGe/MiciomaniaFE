@@ -1,66 +1,62 @@
 @if (isManga$ | async) {
-  @if (!erroreHttp()) {
-    <app-custom-navbar [altriBottoni]="pulsanti"></app-custom-navbar>
+  <app-custom-navbar [altriBottoni]="pulsanti"></app-custom-navbar>
 
-    @if (mangaService.listaManga().length > 0) {
-      <app-filtri-manga
-        [mangaLang]="mangaLang"
-        [filterSelect]="filterSelect"
-        (onGenreChange)="filterSelect.genere.set($event)"
-      ></app-filtri-manga>
+  @if (mangaService.listaManga().length > 0) {
+    <app-filtri-manga
+      [mangaLang]="mangaLang"
+      [filterSelect]="filterSelect"
+      (onGenreChange)="filterSelect.genere.set($event)"
+    ></app-filtri-manga>
 
-      <app-tabs-manga [tabs]="tabs"></app-tabs-manga>
+    <app-tabs-manga [tabs]="tabs"></app-tabs-manga>
 
-      <app-icone-lista
-        class="pc-only"
-        [classNG]="perIniziale()"
-        [ngClass1]="'lista'"
-        [ngClass2]="'iniziale'"
-        (classNGChange)="perIniziale.set($event)"
-      ></app-icone-lista>
+    <app-icone-lista
+      class="pc-only"
+      [classNG]="perIniziale()"
+      [ngClass1]="'lista'"
+      [ngClass2]="'iniziale'"
+      (classNGChange)="perIniziale.set($event)"
+    ></app-icone-lista>
 
-      @if (perIniziale() === "iniziale") {
-        @for (lettera of alfabeto; track lettera) {
-          @if (mangaPerIniziale()[lettera].length > 0) {
-            <div class="mt-5">
-              <h5 class="text-black fw-bold border-bottom pb-2">
-                {{ lettera }}
-              </h5>
-            </div>
-            <div class="row mt-3 g-3">
-              @for (manga of mangaPerIniziale()[lettera]; track manga.id) {
-                <div class="col-6 col-sm-4 col-md-3 col-lg-2 elemento-centrato">
-                  <app-card-manga
-                    [manga]="manga"
-                    [preferito]="mangaPreferiti[manga.id]"
-                    (selezionaOpera)="selezionaOpera(manga.path)"
-                  ></app-card-manga>
-                </div>
-              }
-            </div>
-          }
+    @if (perIniziale() === "iniziale") {
+      @for (lettera of alfabeto; track lettera) {
+        @if (mangaPerIniziale()[lettera].length > 0) {
+          <div class="mt-5">
+            <h5 class="text-black fw-bold border-bottom pb-2">
+              {{ lettera }}
+            </h5>
+          </div>
+          <div class="row mt-3 g-3">
+            @for (manga of mangaPerIniziale()[lettera]; track manga.id) {
+              <div class="col-6 col-sm-4 col-md-3 col-lg-2 elemento-centrato">
+                <app-card-manga
+                  [manga]="manga"
+                  [preferito]="mangaPreferiti[manga.id]"
+                  (selezionaOpera)="selezionaOpera(manga.path)"
+                ></app-card-manga>
+              </div>
+            }
+          </div>
         }
-      } @else {
-        <div
-          class="grid-card-layout mt-4 px-2"
-          style="--card-width: 15rem; --card-position: start"
-        >
-          @for (manga of filtri.searchElems(); track manga.id) {
-            <div class="d-flex" style="padding: 0.2rem">
-              <app-card-manga
-                [manga]="manga"
-                [preferito]="mangaPreferiti[manga.id]"
-                (selezionaOpera)="selezionaOpera(manga.path)"
-              ></app-card-manga>
-            </div>
-          }
-        </div>
       }
     } @else {
-      <app-spinner [mt]="'10rem'"></app-spinner>
+      <div
+        class="grid-card-layout mt-4 px-2"
+        style="--card-width: 15rem; --card-position: start"
+      >
+        @for (manga of filtri.searchElems(); track manga.id) {
+          <div class="d-flex" style="padding: 0.2rem">
+            <app-card-manga
+              [manga]="manga"
+              [preferito]="mangaPreferiti[manga.id]"
+              (selezionaOpera)="selezionaOpera(manga.path)"
+            ></app-card-manga>
+          </div>
+        }
+      </div>
     }
   } @else {
-    <app-error-http></app-error-http>
+    <app-spinner [mt]="'10rem'"></app-spinner>
   }
 }
 
