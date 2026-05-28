@@ -35,7 +35,7 @@ export class ConfirmComponent {
   }
 }
 
-interface ConfirmParams {
+export interface ConfirmParams {
   title: string;
   message: string;
   buttonNo: string;

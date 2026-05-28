@@ -8,10 +8,11 @@ import { provideRouter, withInMemoryScrolling } from '@angular/router';
 import { routes } from './app.routes';
 import { AppConfigService } from './core/api/appConfig.service';
 import { loadingInterceptor } from '../library/interceptors/loading.interceptor';
+import { errorInterceptor } from '../library/interceptors/error.interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [
-    provideHttpClient(withInterceptors([loadingInterceptor])),
+    provideHttpClient(withInterceptors([loadingInterceptor, errorInterceptor])),
     provideRouter(
       routes,
       withInMemoryScrolling({

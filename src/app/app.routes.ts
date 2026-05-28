@@ -52,6 +52,13 @@ export const routes: Routes = [
       import('./pages/math/math.component').then((m) => m.MathComponent),
   },
   {
+    path: 'error-page',
+    loadComponent: () =>
+      import('./../library/dialogs/error.component').then(
+        (m) => m.ErrorPageComponent,
+      ),
+  },
+  {
     path: '**',
     redirectTo: 'home',
     pathMatch: 'full',

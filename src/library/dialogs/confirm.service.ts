@@ -6,7 +6,7 @@ import {
   Injectable,
 } from '@angular/core';
 import { finalize, Observable, take } from 'rxjs';
-import { ConfirmComponent } from './confirm.component';
+import { ConfirmComponent, ConfirmParams } from './confirm.component';
 
 @Injectable({
   providedIn: 'root',
@@ -74,11 +74,4 @@ export class ConfirmService {
       this.confirmComponentRef = null;
     }
   }
-}
-
-interface ConfirmParams {
-  title: string;
-  message: string;
-  buttonNo: string;
-  buttonSi: string;
 }
