@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { errorGuard } from '../library/guards/error.guard';
 
 export const routes: Routes = [
   {
@@ -57,6 +58,7 @@ export const routes: Routes = [
       import('./../library/dialogs/error.component').then(
         (m) => m.ErrorPageComponent,
       ),
+    canActivate: [errorGuard],
   },
   {
     path: '**',

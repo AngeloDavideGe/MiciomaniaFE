@@ -1,5 +1,12 @@
 import { FormControl, ValidatorFn } from '@angular/forms';
 
+export type RecordStrutturaMultiForm = Record<string, StrutturaMultiForm>;
+
+export interface StrutturaMultiForm {
+  nome: string;
+  struttura: RecordStruttura;
+}
+
 export type RecordStruttura = Record<string, StrutturaForm>;
 export type FormInterface = Record<string, FormControl<string | null>>;
 export type BuildInterface = Record<string, (string | ValidatorFn[])[]>;

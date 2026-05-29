@@ -188,9 +188,11 @@ export class ErrorPageComponent {
 
   public goHome(): void {
     this.router.navigate(['/home']);
+    this.errorService.error.set(null);
   }
 
   public goBack(): void {
     window.history.back();
+    this.errorService.error.set(null);
   }
 }

@@ -1,0 +1,28 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()" class="multi-form">
+  @for (key of keys; track key) {
+    <section class="multi-form-section">
+      <div class="section-header">
+        <h2 class="section-title">
+          {{ strutturaForm[key].nome }}
+        </h2>
+      </div>
+
+      <div class="section-body" [formGroupName]="key">
+        <app-form-custom
+          [strutturaForm]="strutturaForm[key].struttura"
+          [visualizzaPulsanti]="false"
+          [formGroup]="getFormGroup(key)"
+          (subscribeForm)="onSectionFormChange(key, $event)"
+        ></app-form-custom>
+      </div>
+    </section>
+  }
+
+  @if (visualizzaPulsanti) {
+    <div class="form-actions">
+      <button type="submit" class="btn-submit" [disabled]="form.invalid">
+        Invia
+      </button>
+    </div>
+  }
+</form>
