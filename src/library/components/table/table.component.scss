@@ -57,6 +57,14 @@
         tr {
           border-bottom: 1px solid var(--border-light);
 
+          &:nth-child(odd) {
+            background: var(--surface-color);
+          }
+
+          &:nth-child(even) {
+            background: var(--bg-light);
+          }
+
           &:hover {
             background: var(--bg-hover);
           }
@@ -73,6 +81,12 @@
             }
           }
 
+          .expanded-row {
+            margin: 0;
+            white-space: normal;
+            background: var(--bg-lighter);
+          }
+
           .actions-cell {
             .actions-wrapper {
               display: flex;
@@ -82,7 +96,6 @@
             .action-btn {
               background: transparent;
               border: 1px solid var(--border-color);
-              padding: 6px;
               border-radius: 4px;
               cursor: pointer;
               color: var(--text-muted);

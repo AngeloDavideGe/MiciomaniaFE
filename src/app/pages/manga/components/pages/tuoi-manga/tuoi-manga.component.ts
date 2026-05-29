@@ -95,7 +95,6 @@ export class TuoiMangaComponent implements OnInit, OnDestroy {
         DataHttp.mangaUtente.set(manga_utente),
       caricaListaManga: (lista_manga: ListaManga[]) =>
         this.caricaManga(lista_manga),
-      caricamentoFallito: () => {},
     });
   }
 

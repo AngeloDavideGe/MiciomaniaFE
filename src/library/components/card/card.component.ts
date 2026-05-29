@@ -22,11 +22,16 @@ import {
   TypePagination,
 } from '../../interfaces/pagination.interface';
 import { PaginazioneCustomComponent } from '../pagination/pagination.component';
+import { ButtonCustomComponent } from '../button/botton-custom.component';
 
 @Component({
   selector: 'app-card-custom',
   standalone: true,
-  imports: [PaginazioneCustomComponent, NgTemplateOutlet],
+  imports: [
+    PaginazioneCustomComponent,
+    NgTemplateOutlet,
+    ButtonCustomComponent,
+  ],
   templateUrl: './card.component.html',
   styleUrl: './card.component.scss',
 })
@@ -45,7 +50,7 @@ export class CardCustomComponent implements OnInit {
   @Input() classBody: string = '';
   @Input() tipoSlice: TypePagination = 'all';
   @Input() tipoBottone: TypeButton = 'Default';
-  @Input() arrayPags: RaggioPage[] = [];
+  @Input() arrayPags: RaggioPage[] = defaultArrayPags;
 
   @Output() clickStopBotton = new EventEmitter<void>();
 
@@ -111,3 +116,26 @@ export class CardCustomComponent implements OnInit {
     this.clickStopBotton.emit();
   }
 }
+
+const defaultArrayPags: RaggioPage[] = [
+  {
+    width: 1700,
+    raggio: 5,
+  },
+  {
+    width: 1400,
+    raggio: 4,
+  },
+  {
+    width: 1100,
+    raggio: 3,
+  },
+  {
+    width: 700,
+    raggio: 2,
+  },
+  {
+    width: 0,
+    raggio: 1,
+  },
+];

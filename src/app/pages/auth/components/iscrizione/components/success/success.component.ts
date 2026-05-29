@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { User } from '../../../../../../shared/interfaces/users.interface';
-import { ButtonCustomComponent } from '../../../../../../shared/components/custom/botton-custom.component';
+import { ButtonCustomComponent } from '../../../../../../../library/components/button/botton-custom.component';
 
 @Component({
   standalone: true,

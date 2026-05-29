@@ -183,7 +183,6 @@ export class MangaComponent implements OnDestroy {
         this.identificaPreferiti(mangaUtente),
       caricaListaManga: (listaManga: ListaManga[]) =>
         this.caricaManga(listaManga),
-      caricamentoFallito: () => {},
     });
   }
 

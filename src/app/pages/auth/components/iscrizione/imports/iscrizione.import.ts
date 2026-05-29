@@ -1,5 +1,5 @@
 import { Type } from '@angular/core';
-import { ButtonCustomComponent } from '../../../../../shared/components/custom/botton-custom.component';
+import { ButtonCustomComponent } from '../../../../../../library/components/button/botton-custom.component';
 import { ErrorIscrizioneComponent } from '../components/error/error-iscrizione.component';
 import { Step1Component } from '../components/step1/step1.component';
 import { Step2Component } from '../components/step2/step2.component';

@@ -9,7 +9,6 @@ export function inizializzaLista(params: {
   idUtente: string;
   caricaMangaUtente: (manga_utente: MangaUtente) => void;
   caricaListaManga: (lista_manga: ListaManga[]) => void;
-  caricamentoFallito: Function;
 }): void {
   const condLista: boolean = params.mangaService.listaManga().length == 0;
   const condMangaUtente: boolean = !DataHttp.mangaUtente() && !!params.idUtente;

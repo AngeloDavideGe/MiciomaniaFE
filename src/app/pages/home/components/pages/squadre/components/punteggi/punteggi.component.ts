@@ -58,7 +58,9 @@ import { RecordColonne } from '../../../../../../../../library/interfaces/table.
       <app-spinner [mt]="'10rem'"></app-spinner>
     }
 
-    <ng-template #detailTpl let-row> CALANDRAAAA </ng-template>
+    <ng-template #detailTpl let-row>
+      {{ row.descrizione }}
+    </ng-template>
   `,
 })
 export class PunteggiComponent {

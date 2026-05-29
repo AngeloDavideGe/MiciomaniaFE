@@ -54,7 +54,7 @@ export class TabellaCustomComponent<T> {
   @Input() titoloColAzioni: string = 'Azioni';
   @Input() azioni: AzioniTabella<T>[] = [];
   @Input() tipoPaginazione: TipoPaginazione = 'multiplo';
-  @Input() arrayElemForPage: number[] = [1, 5, 10, 20, 50, 100];
+  @Input() arrayElemForPage: number[] = [1, 5, 10, 20];
   @Input() elemForPage = signal<number>(maxElementForPage);
   @Input() recordBadge: Record<string, string> = {};
   @Input() trackByKey: keyof T = 'id' as keyof T;
@@ -142,8 +142,6 @@ export class TabellaCustomComponent<T> {
   }
 
   ngOnInit(): void {
-    this.setButtonSub();
-
     this.keyofElem = Object.keys(this.colonne) as (keyof T)[];
 
     this.colonne = this.keyofElem.reduce(
@@ -200,18 +198,10 @@ export class TabellaCustomComponent<T> {
     ];
   }
 
-  private setButtonSub(): void {
-    if (this.keyPrimary) {
-      this.azioni.push({
-        icona: 'bi bi-person-circle',
-        titolo: 'Dettagli',
-        azione: (elem: T, index: number) => {
-          this.expandedRow.update((x: any) => {
-            if (x == elem[this.keyPrimary!]) return null;
-            else return elem[this.keyPrimary!];
-          });
-        },
-      });
-    }
+  public toggleExpandedRow(key: any): void {
+    this.expandedRow.update((x: any) => {
+      if (x == key) return null;
+      else return key;
+    });
   }
 }

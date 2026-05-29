@@ -71,9 +71,11 @@
       @if (elem.bottone) {
         @switch (tipoBottone) {
           @case ("Default") {
-            <button class="btn btn-primary mt-auto" (click)="clickButton(elem)">
-              {{ elem.bottone }}
-            </button>
+            <app-button-custom
+              class="mt-auto mx-auto"
+              [text]="elem.bottone"
+              (click)="clickButton(elem)"
+            ></app-button-custom>
           }
           @case ("Download") {
             <a

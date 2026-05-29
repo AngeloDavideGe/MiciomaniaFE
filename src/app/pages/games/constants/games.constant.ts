@@ -57,22 +57,3 @@ export const gamesConstant: iCard[] = [
     bottone: 'Gioca',
   },
 ];
-
-export const pagineGames: RaggioPage[] = [
-  {
-    width: 1400,
-    raggio: 4,
-  },
-  {
-    width: 1100,
-    raggio: 3,
-  },
-  {
-    width: 700,
-    raggio: 2,
-  },
-  {
-    width: 0,
-    raggio: 1,
-  },
-];

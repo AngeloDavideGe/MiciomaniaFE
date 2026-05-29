@@ -20,11 +20,10 @@ import {
 import { Giocatori, Squadre } from '../../shared/interfaces/squadre.interface';
 import { User } from '../../shared/interfaces/users.interface';
 import { SquadreService } from '../../shared/services/api/squadre.service';
-import { gamesConstant, pagineGames } from './constants/games.constant';
+import { gamesConstant } from './constants/games.constant';
 import { games_imports } from './imports/games.import';
 import { SquadreGiocatore } from './interfaces/games.interfaces';
 import { DeckCardService } from './services/deck-card.service';
-import { RaggioPage } from '../../../library/interfaces/pagination.interface';
 
 @Component({
   selector: 'app-games',
@@ -38,7 +37,6 @@ export class GamesComponent implements OnInit, OnDestroy {
   public router = inject(Router);
 
   public readonly gamesConstant = signal<iCard[]>(gamesConstant);
-  public readonly pagineGames: RaggioPage[] = pagineGames;
 
   public punteggioPersonale: number = 0;
   public pulsanti = signal<NavBarButton[]>([]);
