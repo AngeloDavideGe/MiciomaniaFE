@@ -1,102 +1,25 @@
-@if (caricaPersona) {
-  <!-- Wizard Container -->
-  @if (!(user.iscrizione.squadra && viewSuccespage)) {
-    <div class="wizard-header elemento-centrato p-2">
-      @for (step of wizard; track step.step) {
-        <div
-          class="wizard-step text-center mx-3 position-relative"
-          [class.active]="currentStep() === step.step"
-        >
-          <div
-            class="circle mx-auto mb-1 elemento-centrato"
-            [style]="{
-              'background-color':
-                currentStep() === step.step
-                  ? 'var(--primary-color)'
-                  : 'var(--border-color)',
-              color:
-                currentStep() === step.step
-                  ? 'var(--surface-color)'
-                  : 'var(--text-secondary)',
-            }"
-            style="
-              width: 40px;
-              height: 40px;
-              border-radius: 50%;
-              font-weight: bold;
-            "
-          >
-            {{ step.step }}
-          </div>
-          <div
-            class="label fw-semibold"
-            [style]="{
-              color:
-                currentStep() === step.step
-                  ? 'var(--primary-color)'
-                  : 'var(--text-muted)',
-            }"
-          >
-            {{ step.titolo }}
-          </div>
-          <!-- Linea di collegamento (se non ultimo step) -->
-          @if ($index < wizard.length - 1) {
-            <div
-              class="position-absolute top-50 start-100 translate-middle-y"
-              style="width: 50px; height: 2px"
-            ></div>
-          }
-        </div>
+<app-tabs-custom
+  [tabs]="tabs"
+  [tipo]="'wizard'"
+  [disableNext]="disableNext()"
+  (clickTab)="currentStep.set($event)"
+>
+  <div wizardContent>
+    @switch (currentStep()) {
+      @case ("1") {
+        <app-step1 [team]="squadreInGame()"></app-step1>
       }
-    </div>
-
-    <!-- Step Content -->
-    <div class="border-0 p-4" style="background-color: var(--surface-color)">
-      @switch (currentStep()) {
-        @case (1) {
-          <app-step1 [team]="squadreInGame()"></app-step1>
-        }
-        @case (2) {
-          @if (user.id) {
-            <app-step2
-              (formValido)="formValido = $event"
-              [team]="team()"
-            ></app-step2>
-          } @else {
-            <app-error-iscrizione></app-error-iscrizione>
-          }
-        }
-        @case (3) {
-          <app-step3
-            (lineeGuidaEvent)="lineeGuidaAccettate = $event"
-          ></app-step3>
-        }
+      @case ("2") {
+        <app-step2
+          (formValido)="formValido.set($event)"
+          [team]="team()"
+        ></app-step2>
       }
-    </div>
-
-    <!-- Pulsanti -->
-    @if (user.id || currentStep() != 2) {
-      <div class="elementi-laterali px-5 mt-3">
-        <app-button-custom
-          [text]="'Indietro'"
-          [icon1]="'bi bi-arrow-left'"
-          (clickBotton)="prevStep()"
-        ></app-button-custom>
-
-        <app-button-custom
-          [text]="currentStep() == 3 ? 'Invia' : 'Avanti'"
-          [icon2]="'bi bi-arrow-right'"
-          (clickBotton)="nextStep()"
-          [disabled]="squadreInGame().length == 0"
-        ></app-button-custom>
-      </div>
+      @case ("3") {
+        <app-step3
+          (lineeGuidaEvent)="lineeGuidaAccettate.set($event)"
+        ></app-step3>
+      }
     }
-    <br />
-  } @else {
-    <app-success-page
-      [user]="user!"
-      [navigateToHome]="navigateToHome"
-      (editInfo)="viewSuccespage = false"
-    ></app-success-page>
-  }
-}
+  </div>
+</app-tabs-custom>

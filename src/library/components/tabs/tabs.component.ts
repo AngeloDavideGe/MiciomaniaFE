@@ -6,38 +6,22 @@ import {
   Output,
   signal,
 } from '@angular/core';
+import { ButtonCustomComponent } from '../button/botton-custom.component';
 
 @Component({
   selector: 'app-tabs-custom',
   standalone: true,
-  imports: [],
-  template: `
-    <nav class="nav nav-tabs border-bottom-0">
-      @for (tab of tabs; track tab.id) {
-        <button
-          class="nav-link me-2 px-3 py-2"
-          (click)="clickTabFunc(tab)"
-          [style.color]="selectTab() === tab.id ? tab.color : 'black'"
-          [style.border-bottom]="
-            selectTab() === tab.id
-              ? '2px solid ' + tab.color
-              : '2px solid transparent'
-          "
-        >
-          {{ tab.label }}
-        </button>
-      }
-    </nav>
-
-    <div class="tab-content">
-      <ng-content select="[tabContent]"></ng-content>
-    </div>
-  `,
+  imports: [ButtonCustomComponent],
+  templateUrl: './tabs.component.html',
+  styleUrl: './tabs.component.scss',
 })
 export class TabsComponent implements OnInit {
   public selectTab = signal<string>('');
 
   @Input() tabs!: iTab[];
+  @Input() tipo: 'tab' | 'wizard' = 'tab';
+  @Input() disableNext: boolean = false;
+
   @Output() clickTab = new EventEmitter<string>();
 
   ngOnInit(): void {
@@ -49,6 +33,24 @@ export class TabsComponent implements OnInit {
       this.selectTab.set(value.id);
       this.clickTab.emit(value.id);
       value.azione?.(value.id);
+    }
+  }
+
+  public prevStep(): void {
+    const index = this.tabs.findIndex((x) => x.id === this.selectTab());
+    if (index > 0) {
+      this.selectTab.set(this.tabs[index - 1].id);
+      this.clickTab.emit(this.tabs[index - 1].id);
+      this.tabs[index - 1].azione?.(this.tabs[index - 1].id);
+    }
+  }
+
+  public nextStep(): void {
+    const index = this.tabs.findIndex((x) => x.id === this.selectTab());
+    if (index < this.tabs.length - 1) {
+      this.selectTab.set(this.tabs[index + 1].id);
+      this.clickTab.emit(this.tabs[index + 1].id);
+      this.tabs[index + 1].azione?.(this.tabs[index + 1].id);
     }
   }
 }

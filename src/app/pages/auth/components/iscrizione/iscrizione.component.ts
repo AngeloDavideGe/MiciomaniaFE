@@ -1,4 +1,6 @@
-import { Component, computed, inject, signal } from '@angular/core';
+import { Component, computed, effect, inject, signal } from '@angular/core';
+import { Router } from '@angular/router';
+import { iTab } from '../../../../../library/components/tabs/tabs.component';
 import { DataHttp } from '../../../../core/api/http.data';
 import { Ruolo } from '../../../../shared/enums/users.enum';
 import { updateUserCustom } from '../../../../shared/handlers/auth.handler';
@@ -8,10 +10,10 @@ import {
   Iscrizione,
   User,
 } from '../../../../shared/interfaces/users.interface';
+import { AuthService } from '../../../../shared/services/api/auth.service';
 import { SquadreService } from '../../../../shared/services/api/squadre.service';
 import { FormWizard } from '../../interfaces/wizard.interface';
 import { WizardService } from '../../services/wizard.service';
-import { stepType, WizardBase } from './base/wizard.base';
 import { iscrizione_imports } from './imports/iscrizione.import';
 
 @Component({
@@ -19,26 +21,65 @@ import { iscrizione_imports } from './imports/iscrizione.import';
   standalone: true,
   imports: iscrizione_imports,
   templateUrl: './iscrizione.component.html',
-  styleUrl: './iscrizione.component.scss',
 })
-export class IscrizioneComponent extends WizardBase {
+export class IscrizioneComponent {
+  private router = inject(Router);
   public wizardService = inject(WizardService);
   private squadreService = inject(SquadreService);
+  private authService = inject(AuthService);
+
+  public currentStep = signal<string>('1');
+  public formValido = signal<boolean>(false);
+  public lineeGuidaAccettate = signal<boolean>(false);
+  public user: User = DataHttp.user() || ({} as User);
   public squadreInGame = signal<Squadre[]>([]);
+
+  public tabs: iTab[] = [
+    {
+      id: '1',
+      label: 'Descrizione',
+      color: '#FF5733',
+    },
+    {
+      id: '2',
+      label: 'Dati personali',
+      color: '#33C1FF',
+    },
+    {
+      id: '3',
+      label: 'Conferma iscrizione',
+      color: '#75FF33',
+    },
+  ];
+
+  public disableNext = computed<boolean>(() => {
+    const current = this.currentStep();
+    const formValido = this.formValido();
+    const lineeGuidaAccettate = this.lineeGuidaAccettate();
+
+    switch (current) {
+      case '1':
+        return false;
+      case '2':
+        return !formValido;
+      default:
+        return !lineeGuidaAccettate;
+    }
+  });
 
   public team = computed<string[]>(() =>
     this.squadreInGame().map((s) => s.nome),
   );
 
   constructor() {
-    super();
-
-    this.user = DataHttp.user() ?? ({} as User);
-    this.caricaPersona = true;
-
     getSquadreInGame({
       squadreService: this.squadreService,
       nextCall: (squadre: Squadre[]) => this.squadreInGame.set(squadre),
+    });
+
+    effect(() => {
+      this.currentStep();
+      window.scrollTo({ top: 0, left: 0 });
     });
   }
 
@@ -74,24 +115,6 @@ export class IscrizioneComponent extends WizardBase {
   private errorUpdateUtente(err: string, messaggio: string): void {
     console.error(messaggio, err);
     alert(messaggio);
-  }
-
-  override nextStep(): void {
-    switch (this.currentStep()) {
-      case 1:
-        this.currentStep.update((x) => (x + 1) as stepType);
-        break;
-      case 2:
-        if (this.formValido) {
-          this.currentStep.update((x) => (x + 1) as stepType);
-        }
-        break;
-      case 3:
-        if (this.lineeGuidaAccettate) {
-          this.inviaIscrizione();
-        }
-        break;
-    }
   }
 
   private nextCallIscrizione(): void {

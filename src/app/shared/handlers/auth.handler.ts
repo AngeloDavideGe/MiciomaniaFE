@@ -1,4 +1,4 @@
-import { finalize, map, Observable, take } from 'rxjs';
+import { finalize, Observable, take, tap } from 'rxjs';
 import { handlerFunc } from '../../../library/functions/handler.function';
 import { DataHttp } from '../../core/api/http.data';
 import { User, UserParams } from '../interfaces/users.interface';
@@ -35,9 +35,6 @@ export function updateUserCustom(params: {
   return params.authService.updateUser(params.user, params.valueContext).pipe(
     take(1),
     finalize(() => params.finalizeFunc()),
-    map(() => {
-      DataHttp.user.set(params.user);
-      return params.user;
-    }),
+    tap(() => DataHttp.user.set(params.user)),
   );
 }

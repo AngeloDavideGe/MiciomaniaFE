@@ -1,0 +1,96 @@
+@switch (tipo) {
+  @case ("tab") {
+    <nav class="nav nav-tabs border-bottom-0">
+      @for (tab of tabs; track tab.id) {
+        <button
+          class="nav-link me-2 px-3 py-2"
+          (click)="clickTabFunc(tab)"
+          [style.color]="selectTab() === tab.id ? tab.color : 'black'"
+          [style.border-bottom]="
+            selectTab() === tab.id
+              ? '2px solid ' + tab.color
+              : '2px solid transparent'
+          "
+        >
+          {{ tab.label }}
+        </button>
+      }
+    </nav>
+
+    <div class="tab-content">
+      <ng-content select="[tabContent]"></ng-content>
+    </div>
+  }
+  @case ("wizard") {
+    <div class="wizard-header elemento-centrato p-2">
+      @for (tab of tabs; track tab.id) {
+        <div
+          class="wizard-step text-center mx-3 position-relative"
+          [class.active]="selectTab() === tab.id"
+        >
+          <div
+            class="circle mx-auto mb-1 elemento-centrato"
+            [style]="{
+              'background-color':
+                selectTab() === tab.id
+                  ? 'var(--primary-color)'
+                  : 'var(--border-color)',
+              color:
+                selectTab() === tab.id
+                  ? 'var(--surface-color)'
+                  : 'var(--text-secondary)',
+            }"
+            style="
+              width: 40px;
+              height: 40px;
+              border-radius: 50%;
+              font-weight: bold;
+            "
+          >
+            {{ tab.id }}
+          </div>
+          <div
+            class="label fw-semibold"
+            [style]="{
+              color:
+                selectTab() === tab.id
+                  ? 'var(--primary-color)'
+                  : 'var(--text-muted)',
+            }"
+          >
+            {{ tab.label }}
+          </div>
+
+          @if ($index < tabs.length - 1) {
+            <div
+              class="position-absolute top-50 start-100 translate-middle-y"
+              style="width: 50px; height: 2px"
+            ></div>
+          }
+        </div>
+      }
+    </div>
+
+    <div
+      class="tab-content border-0 p-4"
+      style="background-color: var(--surface-color)"
+    >
+      <ng-content select="[wizardContent]"></ng-content>
+    </div>
+
+    <div class="elementi-laterali px-5 mt-3">
+      <app-button-custom
+        [text]="'Indietro'"
+        [icon1]="'bi bi-arrow-left'"
+        (clickBotton)="prevStep()"
+      ></app-button-custom>
+
+      <app-button-custom
+        [text]="'Avanti'"
+        [icon2]="'bi bi-arrow-right'"
+        (clickBotton)="nextStep()"
+        [disabled]="disableNext"
+      ></app-button-custom>
+    </div>
+  }
+}
