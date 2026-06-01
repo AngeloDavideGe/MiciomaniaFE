@@ -1,5 +1,5 @@
 import { Component, Input, signal } from '@angular/core';
-import { Squadre } from '../../../../../../shared/interfaces/squadre.interface';
+import { Squadre } from '../../../../../shared/interfaces/squadre.interface';
 
 @Component({
   selector: 'app-step1',

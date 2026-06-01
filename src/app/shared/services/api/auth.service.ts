@@ -49,24 +49,17 @@ export class AuthService extends BaseService {
   updateUser(user: User, valueContext: boolean): Observable<any> {
     const getCompleanno: Function = (data: Date) => {
       const date = new Date(data);
+
       return `${date.getFullYear()}-${(date.getMonth() + 1)
         .toString()
         .padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}`;
     };
 
-    const body = {
-      nome: user.credenziali.nome || '',
-      email: user.credenziali.email || '',
-      password: user.credenziali.password || '',
-      profilePic: user.credenziali.profilePic || '',
-      stato: user.iscrizione.stato || '',
-      provincia: user.iscrizione.provincia || '',
-      bio: user.profile.bio || '',
-      telefono: user.profile.telefono || '',
-      squadra: user.iscrizione.squadra || '',
-      social: user.profile.social,
-      compleanno: getCompleanno(user.profile.compleanno || new Date()),
-    };
+    const body: User = user;
+
+    if (user.profile.compleanno) {
+      body.profile.compleanno = getCompleanno(user.profile.compleanno);
+    }
 
     return this.putCustom<any>(`Utenti/update_utente/${user.id}`, {
       body: body,

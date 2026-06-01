@@ -2,19 +2,15 @@ import { Component, computed, effect, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { iTab } from '../../../../../library/components/tabs/tabs.component';
 import { DataHttp } from '../../../../core/api/http.data';
-import { Ruolo } from '../../../../shared/enums/users.enum';
 import { updateUserCustom } from '../../../../shared/handlers/auth.handler';
 import { getSquadreInGame } from '../../../../shared/handlers/squadre.handler';
 import { Squadre } from '../../../../shared/interfaces/squadre.interface';
-import {
-  Iscrizione,
-  User,
-} from '../../../../shared/interfaces/users.interface';
+import { User } from '../../../../shared/interfaces/users.interface';
 import { AuthService } from '../../../../shared/services/api/auth.service';
 import { SquadreService } from '../../../../shared/services/api/squadre.service';
-import { FormWizard } from '../../interfaces/wizard.interface';
-import { WizardService } from '../../services/wizard.service';
+import { getStrutturaForm } from './constants/iscrizione-form.constant';
 import { iscrizione_imports } from './imports/iscrizione.import';
+import { RecordStrutturaMultiForm } from '../../../../../library/interfaces/form.interface';
 
 @Component({
   selector: 'app-iscrizione',
@@ -24,14 +20,15 @@ import { iscrizione_imports } from './imports/iscrizione.import';
 })
 export class IscrizioneComponent {
   private router = inject(Router);
-  public wizardService = inject(WizardService);
   private squadreService = inject(SquadreService);
   private authService = inject(AuthService);
 
   public currentStep = signal<string>('1');
   public formValido = signal<boolean>(false);
   public lineeGuidaAccettate = signal<boolean>(false);
-  public user: User = DataHttp.user() || ({} as User);
+  public user: User = DataHttp.user()!;
+  public strutturaForm: RecordStrutturaMultiForm =
+    {} as RecordStrutturaMultiForm;
   public squadreInGame = signal<Squadre[]>([]);
 
   public tabs: iTab[] = [
@@ -53,9 +50,9 @@ export class IscrizioneComponent {
   ];
 
   public disableNext = computed<boolean>(() => {
-    const current = this.currentStep();
-    const formValido = this.formValido();
-    const lineeGuidaAccettate = this.lineeGuidaAccettate();
+    const current: string = this.currentStep();
+    const formValido: boolean = this.formValido();
+    const lineeGuidaAccettate: boolean = this.lineeGuidaAccettate();
 
     switch (current) {
       case '1':
@@ -67,14 +64,16 @@ export class IscrizioneComponent {
     }
   });
 
-  public team = computed<string[]>(() =>
-    this.squadreInGame().map((s) => s.nome),
-  );
-
   constructor() {
     getSquadreInGame({
       squadreService: this.squadreService,
-      nextCall: (squadre: Squadre[]) => this.squadreInGame.set(squadre),
+      nextCall: (squadre: Squadre[]) => {
+        this.squadreInGame.set(squadre);
+        this.strutturaForm = getStrutturaForm(
+          this.user,
+          squadre.map((s) => s.nome),
+        );
+      },
     });
 
     effect(() => {
@@ -83,49 +82,33 @@ export class IscrizioneComponent {
     });
   }
 
-  private inviaIscrizione(): void {
-    this.setUserPerInvio();
-
+  private invaIscrizione(): void {
     updateUserCustom({
       authService: this.authService,
       user: this.user,
       finalizeFunc: () => {},
       valueContext: true,
     }).subscribe({
-      next: () => this.nextCallIscrizione(),
+      next: () => {},
       error: (err) =>
-        this.errorUpdateUtente(err, 'Errore modifica dell utente'),
+        console.error("Errore durante l'invio dell'iscrizione:", err),
     });
   }
 
-  private setUserPerInvio(): void {
-    const wizardForm: FormWizard = this.wizardService.getWizardForm();
-    const ruolo: Ruolo = this.user.credenziali.ruolo;
-    const iscrizione: Iscrizione = {
-      stato: wizardForm.stato,
-      squadra: wizardForm.squadra,
-      provincia: wizardForm.provincia + ' (' + wizardForm.regione + ')',
-      punteggio: this.user.iscrizione.punteggio || 0,
-    };
-
-    this.user.iscrizione = iscrizione;
-    this.user.credenziali.ruolo = ruolo == Ruolo.user ? Ruolo.player : ruolo;
-  }
-
-  private errorUpdateUtente(err: string, messaggio: string): void {
-    console.error(messaggio, err);
-    alert(messaggio);
-  }
-
-  private nextCallIscrizione(): void {
-    this.wizardService.setWizardForm({} as FormWizard);
-
-    if (DataHttp.profiloPersonale) {
-      DataHttp.profiloPersonale.user = this.user;
+  public prevStep(tabs: { current: string; prev: string }): void {
+    if (tabs.current === '1') {
+      this.router.navigate(['/home']);
+    } else {
+      this.currentStep.set(tabs.prev);
     }
+  }
 
-    this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
-      this.router.navigate(['/auth/iscrizione']);
-    });
+  public nextStep(tabs: { current: string; next: string }): void {
+    if (tabs.current === '3') {
+      this.invaIscrizione();
+      this.router.navigate(['/home']);
+    } else {
+      this.currentStep.set(tabs.next);
+    }
   }
 }

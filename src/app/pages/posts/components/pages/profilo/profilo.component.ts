@@ -54,7 +54,6 @@ export class ProfiloComponent implements OnDestroy {
   public socialArray: EditableSocial[] = [];
   public tornaIndietroPath: TornaIndietro = {} as TornaIndietro;
   public profiloLang: ProfiloLang = {} as ProfiloLang;
-  public selectTab = signal<string>('info');
   public profilo: Profilo = {
     user: getVoidUser(),
     tweets: [] as Tweet[],

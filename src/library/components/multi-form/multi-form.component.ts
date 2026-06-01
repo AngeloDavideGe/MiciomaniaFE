@@ -1,4 +1,5 @@
 import {
+  AfterViewInit,
   Component,
   EventEmitter,
   inject,
@@ -23,7 +24,7 @@ import { debounceTime, Subject, takeUntil } from 'rxjs';
   templateUrl: './multi-form.component.html',
   styleUrl: './multi-form.component.scss',
 })
-export class MultiFormComponent implements OnInit, OnDestroy {
+export class MultiFormComponent implements OnInit, AfterViewInit, OnDestroy {
   private formBuilder = inject(FormBuilder);
   public form!: FormGroup;
   public keys: string[] = [];
@@ -54,6 +55,10 @@ export class MultiFormComponent implements OnInit, OnDestroy {
         this.formValido.emit(this.form.valid);
         this.subscribeForm.emit(this.form.value);
       });
+  }
+
+  ngAfterViewInit(): void {
+    this.formValido.emit(this.form.valid);
   }
 
   ngOnDestroy(): void {

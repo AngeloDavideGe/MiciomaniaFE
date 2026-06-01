@@ -17,6 +17,7 @@ export interface StrutturaForm {
   tipo: tipoForm;
   valueInit?: string;
   errorMessage?: string;
+  readonly?: boolean;
   optionsSelect?: string[];
   checkbox?: ICheckBox[];
   file?: TipoFileForm;

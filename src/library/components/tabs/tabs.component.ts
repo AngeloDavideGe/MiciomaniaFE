@@ -23,6 +23,8 @@ export class TabsComponent implements OnInit {
   @Input() disableNext: boolean = false;
 
   @Output() clickTab = new EventEmitter<string>();
+  @Output() prev = new EventEmitter<{ current: string; prev: string }>();
+  @Output() next = new EventEmitter<{ current: string; next: string }>();
 
   ngOnInit(): void {
     this.selectTab.set(this.tabs[0].id);
@@ -37,20 +39,26 @@ export class TabsComponent implements OnInit {
   }
 
   public prevStep(): void {
-    const index = this.tabs.findIndex((x) => x.id === this.selectTab());
-    if (index > 0) {
-      this.selectTab.set(this.tabs[index - 1].id);
-      this.clickTab.emit(this.tabs[index - 1].id);
-      this.tabs[index - 1].azione?.(this.tabs[index - 1].id);
+    const index: number = this.tabs.findIndex((x) => x.id === this.selectTab());
+    const prev: string = this.tabs[index - 1]?.id || '';
+
+    this.prev.emit({ current: this.selectTab(), prev: prev });
+
+    if (prev) {
+      this.selectTab.set(prev);
+      this.tabs[index - 1].azione?.(prev);
     }
   }
 
   public nextStep(): void {
     const index = this.tabs.findIndex((x) => x.id === this.selectTab());
-    if (index < this.tabs.length - 1) {
-      this.selectTab.set(this.tabs[index + 1].id);
-      this.clickTab.emit(this.tabs[index + 1].id);
-      this.tabs[index + 1].azione?.(this.tabs[index + 1].id);
+    const next: string = this.tabs[index + 1]?.id || '';
+
+    this.next.emit({ current: this.selectTab(), next: next });
+
+    if (next) {
+      this.selectTab.set(next);
+      this.tabs[index + 1].azione?.(next);
     }
   }
 }

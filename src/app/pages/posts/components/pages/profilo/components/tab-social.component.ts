@@ -1,11 +1,19 @@
 import { TitleCasePipe } from '@angular/common';
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  inject,
+  Input,
+  OnInit,
+  Output,
+} from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { User } from '../../../../../../shared/interfaces/users.interface';
 import { EditableSocial } from '../interfaces/profilo.interface';
-import { TabProfiloBase } from '../base/tab-profilo.base';
 import { DataHttp } from '../../../../../../core/api/http.data';
 import { ProfiloLang } from '../languages/interfaces/profilo-lang.interface';
+import { updateUserCustom } from '../../../../../../shared/handlers/auth.handler';
+import { AuthService } from '../../../../../../shared/services/api/auth.service';
 
 @Component({
   selector: 'tab-social-profilo',
@@ -76,7 +84,9 @@ import { ProfiloLang } from '../languages/interfaces/profilo-lang.interface';
     </div>
   `,
 })
-export class TabSocialComponent extends TabProfiloBase implements OnInit {
+export class TabSocialComponent implements OnInit {
+  private authService = inject(AuthService);
+
   public socialArray: EditableSocial[] = [];
   public socialArrayCopy: EditableSocial[] = [];
   public availableSocials = [
@@ -156,5 +166,21 @@ export class TabSocialComponent extends TabProfiloBase implements OnInit {
       DataHttp.profiloPersonale.user = user;
       this.chiudi.emit();
     }
+  }
+
+  private updateUser(params: {
+    user: User;
+    updateCall: (user: User) => void;
+  }): void {
+    updateUserCustom({
+      authService: this.authService,
+      user: params.user,
+      finalizeFunc: () => {},
+      valueContext: true,
+    }).subscribe({
+      next: () => params.updateCall(params.user),
+      error: (err: string) =>
+        alert("Si è verificato un errore durante l'aggiornamento: " + err),
+    });
   }
 }

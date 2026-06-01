@@ -10,6 +10,7 @@
           <input
             [id]="keys[$index]"
             [formControlName]="keys[$index]"
+            [readonly]="strutturaForm[keys[$index]]?.readonly || false"
             type="text"
             class="form-input"
             [class.is-invalid]="
@@ -26,6 +27,7 @@
           <input
             [id]="keys[$index]"
             [formControlName]="keys[$index]"
+            [readonly]="strutturaForm[keys[$index]]?.readonly || false"
             type="password"
             class="form-input"
             [class.is-invalid]="
@@ -42,6 +44,7 @@
           <textarea
             [id]="keys[$index]"
             [formControlName]="keys[$index]"
+            [readonly]="strutturaForm[keys[$index]]?.readonly || false"
             rows="4"
             class="form-input"
             [class.is-invalid]="
@@ -62,6 +65,7 @@
           <input
             [id]="keys[$index]"
             [formControlName]="keys[$index]"
+            [readonly]="strutturaForm[keys[$index]]?.readonly || false"
             type="date"
             class="form-input"
             [class.is-invalid]="

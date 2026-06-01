@@ -48,24 +48,12 @@
         (close)="modaleAperta = ''; loadSocial()"
       >
         <div bodyModal>
-          <app-tabs-custom [tabs]="tabs" (clickTab)="selectTab.set($event)">
-            <div tabContent>
-              @switch (selectTab()) {
-                @case ("info") {
-                  <tab-info-profilo
-                    [profiloLang]="profiloLang"
-                    [user]="profilo.user"
-                  ></tab-info-profilo>
-                }
-                @case ("social") {
-                  <tab-social-profilo
-                    [profiloLang]="profiloLang"
-                    [user]="profilo.user"
-                  ></tab-social-profilo>
-                }
-              }
-            </div>
-          </app-tabs-custom>
+          <div tabContent>
+            <tab-social-profilo
+              [profiloLang]="profiloLang"
+              [user]="profilo.user"
+            ></tab-social-profilo>
+          </div>
         </div>
       </app-modal-custom>
     }

@@ -35,20 +35,3 @@ export interface UserParams {
   profilePic: string | null;
   ruolo: Ruolo;
 }
-
-export interface UserDb {
-  id: string;
-  nome: string;
-  email: string;
-  password: string;
-  profilePic: string | null;
-  ruolo: Ruolo;
-  stato: StatoPersona | null;
-  squadra: string | null;
-  provincia: string | null;
-  punteggio: number | null;
-  bio: string | null;
-  telefono: string | null;
-  compleanno: Date | string | null;
-  social: Record<string, string> | null;
-}
