@@ -10,24 +10,21 @@ import {
   WritableSignal,
 } from '@angular/core';
 import { Router } from '@angular/router';
-import { IconeListaComponent } from '../../../../../../../shared/components/custom/icone-lista.component';
-import { TabellaCustomComponent } from '../../../../../../../../library/components/table/table.component';
-import {
-  BadgeRuolo,
-  Ruolo,
-} from '../../../../../../../shared/enums/users.enum';
+import { IconeListaComponent } from '../../../../../../shared/components/custom/icone-lista.component';
+import { TabellaCustomComponent } from '../../../../../../../library/components/table/table.component';
+import { BadgeRuolo, Ruolo } from '../../../../../../shared/enums/users.enum';
 import {
   User,
   UserParams,
-} from '../../../../../../../shared/interfaces/users.interface';
-import { AuthService } from '../../../../../../../shared/services/api/auth.service';
+} from '../../../../../../shared/interfaces/users.interface';
+import { AuthService } from '../../../../../../shared/services/api/auth.service';
 
-import { converUserParams } from '../../../../../functions/home.functions';
-import { AdminLang } from '../../languages/interfaces/admin-lang.interface';
+import { converUserParams } from '../../../../functions/home.functions';
+import { AdminLang } from '../languages/interfaces/admin-lang.interface';
 import {
   AzioniTabella,
   RecordColonne,
-} from '../../../../../../../../library/interfaces/table.interface';
+} from '../../../../../../../library/interfaces/table.interface';
 
 @Component({
   selector: 'app-griglia-admin',

@@ -16,11 +16,16 @@ import {
   StrutturaForm,
 } from '../../interfaces/form.interface';
 import { CheckBoxCustomComponent } from '../checkbox/checkbox.component';
+import { CapitalizeFirstLetterPipe } from '../../pipes/capitalize.pipe';
 
 @Component({
   selector: 'app-form-custom',
   standalone: true,
-  imports: [ReactiveFormsModule, CheckBoxCustomComponent],
+  imports: [
+    ReactiveFormsModule,
+    CheckBoxCustomComponent,
+    CapitalizeFirstLetterPipe,
+  ],
   templateUrl: './form.component.html',
   styleUrl: './form.component.scss',
 })
