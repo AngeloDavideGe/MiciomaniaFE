@@ -13,7 +13,6 @@ export interface HomeLang {
   interazioni: string;
   // Menu Profili
   mioProfilo: string;
-  accediVediProfili: string;
   contattaAdmin: string;
   visualizzaPost: string;
   // Cursore

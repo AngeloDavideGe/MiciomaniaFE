@@ -30,6 +30,7 @@ import {
 import { iTab } from '../../../../../../library/components/tabs/tabs.component';
 import { RecordStruttura } from '../../../../../../library/interfaces/form.interface';
 import { Validators } from '@angular/forms';
+import { profiloLang } from './languages/constants/profilo-en.constant';
 
 @Component({
   selector: 'app-profilo',
@@ -94,7 +95,7 @@ export class ProfiloComponent implements OnDestroy {
 
   public changePicForm: RecordStruttura = {
     imgProfilo: {
-      titolo: 'Cambia Immagine',
+      titolo: profiloLang.modificaImmagine,
       validators: [Validators.required],
       tipo: 'File',
       errorMessage: 'Immagine obbligatoria (jpg, jpeg o png)',

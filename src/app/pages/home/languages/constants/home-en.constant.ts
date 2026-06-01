@@ -13,7 +13,6 @@ export const homeLang: HomeLang = {
   interazioni: 'Interactions',
   // Menu Profili
   mioProfilo: 'My Profile',
-  accediVediProfili: 'Log in to see profiles',
   contattaAdmin: 'Contact Admin',
   visualizzaPost: 'View Posts',
   // Cursore

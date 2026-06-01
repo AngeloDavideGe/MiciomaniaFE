@@ -1,9 +1,6 @@
 export type ElemLangType = { elemLang: ElemLang };
 
 export interface ElemLang {
-  // Header Elementi
-  titolo: string;
-  descrizione1: string;
   // Griglia Elementi
   noManga: string;
   noCanzone: string;
@@ -11,20 +8,4 @@ export interface ElemLang {
   nonHaiPunti: string;
   inviaProposta: string;
   scarica: string;
-  // Crea Proposta
-  modificaProfilo: string;
-  tipo: string;
-  selezionaTipo: string;
-  manga: string;
-  canzone: string;
-  titoloObbligatorio: string;
-  nome: string;
-  nomeObbligatorio: string;
-  descrizione: string;
-  descrizioneObbligatoria: string;
-  fileObbligatorio: string;
-  fileAccettati: string;
-  formatiAccettati: string;
-  annulla: string;
-  invia: string;
 }

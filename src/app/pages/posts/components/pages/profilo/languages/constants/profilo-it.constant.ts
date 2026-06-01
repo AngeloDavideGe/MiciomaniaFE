@@ -4,15 +4,9 @@ export const profiloLang: ProfiloLang = {
   tornaIndietro: 'Torna indietro',
   // New Tweet
   nuovoTweet: 'Nuovo Tweet',
-  placeholderNT: 'Cosa stai pensando?',
-  buttonAnnullaNT: 'Annulla',
   // Edit Profilo
   modificaProfilo: 'Modifica profilo',
-  // Tab Info
-  nome: 'Nome:',
-  telefono: 'Telefono:',
-  compleanno: 'Compleanno:',
-  // Tab Social + Tab Info
+  // Tab Social
   salva: 'Salva',
   chiudi: 'Chiudi',
   // Card Profilo
@@ -21,8 +15,4 @@ export const profiloLang: ProfiloLang = {
   // Change Pic
   modificaImmagine: 'Modifica immagine profilo',
   caricaImmagineProfilo: 'Carica immagine profilo',
-  caricaImmagine: 'Carica immagine',
-  formatoNonSupportato:
-    'Formato non supportato. Seleziona un file immagine valido.',
-  erroreCaricamento: 'Errore durante il caricamento. Riprova più tardi.',
 };

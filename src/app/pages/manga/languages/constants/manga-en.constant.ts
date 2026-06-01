@@ -1,7 +1,6 @@
 import { MangaLang } from '../interfaces/manga-lang.interface';
 
 export const mangaLang: MangaLang = {
-  aggiornamento: 'Refresh manga...',
   // Filtri Manga
   seleziona: 'Select Genre',
   qualsiasi: 'Any',
