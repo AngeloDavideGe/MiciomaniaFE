@@ -14,6 +14,7 @@ export class DataHttp {
   static allUsers: User[] = [];
   static mangaUtente: WritableSignal<MangaUtente | null> = signal(null);
   static initialMangaUtente: MangaUtente = {} as MangaUtente;
+  static mangaLoaded: boolean = false;
 
   static profiloPersonale: Profilo | null = null;
   static postVisti: Posts = { oldPosts: [], lastUpdated: new Date(0) };

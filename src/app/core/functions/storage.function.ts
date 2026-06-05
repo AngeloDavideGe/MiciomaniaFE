@@ -39,6 +39,7 @@ export function setUserDataNull(
 ): void {
   DataHttp.mangaUtente.set(null);
   DataHttp.initialMangaUtente = {} as any;
+  DataHttp.mangaLoaded = false;
   DataHttp.profiloPersonale = null;
   DataHttp.punteggioOttenuto = 0;
   elemUtentiService.canzoniLoaded = false;

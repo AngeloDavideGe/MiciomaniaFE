@@ -88,6 +88,10 @@ export class TuoiMangaComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     const user: User | null = DataHttp.user();
 
+    if (DataHttp.mangaLoaded) {
+      return;
+    }
+
     inizializzaLista({
       mangaService: this.mangaService,
       idUtente: user ? user.id : '',
@@ -96,6 +100,8 @@ export class TuoiMangaComponent implements OnInit, OnDestroy {
       caricaListaManga: (lista_manga: ListaManga[]) =>
         this.caricaManga(lista_manga),
     });
+
+    DataHttp.mangaLoaded = true;
   }
 
   ngOnDestroy(): void {

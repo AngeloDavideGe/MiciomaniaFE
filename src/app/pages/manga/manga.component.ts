@@ -176,6 +176,10 @@ export class MangaComponent implements OnDestroy {
     const user = DataHttp.user();
     this.idUtente = user ? user.id : null;
 
+    if (DataHttp.mangaLoaded) {
+      return;
+    }
+
     inizializzaLista({
       mangaService: this.mangaService,
       idUtente: this.idUtente || '',
@@ -184,6 +188,8 @@ export class MangaComponent implements OnDestroy {
       caricaListaManga: (listaManga: ListaManga[]) =>
         this.caricaManga(listaManga),
     });
+
+    DataHttp.mangaLoaded = true;
   }
 
   private caricaManga(lista: ListaManga[]): void {
