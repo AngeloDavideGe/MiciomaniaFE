@@ -1,6 +1,6 @@
 import { Component, OnInit, effect, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
-import { take } from 'rxjs';
+import { handlerFunc } from '../../../../../../library/functions/handler.function';
 import { DataHttp } from '../../../../../core/api/http.data';
 import { UtenteParodie } from '../../../../../shared/interfaces/elementiUtente.interface';
 import { Lingua } from '../../../../../shared/interfaces/http.interface';
@@ -11,7 +11,6 @@ import {
   ElemLang,
   ElemLangType,
 } from './languages/interfaces/elem-lang.interface';
-import { handlerFunc } from '../../../../../../library/functions/handler.function';
 
 @Component({
   selector: 'app-elementi-utente',

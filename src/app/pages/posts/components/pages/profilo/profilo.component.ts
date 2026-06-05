@@ -1,8 +1,11 @@
 import { Component, inject, OnDestroy, signal } from '@angular/core';
+import { Validators } from '@angular/forms';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Subject, takeUntil } from 'rxjs';
+import { iTab } from '../../../../../../library/components/tabs/tabs.component';
 import { ConfirmService } from '../../../../../../library/dialogs/confirm.service';
 import { handlerFunc } from '../../../../../../library/functions/handler.function';
+import { RecordStruttura } from '../../../../../../library/interfaces/form.interface';
 import { TornaIndietro } from '../../../../../../library/interfaces/navbar.interface';
 import { AppConfigService } from '../../../../../core/api/appConfig.service';
 import { DataHttp } from '../../../../../core/api/http.data';
@@ -23,14 +26,11 @@ import {
   EditableSocial,
   modaleApertaType,
 } from './interfaces/profilo.interface';
+import { profiloLang } from './languages/constants/profilo-en.constant';
 import {
   ProfiloLang,
   ProfiloLangType,
 } from './languages/interfaces/profilo-lang.interface';
-import { iTab } from '../../../../../../library/components/tabs/tabs.component';
-import { RecordStruttura } from '../../../../../../library/interfaces/form.interface';
-import { Validators } from '@angular/forms';
-import { profiloLang } from './languages/constants/profilo-en.constant';
 
 @Component({
   selector: 'app-profilo',

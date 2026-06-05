@@ -1,5 +1,5 @@
 import { Component, computed, inject, OnInit } from '@angular/core';
-import { take } from 'rxjs';
+import { handlerFunc } from '../../../../../../library/functions/handler.function';
 import { iCard } from '../../../../../../library/interfaces/card.interface';
 import { AppConfigService } from '../../../../../core/api/appConfig.service';
 import {
@@ -9,7 +9,6 @@ import {
 import { ElementiUtenteService } from '../../../../../shared/services/api/elementiUtente.service';
 import { MangaSongUtilities } from '../../../../../shared/utilities/class/mangaSong.utilities';
 import { canzoniMiciomania_imports } from './imports/canzoni-miciomania.import';
-import { handlerFunc } from '../../../../../../library/functions/handler.function';
 
 @Component({
   selector: 'app-canzoni-miciomania',

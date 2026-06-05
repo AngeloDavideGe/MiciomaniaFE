@@ -4,12 +4,15 @@ import 'bootstrap'; // Importa Bootstrap JS (incluso Popper.js)
 import { filter, map, Observable, startWith, tap } from 'rxjs';
 import { ConfirmService } from '../../../library/dialogs/confirm.service';
 import { handlerFunc } from '../../../library/functions/handler.function';
+import { iCard } from '../../../library/interfaces/card.interface';
+import { RaggioPage } from '../../../library/interfaces/pagination.interface';
 import { DataHttp } from '../../core/api/http.data';
 import { setUserDataNull } from '../../core/functions/storage.function';
 import { getVoidUser } from '../../shared/handlers/functions/user.function';
 import { Lingua } from '../../shared/interfaces/http.interface';
 import { User, UserParams } from '../../shared/interfaces/users.interface';
 import { AuthService } from '../../shared/services/api/auth.service';
+import { ElementiUtenteService } from '../../shared/services/api/elementiUtente.service';
 import { CompAperto, compApertoFunc, recordComp } from './enums/home.enum';
 import {
   getCardsHome,
@@ -21,8 +24,6 @@ import {
   HomeLang,
   HomeLangType,
 } from './languages/interfaces/home-lang.interface';
-import { iCard } from '../../../library/interfaces/card.interface';
-import { RaggioPage } from '../../../library/interfaces/pagination.interface';
 
 @Component({
   selector: 'app-home',
@@ -32,6 +33,7 @@ import { RaggioPage } from '../../../library/interfaces/pagination.interface';
 })
 export class HomeComponent {
   public authService = inject(AuthService);
+  private elementiUtenteService = inject(ElementiUtenteService);
   private confirmService = inject(ConfirmService);
   public router = inject(Router);
 
@@ -93,7 +95,12 @@ export class HomeComponent {
       buttonSi: 'Conferma',
       notConfirmFunc: () => {},
       confirmFunc: () => {
-        setUserDataNull(this.user, this.authService, 'logout');
+        setUserDataNull(
+          this.user,
+          this.authService,
+          'logout',
+          this.elementiUtenteService,
+        );
         this.setAnonymousUser();
       },
     });

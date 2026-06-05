@@ -1,6 +1,7 @@
 import { converUserParams } from '../../pages/home/functions/home.functions';
 import { User, UserParams } from '../../shared/interfaces/users.interface';
 import { AuthService } from '../../shared/services/api/auth.service';
+import { ElementiUtenteService } from '../../shared/services/api/elementiUtente.service';
 import { DataHttp } from '../api/http.data';
 
 export function refreshLocalStorage(): void {
@@ -34,11 +35,18 @@ export function setUserDataNull(
   user: User,
   authService: AuthService,
   tipo: string,
+  elemUtentiService: ElementiUtenteService,
 ): void {
   DataHttp.mangaUtente.set(null);
   DataHttp.initialMangaUtente = {} as any;
   DataHttp.profiloPersonale = null;
   DataHttp.punteggioOttenuto = 0;
+  elemUtentiService.canzoniLoaded = false;
+  elemUtentiService.mangaLoaded = false;
+  elemUtentiService.utenteParodieLoaded = false;
+  elemUtentiService.canzoniParodia.set(null);
+  elemUtentiService.mangaParodia.set(null);
+  elemUtentiService.utenteParodie.set(null);
 
   switch (tipo) {
     case 'new-login': {

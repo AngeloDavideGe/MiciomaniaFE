@@ -1,11 +1,10 @@
 import { inject, signal } from '@angular/core';
 import { Navigation, Router } from '@angular/router';
-import { take } from 'rxjs';
+import { handlerFunc } from '../../../../library/functions/handler.function';
 import { setUserDataNull } from '../../../core/functions/storage.function';
 import { User } from '../../../shared/interfaces/users.interface';
 import { AuthService } from '../../../shared/services/api/auth.service';
 import { ElementiUtenteService } from '../../../shared/services/api/elementiUtente.service';
-import { handlerFunc } from '../../../../library/functions/handler.function';
 
 export abstract class LoginBase {
   public router = inject(Router);
@@ -26,7 +25,12 @@ export abstract class LoginBase {
           params.password,
         ),
       nextCall: (data: User) => {
-        setUserDataNull(data, this.authService, params.tipo);
+        setUserDataNull(
+          data,
+          this.authService,
+          params.tipo,
+          this.elementiUtenteService,
+        );
         this.loginError.set(false);
         this.elementiUtenteService.utenteParodie.set(null);
         this.router.navigate(['/home']);

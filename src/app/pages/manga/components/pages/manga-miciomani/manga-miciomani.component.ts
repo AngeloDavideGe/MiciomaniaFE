@@ -1,6 +1,7 @@
 import { Component, computed, inject, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { take } from 'rxjs';
+import { handlerFunc } from '../../../../../../library/functions/handler.function';
+import { iCard } from '../../../../../../library/interfaces/card.interface';
 import { NavBarButton } from '../../../../../../library/interfaces/navbar.interface';
 import { AppConfigService } from '../../../../../core/api/appConfig.service';
 import { DataHttp } from '../../../../../core/api/http.data';
@@ -16,8 +17,6 @@ import {
   MmicioLang,
   MmicioLangType,
 } from './languages/interfaces/mmicio-lang.interface';
-import { iCard } from '../../../../../../library/interfaces/card.interface';
-import { handlerFunc } from '../../../../../../library/functions/handler.function';
 
 @Component({
   selector: 'app-manga-miciomani',

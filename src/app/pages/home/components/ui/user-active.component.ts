@@ -7,12 +7,13 @@ import {
   Output,
   signal,
 } from '@angular/core';
-import { DataHttp } from '../../../../core/api/http.data';
-import { User } from '../../../../shared/interfaces/users.interface';
-import { HomeLang } from '../../languages/interfaces/home-lang.interface';
-import { setUserDataNull } from '../../../../core/functions/storage.function';
-import { AuthService } from '../../../../shared/services/api/auth.service';
 import { Router } from '@angular/router';
+import { DataHttp } from '../../../../core/api/http.data';
+import { setUserDataNull } from '../../../../core/functions/storage.function';
+import { User } from '../../../../shared/interfaces/users.interface';
+import { AuthService } from '../../../../shared/services/api/auth.service';
+import { ElementiUtenteService } from '../../../../shared/services/api/elementiUtente.service';
+import { HomeLang } from '../../languages/interfaces/home-lang.interface';
 
 @Component({
   selector: 'app-user-active',
@@ -264,6 +265,7 @@ export class UserActiveComponent {
   @Output() profiloAperto = new EventEmitter<boolean>();
 
   private authService = inject(AuthService);
+  private elementiUtenteService = inject(ElementiUtenteService);
   public router = inject(Router);
 
   public allProfili = computed<User[]>(() => {
@@ -280,12 +282,22 @@ export class UserActiveComponent {
 
   public cambiaProfilo(user: User): void {
     if (user.id != this.user.id) {
-      setUserDataNull(user, this.authService, 'change-user');
+      setUserDataNull(
+        user,
+        this.authService,
+        'change-user',
+        this.elementiUtenteService,
+      );
     }
   }
 
   public logoutAll(): void {
-    setUserDataNull({} as User, this.authService, 'logout-all');
+    setUserDataNull(
+      {} as User,
+      this.authService,
+      'logout-all',
+      this.elementiUtenteService,
+    );
     this.profiliOpen.set(false);
   }
 }
