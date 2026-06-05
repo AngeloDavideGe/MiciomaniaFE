@@ -5,7 +5,7 @@ import { Component, Input } from '@angular/core';
   standalone: true,
   imports: [],
   template: `
-    <div class="elementi-laterali mb-4">
+    <div class="elementi-laterali mb-2">
       <h2 class="px-2" style="color: var(--text-color);">
         <i class="bi bi-person-circle me-2"></i>
         {{ titolo }}
@@ -20,10 +20,10 @@ import { Component, Input } from '@angular/core';
           class="btn btn-sm"
           (click)="scrollFun()"
           style="
-        border: 1px solid var(--border-color);
-        color: var(--text-color);
-        background-color: var(--surface-color);
-      "
+            border: 1px solid var(--border-color);
+            color: var(--text-color);
+            background-color: var(--surface-color);
+          "
         >
           <i class="me-1" [class]="icona"></i>
           {{ nomeIcona }}

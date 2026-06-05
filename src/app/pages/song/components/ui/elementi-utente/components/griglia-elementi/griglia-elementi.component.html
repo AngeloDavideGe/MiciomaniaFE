@@ -39,15 +39,15 @@
       (clickStopBotton)="msu.sc.stopSong()"
     >
       <div descrizioneContent class="mb-4">
-        Genere: <strong>{{ eu.mangaUtente.genere }}</strong
+        Genere: <strong>{{ eu.canzoniUtente.genere }}</strong
         ><br />
-        Autore: <em>{{ eu.mangaUtente.idUtente }}</em>
+        Autore: <em>{{ eu.canzoniUtente.idUtente }}</em>
       </div>
     </app-card-custom>
   } @else {
     <app-card-custom
-      [singleElem]="{ urlPic: defaultMangaPic, titolo: elemLang.noCanzone }"
-      [classBody]="'manga-class'"
+      [singleElem]="{ urlPic: defaultSongPic, titolo: elemLang.noCanzone }"
+      [classBody]="'song-class'"
       [altezzaImg]="'20rem'"
     ></app-card-custom>
   }
