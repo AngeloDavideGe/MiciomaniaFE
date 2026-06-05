@@ -38,7 +38,7 @@ export class UltimiPostsComponent implements OnInit {
 
   ngOnInit(): void {
     handlerFunc<TweetAll[]>({
-      skipCall: this.postService.loadPostsBool,
+      skipCall: this.postService.loadedPostsBool,
       callHttp: () => this.postService.getUltimiPosts(),
       nextCall: (data: TweetAll[]) => {
         DataHttp.postVisti = {
@@ -57,7 +57,7 @@ export class UltimiPostsComponent implements OnInit {
       elseCall: () => this.postCaricati.set(true),
     });
 
-    this.postService.loadPostsBool = true;
+    this.postService.loadedPostsBool = true;
   }
 
   public applicaFiltro(filtro: filterType): void {

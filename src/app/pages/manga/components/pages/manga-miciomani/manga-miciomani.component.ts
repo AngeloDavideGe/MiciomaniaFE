@@ -17,6 +17,7 @@ import {
   MmicioLangType,
 } from './languages/interfaces/mmicio-lang.interface';
 import { iCard } from '../../../../../../library/interfaces/card.interface';
+import { handlerFunc } from '../../../../../../library/functions/handler.function';
 
 @Component({
   selector: 'app-manga-miciomani',
@@ -31,6 +32,7 @@ export class MangaMiciomaniComponent implements OnInit {
 
   public readonly mangaDefaultPic: string =
     this.appConfig.config.defaultPicsUrl.manga;
+
   public mangaSongUtilities = new MangaSongUtilities();
   public mmicioLang: MmicioLang = {} as MmicioLang;
   public pulsanti: NavBarButton[] = [];
@@ -95,18 +97,10 @@ export class MangaMiciomaniComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    if (!this.euService.caricamentoManga) {
-      this.euService.caricamentoManga = true;
-      this.euService
-        .getListaMangaMiciomani()
-        .pipe(take(1))
-        .subscribe({
-          next: (data: MangaParodia) => this.euService.mangaParodia.set(data),
-          error: (error) => {
-            this.euService.caricamentoManga = false;
-            console.error('Errore nel recupero dei manga', error);
-          },
-        });
-    }
+    handlerFunc({
+      skipCall: !!this.euService.mangaParodia(),
+      callHttp: () => this.euService.getListaMangaMiciomani(),
+      nextCall: (data: MangaParodia) => this.euService.mangaParodia.set(data),
+    });
   }
 }

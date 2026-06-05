@@ -3,14 +3,17 @@ import { Router } from '@angular/router';
 import { iTab } from '../../../../../library/components/tabs/tabs.component';
 import { DataHttp } from '../../../../core/api/http.data';
 import { updateUserCustom } from '../../../../shared/handlers/auth.handler';
-import { getSquadreInGame } from '../../../../shared/handlers/squadre.handler';
-import { Squadre } from '../../../../shared/interfaces/squadre.interface';
+import {
+  Classifica,
+  Squadre,
+} from '../../../../shared/interfaces/squadre.interface';
 import { User } from '../../../../shared/interfaces/users.interface';
 import { AuthService } from '../../../../shared/services/api/auth.service';
 import { SquadreService } from '../../../../shared/services/api/squadre.service';
 import { getStrutturaForm } from './constants/iscrizione-form.constant';
 import { iscrizione_imports } from './imports/iscrizione.import';
 import { RecordStrutturaMultiForm } from '../../../../../library/interfaces/form.interface';
+import { handlerFunc } from '../../../../../library/functions/handler.function';
 
 @Component({
   selector: 'app-iscrizione',
@@ -65,21 +68,23 @@ export class IscrizioneComponent {
   });
 
   constructor() {
-    getSquadreInGame({
-      squadreService: this.squadreService,
-      nextCall: (squadre: Squadre[]) => {
-        this.squadreInGame.set(squadre);
-        this.strutturaForm = getStrutturaForm(
-          this.user,
-          squadre.map((s) => s.nome),
-        );
-      },
-    });
+    this.loadSquadre();
 
     effect(() => {
       this.currentStep();
       window.scrollTo({ top: 0, left: 0 });
     });
+  }
+
+  private loadSquadre(): void {
+    handlerFunc<Classifica>({
+      skipCall: this.squadreService.classificaLoaded,
+      callHttp: () => this.squadreService.getClassifica(),
+      nextCall: (data: Classifica) => this.squadreService.classifica.set(data),
+      errorCall: () => (this.squadreService.classificaLoaded = false),
+    });
+
+    this.squadreService.classificaLoaded = true;
   }
 
   private invaIscrizione(): void {

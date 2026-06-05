@@ -12,7 +12,7 @@ import { Tweet, TweetAll } from '../components/shared/post.interface';
 })
 export class PostService extends BaseService {
   public aggiornamentoPic = signal<boolean>(false);
-  public loadPostsBool: boolean = false;
+  public loadedPostsBool: boolean = false;
   public oldPosts: TweetAll[] = structuredClone(DataHttp.postVisti.oldPosts);
   public newPosts: TweetAll[] = [];
   public allPosts = signal<TweetAll[]>(this.oldPosts);

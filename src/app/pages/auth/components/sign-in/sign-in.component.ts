@@ -1,11 +1,11 @@
 import { Component, inject } from '@angular/core';
 import { Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
-import { take } from 'rxjs';
 import { FormCustomComponent } from '../../../../../library/components/form/form.component';
+import { handlerFunc } from '../../../../../library/functions/handler.function';
 import { RecordStruttura } from '../../../../../library/interfaces/form.interface';
-import { AuthService } from '../../../../shared/services/api/auth.service';
 import { usernameValidator } from '../../../../../library/validators/username.validator';
+import { AuthService } from '../../../../shared/services/api/auth.service';
 
 @Component({
   selector: 'app-sign-in',
@@ -68,16 +68,18 @@ export class SignInComponent {
     email: string;
     password: string;
   }): void {
-    this.authService
-      .postUser(params.nome, params.username, params.email, params.password)
-      .pipe(take(1))
-      .subscribe({
-        next: () => {
-          this.router.navigate(['/auth/login'], {
-            state: { message: params.email },
-          });
-        },
-        error: (error) => console.error('errore nel sign-in', error),
-      });
+    handlerFunc({
+      callHttp: () =>
+        this.authService.postUser(
+          params.nome,
+          params.username,
+          params.email,
+          params.password,
+        ),
+      nextCall: () =>
+        this.router.navigate(['/auth/login'], {
+          state: { message: params.email },
+        }),
+    });
   }
 }

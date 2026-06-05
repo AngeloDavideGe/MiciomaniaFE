@@ -12,9 +12,13 @@ import {
   providedIn: 'root',
 })
 export class GitHubService {
-  public social: Social[] = [];
+  public social = signal<Social[]>([]);
   public mn = signal<MN[]>([]);
   public conquiste = signal<Conquiste | null>(null);
+
+  public socialLoaded: boolean = false;
+  public mnLoaded: boolean = false;
+  public conquisteLoaded: boolean = false;
 
   getGistFormGithub(
     nome: string,

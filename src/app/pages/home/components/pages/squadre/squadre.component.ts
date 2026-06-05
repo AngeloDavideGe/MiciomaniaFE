@@ -6,7 +6,6 @@ import {
   OnInit,
   signal,
 } from '@angular/core';
-import { take } from 'rxjs';
 import { handlerFunc } from '../../../../../../library/functions/handler.function';
 import { NavBarButton } from '../../../../../../library/interfaces/navbar.interface';
 import { PathSvgCustom } from '../../../../../../library/interfaces/svg.interface';
@@ -85,41 +84,45 @@ export class SquadreComponent implements OnInit, AfterViewInit {
 
   private loadSquadre(): void {
     handlerFunc<Classifica>({
+      skipCall: this.squadreService.classificaLoaded,
       callHttp: () => this.squadreService.getClassifica(),
       nextCall: (data: Classifica) => this.squadreService.classifica.set(data),
+      errorCall: () => (this.squadreService.classificaLoaded = false),
     });
+
+    this.squadreService.classificaLoaded = true;
   }
 
   private loadMappa(): void {
-    if (!this.githubService.conquiste()) {
-      this.githubService
-        .getGistFormGithub(
+    handlerFunc({
+      skipCall: this.githubService.conquisteLoaded,
+      callHttp: () =>
+        this.githubService.getGistFormGithub(
           'AngeloDavideGe',
           '6a1e0e41b352f6e2d8339d9e1d7133ae',
           'Conquiste.json',
-        )
-        .pipe(take(1))
-        .subscribe({
-          next: (data) => this.githubService.conquiste.set(data as Conquiste),
-          error: (err) => console.error('errore nel recupero mappa', err),
-        });
-    }
+        ),
+      nextCall: (data) => this.githubService.conquiste.set(data as Conquiste),
+      errorCall: () => (this.githubService.conquisteLoaded = false),
+    });
+
+    this.githubService.conquisteLoaded = true;
   }
 
   private loadMN(): void {
-    if (this.githubService.mn().length == 0) {
-      this.githubService
-        .getGistFormGithub(
+    handlerFunc({
+      skipCall: this.githubService.mnLoaded,
+      callHttp: () =>
+        this.githubService.getGistFormGithub(
           'AngeloDavideGe',
           '797ad9d22d6c2401fcaabfda1c6d870f',
           'MeN.json',
-        )
-        .pipe(take(1))
-        .subscribe({
-          next: (gist) => this.githubService.mn.set(gist as MN[]),
-          error: (error) => console.error('Error fetching M&N data:', error),
-        });
-    }
+        ),
+      nextCall: (data) => this.githubService.mn.set(data as MN[]),
+      errorCall: () => (this.githubService.mnLoaded = false),
+    });
+
+    this.githubService.mnLoaded = true;
   }
 
   private loadButton(): NavBarButton[] {

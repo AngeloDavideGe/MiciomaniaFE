@@ -11,19 +11,15 @@ import {
   providedIn: 'root',
 })
 export class SquadreService extends BaseService {
-  public squadraInGame: Squadre[] = [];
-
   public classifica = signal<Classifica>({
     squadre: [] as Squadre[],
     giocatori: [] as Giocatori[],
   });
 
+  public classificaLoaded: boolean = false;
+
   constructor() {
     super('CS');
-  }
-
-  getSquadre(): Observable<Squadre[]> {
-    return this.getCustom<Squadre[]>('Squadre/get_squadre');
   }
 
   getClassifica(): Observable<Classifica> {

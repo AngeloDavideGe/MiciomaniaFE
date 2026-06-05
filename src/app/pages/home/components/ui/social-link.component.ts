@@ -1,10 +1,10 @@
 import { Component, effect, inject, OnInit } from '@angular/core';
-import { take } from 'rxjs';
+import { SpinnerComponent } from '../../../../../library/components/spinner/spinner.component';
+import { handlerFunc } from '../../../../../library/functions/handler.function';
 import { DataHttp } from '../../../../core/api/http.data';
 import { Social } from '../../../../shared/interfaces/github.interface';
-import { GitHubService } from '../../../../shared/services/api/github.service';
 import { Lingua } from '../../../../shared/interfaces/http.interface';
-import { SpinnerComponent } from '../../../../../library/components/spinner/spinner.component';
+import { GitHubService } from '../../../../shared/services/api/github.service';
 @Component({
   selector: 'app-social-link',
   standalone: true,
@@ -18,9 +18,9 @@ import { SpinnerComponent } from '../../../../../library/components/spinner/spin
           </h6>
         </div>
         <div class="row g-4">
-          @if (gitHubService.social.length > 0) {
+          @if (githubService.social().length > 0) {
             <div class="grid-card-layout">
-              @for (s of gitHubService.social; track s.nome) {
+              @for (s of githubService.social(); track s.nome) {
                 <div class="elemento-centrato">
                   <i
                     class="bi fs-1 me-3"
@@ -53,7 +53,7 @@ import { SpinnerComponent } from '../../../../../library/components/spinner/spin
   `,
 })
 export class SocialLinkComponent implements OnInit {
-  public gitHubService = inject(GitHubService);
+  public githubService = inject(GitHubService);
   public lingua: Lingua = Lingua.it;
 
   constructor() {
@@ -61,19 +61,19 @@ export class SocialLinkComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    if (this.gitHubService.social.length == 0) {
-      this.gitHubService
-        .getGistFormGithub(
+    handlerFunc({
+      skipCall: this.githubService.socialLoaded,
+      callHttp: () =>
+        this.githubService.getGistFormGithub(
           'AngeloDavideGe',
           '831668ef76a20e1c4cbf88666215fcfa',
           'Social.json',
-        )
-        .pipe(take(1))
-        .subscribe({
-          next: (data) => (this.gitHubService.social = data as Social[]),
-          error: (err) => console.error('errore recupero social', err),
-        });
-    }
+        ),
+      nextCall: (data) => this.githubService.social.set(data as Social[]),
+      errorCall: () => (this.githubService.socialLoaded = false),
+    });
+
+    this.githubService.socialLoaded = true;
   }
 
   openLink(link: string): void {

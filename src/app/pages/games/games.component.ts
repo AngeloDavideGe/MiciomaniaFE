@@ -13,11 +13,12 @@ import { handlerFunc } from '../../../library/functions/handler.function';
 import { iCard } from '../../../library/interfaces/card.interface';
 import { NavBarButton } from '../../../library/interfaces/navbar.interface';
 import { DataHttp } from '../../core/api/http.data';
+import { setPunteggioOttenuto } from '../../shared/handlers/squadre.handler';
 import {
-  getSquadreInGame,
-  setPunteggioOttenuto,
-} from '../../shared/handlers/squadre.handler';
-import { Giocatori, Squadre } from '../../shared/interfaces/squadre.interface';
+  Classifica,
+  Giocatori,
+  Squadre,
+} from '../../shared/interfaces/squadre.interface';
 import { User } from '../../shared/interfaces/users.interface';
 import { SquadreService } from '../../shared/services/api/squadre.service';
 import { gamesConstant } from './constants/games.constant';
@@ -60,10 +61,7 @@ export class GamesComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.setPunteggioGiocatore();
     this.deckCardService.setAllCards();
-    getSquadreInGame({
-      squadreService: this.squadreService,
-      nextCall: (data: Squadre[]) => this.nextCallLoadSquadre(data),
-    });
+    this.loadSquadre();
   }
 
   ngOnDestroy(): void {
@@ -73,6 +71,17 @@ export class GamesComponent implements OnInit, OnDestroy {
   @HostListener('window:beforeunload', ['$event'])
   unloadNotification($event: BeforeUnloadEvent): void {
     this.updatePunteggioSquadra($event);
+  }
+
+  private loadSquadre(): void {
+    handlerFunc<Classifica>({
+      skipCall: this.squadreService.classificaLoaded,
+      callHttp: () => this.squadreService.getClassifica(),
+      nextCall: (data: Classifica) => this.squadreService.classifica.set(data),
+      errorCall: () => (this.squadreService.classificaLoaded = false),
+    });
+
+    this.squadreService.classificaLoaded = true;
   }
 
   private setPunteggioGiocatore(): void {
