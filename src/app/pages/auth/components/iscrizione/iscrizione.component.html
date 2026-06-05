@@ -15,7 +15,7 @@
         }
         @case ("2") {
           <app-multi-form
-            [strutturaForm]="strutturaForm"
+            [strutturaForm]="strutturaForm()"
             (formValido)="formValido.set($event)"
             [visualizzaPulsanti]="false"
           ></app-multi-form>

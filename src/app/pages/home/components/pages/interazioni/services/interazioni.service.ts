@@ -14,6 +14,8 @@ export class InterazioniService extends BaseService {
   public allInterazioni = signal<Interazione[]>([]);
   public interazioniPersonali = signal<Interazione[]>([]);
 
+  public interazioniLoaded: boolean = false;
+
   constructor() {
     super('CS');
   }

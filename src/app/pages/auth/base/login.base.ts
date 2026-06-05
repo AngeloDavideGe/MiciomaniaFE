@@ -19,7 +19,7 @@ export abstract class LoginBase {
     password: string;
     tipo: string;
   }): void {
-    handlerFunc({
+    handlerFunc<User>({
       callHttp: () =>
         this.authService.getUserByEmailAndPassword(
           params.email,

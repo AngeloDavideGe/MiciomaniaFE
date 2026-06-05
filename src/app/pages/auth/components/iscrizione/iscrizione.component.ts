@@ -30,9 +30,14 @@ export class IscrizioneComponent {
   public formValido = signal<boolean>(false);
   public lineeGuidaAccettate = signal<boolean>(false);
   public user: User = DataHttp.user()!;
-  public strutturaForm: RecordStrutturaMultiForm =
-    {} as RecordStrutturaMultiForm;
-  public squadreInGame = signal<Squadre[]>([]);
+
+  public squadreInGame = computed<Squadre[]>(
+    () => this.squadreService.classifica().squadre,
+  );
+
+  public strutturaForm = computed<RecordStrutturaMultiForm>(() =>
+    getStrutturaForm(this.user, this.squadreInGame().map((s) => s.nome) || []),
+  );
 
   public tabs: iTab[] = [
     {

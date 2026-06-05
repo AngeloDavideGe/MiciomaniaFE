@@ -69,10 +69,13 @@ export class AllPokeComponent implements OnInit {
 
   ngOnInit(): void {
     handlerFunc<Interazione[]>({
-      skipCall: this.interazioniService.allInterazioni().length > 0,
+      skipCall: this.interazioniService.interazioniLoaded,
       callHttp: () => this.interazioniService.getAllInterazioni(),
       nextCall: (interazioni: Interazione[]) =>
         this.interazioniService.allInterazioni.set(interazioni),
+      errorCall: () => (this.interazioniService.interazioniLoaded = false),
     });
+
+    this.interazioniService.interazioniLoaded = true;
   }
 }

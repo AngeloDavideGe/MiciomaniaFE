@@ -97,10 +97,13 @@ export class MangaMiciomaniComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    handlerFunc({
-      skipCall: !!this.euService.mangaParodia(),
+    handlerFunc<MangaParodia>({
+      skipCall: this.euService.mangaLoaded,
       callHttp: () => this.euService.getListaMangaMiciomani(),
       nextCall: (data: MangaParodia) => this.euService.mangaParodia.set(data),
+      errorCall: () => (this.euService.mangaLoaded = false),
     });
+
+    this.euService.mangaLoaded = true;
   }
 }

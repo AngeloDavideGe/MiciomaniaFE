@@ -9,6 +9,7 @@ import {
 import { ElementiUtenteService } from '../../../../../shared/services/api/elementiUtente.service';
 import { MangaSongUtilities } from '../../../../../shared/utilities/class/mangaSong.utilities';
 import { canzoniMiciomania_imports } from './imports/canzoni-miciomania.import';
+import { handlerFunc } from '../../../../../../library/functions/handler.function';
 
 @Component({
   selector: 'app-canzoni-miciomania',
@@ -64,19 +65,14 @@ export class CanzoniMiciomaniaComponent implements OnInit {
   });
 
   ngOnInit(): void {
-    if (!this.euService.caricamentoCanzoni) {
-      this.euService.caricamentoCanzoni = true;
-      this.euService
-        .getListaCanzoniMiciomani()
-        .pipe(take(1))
-        .subscribe({
-          next: (data: CanzoniParodia) =>
-            this.euService.canzoniParodia.set(data),
-          error: (error) => {
-            this.euService.caricamentoCanzoni = false;
-            console.error('Errore nel recupero della lista dei manga', error);
-          },
-        });
-    }
+    handlerFunc<CanzoniParodia>({
+      skipCall: this.euService.canzoniLoaded,
+      callHttp: () => this.euService.getListaCanzoniMiciomani(),
+      nextCall: (data: CanzoniParodia) =>
+        this.euService.canzoniParodia.set(data),
+      errorCall: () => (this.euService.canzoniLoaded = false),
+    });
+
+    this.euService.canzoniLoaded = true;
   }
 }

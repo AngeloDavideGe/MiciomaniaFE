@@ -13,6 +13,7 @@ import { DataHttp } from '../../../../../core/api/http.data';
 import { ChatService } from '../../../../../core/components/chat/services/chat.service';
 import {
   Conquiste,
+  GitHubType,
   MN,
 } from '../../../../../shared/interfaces/github.interface';
 import { Lingua } from '../../../../../shared/interfaces/http.interface';
@@ -94,7 +95,7 @@ export class SquadreComponent implements OnInit, AfterViewInit {
   }
 
   private loadMappa(): void {
-    handlerFunc({
+    handlerFunc<GitHubType>({
       skipCall: this.githubService.conquisteLoaded,
       callHttp: () =>
         this.githubService.getGistFormGithub(
@@ -102,7 +103,8 @@ export class SquadreComponent implements OnInit, AfterViewInit {
           '6a1e0e41b352f6e2d8339d9e1d7133ae',
           'Conquiste.json',
         ),
-      nextCall: (data) => this.githubService.conquiste.set(data as Conquiste),
+      nextCall: (data: GitHubType) =>
+        this.githubService.conquiste.set(data as Conquiste),
       errorCall: () => (this.githubService.conquisteLoaded = false),
     });
 
@@ -110,7 +112,7 @@ export class SquadreComponent implements OnInit, AfterViewInit {
   }
 
   private loadMN(): void {
-    handlerFunc({
+    handlerFunc<GitHubType>({
       skipCall: this.githubService.mnLoaded,
       callHttp: () =>
         this.githubService.getGistFormGithub(
@@ -118,7 +120,7 @@ export class SquadreComponent implements OnInit, AfterViewInit {
           '797ad9d22d6c2401fcaabfda1c6d870f',
           'MeN.json',
         ),
-      nextCall: (data) => this.githubService.mn.set(data as MN[]),
+      nextCall: (data: GitHubType) => this.githubService.mn.set(data as MN[]),
       errorCall: () => (this.githubService.mnLoaded = false),
     });
 

@@ -2,7 +2,10 @@ import { Component, effect, inject, OnInit } from '@angular/core';
 import { SpinnerComponent } from '../../../../../library/components/spinner/spinner.component';
 import { handlerFunc } from '../../../../../library/functions/handler.function';
 import { DataHttp } from '../../../../core/api/http.data';
-import { Social } from '../../../../shared/interfaces/github.interface';
+import {
+  GitHubType,
+  Social,
+} from '../../../../shared/interfaces/github.interface';
 import { Lingua } from '../../../../shared/interfaces/http.interface';
 import { GitHubService } from '../../../../shared/services/api/github.service';
 @Component({
@@ -61,7 +64,7 @@ export class SocialLinkComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    handlerFunc({
+    handlerFunc<GitHubType>({
       skipCall: this.githubService.socialLoaded,
       callHttp: () =>
         this.githubService.getGistFormGithub(

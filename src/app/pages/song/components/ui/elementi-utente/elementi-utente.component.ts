@@ -11,6 +11,7 @@ import {
   ElemLang,
   ElemLangType,
 } from './languages/interfaces/elem-lang.interface';
+import { handlerFunc } from '../../../../../../library/functions/handler.function';
 
 @Component({
   selector: 'app-elementi-utente',
@@ -64,28 +65,21 @@ export class ElementiUtenteComponent implements OnInit {
       this.userId = user.id;
       this.userPunteggio = user.iscrizione.punteggio || 0;
 
-      if (!this.euService.caricamentoUtenteParodie) {
-        this.euService.caricamentoUtenteParodie = true;
-        this.euService
-          .getElementiUtente(user.id)
-          .pipe(take(1))
-          .subscribe({
-            next: (elementiUtente: UtenteParodie) => {
-              this.creaProposta = {
-                componente: false,
-                punteggio: this.userPunteggio >= this.punteggioNecessario,
-              };
-              this.euService.utenteParodie.set(elementiUtente);
-            },
-            error: (error) => {
-              this.euService.caricamentoUtenteParodie = false;
-              console.error(
-                'Errore nel recupero degli elementi utente:',
-                error,
-              );
-            },
-          });
-      }
+      handlerFunc<UtenteParodie>({
+        skipCall: this.euService.utenteParodieLoaded,
+        callHttp: () => this.euService.getElementiUtente(user.id),
+        nextCall: (elementiUtente: UtenteParodie) => {
+          this.creaProposta = {
+            componente: false,
+            punteggio: this.userPunteggio >= this.punteggioNecessario,
+          };
+          this.euService.utenteParodie.set(elementiUtente);
+          this.euService.utenteParodieLoaded = true;
+        },
+        errorCall: () => (this.euService.utenteParodieLoaded = false),
+      });
+
+      this.euService.utenteParodieLoaded = true;
     }
   }
 }

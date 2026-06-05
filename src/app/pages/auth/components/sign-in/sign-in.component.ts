@@ -68,7 +68,7 @@ export class SignInComponent {
     email: string;
     password: string;
   }): void {
-    handlerFunc({
+    handlerFunc<void>({
       callHttp: () =>
         this.authService.postUser(
           params.nome,
