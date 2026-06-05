@@ -20,7 +20,7 @@ import {
 })
 export class ElementiUtenteComponent implements OnInit {
   public router = inject(Router);
-  private euService = inject(ElementiUtenteService);
+  public euService = inject(ElementiUtenteService);
 
   public eu = signal<UtenteParodie | null>(null);
   public creaProposta = {

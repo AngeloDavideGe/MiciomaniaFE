@@ -12,10 +12,10 @@ import {
   providedIn: 'root',
 })
 export class ElementiUtenteService extends BaseService {
-  public propostaCaricata: boolean = true;
   public caricamentoCanzoni: boolean = false;
   public caricamentoManga: boolean = false;
   public caricamentoUtenteParodie: boolean = false;
+  public propostaCaricata = signal<boolean>(true);
   public canzoniParodia = signal<CanzoniParodia | null>(null);
   public mangaParodia = signal<MangaParodia | null>(null);
   public utenteParodie = signal<UtenteParodie | null>(null);

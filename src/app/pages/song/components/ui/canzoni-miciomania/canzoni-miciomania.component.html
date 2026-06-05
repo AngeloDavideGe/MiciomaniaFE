@@ -18,8 +18,6 @@
     >
     </app-card-custom>
   </section>
-} @else {
-  <app-spinner [mt]="'10rem'"></app-spinner>
 }
 
 @if (canzoniUtente().length > 0) {
@@ -41,6 +39,8 @@
     >
     </app-card-custom>
   </section>
-} @else {
+}
+
+@if (canzoniMiciomania().length === 0 && canzoniUtente().length === 0) {
   <app-spinner [mt]="'10rem'"></app-spinner>
 }

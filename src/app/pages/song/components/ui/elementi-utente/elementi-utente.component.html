@@ -9,7 +9,7 @@
         [userPunteggio]="userPunteggio"
       ></app-griglia-elementi>
 
-      @if (creaProposta.componente) {
+      @if (creaProposta.componente && euService.propostaCaricata()) {
         <app-crea-proposta
           [elemLang]="elemLang"
           [userId]="userId"

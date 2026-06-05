@@ -103,7 +103,7 @@ export class CreaPropostaComponent {
   }
 
   private uploadFileHttp(p: ProposaPrePost): void {
-    this.elementiUtenteService.propostaCaricata = false;
+    this.elementiUtenteService.propostaCaricata.set(false);
 
     handlerFunc({
       callHttp: () =>
@@ -121,10 +121,7 @@ export class CreaPropostaComponent {
             'Copertine',
           ),
         }),
-      switchMapCall: (res: {
-        main: { url: string };
-        copertina: { url: string };
-      }) => {
+      switchMapCall: (res: { main: any; copertina: any }) => {
         p.proposta.url = res.main.url;
         p.proposta.copertina = res.copertina.url;
 
@@ -132,7 +129,7 @@ export class CreaPropostaComponent {
       },
       mapCall: (data: Proposta) =>
         ({ mangaSong: data, tipo: data.tipo }) as PopostaNonExtend,
-      finalizeCall: () => (this.elementiUtenteService.propostaCaricata = true),
+      finalizeCall: () => this.elementiUtenteService.propostaCaricata.set(true),
       nextCall: (data: PopostaNonExtend) => {
         this.elementiUtenteService.utenteParodie =
           this.elementiUtenteService.utenteParodie || ({} as UtenteParodie);
