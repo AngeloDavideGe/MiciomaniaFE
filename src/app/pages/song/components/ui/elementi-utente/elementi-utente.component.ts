@@ -1,4 +1,4 @@
-import { Component, OnInit, effect, inject, signal } from '@angular/core';
+import { Component, OnInit, computed, effect, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { handlerFunc } from '../../../../../../library/functions/handler.function';
 import { DataHttp } from '../../../../../core/api/http.data';
@@ -22,7 +22,10 @@ export class ElementiUtenteComponent implements OnInit {
   public router = inject(Router);
   public euService = inject(ElementiUtenteService);
 
-  public eu = signal<UtenteParodie | null>(null);
+  public eu = computed<UtenteParodie | null>(() =>
+    this.euService.utenteParodie(),
+  );
+
   public creaProposta = {
     componente: false,
     punteggio: false,
@@ -42,11 +45,9 @@ export class ElementiUtenteComponent implements OnInit {
     languageMap[lingua]().then((m) => (this.elemLang = m.elemLang));
 
     effect(() => {
-      const euConst = this.euService.utenteParodie();
       const user: User | null = DataHttp.user();
 
       if (user) {
-        this.eu.set(euConst);
         this.userId = user.id;
         this.userPunteggio = user.iscrizione.punteggio || 0;
         this.creaProposta = {

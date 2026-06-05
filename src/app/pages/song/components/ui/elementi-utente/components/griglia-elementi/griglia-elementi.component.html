@@ -1,8 +1,8 @@
 <div class="grid-card-layout px-2" style="--card-position: start">
-  @if (eu && eu.mangaUtente && eu.mangaUtente.idUtente) {
+  @if (eu && eu.mangaUtente) {
     <app-card-custom
       [singleElem]="{
-        titolo: 'Manga Personale',
+        titolo: eu.mangaUtente.nome || 'Manga Personale',
         bottone: elemLang.scarica,
         urlPic: eu.mangaUtente.copertina || defaultMangaPic,
         azione: downloadManga.bind(this, eu.mangaUtente),
@@ -25,10 +25,10 @@
     ></app-card-custom>
   }
 
-  @if (eu && eu.canzoniUtente && eu.canzoniUtente.idUtente) {
+  @if (eu && eu.canzoniUtente) {
     <app-card-custom
       [singleElem]="{
-        titolo: 'Canzone Personale',
+        titolo: eu.canzoniUtente.nome || 'Canzone Personale',
         bottone: elemLang.scarica,
         urlPic: eu.canzoniUtente.copertina || defaultSongPic,
         azione: playSong.bind(this, eu.canzoniUtente),

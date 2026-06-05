@@ -17,8 +17,8 @@ export interface CanzoniParodia {
 }
 
 export interface UtenteParodie {
-  mangaUtente: MangaSong;
-  canzoniUtente: MangaSong;
+  mangaUtente?: MangaSong;
+  canzoniUtente?: MangaSong;
 }
 
 export interface Proposta extends MangaSong {
@@ -30,4 +30,4 @@ export interface PopostaNonExtend {
   tipo: PropostaTipo;
 }
 
-export type PropostaTipo = 'manga' | 'canzone' | 'mangaPrimo' | 'canzonePrimo';
+export type PropostaTipo = 'Manga' | 'Canzone';
