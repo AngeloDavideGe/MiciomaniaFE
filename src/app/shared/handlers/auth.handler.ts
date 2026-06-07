@@ -1,7 +1,13 @@
 import { finalize, Observable, take, tap } from 'rxjs';
 import { handlerFunc } from '../../../library/functions/handler.function';
 import { DataHttp } from '../../core/api/http.data';
-import { User, UserParams } from '../interfaces/users.interface';
+import {
+  Credenziali,
+  Iscrizione,
+  Profile,
+  User,
+  UserParams,
+} from '../interfaces/users.interface';
 import { AuthService } from '../services/api/auth.service';
 
 export function sottoscrizioneUtentiCustom(params: {
@@ -37,4 +43,12 @@ export function updateUserCustom(params: {
     finalize(() => params.finalizeFunc()),
     tap(() => DataHttp.user.set(params.user)),
   );
+}
+
+export function getVoidUser(): User {
+  return {
+    credenziali: {} as Credenziali,
+    profile: {} as Profile,
+    iscrizione: {} as Iscrizione,
+  } as User;
 }

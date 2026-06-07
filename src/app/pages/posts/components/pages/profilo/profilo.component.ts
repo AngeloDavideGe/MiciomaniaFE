@@ -11,7 +11,7 @@ import { AppConfigService } from '../../../../../core/api/appConfig.service';
 import { DataHttp } from '../../../../../core/api/http.data';
 import { uploadImage } from '../../../../../shared/functions/upload-pic.function';
 import { updateUserCustom } from '../../../../../shared/handlers/auth.handler';
-import { getVoidUser } from '../../../../../shared/handlers/functions/user.function';
+import { getVoidUser } from '../../../../../shared/handlers/auth.handler';
 import {
   Lingua,
   Profilo,
