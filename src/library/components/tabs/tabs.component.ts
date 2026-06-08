@@ -18,8 +18,8 @@ import { ButtonCustomComponent } from '../button/botton-custom.component';
 export class TabsComponent implements OnInit {
   public selectTab = signal<string>('');
 
-  @Input() tabs!: iTab[];
-  @Input() tipo: 'tab' | 'wizard' = 'tab';
+  @Input() tabs: iTab[] = [];
+  @Input() tipo: 'tab' | 'wizard' | 'lista' = 'tab';
   @Input() disableNext: boolean = false;
 
   @Output() clickTab = new EventEmitter<string>();
@@ -27,6 +27,19 @@ export class TabsComponent implements OnInit {
   @Output() next = new EventEmitter<{ current: string; next: string }>();
 
   ngOnInit(): void {
+    if (this.tabs.length == 0) {
+      this.tabs = [
+        {
+          id: '1',
+          icona: 'bi bi-grid',
+        },
+        {
+          id: '2',
+          icona: 'bi bi-list',
+        },
+      ];
+    }
+
     this.selectTab.set(this.tabs[0].id);
   }
 
@@ -65,7 +78,8 @@ export class TabsComponent implements OnInit {
 
 export interface iTab {
   id: string;
-  label: string;
-  color: string;
+  label?: string;
+  color?: string;
+  icona?: string;
   azione?: (id?: string) => void;
 }

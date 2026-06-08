@@ -10,7 +10,6 @@ import {
   WritableSignal,
 } from '@angular/core';
 import { Router } from '@angular/router';
-import { IconeListaComponent } from '../../../../../../shared/components/custom/icone-lista.component';
 import { TabellaCustomComponent } from '../../../../../../../library/components/table/table.component';
 import { BadgeRuolo, Ruolo } from '../../../../../../shared/enums/users.enum';
 import {
@@ -25,20 +24,19 @@ import {
   AzioniTabella,
   RecordColonne,
 } from '../../../../../../../library/interfaces/table.interface';
+import { TabsComponent } from '../../../../../../../library/components/tabs/tabs.component';
 
 @Component({
   selector: 'app-griglia-admin',
   standalone: true,
-  imports: [TabellaCustomComponent, IconeListaComponent],
+  imports: [TabellaCustomComponent, TabsComponent],
   template: `
-    <app-icone-lista
-      [classNG]="tabellaView()"
-      [ngClass1]="'single'"
-      [ngClass2]="'multiple'"
-      (classNGChange)="tabellaView.set($event)"
-    ></app-icone-lista>
+    <app-tabs-custom
+      [tipo]="'lista'"
+      (clickTab)="tabellaView.set($event)"
+    ></app-tabs-custom>
 
-    @if (tabellaView() === 'single') {
+    @if (tabellaView() === '1') {
       <div class="elemento-centrato">
         <app-table-custom
           [titoloTabella]="adminLang.tuttiGliUtenti"
@@ -71,7 +69,7 @@ export class GrigliaAdminComponent {
   public authService = inject(AuthService);
 
   public ruoli: Ruolo[] = Object.values(Ruolo);
-  public tabellaView = signal<string>('single');
+  public tabellaView = signal<string>('1');
   public elemForAllPage = signal<number>(5);
 
   public elemForPage = this.ruoli.reduce(

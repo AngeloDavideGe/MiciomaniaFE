@@ -1,7 +1,6 @@
 import { AsyncPipe } from '@angular/common';
 import { Type } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { IconeListaComponent } from '../../../shared/components/custom/icone-lista.component';
 import { FiltriMangaComponent } from '../components/ui/filtri-manga.component';
 import { CardMangaComponent } from '../shared/card-manga.component';
 import { SpinnerComponent } from '../../../../library/components/spinner/spinner.component';
@@ -14,7 +13,7 @@ export const manga_imports: Type<any>[] = [
   CardMangaComponent,
   TabsComponent,
   FiltriMangaComponent,
-  IconeListaComponent,
   SpinnerComponent,
   CustomNavBarComponent,
+  TabsComponent,
 ];

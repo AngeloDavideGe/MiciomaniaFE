@@ -11,15 +11,21 @@
     @if (tabs().length > 0) {
       <app-tabs-custom [tabs]="tabs()"></app-tabs-custom>
     }
-    <app-icone-lista
+
+    <app-tabs-custom
+      [tipo]="'lista'"
+      (clickTab)="perIniziale.set($event)"
+    ></app-tabs-custom>
+
+    <!-- <app-icone-lista
       class="pc-only"
       [classNG]="perIniziale()"
       [ngClass1]="'lista'"
       [ngClass2]="'iniziale'"
       (classNGChange)="perIniziale.set($event)"
-    ></app-icone-lista>
+    ></app-icone-lista> -->
 
-    @if (perIniziale() === "iniziale") {
+    @if (perIniziale() === "2") {
       @for (lettera of alfabeto; track lettera) {
         @if (mangaPerIniziale()[lettera].length > 0) {
           <div class="mt-5">

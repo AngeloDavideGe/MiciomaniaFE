@@ -16,14 +16,14 @@ export function getToggleMenus(
 ): ToggleProps[] {
   return [
     {
-      titolo: homeLang.impostazioni,
-      icona: 'bi bi-gear-fill',
-      menuElementi: getImpostazioniElements(router, homeLang, userId, cursore),
-    },
-    {
       titolo: homeLang.profili,
       icona: 'bi bi-person-fill',
       menuElementi: getProfiliElements(router, homeLang, userId, logout),
+    },
+    {
+      titolo: homeLang.impostazioni,
+      icona: 'bi bi-gear-fill',
+      menuElementi: getImpostazioniElements(router, homeLang, userId, cursore),
     },
     {
       titolo: homeLang.lingua,

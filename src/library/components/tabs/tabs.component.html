@@ -93,4 +93,18 @@
       ></app-button-custom>
     </div>
   }
+  @case ("lista") {
+    <div class="elemento-finale mb-3 me-2">
+      @for (tab of tabs; track tab.id) {
+        <button
+          class="btn btn-outline-secondary me-2"
+          [class.active]="selectTab() == tab.id"
+          (click)="clickTabFunc(tab)"
+          title="Visualizza affiancati"
+        >
+          <i [class]="tab.icona"></i>
+        </button>
+      }
+    </div>
+  }
 }

@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, Output, signal } from '@angular/core';
+import { RecordColonne } from '../../../../../../../../library/interfaces/table.interface';
 import {
   Classifica,
   Giocatori,
@@ -6,7 +7,6 @@ import {
 } from '../../../../../../../shared/interfaces/squadre.interface';
 import { SquadreLang } from '../../languages/interfaces/squadre-lang.interface';
 import { punteggi_imports } from './imports/punteggi.import';
-import { RecordColonne } from '../../../../../../../../library/interfaces/table.interface';
 
 @Component({
   selector: 'app-punteggi-component',
@@ -19,14 +19,12 @@ import { RecordColonne } from '../../../../../../../../library/interfaces/table.
           [classifica]="classifica()"
         ></app-lista-squadre>
 
-        <app-icone-lista
-          [classNG]="classNg()"
-          [ngClass1]="'chart'"
-          [ngClass2]="'table'"
-          (classNGChange)="classNg.set($event)"
-        ></app-icone-lista>
+        <app-tabs-custom
+          [tipo]="'lista'"
+          (clickTab)="classNg.set($event)"
+        ></app-tabs-custom>
 
-        @if (classNg() == 'chart') {
+        @if (classNg() == '1') {
           <app-chart-custom [classifica]="classifica()"></app-chart-custom>
         } @else {
           <div class="container">
@@ -64,7 +62,7 @@ import { RecordColonne } from '../../../../../../../../library/interfaces/table.
   `,
 })
 export class PunteggiComponent {
-  public classNg = signal<string>('chart');
+  public classNg = signal<string>('1');
   public giocatori = signal<Giocatori[]>([]);
   public squadre = signal<Squadre[]>([]);
   public classifica = signal<Classifica>({} as Classifica);
