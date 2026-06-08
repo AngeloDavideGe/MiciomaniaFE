@@ -29,19 +29,28 @@ export function handlerFunc<T, S = T, M = S>(
 
 export async function handlerFuncAsync<T, S = T, M = S>(
   params: HandlerInterface<T, S, M>,
-): Promise<M> {
-  if (params.skipCall) {
-    params.elseCall?.();
-    return Promise.resolve({} as M);
+): Promise<void> {
+  // Metodo 1
+  try {
+    const result: M = await firstValueFrom<M>(callHttpFunc(params));
+    params.nextCall?.(result);
+  } catch (error: unknown) {
+    params.errorCall?.();
+  } finally {
+    params.completeCall?.();
   }
 
-  return await firstValueFrom(callHttpFunc(params));
+  //  Metodo 2
+  //  return firstValueFrom(callHttpFunc(params))
+  //   .then((x: M) => params.nextCall?.(x))
+  //   .catch(() => params.errorCall?.())
+  //   .finally(()=> params.completeCall?.())
 }
 
 function callHttpFunc<T, S, M>(
   params: HandlerInterface<T, S, M>,
 ): Observable<M> {
-  return params.callHttp(params.input).pipe(
+  return params.callHttp().pipe(
     debounceTime(params.debounce || 0),
     getTakeFunc(params.numTake, params.destroy$),
     switchMap(
@@ -62,27 +71,24 @@ function getTakeFunc<T>(
   numTake?: number,
   destroy$?: Subject<void>,
 ): MonoTypeOperatorFunction<T> {
-  if (numTake && numTake > 1) {
-    return take(numTake);
-  } else if (destroy$) {
+  if (destroy$) {
     return takeUntil(destroy$);
-  } else {
-    return take(1);
   }
+
+  return take(numTake || 1);
 }
 
 interface HandlerInterface<T, S = T, M = S> {
-  input?: any;
-  skipCall?: boolean;
   debounce?: number;
   numTake?: number;
+  skipCall?: boolean;
   destroy$?: Subject<void>;
-  callHttp: (input?: any) => Observable<T>;
+  callHttp: () => Observable<T>;
   switchMapCall?: (value: T) => Observable<S>;
   mapCall?: (value: S) => M;
+  finalizeCall?: () => void;
   nextCall?: (value: M) => void;
   errorCall?: (error?: Error) => void;
   completeCall?: () => void;
-  finalizeCall?: () => void;
   elseCall?: () => void;
 }
