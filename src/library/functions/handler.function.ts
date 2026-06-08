@@ -30,21 +30,15 @@ export function handlerFunc<T, S = T, M = S>(
 export async function handlerFuncAsync<T, S = T, M = S>(
   params: HandlerInterface<T, S, M>,
 ): Promise<void> {
-  // Metodo 1
   try {
     const result: M = await firstValueFrom<M>(callHttpFunc(params));
     params.nextCall?.(result);
   } catch (error: unknown) {
     params.errorCall?.();
+    throw error;
   } finally {
     params.completeCall?.();
   }
-
-  //  Metodo 2
-  //  return firstValueFrom(callHttpFunc(params))
-  //   .then((x: M) => params.nextCall?.(x))
-  //   .catch(() => params.errorCall?.())
-  //   .finally(()=> params.completeCall?.())
 }
 
 function callHttpFunc<T, S, M>(

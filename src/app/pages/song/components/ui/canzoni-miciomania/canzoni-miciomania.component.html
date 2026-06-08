@@ -1,46 +1,37 @@
-@if (canzoniMiciomania().length > 0) {
-  <section id="CanzoniMiciomania">
-    <app-custom-scroll
-      [titolo]="'Canzoni Miciomania'"
-      [icona]="'bi bi-arrow-down'"
-      [nomeIcona]="'Vai a canzoni Utente'"
-      [idComponent]="'CanzoniUtente'"
-      [lunghezzaFiltro]="canzoniMiciomania().length"
-    ></app-custom-scroll>
-
-    <app-card-custom
-      [elems]="canzoniMiciomania"
-      [altezzaImg]="'20rem'"
-      [tipoBottone]="'Play'"
-      [classBody]="'manga-class'"
-      [tipoSlice]="'page'"
-      (clickStopBotton)="msu.sc.stopSong()"
-    >
-    </app-card-custom>
-  </section>
-}
-
-@if (canzoniUtente().length > 0) {
-  <section id="CanzoniUtente" style="margin-top: 5rem">
-    <app-custom-scroll
-      [titolo]="'Canzoni Utente'"
-      [icona]="'bi bi-arrow-up'"
-      [nomeIcona]="'Vai a canzoni Miciomania'"
-      [lunghezzaFiltro]="canzoniUtente().length"
-    ></app-custom-scroll>
-
-    <app-card-custom
-      [elems]="canzoniUtente"
-      [altezzaImg]="'20rem'"
-      [tipoBottone]="'Play'"
-      [classBody]="'manga-class'"
-      [tipoSlice]="'page'"
-      (clickStopBotton)="msu.sc.stopSong()"
-    >
-    </app-card-custom>
-  </section>
-}
-
-@if (canzoniMiciomania().length === 0 && canzoniUtente().length === 0) {
+@if (sezioni().length > 0) {
+  <app-custom-scroll [sezioni]="sezioni()">
+    <div primo>
+      @if (canzoniMiciomania().length > 0) {
+        <app-card-custom
+          [elems]="canzoniMiciomania"
+          [altezzaImg]="'20rem'"
+          [tipoBottone]="'Play'"
+          [classBody]="'manga-class'"
+          [tipoSlice]="'page'"
+          (clickStopBotton)="msu.sc.stopSong()"
+        >
+        </app-card-custom>
+      }
+    </div>
+    <div secondo>
+      @if (canzoniUtente().length > 0) {
+        <app-card-custom
+          [elems]="canzoniUtente"
+          [altezzaImg]="'20rem'"
+          [tipoBottone]="'Play'"
+          [classBody]="'manga-class'"
+          [tipoSlice]="'page'"
+          (clickStopBotton)="msu.sc.stopSong()"
+        >
+        </app-card-custom>
+      } @else {
+        <div class="elementi-colonna">
+          <h3>Non ci sono Canzoni in questa sezione</h3>
+          <p>Vai su invia Proposta e inizia a mandarne una</p>
+        </div>
+      }
+    </div>
+  </app-custom-scroll>
+} @else {
   <app-spinner [mt]="'10rem'"></app-spinner>
 }

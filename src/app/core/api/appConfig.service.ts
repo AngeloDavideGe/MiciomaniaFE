@@ -10,10 +10,10 @@ import { getClient, IAppConfig } from '../functions/client.function';
 export class AppConfigService {
   private http = inject(HttpClient);
 
-  public config: IAppConfig = {} as IAppConfig;
-  public client: SupabaseClient = {} as SupabaseClient;
+  public config!: IAppConfig;
+  public client!: SupabaseClient;
 
-  public async loadConfig(): Promise<void> {
+  public loadConfig(): Promise<void> {
     return handlerFuncAsync<IAppConfig>({
       callHttp: () => this.http.get<IAppConfig>('assets/data/appConfig.json'),
       nextCall: (config: IAppConfig) => {

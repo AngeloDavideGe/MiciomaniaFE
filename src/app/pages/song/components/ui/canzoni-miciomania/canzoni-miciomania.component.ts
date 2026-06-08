@@ -9,6 +9,7 @@ import {
 import { ElementiUtenteService } from '../../../../../shared/services/api/elementiUtente.service';
 import { MangaSongUtilities } from '../../../../../shared/utilities/class/mangaSong.utilities';
 import { canzoniMiciomania_imports } from './imports/canzoni-miciomania.import';
+import { SezioneScroll } from '../../../../../../library/interfaces/scroll.interface';
 
 @Component({
   selector: 'app-canzoni-miciomania',
@@ -22,6 +23,17 @@ export class CanzoniMiciomaniaComponent implements OnInit {
 
   public readonly defaultPic: string =
     this.appConfig.config.defaultPicsUrl.song;
+
+  public sezioni = computed<SezioneScroll[]>(() => {
+    const canzoniParodia: CanzoniParodia | null =
+      this.euService.canzoniParodia();
+
+    if (canzoniParodia) {
+      return this.getSezioni(canzoniParodia);
+    } else {
+      return [];
+    }
+  });
 
   public canzoniMiciomania = computed<iCard[]>(() => {
     const canzoni: CanzoniParodia | null = this.euService.canzoniParodia();
@@ -73,5 +85,24 @@ export class CanzoniMiciomaniaComponent implements OnInit {
     });
 
     this.euService.canzoniLoaded = true;
+  }
+
+  private getSezioni(canzoni: CanzoniParodia): SezioneScroll[] {
+    return [
+      {
+        id: 'CanzoniMiciomania',
+        titolo: 'Canzoni Miciomania',
+        lunghezza: canzoni.canzoniMiciomania.length,
+        icona: 'bi bi-arrow-down',
+        nomeIcona: 'Vai a canzoni Utente',
+      },
+      {
+        id: 'CazoniUtente',
+        titolo: 'Cazoni Utente',
+        lunghezza: canzoni.canzoniUtente.length,
+        icona: 'bi bi-arrow-up',
+        nomeIcona: 'Vai a canzoni Miciomania',
+      },
+    ];
   }
 }

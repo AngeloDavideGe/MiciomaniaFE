@@ -1,8 +1,9 @@
-import { Component, computed, inject, OnInit } from '@angular/core';
+import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { handlerFunc } from '../../../../../../library/functions/handler.function';
 import { iCard } from '../../../../../../library/interfaces/card.interface';
 import { NavBarButton } from '../../../../../../library/interfaces/navbar.interface';
+import { SezioneScroll } from '../../../../../../library/interfaces/scroll.interface';
 import { AppConfigService } from '../../../../../core/api/appConfig.service';
 import { DataHttp } from '../../../../../core/api/http.data';
 import {
@@ -17,6 +18,7 @@ import {
   MmicioLang,
   MmicioLangType,
 } from './languages/interfaces/mmicio-lang.interface';
+import { mangaLang } from '../../../languages/constants/manga-it.constant';
 
 @Component({
   selector: 'app-manga-miciomani',
@@ -33,22 +35,34 @@ export class MangaMiciomaniComponent implements OnInit {
     this.appConfig.config.defaultPicsUrl.manga;
 
   public mangaSongUtilities = new MangaSongUtilities();
-  public mmicioLang: MmicioLang = {} as MmicioLang;
+  public mmicioLang = signal<MmicioLang | null>(null);
   public pulsanti: NavBarButton[] = [];
+
+  public sezioni = computed<SezioneScroll[]>(() => {
+    const mangaParodia: MangaParodia | null = this.euService.mangaParodia();
+    const micioLang: MmicioLang | null = this.mmicioLang();
+
+    if (mangaParodia && micioLang) {
+      return this.getSezioni(mangaParodia, micioLang);
+    } else {
+      return [];
+    }
+  });
 
   public mangaUtente = computed<iCard[]>(() => {
     const mangaParodia: MangaParodia | null = this.euService.mangaParodia();
+    const micioLang: MmicioLang | null = this.mmicioLang();
 
-    if (mangaParodia) {
+    if (mangaParodia && micioLang) {
       return mangaParodia.mangaUtentePars.map((x: MangaSong) => {
         return {
           titolo: x.nome,
           urlPic: x.copertina || this.mangaDefaultPic,
-          bottone: this.mmicioLang.scarica,
+          bottone: micioLang.scarica,
           azione: () => this.mangaSongUtilities.downloadManga(x),
           descrizione: `Genere: <strong>${x.genere}</strong
-            ><br />
-            Autore: <em>${x.idUtente}</em>`,
+          ><br />
+          Autore: <em>${x.idUtente}</em>`,
         } as iCard;
       });
     }
@@ -58,13 +72,14 @@ export class MangaMiciomaniComponent implements OnInit {
 
   public mangaMiciomania = computed<iCard[]>(() => {
     const mangaParodia: MangaParodia | null = this.euService.mangaParodia();
+    const micioLang: MmicioLang | null = this.mmicioLang();
 
-    if (mangaParodia) {
+    if (mangaParodia && micioLang) {
       return mangaParodia.mangaMiciomania.map((x: MangaSong) => {
         return {
           titolo: x.nome,
           urlPic: x.copertina || this.mangaDefaultPic,
-          bottone: this.mmicioLang.scarica,
+          bottone: micioLang.scarica,
           azione: () => this.mangaSongUtilities.downloadManga(x),
           descrizione: `Genere: <strong>${x.genere}</strong
             ><br />
@@ -83,12 +98,12 @@ export class MangaMiciomaniComponent implements OnInit {
       en: () => import('./languages/constants/mmicio-en.constant'),
     };
     languageMap[lingua]().then((m) => {
-      this.mmicioLang = m.mmicioLang;
+      this.mmicioLang.set(m.mmicioLang);
 
       this.pulsanti = [
         {
           action: () => this.router.navigate(['/manga']),
-          title: this.mmicioLang.tuttiManga,
+          title: this.mmicioLang()!.tuttiManga,
           icon: 'bi bi-book',
         },
       ];
@@ -104,5 +119,27 @@ export class MangaMiciomaniComponent implements OnInit {
     });
 
     this.euService.mangaLoaded = true;
+  }
+
+  private getSezioni(
+    manga: MangaParodia,
+    micioLang: MmicioLang,
+  ): SezioneScroll[] {
+    return [
+      {
+        id: 'MangaMiciomania',
+        titolo: 'Manga Miciomania',
+        lunghezza: manga.mangaMiciomania.length,
+        icona: 'bi bi-arrow-down',
+        nomeIcona: micioLang.iconaScrollGiu,
+      },
+      {
+        id: 'MangaUtente',
+        titolo: 'Manga Utente',
+        lunghezza: manga.mangaUtentePars.length,
+        icona: 'bi bi-arrow-up',
+        nomeIcona: micioLang.iconaScrollSu,
+      },
+    ];
   }
 }
