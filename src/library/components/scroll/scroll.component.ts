@@ -58,11 +58,10 @@ import { SezioneScroll } from '../../interfaces/scroll.interface';
   `,
 })
 export class ScrollCustomComponent {
-  @Input({ required: true })
-  sezioni: SezioneScroll[] = [];
+  @Input({ required: true }) sezioni: SezioneScroll[] = [];
 
   scrollToNextSection(index: number): void {
-    const nextSection = this.sezioni[index + 1];
+    const nextSection: SezioneScroll | undefined = this.sezioni[index + 1];
 
     if (!nextSection) {
       window.scrollTo({
@@ -73,15 +72,13 @@ export class ScrollCustomComponent {
       return;
     }
 
-    const element = document.getElementById(nextSection.id);
+    const element: HTMLElement | null = document.getElementById(nextSection.id);
 
-    if (!element) {
-      return;
+    if (element) {
+      element.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start',
+      });
     }
-
-    element.scrollIntoView({
-      behavior: 'smooth',
-      block: 'start',
-    });
   }
 }

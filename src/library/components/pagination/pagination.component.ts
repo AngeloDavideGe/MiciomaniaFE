@@ -1,4 +1,5 @@
 import {
+  ChangeDetectionStrategy,
   Component,
   computed,
   HostListener,
@@ -17,6 +18,7 @@ import {
 @Component({
   selector: 'app-paginazione-custom',
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [],
   template: `
     @if (filtri.totalPage() > 1) {

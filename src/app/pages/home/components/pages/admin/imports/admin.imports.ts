@@ -1,12 +1,8 @@
 import { Type } from '@angular/core';
-import { EditAdminComponent } from '../components/edit-admin.component';
-import { GrigliaAdminComponent } from '../components/griglia-admin.component';
 import { CustomNavBarComponent } from '../../../../../../../library/components/navbar/navbar.component';
-import { SpinnerComponent } from '../../../../../../../library/components/spinner/spinner.component';
+import { ListaAdminComponent } from '../components/pages/lista-admin/lista-admin.component';
 
 export const admin_imports: Type<any>[] = [
-  GrigliaAdminComponent,
-  EditAdminComponent,
+  ListaAdminComponent,
   CustomNavBarComponent,
-  SpinnerComponent,
 ];

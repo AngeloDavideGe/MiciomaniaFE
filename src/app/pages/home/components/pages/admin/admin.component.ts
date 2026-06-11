@@ -1,25 +1,8 @@
-import {
-  Component,
-  computed,
-  inject,
-  OnInit,
-  signal,
-  Signal,
-} from '@angular/core';
-import { Router } from '@angular/router';
-import { handlerFunc } from '../../../../../../library/functions/handler.function';
+import { Component, signal } from '@angular/core';
 import { DataHttp } from '../../../../../core/api/http.data';
-import { Ruolo } from '../../../../../shared/enums/users.enum';
-import { sottoscrizioneUtentiCustom } from '../../../../../shared/handlers/auth.handler';
 import { Lingua } from '../../../../../shared/interfaces/http.interface';
-import {
-  User,
-  UserParams,
-} from '../../../../../shared/interfaces/users.interface';
-import { AuthService } from '../../../../../shared/services/api/auth.service';
-import { converUserParams } from '../../../functions/home.functions';
+import { User } from '../../../../../shared/interfaces/users.interface';
 import { admin_imports } from './imports/admin.imports';
-import { CambioRuoloUtente } from './interfaces/admin.interface';
 import {
   AdminLang,
   AdminLangType,
@@ -29,20 +12,15 @@ import {
   selector: 'app-admin',
   standalone: true,
   imports: admin_imports,
-  templateUrl: './admin.component.html',
-})
-export class AdminComponent implements OnInit {
-  public authService = inject(AuthService);
-  public router = inject(Router);
+  template: `
+    <app-custom-navbar></app-custom-navbar>
 
+    <app-lista-admin [adminLang]="adminLang()" [user]="user"></app-lista-admin>
+  `,
+})
+export class AdminComponent {
   public user: User | null = DataHttp.user();
-  public editAdmin = signal<boolean>(false);
-  public loadedAdmin = signal<boolean>(false);
-  public userEdit: UserParams = {} as UserParams;
-  public ruoli = Object.values(Ruolo);
-  public userMap = signal<Record<string, UserParams[]>>({});
-  public userMapByRuolo: Record<string, Signal<UserParams[]>> = {};
-  public adminLang: AdminLang = {} as AdminLang;
+  public adminLang = signal<AdminLang>({} as AdminLang);
 
   constructor() {
     const lingua: Lingua = DataHttp.lingua();
@@ -50,74 +28,6 @@ export class AdminComponent implements OnInit {
       it: () => import('./languages/constants/admin-it.constant'),
       en: () => import('./languages/constants/admin-en.constant'),
     };
-    languageMap[lingua]().then((m) => (this.adminLang = m.adminLang));
-  }
-
-  ngOnInit(): void {
-    sottoscrizioneUtentiCustom({
-      authService: this.authService,
-      nextCall: () => this.mapUsersByRuolo(),
-    });
-
-    this.ruoli.forEach((ruolo: Ruolo) => {
-      this.userMapByRuolo[ruolo] = computed<UserParams[]>(
-        () => this.userMap()[ruolo] ?? [],
-      );
-    });
-  }
-
-  private mapUsersByRuolo(): void {
-    const users: UserParams[] = this.authService.users();
-    const newMap: Record<string, UserParams[]> = Object.create(null);
-
-    this.ruoli.forEach((ruolo: Ruolo) => (newMap[ruolo] = []));
-    users.forEach((user: UserParams) => newMap[user.ruolo].push(user));
-
-    if (this.user) {
-      const ruoloUtente: Ruolo = this.user.credenziali.ruolo;
-      const userConverted: UserParams = converUserParams(this.user);
-
-      if (newMap[ruoloUtente]) {
-        newMap[ruoloUtente].push(userConverted);
-      } else {
-        newMap[ruoloUtente] = [userConverted];
-      }
-    }
-
-    this.userMap.set(newMap);
-    this.loadedAdmin.set(true);
-  }
-
-  modificaRuolo(user: UserParams): void {
-    this.userEdit = user;
-    this.editAdmin.set(true);
-  }
-
-  eliminaRuolo(user: UserParams): void {
-    const userRuolo: CambioRuoloUtente = {
-      id: user.id,
-      vecchioRuolo: user.ruolo,
-      nuovoRuolo: Ruolo.user,
-    };
-
-    handlerFunc<void>({
-      callHttp: () => this.authService.updateRuoloUtente(user.id, Ruolo.user),
-      nextCall: () => this.ruoloModificato(userRuolo),
-    });
-  }
-
-  ruoloModificato(user: CambioRuoloUtente): void {
-    const globalUserIndex: number = this.authService
-      .users()
-      .findIndex((u: UserParams) => u.id === user.id);
-    if (globalUserIndex !== -1) {
-      const allUsers: UserParams[] = this.authService.users();
-      allUsers[globalUserIndex].ruolo = user.nuovoRuolo;
-      this.authService.users.set(allUsers);
-    }
-
-    this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
-      this.router.navigate(['/home/admin']);
-    });
+    languageMap[lingua]().then((m) => this.adminLang.set(m.adminLang));
   }
 }

@@ -10,21 +10,24 @@ import {
   WritableSignal,
 } from '@angular/core';
 import { Router } from '@angular/router';
-import { TabellaCustomComponent } from '../../../../../../../library/components/table/table.component';
-import { BadgeRuolo, Ruolo } from '../../../../../../shared/enums/users.enum';
+import { TabellaCustomComponent } from '../../../../../../../../../../library/components/table/table.component';
+import {
+  BadgeRuolo,
+  Ruolo,
+} from '../../../../../../../../../shared/enums/users.enum';
 import {
   User,
   UserParams,
-} from '../../../../../../shared/interfaces/users.interface';
-import { AuthService } from '../../../../../../shared/services/api/auth.service';
+} from '../../../../../../../../../shared/interfaces/users.interface';
+import { AuthService } from '../../../../../../../../../shared/services/api/auth.service';
 
-import { converUserParams } from '../../../../functions/home.functions';
-import { AdminLang } from '../languages/interfaces/admin-lang.interface';
+import { converUserParams } from '../../../../../../../functions/home.functions';
+import { AdminLang } from '../../../../languages/interfaces/admin-lang.interface';
 import {
   AzioniTabella,
   RecordColonne,
-} from '../../../../../../../library/interfaces/table.interface';
-import { TabsComponent } from '../../../../../../../library/components/tabs/tabs.component';
+} from '../../../../../../../../../../library/interfaces/table.interface';
+import { TabsComponent } from '../../../../../../../../../../library/components/tabs/tabs.component';
 
 @Component({
   selector: 'app-griglia-admin',

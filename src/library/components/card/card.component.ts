@@ -1,5 +1,6 @@
 import { NgTemplateOutlet } from '@angular/common';
 import {
+  ChangeDetectionStrategy,
   Component,
   computed,
   EventEmitter,
@@ -27,6 +28,7 @@ import { ButtonCustomComponent } from '../button/botton-custom.component';
 @Component({
   selector: 'app-card-custom',
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     PaginazioneCustomComponent,
     NgTemplateOutlet,
