@@ -17,14 +17,6 @@
       (clickTab)="perIniziale.set($event)"
     ></app-tabs-custom>
 
-    <!-- <app-icone-lista
-      class="pc-only"
-      [classNG]="perIniziale()"
-      [ngClass1]="'lista'"
-      [ngClass2]="'iniziale'"
-      (classNGChange)="perIniziale.set($event)"
-    ></app-icone-lista> -->
-
     @if (perIniziale() === "2") {
       @for (lettera of alfabeto; track lettera) {
         @if (mangaPerIniziale()[lettera].length > 0) {

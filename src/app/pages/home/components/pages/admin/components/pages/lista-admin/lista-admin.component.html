@@ -1,0 +1,56 @@
+@if (loadedAdmin()) {
+  <app-tabs-custom
+    [tipo]="'lista'"
+    (clickTab)="tabellaView.set($event)"
+  ></app-tabs-custom>
+
+  @if (tabellaView() === "1") {
+    <div class="elemento-centrato">
+      <app-table-custom
+        [titoloTabella]="adminLang.tuttiGliUtenti"
+        [elemTable]="allUSers"
+        [noElement]="adminLang.nessunUtente"
+        [elemForPage]="elemForAllPage"
+        [colonne]="colonneSingle"
+        [azioni]="pulsanti"
+        [recordBadge]="badgeRuolo"
+      ></app-table-custom>
+    </div>
+  } @else {
+    <div class="grid-card-layout" style="--card-width: 30rem">
+      @for (ruolo of ruoli; track $index) {
+        @if (userMapByRuolo[ruolo]().length > 0) {
+          <app-table-custom
+            [titoloTabella]="ruolo"
+            [elemTable]="userMapByRuolo[ruolo]"
+            [noElement]="adminLang.nessunUtente"
+            [elemForPage]="elemForPage[ruolo]"
+            [colonne]="colonne"
+            [azioni]="pulsanti"
+          ></app-table-custom>
+        }
+      }
+    </div>
+  }
+
+  @if (editUser()) {
+    <app-modal-custom
+      [title]="adminLang.modifica"
+      [showFooter]="true"
+      [secondaryButtonText]="adminLang.annulla"
+      [primaryButtonText]="adminLang.salva"
+      (primaryAction)="onSave()"
+      (secondaryAction)="editUser.set(null)"
+      (close)="editUser.set(null)"
+    >
+      <div bodyModal>
+        <app-form-custom
+          [visualizzaPulsanti]="false"
+          [strutturaForm]="strutturaForm"
+        ></app-form-custom>
+      </div>
+    </app-modal-custom>
+  }
+} @else {
+  <app-spinner [mt]="'10rem'"></app-spinner>
+}

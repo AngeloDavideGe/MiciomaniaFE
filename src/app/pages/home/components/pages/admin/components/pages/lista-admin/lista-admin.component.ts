@@ -6,15 +6,20 @@ import {
   OnInit,
   signal,
   Signal,
+  WritableSignal,
 } from '@angular/core';
 import { Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { FormCustomComponent } from '../../../../../../../../../library/components/form/form.component';
-import { ModalCustomComponent } from '../../../../../../../../../library/components/modal/modal.component';
-import { SpinnerComponent } from '../../../../../../../../../library/components/spinner/spinner.component';
 import { handlerFunc } from '../../../../../../../../../library/functions/handler.function';
 import { RecordStruttura } from '../../../../../../../../../library/interfaces/form.interface';
-import { Ruolo } from '../../../../../../../../shared/enums/users.enum';
+import {
+  AzioniTabella,
+  RecordColonne,
+} from '../../../../../../../../../library/interfaces/table.interface';
+import {
+  BadgeRuolo,
+  Ruolo,
+} from '../../../../../../../../shared/enums/users.enum';
 import { sottoscrizioneUtentiCustom } from '../../../../../../../../shared/handlers/auth.handler';
 import {
   User,
@@ -22,50 +27,14 @@ import {
 } from '../../../../../../../../shared/interfaces/users.interface';
 import { AuthService } from '../../../../../../../../shared/services/api/auth.service';
 import { converUserParams } from '../../../../../../functions/home.functions';
+import { listaAdmin_imports } from '../../../imports/lista-admin.imports';
 import { AdminLang } from '../../../languages/interfaces/admin-lang.interface';
-import { GrigliaAdminComponent } from './components/griglia-admin.component';
 
 @Component({
   selector: 'app-lista-admin',
   standalone: true,
-  imports: [
-    GrigliaAdminComponent,
-    SpinnerComponent,
-    ModalCustomComponent,
-    FormCustomComponent,
-  ],
-  template: `
-    @if (loadedAdmin()) {
-      <app-griglia-admin
-        [adminLang]="adminLang"
-        [user]="user"
-        [userMapByRuolo]="userMapByRuolo"
-        (eliminaRuolo)="eliminaRuolo($event)"
-        (modificaRuolo)="modificaRuolo($event)"
-      ></app-griglia-admin>
-
-      @if (editUser()) {
-        <app-modal-custom
-          [title]="adminLang.modifica"
-          [showFooter]="true"
-          [secondaryButtonText]="adminLang.annulla"
-          [primaryButtonText]="adminLang.salva"
-          (primaryAction)="onSave()"
-          (secondaryAction)="editUser.set(null)"
-          (close)="editUser.set(null)"
-        >
-          <div bodyModal>
-            <app-form-custom
-              [visualizzaPulsanti]="false"
-              [strutturaForm]="strutturaForm"
-            ></app-form-custom>
-          </div>
-        </app-modal-custom>
-      }
-    } @else {
-      <app-spinner [mt]="'10rem'"></app-spinner>
-    }
-  `,
+  imports: listaAdmin_imports,
+  templateUrl: './lista-admin.component.html',
 })
 export class ListaAdminComponent implements OnInit {
   public authService = inject(AuthService);
@@ -77,6 +46,82 @@ export class ListaAdminComponent implements OnInit {
   public userMapByRuolo: Record<string, Signal<UserParams[]>> = {};
   public loadedAdmin = signal<boolean>(false);
   public strutturaForm: RecordStruttura = {};
+  public tabellaView = signal<string>('1');
+  public elemForAllPage = signal<number>(5);
+
+  public elemForPage = this.ruoli.reduce(
+    (acc, ruolo) => {
+      acc[ruolo] = signal<number>(5);
+      return acc;
+    },
+    {} as Record<Ruolo, WritableSignal<number>>,
+  );
+
+  public allUSers = computed<UserParams[]>(() => {
+    const others: UserParams[] = this.authService.users();
+
+    if (this.user) {
+      return [converUserParams(this.user), ...others];
+    } else {
+      return others;
+    }
+  });
+
+  public readonly badgeRuolo: Record<Ruolo, string> = BadgeRuolo;
+
+  public readonly colonne: Partial<RecordColonne<UserParams>> = {
+    nome: {
+      titolo: 'Nome',
+      lunghezza: '10rem',
+      sortCol: true,
+    },
+    id: {
+      titolo: 'ID',
+      lunghezza: '10rem',
+      sortCol: true,
+    },
+  };
+
+  public readonly colonneSingle: Partial<RecordColonne<UserParams>> = {
+    ...this.colonne,
+    ruolo: {
+      titolo: 'Ruolo',
+      lunghezza: '7rem',
+      sortCol: true,
+      formatCell: (value: Ruolo) =>
+        value.charAt(0).toUpperCase() + value.slice(1).toLowerCase(),
+    },
+  };
+
+  public pulsanti: AzioniTabella<UserParams>[] = [
+    {
+      icona: 'bi bi-person-circle',
+      titolo: 'this.adminLang.vediProfilo',
+      azione: (user: UserParams) => {
+        this.router.navigate(['/posts/profilo', user.id], {
+          state: { message: 'TableUserParams' },
+        });
+      },
+    },
+    {
+      icona: 'bi bi-pencil-square',
+      titolo: 'this.adminLang.modifica',
+      azione: (user: UserParams) => {
+        if (this.controlliCustom('modificare', user) == 0) {
+          this.modificaRuolo(user);
+        }
+      },
+    },
+    {
+      icona: 'bi bi-trash3',
+      titolo: 'this.adminLang.elimina',
+      azione: (user: UserParams) => {
+        if (this.controlliCustom('eliminare', user) == 0) {
+          this.eliminaRuolo(user);
+        }
+      },
+    },
+  ];
 
   @Input() adminLang!: AdminLang;
   @Input() user: User | null = null;
@@ -173,6 +218,21 @@ export class ListaAdminComponent implements OnInit {
     this.authService.users.update((x: UserParams[]) =>
       x.map((y: UserParams) => (y.id == user.id ? user : y)),
     );
+    this.mapUsersByRuolo();
     this.editUser.set(null);
+  }
+
+  private controlliCustom(str: string, user: UserParams): number {
+    if (!this.user || this.user.credenziali.ruolo !== Ruolo.miciomane) {
+      alert(`Non hai i permessi per ${str} questo ruolo.`);
+      return -1;
+    }
+
+    if (user.id == this.user.id) {
+      alert(`Non puoi ${str} il tuo ruolo.`);
+      return -1;
+    }
+
+    return 0;
   }
 }

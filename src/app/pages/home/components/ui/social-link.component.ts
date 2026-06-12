@@ -32,10 +32,7 @@ import { GitHubService } from '../../../../shared/services/api/github.service';
                   ></i>
                   <div
                     (click)="openLink(s.link)"
-                    style="
-                  cursor: pointer;
-                  color: var(--text-color);
-                "
+                    style="cursor: pointer; color: var(--text-color);"
                     onmouseover="this.style.color='var(--text-secondary)'"
                     onmouseout="this.style.color='var(--text-color)'"
                   >
