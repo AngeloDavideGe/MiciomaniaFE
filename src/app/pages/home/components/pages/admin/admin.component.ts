@@ -15,12 +15,17 @@ import {
   template: `
     <app-custom-navbar></app-custom-navbar>
 
-    <app-lista-admin [adminLang]="adminLang()" [user]="user"></app-lista-admin>
+    @if (adminLang()) {
+      <app-lista-admin
+        [adminLang]="adminLang()!"
+        [user]="user"
+      ></app-lista-admin>
+    }
   `,
 })
 export class AdminComponent {
   public user: User | null = DataHttp.user();
-  public adminLang = signal<AdminLang>({} as AdminLang);
+  public adminLang = signal<AdminLang | null>(null);
 
   constructor() {
     const lingua: Lingua = DataHttp.lingua();

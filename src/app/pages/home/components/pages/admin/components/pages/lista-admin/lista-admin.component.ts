@@ -93,35 +93,7 @@ export class ListaAdminComponent implements OnInit {
     },
   };
 
-  public pulsanti: AzioniTabella<UserParams>[] = [
-    {
-      icona: 'bi bi-person-circle',
-      titolo: 'this.adminLang.vediProfilo',
-      azione: (user: UserParams) => {
-        this.router.navigate(['/posts/profilo', user.id], {
-          state: { message: 'TableUserParams' },
-        });
-      },
-    },
-    {
-      icona: 'bi bi-pencil-square',
-      titolo: 'this.adminLang.modifica',
-      azione: (user: UserParams) => {
-        if (this.controlliCustom('modificare', user) == 0) {
-          this.modificaRuolo(user);
-        }
-      },
-    },
-    {
-      icona: 'bi bi-trash3',
-      titolo: 'this.adminLang.elimina',
-      azione: (user: UserParams) => {
-        if (this.controlliCustom('eliminare', user) == 0) {
-          this.eliminaRuolo(user);
-        }
-      },
-    },
-  ];
+  public pulsanti: AzioniTabella<UserParams>[] = [];
 
   @Input() adminLang!: AdminLang;
   @Input() user: User | null = null;
@@ -137,6 +109,42 @@ export class ListaAdminComponent implements OnInit {
         () => this.userMap()[ruolo] ?? [],
       );
     });
+
+    this.pulsanti = [
+      {
+        icona: 'bi bi-person-circle',
+        titolo: this.adminLang.vediProfilo,
+        azione: (user: UserParams) => {
+          this.router.navigate(['/posts/profilo', user.id], {
+            state: { message: 'TableUserParams' },
+          });
+        },
+      },
+      {
+        icona: 'bi bi-pencil-square',
+        titolo: this.adminLang.modifica,
+        azione: (user: UserParams) => {
+          if (this.controlliCustom('modificare', user) == 0) {
+            this.modificaRuolo(user);
+          }
+        },
+      },
+      {
+        icona: 'bi bi-trash3',
+        titolo: this.adminLang.elimina || 'Elimina',
+        azione: (user: UserParams) => {
+          if (this.controlliCustom('eliminare', user) == 0) {
+            user.ruolo = Ruolo.user;
+
+            handlerFunc<void>({
+              callHttp: () =>
+                this.authService.updateRuoloUtente(user.id, Ruolo.user),
+              nextCall: () => this.nextEditUser(user),
+            });
+          }
+        },
+      },
+    ];
   }
 
   private mapUsersByRuolo(): void {
@@ -161,15 +169,6 @@ export class ListaAdminComponent implements OnInit {
 
     this.userMap.set(newMap);
     this.loadedAdmin.set(true);
-  }
-
-  eliminaRuolo(user: UserParams): void {
-    user.ruolo = Ruolo.user;
-
-    handlerFunc<void>({
-      callHttp: () => this.authService.updateRuoloUtente(user.id, Ruolo.user),
-      nextCall: () => this.nextEditUser(user),
-    });
   }
 
   modificaRuolo(user: UserParams): void {
