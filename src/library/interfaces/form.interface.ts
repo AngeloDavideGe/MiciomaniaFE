@@ -5,6 +5,8 @@ export type RecordStrutturaMultiForm = Record<string, StrutturaMultiForm>;
 export interface StrutturaMultiForm {
   nome: string;
   struttura: RecordStruttura;
+  tipo?: 'group' | 'array';
+  initialArray?: Record<string, any>[];
 }
 
 export type RecordStruttura = Record<string, StrutturaForm>;

@@ -44,10 +44,13 @@ export class ListaAdminComponent implements OnInit {
   public ruoli = Object.values(Ruolo);
   public userMap = signal<Record<string, UserParams[]>>({});
   public userMapByRuolo: Record<string, Signal<UserParams[]>> = {};
+  public pulsanti: AzioniTabella<UserParams>[] = [];
   public loadedAdmin = signal<boolean>(false);
   public strutturaForm: RecordStruttura = {};
   public tabellaView = signal<string>('1');
   public elemForAllPage = signal<number>(5);
+
+  public readonly badgeRuolo: Record<Ruolo, string> = BadgeRuolo;
 
   public elemForPage = this.ruoli.reduce(
     (acc, ruolo) => {
@@ -66,8 +69,6 @@ export class ListaAdminComponent implements OnInit {
       return others;
     }
   });
-
-  public readonly badgeRuolo: Record<Ruolo, string> = BadgeRuolo;
 
   public readonly colonne: Partial<RecordColonne<UserParams>> = {
     nome: {
@@ -92,8 +93,6 @@ export class ListaAdminComponent implements OnInit {
         value.charAt(0).toUpperCase() + value.slice(1).toLowerCase(),
     },
   };
-
-  public pulsanti: AzioniTabella<UserParams>[] = [];
 
   @Input() adminLang!: AdminLang;
   @Input() user: User | null = null;
@@ -131,7 +130,7 @@ export class ListaAdminComponent implements OnInit {
       },
       {
         icona: 'bi bi-trash3',
-        titolo: this.adminLang.elimina || 'Elimina',
+        titolo: this.adminLang.elimina,
         azione: (user: UserParams) => {
           if (this.controlliCustom('eliminare', user) == 0) {
             user.ruolo = Ruolo.user;

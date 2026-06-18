@@ -4,8 +4,6 @@ export interface ProfiloLang {
   tornaIndietro: string;
   // New Tweet
   nuovoTweet: string;
-  // Edit Profilo
-  modificaProfilo: string;
   // Tab Social
   salva: string;
   chiudi: string;

@@ -81,16 +81,6 @@ import { ProfiloLang } from '../languages/interfaces/profilo-lang.interface';
               {{ profilo.user.id }}
             </p>
           </div>
-          <!-- Pulsante Modifica Profilo -->
-          @if (profiloPersonale) {
-            <button
-              class="btn btn-sm button-profilo"
-              (click)="modaleAperta.emit('edit-profilo')"
-              title="Modifica dati profilo"
-            >
-              ✏️
-            </button>
-          }
         </div>
 
         <p class="mt-3" style="font-size: 16px; color: var(--text-color)">

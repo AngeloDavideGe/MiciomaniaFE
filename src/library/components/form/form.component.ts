@@ -38,18 +38,30 @@ export class FormCustomComponent implements OnInit, OnDestroy {
 
   @Input() strutturaForm!: RecordStruttura;
   @Input() visualizzaPulsanti: boolean = true;
+  @Input() formGroup?: FormGroup;
 
   @Output() invioDati = new EventEmitter<any>();
   @Output() subscribeForm = new EventEmitter<any>();
   @Output() formValido = new EventEmitter<boolean>();
 
   ngOnInit(): void {
+    if (this.formGroup) {
+      this.form = this.formGroup;
+
+      this.keys = Object.keys(this.strutturaForm);
+      this.arrayForm = this.keys.map((x: string) => this.strutturaForm[x]);
+
+      return;
+    }
+
     this.keys = Object.keys(this.strutturaForm);
+
     this.arrayForm = this.keys.map((x: string) => this.strutturaForm[x]);
 
     this.form = this.formBuilder.group(
       this.keys.reduce((acc: BuildInterface, key: string) => {
         const field: StrutturaForm = this.strutturaForm[key];
+
         acc[key] = [field.valueInit || '', field.validators];
 
         return acc;

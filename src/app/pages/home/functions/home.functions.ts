@@ -66,16 +66,16 @@ export function getCardsHome(router: Router, canzoneFunc: Function): iCard[] {
 
 export function pagineHome(): RaggioPage[] {
   return [
+    // {
+    //   width: 1376,
+    //   raggio: 4,
+    // },
     {
-      width: 1376,
-      raggio: 4,
-    },
-    {
-      width: 1030,
+      width: 1200,
       raggio: 3,
     },
     {
-      width: 688,
+      width: 768,
       raggio: 2,
     },
     {

@@ -17,6 +17,7 @@
           <app-multi-form
             [strutturaForm]="strutturaForm()"
             (formValido)="formValido.set($event)"
+            (subscribeForm)="aggiornaUserForm($event)"
             [visualizzaPulsanti]="false"
           ></app-multi-form>
         }

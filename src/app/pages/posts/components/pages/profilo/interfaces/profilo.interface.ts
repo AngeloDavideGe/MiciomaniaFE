@@ -3,4 +3,4 @@ export interface EditableSocial {
   link: string;
 }
 
-export type modaleApertaType = 'new-tweet' | 'edit-profilo' | 'change-pic' | '';
+export type modaleApertaType = 'new-tweet' | 'change-pic' | '';

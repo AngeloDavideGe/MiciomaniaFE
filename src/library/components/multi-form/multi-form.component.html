@@ -1,20 +1,59 @@
 <form [formGroup]="form" (ngSubmit)="onSubmit()" class="multi-form">
   @for (key of keys; track key) {
     <section class="multi-form-section">
-      <div class="section-header">
+      <div
+        style="cursor: pointer"
+        class="section-header"
+        (click)="changeOpenForm(strutturaForm[key].nome)"
+      >
         <h2 class="section-title">
           {{ strutturaForm[key].nome }}
         </h2>
       </div>
 
-      <div class="section-body" [formGroupName]="key">
-        <app-form-custom
-          [strutturaForm]="strutturaForm[key].struttura"
-          [visualizzaPulsanti]="false"
-          [formGroup]="getFormGroup(key)"
-          (subscribeForm)="onSectionFormChange(key, $event)"
-        ></app-form-custom>
-      </div>
+      <section
+        [ngStyle]="{
+          display:
+            selectedForm() !== strutturaForm[key].nome ? 'none' : 'block',
+        }"
+      >
+        @if (!isArraySection(key)) {
+          <div class="section-body" [formGroupName]="key">
+            <app-form-custom
+              [strutturaForm]="strutturaForm[key].struttura"
+              [visualizzaPulsanti]="false"
+              [formGroup]="getFormGroup(key)"
+              (subscribeForm)="onSectionFormChange(key, $event)"
+            >
+            </app-form-custom>
+          </div>
+        } @else {
+          <div class="section-body">
+            @for (control of getFormArray(key).controls; track $index) {
+              <div class="array-item">
+                <app-form-custom
+                  [strutturaForm]="strutturaForm[key].struttura"
+                  [visualizzaPulsanti]="false"
+                  [formGroup]="getArrayFormGroup(key, $index)"
+                >
+                </app-form-custom>
+
+                <button
+                  type="button"
+                  class="btn-remove"
+                  (click)="removeArrayItem(key, $index)"
+                >
+                  Elimina
+                </button>
+              </div>
+            }
+
+            <button type="button" class="btn-add" (click)="addArrayItem(key)">
+              Aggiungi elemento
+            </button>
+          </div>
+        }
+      </section>
     </section>
   }
 

@@ -102,5 +102,29 @@ export function getStrutturaForm(
         },
       },
     },
+    social: {
+      nome: 'Social',
+      tipo: 'array',
+      initialArray: user.profile.social
+        ? Object.entries(user.profile.social).map(([titolo, url]) => ({
+            titolo,
+            url,
+          }))
+        : [],
+      struttura: {
+        titolo: {
+          titolo: 'Nome social',
+          tipo: 'Text',
+          validators: [Validators.required],
+          errorMessage: 'Inserisci il nome del social',
+        },
+        url: {
+          titolo: 'URL',
+          tipo: 'Text',
+          validators: [Validators.required],
+          errorMessage: 'Inserisci un URL valido',
+        },
+      },
+    },
   };
 }

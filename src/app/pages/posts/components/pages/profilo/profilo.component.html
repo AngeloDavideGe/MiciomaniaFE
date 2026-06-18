@@ -42,22 +42,6 @@
       </app-modal-custom>
     }
 
-    @case ("edit-profilo") {
-      <app-modal-custom
-        [title]="profiloLang.modificaProfilo"
-        (close)="modaleAperta = ''; loadSocial()"
-      >
-        <div bodyModal>
-          <div tabContent>
-            <tab-social-profilo
-              [profiloLang]="profiloLang"
-              [user]="profilo.user"
-            ></tab-social-profilo>
-          </div>
-        </div>
-      </app-modal-custom>
-    }
-
     @case ("change-pic") {
       <app-modal-custom
         [title]="profiloLang.modificaImmagine"

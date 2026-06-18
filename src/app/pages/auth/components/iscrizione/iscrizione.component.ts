@@ -14,6 +14,7 @@ import { getStrutturaForm } from './constants/iscrizione-form.constant';
 import { iscrizione_imports } from './imports/iscrizione.import';
 import { RecordStrutturaMultiForm } from '../../../../../library/interfaces/form.interface';
 import { handlerFunc } from '../../../../../library/functions/handler.function';
+import { debounceTimeoutCustom } from '../../../../../library/functions/debounce.function';
 
 @Component({
   selector: 'app-iscrizione',
@@ -29,7 +30,7 @@ export class IscrizioneComponent {
   public currentStep = signal<string>('1');
   public formValido = signal<boolean>(false);
   public lineeGuidaAccettate = signal<boolean>(false);
-  public user: User = DataHttp.user()!;
+  public user: User = structuredClone(DataHttp.user()!);
 
   public squadreInGame = computed<Squadre[]>(
     () => this.squadreService.classifica().squadre,
@@ -56,6 +57,33 @@ export class IscrizioneComponent {
       color: '#75FF33',
     },
   ];
+
+  public aggiornaUserForm: Function = debounceTimeoutCustom((user: any) => {
+    this.user = {
+      id: this.user.id,
+      credenziali: {
+        ...this.user.credenziali,
+        ...user.credenziali,
+      },
+      iscrizione: {
+        ...this.user.iscrizione,
+        ...user.iscrizione,
+      },
+      profile: {
+        ...this.user.profile,
+        ...user.profile,
+        social: (user.social ?? []).reduce(
+          (acc: Record<string, string>, item: any) => {
+            if (item?.titolo && item?.url) {
+              acc[item.titolo] = item.url;
+            }
+            return acc;
+          },
+          {} as Record<string, string>,
+        ),
+      },
+    };
+  });
 
   public disableNext = computed<boolean>(() => {
     const current: string = this.currentStep();

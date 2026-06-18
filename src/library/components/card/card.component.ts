@@ -121,11 +121,19 @@ export class CardCustomComponent implements OnInit {
 
 const defaultArrayPags: RaggioPage[] = [
   {
-    width: 1700,
+    width: 2384,
+    raggio: 7,
+  },
+  {
+    width: 2040,
+    raggio: 6,
+  },
+  {
+    width: 1696,
     raggio: 5,
   },
   {
-    width: 1400,
+    width: 1352,
     raggio: 4,
   },
   {

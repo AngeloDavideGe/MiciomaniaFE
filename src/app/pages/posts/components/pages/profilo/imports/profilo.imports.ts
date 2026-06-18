@@ -5,7 +5,6 @@ import { CustomNavBarComponent } from '../../../../../../../library/components/n
 import { SpinnerComponent } from '../../../../../../../library/components/spinner/spinner.component';
 import { CardProfiloComponent } from '../components/card-profilo.component';
 import { SezioneTweetComponent } from '../components/sezione-tweet.component';
-import { TabSocialComponent } from '../components/tab-social.component';
 
 export const profilo_imports: Type<any>[] = [
   CardProfiloComponent,
@@ -13,6 +12,5 @@ export const profilo_imports: Type<any>[] = [
   CustomNavBarComponent,
   SpinnerComponent,
   ModalCustomComponent,
-  TabSocialComponent,
   FormCustomComponent,
 ];

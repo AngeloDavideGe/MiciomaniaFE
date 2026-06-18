@@ -4,8 +4,6 @@ export const profiloLang: ProfiloLang = {
   tornaIndietro: 'Torna indietro',
   // New Tweet
   nuovoTweet: 'Nuovo Tweet',
-  // Edit Profilo
-  modificaProfilo: 'Modifica profilo',
   // Tab Social
   salva: 'Salva',
   chiudi: 'Chiudi',
