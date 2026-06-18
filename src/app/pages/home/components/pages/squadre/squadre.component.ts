@@ -14,10 +14,12 @@ import { ChatService } from '../../../../../core/components/chat/services/chat.s
 import {
   Conquiste,
   GitHubType,
-  MN,
 } from '../../../../../shared/interfaces/github.interface';
 import { Lingua } from '../../../../../shared/interfaces/http.interface';
-import { Classifica } from '../../../../../shared/interfaces/squadre.interface';
+import {
+  Classifica,
+  MN,
+} from '../../../../../shared/interfaces/squadre.interface';
 import { GitHubService } from '../../../../../shared/services/api/github.service';
 import { SquadreService } from '../../../../../shared/services/api/squadre.service';
 import { PATH_MUSCOLI } from './constants/path-muscoli.constant';
@@ -27,6 +29,7 @@ import {
   SquadreLang,
   SquadreLangType,
 } from './languages/interfaces/squadre-lang.interface';
+import { MNService } from '../../../../../shared/services/api/mn.service';
 
 type componentType = 'Squadre' | 'print' | 'Mappa' | 'Muscoli' | 'M-N';
 
@@ -40,6 +43,7 @@ export class SquadreComponent implements OnInit, AfterViewInit {
   private chatService = inject(ChatService);
   public githubService = inject(GitHubService);
   public squadreService = inject(SquadreService);
+  public mnService = inject(MNService);
 
   public squadreLang: SquadreLang = {} as SquadreLang;
   public bottoniNavbar: NavBarButton[] = this.loadButton();
@@ -112,19 +116,14 @@ export class SquadreComponent implements OnInit, AfterViewInit {
   }
 
   private loadMN(): void {
-    handlerFunc<GitHubType>({
-      skipCall: this.githubService.mnLoaded,
-      callHttp: () =>
-        this.githubService.getGistFormGithub(
-          'AngeloDavideGe',
-          '797ad9d22d6c2401fcaabfda1c6d870f',
-          'MeN.json',
-        ),
-      nextCall: (data: GitHubType) => this.githubService.mn.set(data as MN[]),
-      errorCall: () => (this.githubService.mnLoaded = false),
+    handlerFunc<MN[]>({
+      skipCall: this.mnService.mnLoaded,
+      callHttp: () => this.mnService.getMN(),
+      nextCall: (data: MN[]) => this.mnService.mn.set(data),
+      errorCall: () => (this.mnService.mnLoaded = false),
     });
 
-    this.githubService.mnLoaded = true;
+    this.mnService.mnLoaded = true;
   }
 
   private loadButton(): NavBarButton[] {

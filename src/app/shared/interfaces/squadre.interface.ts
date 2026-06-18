@@ -15,3 +15,11 @@ export interface Giocatori {
   punteggio: number;
   squadra: string;
 }
+
+export interface MN {
+  valore: string | number;
+  descrizione: string;
+  consiglio: string;
+  esempi: string[];
+  colore: string;
+}

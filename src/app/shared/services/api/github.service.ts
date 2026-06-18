@@ -3,8 +3,6 @@ import { from, Observable } from 'rxjs';
 import {
   Conquiste,
   GitHubType,
-  Mappa,
-  MN,
   Social,
 } from '../../interfaces/github.interface';
 
@@ -13,11 +11,9 @@ import {
 })
 export class GitHubService {
   public social = signal<Social[]>([]);
-  public mn = signal<MN[]>([]);
   public conquiste = signal<Conquiste | null>(null);
 
   public socialLoaded: boolean = false;
-  public mnLoaded: boolean = false;
   public conquisteLoaded: boolean = false;
 
   getGistFormGithub(

@@ -3,7 +3,7 @@ import { SpinnerComponent } from '../../../../../../../library/components/spinne
 import { TabellaCustomComponent } from '../../../../../../../library/components/table/table.component';
 import { handlerFunc } from '../../../../../../../library/functions/handler.function';
 import { RecordColonne } from '../../../../../../../library/interfaces/table.interface';
-import { formatOnlyDate } from '../../../../../../../library/pipes/date-format.pipe';
+import { dateFormat } from '../../../../../../../library/pipes/date-format.pipe';
 import { Interazione } from '../interfaces/interazioni.interface';
 import { InterazioniService } from '../services/interazioni.service';
 
@@ -58,7 +58,7 @@ export class AllPokeComponent implements OnInit {
       titolo: 'Ultimo Invio',
       lunghezza: '10rem',
       sortCol: true,
-      formatCell: (value: Date) => formatOnlyDate(value, 'dd mmmm yyyy'),
+      formatCell: (value: Date) => dateFormat(value, 'dd mmmm yyyy'),
     },
     conteggio: {
       titolo: 'Conteggio',

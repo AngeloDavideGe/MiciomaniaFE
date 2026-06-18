@@ -1,4 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
+import { mesi } from '../constants/utility.constant';
 
 type DateFormatType = 'dd mmmm yyyy' | 'dd/mm/yyyy';
 
@@ -11,11 +12,11 @@ export class DateFormatPipe implements PipeTransform {
     value: Date | string | null | undefined,
     format: DateFormatType = 'dd mmmm yyyy',
   ): string {
-    return formatOnlyDate(value, format);
+    return dateFormat(value, format);
   }
 }
 
-export function formatOnlyDate(
+export function dateFormat(
   value: Date | string | null | undefined,
   format: DateFormatType = 'dd mmmm yyyy',
 ): string {
@@ -28,21 +29,6 @@ export function formatOnlyDate(
   const giorni: number = date.getDate();
   const meseIndex: number = date.getMonth();
   const anno: number = date.getFullYear();
-
-  const mesi: string[] = [
-    'gennaio',
-    'febbraio',
-    'marzo',
-    'aprile',
-    'maggio',
-    'giugno',
-    'luglio',
-    'agosto',
-    'settembre',
-    'ottobre',
-    'novembre',
-    'dicembre',
-  ];
 
   switch (format) {
     case 'dd/mm/yyyy':
