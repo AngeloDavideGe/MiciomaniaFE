@@ -1,4 +1,11 @@
-import { Component, effect, EventEmitter, Output, signal } from '@angular/core';
+import {
+  Component,
+  effect,
+  EventEmitter,
+  Input,
+  Output,
+  signal,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CheckBoxCustomComponent } from '../../../../../../library/components/checkbox/checkbox.component';
 import { ICheckBox } from '../../../../../../library/interfaces/form.interface';
@@ -119,8 +126,6 @@ import { User } from '../../../../../shared/interfaces/users.interface';
 export class Step3Component {
   public lineeGuidaAccettate = signal<boolean>(false);
 
-  public user: User = DataHttp.user()!;
-
   public lineeGuida: ICheckBox[] = [
     {
       testo:
@@ -137,11 +142,10 @@ export class Step3Component {
     },
   ];
 
+  @Input() user!: User;
   @Output() lineeGuidaEvent = new EventEmitter<boolean>();
 
   constructor() {
     effect(() => this.lineeGuidaEvent.emit(this.lineeGuidaAccettate()));
   }
-
-  protected readonly objectKeys = Object.keys;
 }
