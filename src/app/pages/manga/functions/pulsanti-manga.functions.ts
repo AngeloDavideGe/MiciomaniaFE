@@ -1,7 +1,6 @@
 import { iTab } from '../../../../library/components/tabs/tabs.component';
 import { NavBarButton } from '../../../../library/interfaces/navbar.interface';
 import { DataHttp } from '../../../core/api/http.data';
-import { TuoiMangaLang } from '../components/pages/tuoi-manga/languages/interfaces/tuoiManga-lang.interface';
 
 export function getTabsManga(clickCalls: Function): iTab[] {
   return [
@@ -26,26 +25,23 @@ export function getTabsManga(clickCalls: Function): iTab[] {
   ];
 }
 
-export function getTabsTuoiManga(
-  clickCalls: Function,
-  lang: TuoiMangaLang,
-): iTab[] {
+export function getTabsTuoiManga(clickCalls: Function): iTab[] {
   return [
     {
       id: 'preferiti',
-      label: '⭐ ' + lang.preferiti,
+      label: '⭐ Preferiti',
       color: '#6c5ce7',
       azione: clickCalls('preferiti'),
     },
     {
       id: 'leggendo',
-      label: '📖 ' + lang.leggendo,
+      label: '📖 Leggendo',
       color: '#00b894',
       azione: clickCalls('letti'),
     },
     {
       id: 'completati',
-      label: '✅ ' + lang.completati,
+      label: '✅ Completati',
       color: '#e84393',
       azione: clickCalls('completati'),
     },

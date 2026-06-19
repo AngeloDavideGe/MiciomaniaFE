@@ -15,7 +15,6 @@ import {
   EditableSocial,
   modaleApertaType,
 } from '../interfaces/profilo.interface';
-import { ProfiloLang } from '../languages/interfaces/profilo-lang.interface';
 
 @Component({
   selector: 'app-card-profilo',
@@ -84,7 +83,7 @@ import { ProfiloLang } from '../languages/interfaces/profilo-lang.interface';
         </div>
 
         <p class="mt-3" style="font-size: 16px; color: var(--text-color)">
-          {{ profilo.user.profile.bio || profiloLang.noBio }}
+          {{ profilo.user.profile.bio || 'Nessuna Bio' }}
         </p>
         <div
           class="d-flex mb-3"
@@ -97,8 +96,10 @@ import { ProfiloLang } from '../languages/interfaces/profilo-lang.interface';
           }
           @if (profilo.user.profile.compleanno) {
             <span class="me-3">
-              {{ profiloLang.natoIl }}
-              {{ profilo.user.profile.compleanno | date: 'dd/MM/yyyy' }}
+              {{
+                'Nato il ' +
+                  (profilo.user.profile.compleanno | date: 'dd/MM/yyyy')
+              }}
             </span>
           }
         </div>
@@ -146,7 +147,6 @@ export class CardProfiloComponent {
   public readonly defaultImg: string =
     this.appConfig.config.defaultPicsUrl.user;
 
-  @Input() profiloLang!: ProfiloLang;
   @Input() socialArray!: EditableSocial[];
   @Input() profilo!: Profilo;
   @Input() spinnerTemplate!: TemplateRef<any>;

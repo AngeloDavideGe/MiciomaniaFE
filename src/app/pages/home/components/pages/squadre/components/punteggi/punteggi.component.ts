@@ -5,7 +5,6 @@ import {
   Giocatori,
   Squadre,
 } from '../../../../../../../shared/interfaces/squadre.interface';
-import { SquadreLang } from '../../languages/interfaces/squadre-lang.interface';
 import { punteggi_imports } from './imports/punteggi.import';
 
 @Component({
@@ -14,10 +13,7 @@ import { punteggi_imports } from './imports/punteggi.import';
   template: `
     @if (classifica().squadre.length > 0) {
       <div class="rounded-3">
-        <app-lista-squadre
-          [squadreLang]="squadreLang"
-          [classifica]="classifica()"
-        ></app-lista-squadre>
+        <app-lista-squadre [classifica]="classifica()"></app-lista-squadre>
 
         <app-tabs-custom
           [tipo]="'lista'"
@@ -72,7 +68,6 @@ export class PunteggiComponent {
     squadre: signal<number>(5),
   };
 
-  @Input() squadreLang!: SquadreLang;
   @Output() captureElement = new EventEmitter<void>();
 
   @Input() set setClassifica(classific: Classifica) {

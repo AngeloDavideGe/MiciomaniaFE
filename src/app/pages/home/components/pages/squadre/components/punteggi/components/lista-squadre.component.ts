@@ -1,10 +1,9 @@
-import { Component, inject, signal, Input } from '@angular/core';
+import { Component, inject, Input, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import {
-  Squadre,
   Classifica,
+  Squadre,
 } from '../../../../../../../../shared/interfaces/squadre.interface';
-import { SquadreLang } from '../../../languages/interfaces/squadre-lang.interface';
 
 @Component({
   selector: 'app-lista-squadre',
@@ -15,10 +14,10 @@ import { SquadreLang } from '../../../languages/interfaces/squadre-lang.interfac
     <div class="row mb-4">
       <div class="col-12 text-center">
         <h2 class="display-6 fw-bold mb-2" style="color: var(--primary-color);">
-          {{ squadreLang.andamento }}
+          {{ 'Andamento' }}
         </h2>
         <p class="lead mb-0" style="color: var(--text-secondary);">
-          {{ squadreLang.aggiornamento }}
+          {{ 'Aggiornamento' }}
         </p>
       </div>
     </div>
@@ -50,7 +49,6 @@ export class ListaSquadreComponent {
   public router = inject(Router);
   public teamSquadre = signal<Squadre[]>([]);
 
-  @Input() squadreLang!: SquadreLang;
   @Input() set classifica(value: Classifica) {
     if (value) {
       this.teamSquadre.set(value.squadre);

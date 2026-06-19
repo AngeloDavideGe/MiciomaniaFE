@@ -8,7 +8,6 @@
 @switch (component()) {
   @case ("Squadre") {
     <app-punteggi-component
-      [squadreLang]="squadreLang"
       [setClassifica]="classifica()"
       (captureElement)="captureElement()"
     ></app-punteggi-component>
@@ -34,6 +33,6 @@
     <app-chart-print [classifica]="classifica()"></app-chart-print>
   }
   @case ("M-N") {
-    <app-m-n [squadreLang]="squadreLang" [setMN]="mnService.mn()"></app-m-n>
+    <app-m-n [setMN]="mnService.mn()"></app-m-n>
   }
 }

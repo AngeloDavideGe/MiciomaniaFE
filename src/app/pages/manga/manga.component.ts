@@ -11,8 +11,12 @@ import { NavigationEnd, Router } from '@angular/router';
 import { filter, map, Observable, startWith, tap } from 'rxjs';
 import { DataHttp } from '../../core/api/http.data';
 
-import { Lingua, MangaUtente } from '../../shared/interfaces/http.interface';
+import { iTab } from '../../../library/components/tabs/tabs.component';
+import { compareObjectCustom } from '../../../library/functions/confronto.function';
+import { effectTimeoutCustom } from '../../../library/functions/debounce.function';
 import { GetFiltriCustom } from '../../../library/functions/pagination.function';
+import { NavBarButton } from '../../../library/interfaces/navbar.interface';
+import { MangaUtente } from '../../shared/interfaces/http.interface';
 import { alfabetoManga } from './constants/alfabeto.constant';
 import { generiManga } from './constants/genere.constant';
 import {
@@ -26,10 +30,6 @@ import {
 import { manga_imports } from './imports/manga.imports';
 import { ListaManga } from './interfaces/manga.interface';
 import { MangaService } from './services/manga.service';
-import { NavBarButton } from '../../../library/interfaces/navbar.interface';
-import { effectTimeoutCustom } from '../../../library/functions/debounce.function';
-import { compareObjectCustom } from '../../../library/functions/confronto.function';
-import { iTab } from '../../../library/components/tabs/tabs.component';
 
 @Component({
   selector: 'app-manga',

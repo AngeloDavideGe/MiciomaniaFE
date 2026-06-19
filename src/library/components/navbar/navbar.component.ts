@@ -42,7 +42,7 @@ export class CustomNavBarComponent {
   public goHomeButton = computed<TornaIndietro>(
     () =>
       this.tornaIndietro || {
-        title: DataHttp.lingua() === 'it' ? 'Torna alla Home' : 'Go to Home',
+        title: 'Torna alla Home',
         path: '/home',
       },
   );

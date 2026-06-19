@@ -7,7 +7,6 @@
         ></app-custom-navbar>
 
         <app-card-profilo
-          [profiloLang]="profiloLang"
           [profilo]="profilo"
           [profiloPersonale]="profiloPersonale"
           [socialArray]="socialArray"
@@ -28,10 +27,7 @@
 
   @switch (modaleAperta) {
     @case ("new-tweet") {
-      <app-modal-custom
-        [title]="profiloLang.nuovoTweet"
-        (close)="modaleAperta = ''"
-      >
+      <app-modal-custom [title]="'Nuovo Tweet'" (close)="modaleAperta = ''">
         <div bodyModal>
           <app-form-custom
             [strutturaForm]="newTweetForm"
@@ -44,8 +40,8 @@
 
     @case ("change-pic") {
       <app-modal-custom
-        [title]="profiloLang.modificaImmagine"
-        [subtitle]="profiloLang.caricaImmagineProfilo"
+        [title]="'Modifica Immagine'"
+        [subtitle]="'Carica una nuova immagine'"
         [width]="'sm'"
         [showFooter]="false"
         (close)="modaleAperta = ''; this.newProfilePic.set(null)"

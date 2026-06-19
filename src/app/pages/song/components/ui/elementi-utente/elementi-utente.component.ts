@@ -3,7 +3,6 @@ import { Router } from '@angular/router';
 import { handlerFunc } from '../../../../../../library/functions/handler.function';
 import { DataHttp } from '../../../../../core/api/http.data';
 import { UtenteParodie } from '../../../../../shared/interfaces/elementiUtente.interface';
-import { Lingua } from '../../../../../shared/interfaces/http.interface';
 import { User } from '../../../../../shared/interfaces/users.interface';
 import { ElementiUtenteService } from '../../../../../shared/services/api/elementiUtente.service';
 import { elementi_utente_imports } from './imports/elementi-utente.imports';

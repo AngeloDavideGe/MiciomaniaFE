@@ -6,22 +6,21 @@ import { ConfirmService } from '../../../library/dialogs/confirm.service';
 import { handlerFunc } from '../../../library/functions/handler.function';
 import { iCard } from '../../../library/interfaces/card.interface';
 import { RaggioPage } from '../../../library/interfaces/pagination.interface';
+import { ToggleProps } from '../../../library/interfaces/toggle.interface';
 import { DataHttp } from '../../core/api/http.data';
 import { setUserDataNull } from '../../core/functions/storage.function';
 import { getVoidUser } from '../../shared/handlers/auth.handler';
-import { Lingua } from '../../shared/interfaces/http.interface';
 import { User, UserParams } from '../../shared/interfaces/users.interface';
 import { AuthService } from '../../shared/services/api/auth.service';
 import { ElementiUtenteService } from '../../shared/services/api/elementiUtente.service';
-import { ToggleProps } from '../../../library/interfaces/toggle.interface';
 import { CompAperto, compApertoFunc, recordComp } from './enums/home.enum';
 import {
   getCardsHome,
   getConfirmParams,
   pagineHome,
 } from './functions/home.functions';
-import { home_imports } from './imports/home.imports';
 import { getToggleMenus } from './functions/menu.function';
+import { home_imports } from './imports/home.imports';
 
 @Component({
   selector: 'app-home',

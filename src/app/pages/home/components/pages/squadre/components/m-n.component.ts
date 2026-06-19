@@ -5,7 +5,6 @@ import {
   TabsComponent,
 } from '../../../../../../../library/components/tabs/tabs.component';
 import { MN } from '../../../../../../shared/interfaces/squadre.interface';
-import { SquadreLang } from '../languages/interfaces/squadre-lang.interface';
 
 @Component({
   selector: 'app-m-n',
@@ -99,7 +98,6 @@ export class MNComponent {
   public classMN = signal<string>('row-cols-1 row-cols-md-2 row-cols-lg-3 g-4');
   public mn = signal<MN[]>([]);
 
-  @Input() squadreLang!: SquadreLang;
   @Input() set setMN(value: MN[]) {
     this.mn.set(value);
   }

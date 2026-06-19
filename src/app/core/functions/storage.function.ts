@@ -6,7 +6,7 @@ import { DataHttp } from '../api/http.data';
 
 export function refreshLocalStorage(): void {
   const localStorageUser = {
-    lingua: DataHttp.lingua(),
+    lingua: 'it',
     user: DataHttp.user(),
     allUsers: DataHttp.allUsers,
     postVisti: DataHttp.postVisti,

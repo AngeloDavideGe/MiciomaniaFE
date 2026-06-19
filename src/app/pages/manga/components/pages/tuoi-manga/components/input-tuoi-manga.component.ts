@@ -6,12 +6,11 @@ import {
   Signal,
   WritableSignal,
 } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import {
   keyofMangaUtente,
   ListaManga,
 } from '../../../../interfaces/manga.interface';
-import { FormsModule } from '@angular/forms';
-import { TuoiMangaLang } from '../languages/interfaces/tuoiManga-lang.interface';
 
 @Component({
   selector: 'app-input-tuoi-manga',
@@ -22,17 +21,16 @@ import { TuoiMangaLang } from '../languages/interfaces/tuoiManga-lang.interface'
       <input
         type="text"
         class="form-control w-100 w-sm-75 w-md-50"
-        [placeholder]="tuoiMangaLang.aggiungiManga + ' ' + selectedTab"
+        [placeholder]="'Aggiungi Manga a ' + selectedTab"
         [(ngModel)]="searchQuery"
         style="
-      border-radius: 20px;
-      padding-left: 40px;
-      position: relative;
-      font-size: clamp(0.9rem, 1.2vw, 1.1rem);
-    "
+          border-radius: 20px;
+          padding-left: 40px;
+          position: relative;
+          font-size: clamp(0.9rem, 1.2vw, 1.1rem);
+        "
       />
 
-      <!-- Lista di risultati della ricerca (dropdown) -->
       @if (allMangaSearch().length > 0 && searchQuery().length > 0) {
         <div class="position-absolute lista-ricerca">
           <ul class="list-group stile-gruppo-lista" style="max-height: 200px;">
@@ -100,7 +98,6 @@ import { TuoiMangaLang } from '../languages/interfaces/tuoiManga-lang.interface'
   ],
 })
 export class InputTuoiMangaComponent {
-  @Input() tuoiMangaLang!: TuoiMangaLang;
   @Input() allMangaSearch!: Signal<ListaManga[]>;
   @Input() searchQuery!: WritableSignal<string>;
   @Input() selectedTab!: keyofMangaUtente;

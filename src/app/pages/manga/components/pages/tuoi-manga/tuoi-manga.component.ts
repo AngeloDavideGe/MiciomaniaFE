@@ -8,17 +8,17 @@ import {
   signal,
 } from '@angular/core';
 import { Router } from '@angular/router';
-import { DataHttp } from '../../../../../core/api/http.data';
+import { iTab } from '../../../../../../library/components/tabs/tabs.component';
 import { effectTimeoutCustom } from '../../../../../../library/functions/debounce.function';
-import {
-  Lingua,
-  MangaUtente,
-} from '../../../../../shared/interfaces/http.interface';
+import { NavBarButton } from '../../../../../../library/interfaces/navbar.interface';
+import { DataHttp } from '../../../../../core/api/http.data';
+import { MangaUtente } from '../../../../../shared/interfaces/http.interface';
 import { User } from '../../../../../shared/interfaces/users.interface';
 import {
   createSezioneMangaUtente,
   voidSplitManga,
 } from '../../../functions/manga.functions';
+import { getTabsTuoiManga } from '../../../functions/pulsanti-manga.functions';
 import { inizializzaLista } from '../../../handlers/manga.handler';
 import {
   keyofMangaUtente,
@@ -28,13 +28,6 @@ import {
 } from '../../../interfaces/manga.interface';
 import { MangaService } from '../../../services/manga.service';
 import { tuoi_manga_imports } from './imports/tuoi-manga.import';
-import {
-  TuoiMangaLang,
-  TuoiMangaLangType,
-} from './languages/interfaces/tuoiManga-lang.interface';
-import { NavBarButton } from '../../../../../../library/interfaces/navbar.interface';
-import { iTab } from '../../../../../../library/components/tabs/tabs.component';
-import { getTabsTuoiManga } from '../../../functions/pulsanti-manga.functions';
 
 @Component({
   selector: 'app-tuoi-manga',
@@ -48,7 +41,6 @@ export class TuoiMangaComponent implements OnInit, OnDestroy {
 
   public selectedTab: keyofMangaUtente = 'preferiti';
   public tabs = signal<iTab[]>([]);
-  public tuoiMangaLang: TuoiMangaLang = {} as TuoiMangaLang;
   private checkSplitManga: SplitMangaUtente = voidSplitManga();
   public searchQuery = signal<string>('');
   public pulsanti: NavBarButton[] = [];
@@ -120,29 +112,17 @@ export class TuoiMangaComponent implements OnInit, OnDestroy {
   }
 
   private loadLanguage(): void {
-    const lingua: Lingua = DataHttp.lingua();
-    const languageMap: Record<Lingua, () => Promise<TuoiMangaLangType>> = {
-      it: () => import('./languages/constants/tuoimanga-it.constant'),
-      en: () => import('./languages/constants/tuoimanga-en.constant'),
-    };
-    languageMap[lingua]().then((m) => {
-      this.tuoiMangaLang = m.tuoiMangaLang;
+    this.pulsanti = [
+      {
+        action: () => this.router.navigate(['/manga']),
+        title: 'Tutti i manga',
+        icon: 'bi bi-book',
+      },
+    ];
 
-      this.pulsanti = [
-        {
-          action: () => this.router.navigate(['/manga']),
-          title: this.tuoiMangaLang.tuttiManga,
-          icon: 'bi bi-book',
-        },
-      ];
-
-      this.tabs.set(
-        getTabsTuoiManga(
-          (tab: keyofMangaUtente) => this.filterMangaFunc(tab),
-          this.tuoiMangaLang,
-        ),
-      );
-    });
+    this.tabs.set(
+      getTabsTuoiManga((tab: keyofMangaUtente) => this.filterMangaFunc(tab)),
+    );
   }
 
   private computedallMangaSearch(): ListaManga[] {
