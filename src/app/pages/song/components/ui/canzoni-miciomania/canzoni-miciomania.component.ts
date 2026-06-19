@@ -1,4 +1,11 @@
-import { Component, computed, inject, OnInit } from '@angular/core';
+import {
+  Component,
+  computed,
+  effect,
+  inject,
+  OnInit,
+  signal,
+} from '@angular/core';
 import { handlerFunc } from '../../../../../../library/functions/handler.function';
 import { iCard } from '../../../../../../library/interfaces/card.interface';
 import { AppConfigService } from '../../../../../core/api/appConfig.service';
@@ -20,6 +27,8 @@ export class CanzoniMiciomaniaComponent implements OnInit {
   public msu = new MangaSongUtilities();
   private euService = inject(ElementiUtenteService);
   private appConfig = inject(AppConfigService);
+
+  public currentButtonSong = signal<string | null>(null);
 
   public readonly defaultPic: string =
     this.appConfig.config.defaultPicsUrl.song;
@@ -74,6 +83,18 @@ export class CanzoniMiciomaniaComponent implements OnInit {
 
     return [];
   });
+
+  constructor() {
+    effect(() => {
+      const song: MangaSong | null = this.msu.sc.currentCanzone();
+
+      if (song && song.nome) {
+        this.currentButtonSong.set(song.nome);
+      } else {
+        this.currentButtonSong.set(null);
+      }
+    });
+  }
 
   ngOnInit(): void {
     handlerFunc<CanzoniParodia>({

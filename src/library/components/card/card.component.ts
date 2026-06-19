@@ -42,7 +42,6 @@ export class CardCustomComponent implements OnInit {
 
   public filtri: FiltriInterface<iCard> = {} as FiltriInterface<iCard>;
   public elemForPage = signal<number>(0);
-  public currentButton = signal<string | null>(null);
 
   @Input() elems?: Signal<iCard[]>;
   @Input() singleElem?: iCard;
@@ -53,12 +52,12 @@ export class CardCustomComponent implements OnInit {
   @Input() tipoSlice: TypePagination = 'all';
   @Input() tipoBottone: TypeButton = 'Default';
   @Input() arrayPags: RaggioPage[] = defaultArrayPags;
+  @Input() currentButton = signal<string | null>(null);
 
   @Output() clickStopBotton = new EventEmitter<void>();
 
   public viewFirstButton = computed<boolean>(() => {
     const currentSlice: number = this.filtri.currentSlice();
-
     return this.tipoSlice == 'single' && currentSlice > 0;
   });
 
@@ -66,7 +65,6 @@ export class CardCustomComponent implements OnInit {
     const currentSlice: number = this.filtri.currentSlice();
     const totElem: number = this.filtri.searchElems().length;
     const elemForPage: number = this.elemForPage();
-
     return this.tipoSlice == 'single' && totElem > elemForPage + currentSlice;
   });
 
