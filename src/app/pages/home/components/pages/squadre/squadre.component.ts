@@ -23,7 +23,7 @@ import { MNService } from '../../../../../shared/services/api/mn.service';
 import { SquadreService } from '../../../../../shared/services/api/squadre.service';
 import { PATH_MUSCOLI } from './constants/path-muscoli.constant';
 import { PATH_REGIONI } from './constants/path-regioni.constant';
-import { squadre_imports } from './imports/squadre.import';
+import { squadre_imports } from './squadre.import';
 
 type componentType = 'Squadre' | 'print' | 'Mappa' | 'Muscoli' | 'M-N';
 

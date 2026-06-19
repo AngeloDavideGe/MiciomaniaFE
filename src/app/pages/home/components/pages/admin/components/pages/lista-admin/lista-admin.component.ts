@@ -27,7 +27,7 @@ import {
 } from '../../../../../../../../shared/interfaces/users.interface';
 import { AuthService } from '../../../../../../../../shared/services/api/auth.service';
 import { converUserParams } from '../../../../../../functions/home.functions';
-import { listaAdmin_imports } from '../../../imports/lista-admin.imports';
+import { listaAdmin_imports } from './lista-admin.imports';
 
 @Component({
   selector: 'app-lista-admin',

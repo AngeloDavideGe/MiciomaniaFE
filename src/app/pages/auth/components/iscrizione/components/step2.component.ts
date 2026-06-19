@@ -13,7 +13,7 @@ import { DataHttp } from '../../../../../core/api/http.data';
 import { User } from '../../../../../shared/interfaces/users.interface';
 
 @Component({
-  selector: 'app-step3',
+  selector: 'app-step2',
   standalone: true,
   imports: [CommonModule, CheckBoxCustomComponent],
   template: `
@@ -123,7 +123,7 @@ import { User } from '../../../../../shared/interfaces/users.interface';
     </div>
   `,
 })
-export class Step3Component {
+export class Step2Component {
   public lineeGuidaAccettate = signal<boolean>(false);
 
   public lineeGuida: ICheckBox[] = [

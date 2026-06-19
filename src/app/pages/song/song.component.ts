@@ -1,7 +1,6 @@
 import { Component, signal } from '@angular/core';
 import { NavBarButton } from '../../../library/interfaces/navbar.interface';
-import { song_imports } from './components/imports/song.import';
-import { titoloPulsantiSong } from './components/ui/elementi-utente/functions/estenzione.function';
+import { song_imports } from './song.import';
 
 @Component({
   selector: 'app-song',
@@ -40,6 +39,11 @@ export class SongComponent {
   ];
 
   private actionBotton(id: 'song' | 'proposta'): void {
+    const titoloPulsantiSong: Record<string, string> = {
+      song: 'Canzoni Miciomania',
+      proposta: 'Proponi una Parodia',
+    };
+
     this.componente.set(id);
     this.selectedPulsante.set(titoloPulsantiSong[id]);
   }

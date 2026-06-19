@@ -5,7 +5,7 @@ import {
   Giocatori,
   Squadre,
 } from '../../../../../../../shared/interfaces/squadre.interface';
-import { punteggi_imports } from './imports/punteggi.import';
+import { punteggi_imports } from './punteggi.import';
 
 @Component({
   selector: 'app-punteggi-component',

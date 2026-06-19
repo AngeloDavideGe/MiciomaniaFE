@@ -31,16 +31,16 @@ function getImpostazioniElements(
 ): MenuElements[] {
   return [
     {
-      azione: () => router.navigate(['/home/interazioni']),
-      testo: 'Interazioni',
-      icona: 'bi bi-chat-square-quote-fill',
-      condition: true,
-    },
-    {
       azione: () => router.navigate(['/auth/iscrizione']),
       testo: 'Aggiorna Profilo',
       icona: 'bi bi-person-plus',
       condition: !!userId,
+    },
+    {
+      azione: () => router.navigate(['/home/interazioni']),
+      testo: 'Interazioni',
+      icona: 'bi bi-chat-square-quote-fill',
+      condition: true,
     },
     {
       azione: () => router.navigate(['/home/squadre']),

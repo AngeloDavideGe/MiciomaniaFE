@@ -5,7 +5,7 @@ import { DataHttp } from '../../../../../core/api/http.data';
 import { UtenteParodie } from '../../../../../shared/interfaces/elementiUtente.interface';
 import { User } from '../../../../../shared/interfaces/users.interface';
 import { ElementiUtenteService } from '../../../../../shared/services/api/elementiUtente.service';
-import { elementi_utente_imports } from './imports/elementi-utente.imports';
+import { elementi_utente_imports } from './elementi-utente.imports';
 
 @Component({
   selector: 'app-elementi-utente',

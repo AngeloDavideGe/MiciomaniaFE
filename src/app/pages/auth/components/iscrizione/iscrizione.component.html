@@ -11,9 +11,6 @@
     } @else {
       @switch (currentStep()) {
         @case ("1") {
-          <app-step1 [team]="squadreInGame()"></app-step1>
-        }
-        @case ("2") {
           <app-multi-form
             [strutturaForm]="strutturaForm()"
             (formValido)="formValido.set($event)"
@@ -21,11 +18,11 @@
             [visualizzaPulsanti]="false"
           ></app-multi-form>
         }
-        @case ("3") {
-          <app-step3
+        @case ("2") {
+          <app-step2
             [user]="user"
             (lineeGuidaEvent)="lineeGuidaAccettate.set($event)"
-          ></app-step3>
+          ></app-step2>
         }
       }
     }

@@ -8,7 +8,7 @@ import {
 } from '../../../../../shared/interfaces/elementiUtente.interface';
 import { ElementiUtenteService } from '../../../../../shared/services/api/elementiUtente.service';
 import { MangaSongUtilities } from '../../../../../shared/utilities/class/mangaSong.utilities';
-import { canzoniMiciomania_imports } from './imports/canzoni-miciomania.import';
+import { canzoniMiciomania_imports } from './canzoni-miciomania.import';
 import { SezioneScroll } from '../../../../../../library/interfaces/scroll.interface';
 
 @Component({

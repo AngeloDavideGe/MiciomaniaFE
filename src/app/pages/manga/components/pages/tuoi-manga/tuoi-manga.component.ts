@@ -27,7 +27,7 @@ import {
   SplitMangaUtente,
 } from '../../../interfaces/manga.interface';
 import { MangaService } from '../../../services/manga.service';
-import { tuoi_manga_imports } from './imports/tuoi-manga.import';
+import { tuoi_manga_imports } from './tuoi-manga.import';
 
 @Component({
   selector: 'app-tuoi-manga',

@@ -20,7 +20,7 @@ import {
   pagineHome,
 } from './functions/home.functions';
 import { getToggleMenus } from './functions/menu.function';
-import { home_imports } from './imports/home.imports';
+import { home_imports } from './home.imports';
 
 @Component({
   selector: 'app-home',

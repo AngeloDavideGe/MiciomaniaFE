@@ -10,7 +10,6 @@ import {
 import { NavigationEnd, Router } from '@angular/router';
 import { filter, map, Observable, startWith, tap } from 'rxjs';
 import { DataHttp } from '../../core/api/http.data';
-
 import { iTab } from '../../../library/components/tabs/tabs.component';
 import { compareObjectCustom } from '../../../library/functions/confronto.function';
 import { effectTimeoutCustom } from '../../../library/functions/debounce.function';
@@ -27,7 +26,7 @@ import {
   inizializzaLista,
   postOrUpdateMangaUtente,
 } from './handlers/manga.handler';
-import { manga_imports } from './imports/manga.imports';
+import { manga_imports } from './manga.imports';
 import { ListaManga } from './interfaces/manga.interface';
 import { MangaService } from './services/manga.service';
 

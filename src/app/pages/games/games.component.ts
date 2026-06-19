@@ -22,7 +22,7 @@ import {
 import { User } from '../../shared/interfaces/users.interface';
 import { SquadreService } from '../../shared/services/api/squadre.service';
 import { gamesConstant } from './constants/games.constant';
-import { games_imports } from './imports/games.import';
+import { games_imports } from './games.import';
 import { SquadreGiocatore } from './interfaces/games.interfaces';
 import { DeckCardService } from './services/deck-card.service';
 

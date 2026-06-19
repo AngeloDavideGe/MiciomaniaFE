@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { DataHttp } from '../../../../../core/api/http.data';
 import { User } from '../../../../../shared/interfaces/users.interface';
-import { admin_imports } from './imports/admin.imports';
+import { admin_imports } from './admin.imports';
 
 @Component({
   selector: 'app-admin',

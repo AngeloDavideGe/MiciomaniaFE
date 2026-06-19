@@ -20,7 +20,7 @@ import { AuthService } from '../../../../../shared/services/api/auth.service';
 import { mapToProfilo } from '../../../../home/functions/profilo.function';
 import { PostService } from '../../../services/post.service';
 import { Tweet } from '../../shared/post.interface';
-import { profilo_imports } from './imports/profilo.imports';
+import { profilo_imports } from './profilo.imports';
 import {
   EditableSocial,
   modaleApertaType,

@@ -11,7 +11,7 @@ import {
 } from '../../../../../shared/interfaces/elementiUtente.interface';
 import { ElementiUtenteService } from '../../../../../shared/services/api/elementiUtente.service';
 import { MangaSongUtilities } from '../../../../../shared/utilities/class/mangaSong.utilities';
-import { mangaMiciomania_imports } from './imports/manga-miciomania.import';
+import { mangaMiciomania_imports } from './manga-miciomania.import';
 
 @Component({
   selector: 'app-manga-miciomani',

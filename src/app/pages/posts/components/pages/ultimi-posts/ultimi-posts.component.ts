@@ -6,7 +6,7 @@ import { DataHttp } from '../../../../../core/api/http.data';
 import { PostService } from '../../../services/post.service';
 import { TweetAll } from '../../shared/post.interface';
 import { filterType } from './components/filtri-post.component';
-import { ultimiPost_import } from './imports/ultimi-post.import';
+import { ultimiPost_import } from './ultimi-posts.import';
 import { iCard } from '../../../../../../library/interfaces/card.interface';
 
 @Component({

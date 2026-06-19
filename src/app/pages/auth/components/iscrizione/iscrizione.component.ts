@@ -11,7 +11,7 @@ import { User } from '../../../../shared/interfaces/users.interface';
 import { AuthService } from '../../../../shared/services/api/auth.service';
 import { SquadreService } from '../../../../shared/services/api/squadre.service';
 import { getStrutturaForm } from './constants/iscrizione-form.constant';
-import { iscrizione_imports } from './imports/iscrizione.import';
+import { iscrizione_imports } from './iscrizione.import';
 import { RecordStrutturaMultiForm } from '../../../../../library/interfaces/form.interface';
 import { handlerFunc } from '../../../../../library/functions/handler.function';
 import { debounceTimeoutCustom } from '../../../../../library/functions/debounce.function';
@@ -43,18 +43,13 @@ export class IscrizioneComponent {
   public tabs: iTab[] = [
     {
       id: '1',
-      label: 'Descrizione',
+      label: 'Dati Personali',
       color: '#FF5733',
     },
     {
       id: '2',
-      label: 'Dati personali',
+      label: 'Riepilogo',
       color: '#33C1FF',
-    },
-    {
-      id: '3',
-      label: 'Conferma iscrizione',
-      color: '#75FF33',
     },
   ];
 
