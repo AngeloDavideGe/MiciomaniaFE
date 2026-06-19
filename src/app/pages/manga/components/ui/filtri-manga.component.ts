@@ -7,7 +7,6 @@ import {
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { generiManga } from '../../constants/genere.constant';
-import { MangaLang } from '../../languages/interfaces/manga-lang.interface';
 
 @Component({
   selector: 'app-filtri-manga',
@@ -21,7 +20,7 @@ import { MangaLang } from '../../languages/interfaces/manga-lang.interface';
           for="dropdownSelect"
           class="form-label text-primary fw-bold"
           style="font-size: 1.1rem;"
-          >{{ mangaLang.seleziona }}</label
+          >{{ 'Seleziona' }}</label
         >
         <select
           class="form-select bg-light border-primary rounded-3 w-100"
@@ -29,7 +28,7 @@ import { MangaLang } from '../../languages/interfaces/manga-lang.interface';
           style="min-height: 44px; font-size: 1rem; max-width: 100%;"
           (change)="setGenere($event)"
         >
-          <option selected>{{ mangaLang.qualsiasi }}</option>
+          <option selected>{{ 'Qualsiasi' }}</option>
           @for (genere of mangaGeneri; track genere) {
             <option [value]="genere">{{ genere }}</option>
           }
@@ -42,13 +41,13 @@ import { MangaLang } from '../../languages/interfaces/manga-lang.interface';
           for="nome"
           class="form-label text-danger fw-bold"
           style="font-size: 1.1rem;"
-          >{{ mangaLang.cercaPerNome }}</label
+          >{{ 'Cerca per Nome' }}</label
         >
         <input
           type="text"
           class="form-control bg-light border-danger rounded-3 w-100"
           style="min-height: 44px; font-size: 1rem; max-width: 100%;"
-          [placeholder]="mangaLang.cercaPerNome"
+          [placeholder]="'Cerca per Nome'"
           [(ngModel)]="filterSelect.nome"
           (ngModelChange)="filterSelect.nome.set($event)"
         />
@@ -60,13 +59,13 @@ import { MangaLang } from '../../languages/interfaces/manga-lang.interface';
           for="autore"
           class="form-label text-success fw-bold"
           style="font-size: 1.1rem;"
-          >{{ mangaLang.cercaPerAutore }}</label
+          >{{ 'Cerca per Autore' }}</label
         >
         <input
           type="text"
           class="form-control bg-light border-success rounded-3 w-100"
           style="min-height: 44px; font-size: 1rem; max-width: 100%;"
-          [placeholder]="mangaLang.cercaPerAutore"
+          [placeholder]="'Cerca per Autore'"
           [(ngModel)]="filterSelect.autore"
           (ngModelChange)="filterSelect.autore.set($event)"
         />
@@ -76,8 +75,9 @@ import { MangaLang } from '../../languages/interfaces/manga-lang.interface';
 })
 export class FiltriMangaComponent {
   public mangaGeneri = generiManga;
+
   @Output() onGenreChange = new EventEmitter<string>();
-  @Input() mangaLang!: MangaLang;
+
   @Input() filterSelect!: {
     genere: WritableSignal<string>;
     autore: WritableSignal<string>;
@@ -88,6 +88,6 @@ export class FiltriMangaComponent {
   public setGenere(event: Event): void {
     const target = event.target as HTMLSelectElement;
     const value: string = target.value;
-    this.onGenreChange.emit(value == this.mangaLang.qualsiasi ? '' : value);
+    this.onGenreChange.emit(value == 'Qualsiasi' ? '' : value);
   }
 }

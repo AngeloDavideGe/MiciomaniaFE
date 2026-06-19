@@ -28,7 +28,6 @@ import {
 import { AuthService } from '../../../../../../../../shared/services/api/auth.service';
 import { converUserParams } from '../../../../../../functions/home.functions';
 import { listaAdmin_imports } from '../../../imports/lista-admin.imports';
-import { AdminLang } from '../../../languages/interfaces/admin-lang.interface';
 
 @Component({
   selector: 'app-lista-admin',
@@ -94,7 +93,6 @@ export class ListaAdminComponent implements OnInit {
     },
   };
 
-  @Input() adminLang!: AdminLang;
   @Input() user: User | null = null;
 
   ngOnInit(): void {
@@ -112,7 +110,7 @@ export class ListaAdminComponent implements OnInit {
     this.pulsanti = [
       {
         icona: 'bi bi-person-circle',
-        titolo: this.adminLang.vediProfilo,
+        titolo: 'Vedi Profilo',
         azione: (user: UserParams) => {
           this.router.navigate(['/posts/profilo', user.id], {
             state: { message: 'TableUserParams' },
@@ -121,7 +119,7 @@ export class ListaAdminComponent implements OnInit {
       },
       {
         icona: 'bi bi-pencil-square',
-        titolo: this.adminLang.modifica,
+        titolo: 'Modifica',
         azione: (user: UserParams) => {
           if (this.controlliCustom('modificare', user) == 0) {
             this.modificaRuolo(user);
@@ -130,7 +128,7 @@ export class ListaAdminComponent implements OnInit {
       },
       {
         icona: 'bi bi-trash3',
-        titolo: this.adminLang.elimina,
+        titolo: 'Elimina',
         azione: (user: UserParams) => {
           if (this.controlliCustom('eliminare', user) == 0) {
             user.ruolo = Ruolo.user;
@@ -173,14 +171,14 @@ export class ListaAdminComponent implements OnInit {
   modificaRuolo(user: UserParams): void {
     this.strutturaForm = {
       nome: {
-        titolo: this.adminLang.nome,
+        titolo: 'Nome',
         tipo: 'Text',
         validators: [],
         readonly: true,
         valueInit: user.nome,
       },
       ruolo: {
-        titolo: this.adminLang.ruolo,
+        titolo: 'Ruolo',
         validators: [Validators.required],
         tipo: 'Select',
         valueInit: user.ruolo,

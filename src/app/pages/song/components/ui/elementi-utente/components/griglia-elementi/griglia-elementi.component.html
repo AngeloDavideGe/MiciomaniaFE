@@ -3,7 +3,7 @@
     <app-card-custom
       [singleElem]="{
         titolo: eu.mangaUtente.nome || 'Manga Personale',
-        bottone: elemLang.scarica,
+        bottone: 'Scarica',
         urlPic: eu.mangaUtente.copertina || defaultMangaPic,
         azione: downloadManga.bind(this, eu.mangaUtente),
       }"
@@ -19,7 +19,7 @@
     </app-card-custom>
   } @else {
     <app-card-custom
-      [singleElem]="{ urlPic: defaultMangaPic, titolo: elemLang.noManga }"
+      [singleElem]="{ urlPic: defaultMangaPic, titolo: 'Non ci sono manga' }"
       [classBody]="'manga-class'"
       [altezzaImg]="'20rem'"
     ></app-card-custom>
@@ -29,7 +29,7 @@
     <app-card-custom
       [singleElem]="{
         titolo: eu.canzoniUtente.nome || 'Canzone Personale',
-        bottone: elemLang.scarica,
+        bottone: 'Scarica',
         urlPic: eu.canzoniUtente.copertina || defaultSongPic,
         azione: playSong.bind(this, eu.canzoniUtente),
       }"
@@ -46,7 +46,7 @@
     </app-card-custom>
   } @else {
     <app-card-custom
-      [singleElem]="{ urlPic: defaultSongPic, titolo: elemLang.noCanzone }"
+      [singleElem]="{ urlPic: defaultSongPic, titolo: 'Non ci sono canzoni' }"
       [classBody]="'song-class'"
       [altezzaImg]="'20rem'"
     ></app-card-custom>
@@ -61,7 +61,7 @@
             <i class="bi bi-send-check display-4 text-success"></i>
           </div>
           <p class="text-muted mb-3">
-            {{ elemLang.noProposteSospese }}
+            {{ "Non ci sono proposte in sospeso" }}
           </p>
           <button
             class="btn btn-outline-success btn-lg rounded-pill px-4"
@@ -69,7 +69,7 @@
             (click)="creaProposta.componente = true"
           >
             <i class="bi bi-plus-circle me-1"></i>
-            {{ elemLang.inviaProposta }}
+            {{ "Invia proposta" }}
           </button>
         </div>
       } @else {
@@ -78,11 +78,11 @@
             <i class="bi bi-send display-4 text-muted"></i>
           </div>
           <p class="text-muted mb-2">
-            {{ elemLang.noProposteSospese }}
+            {{ "Non ci sono proposte in sospeso" }}
           </p>
           <p class="text-muted mb-4">
             {{
-              elemLang.nonHaiPunti +
+              "Non hai i punti necessari" +
                 " (" +
                 userPunteggio +
                 " su " +
@@ -96,7 +96,7 @@
             disabled
           >
             <i class="bi bi-lock me-1"></i>
-            {{ elemLang.inviaProposta }}
+            {{ "Invia proposta" }}
           </button>
         </div>
       }

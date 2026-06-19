@@ -12,7 +12,6 @@ import {
 } from '../../../../../../../shared/interfaces/elementiUtente.interface';
 import { ElementiUtenteService } from '../../../../../../../shared/services/api/elementiUtente.service';
 import { ProposaPrePost } from '../../interfaces/dropbox.interface';
-import { ElemLang } from '../../languages/interfaces/elem-lang.interface';
 import { DropboxService } from '../../services/dropbox.service';
 
 @Component({
@@ -27,7 +26,6 @@ export class CreaPropostaComponent {
   private tipoProposta: PropostaTipo = {} as PropostaTipo;
 
   @Input() parodieUtente!: UtenteParodie;
-  @Input() elemLang!: ElemLang;
   @Input() userId!: string;
   @Input() tornaAllaHome!: Function;
   @Output() chiudi = new EventEmitter<void>();

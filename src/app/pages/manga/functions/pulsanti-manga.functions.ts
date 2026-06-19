@@ -1,7 +1,6 @@
-import { DataHttp } from '../../../core/api/http.data';
-import { NavBarButton } from '../../../../library/interfaces/navbar.interface';
-import { MangaLang } from '../languages/interfaces/manga-lang.interface';
 import { iTab } from '../../../../library/components/tabs/tabs.component';
+import { NavBarButton } from '../../../../library/interfaces/navbar.interface';
+import { DataHttp } from '../../../core/api/http.data';
 import { TuoiMangaLang } from '../components/pages/tuoi-manga/languages/interfaces/tuoiManga-lang.interface';
 
 export function getTabsManga(clickCalls: Function): iTab[] {
@@ -53,19 +52,16 @@ export function getTabsTuoiManga(
   ];
 }
 
-export function getPulsanti(
-  routerFunc: Function,
-  mangaLang: MangaLang,
-): NavBarButton[] {
+export function getPulsanti(routerFunc: Function): NavBarButton[] {
   return [
     {
-      title: mangaLang.tuoiMAnga,
+      title: 'I tuoi Manga',
       icon: 'bi bi-book me-2',
       action: () => routerFunc('/manga/tuoi-manga'),
       disabled: !DataHttp.user(),
     },
     {
-      title: mangaLang.mangaMiciomania,
+      title: 'Manga Miciomania',
       icon: 'bi bi-emoji-sunglasses me-2',
       action: () => routerFunc('/manga/manga-miciomani'),
       disabled: !DataHttp.user(),

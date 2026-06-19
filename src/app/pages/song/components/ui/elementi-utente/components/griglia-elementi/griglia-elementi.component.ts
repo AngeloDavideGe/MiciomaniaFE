@@ -6,7 +6,6 @@ import {
   UtenteParodie,
 } from '../../../../../../../shared/interfaces/elementiUtente.interface';
 import { MangaSongUtilities } from '../../../../../../../shared/utilities/class/mangaSong.utilities';
-import { ElemLang } from '../../languages/interfaces/elem-lang.interface';
 
 @Component({
   selector: 'app-griglia-elementi',
@@ -23,7 +22,6 @@ export class GrigliaElementiComponent {
   public readonly defaultSongPic: string =
     this.appConfig.config.defaultPicsUrl.song;
 
-  @Input() elemLang!: ElemLang;
   @Input() eu!: UtenteParodie;
   @Input() userPunteggio!: number;
   @Input() punteggioNecessario!: number;

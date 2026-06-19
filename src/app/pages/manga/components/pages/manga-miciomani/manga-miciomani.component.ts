@@ -5,20 +5,13 @@ import { iCard } from '../../../../../../library/interfaces/card.interface';
 import { NavBarButton } from '../../../../../../library/interfaces/navbar.interface';
 import { SezioneScroll } from '../../../../../../library/interfaces/scroll.interface';
 import { AppConfigService } from '../../../../../core/api/appConfig.service';
-import { DataHttp } from '../../../../../core/api/http.data';
 import {
   MangaParodia,
   MangaSong,
 } from '../../../../../shared/interfaces/elementiUtente.interface';
-import { Lingua } from '../../../../../shared/interfaces/http.interface';
 import { ElementiUtenteService } from '../../../../../shared/services/api/elementiUtente.service';
 import { MangaSongUtilities } from '../../../../../shared/utilities/class/mangaSong.utilities';
 import { mangaMiciomania_imports } from './imports/manga-miciomania.import';
-import {
-  MmicioLang,
-  MmicioLangType,
-} from './languages/interfaces/mmicio-lang.interface';
-import { mangaLang } from '../../../languages/constants/manga-it.constant';
 
 @Component({
   selector: 'app-manga-miciomani',
@@ -35,15 +28,19 @@ export class MangaMiciomaniComponent implements OnInit {
     this.appConfig.config.defaultPicsUrl.manga;
 
   public mangaSongUtilities = new MangaSongUtilities();
-  public mmicioLang = signal<MmicioLang | null>(null);
-  public pulsanti: NavBarButton[] = [];
+  public pulsanti: NavBarButton[] = [
+    {
+      action: () => this.router.navigate(['/manga']),
+      title: 'Tutti i Manga',
+      icon: 'bi bi-book',
+    },
+  ];
 
   public sezioni = computed<SezioneScroll[]>(() => {
     const mangaParodia: MangaParodia | null = this.euService.mangaParodia();
-    const micioLang: MmicioLang | null = this.mmicioLang();
 
-    if (mangaParodia && micioLang) {
-      return this.getSezioni(mangaParodia, micioLang);
+    if (mangaParodia) {
+      return this.getSezioni(mangaParodia);
     } else {
       return [];
     }
@@ -51,14 +48,13 @@ export class MangaMiciomaniComponent implements OnInit {
 
   public mangaUtente = computed<iCard[]>(() => {
     const mangaParodia: MangaParodia | null = this.euService.mangaParodia();
-    const micioLang: MmicioLang | null = this.mmicioLang();
 
-    if (mangaParodia && micioLang) {
+    if (mangaParodia) {
       return mangaParodia.mangaUtentePars.map((x: MangaSong) => {
         return {
           titolo: x.nome,
           urlPic: x.copertina || this.mangaDefaultPic,
-          bottone: micioLang.scarica,
+          bottone: 'Scarica',
           azione: () => this.mangaSongUtilities.downloadManga(x),
           descrizione: `Genere: <strong>${x.genere}</strong
           ><br />
@@ -72,14 +68,13 @@ export class MangaMiciomaniComponent implements OnInit {
 
   public mangaMiciomania = computed<iCard[]>(() => {
     const mangaParodia: MangaParodia | null = this.euService.mangaParodia();
-    const micioLang: MmicioLang | null = this.mmicioLang();
 
-    if (mangaParodia && micioLang) {
+    if (mangaParodia) {
       return mangaParodia.mangaMiciomania.map((x: MangaSong) => {
         return {
           titolo: x.nome,
           urlPic: x.copertina || this.mangaDefaultPic,
-          bottone: micioLang.scarica,
+          bottone: 'Scarica',
           azione: () => this.mangaSongUtilities.downloadManga(x),
           descrizione: `Genere: <strong>${x.genere}</strong
             ><br />
@@ -90,25 +85,6 @@ export class MangaMiciomaniComponent implements OnInit {
 
     return [];
   });
-
-  constructor() {
-    const lingua: Lingua = DataHttp.lingua();
-    const languageMap: Record<Lingua, () => Promise<MmicioLangType>> = {
-      it: () => import('./languages/constants/mmicio-it.constant'),
-      en: () => import('./languages/constants/mmicio-en.constant'),
-    };
-    languageMap[lingua]().then((m) => {
-      this.mmicioLang.set(m.mmicioLang);
-
-      this.pulsanti = [
-        {
-          action: () => this.router.navigate(['/manga']),
-          title: this.mmicioLang()!.tuttiManga,
-          icon: 'bi bi-book',
-        },
-      ];
-    });
-  }
 
   ngOnInit(): void {
     handlerFunc<MangaParodia>({
@@ -121,24 +97,21 @@ export class MangaMiciomaniComponent implements OnInit {
     this.euService.mangaLoaded = true;
   }
 
-  private getSezioni(
-    manga: MangaParodia,
-    micioLang: MmicioLang,
-  ): SezioneScroll[] {
+  private getSezioni(manga: MangaParodia): SezioneScroll[] {
     return [
       {
         id: 'MangaMiciomania',
         titolo: 'Manga Miciomania',
         lunghezza: manga.mangaMiciomania.length,
         icona: 'bi bi-arrow-down',
-        nomeIcona: micioLang.iconaScrollGiu,
+        nomeIcona: 'Vai a Manga Utente',
       },
       {
         id: 'MangaUtente',
         titolo: 'Manga Utente',
         lunghezza: manga.mangaUtentePars.length,
         icona: 'bi bi-arrow-up',
-        nomeIcona: micioLang.iconaScrollSu,
+        nomeIcona: 'Torna a Manga Miciomania',
       },
     ];
   }

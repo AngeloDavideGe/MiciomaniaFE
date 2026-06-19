@@ -2,7 +2,6 @@
   @if (eu()) {
     <div class="mt-2">
       <app-griglia-elementi
-        [elemLang]="elemLang"
         [creaProposta]="creaProposta"
         [eu]="eu()!"
         [punteggioNecessario]="punteggioNecessario"
@@ -11,7 +10,6 @@
 
       @if (creaProposta.componente && euService.propostaCaricata()) {
         <app-crea-proposta
-          [elemLang]="elemLang"
           [userId]="userId"
           [parodieUtente]="eu()!"
           [tornaAllaHome]="tornaAllaHome"

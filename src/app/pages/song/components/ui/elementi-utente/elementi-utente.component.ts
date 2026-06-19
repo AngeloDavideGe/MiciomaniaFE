@@ -7,10 +7,6 @@ import { Lingua } from '../../../../../shared/interfaces/http.interface';
 import { User } from '../../../../../shared/interfaces/users.interface';
 import { ElementiUtenteService } from '../../../../../shared/services/api/elementiUtente.service';
 import { elementi_utente_imports } from './imports/elementi-utente.imports';
-import {
-  ElemLang,
-  ElemLangType,
-} from './languages/interfaces/elem-lang.interface';
 
 @Component({
   selector: 'app-elementi-utente',
@@ -34,16 +30,8 @@ export class ElementiUtenteComponent implements OnInit {
   public userPunteggio: number = 0;
   public punteggioNecessario: number = 10;
   public tornaAllaHome: Function = () => this.router.navigate(['/home']);
-  public elemLang: ElemLang = {} as ElemLang;
 
   constructor() {
-    const lingua: Lingua = DataHttp.lingua();
-    const languageMap: Record<Lingua, () => Promise<ElemLangType>> = {
-      it: () => import('./languages/constants/elem-it.constant'),
-      en: () => import('./languages/constants/elem-en.constant'),
-    };
-    languageMap[lingua]().then((m) => (this.elemLang = m.elemLang));
-
     effect(() => {
       const user: User | null = DataHttp.user();
 

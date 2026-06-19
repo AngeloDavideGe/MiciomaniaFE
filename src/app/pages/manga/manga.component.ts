@@ -25,10 +25,6 @@ import {
 } from './handlers/manga.handler';
 import { manga_imports } from './imports/manga.imports';
 import { ListaManga } from './interfaces/manga.interface';
-import {
-  MangaLang,
-  MangaLangType,
-} from './languages/interfaces/manga-lang.interface';
 import { MangaService } from './services/manga.service';
 import { NavBarButton } from '../../../library/interfaces/navbar.interface';
 import { effectTimeoutCustom } from '../../../library/functions/debounce.function';
@@ -48,12 +44,18 @@ export class MangaComponent implements OnDestroy {
   public readonly mangaGeneri: string[] = generiManga;
   public readonly alfabeto: string[] = alfabetoManga;
   public mangaPreferiti: boolean[] = [];
-  public pulsanti: NavBarButton[] = [];
-  public tabs = signal<iTab[]>([]);
-  public mangaLang: MangaLang = {} as MangaLang;
   public idUtente: string | null = null;
   public perIniziale = signal<string>('lista');
   public selezionaOpera: Function = (path: string) => window.open(path);
+  public pulsanti: NavBarButton[] = getPulsanti((path: string) =>
+    this.router.navigate([path]),
+  );
+
+  public tabs: iTab[] = getTabsManga((cond: boolean | null) => {
+    if (this.filterSelect.tabBoolean() !== cond) {
+      this.filterSelect.tabBoolean.set(cond);
+    }
+  });
 
   private debounce = {
     autore: signal<string>(''),
@@ -116,8 +118,6 @@ export class MangaComponent implements OnDestroy {
   );
 
   constructor() {
-    this.loadLanguage();
-
     (['autore', 'nome'] as const).forEach((x) => {
       effectTimeoutCustom<string>(this.filterSelect[x], (value: string) =>
         this.debounce[x].set(value),
@@ -146,30 +146,6 @@ export class MangaComponent implements OnDestroy {
   @HostListener('window:beforeunload', ['$event'])
   unloadNotification($event: BeforeUnloadEvent): void {
     this.upsertOnDestroy($event);
-  }
-
-  private loadLanguage(): void {
-    const lingua: Lingua = DataHttp.lingua();
-    const languageMap: Record<Lingua, () => Promise<MangaLangType>> = {
-      it: () => import('./languages/constants/manga-it.constant'),
-      en: () => import('./languages/constants/manga-en.constant'),
-    };
-    languageMap[lingua]().then((m) => {
-      this.mangaLang = m.mangaLang;
-
-      this.pulsanti = getPulsanti(
-        (path: string) => this.router.navigate([path]),
-        this.mangaLang,
-      );
-
-      this.tabs.set(
-        getTabsManga((cond: boolean | null) => {
-          if (this.filterSelect.tabBoolean() !== cond) {
-            this.filterSelect.tabBoolean.set(cond);
-          }
-        }),
-      );
-    });
   }
 
   private loadFilteredManga(): void {

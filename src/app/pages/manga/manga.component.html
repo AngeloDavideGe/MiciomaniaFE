@@ -3,14 +3,11 @@
 
   @if (mangaService.listaManga().length > 0) {
     <app-filtri-manga
-      [mangaLang]="mangaLang"
       [filterSelect]="filterSelect"
       (onGenreChange)="filterSelect.genere.set($event)"
     ></app-filtri-manga>
 
-    @if (tabs().length > 0) {
-      <app-tabs-custom [tabs]="tabs()"></app-tabs-custom>
-    }
+    <app-tabs-custom [tabs]="tabs"></app-tabs-custom>
 
     <app-tabs-custom
       [tipo]="'lista'"
