@@ -23,4 +23,8 @@ export class MNService extends BaseService {
   getMN(): Observable<MN[]> {
     return this.getCustom<MN[]>('squadre/get_mn');
   }
+
+  getSocialLinks(): Observable<Social[]> {
+    return this.getCustom<Social[]>('squadre/get_social_links');
+  }
 }

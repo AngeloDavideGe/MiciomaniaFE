@@ -13,7 +13,6 @@ import { setUserDataNull } from '../../../../core/functions/storage.function';
 import { User } from '../../../../shared/interfaces/users.interface';
 import { AuthService } from '../../../../shared/services/api/auth.service';
 import { ElementiUtenteService } from '../../../../shared/services/api/elementiUtente.service';
-import { HomeLang } from '../../languages/interfaces/home-lang.interface';
 
 @Component({
   selector: 'app-user-active',
@@ -45,7 +44,7 @@ import { HomeLang } from '../../languages/interfaces/home-lang.interface';
         @if (user.credenziali.nome) {
           {{ user.credenziali.nome }}
         } @else {
-          {{ homeLang.anonimo }}
+          {{ 'Anonimo' }}
         }
       </span>
     </div>
@@ -257,7 +256,6 @@ import { HomeLang } from '../../languages/interfaces/home-lang.interface';
   ],
 })
 export class UserActiveComponent {
-  @Input() homeLang!: HomeLang;
   @Input() user!: User;
   @Input() inizialiUser!: string;
   @Input() profiliOpen = signal<boolean>(false);

@@ -2,7 +2,6 @@
   <app-custom-navbar [viewTornaIndietro]="false">
     <div leftContent>
       <app-user-active
-        [homeLang]="homeLang()"
         [user]="user"
         [inizialiUser]="inizialiUser"
         [profiliOpen]="compAperto.profili"
@@ -23,7 +22,7 @@
   </app-custom-navbar>
 
   @if (compAperto.cursore()) {
-    <app-cursore class="pc-only" [homeLang]="homeLang()"></app-cursore>
+    <app-cursore class="pc-only"></app-cursore>
   }
 
   <div class="container">

@@ -1,13 +1,8 @@
-import { Component, effect, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { SpinnerComponent } from '../../../../../library/components/spinner/spinner.component';
 import { handlerFunc } from '../../../../../library/functions/handler.function';
-import { DataHttp } from '../../../../core/api/http.data';
-import {
-  GitHubType,
-  Social,
-} from '../../../../shared/interfaces/github.interface';
-import { Lingua } from '../../../../shared/interfaces/http.interface';
-import { GitHubService } from '../../../../shared/services/api/github.service';
+import { Social } from '../../../../shared/interfaces/github.interface';
+import { MNService } from '../../../../shared/services/api/mn.service';
 @Component({
   selector: 'app-social-link',
   standalone: true,
@@ -21,9 +16,9 @@ import { GitHubService } from '../../../../shared/services/api/github.service';
           </h6>
         </div>
         <div class="row g-4">
-          @if (githubService.social().length > 0) {
+          @if (mnService.social().length > 0) {
             <div class="grid-card-layout">
-              @for (s of githubService.social(); track s.nome) {
+              @for (s of mnService.social(); track s.nome) {
                 <div class="elemento-centrato">
                   <i
                     class="bi fs-1 me-3"
@@ -38,7 +33,7 @@ import { GitHubService } from '../../../../shared/services/api/github.service';
                   >
                     <h4 class="fw-bold">{{ s.nome }}</h4>
                     <p class="mb-0" style="color: var(--text-muted);">
-                      {{ s.descrizione[lingua] }}
+                      {{ s.descrizione }}
                     </p>
                   </div>
                 </div>
@@ -53,27 +48,17 @@ import { GitHubService } from '../../../../shared/services/api/github.service';
   `,
 })
 export class SocialLinkComponent implements OnInit {
-  public githubService = inject(GitHubService);
-  public lingua: Lingua = Lingua.it;
-
-  constructor() {
-    effect(() => (this.lingua = DataHttp.lingua()));
-  }
+  public mnService = inject(MNService);
 
   ngOnInit(): void {
-    handlerFunc<GitHubType>({
-      skipCall: this.githubService.socialLoaded,
-      callHttp: () =>
-        this.githubService.getGistFormGithub(
-          'AngeloDavideGe',
-          '831668ef76a20e1c4cbf88666215fcfa',
-          'Social.json',
-        ),
-      nextCall: (data) => this.githubService.social.set(data as Social[]),
-      errorCall: () => (this.githubService.socialLoaded = false),
+    handlerFunc<Social[]>({
+      skipCall: this.mnService.socialLoaded,
+      callHttp: () => this.mnService.getSocialLinks(),
+      nextCall: (data) => this.mnService.social.set(data as Social[]),
+      errorCall: () => (this.mnService.socialLoaded = false),
     });
 
-    this.githubService.socialLoaded = true;
+    this.mnService.socialLoaded = true;
   }
 
   openLink(link: string): void {

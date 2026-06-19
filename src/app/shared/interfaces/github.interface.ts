@@ -1,10 +1,8 @@
-import { Lingua } from './http.interface';
-
 export type GitHubType = Social[] | Conquiste;
 
 export interface Social {
   nome: string;
-  descrizione: Record<Lingua, string>;
+  descrizione: string;
   icona: string;
   colore: string;
   link: string;

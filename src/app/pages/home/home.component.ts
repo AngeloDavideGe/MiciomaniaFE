@@ -1,4 +1,4 @@
-import { Component, effect, inject, signal } from '@angular/core';
+import { Component, computed, effect, inject, signal } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import 'bootstrap'; // Importa Bootstrap JS (incluso Popper.js)
 import { filter, map, Observable, startWith, tap } from 'rxjs';
@@ -21,10 +21,6 @@ import {
   pagineHome,
 } from './functions/home.functions';
 import { home_imports } from './imports/home.imports';
-import {
-  HomeLang,
-  HomeLangType,
-} from './languages/interfaces/home-lang.interface';
 import { getToggleMenus } from './functions/menu.function';
 
 @Component({
@@ -42,9 +38,20 @@ export class HomeComponent {
   public user: User = {} as User;
   public inizialiUser: string = '';
   public compAperto: recordComp = {} as recordComp;
-  public homeLang = signal<HomeLang>({} as HomeLang);
-  public cardsHome = signal<iCard[]>([]);
-  public toggleMenus = signal<ToggleProps[]>([]);
+
+  public cardsHome = computed<iCard[]>(() =>
+    getCardsHome(this.router, () => this.controlloPunteggio()),
+  );
+
+  public toggleMenus = computed<ToggleProps[]>(() =>
+    getToggleMenus(
+      this.router,
+      DataHttp.user()?.id,
+      () => this.logout(),
+      () =>
+        this.switchCompAperto(CompAperto.cursore, !this.compAperto.cursore()),
+    ),
+  );
 
   public readonly enumCompAperto = CompAperto;
   private readonly punteggioCanzoni: number = 20;
@@ -65,34 +72,7 @@ export class HomeComponent {
     effect(() => {
       const user: User | null = DataHttp.user();
       this.handleUserSubscription(user);
-      this.loadMenus();
     });
-
-    effect(() => {
-      const lingua: Lingua = DataHttp.lingua();
-      const languageMap: Record<Lingua, () => Promise<HomeLangType>> = {
-        it: () => import('./languages/constants/home-it.constant'),
-        en: () => import('./languages/constants/home-en.constant'),
-      };
-      languageMap[lingua]().then((m) => this.homeLang.set(m.homeLang));
-      this.cardsHome.set(
-        getCardsHome(this.router, () => this.controlloPunteggio()),
-      );
-      this.loadMenus();
-    });
-  }
-
-  private loadMenus(): void {
-    this.toggleMenus.set(
-      getToggleMenus(
-        this.router,
-        this.homeLang(),
-        this.user.id,
-        () => this.logout(),
-        () =>
-          this.switchCompAperto(CompAperto.cursore, !this.compAperto.cursore()),
-      ),
-    );
   }
 
   private loadUsers(): void {

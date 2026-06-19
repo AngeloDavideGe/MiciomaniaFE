@@ -1,7 +1,4 @@
 import { Router } from '@angular/router';
-import { HomeLang } from '../languages/interfaces/home-lang.interface';
-import { DataHttp } from '../../../core/api/http.data';
-import { Lingua } from '../../../shared/interfaces/http.interface';
 import {
   MenuElements,
   ToggleProps,
@@ -9,86 +6,74 @@ import {
 
 export function getToggleMenus(
   router: Router,
-  homeLang: HomeLang,
   userId: any,
   logout: () => void,
   cursore: () => void,
 ): ToggleProps[] {
   return [
     {
-      titolo: homeLang.profili,
+      titolo: 'Profili',
       icona: 'bi bi-person-fill',
-      menuElementi: getProfiliElements(router, homeLang, userId, logout),
+      menuElementi: getProfiliElements(router, userId, logout),
     },
     {
-      titolo: homeLang.impostazioni,
+      titolo: 'Impostazioni',
       icona: 'bi bi-gear-fill',
-      menuElementi: getImpostazioniElements(router, homeLang, userId, cursore),
-    },
-    {
-      titolo: homeLang.lingua,
-      icona: 'bi bi-translate',
-      menuElementi: getLinguaElements(),
+      menuElementi: getImpostazioniElements(router, userId, cursore),
     },
   ];
 }
 
 function getImpostazioniElements(
   router: Router,
-  homeLang: HomeLang,
   userId: any,
   cursore: () => void,
 ): MenuElements[] {
   return [
     {
       azione: () => router.navigate(['/home/interazioni']),
-      testo: homeLang.interazioni,
+      testo: 'Interazioni',
       icona: 'bi bi-chat-square-quote-fill',
       condition: true,
     },
     {
       azione: () => router.navigate(['/auth/iscrizione']),
-      testo: homeLang.iscrizioneTeam,
+      testo: 'Aggiorna Profilo',
       icona: 'bi bi-person-plus',
       condition: !!userId,
     },
     {
       azione: () => router.navigate(['/home/squadre']),
-      testo: homeLang.squadre,
+      testo: 'Squadre',
       icona: 'bi bi-people-fill',
       condition: true,
     },
     {
       azione: () => cursore(),
-      testo: homeLang.cursore,
+      testo: 'Cursore',
       icona: 'bi bi-cursor',
       condition: true,
     },
   ];
 }
 
-function getProfiliElements(
-  router: Router,
-  homeLang: HomeLang,
-  userId: any,
-  logout: () => void,
-) {
+function getProfiliElements(router: Router, userId: any, logout: () => void) {
   return [
     {
       azione: () => router.navigate(['/posts/profilo/' + userId]),
-      testo: homeLang.mioProfilo,
+      testo: 'Profilo Personale',
       icona: 'bi bi-person-circle',
       condition: !!userId,
     },
     {
       azione: () => router.navigate(['/posts/ultimi-post']),
-      testo: homeLang.visualizzaPost,
+      testo: 'Visualizza Post',
       icona: 'bi bi-grid-3x3-gap',
       condition: true,
     },
     {
       azione: () => router.navigate(['/home/admin']),
-      testo: homeLang.contattaAdmin,
+      testo: 'Contatta Admin',
       icona: 'bi bi-envelope',
       condition: true,
     },
@@ -103,23 +88,6 @@ function getProfiliElements(
       testo: 'Login',
       icona: 'bi bi-box-arrow-in-right',
       condition: !userId,
-    },
-  ];
-}
-
-function getLinguaElements(): MenuElements[] {
-  return [
-    {
-      azione: () => DataHttp.lingua.set(Lingua.it),
-      testo: 'it',
-      icona: 'bi bi-globe',
-      condition: true,
-    },
-    {
-      azione: () => DataHttp.lingua.set(Lingua.en),
-      testo: 'en',
-      icona: 'bi bi-globe',
-      condition: true,
     },
   ];
 }

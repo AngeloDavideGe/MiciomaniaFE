@@ -1,11 +1,11 @@
 import { Component, Input, signal } from '@angular/core';
-import { SpinnerComponent } from '../../../../../../../../library/components/spinner/spinner.component';
+import { SpinnerComponent } from '../../../../../../../library/components/spinner/spinner.component';
 import {
   iTab,
   TabsComponent,
-} from '../../../../../../../../library/components/tabs/tabs.component';
-import { MN } from '../../../../../../../shared/interfaces/squadre.interface';
-import { SquadreLang } from '../../languages/interfaces/squadre-lang.interface';
+} from '../../../../../../../library/components/tabs/tabs.component';
+import { MN } from '../../../../../../shared/interfaces/squadre.interface';
+import { SquadreLang } from '../languages/interfaces/squadre-lang.interface';
 
 @Component({
   selector: 'app-m-n',
