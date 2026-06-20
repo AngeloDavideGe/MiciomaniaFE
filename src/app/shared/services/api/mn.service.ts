@@ -27,4 +27,8 @@ export class MNService extends BaseService {
   getSocialLinks(): Observable<Social[]> {
     return this.getCustom<Social[]>('squadre/get_social_links');
   }
+
+  getTerritoriConquistati(): Observable<Conquiste> {
+    return this.postCustom<Conquiste>('squadre/get_territori_conquistati');
+  }
 }

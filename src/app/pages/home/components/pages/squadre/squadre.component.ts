@@ -18,7 +18,6 @@ import {
   Classifica,
   MN,
 } from '../../../../../shared/interfaces/squadre.interface';
-import { GitHubService } from '../../../../../shared/services/api/github.service';
 import { MNService } from '../../../../../shared/services/api/mn.service';
 import { SquadreService } from '../../../../../shared/services/api/squadre.service';
 import { PATH_MUSCOLI } from './constants/path-muscoli.constant';
@@ -35,7 +34,6 @@ type componentType = 'Squadre' | 'print' | 'Mappa' | 'Muscoli' | 'M-N';
 })
 export class SquadreComponent implements OnInit, AfterViewInit {
   private chatService = inject(ChatService);
-  public githubService = inject(GitHubService);
   public squadreService = inject(SquadreService);
   public mnService = inject(MNService);
 
@@ -84,19 +82,14 @@ export class SquadreComponent implements OnInit, AfterViewInit {
 
   private loadMappa(): void {
     handlerFunc<GitHubType>({
-      skipCall: this.githubService.conquisteLoaded,
-      callHttp: () =>
-        this.githubService.getGistFormGithub(
-          'AngeloDavideGe',
-          '6a1e0e41b352f6e2d8339d9e1d7133ae',
-          'Conquiste.json',
-        ),
+      skipCall: this.mnService.conquisteLoaded,
+      callHttp: () => this.mnService.getTerritoriConquistati(),
       nextCall: (data: GitHubType) =>
-        this.githubService.conquiste.set(data as Conquiste),
-      errorCall: () => (this.githubService.conquisteLoaded = false),
+        this.mnService.conquiste.set(data as Conquiste),
+      errorCall: () => (this.mnService.conquisteLoaded = false),
     });
 
-    this.githubService.conquisteLoaded = true;
+    this.mnService.conquisteLoaded = true;
   }
 
   private loadMN(): void {
