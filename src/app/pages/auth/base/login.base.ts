@@ -40,7 +40,8 @@ export abstract class LoginBase {
   }
 
   protected getEmailRegistrata(): string | null {
-    const navigation: Navigation | null = this.router.lastSuccessfulNavigation;
+    const navigation: Navigation | null =
+      this.router.lastSuccessfulNavigation();
     return navigation?.extras.state?.['message'] ?? null;
   }
 }

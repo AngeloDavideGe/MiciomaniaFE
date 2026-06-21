@@ -39,6 +39,7 @@
       [showFooter]="true"
       [secondaryButtonText]="'Annulla'"
       [primaryButtonText]="'Salva'"
+      [disablePrimaryButton]="!formValido()"
       (primaryAction)="onSave()"
       (secondaryAction)="editUser.set(null)"
       (close)="editUser.set(null)"
@@ -47,6 +48,7 @@
         <app-form-custom
           [visualizzaPulsanti]="false"
           [strutturaForm]="strutturaForm"
+          (formValido)="formValido.set($event)"
         ></app-form-custom>
       </div>
     </app-modal-custom>

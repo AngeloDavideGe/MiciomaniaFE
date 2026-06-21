@@ -1,6 +1,5 @@
 import { Component, computed, effect, inject, signal } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
-import 'bootstrap'; // Importa Bootstrap JS (incluso Popper.js)
 import { filter, map, Observable, startWith, tap } from 'rxjs';
 import { ConfirmService } from '../../../library/dialogs/confirm.service';
 import { handlerFunc } from '../../../library/functions/handler.function';

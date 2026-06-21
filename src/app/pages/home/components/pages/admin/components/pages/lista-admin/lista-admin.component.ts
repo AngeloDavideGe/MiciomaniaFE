@@ -48,6 +48,7 @@ export class ListaAdminComponent implements OnInit {
   public strutturaForm: RecordStruttura = {};
   public tabellaView = signal<string>('1');
   public elemForAllPage = signal<number>(5);
+  public formValido = signal<boolean>(true);
 
   public readonly badgeRuolo: Record<Ruolo, string> = BadgeRuolo;
 

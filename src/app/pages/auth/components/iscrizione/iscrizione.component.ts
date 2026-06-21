@@ -87,11 +87,11 @@ export class IscrizioneComponent {
 
     switch (current) {
       case '1':
-        return false;
-      case '2':
         return !formValido;
-      default:
+      case '2':
         return !lineeGuidaAccettate;
+      default:
+        return false;
     }
   });
 
