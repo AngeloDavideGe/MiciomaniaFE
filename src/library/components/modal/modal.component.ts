@@ -1,11 +1,11 @@
-import { CommonModule } from '@angular/common';
 import {
   Component,
-  computed,
   EventEmitter,
   Input,
   OnInit,
   Output,
+  signal,
+  Signal,
 } from '@angular/core';
 
 @Component({
@@ -27,6 +27,7 @@ export class ModalCustomComponent implements OnInit {
   @Input() secondaryButtonText: string = 'Annulla';
   @Input() centered: boolean = true;
   @Input() blurBackdrop: boolean = true;
+  @Input() disablePrimaryButton: boolean = false;
 
   @Output() close = new EventEmitter<void>();
   @Output() primaryAction = new EventEmitter<void>();

@@ -14,8 +14,8 @@ export abstract class BaseService {
   protected http = inject(HttpClient);
   protected appConfig = inject(AppConfigService);
 
-  private baseUrl: string = '';
-  private headers: HttpHeaders = {} as HttpHeaders;
+  private baseUrl: string;
+  private headers: HttpHeaders;
 
   constructor(db: 'CS' | 'PY' | 'DB2') {
     this.baseUrl = environment.BE[db];

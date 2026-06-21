@@ -43,6 +43,7 @@
             <button
               type="button"
               class="primary-btn"
+              [disabled]="disablePrimaryButton"
               (click)="primaryAction.emit()"
             >
               {{ primaryButtonText }}

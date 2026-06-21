@@ -19,13 +19,11 @@ export const errorInterceptor: HttpInterceptorFn = (
     catchError((error: HttpErrorResponse) => {
       const problem = error.error as ProblemDetails;
 
-      // 🎯 default values
       let title = 'Errore';
       let message = 'Si è verificato un errore imprevisto';
       let debugMessage: string | undefined;
       let status = error.status;
 
-      // 🌐 ProblemDetails (ASP.NET Core)
       if (problem) {
         title = problem.title ?? title;
         message = problem.detail ?? message;
@@ -33,7 +31,6 @@ export const errorInterceptor: HttpInterceptorFn = (
         debugMessage = problem.extensions?.['debugMessage'];
       }
 
-      // 📡 fallback HTTP error cases
       switch (error.status) {
         case 0:
           title = 'Server non raggiungibile';

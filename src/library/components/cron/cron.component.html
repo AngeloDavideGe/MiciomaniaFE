@@ -1,0 +1,97 @@
+<app-modal-custom
+  [title]="'Cron'"
+  [subtitle]="'Seleziona un periodo'"
+  [width]="'md'"
+  [showFooter]="true"
+  [secondaryButtonText]="'Resetta'"
+  [disablePrimaryButton]="disableButton().button"
+  (close)="chiudiCron.emit()"
+  (primaryAction)="invioStringaCron.emit(currentCron())"
+  (secondaryAction)="resetSelections()"
+>
+  <div bodyModal>
+    <div class="cron-selector">
+      <p class="cron-selector__label">Seleziona ore, giorni e mesi:</p>
+
+      <div class="cron-selector__groups">
+        <div class="cron-selector__group">
+          <p class="cron-selector__group-label">Ore</p>
+          <div class="cron-selector__grid">
+            @for (hour of hours; track hour) {
+              <div class="cron-selector__item" (click)="toggleHour(hour)">
+                <input
+                  type="checkbox"
+                  [id]="'year-hour-' + hour"
+                  [checked]="selectedHours().includes(hour)"
+                  class="cron-selector__checkbox"
+                />
+                <label [for]="'year-hour-' + hour">{{ hour }}</label>
+              </div>
+            }
+          </div>
+
+          @if (disableButton().hour) {
+            <div class="error-message">Almeno un ora obbligatoria</div>
+          }
+        </div>
+
+        <div class="cron-selector__group">
+          <p class="cron-selector__group-label">Giorni</p>
+          <div class="cron-selector__grid">
+            @for (day of giorniSettimana; track day.value) {
+              <div
+                class="cron-selector__item"
+                (click)="toggleDayOfWeek(day.value)"
+              >
+                <input
+                  type="checkbox"
+                  [id]="'year-day-' + day.value"
+                  [checked]="selectedDaysOfWeek().includes(day.value)"
+                  class="cron-selector__checkbox"
+                />
+                <label [for]="'year-day-' + day.value">{{ day.label }}</label>
+              </div>
+            }
+          </div>
+
+          @if (disableButton().dayOfWeek) {
+            <div class="error-message">Almeno un giorno obbligatorio</div>
+          }
+        </div>
+
+        <div class="cron-selector__group">
+          <p class="cron-selector__group-label">Mesi</p>
+          <div class="cron-selector__grid">
+            @for (month of mesiList; track month.value) {
+              <div
+                class="cron-selector__item"
+                (click)="toggleMonth(month.value)"
+              >
+                <input
+                  type="checkbox"
+                  [id]="'year-month-' + month.value"
+                  [checked]="selectedMonths().includes(month.value)"
+                  class="cron-selector__checkbox"
+                />
+                <label [for]="'year-month-' + month.value">{{
+                  month.label
+                }}</label>
+              </div>
+            }
+          </div>
+
+          @if (disableButton().month) {
+            <div class="error-message">Almeno un mese obbligatorio</div>
+          }
+        </div>
+      </div>
+    </div>
+
+    @if (currentCron()) {
+      <div class="cron-preview">
+        <strong>Cron generato:</strong>
+        <code>{{ currentCron() }}</code>
+      </div>
+    }
+  </div>
+</app-modal-custom>

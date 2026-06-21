@@ -22,7 +22,7 @@ import { ICheckBox } from '../../interfaces/form.interface';
           [id]="check.id"
           [value]="check"
           [checked]="checkRecord[check.id]()"
-          (change)="onCheckChange($event, check.id)"
+          (change)="onCheckChange($event, check)"
         />
         <label [for]="check.id" class="check-label-custom">
           @if (check.icon) {
@@ -76,27 +76,29 @@ export class CheckBoxCustomComponent implements OnInit {
     });
   }
 
-  public onCheckChange(event: Event, id: string): void {
+  public onCheckChange(event: Event, check: ICheckBox): void {
     const checkbox = event.target as HTMLInputElement;
 
     switch (this.tipo) {
       case 'single': {
         if (checkbox.checked) {
           this.checks.forEach((check: ICheckBox) =>
-            this.checkRecord[check.id].set(check.id == id),
+            this.checkRecord[check.id].set(check.id == check.id),
           );
-          this.checked = [id];
+          this.checked = [check.id];
+          check.azioneCheck?.();
         } else {
-          this.checkRecord[id].set(false);
+          this.checkRecord[check.id].set(false);
           this.checked = [];
+          check.azioneNoCheck?.();
         }
         break;
       }
       case 'multiple': {
-        this.checkRecord[id].set(checkbox.checked);
+        this.checkRecord[check.id].set(checkbox.checked);
         this.checked = checkbox.checked
-          ? [...this.checked, id]
-          : this.checked.filter((item: string) => item !== id);
+          ? [...this.checked, check.id]
+          : this.checked.filter((item: string) => item !== check.id);
         break;
       }
     }

@@ -154,24 +154,26 @@
       [arrayRaggi]="raggiPage"
     ></app-paginazione-custom>
 
-    <div class="elemento-finale px-2 mt-2 mb-2" style="--align-end: center">
-      <label class="label-elementi-pagina" for="perPageSelect">
-        Elementi per pagina:
-      </label>
+    @if (arrayElemForPage.length > 0) {
+      <div class="elemento-finale px-2 mt-2 mb-2" style="--align-end: center">
+        <label class="label-elementi-pagina" for="perPageSelect">
+          Elementi per pagina:
+        </label>
 
-      <select
-        id="perPageSelect"
-        class="select-elementi-pagina"
-        [ngModel]="elemForPage()"
-        (ngModelChange)="elemForPage.set($event); filtri.currentPage.set(1)"
-      >
-        @for (numElem of arrayElemForPage; track numElem) {
-          <option [ngValue]="numElem">
-            {{ numElem }}
-          </option>
-        }
-      </select>
-    </div>
+        <select
+          id="perPageSelect"
+          class="select-elementi-pagina"
+          [ngModel]="elemForPage()"
+          (ngModelChange)="elemForPage.set($event); filtri.currentPage.set(1)"
+        >
+          @for (numElem of arrayElemForPage; track numElem) {
+            <option [ngValue]="numElem">
+              {{ numElem }}
+            </option>
+          }
+        </select>
+      </div>
+    }
   }
 
   @if (filtri.elemFilter().length == 0) {
