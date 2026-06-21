@@ -8,13 +8,13 @@ export function chartOptionsMappa(colors: string[], title: string): any {
       alignment: 'center',
       textStyle: {
         fontSize: 14,
-        color: '#333',
+        color: 'var(--text-color)',
       },
     },
     titleTextStyle: {
       fontSize: 22,
       bold: true,
-      color: '#212529',
+      color: 'var(--border-light)',
     },
     chartArea: {
       width: '90%',
@@ -25,7 +25,7 @@ export function chartOptionsMappa(colors: string[], title: string): any {
     pieSliceText: 'percentage',
     pieSliceTextStyle: {
       fontSize: 13,
-      color: '#fff',
+      color: 'var(--surface-color)',
     },
     tooltip: {
       textStyle: {

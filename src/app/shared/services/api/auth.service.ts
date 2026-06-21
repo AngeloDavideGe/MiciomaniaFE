@@ -27,6 +27,7 @@ export class AuthService extends BaseService {
 
     return this.getCustom<User>('Utenti/get_utente_by_email', {
       params: params,
+      contextToken: LOADING_CONTEXT,
     });
   }
 
@@ -43,7 +44,10 @@ export class AuthService extends BaseService {
       password: password,
     };
 
-    return this.postCustom<void>('Utenti/post_utente', { body: body });
+    return this.postCustom<void>('Utenti/post_utente', {
+      body: body,
+      contextToken: LOADING_CONTEXT,
+    });
   }
 
   updateUser(user: User, valueContext: boolean): Observable<any> {

@@ -7,19 +7,19 @@ export function getTabsManga(clickCalls: Function): iTab[] {
     {
       id: 'tutti',
       label: 'Tutti',
-      color: '#6c5ce7',
+      color: 'var(--primary-color)',
       azione: () => clickCalls(null),
     },
     {
       id: 'in-corso',
       label: 'In corso',
-      color: '#00b894',
+      color: 'var(--green-miciomania)',
       azione: () => clickCalls(false),
     },
     {
       id: 'terminati',
       label: 'Terminati',
-      color: '#e84393',
+      color: 'var(--red-miciomania)',
       azione: () => clickCalls(true),
     },
   ];
@@ -30,19 +30,19 @@ export function getTabsTuoiManga(clickCalls: Function): iTab[] {
     {
       id: 'preferiti',
       label: '⭐ Preferiti',
-      color: '#6c5ce7',
+      color: 'var(--primary-color)',
       azione: clickCalls('preferiti'),
     },
     {
       id: 'leggendo',
       label: '📖 Leggendo',
-      color: '#00b894',
+      color: 'var(--green-miciomania)',
       azione: clickCalls('letti'),
     },
     {
       id: 'completati',
       label: '✅ Completati',
-      color: '#e84393',
+      color: 'var(--red-miciomania)',
       azione: clickCalls('completati'),
     },
   ];

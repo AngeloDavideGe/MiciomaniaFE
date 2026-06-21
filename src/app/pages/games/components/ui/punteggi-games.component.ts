@@ -65,7 +65,7 @@ import { SquadreGiocatore } from '../../interfaces/games.interfaces';
               <div
                 class="team-badge"
                 [style.backgroundColor]="squadra.colore"
-                [style.color]="'#ffffff'"
+                [style.color]="'var(--surface-color)'"
               >
                 <i class="bi bi-star team-badge-icon"></i>
                 <span class="team-name">{{ squadra.nome }}</span>
@@ -94,7 +94,7 @@ import { SquadreGiocatore } from '../../interfaces/games.interfaces';
               <div
                 class="team-badge"
                 [style.backgroundColor]="squadra.colore"
-                [style.color]="'#ffffff'"
+                [style.color]="'var(--surface-color)'"
               >
                 <i class="bi bi-shield team-badge-icon"></i>
                 <span class="team-name">{{ squadra.nome }}</span>

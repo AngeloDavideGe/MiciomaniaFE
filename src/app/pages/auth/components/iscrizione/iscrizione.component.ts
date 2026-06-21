@@ -44,12 +44,10 @@ export class IscrizioneComponent {
     {
       id: '1',
       label: 'Dati Personali',
-      color: '#FF5733',
     },
     {
       id: '2',
       label: 'Riepilogo',
-      color: '#33C1FF',
     },
   ];
 

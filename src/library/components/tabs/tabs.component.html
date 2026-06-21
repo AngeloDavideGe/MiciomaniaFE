@@ -31,10 +31,7 @@
           <div
             class="circle mx-auto mb-1 elemento-centrato"
             [style]="{
-              'background-color':
-                selectTab() === tab.id
-                  ? 'var(--primary-color)'
-                  : 'var(--border-color)',
+              'background-color': tab.color || 'var(--primary-color)',
               color:
                 selectTab() === tab.id
                   ? 'var(--surface-color)'
