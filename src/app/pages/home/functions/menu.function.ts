@@ -4,6 +4,17 @@ import {
   ToggleProps,
 } from '../../../../library/interfaces/toggle.interface';
 
+export function getToggleNotifiche(
+  menuElementi: MenuElements[],
+): ToggleProps[] {
+  return [
+    {
+      titolo: '',
+      menuElementi: menuElementi,
+    },
+  ];
+}
+
 export function getToggleMenus(
   router: Router,
   userId: any,

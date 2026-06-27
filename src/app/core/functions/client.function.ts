@@ -18,6 +18,7 @@ export interface IAppConfig {
     message: number;
     elemPagine: number;
     postVisible: number;
+    notifiche: number;
   };
   defaultPicsUrl: {
     user: string;

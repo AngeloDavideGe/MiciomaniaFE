@@ -10,7 +10,17 @@
     </div>
 
     <div rightContent>
-      <div class="elementi-laterali">
+      <div class="elementi-laterali gap-2">
+        <app-toggle-custom
+          [icona]="'bi bi-bell'"
+          [tipo]="'single'"
+          [menuOpen]="compAperto.notifiche"
+          [toggleStyles]="notificheStyle"
+          [toggleMenus]="toggleNotifiche()"
+          (aperturaMenu)="switchCompAperto(enumCompAperto.notifiche, $event)"
+        >
+        </app-toggle-custom>
+
         <app-toggle-custom
           [menuOpen]="compAperto.menuBar"
           [toggleMenus]="toggleMenus()"

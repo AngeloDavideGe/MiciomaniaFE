@@ -5,7 +5,10 @@ import { ConfirmService } from '../../../library/dialogs/confirm.service';
 import { handlerFunc } from '../../../library/functions/handler.function';
 import { iCard } from '../../../library/interfaces/card.interface';
 import { RaggioPage } from '../../../library/interfaces/pagination.interface';
-import { ToggleProps } from '../../../library/interfaces/toggle.interface';
+import {
+  ToggleProps,
+  ToggleStyles,
+} from '../../../library/interfaces/toggle.interface';
 import { DataHttp } from '../../core/api/http.data';
 import { setUserDataNull } from '../../core/functions/storage.function';
 import { getVoidUser } from '../../shared/handlers/auth.handler';
@@ -18,7 +21,7 @@ import {
   getConfirmParams,
   pagineHome,
 } from './functions/home.functions';
-import { getToggleMenus } from './functions/menu.function';
+import { getToggleMenus, getToggleNotifiche } from './functions/menu.function';
 import { home_imports } from './home.imports';
 
 @Component({
@@ -36,9 +39,14 @@ export class HomeComponent {
   public user: User = {} as User;
   public inizialiUser: string = '';
   public compAperto: recordComp = {} as recordComp;
+  public notificheStyle: ToggleStyles = { width: '20rem' };
 
   public cardsHome = computed<iCard[]>(() =>
     getCardsHome(this.router, () => this.controlloPunteggio()),
+  );
+
+  public toggleNotifiche = computed<ToggleProps[]>(() =>
+    getToggleNotifiche([]),
   );
 
   public toggleMenus = computed<ToggleProps[]>(() =>

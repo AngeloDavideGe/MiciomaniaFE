@@ -22,7 +22,9 @@ export class PostService extends BaseService {
   }
 
   getProfiloById(idUtente: string): Observable<Profilo> {
-    const params = new HttpParams().set('idUtente', idUtente);
+    const params = new HttpParams()
+      .set('idUtente', idUtente)
+      .set('maxElems', this.appConfig.config.maxElement.postVisible);
 
     return this.getCustom<Profilo>('Posts/get_profilo', {
       params: params,
@@ -34,7 +36,7 @@ export class PostService extends BaseService {
   getUltimiPosts(): Observable<TweetAll[]> {
     const params = new HttpParams()
       .set('time', DataHttp.postVisti.lastUpdated.toString())
-      .set('maxPost', this.appConfig.config.maxElement.postVisible);
+      .set('maxElems', this.appConfig.config.maxElement.postVisible);
 
     return this.getCustom<TweetAll[]>('Posts/get_all_last_posts', {
       params: params,

@@ -45,7 +45,7 @@ export class ProfiloComponent implements OnDestroy {
   public profiloPersonale: boolean = false;
   public utenteCaricato = signal<boolean>(false);
   public newProfilePic = signal<File | null>(null);
-  public modaleAperta: modaleApertaType = '';
+  public modaleAperta = signal<modaleApertaType>('');
   public socialArray: EditableSocial[] = [];
   public tornaIndietroPath: TornaIndietro = {} as TornaIndietro;
 
@@ -217,7 +217,7 @@ export class ProfiloComponent implements OnDestroy {
   onUpload(file: File | null): void {
     const user = structuredClone(DataHttp.user()) || ({} as User);
     this.postService.aggiornamentoPic.set(true);
-    this.modaleAperta = '';
+    this.modaleAperta.set('');
 
     uploadImage<User>({
       appConfig: this.appConfig,
@@ -258,6 +258,6 @@ export class ProfiloComponent implements OnDestroy {
       nextCall: () => DataHttp.profiloPersonale?.tweets.unshift(tweet),
     });
 
-    this.modaleAperta = '';
+    this.modaleAperta.set('');
   }
 }

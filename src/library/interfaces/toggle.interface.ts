@@ -1,12 +1,17 @@
 export interface ToggleProps {
   titolo: string;
-  icona: string;
+  icona?: string;
   menuElementi: MenuElements[];
 }
 
 export interface MenuElements {
   azione: Function;
   testo: string;
-  icona: string;
+  icona?: string;
   condition: boolean;
+}
+
+export interface ToggleStyles {
+  top?: string;
+  width?: string;
 }

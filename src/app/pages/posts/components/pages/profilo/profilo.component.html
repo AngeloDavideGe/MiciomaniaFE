@@ -11,7 +11,7 @@
           [profiloPersonale]="profiloPersonale"
           [socialArray]="socialArray"
           [spinnerTemplate]="spinnerTemplate"
-          (modaleAperta)="modaleAperta = $event"
+          (modaleAperta)="modaleAperta.set($event)"
         ></app-card-profilo>
 
         <app-sezione-tweet
@@ -19,15 +19,15 @@
           [profiloPersonale]="profiloPersonale"
           [spinnerTemplate]="spinnerTemplate"
           (eliminaTweet)="eliminaTweet($event)"
-          (modaleAperta)="modaleAperta = $event"
+          (modaleAperta)="modaleAperta.set($event)"
         ></app-sezione-tweet>
       </div>
     </div>
   </div>
 
-  @switch (modaleAperta) {
+  @switch (modaleAperta()) {
     @case ("new-tweet") {
-      <app-modal-custom [title]="'Nuovo Tweet'" (close)="modaleAperta = ''">
+      <app-modal-custom [title]="'Nuovo Tweet'" (close)="modaleAperta.set('')">
         <div bodyModal>
           <app-form-custom
             [strutturaForm]="newTweetForm"
@@ -44,7 +44,7 @@
         [subtitle]="'Carica una nuova immagine'"
         [width]="'sm'"
         [showFooter]="false"
-        (close)="modaleAperta = ''; this.newProfilePic.set(null)"
+        (close)="modaleAperta.set(''); this.newProfilePic.set(null)"
       >
         <div bodyModal>
           <app-form-custom

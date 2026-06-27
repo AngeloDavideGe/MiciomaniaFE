@@ -4,6 +4,7 @@ export enum CompAperto {
   cursore = 'cursore',
   menuBar = 'menuBar',
   profili = 'profili',
+  notifiche = 'notifiche',
 }
 
 export type recordComp = Record<CompAperto, WritableSignal<boolean>>;
