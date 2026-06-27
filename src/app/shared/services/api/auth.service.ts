@@ -4,13 +4,15 @@ import { Observable } from 'rxjs';
 import { LOADING_CONTEXT } from '../../../../library/interceptors/loading.interceptor';
 import { BaseService } from '../../../../library/services/base.service';
 import { Ruolo } from '../../enums/users.enum';
-import { User, UserParams } from '../../interfaces/users.interface';
+import { CronUtenti, User, UserParams } from '../../interfaces/users.interface';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService extends BaseService {
   public users = signal<UserParams[]>([]);
+  public notifiche = signal<CronUtenti[]>([]);
+  public notificheCaricate: boolean = false;
 
   constructor() {
     super('CS');
@@ -26,6 +28,18 @@ export class AuthService extends BaseService {
       .set('password', password);
 
     return this.getCustom<User>('Utenti/get_utente_by_email', {
+      params: params,
+      contextToken: LOADING_CONTEXT,
+    });
+  }
+
+  getNotifiche(): Observable<CronUtenti[]> {
+    const params = new HttpParams().set(
+      'maxElems',
+      this.appConfig.config.maxElement.notifiche,
+    );
+
+    return this.getCustom<CronUtenti[]>('Crono/get_notifiche', {
       params: params,
       contextToken: LOADING_CONTEXT,
     });

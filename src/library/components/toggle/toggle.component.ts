@@ -32,8 +32,8 @@ import { ToggleProps, ToggleStyles } from '../../interfaces/toggle.interface';
                 @if (item.condition) {
                   <li>
                     <a (click)="item.azione()">
-                      <i class="{{ item.icona }} me-2"></i>
-                      {{ item.testo }}
+                      <i class="{{ item.icona }}"></i>
+                      <div [innerHTML]="item.testo"></div>
                     </a>
                   </li>
                 }
@@ -84,7 +84,7 @@ export class ToggleCustomComponent implements OnInit {
 
   private readonly DEFAULT_STYLES: ToggleStyles = {
     top: '4rem',
-    width: '12rem',
+    width: '15rem',
   };
 
   @Input() toggleMenus!: ToggleProps[];

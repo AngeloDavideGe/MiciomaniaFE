@@ -12,10 +12,19 @@ import {
 import { DataHttp } from '../../core/api/http.data';
 import { setUserDataNull } from '../../core/functions/storage.function';
 import { getVoidUser } from '../../shared/handlers/auth.handler';
-import { User, UserParams } from '../../shared/interfaces/users.interface';
+import {
+  CronUtenti,
+  User,
+  UserParams,
+} from '../../shared/interfaces/users.interface';
 import { AuthService } from '../../shared/services/api/auth.service';
 import { ElementiUtenteService } from '../../shared/services/api/elementiUtente.service';
-import { CompAperto, compApertoFunc, recordComp } from './enums/home.enum';
+import {
+  CompAperto,
+  compApertoFunc,
+  recordComp,
+  RecordNotifiche,
+} from './enums/home.enum';
 import {
   getCardsHome,
   getConfirmParams,
@@ -29,6 +38,7 @@ import { home_imports } from './home.imports';
   standalone: true,
   imports: home_imports,
   templateUrl: './home.component.html',
+  styleUrl: './home.component.scss',
 })
 export class HomeComponent {
   public authService = inject(AuthService);
@@ -46,7 +56,24 @@ export class HomeComponent {
   );
 
   public toggleNotifiche = computed<ToggleProps[]>(() =>
-    getToggleNotifiche([]),
+    getToggleNotifiche(
+      this.authService.notifiche().map((value: CronUtenti) => {
+        return {
+          azione: () => this.router.navigate([RecordNotifiche[value.sezione]]),
+          testo: `
+            <div class="notification">
+              <span class="avatar">
+                <strong>${value.idUtente}</strong>: 
+              </span>
+              <span class="message">
+                ${value.azione}
+              </span>
+            </div>
+          `,
+          condition: true,
+        };
+      }),
+    ),
   );
 
   public toggleMenus = computed<ToggleProps[]>(() =>
@@ -89,6 +116,15 @@ export class HomeComponent {
       callHttp: () => this.authService.getAllUsersHttp(),
       nextCall: (data: UserParams[]) => this.handleUsersSubscription(data),
     });
+
+    handlerFunc<CronUtenti[]>({
+      skipCall: this.authService.notificheCaricate,
+      callHttp: () => this.authService.getNotifiche(),
+      nextCall: (data: CronUtenti[]) => this.authService.notifiche.set(data),
+      errorCall: () => (this.authService.notificheCaricate = false),
+    });
+
+    this.authService.notificheCaricate = true;
   }
 
   logout(): void {

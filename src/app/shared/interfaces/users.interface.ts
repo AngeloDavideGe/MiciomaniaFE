@@ -35,3 +35,11 @@ export interface UserParams {
   profilePic: string | null;
   ruolo: Ruolo;
 }
+
+export interface CronUtenti {
+  id: string;
+  idUtente: string;
+  azione: string;
+  created_at: Date;
+  sezione: string;
+}
