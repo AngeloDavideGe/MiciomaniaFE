@@ -6,7 +6,6 @@ import { CustomNavBarComponent } from '../../../library/components/navbar/navbar
 import { ToggleCustomComponent } from '../../../library/components/toggle/toggle.component';
 import { CursoreComponent } from './components/ui/cursore.component';
 import { SocialLinkComponent } from './components/ui/social-link.component';
-import { UserActiveComponent } from './components/ui/user-active.component';
 
 export const home_imports: Type<any>[] = [
   SocialLinkComponent,
@@ -14,7 +13,6 @@ export const home_imports: Type<any>[] = [
   CursoreComponent,
   AsyncPipe,
   CustomNavBarComponent,
-  UserActiveComponent,
   CardCustomComponent,
   ToggleCustomComponent,
 ];

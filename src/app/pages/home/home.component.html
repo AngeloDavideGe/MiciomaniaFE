@@ -1,12 +1,34 @@
 @if (isHome$ | async) {
   <app-custom-navbar [viewTornaIndietro]="false">
     <div leftContent>
-      <app-user-active
-        [user]="user"
-        [inizialiUser]="inizialiUser"
-        [profiliOpen]="compAperto.profili"
-        (profiloAperto)="switchCompAperto(enumCompAperto.profili, $event)"
-      ></app-user-active>
+      <app-toggle-custom
+        [tipo]="'single'"
+        [imgIcona]="user.credenziali.profilePic || imgDefault"
+        [menuOpen]="compAperto.profili"
+        [toggleStyles]="profiliStyle"
+        [toggleMenus]="toggleProfili()"
+        (aperturaMenu)="switchCompAperto(enumCompAperto.profili, $event)"
+      >
+        <div downContent>
+          <div
+            class="add-account-item"
+            (click)="router.navigate(['/auth/new-login'])"
+          >
+            <div class="add-account-icon">
+              <i class="bi bi-plus-circle-fill"></i>
+            </div>
+            <div class="add-account-text">
+              <span>Aggiungi account</span>
+            </div>
+          </div>
+
+          <div class="logout-item" (click)="logoutAll()">
+            <div class="logout-text">
+              <span>Esci da tutti gli account</span>
+            </div>
+          </div>
+        </div>
+      </app-toggle-custom>
     </div>
 
     <div rightContent>

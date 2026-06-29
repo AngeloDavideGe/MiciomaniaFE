@@ -14,13 +14,23 @@ import { ToggleProps, ToggleStyles } from '../../interfaces/toggle.interface';
   imports: [],
   template: `
     <div class="home-navbar-wrapper">
-      <button
-        class="btn toggle-btn"
-        (click)="toggleMenu()"
-        [class]="menuOpen() ? 'btn-primary' : 'btn-outline-primary'"
-      >
-        <i [class]="menuOpen() ? 'bi bi-x' : icona"></i>
-      </button>
+      @if (imgIcona) {
+        <img
+          [src]="imgIcona"
+          alt="Profile Picture"
+          class="rounded-circle"
+          style="width: 3.4rem; height: 3.4rem; cursor: pointer"
+          (click)="toggleMenu()"
+        />
+      } @else {
+        <button
+          class="btn toggle-btn"
+          (click)="toggleMenu()"
+          [class]="menuOpen() ? 'btn-primary' : 'btn-outline-primary'"
+        >
+          <i [class]="menuOpen() ? 'bi bi-x' : icona"></i>
+        </button>
+      }
     </div>
 
     @switch (tipo) {
@@ -38,6 +48,7 @@ import { ToggleProps, ToggleStyles } from '../../interfaces/toggle.interface';
                   </li>
                 }
               }
+              <ng-content select="[downContent]"></ng-content>
             </ul>
           </div>
         }
@@ -89,6 +100,7 @@ export class ToggleCustomComponent implements OnInit {
 
   @Input() toggleMenus!: ToggleProps[];
   @Input() icona: string = 'bi bi-list';
+  @Input() imgIcona: string = '';
   @Input() tipo: 'single' | 'multiple' = 'multiple';
   @Input() menuOpen = signal<boolean>(false);
   @Input() toggleStyles: ToggleStyles = {};

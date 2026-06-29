@@ -1,12 +1,16 @@
 import { Router } from '@angular/router';
 import { iCard } from '../../../../library/interfaces/card.interface';
 import { RaggioPage } from '../../../../library/interfaces/pagination.interface';
-import { dateFormat } from '../../../../library/pipes/date-format.pipe';
 import {
   CronUtenti,
   User,
   UserParams,
 } from '../../../shared/interfaces/users.interface';
+import {
+  MenuElements,
+  ToggleProps,
+} from '../../../../library/interfaces/toggle.interface';
+import { dateFormat } from '../../../../library/pipes/date-format.pipe';
 import { UserReduced } from '../../../core/components/chat/interfaces/chat.interface';
 
 export function getConfirmParams(user: User): {
@@ -91,6 +95,105 @@ export function pagineHome(): RaggioPage[] {
   ];
 }
 
+export function getToggleNotifiche(
+  menuElementi: MenuElements[],
+): ToggleProps[] {
+  return [
+    {
+      titolo: '',
+      menuElementi: menuElementi,
+    },
+  ];
+}
+
+export function getToggleMenus(
+  router: Router,
+  userId: any,
+  logout: () => void,
+  cursore: () => void,
+): ToggleProps[] {
+  return [
+    {
+      titolo: 'Profili',
+      icona: 'bi bi-person-fill',
+      menuElementi: getProfiliElements(router, userId, logout),
+    },
+    {
+      titolo: 'Impostazioni',
+      icona: 'bi bi-gear-fill',
+      menuElementi: getImpostazioniElements(router, userId, cursore),
+    },
+  ];
+}
+
+function getImpostazioniElements(
+  router: Router,
+  userId: any,
+  cursore: () => void,
+): MenuElements[] {
+  return [
+    {
+      azione: () => router.navigate(['/auth/iscrizione']),
+      testo: 'Aggiorna Profilo',
+      icona: 'bi bi-person-plus',
+      condition: !!userId,
+    },
+    {
+      azione: () => router.navigate(['/home/interazioni']),
+      testo: 'Interazioni',
+      icona: 'bi bi-chat-square-quote-fill',
+      condition: true,
+    },
+    {
+      azione: () => router.navigate(['/home/squadre']),
+      testo: 'Squadre',
+      icona: 'bi bi-people-fill',
+      condition: true,
+    },
+    {
+      azione: () => cursore(),
+      testo: 'Cursore',
+      icona: 'bi bi-cursor',
+      condition: true,
+    },
+  ];
+}
+
+function getProfiliElements(router: Router, userId: any, logout: () => void) {
+  return [
+    {
+      azione: () => router.navigate(['/posts/profilo/' + userId]),
+      testo: 'Profilo Personale',
+      icona: 'bi bi-person-circle',
+      condition: !!userId,
+    },
+    {
+      azione: () => router.navigate(['/posts/ultimi-post']),
+      testo: 'Visualizza Post',
+      icona: 'bi bi-grid-3x3-gap',
+      condition: true,
+    },
+    {
+      azione: () => router.navigate(['/home/admin']),
+      testo: 'Contatta Admin',
+      icona: 'bi bi-envelope',
+      condition: true,
+    },
+    {
+      azione: () => logout(),
+      testo: 'Logout',
+      icona: 'bi bi-box-arrow-right',
+      condition: !!userId,
+    },
+    {
+      azione: () => router.navigate(['/auth/login']),
+      testo: 'Login',
+      icona: 'bi bi-box-arrow-in-right',
+      condition: !userId,
+    },
+  ];
+}
+
 export function getNotificheTemplate(
   value: CronUtenti,
   userReduced: Record<string, UserReduced>,
@@ -113,4 +216,31 @@ export function getNotificheTemplate(
         </div>
       </div>
     `;
+}
+
+export function getProfiliTemplate(user: User, currentId: string): string {
+  return `
+    <div class="profile-item">
+      <div class="profile-avatar">
+        ${
+          user.credenziali.profilePic
+            ? `<img src="${user.credenziali.profilePic}" alt="Profile Picture" class="rounded-circle" />`
+            : `<div class="avatar-placeholder"><span>${user.id.slice(0, 2).toUpperCase()}</span></div>`
+        }
+      </div>
+
+      <div class="profile-info">
+        <div class="profile-username">${user.id}</div>
+        <div class="profile-name">${user.credenziali.nome}</div>
+      </div>
+
+      <div class="profile-actions">
+        ${
+          user.id === currentId
+            ? `<div class="profile-check"><i class="bi bi-check-circle-fill"></i></div>`
+            : ''
+        }
+      </div>
+    </div>
+  `;
 }
