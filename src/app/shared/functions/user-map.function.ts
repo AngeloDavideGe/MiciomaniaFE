@@ -1,6 +1,6 @@
-import { AuthService } from '../../../../shared/services/api/auth.service';
-import { AppConfigService } from '../../../api/appConfig.service';
-import { UserReduced } from '../interfaces/chat.interface';
+import { AuthService } from '../services/api/auth.service';
+import { AppConfigService } from '../../core/api/appConfig.service';
+import { UserReduced } from '../../core/components/chat/interfaces/chat.interface';
 
 export function mapUserMessage(
   authService: AuthService,

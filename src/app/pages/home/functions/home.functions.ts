@@ -1,7 +1,13 @@
 import { Router } from '@angular/router';
-import { User, UserParams } from '../../../shared/interfaces/users.interface';
 import { iCard } from '../../../../library/interfaces/card.interface';
 import { RaggioPage } from '../../../../library/interfaces/pagination.interface';
+import { dateFormat } from '../../../../library/pipes/date-format.pipe';
+import {
+  CronUtenti,
+  User,
+  UserParams,
+} from '../../../shared/interfaces/users.interface';
+import { UserReduced } from '../../../core/components/chat/interfaces/chat.interface';
 
 export function getConfirmParams(user: User): {
   path: string;
@@ -83,4 +89,28 @@ export function pagineHome(): RaggioPage[] {
       raggio: 1,
     },
   ];
+}
+
+export function getNotificheTemplate(
+  value: CronUtenti,
+  userReduced: Record<string, UserReduced>,
+  defaultPic: string,
+): string {
+  return `
+      <div class="notification">
+        <div class="avatar">
+          <img src="${userReduced[value.idUtente]?.pic || defaultPic}" alt="${value.idUtente}">
+        </div>
+  
+        <div class="content">
+          <div class="message">
+            <strong>${value.idUtente}</strong> ${value.azione}
+          </div>
+  
+          <small class="time">
+            ${dateFormat(value.created_at, 'dd mmmm yyyy hh:mm')}
+          </small>
+        </div>
+      </div>
+    `;
 }

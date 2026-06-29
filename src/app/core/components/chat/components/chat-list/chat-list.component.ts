@@ -20,7 +20,7 @@ import {
   getMessaggioBenvenuto,
   getMessaggioCompBenvenuto,
 } from '../../functions/messaggi.function';
-import { mapUserMessage } from '../../functions/user-map.function';
+import { mapUserMessage } from '../../../../../shared/functions/user-map.function';
 import {
   GruppiChat,
   Gruppo,

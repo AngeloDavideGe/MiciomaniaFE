@@ -28,10 +28,14 @@ import {
 import {
   getCardsHome,
   getConfirmParams,
+  getNotificheTemplate,
   pagineHome,
 } from './functions/home.functions';
 import { getToggleMenus, getToggleNotifiche } from './functions/menu.function';
 import { home_imports } from './home.imports';
+import { mapUserMessage } from '../../shared/functions/user-map.function';
+import { UserReduced } from '../../core/components/chat/interfaces/chat.interface';
+import { AppConfigService } from '../../core/api/appConfig.service';
 
 @Component({
   selector: 'app-home',
@@ -43,38 +47,70 @@ import { home_imports } from './home.imports';
 export class HomeComponent {
   public authService = inject(AuthService);
   private elementiUtenteService = inject(ElementiUtenteService);
+  private configService = inject(AppConfigService);
   private confirmService = inject(ConfirmService);
   public router = inject(Router);
 
   public user: User = {} as User;
   public inizialiUser: string = '';
   public compAperto: recordComp = {} as recordComp;
-  public notificheStyle: ToggleStyles = { width: '20rem' };
+  public notificheStyle: ToggleStyles = { width: '25rem' };
+
+  public userMessageMap = computed<Record<string, UserReduced> | null>(() => {
+    let userRecord: Record<string, UserReduced> | null = null;
+
+    if (this.authService.users().length > 0) {
+      userRecord = mapUserMessage(this.authService, this.configService);
+      userRecord[this.user.id] = {
+        nome: this.user.credenziali.nome,
+        pic:
+          this.user.credenziali.profilePic ||
+          this.configService.config.defaultPicsUrl.user,
+      };
+    }
+
+    return userRecord;
+  });
 
   public cardsHome = computed<iCard[]>(() =>
     getCardsHome(this.router, () => this.controlloPunteggio()),
   );
 
-  public toggleNotifiche = computed<ToggleProps[]>(() =>
-    getToggleNotifiche(
-      this.authService.notifiche().map((value: CronUtenti) => {
-        return {
-          azione: () => this.router.navigate([RecordNotifiche[value.sezione]]),
+  public toggleNotifiche = computed<ToggleProps[]>(() => {
+    if (this.userMessageMap() && this.authService.notifiche().length > 0) {
+      return getToggleNotifiche(
+        this.authService.notifiche().map((value: CronUtenti) => {
+          return {
+            azione: () =>
+              this.router.navigate([RecordNotifiche[value.sezione]]),
+            testo: getNotificheTemplate(
+              value,
+              this.userMessageMap()!,
+              this.configService.config.defaultPicsUrl.user,
+            ),
+            condition: true,
+          };
+        }),
+      );
+    } else {
+      return getToggleNotifiche([
+        {
+          azione: () => {},
           testo: `
-            <div class="notification">
-              <span class="avatar">
-                <strong>${value.idUtente}</strong>: 
-              </span>
-              <span class="message">
-                ${value.azione}
-              </span>
+          <div 
+            class="elemento-centrato"
+            style="padding-top: 2rem"
+          >
+            <div class="spinner-border text-primary" role="status">
+              <span class="visually-hidden">Loading...</span>
             </div>
-          `,
+          </div>
+        `,
           condition: true,
-        };
-      }),
-    ),
-  );
+        },
+      ]);
+    }
+  });
 
   public toggleMenus = computed<ToggleProps[]>(() =>
     getToggleMenus(
