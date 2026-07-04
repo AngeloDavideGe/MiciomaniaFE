@@ -4,6 +4,7 @@ import { Router, RouterLink } from '@angular/router';
 import { FormCustomComponent } from '../../../../../library/components/form/form.component';
 import { handlerFunc } from '../../../../../library/functions/handler.function';
 import { RecordStruttura } from '../../../../../library/interfaces/form.interface';
+import { dynamicValidator } from '../../../../../library/validators/dynamic.validator';
 import { usernameValidator } from '../../../../../library/validators/username.validator';
 import { AuthService } from '../../../../shared/services/api/auth.service';
 
@@ -60,6 +61,25 @@ export class SignInComponent {
       tipo: 'Password',
       errorMessage: 'Campo Obbligatorio (Almeno 6 lettere)',
     },
+    confirm_password: {
+      titolo: 'Conferma Password',
+      validators: [],
+      tipo: 'Password',
+      errorMessage: 'Deve essere uguale alla password inserita',
+      onChange: (_value, form) => {
+        const password = form.get('password')?.value;
+        const confirm = form.get('confirm_password');
+
+        if (!confirm) return;
+
+        confirm.setValidators([
+          Validators.required,
+          dynamicValidator(() => password === confirm.value),
+        ]);
+
+        confirm.updateValueAndValidity({ emitEvent: false });
+      },
+    },
   };
 
   public registrazione(params: {
@@ -67,7 +87,12 @@ export class SignInComponent {
     username: string;
     email: string;
     password: string;
+    confirm_password: string;
   }): void {
+    if (params.password !== params.confirm_password) {
+      return;
+    }
+
     handlerFunc<void>({
       callHttp: () =>
         this.authService.postUser(

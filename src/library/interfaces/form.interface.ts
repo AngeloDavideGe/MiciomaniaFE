@@ -1,4 +1,4 @@
-import { FormControl, ValidatorFn } from '@angular/forms';
+import { FormControl, FormGroup, ValidatorFn } from '@angular/forms';
 
 export type RecordStrutturaMultiForm = Record<string, StrutturaMultiForm>;
 
@@ -23,7 +23,7 @@ export interface StrutturaForm {
   optionsSelect?: string[];
   checkbox?: ICheckBox[];
   file?: TipoFileForm;
-  onChange?: (x: any) => void;
+  onChange?: (value: any, form: FormGroup<FormInterface>) => void;
 }
 
 export type tipoForm =

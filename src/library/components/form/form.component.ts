@@ -1,4 +1,5 @@
 import {
+  AfterViewInit,
   Component,
   EventEmitter,
   inject,
@@ -31,7 +32,7 @@ import { ButtonCustomComponent } from '../button/botton-custom.component';
   templateUrl: './form.component.html',
   styleUrl: './form.component.scss',
 })
-export class FormCustomComponent implements OnInit, OnDestroy {
+export class FormCustomComponent implements OnInit, AfterViewInit, OnDestroy {
   private formBuilder = inject(FormBuilder);
   public form!: FormGroup<FormInterface>;
   public arrayForm: StrutturaForm[] = [];
@@ -47,28 +48,20 @@ export class FormCustomComponent implements OnInit, OnDestroy {
   @Output() formValido = new EventEmitter<boolean>();
 
   ngOnInit(): void {
-    if (this.formGroup) {
-      this.form = this.formGroup;
-
-      this.keys = Object.keys(this.strutturaForm);
-      this.arrayForm = this.keys.map((x: string) => this.strutturaForm[x]);
-
-      return;
-    }
-
     this.keys = Object.keys(this.strutturaForm);
-
     this.arrayForm = this.keys.map((x: string) => this.strutturaForm[x]);
 
-    this.form = this.formBuilder.group(
-      this.keys.reduce((acc: BuildInterface, key: string) => {
-        const field: StrutturaForm = this.strutturaForm[key];
-
-        acc[key] = [field.valueInit || '', field.validators];
-
-        return acc;
-      }, {} as BuildInterface),
-    );
+    if (this.formGroup) {
+      this.form = this.formGroup;
+    } else {
+      this.form = this.formBuilder.group(
+        this.keys.reduce((acc: BuildInterface, key: string) => {
+          const field: StrutturaForm = this.strutturaForm[key];
+          acc[key] = [field.valueInit || '', field.validators];
+          return acc;
+        }, {} as BuildInterface),
+      );
+    }
 
     this.form.statusChanges
       .pipe(takeUntil(this.destroy$), debounceTime(10))
@@ -76,6 +69,10 @@ export class FormCustomComponent implements OnInit, OnDestroy {
         this.formValido.emit(this.form.valid);
         this.subscribeForm.emit(this.form.value);
       });
+  }
+
+  ngAfterViewInit(): void {
+    this.formValido.emit(this.form.valid);
   }
 
   ngOnDestroy(): void {
@@ -105,7 +102,7 @@ export class FormCustomComponent implements OnInit, OnDestroy {
 
   public onInputChange(event: Event, index: string): void {
     const value: string = (event.target as HTMLInputElement).value;
-    this.strutturaForm[index].onChange?.(value);
+    this.strutturaForm[index].onChange?.(value, this.form);
   }
 
   public onFileSelected(event: Event, index: string): void {
@@ -146,7 +143,7 @@ export class FormCustomComponent implements OnInit, OnDestroy {
     this.form.get(index)?.setValue(file);
     this.form.get(index)?.markAsDirty();
     this.form.get(index)?.updateValueAndValidity();
-    this.strutturaForm[index].onChange?.(file);
+    this.strutturaForm[index].onChange?.(file, this.form);
 
     const reader = new FileReader();
 
