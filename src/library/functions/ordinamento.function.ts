@@ -24,3 +24,14 @@ export function GetOrderCustom<T>(vett: T[], k: keyof T, desc: boolean): T[] {
       return vett;
   }
 }
+
+export function shuffleArray<T>(array: T[]): T[] {
+  const shuffled: T[] = [...array];
+
+  for (let i = shuffled.length - 1; i > 0; i--) {
+    const j: number = Math.floor(Math.random() * (i + 1));
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+  }
+
+  return shuffled;
+}

@@ -3,6 +3,7 @@ import {
   ComponentRef,
   createComponent,
   EnvironmentInjector,
+  inject,
   Injectable,
 } from '@angular/core';
 import { finalize, Observable, take } from 'rxjs';
@@ -12,12 +13,10 @@ import { ConfirmComponent, ConfirmParams } from './confirm.component';
   providedIn: 'root',
 })
 export class ConfirmService {
-  private confirmComponentRef: ComponentRef<ConfirmComponent> | null = null;
+  private appRef = inject(ApplicationRef);
+  private environmentInjector = inject(EnvironmentInjector);
 
-  constructor(
-    private appRef: ApplicationRef,
-    private environmentInjector: EnvironmentInjector,
-  ) {}
+  private confirmComponentRef: ComponentRef<ConfirmComponent> | null = null;
 
   public confirmCustom(params: {
     titolo: string;

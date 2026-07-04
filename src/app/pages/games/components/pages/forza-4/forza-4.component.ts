@@ -1,11 +1,11 @@
 import { Component, inject } from '@angular/core';
 import { setPunteggioOttenuto } from '../../../../../shared/handlers/squadre.handler';
 import { forza4CellEmpty } from '../../../constants/boardEmpty.const';
-import { boardEmpty } from '../../../functions/games.function';
 import { EsitoGame, Forza4, Turno } from '../../../interfaces/games.interfaces';
 import { DettagliGameComponent } from '../../shared/components/dettagli-game.component';
 import { Forza4BotClass } from './bot/forza-4.bot';
 import { AlertGamesService } from '../../../services/alert-games.service';
+import { boardEmpty } from '../../../../../../library/functions/confronto.function';
 
 @Component({
   selector: 'app-forza-4',

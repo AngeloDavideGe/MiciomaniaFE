@@ -1,10 +1,11 @@
+import { shuffleArray } from '../../../../library/functions/ordinamento.function';
 import { CardDeck, PescataDeck } from '../interfaces/deck.interface';
 
 export function getCasualCard(
   cardsDeck: CardDeck[],
   numCards: number,
   numCoppie: number,
-  rimuoviCarte: boolean
+  rimuoviCarte: boolean,
 ): PescataDeck | CardDeck[] {
   const baseCards: CardDeck[] = [];
   let indexUsed = new Set<number>();
@@ -35,23 +36,14 @@ export function getCasualCard(
 function rimozioneCard(
   cardsDeck: CardDeck[],
   indexUsed: Set<number>,
-  baseCards: CardDeck[]
+  baseCards: CardDeck[],
 ): PescataDeck {
   const remainingDeck = cardsDeck.filter(
-    (x: CardDeck, index: number) => !indexUsed.has(index)
+    (x: CardDeck, index: number) => !indexUsed.has(index),
   );
 
   return {
     drawnCards: shuffleArray(baseCards),
     remainingDeck: remainingDeck,
   } as PescataDeck;
-}
-
-export function shuffleArray<T>(array: T[]): T[] {
-  const shuffled: T[] = [...array];
-  for (let i = shuffled.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
-  }
-  return shuffled;
 }

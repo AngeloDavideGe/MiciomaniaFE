@@ -13,13 +13,23 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
   `,
   styles: [
     `
+      button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        cursor: pointer;
+        transition: all 0.2s ease-in-out;
+      }
+
       .custom-botton {
         border-radius: 30px;
-        padding: 10px 20px;
+        padding: 12px 24px;
+        font-size: 15px;
+        font-weight: 600;
         background-color: var(--surface-color);
         color: var(--text-color);
         box-shadow: 0 2px 6px var(--border-light);
-        transition: all 0.2s ease-in-out;
         border: var(--border-light) 1px solid;
 
         &:hover:not(:disabled) {
@@ -28,6 +38,11 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
           border-width: 2px;
           box-shadow: 0 4px 12px var(--border-light);
         }
+
+        &:disabled {
+          opacity: 0.5;
+          cursor: not-allowed;
+        }
       }
 
       .primary-custom {
@@ -35,8 +50,8 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
         color: var(--surface-color);
         border: none;
         border-radius: 9999px;
-        padding: 6px 16px;
-        font-size: 13px;
+        padding: 12px 26px;
+        font-size: 15px;
         font-weight: 600;
 
         &:hover:not(:disabled) {
@@ -53,14 +68,18 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
         background-color: transparent;
         color: var(--primary-color);
         border: none;
-        padding: 6px 16px;
-        font-size: 13px;
+        padding: 12px 26px;
+        font-size: 15px;
         font-weight: 600;
 
         &:disabled {
           opacity: 0.5;
           cursor: not-allowed;
         }
+      }
+
+      i {
+        font-size: 16px;
       }
     `,
   ],

@@ -1,8 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { setPunteggioOttenuto } from '../../../../../shared/handlers/squadre.handler';
 import { sudokuCellEmpty } from '../../../constants/boardEmpty.const';
-import { shuffleArray } from '../../../functions/deck-card.function';
-import { boardEmpty } from '../../../functions/games.function';
 import {
   EsitoGame,
   SudokuCell,
@@ -10,6 +8,8 @@ import {
 } from '../../../interfaces/games.interfaces';
 import { AlertGamesService } from '../../../services/alert-games.service';
 import { DettagliGameComponent } from '../../shared/components/dettagli-game.component';
+import { shuffleArray } from '../../../../../../library/functions/ordinamento.function';
+import { boardEmpty } from '../../../../../../library/functions/confronto.function';
 
 @Component({
   selector: 'app-sudoku',

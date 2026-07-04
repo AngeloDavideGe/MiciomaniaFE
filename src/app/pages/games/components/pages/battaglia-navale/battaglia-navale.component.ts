@@ -14,9 +14,9 @@ import {
   cellaOccupata,
   controlloCasuale,
 } from './utilities/battaglia-navale.utilities';
-import { boardEmpty } from '../../../functions/games.function';
 import { navaleCellEmpty } from '../../../constants/boardEmpty.const';
 import { AlertGamesService } from '../../../services/alert-games.service';
+import { boardEmpty } from '../../../../../../library/functions/confronto.function';
 
 @Component({
   selector: 'app-battaglia-navale',
