@@ -7,14 +7,15 @@ import {
   OnDestroy,
   signal,
 } from '@angular/core';
-import { NavigationEnd, Router } from '@angular/router';
-import { filter, map, Observable, startWith, tap } from 'rxjs';
-import { DataHttp } from '../../core/api/http.data';
+import { Router } from '@angular/router';
+import { Observable } from 'rxjs';
 import { iTab } from '../../../library/components/tabs/tabs.component';
 import { compareObjectCustom } from '../../../library/functions/confronto.function';
 import { effectTimeoutCustom } from '../../../library/functions/debounce.function';
 import { GetFiltriCustom } from '../../../library/functions/pagination.function';
+import { isCurrentRoute } from '../../../library/functions/router.function';
 import { NavBarButton } from '../../../library/interfaces/navbar.interface';
+import { DataHttp } from '../../core/api/http.data';
 import { MangaUtente } from '../../shared/interfaces/http.interface';
 import { alfabetoManga } from './constants/alfabeto.constant';
 import { generiManga } from './constants/genere.constant';
@@ -26,8 +27,8 @@ import {
   inizializzaLista,
   postOrUpdateMangaUtente,
 } from './handlers/manga.handler';
-import { manga_imports } from './manga.imports';
 import { ListaManga } from './interfaces/manga.interface';
+import { manga_imports } from './manga.imports';
 import { MangaService } from './services/manga.service';
 
 @Component({
@@ -107,14 +108,11 @@ export class MangaComponent implements OnDestroy {
     },
   });
 
-  public isManga$: Observable<boolean> = this.router.events.pipe(
-    filter((event): event is NavigationEnd => event instanceof NavigationEnd),
-    startWith({
-      url: this.router.url,
-    }),
-    map((event) => event.url == '/manga'),
-    tap((isManga: boolean) => (isManga ? this.loadFilteredManga() : null)),
-  );
+  public isManga$: Observable<boolean> = isCurrentRoute({
+    router: this.router,
+    eventName: '/manga',
+    tapFunc: (isManga: boolean) => (isManga ? this.loadFilteredManga() : null),
+  });
 
   constructor() {
     (['autore', 'nome'] as const).forEach((x) => {

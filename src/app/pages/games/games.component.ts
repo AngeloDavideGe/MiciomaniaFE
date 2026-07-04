@@ -7,9 +7,10 @@ import {
   OnInit,
   signal,
 } from '@angular/core';
-import { NavigationEnd, Router } from '@angular/router';
-import { filter, map, Observable, startWith, tap } from 'rxjs';
+import { Router } from '@angular/router';
+import { Observable } from 'rxjs';
 import { handlerFunc } from '../../../library/functions/handler.function';
+import { isCurrentRoute } from '../../../library/functions/router.function';
 import { iCard } from '../../../library/interfaces/card.interface';
 import { NavBarButton } from '../../../library/interfaces/navbar.interface';
 import { DataHttp } from '../../core/api/http.data';
@@ -47,12 +48,11 @@ export class GamesComponent implements OnInit, OnDestroy {
     avversario: [],
   });
 
-  public isGames$: Observable<boolean> = this.router.events.pipe(
-    filter((event): event is NavigationEnd => event instanceof NavigationEnd),
-    startWith({ url: this.router.url }),
-    map((event) => event.url == '/games'),
-    tap((padre: boolean) => this.pulsanti.set(this.getPulsanti(padre))),
-  );
+  public isGames$: Observable<boolean> = isCurrentRoute({
+    router: this.router,
+    eventName: '/games',
+    tapFunc: (isGames: boolean) => this.pulsanti.set(this.getPulsanti(isGames)),
+  });
 
   constructor() {
     effect(() => this.pulsanti.set(this.getPulsanti(true)));

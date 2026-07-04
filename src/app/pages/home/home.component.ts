@@ -1,16 +1,20 @@
 import { Component, computed, effect, inject, signal } from '@angular/core';
-import { NavigationEnd, Router } from '@angular/router';
-import { filter, map, Observable, startWith, tap } from 'rxjs';
+import { Router } from '@angular/router';
+import { Observable } from 'rxjs';
 import { ConfirmService } from '../../../library/dialogs/confirm.service';
 import { handlerFunc } from '../../../library/functions/handler.function';
+import { isCurrentRoute } from '../../../library/functions/router.function';
 import { iCard } from '../../../library/interfaces/card.interface';
 import { RaggioPage } from '../../../library/interfaces/pagination.interface';
 import {
   ToggleProps,
   ToggleStyles,
 } from '../../../library/interfaces/toggle.interface';
+import { AppConfigService } from '../../core/api/appConfig.service';
 import { DataHttp } from '../../core/api/http.data';
+import { UserReduced } from '../../core/components/chat/interfaces/chat.interface';
 import { setUserDataNull } from '../../core/functions/storage.function';
+import { mapUserMessage } from '../../shared/functions/user-map.function';
 import { getVoidUser } from '../../shared/handlers/auth.handler';
 import {
   CronUtenti,
@@ -35,9 +39,6 @@ import {
   pagineHome,
 } from './functions/home.functions';
 import { home_imports } from './home.imports';
-import { mapUserMessage } from '../../shared/functions/user-map.function';
-import { UserReduced } from '../../core/components/chat/interfaces/chat.interface';
-import { AppConfigService } from '../../core/api/appConfig.service';
 
 @Component({
   selector: 'app-home',
@@ -184,12 +185,11 @@ export class HomeComponent {
   private readonly punteggioCanzoni: number = 20;
   public readonly pagineHome: RaggioPage[] = pagineHome();
 
-  public isHome$: Observable<boolean> = this.router.events.pipe(
-    filter((event): event is NavigationEnd => event instanceof NavigationEnd),
-    startWith({ url: this.router.url }),
-    map((event) => event.url == '/home'),
-    tap(() => this.loadUsers()),
-  );
+  public isHome$: Observable<boolean> = isCurrentRoute({
+    router: this.router,
+    eventName: '/home',
+    tapFunc: (isCurrent: boolean) => (isCurrent ? this.loadUsers() : null),
+  });
 
   constructor() {
     compApertoFunc((key: CompAperto) => {

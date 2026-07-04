@@ -12,13 +12,20 @@ export const LOADING_CONTEXT = new HttpContextToken<boolean>(() => false);
 
 export const loadingInterceptor: HttpInterceptorFn = (
   req: HttpRequest<any>,
-  next: HttpHandlerFn,
+  handlerFn: HttpHandlerFn,
 ) => {
   const loadingService = inject(LoadingService);
+  const updateLoading = req.context.get(LOADING_CONTEXT);
 
-  if (req.context.get(LOADING_CONTEXT)) {
+  if (updateLoading) {
     loadingService.show();
   }
 
-  return next(req).pipe(finalize(() => loadingService.hide()));
+  return handlerFn(req).pipe(
+    finalize(() => {
+      if (updateLoading) {
+        loadingService.hide();
+      }
+    }),
+  );
 };

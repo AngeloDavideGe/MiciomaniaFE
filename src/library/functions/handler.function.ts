@@ -15,10 +15,10 @@ import {
 
 export function handlerFunc<T, S = T, M = S>(
   params: HandlerInterface<T, S, M>,
-): void | Subscription {
+): Subscription {
   if (params.skipCall) {
     params.elseCall?.();
-    return;
+    return new Subscription();
   }
 
   return callHttpFunc(params).subscribe({

@@ -1,7 +1,8 @@
 import { AsyncPipe } from '@angular/common';
 import { Component, inject, signal } from '@angular/core';
-import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
-import { filter, map, Observable, startWith } from 'rxjs';
+import { Router, RouterOutlet } from '@angular/router';
+import { Observable } from 'rxjs';
+import { isCurrentRoute } from '../../../library/functions/router.function';
 
 @Component({
   selector: 'app-auth',
@@ -27,11 +28,11 @@ export class AuthComponent {
   public col = signal<string>('col-12');
   public marginTop = signal<string>('');
 
-  public isAuth$: Observable<boolean> = this.router.events.pipe(
-    filter((event): event is NavigationEnd => event instanceof NavigationEnd),
-    startWith({ url: this.router.url }),
-    map((event) => this.mapFunc(event.url)),
-  );
+  public isAuth$: Observable<boolean> = isCurrentRoute({
+    router: this.router,
+    eventName: '/auth',
+    mapFunc: (event) => this.mapFunc(event.url),
+  });
 
   private mapFunc(url: string): boolean {
     switch (url) {

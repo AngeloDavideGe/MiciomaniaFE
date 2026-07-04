@@ -11,18 +11,18 @@ import { ProblemDetails } from '../interfaces/error.interface';
 
 export const errorInterceptor: HttpInterceptorFn = (
   req: HttpRequest<any>,
-  next: HttpHandlerFn,
+  handlerFn: HttpHandlerFn,
 ) => {
   const errorService = inject(ErrorService);
 
-  return next(req).pipe(
+  return handlerFn(req).pipe(
     catchError((error: HttpErrorResponse) => {
       const problem = error.error as ProblemDetails;
 
-      let title = 'Errore';
-      let message = 'Si è verificato un errore imprevisto';
+      let title: string = 'Errore';
+      let message: string = 'Si è verificato un errore imprevisto';
       let debugMessage: string | undefined;
-      let status = error.status;
+      let status: number = error.status;
 
       if (problem) {
         title = problem.title ?? title;
