@@ -1,4 +1,4 @@
-<form [formGroup]="form" (ngSubmit)="onSubmit()" class="p-3">
+<form [formGroup]="form" class="p-3">
   @for (field of arrayForm; track $index) {
     <div class="form-field">
       <label [for]="keys[$index]" class="form-label">
@@ -147,12 +147,18 @@
 
   @if (visualizzaPulsanti) {
     <div class="form-actions">
-      <button type="submit" class="btn-submit" [disabled]="form.invalid">
-        Invia
-      </button>
-      <button type="button" class="btn-reset" (click)="onReset()">
-        Resetta
-      </button>
+      <app-button-custom
+        [text]="'Resetta'"
+        [color]="'secondary-custom'"
+        (clickBotton)="onReset()"
+      ></app-button-custom>
+
+      <app-button-custom
+        [text]="'Invia'"
+        [color]="'primary-custom'"
+        (clickBotton)="onSubmit()"
+        [disabled]="form.invalid"
+      ></app-button-custom>
     </div>
   }
 </form>

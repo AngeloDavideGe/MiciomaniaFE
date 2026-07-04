@@ -1,4 +1,4 @@
-<form [formGroup]="form" (ngSubmit)="onSubmit()" class="multi-form">
+<form [formGroup]="form" class="multi-form">
   @for (key of keys; track key) {
     <section class="multi-form-section">
       <div
@@ -59,9 +59,18 @@
 
   @if (visualizzaPulsanti) {
     <div class="form-actions">
-      <button type="submit" class="btn-submit" [disabled]="form.invalid">
-        Invia
-      </button>
+      <app-button-custom
+        [text]="'Indietro'"
+        [color]="'secondary-custom'"
+        (clickBotton)="secondaryButton.emit()"
+      ></app-button-custom>
+
+      <app-button-custom
+        [text]="'Invia'"
+        [color]="'primary-custom'"
+        (clickBotton)="onSubmit()"
+        [disabled]="form.invalid"
+      ></app-button-custom>
     </div>
   }
 </form>

@@ -6,54 +6,43 @@
   <div rightContent style="width: 6.5rem" class="pc-only"></div>
 </app-custom-navbar>
 
-<div id="ListaPosts" class="container-fluid">
-  <div class="cerca-profili-wrapper">
-    @switch (searchActive()) {
-      @case ("users") {
-        <app-cerca-profili [searchQuery]="searchQuery"></app-cerca-profili>
-      }
-      @case ("filter") {
-        <app-filtri-post
-          [selectedFilter]="selectedFilter()"
-          (filterApplied)="applicaFiltro($event)"
-        ></app-filtri-post>
-      }
+<div class="cerca-profili-wrapper">
+  @switch (searchActive()) {
+    @case ("users") {
+      <app-cerca-profili [searchQuery]="searchQuery"></app-cerca-profili>
     }
-  </div>
+    @case ("filter") {
+      <app-toggle-custom [tipo]="'content'" [toggleStyles]="toggleStyle">
+        <div onlyContent>
+          <app-checkbox-custom
+            [checks]="checks"
+            [initialChecked]="selectedFilter()"
+            (checkChange)="selectedFilter.set($event)"
+          ></app-checkbox-custom>
 
-  @if (selectedFilter() !== "post") {
-    @if (postCaricati()) {
-      @if (postService.newPosts.length > 0) {
-        @for (post of postService.newPosts; track post.id) {
-          <div class="elemento-centrato mb-4">
-            <app-card-custom
-              [singleElem]="{ urlPic: post.immaginePost }"
-              [tipoBottone]="'No'"
-              [lunghezzaCard]="'30rem'"
-              [altezzaImg]="'30rem'"
-            >
-              <div descrizioneContent>
-                <app-descrizione-post [post]="post"></app-descrizione-post>
-              </div>
-            </app-card-custom>
+          <div class="filter-actions">
+            <app-button-custom
+              [text]="'Azzera'"
+              [disabled]="selectedFilter === undefined"
+              [color]="'secondary-custom'"
+              (clickBotton)="selectedFilter.set(undefined)"
+            ></app-button-custom>
+            <app-button-custom
+              [text]="'Applica'"
+              [color]="'primary-custom'"
+              (clickBotton)="applicaFiltro()"
+            ></app-button-custom>
           </div>
-        }
-      } @else {
-        <app-no-post
-          [message]="'Nessun post da mostrare'"
-          [subMessage]="'Prova a modificare i filtri o a cercare altri utenti'"
-        ></app-no-post>
-      }
-    } @else {
-      <app-spinner [mt]="'5rem'"></app-spinner>
+        </div>
+      </app-toggle-custom>
     }
+  }
+</div>
 
-    @if (postService.oldPosts.length > 0) {
-      <div class="post-separator text-center my-4">
-        <span>Post già visti</span>
-      </div>
-
-      @for (post of postService.oldPosts; track post.id) {
+@if (selectedFilter() !== "post") {
+  @if (postCaricati()) {
+    @if (postService.newPosts.length > 0) {
+      @for (post of postService.newPosts; track post.id) {
         <div class="elemento-centrato mb-4">
           <app-card-custom
             [singleElem]="{ urlPic: post.immaginePost }"
@@ -67,33 +56,62 @@
           </app-card-custom>
         </div>
       }
-    }
-  } @else {
-    @if (postFiltri.elemFilter().length > 0) {
-      <div class="post-separator text-center my-4">
-        <span>Post filtrati</span>
-      </div>
-
-      @for (post of postFiltri.elemFilter(); track post.id) {
-        <div class="elemento-centrato mb-4">
-          <app-card-custom
-            [tipoBottone]="'No'"
-            [lunghezzaCard]="'30rem'"
-            [altezzaImg]="'30rem'"
-          >
-            <div descrizioneContent>
-              <app-descrizione-post [post]="post"></app-descrizione-post>
-            </div>
-          </app-card-custom>
-        </div>
-      }
     } @else {
       <app-no-post
-        [message]="'Nessun post filtrato'"
-        [subMessage]="
-          'Prova a modificare i filtri per vedere i post corrispondenti'
-        "
+        [message]="'Nessun post da mostrare'"
+        [subMessage]="'Prova a modificare i filtri o a cercare altri utenti'"
       ></app-no-post>
     }
+  } @else {
+    <app-spinner [mt]="'5rem'"></app-spinner>
   }
-</div>
+
+  @if (postService.oldPosts.length > 0) {
+    <div class="post-separator text-center my-4">
+      <span>Post già visti</span>
+    </div>
+
+    @for (post of postService.oldPosts; track post.id) {
+      <div class="elemento-centrato mb-4">
+        <app-card-custom
+          [singleElem]="{ urlPic: post.immaginePost }"
+          [tipoBottone]="'No'"
+          [lunghezzaCard]="'30rem'"
+          [altezzaImg]="'30rem'"
+        >
+          <div descrizioneContent>
+            <app-descrizione-post [post]="post"></app-descrizione-post>
+          </div>
+        </app-card-custom>
+      </div>
+    }
+  }
+} @else {
+  @if (postFiltri.elemFilter().length > 0) {
+    <div class="post-separator text-center my-4">
+      <span>Post filtrati</span>
+    </div>
+
+    @for (post of postFiltri.elemFilter(); track post.id) {
+      <div class="elemento-centrato mb-4">
+        <app-card-custom
+          [singleElem]="{ urlPic: post.immaginePost }"
+          [tipoBottone]="'No'"
+          [lunghezzaCard]="'30rem'"
+          [altezzaImg]="'30rem'"
+        >
+          <div descrizioneContent>
+            <app-descrizione-post [post]="post"></app-descrizione-post>
+          </div>
+        </app-card-custom>
+      </div>
+    }
+  } @else {
+    <app-no-post
+      [message]="'Nessun post filtrato'"
+      [subMessage]="
+        'Prova a modificare i filtri per vedere i post corrispondenti'
+      "
+    ></app-no-post>
+  }
+}

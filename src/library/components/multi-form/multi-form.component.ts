@@ -23,11 +23,17 @@ import {
 } from '../../interfaces/form.interface';
 import { FormCustomComponent } from '../form/form.component';
 import { NgStyle } from '@angular/common';
+import { ButtonCustomComponent } from '../button/botton-custom.component';
 
 @Component({
   selector: 'app-multi-form',
   standalone: true,
-  imports: [ReactiveFormsModule, FormCustomComponent, NgStyle],
+  imports: [
+    ReactiveFormsModule,
+    FormCustomComponent,
+    NgStyle,
+    ButtonCustomComponent,
+  ],
   templateUrl: './multi-form.component.html',
   styleUrl: './multi-form.component.scss',
 })
@@ -45,6 +51,7 @@ export class MultiFormComponent implements OnInit, AfterViewInit, OnDestroy {
   @Output() invioDati = new EventEmitter<any>();
   @Output() subscribeForm = new EventEmitter<any>();
   @Output() formValido = new EventEmitter<boolean>();
+  @Output() secondaryButton = new EventEmitter<void>();
 
   ngOnInit(): void {
     this.keys = Object.keys(this.strutturaForm);

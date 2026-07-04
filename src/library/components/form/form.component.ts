@@ -17,6 +17,7 @@ import {
 } from '../../interfaces/form.interface';
 import { CheckBoxCustomComponent } from '../checkbox/checkbox.component';
 import { CapitalizeFirstLetterPipe } from '../../pipes/capitalize.pipe';
+import { ButtonCustomComponent } from '../button/botton-custom.component';
 
 @Component({
   selector: 'app-form-custom',
@@ -25,6 +26,7 @@ import { CapitalizeFirstLetterPipe } from '../../pipes/capitalize.pipe';
     ReactiveFormsModule,
     CheckBoxCustomComponent,
     CapitalizeFirstLetterPipe,
+    ButtonCustomComponent,
   ],
   templateUrl: './form.component.html',
   styleUrl: './form.component.scss',

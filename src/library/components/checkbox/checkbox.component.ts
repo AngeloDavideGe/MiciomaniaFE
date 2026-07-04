@@ -82,8 +82,8 @@ export class CheckBoxCustomComponent implements OnInit {
     switch (this.tipo) {
       case 'single': {
         if (checkbox.checked) {
-          this.checks.forEach((check: ICheckBox) =>
-            this.checkRecord[check.id].set(check.id == check.id),
+          this.checks.forEach((checkFor: ICheckBox) =>
+            this.checkRecord[checkFor.id].set(checkFor.id == check.id),
           );
           this.checked = [check.id];
           check.azioneCheck?.();

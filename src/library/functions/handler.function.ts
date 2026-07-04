@@ -10,17 +10,18 @@ import {
   map,
   finalize,
   firstValueFrom,
+  Subscription,
 } from 'rxjs';
 
 export function handlerFunc<T, S = T, M = S>(
   params: HandlerInterface<T, S, M>,
-): void {
+): void | Subscription {
   if (params.skipCall) {
     params.elseCall?.();
     return;
   }
 
-  callHttpFunc(params).subscribe({
+  return callHttpFunc(params).subscribe({
     next: (value: M) => params.nextCall?.(value),
     error: (error: Error) => params.errorCall?.(error),
     complete: () => params.completeCall?.(),

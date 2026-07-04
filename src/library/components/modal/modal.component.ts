@@ -1,17 +1,10 @@
-import {
-  Component,
-  EventEmitter,
-  Input,
-  OnInit,
-  Output,
-  signal,
-  Signal,
-} from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { ButtonCustomComponent } from '../button/botton-custom.component';
 
 @Component({
   selector: 'app-modal-custom',
   standalone: true,
-  imports: [],
+  imports: [ButtonCustomComponent],
   templateUrl: './modal.component.html',
   styleUrl: './modal.component.scss',
 })

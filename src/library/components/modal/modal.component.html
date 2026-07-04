@@ -32,22 +32,18 @@
           <ng-content select="[footerModal]"></ng-content>
 
           <div class="footer-actions">
-            <button
-              type="button"
-              class="secondary-btn"
-              (click)="secondaryAction.emit()"
-            >
-              {{ secondaryButtonText }}
-            </button>
+            <app-button-custom
+              [text]="secondaryButtonText"
+              [color]="'secondary-custom'"
+              (clickBotton)="secondaryAction.emit()"
+            ></app-button-custom>
 
-            <button
-              type="button"
-              class="primary-btn"
+            <app-button-custom
+              [text]="primaryButtonText"
+              [color]="'primary-custom'"
+              (clickBotton)="secondaryAction.emit()"
               [disabled]="disablePrimaryButton"
-              (click)="primaryAction.emit()"
-            >
-              {{ primaryButtonText }}
-            </button>
+            ></app-button-custom>
           </div>
         </div>
       }

@@ -81,8 +81,8 @@ export class CardCustomComponent implements OnInit {
 
   @HostListener('window:resize')
   onResize = debounceTimeoutCustom(() => {
-    this.filtri.currentPage.set(1);
-    this.filtri.currentSlice.set(0);
+    this.filtri.currentPage?.set(1);
+    this.filtri.currentSlice?.set(0);
     this.elemForPage.set(this.getNumCards());
   });
 

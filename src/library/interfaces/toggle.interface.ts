@@ -13,6 +13,8 @@ export interface MenuElements {
 
 export interface ToggleStyles {
   top?: string;
-  left?: number;
   width?: string;
+  transform?: string;
+  left?: string | number;
+  right?: string | number;
 }

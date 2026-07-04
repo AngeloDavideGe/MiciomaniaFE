@@ -108,7 +108,22 @@ export class HomeComponent {
         }),
       );
     } else {
-      return [];
+      return getToggleNotifiche([
+        {
+          azione: () => {},
+          testo: `
+          <div 
+            class="elemento-centrato"
+            style="padding-top: 2rem"
+          >
+            <div class="spinner-border text-primary" role="status">
+              <span class="visually-hidden">Loading...</span>
+            </div>
+          </div>
+        `,
+          condition: true,
+        },
+      ]);
     }
   });
 

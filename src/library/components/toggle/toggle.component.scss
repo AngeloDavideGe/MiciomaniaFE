@@ -46,7 +46,7 @@ li {
 }
 
 .dropdown-panel {
-  position: absolute;
+  position: fixed;
   top: 3.2rem;
   right: 0;
   background-color: var(--surface-color);
@@ -56,6 +56,9 @@ li {
   min-width: 12rem;
   box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
   transition: all 0.2s ease-in-out;
+  max-height: 30rem;
+  overflow-y: auto;
+  z-index: 1000;
 
   .custom-nav {
     display: flex;
