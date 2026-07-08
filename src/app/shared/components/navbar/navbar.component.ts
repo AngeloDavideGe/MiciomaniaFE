@@ -8,10 +8,13 @@ import {
   signal,
 } from '@angular/core';
 import { Router } from '@angular/router';
-import { ChatService } from '../../../app/core/components/chat/services/chat.service';
-import { MiniPlayerService } from '../../../app/shared/services/template/mini-player.service';
-import { defaultSongPic } from '../../constants/lib.constant';
-import { NavBarButton, TornaIndietro } from '../../interfaces/navbar.interface';
+import { ChatService } from '../../../core/components/chat/services/chat.service';
+import { MiniPlayerService } from '../../services/template/mini-player.service';
+import { defaultSongPic } from '../../../../library/constants/lib.constant';
+import {
+  NavBarButton,
+  TornaIndietro,
+} from '../../../../library/interfaces/navbar.interface';
 
 @Component({
   selector: 'app-custom-navbar',

@@ -14,24 +14,24 @@
     @case ("filter") {
       <app-toggle-custom [tipo]="'content'" [toggleStyles]="toggleStyle">
         <div onlyContent>
-          <app-checkbox-custom
+          <app-checkbox-indy
             [checks]="checks"
             [initialChecked]="selectedFilter()"
             (checkChange)="selectedFilter.set($event)"
-          ></app-checkbox-custom>
+          ></app-checkbox-indy>
 
           <div class="filter-actions">
-            <app-button-custom
+            <app-button-indy
               [text]="'Azzera'"
               [disabled]="selectedFilter === undefined"
               [color]="'secondary-custom'"
               (clickBotton)="selectedFilter.set(undefined)"
-            ></app-button-custom>
-            <app-button-custom
+            ></app-button-indy>
+            <app-button-indy
               [text]="'Applica'"
               [color]="'primary-custom'"
               (clickBotton)="applicaFiltro()"
-            ></app-button-custom>
+            ></app-button-indy>
           </div>
         </div>
       </app-toggle-custom>
@@ -44,7 +44,7 @@
     @if (postService.newPosts.length > 0) {
       @for (post of postService.newPosts; track post.id) {
         <div class="elemento-centrato mb-4">
-          <app-card-custom
+          <app-card-indy
             [singleElem]="{ urlPic: post.immaginePost }"
             [tipoBottone]="'No'"
             [lunghezzaCard]="'30rem'"
@@ -53,7 +53,7 @@
             <div descrizioneContent>
               <app-descrizione-post [post]="post"></app-descrizione-post>
             </div>
-          </app-card-custom>
+          </app-card-indy>
         </div>
       }
     } @else {
@@ -63,7 +63,7 @@
       ></app-no-post>
     }
   } @else {
-    <app-spinner [mt]="'5rem'"></app-spinner>
+    <app-spinner-indy [mt]="'5rem'"></app-spinner-indy>
   }
 
   @if (postService.oldPosts.length > 0) {
@@ -73,7 +73,7 @@
 
     @for (post of postService.oldPosts; track post.id) {
       <div class="elemento-centrato mb-4">
-        <app-card-custom
+        <app-card-indy
           [singleElem]="{ urlPic: post.immaginePost }"
           [tipoBottone]="'No'"
           [lunghezzaCard]="'30rem'"
@@ -82,7 +82,7 @@
           <div descrizioneContent>
             <app-descrizione-post [post]="post"></app-descrizione-post>
           </div>
-        </app-card-custom>
+        </app-card-indy>
       </div>
     }
   }
@@ -94,7 +94,7 @@
 
     @for (post of postFiltri.elemFilter(); track post.id) {
       <div class="elemento-centrato mb-4">
-        <app-card-custom
+        <app-card-indy
           [singleElem]="{ urlPic: post.immaginePost }"
           [tipoBottone]="'No'"
           [lunghezzaCard]="'30rem'"
@@ -103,7 +103,7 @@
           <div descrizioneContent>
             <app-descrizione-post [post]="post"></app-descrizione-post>
           </div>
-        </app-card-custom>
+        </app-card-indy>
       </div>
     }
   } @else {

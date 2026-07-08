@@ -1,7 +1,7 @@
 import { Component, signal } from '@angular/core';
 import { of } from 'rxjs';
-import { CronCustomComponent } from '../../../../../../../../../library/components/cron/cron.component';
-import { TabellaCustomComponent } from '../../../../../../../../../library/components/table/table.component';
+import { CronIndyComponent } from '../../../../../../../../../library/components/cron/cron-indy.component';
+import { TabellaIndyComponent } from '../../../../../../../../../library/components/table/table-indy.component';
 import { handlerFunc } from '../../../../../../../../../library/functions/handler.function';
 import {
   AzioniTabella,
@@ -12,25 +12,25 @@ import { CronObbligatori } from '../../../../../../../../../library/interfaces/c
 @Component({
   selector: 'app-cron-admin',
   standalone: true,
-  imports: [CronCustomComponent, TabellaCustomComponent],
+  imports: [CronIndyComponent, TabellaIndyComponent],
   template: `
     <div class="elemento-centrato">
-      <app-table-custom
+      <app-table-indy
         [elemTable]="dataTable"
         [colonne]="colonne"
         [azioni]="azioni"
         [lunghezzaAzioni]="'3rem'"
         [titoloTabella]="'Lista processi periodici'"
         [arrayElemForPage]="[]"
-      ></app-table-custom>
+      ></app-table-indy>
     </div>
 
     @if (selectRow()) {
-      <app-cron-custom
+      <app-cron-indy
         (chiudiCron)="selectRow.set(null)"
         (invioStringaCron)="selectRow()!.callHttp($event)"
         [campiObbligatori]="cronObbligatori"
-      ></app-cron-custom>
+      ></app-cron-indy>
     }
   `,
 })

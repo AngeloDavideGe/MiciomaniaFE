@@ -27,19 +27,19 @@
 
   @switch (modaleAperta()) {
     @case ("new-tweet") {
-      <app-modal-custom [title]="'Nuovo Tweet'" (close)="modaleAperta.set('')">
+      <app-modal-indy [title]="'Nuovo Tweet'" (close)="modaleAperta.set('')">
         <div bodyModal>
-          <app-form-custom
+          <app-form-indy
             [strutturaForm]="newTweetForm"
             (invioDati)="inviaTweet($event)"
           >
-          </app-form-custom>
+          </app-form-indy>
         </div>
-      </app-modal-custom>
+      </app-modal-indy>
     }
 
     @case ("change-pic") {
-      <app-modal-custom
+      <app-modal-indy
         [title]="'Modifica Immagine'"
         [subtitle]="'Carica una nuova immagine'"
         [width]="'sm'"
@@ -47,11 +47,11 @@
         (close)="modaleAperta.set(''); this.newProfilePic.set(null)"
       >
         <div bodyModal>
-          <app-form-custom
+          <app-form-indy
             [strutturaForm]="changePicForm"
             [visualizzaPulsanti]="false"
             (subscribeForm)="this.newProfilePic.set($event.imgProfilo)"
-          ></app-form-custom>
+          ></app-form-indy>
 
           <button
             class="btn btn-primary w-100"
@@ -62,11 +62,11 @@
             {{ "Carica Immagine" }}
           </button>
         </div>
-      </app-modal-custom>
+      </app-modal-indy>
     }
   }
 }
 
 <ng-template #spinnerTemplate>
-  <app-spinner [mt]="'10rem'"></app-spinner>
+  <app-spinner-indy [mt]="'10rem'"></app-spinner-indy>
 </ng-template>

@@ -6,14 +6,14 @@ import {
   Output,
   signal,
 } from '@angular/core';
-import { SvgCustomComponent } from '../../../../../../../library/components/svg/svg-custom.component';
+import { SvgIndyComponent } from '../../../../../../../library/components/svg/svg-indy.component';
 import { PathSvgCustom } from '../../../../../../../library/interfaces/svg.interface';
 
 @Component({
   selector: 'app-ruota-custom',
   templateUrl: './ruota-custom.component.html',
   styleUrl: './ruota-custom.component.scss',
-  imports: [SvgCustomComponent],
+  imports: [SvgIndyComponent],
 })
 export class RuotaCustomComponent implements OnInit {
   public score = signal<string>('0');

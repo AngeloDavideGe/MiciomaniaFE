@@ -76,18 +76,18 @@
     </div>
 
     <div class="elementi-laterali px-5 mt-3 mb-3">
-      <app-button-custom
+      <app-button-indy
         [text]="'Indietro'"
         [icon1]="'bi bi-arrow-left'"
         (clickBotton)="prevStep()"
-      ></app-button-custom>
+      ></app-button-indy>
 
-      <app-button-custom
+      <app-button-indy
         [text]="'Avanti'"
         [icon2]="'bi bi-arrow-right'"
         (clickBotton)="nextStep()"
         [disabled]="disableNext"
-      ></app-button-custom>
+      ></app-button-indy>
     </div>
   }
   @case ("lista") {

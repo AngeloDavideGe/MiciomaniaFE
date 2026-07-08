@@ -1,8 +1,8 @@
 import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
 import { Validators } from '@angular/forms';
 import { forkJoin } from 'rxjs';
-import { FormCustomComponent } from '../../../../../../../../library/components/form/form.component';
-import { ModalCustomComponent } from '../../../../../../../../library/components/modal/modal.component';
+import { FormIndyComponent } from '../../../../../../../../library/components/form/form-indy.component';
+import { ModalIndyComponent } from '../../../../../../../../library/components/modal/modal-indy.component';
 import { handlerFunc } from '../../../../../../../../library/functions/handler.function';
 import { RecordStruttura } from '../../../../../../../../library/interfaces/form.interface';
 import {
@@ -17,7 +17,7 @@ import { DropboxService } from '../../services/dropbox.service';
 @Component({
   selector: 'app-crea-proposta',
   standalone: true,
-  imports: [ModalCustomComponent, FormCustomComponent],
+  imports: [ModalIndyComponent, FormIndyComponent],
   templateUrl: './crea-proposta.component.html',
 })
 export class CreaPropostaComponent {

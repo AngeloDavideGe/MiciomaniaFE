@@ -1,6 +1,6 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
-import { SpinnerComponent } from '../../../../../../../library/components/spinner/spinner.component';
-import { TabellaCustomComponent } from '../../../../../../../library/components/table/table.component';
+import { SpinnerIndyComponent } from '../../../../../../../library/components/spinner/spinner-indy.component';
+import { TabellaIndyComponent } from '../../../../../../../library/components/table/table-indy.component';
 import { handlerFunc } from '../../../../../../../library/functions/handler.function';
 import { RecordColonne } from '../../../../../../../library/interfaces/table.interface';
 import { dateFormat } from '../../../../../../../library/pipes/date-format.pipe';
@@ -10,7 +10,7 @@ import { InterazioniService } from '../services/interazioni.service';
 @Component({
   selector: 'app-all-poke',
   standalone: true,
-  imports: [TabellaCustomComponent, SpinnerComponent],
+  imports: [TabellaIndyComponent, SpinnerIndyComponent],
   template: `
     <div class="row mb-4">
       <div class="col-12 text-center">
@@ -27,14 +27,14 @@ import { InterazioniService } from '../services/interazioni.service';
 
     <div class="elemento-centrato">
       @if (interazioniService.allInterazioni().length > 0) {
-        <app-table-custom
+        <app-table-indy
           [colonne]="colonne"
           [elemTable]="interazioniService.allInterazioni"
           [elemForPage]="elemForPage"
           [titoloTabella]="'Top Miciomani Innamorati'"
-        ></app-table-custom>
+        ></app-table-indy>
       } @else {
-        <app-spinner mt="5rem"></app-spinner>
+        <app-spinner-indy mt="5rem"></app-spinner-indy>
       }
     </div>
   `,

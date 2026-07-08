@@ -1,12 +1,12 @@
 @if (loadedAdmin()) {
-  <app-tabs-custom
+  <app-tabs-indy
     [tipo]="'lista'"
     (clickTab)="tabellaView.set($event)"
-  ></app-tabs-custom>
+  ></app-tabs-indy>
 
   @if (tabellaView() === "1") {
     <div class="elemento-centrato">
-      <app-table-custom
+      <app-table-indy
         [titoloTabella]="'Tutti gli Utenti'"
         [elemTable]="allUSers"
         [noElement]="'Nessun Utente'"
@@ -14,27 +14,27 @@
         [colonne]="colonneSingle"
         [azioni]="pulsanti"
         [recordBadge]="badgeRuolo"
-      ></app-table-custom>
+      ></app-table-indy>
     </div>
   } @else {
     <div class="grid-card-layout" style="--card-width: 30rem">
       @for (ruolo of ruoli; track $index) {
         @if (userMapByRuolo[ruolo]().length > 0) {
-          <app-table-custom
+          <app-table-indy
             [titoloTabella]="ruolo"
             [elemTable]="userMapByRuolo[ruolo]"
             [noElement]="'Nessun Utente'"
             [elemForPage]="elemForPage[ruolo]"
             [colonne]="colonne"
             [azioni]="pulsanti"
-          ></app-table-custom>
+          ></app-table-indy>
         }
       }
     </div>
   }
 
   @if (editUser()) {
-    <app-modal-custom
+    <app-modal-indy
       [title]="'Modifica'"
       [showFooter]="true"
       [secondaryButtonText]="'Annulla'"
@@ -45,14 +45,14 @@
       (close)="editUser.set(null)"
     >
       <div bodyModal>
-        <app-form-custom
+        <app-form-indy
           [visualizzaPulsanti]="false"
           [strutturaForm]="strutturaForm"
           (formValido)="formValido.set($event)"
-        ></app-form-custom>
+        ></app-form-indy>
       </div>
-    </app-modal-custom>
+    </app-modal-indy>
   }
 } @else {
-  <app-spinner [mt]="'10rem'"></app-spinner>
+  <app-spinner-indy [mt]="'10rem'"></app-spinner-indy>
 }

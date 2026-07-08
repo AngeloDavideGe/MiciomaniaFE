@@ -2,7 +2,7 @@ import { Component, inject, OnDestroy, signal } from '@angular/core';
 import { Validators } from '@angular/forms';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Subject, takeUntil } from 'rxjs';
-import { iTab } from '../../../../../../library/components/tabs/tabs.component';
+import { iTab } from '../../../../../../library/components/tabs/tabs-indy.component';
 import { ConfirmService } from '../../../../../../library/dialogs/confirm.service';
 import { handlerFunc } from '../../../../../../library/functions/handler.function';
 import { RecordStruttura } from '../../../../../../library/interfaces/form.interface';

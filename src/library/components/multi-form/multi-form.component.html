@@ -19,24 +19,24 @@
       >
         @if (!isArraySection(key)) {
           <div class="section-body" [formGroupName]="key">
-            <app-form-custom
+            <app-form-indy
               [strutturaForm]="strutturaForm[key].struttura"
               [visualizzaPulsanti]="false"
               [formGroup]="getFormGroup(key)"
               (subscribeForm)="onSectionFormChange(key, $event)"
             >
-            </app-form-custom>
+            </app-form-indy>
           </div>
         } @else {
           <div class="section-body">
             @for (control of getFormArray(key).controls; track $index) {
               <div class="array-item">
-                <app-form-custom
+                <app-form-indy
                   [strutturaForm]="strutturaForm[key].struttura"
                   [visualizzaPulsanti]="false"
                   [formGroup]="getArrayFormGroup(key, $index)"
                 >
-                </app-form-custom>
+                </app-form-indy>
 
                 <button
                   type="button"
@@ -59,18 +59,18 @@
 
   @if (visualizzaPulsanti) {
     <div class="form-actions">
-      <app-button-custom
+      <app-button-indy
         [text]="'Indietro'"
         [color]="'secondary-custom'"
         (clickBotton)="secondaryButton.emit()"
-      ></app-button-custom>
+      ></app-button-indy>
 
-      <app-button-custom
+      <app-button-indy
         [text]="'Invia'"
         [color]="'primary-custom'"
         (clickBotton)="onSubmit()"
         [disabled]="form.invalid"
-      ></app-button-custom>
+      ></app-button-indy>
     </div>
   }
 </form>

@@ -2,7 +2,7 @@ import { Component, Input } from '@angular/core';
 import { SezioneScroll } from '../../interfaces/scroll.interface';
 
 @Component({
-  selector: 'app-custom-scroll',
+  selector: 'app-scroll-indy',
   standalone: true,
   imports: [],
   template: `
@@ -57,7 +57,7 @@ import { SezioneScroll } from '../../interfaces/scroll.interface';
     }
   `,
 })
-export class ScrollCustomComponent {
+export class ScrollIndyComponent {
   @Input({ required: true }) sezioni: SezioneScroll[] = [];
 
   scrollToNextSection(index: number): void {

@@ -22,22 +22,18 @@ import {
   TypeButton,
   TypePagination,
 } from '../../interfaces/pagination.interface';
-import { PaginazioneCustomComponent } from '../pagination/pagination.component';
-import { ButtonCustomComponent } from '../button/botton-custom.component';
+import { PaginazioneIndyComponent } from '../pagination/pagination-indy.component';
+import { ButtonIndyComponent } from '../button/botton-indy.component';
 
 @Component({
-  selector: 'app-card-custom',
+  selector: 'app-card-indy',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [
-    PaginazioneCustomComponent,
-    NgTemplateOutlet,
-    ButtonCustomComponent,
-  ],
-  templateUrl: './card.component.html',
-  styleUrl: './card.component.scss',
+  imports: [PaginazioneIndyComponent, NgTemplateOutlet, ButtonIndyComponent],
+  templateUrl: './card-indy.component.html',
+  styleUrl: './card-indy.component.scss',
 })
-export class CardCustomComponent implements OnInit {
+export class CardIndyComponent implements OnInit {
   public router = inject(Router);
 
   public filtri: FiltriInterface<iCard> = {} as FiltriInterface<iCard>;

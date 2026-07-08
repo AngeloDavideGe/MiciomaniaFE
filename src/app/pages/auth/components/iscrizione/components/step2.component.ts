@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import {
   Component,
   effect,
@@ -6,16 +7,14 @@ import {
   Output,
   signal,
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { CheckBoxCustomComponent } from '../../../../../../library/components/checkbox/checkbox.component';
+import { CheckBoxIndyComponent } from '../../../../../../library/components/checkbox/checkbox-indy.component';
 import { ICheckBox } from '../../../../../../library/interfaces/form.interface';
-import { DataHttp } from '../../../../../core/api/http.data';
 import { User } from '../../../../../shared/interfaces/users.interface';
 
 @Component({
   selector: 'app-step2',
   standalone: true,
-  imports: [CommonModule, CheckBoxCustomComponent],
+  imports: [CommonModule, CheckBoxIndyComponent],
   template: `
     <div class="card shadow-lg border-0 mb-4" style="border-radius: 12px">
       <div
@@ -114,11 +113,11 @@ import { User } from '../../../../../shared/interfaces/users.interface';
       </div>
 
       <div class="card-body p-4" style="background-color: #f8f9fa">
-        <app-checkbox-custom
+        <app-checkbox-indy
           [checks]="lineeGuida"
           [tipo]="'multiple'"
           (allChecked)="lineeGuidaAccettate.set($event)"
-        ></app-checkbox-custom>
+        ></app-checkbox-indy>
       </div>
     </div>
   `,

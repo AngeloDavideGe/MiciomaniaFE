@@ -1,22 +1,22 @@
 import { Type } from '@angular/core';
-import { CardCustomComponent } from '../../../../../../library/components/card/card.component';
-import { CustomNavBarComponent } from '../../../../../../library/components/navbar/navbar.component';
-import { SpinnerComponent } from '../../../../../../library/components/spinner/spinner.component';
-import { ToggleCustomComponent } from '../../../../../../library/components/toggle/toggle.component';
+import { CardIndyComponent } from '../../../../../../library/components/card/card-indy.component';
+import { CustomNavBarComponent } from '../../../../../shared/components/navbar/navbar.component';
+import { SpinnerIndyComponent } from '../../../../../../library/components/spinner/spinner-indy.component';
+import { ToggleIndyComponent } from '../../../../../../library/components/toggle/toggle-indy.component';
 import { CercaProfiliComponent } from './components/cerca-profili/cerca-profili.component';
 import { DescrizionePostComponent } from './components/descrizione-post.component';
 import { NoPostComponent } from './components/no-post.component';
-import { CheckBoxCustomComponent } from '../../../../../../library/components/checkbox/checkbox.component';
-import { ButtonCustomComponent } from '../../../../../../library/components/button/botton-custom.component';
+import { CheckBoxIndyComponent } from '../../../../../../library/components/checkbox/checkbox-indy.component';
+import { ButtonIndyComponent } from '../../../../../../library/components/button/botton-indy.component';
 
 export const ultimiPost_import: Type<any>[] = [
   NoPostComponent,
   CustomNavBarComponent,
   CercaProfiliComponent,
-  SpinnerComponent,
-  CardCustomComponent,
+  SpinnerIndyComponent,
+  CardIndyComponent,
   DescrizionePostComponent,
-  ToggleCustomComponent,
-  CheckBoxCustomComponent,
-  ButtonCustomComponent,
+  ToggleIndyComponent,
+  CheckBoxIndyComponent,
+  ButtonIndyComponent,
 ];

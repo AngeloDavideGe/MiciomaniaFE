@@ -1,12 +1,12 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { SpinnerComponent } from '../../../../../library/components/spinner/spinner.component';
+import { SpinnerIndyComponent } from '../../../../../library/components/spinner/spinner-indy.component';
 import { handlerFunc } from '../../../../../library/functions/handler.function';
 import { Social } from '../../../../shared/interfaces/github.interface';
 import { MNService } from '../../../../shared/services/api/mn.service';
 @Component({
   selector: 'app-social-link',
   standalone: true,
-  imports: [SpinnerComponent],
+  imports: [SpinnerIndyComponent],
   template: `
     <section data-bs-version="5.1" class="social02 py-5" id="social02-2">
       <div class="container">
@@ -40,7 +40,7 @@ import { MNService } from '../../../../shared/services/api/mn.service';
               }
             </div>
           } @else {
-            <app-spinner></app-spinner>
+            <app-spinner-indy></app-spinner-indy>
           }
         </div>
       </div>

@@ -147,12 +147,12 @@
       </table>
     </div>
 
-    <app-paginazione-custom
+    <app-paginazione-indy
       [filtri]="filtri"
       [tipo]="tipoPaginazione"
       [dataTableHttp]="dataTableHttp"
       [arrayRaggi]="raggiPage"
-    ></app-paginazione-custom>
+    ></app-paginazione-indy>
 
     @if (arrayElemForPage.length > 0) {
       <div class="elemento-finale px-2 mt-2 mb-2" style="--align-end: center">
@@ -178,7 +178,7 @@
 
   @if (filtri.elemFilter().length == 0) {
     @if (dataTableHttp) {
-      <app-spinner [mt]="'2rem'"></app-spinner>
+      <app-spinner-indy [mt]="'2rem'"></app-spinner-indy>
     } @else {
       <div class="empty-state">
         <i class="bi bi-inbox empty-icon"></i>

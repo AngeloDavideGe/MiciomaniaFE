@@ -69,7 +69,7 @@
 </div>
 
 @if (editGruppoPic()) {
-  <app-modal-custom
+  <app-modal-indy
     [title]="'Cambia Immagine Gruppo'"
     [subtitle]="'Vietate foto di Colonvv'"
     [width]="'sm'"
@@ -77,11 +77,11 @@
     (close)="editGruppoPic.set(false); chatService.aggiornamentoPic.set(0)"
   >
     <div bodyModal>
-      <app-form-custom
+      <app-form-indy
         [strutturaForm]="changePicForm"
         [visualizzaPulsanti]="false"
         (subscribeForm)="this.newProfilePic.set($event.imgProfilo)"
-      ></app-form-custom>
+      ></app-form-indy>
 
       <button
         class="btn btn-primary w-100"
@@ -92,5 +92,5 @@
         {{ "Carica Immagine" }}
       </button>
     </div>
-  </app-modal-custom>
+  </app-modal-indy>
 }

@@ -26,7 +26,9 @@ import { debounceTimeoutCustom } from '../library/functions/debounce.function';
   imports: [RouterOutlet, MiniPlayerComponent, ChatComponent],
   template: `
     <div style="background-color: var(--bg-light);">
-      <router-outlet></router-outlet>
+      <main>
+        <router-outlet></router-outlet>
+      </main>
 
       <div [style]="{ height: bottomArray()[0] }"></div>
 

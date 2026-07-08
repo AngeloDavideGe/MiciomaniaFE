@@ -1,12 +1,12 @@
 import { Type } from '@angular/core';
-import { SpinnerComponent } from '../../../../../../library/components/spinner/spinner.component';
-import { CardCustomComponent } from '../../../../../../library/components/card/card.component';
-import { CustomNavBarComponent } from '../../../../../../library/components/navbar/navbar.component';
-import { ScrollCustomComponent } from '../../../../../../library/components/scroll/scroll.component';
+import { SpinnerIndyComponent } from '../../../../../../library/components/spinner/spinner-indy.component';
+import { CardIndyComponent } from '../../../../../../library/components/card/card-indy.component';
+import { CustomNavBarComponent } from '../../../../../shared/components/navbar/navbar.component';
+import { ScrollIndyComponent } from '../../../../../../library/components/scroll/scroll-indy.component';
 
 export const mangaMiciomania_imports: Type<any>[] = [
-  SpinnerComponent,
-  CardCustomComponent,
+  SpinnerIndyComponent,
+  CardIndyComponent,
   CustomNavBarComponent,
-  ScrollCustomComponent,
+  ScrollIndyComponent,
 ];

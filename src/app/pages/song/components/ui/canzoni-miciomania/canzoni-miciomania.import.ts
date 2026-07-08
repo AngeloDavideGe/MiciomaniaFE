@@ -1,10 +1,10 @@
 import { Type } from '@angular/core';
-import { CardCustomComponent } from '../../../../../../library/components/card/card.component';
-import { ScrollCustomComponent } from '../../../../../../library/components/scroll/scroll.component';
-import { SpinnerComponent } from '../../../../../../library/components/spinner/spinner.component';
+import { CardIndyComponent } from '../../../../../../library/components/card/card-indy.component';
+import { ScrollIndyComponent } from '../../../../../../library/components/scroll/scroll-indy.component';
+import { SpinnerIndyComponent } from '../../../../../../library/components/spinner/spinner-indy.component';
 
 export const canzoniMiciomania_imports: Type<any>[] = [
-  SpinnerComponent,
-  CardCustomComponent,
-  ScrollCustomComponent,
+  SpinnerIndyComponent,
+  CardIndyComponent,
+  ScrollIndyComponent,
 ];

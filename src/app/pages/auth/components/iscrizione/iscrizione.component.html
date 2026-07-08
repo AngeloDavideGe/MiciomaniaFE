@@ -1,4 +1,4 @@
-<app-tabs-custom
+<app-tabs-indy
   [tabs]="tabs"
   [tipo]="'wizard'"
   [disableNext]="disableNext()"
@@ -7,7 +7,7 @@
 >
   <div wizardContent>
     @if (squadreInGame().length === 0) {
-      <app-spinner></app-spinner>
+      <app-spinner-indy></app-spinner-indy>
     } @else {
       @switch (currentStep()) {
         @case ("1") {
@@ -27,4 +27,4 @@
       }
     }
   </div>
-</app-tabs-custom>
+</app-tabs-indy>

@@ -1,0 +1,17 @@
+.check-input-custom {
+    cursor: pointer;
+    width: 1.2em;
+    height: 1.2em;
+}
+
+.check-label-custom {
+    font-weight: 600;
+    color: var(--text-color);
+    cursor: pointer;
+    margin-left: 1rem;
+
+    i {
+    font-size: 1.1em;
+    line-height: 1;
+    }
+}

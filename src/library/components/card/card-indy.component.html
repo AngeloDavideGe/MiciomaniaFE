@@ -7,10 +7,10 @@
 
   <div class="position-relative w-100">
     @if (tipoSlice == "page") {
-      <app-paginazione-custom
+      <app-paginazione-indy
         [filtri]="filtri"
         [tipo]="'singolo'"
-      ></app-paginazione-custom>
+      ></app-paginazione-indy>
     }
 
     @if (viewFirstButton()) {
@@ -71,11 +71,11 @@
       @if (elem.bottone) {
         @switch (tipoBottone) {
           @case ("Default") {
-            <app-button-custom
+            <app-button-indy
               class="mt-auto mx-auto"
               [text]="elem.bottone"
               (click)="clickButton(elem)"
-            ></app-button-custom>
+            ></app-button-indy>
           }
           @case ("Download") {
             <a

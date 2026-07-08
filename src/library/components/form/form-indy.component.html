@@ -104,12 +104,12 @@
         }
 
         @case ("Checkbox") {
-          <app-checkbox-custom
+          <app-checkbox-indy
             [checks]="strutturaForm[keys[$index]].checkbox || []"
             [initialChecked]="strutturaForm[keys[$index]].valueInit"
             (checkChange)="onCheckboxChange($event, keys[$index])"
           >
-          </app-checkbox-custom>
+          </app-checkbox-indy>
         }
 
         @case ("File") {
@@ -147,18 +147,18 @@
 
   @if (visualizzaPulsanti) {
     <div class="form-actions">
-      <app-button-custom
+      <app-button-indy
         [text]="'Resetta'"
         [color]="'secondary-custom'"
         (clickBotton)="onReset()"
-      ></app-button-custom>
+      ></app-button-indy>
 
-      <app-button-custom
+      <app-button-indy
         [text]="'Invia'"
         [color]="'primary-custom'"
         (clickBotton)="onSubmit()"
         [disabled]="form.invalid"
-      ></app-button-custom>
+      ></app-button-indy>
     </div>
   }
 </form>

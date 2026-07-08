@@ -10,52 +10,13 @@ import {
 import { ICheckBox } from '../../interfaces/form.interface';
 
 @Component({
-  selector: 'app-checkbox-custom',
+  selector: 'app-checkbox-indy',
   standalone: true,
   imports: [],
-  template: `
-    @for (check of checks; track check.id) {
-      <div class="elemento-iniziale px-2 mb-2" style="--align-start: center">
-        <input
-          class="check-input-custom"
-          type="checkbox"
-          [id]="check.id"
-          [value]="check"
-          [checked]="checkRecord[check.id]()"
-          (change)="onCheckChange($event, check)"
-        />
-        <label [for]="check.id" class="check-label-custom">
-          @if (check.icon) {
-            <i class="bi bi-{{ check.icon }}"></i>
-          }
-          {{ check.testo }}
-        </label>
-      </div>
-    }
-  `,
-  styles: [
-    `
-      .check-input-custom {
-        cursor: pointer;
-        width: 1.2em;
-        height: 1.2em;
-      }
-
-      .check-label-custom {
-        font-weight: 600;
-        color: var(--text-color);
-        cursor: pointer;
-        margin-left: 1rem;
-
-        i {
-          font-size: 1.1em;
-          line-height: 1;
-        }
-      }
-    `,
-  ],
+  templateUrl: './checkbox-indy.component.html',
+  styleUrl: './checkbox-indy.component.scss',
 })
-export class CheckBoxCustomComponent implements OnInit {
+export class CheckBoxIndyComponent implements OnInit {
   @Input() checks!: ICheckBox[];
   @Input() initialChecked?: string;
   @Input() tipo: 'single' | 'multiple' = 'single';

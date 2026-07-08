@@ -1,8 +1,8 @@
 @if (sezioni().length > 0) {
-  <app-custom-scroll [sezioni]="sezioni()">
+  <app-scroll-indy [sezioni]="sezioni()">
     <div primo>
       @if (canzoniMiciomania().length > 0) {
-        <app-card-custom
+        <app-card-indy
           [elems]="canzoniMiciomania"
           [altezzaImg]="'20rem'"
           [tipoBottone]="'Play'"
@@ -11,12 +11,12 @@
           [currentButton]="currentButtonSong"
           (clickStopBotton)="msu.sc.stopSong()"
         >
-        </app-card-custom>
+        </app-card-indy>
       }
     </div>
     <div secondo>
       @if (canzoniUtente().length > 0) {
-        <app-card-custom
+        <app-card-indy
           [elems]="canzoniUtente"
           [altezzaImg]="'20rem'"
           [tipoBottone]="'Play'"
@@ -24,7 +24,7 @@
           [tipoSlice]="'page'"
           (clickStopBotton)="msu.sc.stopSong()"
         >
-        </app-card-custom>
+        </app-card-indy>
       } @else {
         <div class="elementi-colonna">
           <h3>Non ci sono Canzoni in questa sezione</h3>
@@ -32,7 +32,7 @@
         </div>
       }
     </div>
-  </app-custom-scroll>
+  </app-scroll-indy>
 } @else {
-  <app-spinner [mt]="'10rem'"></app-spinner>
+  <app-spinner-indy [mt]="'10rem'"></app-spinner-indy>
 }

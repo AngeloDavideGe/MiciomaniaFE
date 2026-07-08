@@ -8,7 +8,7 @@ import {
   signal,
 } from '@angular/core';
 import { Router } from '@angular/router';
-import { iTab } from '../../../../../../library/components/tabs/tabs.component';
+import { iTab } from '../../../../../../library/components/tabs/tabs-indy.component';
 import { effectTimeoutCustom } from '../../../../../../library/functions/debounce.function';
 import { NavBarButton } from '../../../../../../library/interfaces/navbar.interface';
 import { DataHttp } from '../../../../../core/api/http.data';

@@ -26,25 +26,25 @@ import {
   RecordColonne,
 } from '../../interfaces/table.interface';
 import { CapitalizeFirstLetterPipe } from '../../pipes/capitalize.pipe';
-import { PaginazioneCustomComponent } from '../pagination/pagination.component';
-import { SpinnerComponent } from '../spinner/spinner.component';
+import { PaginazioneIndyComponent } from '../pagination/pagination-indy.component';
+import { SpinnerIndyComponent } from '../spinner/spinner-indy.component';
 import { NgTemplateOutlet } from '@angular/common';
 
 @Component({
-  selector: 'app-table-custom',
+  selector: 'app-table-indy',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     FormsModule,
     CapitalizeFirstLetterPipe,
-    PaginazioneCustomComponent,
-    SpinnerComponent,
+    PaginazioneIndyComponent,
+    SpinnerIndyComponent,
     NgTemplateOutlet,
   ],
-  templateUrl: './table.component.html',
-  styleUrl: './table.component.scss',
+  templateUrl: './table-indy.component.html',
+  styleUrl: './table-indy.component.scss',
 })
-export class TabellaCustomComponent<T> {
+export class TabellaIndyComponent<T> {
   @Input() colonne!: Partial<RecordColonne<T>>;
   @Input() elemTable: Signal<T[]> = signal<T[]>([]);
   @Input() dataTableHttp: DataTableHttp<T> | null = null;

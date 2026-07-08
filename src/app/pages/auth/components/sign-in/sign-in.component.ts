@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
-import { FormCustomComponent } from '../../../../../library/components/form/form.component';
+import { FormIndyComponent } from '../../../../../library/components/form/form-indy.component';
 import { handlerFunc } from '../../../../../library/functions/handler.function';
 import { RecordStruttura } from '../../../../../library/interfaces/form.interface';
 import { dynamicValidator } from '../../../../../library/validators/dynamic.validator';
@@ -11,12 +11,12 @@ import { AuthService } from '../../../../shared/services/api/auth.service';
 @Component({
   selector: 'app-sign-in',
   standalone: true,
-  imports: [FormCustomComponent, RouterLink],
+  imports: [FormIndyComponent, RouterLink],
   template: `<div class="card-header text-center">
       <h3 class="h4">Sign In</h3>
     </div>
 
-    <app-form-custom
+    <app-form-indy
       [strutturaForm]="signinConfig"
       (invioDati)="registrazione($event)"
     >
@@ -26,7 +26,7 @@ import { AuthService } from '../../../../shared/services/api/auth.service';
           <a routerLink="/auth/login" class="text-primary"> Accedi </a>
         </div>
       </div>
-    </app-form-custom> `,
+    </app-form-indy> `,
 })
 export class SignInComponent {
   private authService = inject(AuthService);

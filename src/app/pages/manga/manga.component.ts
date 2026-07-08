@@ -9,7 +9,7 @@ import {
 } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
-import { iTab } from '../../../library/components/tabs/tabs.component';
+import { iTab } from '../../../library/components/tabs/tabs-indy.component';
 import { compareObjectCustom } from '../../../library/functions/confronto.function';
 import { effectTimeoutCustom } from '../../../library/functions/debounce.function';
 import { GetFiltriCustom } from '../../../library/functions/pagination.function';

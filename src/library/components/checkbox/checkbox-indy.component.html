@@ -1,0 +1,18 @@
+@for (check of checks; track check.id) {
+  <div class="elemento-iniziale px-2 mb-2" style="--align-start: center">
+    <input
+      class="check-input-custom"
+      type="checkbox"
+      [id]="check.id"
+      [value]="check"
+      [checked]="checkRecord[check.id]()"
+      (change)="onCheckChange($event, check)"
+    />
+    <label [for]="check.id" class="check-label-custom">
+      @if (check.icon) {
+        <i class="bi bi-{{ check.icon }}"></i>
+      }
+      {{ check.testo }}
+    </label>
+  </div>
+}

@@ -1,7 +1,7 @@
 import { NgClass } from '@angular/common';
 import { Component, HostListener, Input, signal } from '@angular/core';
-import { SvgCustomComponent } from '../../../../../../../library/components/svg/svg-custom.component';
-import { SpinnerComponent } from '../../../../../../../library/components/spinner/spinner.component';
+import { SvgIndyComponent } from '../../../../../../../library/components/svg/svg-indy.component';
+import { SpinnerIndyComponent } from '../../../../../../../library/components/spinner/spinner-indy.component';
 import { debounceTimeoutCustom } from '../../../../../../../library/functions/debounce.function';
 import {
   Conquiste,
@@ -15,11 +15,11 @@ declare var google: any;
 @Component({
   selector: 'app-mappa-squadre',
   standalone: true,
-  imports: [SvgCustomComponent, SpinnerComponent, NgClass],
+  imports: [SvgIndyComponent, SpinnerIndyComponent, NgClass],
   template: `
     <div id="ContainerMap">
       @if (loading()) {
-        <app-spinner [mt]="'5rem'"></app-spinner>
+        <app-spinner-indy [mt]="'5rem'"></app-spinner-indy>
       } @else {
         <div [ngClass]="classNg()">
           <div class="chart-wrapper">
@@ -27,7 +27,7 @@ declare var google: any;
           </div>
 
           <div class="mt-3">
-            <app-svg-custom
+            <app-svg-indy
               [paths]="paths"
               [colori]="coloriRegioni"
               [viewbox]="viewBox"
@@ -36,7 +36,7 @@ declare var google: any;
               [height]="dim[1]"
               [modale]="territorioAperto()"
               (pathClicked)="openLegend($event)"
-            ></app-svg-custom>
+            ></app-svg-indy>
           </div>
         </div>
       }

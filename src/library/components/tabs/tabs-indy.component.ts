@@ -6,16 +6,16 @@ import {
   Output,
   signal,
 } from '@angular/core';
-import { ButtonCustomComponent } from '../button/botton-custom.component';
+import { ButtonIndyComponent } from '../button/botton-indy.component';
 
 @Component({
-  selector: 'app-tabs-custom',
+  selector: 'app-tabs-indy',
   standalone: true,
-  imports: [ButtonCustomComponent],
-  templateUrl: './tabs.component.html',
-  styleUrl: './tabs.component.scss',
+  imports: [ButtonIndyComponent],
+  templateUrl: './tabs-indy.component.html',
+  styleUrl: './tabs-indy.component.scss',
 })
-export class TabsComponent implements OnInit {
+export class TabsIndyComponent implements OnInit {
   public selectTab = signal<string>('');
 
   @Input() tabs: iTab[] = [];

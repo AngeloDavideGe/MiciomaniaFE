@@ -10,8 +10,8 @@ import {
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-import { PaginazioneCustomComponent } from '../../../../../../../../library/components/pagination/pagination.component';
-import { SpinnerComponent } from '../../../../../../../../library/components/spinner/spinner.component';
+import { PaginazioneIndyComponent } from '../../../../../../../../library/components/pagination/pagination-indy.component';
+import { SpinnerIndyComponent } from '../../../../../../../../library/components/spinner/spinner-indy.component';
 import { debounceTimeoutCustom } from '../../../../../../../../library/functions/debounce.function';
 import { GetFiltriCustom } from '../../../../../../../../library/functions/pagination.function';
 import { FiltriInterface } from '../../../../../../../../library/interfaces/pagination.interface';
@@ -23,7 +23,7 @@ import { AuthService } from '../../../../../../../shared/services/api/auth.servi
 @Component({
   selector: 'app-cerca-profili',
   standalone: true,
-  imports: [FormsModule, SpinnerComponent, PaginazioneCustomComponent],
+  imports: [FormsModule, SpinnerIndyComponent, PaginazioneIndyComponent],
   templateUrl: './cerca-profili.component.html',
   styleUrl: './cerca-profili.component.scss',
 })

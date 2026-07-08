@@ -7,12 +7,12 @@
       (onGenreChange)="filterSelect.genere.set($event)"
     ></app-filtri-manga>
 
-    <app-tabs-custom [tabs]="tabs"></app-tabs-custom>
+    <app-tabs-indy [tabs]="tabs"></app-tabs-indy>
 
-    <app-tabs-custom
+    <app-tabs-indy
       [tipo]="'lista'"
       (clickTab)="perIniziale.set($event)"
-    ></app-tabs-custom>
+    ></app-tabs-indy>
 
     @if (perIniziale() === "2") {
       @for (lettera of alfabeto; track lettera) {
@@ -52,7 +52,7 @@
       </div>
     }
   } @else {
-    <app-spinner [mt]="'10rem'"></app-spinner>
+    <app-spinner-indy [mt]="'10rem'"></app-spinner-indy>
   }
 }
 

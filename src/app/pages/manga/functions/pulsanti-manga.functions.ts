@@ -1,4 +1,4 @@
-import { iTab } from '../../../../library/components/tabs/tabs.component';
+import { iTab } from '../../../../library/components/tabs/tabs-indy.component';
 import { NavBarButton } from '../../../../library/interfaces/navbar.interface';
 import { DataHttp } from '../../../core/api/http.data';
 

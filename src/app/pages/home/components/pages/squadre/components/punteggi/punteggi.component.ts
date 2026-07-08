@@ -15,31 +15,31 @@ import { punteggi_imports } from './punteggi.import';
       <div class="rounded-3">
         <app-lista-squadre [classifica]="classifica()"></app-lista-squadre>
 
-        <app-tabs-custom
+        <app-tabs-indy
           [tipo]="'lista'"
           (clickTab)="classNg.set($event)"
-        ></app-tabs-custom>
+        ></app-tabs-indy>
 
         @if (classNg() == '1') {
           <app-chart-custom [classifica]="classifica()"></app-chart-custom>
         } @else {
           <div class="container">
             <div class="grid-card-layout" style="--card-width: 30rem; ">
-              <app-table-custom
+              <app-table-indy
                 [elemTable]="giocatori"
                 [colonne]="colonneUtenti"
                 [titoloTabella]="'Punteggio Utenti'"
                 [elemForPage]="elemForPage.utenti"
-              ></app-table-custom>
+              ></app-table-indy>
 
-              <app-table-custom
+              <app-table-indy
                 [elemTable]="squadre"
                 [colonne]="colonneSquadre"
                 [titoloTabella]="'Punteggio Squadre'"
                 [elemForPage]="elemForPage.squadre"
                 [keyPrimary]="'nome'"
                 [templateCustom]="detailTpl"
-              ></app-table-custom>
+              ></app-table-indy>
             </div>
           </div>
         }
@@ -49,7 +49,7 @@ import { punteggi_imports } from './punteggi.import';
         ></app-bottoni-squadre>
       </div>
     } @else {
-      <app-spinner [mt]="'10rem'"></app-spinner>
+      <app-spinner-indy [mt]="'10rem'"></app-spinner-indy>
     }
 
     <ng-template #detailTpl let-row>

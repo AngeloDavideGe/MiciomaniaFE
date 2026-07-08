@@ -2,7 +2,7 @@ import { Component, signal } from '@angular/core';
 
 import { componentInterazioni } from '../admin/interfaces/admin.interface';
 import { AllPokeComponent } from './components/allPoke.component';
-import { CustomNavBarComponent } from '../../../../../../library/components/navbar/navbar.component';
+import { CustomNavBarComponent } from '../../../../../shared/components/navbar/navbar.component';
 import { NavBarButton } from '../../../../../../library/interfaces/navbar.interface';
 
 @Component({

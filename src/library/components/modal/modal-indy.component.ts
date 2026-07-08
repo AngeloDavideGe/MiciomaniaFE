@@ -1,14 +1,14 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { ButtonCustomComponent } from '../button/botton-custom.component';
+import { ButtonIndyComponent } from '../button/botton-indy.component';
 
 @Component({
-  selector: 'app-modal-custom',
+  selector: 'app-modal-indy',
   standalone: true,
-  imports: [ButtonCustomComponent],
-  templateUrl: './modal.component.html',
-  styleUrl: './modal.component.scss',
+  imports: [ButtonIndyComponent],
+  templateUrl: './modal-indy.component.html',
+  styleUrl: './modal-indy.component.scss',
 })
-export class ModalCustomComponent implements OnInit {
+export class ModalIndyComponent implements OnInit {
   public modalWidth: string = 'modal-md';
 
   @Input() title: string = '';

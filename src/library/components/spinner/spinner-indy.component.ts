@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 
 @Component({
-  selector: 'app-spinner',
+  selector: 'app-spinner-indy',
   standalone: true,
   imports: [],
   template: `
@@ -15,6 +15,6 @@ import { Component, Input } from '@angular/core';
     </div>
   `,
 })
-export class SpinnerComponent {
+export class SpinnerIndyComponent {
   @Input() mt: string = '0';
 }

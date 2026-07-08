@@ -16,23 +16,23 @@ import {
   RecordStruttura,
   StrutturaForm,
 } from '../../interfaces/form.interface';
-import { CheckBoxCustomComponent } from '../checkbox/checkbox.component';
+import { CheckBoxIndyComponent } from '../checkbox/checkbox-indy.component';
 import { CapitalizeFirstLetterPipe } from '../../pipes/capitalize.pipe';
-import { ButtonCustomComponent } from '../button/botton-custom.component';
+import { ButtonIndyComponent } from '../button/botton-indy.component';
 
 @Component({
-  selector: 'app-form-custom',
+  selector: 'app-form-indy',
   standalone: true,
   imports: [
     ReactiveFormsModule,
-    CheckBoxCustomComponent,
+    CheckBoxIndyComponent,
     CapitalizeFirstLetterPipe,
-    ButtonCustomComponent,
+    ButtonIndyComponent,
   ],
-  templateUrl: './form.component.html',
-  styleUrl: './form.component.scss',
+  templateUrl: './form-indy.component.html',
+  styleUrl: './form-indy.component.scss',
 })
-export class FormCustomComponent implements OnInit, AfterViewInit, OnDestroy {
+export class FormIndyComponent implements OnInit, AfterViewInit, OnDestroy {
   private formBuilder = inject(FormBuilder);
   public form!: FormGroup<FormInterface>;
   public arrayForm: StrutturaForm[] = [];

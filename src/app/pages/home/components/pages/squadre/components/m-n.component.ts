@@ -1,23 +1,23 @@
 import { Component, Input, signal } from '@angular/core';
-import { SpinnerComponent } from '../../../../../../../library/components/spinner/spinner.component';
+import { SpinnerIndyComponent } from '../../../../../../../library/components/spinner/spinner-indy.component';
 import {
   iTab,
-  TabsComponent,
-} from '../../../../../../../library/components/tabs/tabs.component';
+  TabsIndyComponent,
+} from '../../../../../../../library/components/tabs/tabs-indy.component';
 import { MN } from '../../../../../../shared/interfaces/squadre.interface';
 
 @Component({
   selector: 'app-m-n',
-  imports: [SpinnerComponent, TabsComponent],
+  imports: [SpinnerIndyComponent, TabsIndyComponent],
   template: `
     <div>
       <div class="mt-3">
         @if (mn().length > 0) {
-          <app-tabs-custom
+          <app-tabs-indy
             [tabs]="tabs"
             [tipo]="'lista'"
             (clickTab)="classMN.set($event)"
-          ></app-tabs-custom>
+          ></app-tabs-indy>
 
           <div class="row" [class]="classMN()">
             @for (mn of mn(); track mn.valore) {
@@ -88,7 +88,7 @@ import { MN } from '../../../../../../shared/interfaces/squadre.interface';
             }
           </div>
         } @else {
-          <app-spinner [mt]="'5rem'"></app-spinner>
+          <app-spinner-indy [mt]="'5rem'"></app-spinner-indy>
         }
       </div>
     </div>

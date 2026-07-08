@@ -1,6 +1,6 @@
 import { Component, inject, Input } from '@angular/core';
 import { AppConfigService } from '../../../../../../../core/api/appConfig.service';
-import { CardCustomComponent } from '../../../../../../../../library/components/card/card.component';
+import { CardIndyComponent } from '../../../../../../../../library/components/card/card-indy.component';
 import {
   MangaSong,
   UtenteParodie,
@@ -10,7 +10,7 @@ import { MangaSongUtilities } from '../../../../../../../shared/utilities/class/
 @Component({
   selector: 'app-griglia-elementi',
   standalone: true,
-  imports: [CardCustomComponent],
+  imports: [CardIndyComponent],
   templateUrl: './griglia-elementi.component.html',
 })
 export class GrigliaElementiComponent {

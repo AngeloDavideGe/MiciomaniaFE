@@ -1,14 +1,14 @@
-<app-modal-custom
+<app-modal-indy
   [title]="'Cambia Immagine Gruppo'"
   [width]="'md'"
   [showFooter]="false"
   (close)="chiudi.emit()"
 >
   <div bodyModal>
-    <app-form-custom
+    <app-form-indy
       [strutturaForm]="changePicForm"
       [visualizzaPulsanti]="true"
       (invioDati)="upload($event)"
-    ></app-form-custom>
+    ></app-form-indy>
   </div>
-</app-modal-custom>
+</app-modal-indy>

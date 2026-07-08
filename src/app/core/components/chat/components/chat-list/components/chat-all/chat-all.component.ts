@@ -17,8 +17,8 @@ import { AppConfigService } from '../../../../../../api/appConfig.service';
 import { DataHttp } from '../../../../../../api/http.data';
 import { Gruppo, LastMess } from '../../../../interfaces/chat.interface';
 import { ChatService } from '../../../../services/chat.service';
-import { FormCustomComponent } from '../../../../../../../../library/components/form/form.component';
-import { ModalCustomComponent } from '../../../../../../../../library/components/modal/modal.component';
+import { FormIndyComponent } from '../../../../../../../../library/components/form/form-indy.component';
+import { ModalIndyComponent } from '../../../../../../../../library/components/modal/modal-indy.component';
 import { RecordStruttura } from '../../../../../../../../library/interfaces/form.interface';
 
 @Component({
@@ -28,8 +28,8 @@ import { RecordStruttura } from '../../../../../../../../library/interfaces/form
     CommonModule,
     FormsModule,
     DatePipe,
-    FormCustomComponent,
-    ModalCustomComponent,
+    FormIndyComponent,
+    ModalIndyComponent,
   ],
   templateUrl: './chat-all.component.html',
   styleUrl: './chat-all.component.scss',

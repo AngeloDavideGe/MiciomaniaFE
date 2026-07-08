@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { DataHttp } from '../../../../core/api/http.data';
 import { User } from '../../../../shared/interfaces/users.interface';
 import { LoginBase } from '../../base/login.base';
-import { FormCustomComponent } from '../../../../../library/components/form/form.component';
+import { FormIndyComponent } from '../../../../../library/components/form/form-indy.component';
 import { RouterLink } from '@angular/router';
 import { Validators } from '@angular/forms';
 import { RecordStruttura } from '../../../../../library/interfaces/form.interface';
@@ -10,12 +10,12 @@ import { RecordStruttura } from '../../../../../library/interfaces/form.interfac
 @Component({
   selector: 'app-new-login',
   standalone: true,
-  imports: [FormCustomComponent, RouterLink],
+  imports: [FormIndyComponent, RouterLink],
   template: `<div class="card-header text-center">
       <h3 class="h4">New Login</h3>
     </div>
 
-    <app-form-custom [strutturaForm]="loginConfig" (invioDati)="login($event)">
+    <app-form-indy [strutturaForm]="loginConfig" (invioDati)="login($event)">
       <div erroreCustom>
         @if (loginError()) {
           <p style="color: var(--red-miciomania);">Credenziali Errate</p>
@@ -26,7 +26,7 @@ import { RecordStruttura } from '../../../../../library/interfaces/form.interfac
           <a routerLink="/auth/home" class="text-primary"> Torna alla Home </a>
         </div>
       </div>
-    </app-form-custom> `,
+    </app-form-indy> `,
 })
 export class NewLoginComponent extends LoginBase {
   public loginConfig: RecordStruttura = {

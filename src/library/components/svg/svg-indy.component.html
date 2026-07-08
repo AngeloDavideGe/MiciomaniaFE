@@ -1,0 +1,49 @@
+<div class="svg-container" style="position: relative; display: inline-block">
+  <svg
+    baseprofile="tiny"
+    [attr.height]="height"
+    [attr.width]="width"
+    stroke="var(--border-light)"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="1.2"
+    version="1.2"
+    [attr.viewBox]="viewbox || '0 0 ' + width + ' ' + height"
+    xmlns="http://www.w3.org/2000/svg"
+    [style.transform]="transform"
+  >
+    <g [attr.transform]="translate">
+      @for (path of paths; track $index) {
+        <path
+          [attr.d]="path.d"
+          [attr.id]="path.title"
+          [attr.fill]="
+            path.fill || colori[path.title] || 'var(--fill-svg-void)'
+          "
+          (click)="onPathClick(path.title, $event)"
+        >
+          <title>{{ path.title }}</title>
+        </path>
+
+        <text
+          [attr.x]="path.textX"
+          [attr.y]="path.textY"
+          text-anchor="middle"
+          dominant-baseline="middle"
+          fill="white"
+          font-weight="bold"
+          font-size="16"
+        >
+          {{ path.title }}
+        </text>
+      }
+    </g>
+  </svg>
+
+  @if (showPopup()) {
+    <div class="popup" [style.left.px]="popupX" [style.top.px]="popupY">
+      <button (click)="showPopup.set(false)" class="close-btn">×</button>
+      <pre>{{ popupText }}</pre>
+    </div>
+  }
+</div>

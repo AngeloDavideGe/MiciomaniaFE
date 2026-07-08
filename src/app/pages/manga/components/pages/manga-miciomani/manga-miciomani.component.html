@@ -1,28 +1,28 @@
 <app-custom-navbar [altriBottoni]="pulsanti"></app-custom-navbar>
 
 @if (sezioni().length > 0) {
-  <app-custom-scroll [sezioni]="sezioni()">
+  <app-scroll-indy [sezioni]="sezioni()">
     <div primo>
       @if (mangaMiciomania().length > 0) {
-        <app-card-custom
+        <app-card-indy
           [elems]="mangaMiciomania"
           [classBody]="'manga-class'"
           [tipoBottone]="'Download'"
           [altezzaImg]="'20rem'"
           [tipoSlice]="'page'"
-        ></app-card-custom>
+        ></app-card-indy>
       }
     </div>
 
     <div secondo>
       @if (mangaUtente().length > 0) {
-        <app-card-custom
+        <app-card-indy
           [elems]="mangaUtente"
           [classBody]="'manga-class'"
           [tipoBottone]="'Download'"
           [altezzaImg]="'20rem'"
           [tipoSlice]="'page'"
-        ></app-card-custom>
+        ></app-card-indy>
       } @else {
         <div class="elementi-colonna">
           <h3>Non ci sono Manga in questa sezione</h3>
@@ -30,7 +30,7 @@
         </div>
       }
     </div>
-  </app-custom-scroll>
+  </app-scroll-indy>
 } @else {
-  <app-spinner [mt]="'10rem'"></app-spinner>
+  <app-spinner-indy [mt]="'10rem'"></app-spinner-indy>
 }

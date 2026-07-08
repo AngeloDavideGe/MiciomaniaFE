@@ -7,20 +7,20 @@ import {
   signal,
 } from '@angular/core';
 import { giorniSettimana, mesi } from '../../constants/utility.constant';
-import { ModalCustomComponent } from '../modal/modal.component';
+import { ModalIndyComponent } from '../modal/modal-indy.component';
 import {
   CronObbligatori,
   ErrorCronObbligatori,
 } from '../../interfaces/cron.interface';
 
 @Component({
-  selector: 'app-cron-custom',
+  selector: 'app-cron-indy',
   standalone: true,
-  imports: [ModalCustomComponent],
-  templateUrl: './cron.component.html',
-  styleUrls: ['./cron.component.scss'],
+  imports: [ModalIndyComponent],
+  templateUrl: './cron-indy.component.html',
+  styleUrl: './cron-indy.component.scss',
 })
-export class CronCustomComponent {
+export class CronIndyComponent {
   public selectedHours = signal<number[]>([]);
   public selectedDaysOfWeek = signal<number[]>([]);
   public selectedMonths = signal<number[]>([]);

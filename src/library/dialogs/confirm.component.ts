@@ -1,13 +1,13 @@
 import { Component, Input } from '@angular/core';
 import { Subject } from 'rxjs';
-import { ModalCustomComponent } from '../components/modal/modal.component';
+import { ModalIndyComponent } from '../components/modal/modal-indy.component';
 
 @Component({
   selector: 'app-confirm',
   standalone: true,
-  imports: [ModalCustomComponent],
+  imports: [ModalIndyComponent],
   template: `
-    <app-modal-custom
+    <app-modal-indy
       [title]="params.title"
       [subtitle]="params.message"
       [width]="'sm'"
@@ -18,7 +18,7 @@ import { ModalCustomComponent } from '../components/modal/modal.component';
       (close)="onClose(false)"
       (primaryAction)="onClose(true)"
       (secondaryAction)="onClose(false)"
-    ></app-modal-custom>
+    ></app-modal-indy>
   `,
 })
 export class ConfirmComponent {

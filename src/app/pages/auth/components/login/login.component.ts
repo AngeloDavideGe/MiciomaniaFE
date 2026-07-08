@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Validators } from '@angular/forms';
-import { FormCustomComponent } from '../../../../../library/components/form/form.component';
+import { FormIndyComponent } from '../../../../../library/components/form/form-indy.component';
 import { RecordStruttura } from '../../../../../library/interfaces/form.interface';
 import { LoginBase } from '../../base/login.base';
 import { RouterLink } from '@angular/router';
@@ -8,12 +8,12 @@ import { RouterLink } from '@angular/router';
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [FormCustomComponent, RouterLink],
+  imports: [FormIndyComponent, RouterLink],
   template: `<div class="card-header text-center">
       <h3 class="h4">Login</h3>
     </div>
 
-    <app-form-custom [strutturaForm]="loginConfig" (invioDati)="login($event)">
+    <app-form-indy [strutturaForm]="loginConfig" (invioDati)="login($event)">
       <div erroreCustom>
         @if (loginError()) {
           <p style="color: var(--red-miciomania);">Credenziali Errate</p>
@@ -24,7 +24,7 @@ import { RouterLink } from '@angular/router';
           <a routerLink="/auth/sign-in" class="text-primary"> Registrati </a>
         </div>
       </div>
-    </app-form-custom> `,
+    </app-form-indy> `,
 })
 export class LoginComponent extends LoginBase {
   public loginConfig: RecordStruttura = {

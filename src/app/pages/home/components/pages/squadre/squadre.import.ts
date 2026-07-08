@@ -1,5 +1,5 @@
 import { Type } from '@angular/core';
-import { CustomNavBarComponent } from '../../../../../../library/components/navbar/navbar.component';
+import { CustomNavBarComponent } from '../../../../../shared/components/navbar/navbar.component';
 import { ChartsPrintComponent } from './components/charts-print.component';
 import { MNComponent } from './components/m-n.component';
 import { MappaSquadreComponent } from './components/mappa-squadre.component';

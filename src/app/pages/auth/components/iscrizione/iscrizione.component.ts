@@ -1,6 +1,6 @@
 import { Component, computed, effect, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
-import { iTab } from '../../../../../library/components/tabs/tabs.component';
+import { iTab } from '../../../../../library/components/tabs/tabs-indy.component';
 import { DataHttp } from '../../../../core/api/http.data';
 import { updateUserCustom } from '../../../../shared/handlers/auth.handler';
 import {

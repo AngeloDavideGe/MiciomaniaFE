@@ -2,7 +2,7 @@
 
 @if (mangaNonVuoti()) {
   @if (tabs().length > 0) {
-    <app-tabs-custom [tabs]="tabs()"></app-tabs-custom>
+    <app-tabs-indy [tabs]="tabs()"></app-tabs-indy>
   }
   <app-input-tuoi-manga
     [allMangaSearch]="allMangaSearch"
@@ -35,5 +35,5 @@
     }
   </div>
 } @else {
-  <app-spinner [mt]="'5rem'"></app-spinner>
+  <app-spinner-indy [mt]="'5rem'"></app-spinner-indy>
 }

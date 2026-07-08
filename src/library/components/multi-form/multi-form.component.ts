@@ -21,18 +21,18 @@ import {
   RecordStrutturaMultiForm,
   StrutturaMultiForm,
 } from '../../interfaces/form.interface';
-import { FormCustomComponent } from '../form/form.component';
+import { FormIndyComponent } from '../form/form-indy.component';
 import { NgStyle } from '@angular/common';
-import { ButtonCustomComponent } from '../button/botton-custom.component';
+import { ButtonIndyComponent } from '../button/botton-indy.component';
 
 @Component({
   selector: 'app-multi-form',
   standalone: true,
   imports: [
     ReactiveFormsModule,
-    FormCustomComponent,
+    FormIndyComponent,
     NgStyle,
-    ButtonCustomComponent,
+    ButtonIndyComponent,
   ],
   templateUrl: './multi-form.component.html',
   styleUrl: './multi-form.component.scss',
