@@ -8,13 +8,13 @@ import {
   signal,
 } from '@angular/core';
 import { Router } from '@angular/router';
-import { ChatService } from '../../../core/components/chat/services/chat.service';
-import { MiniPlayerService } from '../../services/template/mini-player.service';
-import { defaultSongPic } from '../../../../library/constants/lib.constant';
 import {
   NavBarButton,
   TornaIndietro,
 } from '../../../../library/interfaces/navbar.interface';
+import { AppConfigService } from '../../../core/api/appConfig.service';
+import { ChatService } from '../../../core/components/chat/services/chat.service';
+import { MiniPlayerService } from '../../services/template/mini-player.service';
 
 @Component({
   selector: 'app-custom-navbar',
@@ -26,11 +26,13 @@ import {
 export class CustomNavBarComponent {
   public miniPlayerService = inject(MiniPlayerService);
   public chatService = inject(ChatService);
+  private configService = inject(AppConfigService);
 
   public router = inject(Router);
   public filterActive = signal<boolean>(false);
   public searchValue = '';
-  public readonly defaultPic: string = defaultSongPic;
+  public readonly defaultPic: string =
+    this.configService.config.defaultPicsUrl.song;
 
   @Input() filtro: boolean = false;
   @Input() altriBottoni: NavBarButton[] = [];

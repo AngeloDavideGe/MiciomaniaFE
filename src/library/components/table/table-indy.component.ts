@@ -1,3 +1,4 @@
+import { NgTemplateOutlet } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -10,7 +11,6 @@ import {
   TemplateRef,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { maxElementForPage } from '../../constants/lib.constant';
 import { debounceTimeoutCustom } from '../../functions/debounce.function';
 import { GetFiltriCustom } from '../../functions/pagination.function';
 import {
@@ -28,7 +28,6 @@ import {
 import { CapitalizeFirstLetterPipe } from '../../pipes/capitalize.pipe';
 import { PaginazioneIndyComponent } from '../pagination/pagination-indy.component';
 import { SpinnerIndyComponent } from '../spinner/spinner-indy.component';
-import { NgTemplateOutlet } from '@angular/common';
 
 @Component({
   selector: 'app-table-indy',
@@ -55,7 +54,7 @@ export class TabellaIndyComponent<T> {
   @Input() azioni: AzioniTabella<T>[] = [];
   @Input() tipoPaginazione: TipoPaginazione = 'multiplo';
   @Input() arrayElemForPage: number[] = [1, 5, 10, 20];
-  @Input() elemForPage = signal<number>(maxElementForPage);
+  @Input() elemForPage = signal<number>(20);
   @Input() recordBadge: Record<string, string> = {};
   @Input() trackByKey: keyof T = 'id' as keyof T;
   @Input() templateCustom?: TemplateRef<any>;

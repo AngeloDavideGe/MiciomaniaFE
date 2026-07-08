@@ -5,7 +5,8 @@ import {
   InputFiltri,
 } from '../interfaces/pagination.interface';
 import { GetOrderCustom } from './ordinamento.function';
-import { maxElementForPage } from '../constants/lib.constant';
+
+const maxElementForPage = 20;
 
 export function GetFiltriCustom<T, F>(
   params: InputFiltri<T, F>,

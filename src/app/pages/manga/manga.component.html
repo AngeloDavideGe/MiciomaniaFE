@@ -9,51 +9,23 @@
 
     <app-tabs-indy [tabs]="tabs"></app-tabs-indy>
 
-    <app-tabs-indy
-      [tipo]="'lista'"
-      (clickTab)="perIniziale.set($event)"
-    ></app-tabs-indy>
-
-    @if (perIniziale() === "2") {
-      @for (lettera of alfabeto; track lettera) {
-        @if (mangaPerIniziale()[lettera].length > 0) {
-          <div class="mt-5">
-            <h5 class="text-black fw-bold border-bottom pb-2">
-              {{ lettera }}
-            </h5>
-          </div>
-          <div class="row mt-3 g-3">
-            @for (manga of mangaPerIniziale()[lettera]; track manga.id) {
-              <div class="col-6 col-sm-4 col-md-3 col-lg-2 elemento-centrato">
-                <app-card-manga
-                  [manga]="manga"
-                  [preferito]="mangaPreferiti[manga.id]"
-                  (selezionaOpera)="selezionaOpera(manga.path)"
-                ></app-card-manga>
-              </div>
-            }
-          </div>
-        }
+    <div
+      class="grid-card-layout mt-4 px-2"
+      style="--card-width: 15rem; --card-position: start"
+    >
+      @for (manga of filtri.searchElems(); track manga.id) {
+        <div class="d-flex" style="padding: 0.2rem">
+          <app-card-manga
+            [manga]="manga"
+            [preferito]="mangaPreferiti[manga.id]"
+            (selezionaOpera)="selezionaOpera(manga.path)"
+          ></app-card-manga>
+        </div>
       }
-    } @else {
-      <div
-        class="grid-card-layout mt-4 px-2"
-        style="--card-width: 15rem; --card-position: start"
-      >
-        @for (manga of filtri.searchElems(); track manga.id) {
-          <div class="d-flex" style="padding: 0.2rem">
-            <app-card-manga
-              [manga]="manga"
-              [preferito]="mangaPreferiti[manga.id]"
-              (selezionaOpera)="selezionaOpera(manga.path)"
-            ></app-card-manga>
-          </div>
-        }
-      </div>
-    }
-  } @else {
-    <app-spinner-indy [mt]="'10rem'"></app-spinner-indy>
+    </div>
   }
+} @else {
+  <app-spinner-indy [mt]="'10rem'"></app-spinner-indy>
 }
 
 <router-outlet></router-outlet>

@@ -1,6 +1,5 @@
 import {
   Component,
-  computed,
   effect,
   HostListener,
   inject,
@@ -17,7 +16,6 @@ import { isCurrentRoute } from '../../../library/functions/router.function';
 import { NavBarButton } from '../../../library/interfaces/navbar.interface';
 import { DataHttp } from '../../core/api/http.data';
 import { MangaUtente } from '../../shared/interfaces/http.interface';
-import { alfabetoManga } from './constants/alfabeto.constant';
 import { generiManga } from './constants/genere.constant';
 import {
   getPulsanti,
@@ -42,10 +40,8 @@ export class MangaComponent implements OnDestroy {
   private router = inject(Router);
 
   public readonly mangaGeneri: string[] = generiManga;
-  public readonly alfabeto: string[] = alfabetoManga;
   public mangaPreferiti: boolean[] = [];
   public idUtente: string | null = null;
-  public perIniziale = signal<string>('lista');
   public selezionaOpera: Function = (path: string) => window.open(path);
   public pulsanti: NavBarButton[] = getPulsanti((path: string) =>
     this.router.navigate([path]),
@@ -68,22 +64,6 @@ export class MangaComponent implements OnDestroy {
     nome: signal<string>(''),
     tabBoolean: signal<boolean | null>(null),
   };
-
-  public mangaPerIniziale = computed<Record<string, ListaManga[]>>(() => {
-    const listaManga: ListaManga[] = this.mangaService.listaManga();
-    const raggruppamento: Record<string, ListaManga[]> = {};
-
-    alfabetoManga.forEach((lettera: string) => {
-      raggruppamento[lettera] = [];
-    });
-
-    listaManga.forEach((manga: ListaManga) => {
-      const iniziale: string = manga.nome.charAt(0).toUpperCase();
-      raggruppamento[iniziale].push(manga);
-    });
-
-    return raggruppamento;
-  });
 
   public filtri = GetFiltriCustom<ListaManga, boolean>({
     elemTable: this.mangaService.listaManga,
