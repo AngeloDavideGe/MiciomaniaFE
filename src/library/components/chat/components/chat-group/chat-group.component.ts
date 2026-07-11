@@ -1,31 +1,32 @@
 import { DatePipe } from '@angular/common';
 import {
   AfterViewChecked,
-  AfterViewInit,
   Component,
   ElementRef,
+  EventEmitter,
   inject,
   Input,
+  Output,
   signal,
   ViewChild,
 } from '@angular/core';
 
+import { DataHttp } from '../../../../../app/core/api/http.data';
+import { getDropDown } from '../../../../../app/core/components/chat/functions/messaggi.function';
+import { ChatService } from '../../../../../app/core/components/chat/services/chat.service';
+import { User } from '../../../../../app/shared/interfaces/users.interface';
 import {
   DropDownAperta,
   IMessaggioComponent,
   Messaggio,
+  MessaggioSend,
   ModificaInput,
   OutputDropdown,
-  ReturnEditMessage,
   RispostaInput,
+  UserReduced,
 } from '../../../../interfaces/chat.interface';
 import { ChatInputComponent } from './components/chat-input/chat-input.component';
 import { MessaggioComponent } from './components/messaggio/messaggio.component';
-import { DataHttp } from '../../../../../app/core/api/http.data';
-import { getDropDown } from '../../../../../app/core/components/chat/functions/messaggi.function';
-import { ChatService } from '../../../../../app/core/components/chat/services/chat.service';
-import { handlerFunc } from '../../../../functions/handler.function';
-import { User } from '../../../../../app/shared/interfaces/users.interface';
 
 @Component({
   selector: 'app-chat-group',
@@ -35,32 +36,42 @@ import { User } from '../../../../../app/shared/interfaces/users.interface';
   styleUrl: './chat-group.component.scss',
 })
 export class ChatGroupComponent implements AfterViewChecked {
-  public chatService = inject(ChatService);
-
-  public user: User | null = DataHttp.user();
-  private evitaSpam: boolean = true;
   private initialLoad: boolean = true;
   public currentDate: string = 'Oggi';
+  public messages = signal<Messaggio[]>([]);
   public risposta = signal<RispostaInput | null>(null);
   public modifica = signal<ModificaInput | null>(null);
   public dropdownAperta = signal<DropDownAperta | null>(null);
 
+  @Input() userId: string = '';
   @Input() chatId!: number;
-  @Input() messages!: Messaggio[];
-  @Input() messaggiComp!: IMessaggioComponent[];
+  @Input() messaggiComp = signal<IMessaggioComponent[]>([]);
   @Input() fullscreen = signal<boolean>(false);
+  @Input() recordIdPic: Record<string, UserReduced> = {};
+
+  @Input() set messaggi(value: Messaggio[]) {
+    this.messages.set(value);
+    // this.messaggiComp.set({});
+  }
+
   @ViewChild('chatMessages') chatMessages!: ElementRef;
   @ViewChild('chatInput') chatInput!: ChatInputComponent;
 
+  @Output() inviaMessaggio = new EventEmitter<MessaggioSend>();
+  @Output() modificaMessaggio = new EventEmitter<{
+    id: number;
+    content: string;
+  }>();
+  @Output() eliminaMessaggio = new EventEmitter<number>();
+
   ngAfterViewChecked(): void {
-    if (this.initialLoad && this.messages.length > 0) {
+    if (this.initialLoad && this.messaggiComp().length > 0) {
       this.scrollToBottom();
       setTimeout(() => (this.initialLoad = false), 200);
     }
   }
 
   public effectByChatList(): void {
-    this.user = DataHttp.user();
     this.risposta.set(null);
     this.dropdownAperta.set(null);
   }
@@ -76,12 +87,9 @@ export class ChatGroupComponent implements AfterViewChecked {
 
   sendOrEditMessaggio(newMessaggio: ModificaInput): void {
     if (newMessaggio.idMessaggio) {
-      handlerFunc<ReturnEditMessage>({
-        callHttp: () =>
-          this.chatService.updateMessages(
-            newMessaggio.idMessaggio || 0,
-            newMessaggio.content,
-          ),
+      this.modificaMessaggio.emit({
+        id: newMessaggio.idMessaggio,
+        content: newMessaggio.content,
       });
       this.modifica.set(null);
     } else {
@@ -90,7 +98,8 @@ export class ChatGroupComponent implements AfterViewChecked {
   }
 
   private sendMessaggio(content: string): void {
-    const lastMess: Messaggio = this.messages[this.messages.length - 1] || {};
+    const lastMess: Messaggio =
+      this.messages()[this.messages().length - 1] || {};
     const lastDate: Date | null = lastMess.created_at
       ? lastMess.created_at
       : null;
@@ -100,30 +109,20 @@ export class ChatGroupComponent implements AfterViewChecked {
       this.messages.length === 0 ||
       new Date(lastDate).getDate() !== new Date().getDate();
 
-    handlerFunc<void>({
-      skipCall: !this.evitaSpam,
-      callHttp: () =>
-        this.chatService.sendMessage(
-          this.chatId,
-          DataHttp.user()!.id,
-          content,
-          this.risposta()?.idMessaggio || null,
-          separator,
-        ),
-      nextCall: () => this.evitaSpamFunc(),
+    this.inviaMessaggio.emit({
+      chat_id: this.chatId,
+      sender: this.userId,
+      content: content,
+      created_at: new Date(),
+      response: this.risposta()?.idMessaggio || null,
+      separator: separator,
     });
 
     this.risposta.set(null);
   }
 
-  private evitaSpamFunc(): void {
-    this.evitaSpam = false;
-    this.initialLoad = true;
-    setTimeout(() => (this.evitaSpam = true), 2000);
-  }
-
   changeDropdown(event: OutputDropdown | null, messaggio: Messaggio): void {
-    if (this.user && this.user.id && event) {
+    if (this.userId && event) {
       const risposta: RispostaInput = {
         idMessaggio: messaggio.id,
         idUser: messaggio.sender,
@@ -149,15 +148,12 @@ export class ChatGroupComponent implements AfterViewChecked {
       };
 
       const eliminaMessaggio: Function = () =>
-        handlerFunc<ReturnEditMessage>({
-          callHttp: () =>
-            this.chatService.updateMessages(event.idMessaggio, ''),
-        });
+        this.eliminaMessaggio.emit(event.idMessaggio);
 
       this.dropdownAperta.set({
         messaggioAperto: event.idMessaggio,
         dropdown: getDropDown({
-          cond: this.user.id == event.idUser,
+          cond: this.userId == event.idUser,
           rispondiFunc: () => rispOrModifica(risposta),
           modificaFunc: () => rispOrModifica(modifica),
           eliminaFunc: () => eliminaMessaggio(),

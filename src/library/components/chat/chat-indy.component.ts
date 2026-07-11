@@ -1,4 +1,4 @@
-import { NgStyle } from '@angular/common';
+import { NgClass, NgStyle } from '@angular/common';
 import {
   Component,
   computed,
@@ -7,14 +7,20 @@ import {
   Output,
   signal,
 } from '@angular/core';
-import { Gruppo, LastMess, Messaggio } from '../../interfaces/chat.interface';
+import {
+  Gruppo,
+  LastMess,
+  Messaggio,
+  MessaggioSend,
+  UserReduced,
+} from '../../interfaces/chat.interface';
 import { ChatAllComponent } from './components/chat-all/chat-all.component';
 import { ChatGroupComponent } from './components/chat-group/chat-group.component';
 
 @Component({
   selector: 'app-chat-indy',
   standalone: true,
-  imports: [NgStyle, ChatAllComponent, ChatGroupComponent],
+  imports: [NgClass, NgStyle, ChatAllComponent, ChatGroupComponent],
   templateUrl: './chat-indy.component.html',
   styleUrl: './chat-indy.component.scss',
 })
@@ -26,11 +32,14 @@ export class ChatIndyComponent {
   public allGruppiRecord = signal<Record<number, LastMess>>({});
 
   public spinner = computed<boolean>(
-    () => this.currentChat() !== null && this.currentMessaggi().length === 0,
+    // () => this.currentChat() !== null && this.currentMessaggi().length === 0,
+    () => false,
   );
 
   @Input() bottomValue!: string;
   @Input() allGruppi: Gruppo[] = [];
+  @Input() userId: string = '';
+  @Input() recordIdPic: Record<string, UserReduced> = {};
 
   @Input() set messaggi(value: Messaggio[]) {
     this.currentMessaggi.set(value);
@@ -41,4 +50,15 @@ export class ChatIndyComponent {
   }
 
   @Output() currentChatChange = new EventEmitter<Gruppo | null>();
+  @Output() inviaMessaggio = new EventEmitter<MessaggioSend>();
+  @Output() modificaMessaggio = new EventEmitter<{
+    id: number;
+    content: string;
+  }>();
+  @Output() eliminaMessaggio = new EventEmitter<number>();
+
+  public apriGruppo(gruppo: Gruppo): void {
+    this.currentChat.set(gruppo);
+    this.currentChatChange.emit(gruppo);
+  }
 }

@@ -1,13 +1,22 @@
 @use "../../scss/mixin.scss" as m;
 
-.full-screen-chat {
+.chat-wrapper {
+  z-index: 100;
+}
+
+.chat-container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
   background: transparent;
+}
+
+.full-screen-chat {
   @include m.full-screen();
 }
 
-.chatListContainer {
+.chat-list {
   width: 55vh;
-  background: transparent;
 
   @media (max-width: 767.98px) {
     @include m.full-screen();
@@ -15,57 +24,154 @@
 }
 
 #ChatHeader {
-  background-color: var(--green-miciomania);
-  color: var(--surface-color);
-  padding: 0;
-  text-align: center;
-  font-weight: bold;
-  border-top-left-radius: 10px;
-  border-top-right-radius: 10px;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
 
-  .icon-size {
-    font-size: 2rem;
-    display: inline-block;
+  background: var(--green-miciomania);
+  color: var(--surface-color);
+
+  border-radius: 10px 10px 0 0;
+
+  h2 {
+    flex: 1;
+    margin: 0;
+    font-size: 1.25rem;
+    text-align: center;
+  }
+
+  i {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
     &::before {
       font-size: inherit;
     }
   }
 
-  i {
-    cursor: pointer;
+  .icon-size {
+    font-size: 2rem;
+  }
+
+  .header-actions {
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+
+    i:first-child {
+      font-size: 1.2rem;
+    }
   }
 }
 
 .spinner-overlay {
   position: absolute;
-  top: 70px;
-  left: 0;
-  right: 0;
+  inset: 0;
+
   display: flex;
   justify-content: center;
-  align-items: flex-start;
-  padding-top: 20px;
-  z-index: 1000;
-  pointer-events: none;
+  align-items: center;
 
-  .whatsapp-spinner-indy-small {
-    width: 20px;
-    height: 20px;
-    border: 2px solid var(--bg-lighter);
-    border-top: 2px solid var(--green-miciomania);
-    border-radius: 50%;
-    animation: spin 1s linear infinite;
-    background-color: var(--surface-color);
-    box-shadow: 0 2px 5px var(--border-light);
+  z-index: 1000;
+
+  background: rgb(255 255 255 / 20%);
+  backdrop-filter: blur(2px);
+
+  pointer-events: none;
+}
+
+.whatsapp-spinner-indy-small {
+  width: 22px;
+  height: 22px;
+
+  border: 2px solid var(--bg-lighter);
+  border-top-color: var(--green-miciomania);
+  border-radius: 50%;
+
+  background: var(--surface-color);
+  box-shadow: 0 2px 6px var(--border-light);
+
+  animation: spin .8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.chat-button {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+
+  padding: 0.75rem 1rem;
+
+  background: var(--green-miciomania);
+  color: var(--surface-color);
+
+  border-radius: 999px;
+  cursor: pointer;
+
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.18);
+
+  transition: all 0.2s ease;
+
+  user-select: none;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.22);
   }
 
-  @keyframes spin {
-    0% {
-      transform: rotate(0deg);
-    }
-    100% {
-      transform: rotate(360deg);
+  &:active {
+    transform: translateY(0);
+  }
+}
+
+.chat-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 42px;
+  height: 42px;
+
+  border-radius: 50%;
+
+  background: rgba(255, 255, 255, 0.15);
+
+  i {
+    font-size: 1.3rem;
+    line-height: 1;
+  }
+}
+
+.chat-text {
+  font-size: 0.95rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+@media (max-width: 767.98px) {
+  .chat-button {
+    padding: 0.75rem;
+    border-radius: 50%;
+  }
+
+  .chat-text {
+    display: none;
+  }
+
+  .chat-icon {
+    width: 48px;
+    height: 48px;
+    background: transparent;
+
+    i {
+      font-size: 1.6rem;
     }
   }
 }

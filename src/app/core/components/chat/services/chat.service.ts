@@ -24,7 +24,6 @@ import {
 })
 export class ChatService extends BaseService {
   public cont: number = 1;
-  public messaggiCaricatiBool: boolean = false;
   public currentChat = signal<number | null>(null);
   public chatVisibile = signal<boolean>(true);
   public aggiornamentoPic = signal<number>(0);
@@ -45,21 +44,11 @@ export class ChatService extends BaseService {
     return this.postCustom<GruppiChat>('rpc/get_all_chats', { body: body });
   }
 
-  sendMessage(
-    chatId: number,
-    sender: string,
-    text: string,
-    risposta: number | null,
-    separator: boolean,
-  ): Observable<any> {
+  sendMessage(messaggioSend: MessaggioSend): Observable<any> {
     const message: MessaggioSend[] = [
       {
-        chat_id: chatId,
-        sender,
-        content: text,
+        ...messaggioSend,
         created_at: formatDataCustom(new Date()),
-        response: risposta,
-        separator: separator,
       },
     ];
 

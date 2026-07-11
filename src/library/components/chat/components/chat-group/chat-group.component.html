@@ -4,7 +4,7 @@
   [style]="fullscreen() ? 'height: calc(100% - 4.9rem);' : ''"
 >
   <div #chatMessages class="chat-messages">
-    @for (message of messages; track message.id) {
+    @for (message of messages(); track message.id) {
       <!-- Separator -->
       @if (message.separator) {
         <div
@@ -17,7 +17,14 @@
       }
 
       <app-messaggio
-        [messageComp]="messaggiComp[$index]"
+        [messageComp]="{
+          message: message,
+          name: message.sender,
+          replySender: risposta()?.idUser || '',
+          replyText: risposta()?.content || '',
+          urlPic: recordIdPic[message.sender]?.pic || '',
+          class2: message.sender === userId ? 'sent' : 'received',
+        }"
         [dropdownAperta]="dropdownAperta()"
         (openDropdown)="changeDropdown($event, message)"
       ></app-messaggio>
@@ -26,7 +33,7 @@
 
   <app-chat-input
     #chatInput
-    [idUtente]="user ? user.id : ''"
+    [idUtente]="userId"
     [risposta]="risposta()"
     [modifica]="modifica()"
     (sendMessaggio)="sendOrEditMessaggio($event)"
