@@ -1,0 +1,168 @@
+import { DatePipe } from '@angular/common';
+import {
+  AfterViewChecked,
+  AfterViewInit,
+  Component,
+  ElementRef,
+  inject,
+  Input,
+  signal,
+  ViewChild,
+} from '@angular/core';
+
+import {
+  DropDownAperta,
+  IMessaggioComponent,
+  Messaggio,
+  ModificaInput,
+  OutputDropdown,
+  ReturnEditMessage,
+  RispostaInput,
+} from '../../../../interfaces/chat.interface';
+import { ChatInputComponent } from './components/chat-input/chat-input.component';
+import { MessaggioComponent } from './components/messaggio/messaggio.component';
+import { DataHttp } from '../../../../../app/core/api/http.data';
+import { getDropDown } from '../../../../../app/core/components/chat/functions/messaggi.function';
+import { ChatService } from '../../../../../app/core/components/chat/services/chat.service';
+import { handlerFunc } from '../../../../functions/handler.function';
+import { User } from '../../../../../app/shared/interfaces/users.interface';
+
+@Component({
+  selector: 'app-chat-group',
+  standalone: true,
+  imports: [MessaggioComponent, ChatInputComponent, DatePipe],
+  templateUrl: './chat-group.component.html',
+  styleUrl: './chat-group.component.scss',
+})
+export class ChatGroupComponent implements AfterViewChecked {
+  public chatService = inject(ChatService);
+
+  public user: User | null = DataHttp.user();
+  private evitaSpam: boolean = true;
+  private initialLoad: boolean = true;
+  public currentDate: string = 'Oggi';
+  public risposta = signal<RispostaInput | null>(null);
+  public modifica = signal<ModificaInput | null>(null);
+  public dropdownAperta = signal<DropDownAperta | null>(null);
+
+  @Input() chatId!: number;
+  @Input() messages!: Messaggio[];
+  @Input() messaggiComp!: IMessaggioComponent[];
+  @Input() fullscreen = signal<boolean>(false);
+  @ViewChild('chatMessages') chatMessages!: ElementRef;
+  @ViewChild('chatInput') chatInput!: ChatInputComponent;
+
+  ngAfterViewChecked(): void {
+    if (this.initialLoad && this.messages.length > 0) {
+      this.scrollToBottom();
+      setTimeout(() => (this.initialLoad = false), 200);
+    }
+  }
+
+  public effectByChatList(): void {
+    this.user = DataHttp.user();
+    this.risposta.set(null);
+    this.dropdownAperta.set(null);
+  }
+
+  private scrollToBottom(): void {
+    try {
+      const element = this.chatMessages.nativeElement;
+      element.scrollTop = element.scrollHeight;
+    } catch (err) {
+      console.error('Errore durante lo scorrimento:', err);
+    }
+  }
+
+  sendOrEditMessaggio(newMessaggio: ModificaInput): void {
+    if (newMessaggio.idMessaggio) {
+      handlerFunc<ReturnEditMessage>({
+        callHttp: () =>
+          this.chatService.updateMessages(
+            newMessaggio.idMessaggio || 0,
+            newMessaggio.content,
+          ),
+      });
+      this.modifica.set(null);
+    } else {
+      this.sendMessaggio(newMessaggio.content);
+    }
+  }
+
+  private sendMessaggio(content: string): void {
+    const lastMess: Messaggio = this.messages[this.messages.length - 1] || {};
+    const lastDate: Date | null = lastMess.created_at
+      ? lastMess.created_at
+      : null;
+
+    let separator: boolean =
+      !lastDate ||
+      this.messages.length === 0 ||
+      new Date(lastDate).getDate() !== new Date().getDate();
+
+    handlerFunc<void>({
+      skipCall: !this.evitaSpam,
+      callHttp: () =>
+        this.chatService.sendMessage(
+          this.chatId,
+          DataHttp.user()!.id,
+          content,
+          this.risposta()?.idMessaggio || null,
+          separator,
+        ),
+      nextCall: () => this.evitaSpamFunc(),
+    });
+
+    this.risposta.set(null);
+  }
+
+  private evitaSpamFunc(): void {
+    this.evitaSpam = false;
+    this.initialLoad = true;
+    setTimeout(() => (this.evitaSpam = true), 2000);
+  }
+
+  changeDropdown(event: OutputDropdown | null, messaggio: Messaggio): void {
+    if (this.user && this.user.id && event) {
+      const risposta: RispostaInput = {
+        idMessaggio: messaggio.id,
+        idUser: messaggio.sender,
+        content: messaggio.content,
+      };
+
+      const modifica: ModificaInput = {
+        idMessaggio: messaggio.id,
+        content: messaggio.content,
+      };
+
+      const rispOrModifica: Function = (
+        tipo: RispostaInput | ModificaInput,
+      ) => {
+        if ('idUser' in tipo) {
+          this.modifica.set(null);
+          this.risposta.set(tipo);
+        } else {
+          this.risposta.set(null);
+          this.modifica.set(tipo);
+          this.chatInput.newMessage = tipo.content;
+        }
+      };
+
+      const eliminaMessaggio: Function = () =>
+        handlerFunc<ReturnEditMessage>({
+          callHttp: () =>
+            this.chatService.updateMessages(event.idMessaggio, ''),
+        });
+
+      this.dropdownAperta.set({
+        messaggioAperto: event.idMessaggio,
+        dropdown: getDropDown({
+          cond: this.user.id == event.idUser,
+          rispondiFunc: () => rispOrModifica(risposta),
+          modificaFunc: () => rispOrModifica(modifica),
+          eliminaFunc: () => eliminaMessaggio(),
+        }),
+      } as DropDownAperta);
+    }
+  }
+}

@@ -1,0 +1,77 @@
+<section
+  class="position-fixed end-0 me-1"
+  style="z-index: 100"
+  [ngStyle]="{ bottom: bottomValue }"
+>
+  @if (chatAperta()) {
+    <div [class]="fullscreen() ? 'full-screen-chat' : 'chatListContainer'">
+      @if (spinner()) {
+        <div class="spinner-overlay">
+          <div class="whatsapp-spinner-indy-small"></div>
+        </div>
+      } @else {
+        <!-- Lista delle Chat -->
+        @if (!currentChat()) {
+          <div id="ChatHeader" class="elementi-laterali p-3">
+            <div>
+              <h2 class="text-center flex-grow-1">Miciomania Chat</h2>
+            </div>
+            <div style="display: flex; align-items: center; gap: 0.5rem">
+              <i
+                class="pc-only"
+                style="font-size: 1.2rem; display: inline-block"
+                [class]="
+                  fullscreen() ? 'bi bi-fullscreen-exit' : 'bi bi-fullscreen'
+                "
+                (click)="fullscreen.set(!fullscreen())"
+              ></i>
+              <i class="bi bi-x icon-size" (click)="chatAperta.set(false)"></i>
+            </div>
+          </div>
+
+          <app-chat-all
+            [allGruppi]="allGruppi"
+            [allGruppiRecord]="allGruppiRecord()"
+            [fullscreen]="fullscreen()"
+            (apriGruppo)="currentChat.set($event)"
+          ></app-chat-all>
+        }
+        <!-- Chat Selezionata -->
+        @else {
+          <!-- <div id="ChatHeader" class="elementi-laterali p-3">
+            <i
+              class="bi bi-arrow-left fs-3"
+              (click)="currentChat.set(null)"
+            ></i>
+            <h2 class="text-center flex-grow-1">
+              {{ currentChat()?.nome || "N.B." }}
+            </h2>
+            <div style="display: flex; align-items: center; gap: 0.5rem">
+              <i
+                class="pc-only"
+                style="font-size: 1.2rem; display: inline-block"
+                [class]="
+                  fullscreen() ? 'bi bi-fullscreen-exit' : 'bi bi-fullscreen'
+                "
+                (click)="fullscreen.set(!fullscreen())"
+              ></i>
+              <i class="bi bi-x icon-size" (click)="currentChat.set(null)"></i>
+            </div>
+          </div>
+
+          <app-chat-group
+            [chatId]="currentChat()!.id"
+            [messages]="currentMessaggi()"
+          ></app-chat-group> -->
+        }
+      }
+    </div>
+  } @else {
+    <div class="chat-button" (click)="chatAperta.set(true)">
+      <div class="chat-icon">
+        <i class="bi bi-chat-dots-fill"></i>
+      </div>
+      <span class="chat-text">Visualizza chat&nbsp;Miciomane</span>
+    </div>
+  }
+</section>
