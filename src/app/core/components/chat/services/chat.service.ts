@@ -17,7 +17,7 @@ import {
   GruppiChat,
   MessaggioSend,
   ReturnEditMessage,
-} from '../interfaces/chat.interface';
+} from '../../../../../library/interfaces/chat.interface';
 
 @Injectable({
   providedIn: 'root',

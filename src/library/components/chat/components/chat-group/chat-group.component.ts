@@ -4,19 +4,14 @@ import {
   Component,
   ElementRef,
   EventEmitter,
-  inject,
   Input,
   Output,
   signal,
   ViewChild,
 } from '@angular/core';
-
-import { DataHttp } from '../../../../../app/core/api/http.data';
-import { getDropDown } from '../../../../../app/core/components/chat/functions/messaggi.function';
-import { ChatService } from '../../../../../app/core/components/chat/services/chat.service';
-import { User } from '../../../../../app/shared/interfaces/users.interface';
 import {
   DropDownAperta,
+  DropDownMessaggi,
   IMessaggioComponent,
   Messaggio,
   MessaggioSend,
@@ -161,4 +156,31 @@ export class ChatGroupComponent implements AfterViewChecked {
       } as DropDownAperta);
     }
   }
+}
+
+function getDropDown(params: {
+  cond: boolean;
+  rispondiFunc: Function;
+  modificaFunc: Function;
+  eliminaFunc: Function;
+}): DropDownMessaggi[] {
+  const dropdown: DropDownMessaggi[] = [
+    {
+      titolo: 'Rispondi',
+      click: () => params.rispondiFunc(),
+      cond: true,
+    },
+    {
+      titolo: 'Modifica',
+      click: () => params.modificaFunc(),
+      cond: params.cond,
+    },
+    {
+      titolo: 'Elimina',
+      click: () => params.eliminaFunc(),
+      cond: params.cond,
+    },
+  ];
+
+  return dropdown.filter((x: DropDownMessaggi) => x.cond);
 }

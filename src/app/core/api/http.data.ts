@@ -2,7 +2,7 @@ import { signal, WritableSignal } from '@angular/core';
 import { Posts } from '../../pages/posts/components/shared/post.interface';
 import { MangaUtente, Profilo } from '../../shared/interfaces/http.interface';
 import { User } from '../../shared/interfaces/users.interface';
-import { GruppiChat } from '../components/chat/interfaces/chat.interface';
+import { GruppiChat } from '../../../library/interfaces/chat.interface';
 
 export class DataHttp {
   static user: WritableSignal<User | null> = signal(null);

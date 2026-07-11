@@ -11,7 +11,7 @@ import {
   ToggleProps,
 } from '../../../../library/interfaces/toggle.interface';
 import { dateFormat } from '../../../../library/pipes/date-format.pipe';
-import { UserReduced } from '../../../core/components/chat/interfaces/chat.interface';
+import { UserReduced } from '../../../../library/interfaces/chat.interface';
 
 export function getConfirmParams(user: User): {
   path: string;

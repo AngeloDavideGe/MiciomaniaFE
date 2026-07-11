@@ -12,7 +12,6 @@ import {
 } from '../../../library/interfaces/toggle.interface';
 import { AppConfigService } from '../../core/api/appConfig.service';
 import { DataHttp } from '../../core/api/http.data';
-import { UserReduced } from '../../core/components/chat/interfaces/chat.interface';
 import { setUserDataNull } from '../../core/functions/storage.function';
 import { mapUserMessage } from '../../shared/functions/user-map.function';
 import { getVoidUser } from '../../shared/handlers/auth.handler';
@@ -39,6 +38,7 @@ import {
   pagineHome,
 } from './functions/home.functions';
 import { home_imports } from './home.imports';
+import { UserReduced } from '../../../library/interfaces/chat.interface';
 
 @Component({
   selector: 'app-home',

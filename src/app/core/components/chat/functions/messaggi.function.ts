@@ -1,40 +1,11 @@
-import { AppConfigService } from '../../../api/appConfig.service';
-import { DataHttp } from '../../../api/http.data';
 import {
-  DropDownMessaggi,
   GruppiChat,
   Gruppo,
-  IMessaggioComponent,
   Messaggio,
   MessaggioUpdate,
-} from '../interfaces/chat.interface';
-
-export function getDropDown(params: {
-  cond: boolean;
-  rispondiFunc: Function;
-  modificaFunc: Function;
-  eliminaFunc: Function;
-}): DropDownMessaggi[] {
-  const dropdown: DropDownMessaggi[] = [
-    {
-      titolo: 'Rispondi',
-      click: () => params.rispondiFunc(),
-      cond: true,
-    },
-    {
-      titolo: 'Modifica',
-      click: () => params.modificaFunc(),
-      cond: params.cond,
-    },
-    {
-      titolo: 'Elimina',
-      click: () => params.eliminaFunc(),
-      cond: params.cond,
-    },
-  ];
-
-  return dropdown.filter((x: DropDownMessaggi) => x.cond);
-}
+} from '../../../../../library/interfaces/chat.interface';
+import { AppConfigService } from '../../../api/appConfig.service';
+import { DataHttp } from '../../../api/http.data';
 
 export function getMessaggioBenvenuto(): Messaggio {
   const ieri = new Date();
@@ -49,20 +20,6 @@ export function getMessaggioBenvenuto(): Messaggio {
     response: null,
     separator: true,
   } as Messaggio;
-}
-
-export function getMessaggioCompBenvenuto(
-  message: Messaggio,
-  configService: AppConfigService,
-): IMessaggioComponent {
-  return {
-    message: message,
-    name: message.sender,
-    replySender: '',
-    replyText: '',
-    urlPic: configService.config.defaultPicsUrl.user,
-    class2: 'received',
-  };
 }
 
 export function addNewMessage(
