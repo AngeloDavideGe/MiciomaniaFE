@@ -1,11 +1,6 @@
-export interface NavBarButton {
+export interface PulsanteNavbar {
+  id: string;
   icon: string;
-  title: string;
-  action: Function;
-  disabled?: boolean;
-}
-
-export interface TornaIndietro {
-  title: string;
-  path: string;
+  text: string;
+  azione: Function;
 }

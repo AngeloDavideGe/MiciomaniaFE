@@ -1,21 +1,29 @@
 :root {
-  --surface-color: #ffffff;
-  --border-color: #e2e8f0;
-  --border-light: rgba(0, 0, 0, 0.08);
-  --border-hover: rgba(0, 0, 0, 0.12);
+  /* Background */
+  --background: #090913;
+  --background-rgb: 9, 9, 19;
 
-  --primary-color: #3b82f6;
-  --primary-hover: #60a5fa;
-  --red-miciomania: #ed4956;
-  --green-miciomania: #198754;
+  /* Cards */
+  --card: #11111d;
+  --card-light: #17172a;
 
-  --text-color: #1e293b;
-  --text-secondary: #64748b;
-  --text-muted: #94a3b8;
-  --fill-svg-void: #d1d5db;
+  /* Primary */
+  --primary: #8a4dff;
+  --primary-light: #b782ff;
 
-  --bg-light: #f8fafc;
-  --bg-lighter: #f1f5f9;
-  --bg-hover: rgba(0, 0, 0, 0.06);
-  --bg-active: rgba(0, 0, 0, 0.04);
+  /* Text */
+  --text: #f5f5f7;
+  --text-secondary: #a3a3c2;
+
+  /* Border */
+  --border: rgba(255, 255, 255, 0.05);
+
+  /* Navbar */
+  --navbar-bg: rgba(var(--background-rgb), 0.97);
+
+  /* Shadow */
+  --primary-shadow: 0 0 18px rgba(138, 77, 255, 0.45);
+
+  /* Badge */
+  --badge-text: #ffffff;
 }

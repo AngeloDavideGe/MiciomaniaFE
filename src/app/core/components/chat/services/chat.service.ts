@@ -23,11 +23,9 @@ import {
   providedIn: 'root',
 })
 export class ChatService extends BaseService {
-  public cont: number = 1;
   public currentChat = signal<number | null>(null);
   public chatVisibile = signal<boolean>(true);
   public aggiornamentoPic = signal<number>(0);
-  public newMessaggiSignal = signal<number>(0);
   public fullscreen = signal<boolean>(false);
 
   constructor() {
@@ -74,11 +72,11 @@ export class ChatService extends BaseService {
       .on('postgres_changes', filter, (payload: RealtimePayload<any>) => {
         switch (payload.eventType) {
           case 'INSERT': {
-            insertMessageRealtime(payload, this, this.appConfig);
+            insertMessageRealtime(payload, this.appConfig);
             break;
           }
           case 'UPDATE': {
-            updateMessageRealtime(payload, this);
+            updateMessageRealtime(payload);
             break;
           }
         }

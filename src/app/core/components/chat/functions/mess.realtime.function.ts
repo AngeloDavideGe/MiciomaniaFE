@@ -2,11 +2,9 @@ import { Messaggio } from '../../../../../library/interfaces/chat.interface';
 import { RealtimePayload } from '../../../../shared/interfaces/supabase.interface';
 import { AppConfigService } from '../../../api/appConfig.service';
 import { DataHttp } from '../../../api/http.data';
-import { ChatService } from '../services/chat.service';
 
 export function insertMessageRealtime(
   payload: RealtimePayload<any>,
-  chatService: ChatService,
   configService: AppConfigService,
 ): void {
   const chatId: number = payload.new.chat_id;
@@ -24,16 +22,9 @@ export function insertMessageRealtime(
       [chatId]: currentMessages,
     },
   };
-
-  if (chatService.currentChat() == payload.new.chat_id) {
-    chatService.newMessaggiSignal.set(chatService.cont++);
-  }
 }
 
-export function updateMessageRealtime(
-  payload: RealtimePayload<any>,
-  chatService: ChatService,
-): void {
+export function updateMessageRealtime(payload: RealtimePayload<any>): void {
   const chatId: number = payload.new.chat_id;
   const msgId: number = payload.new.id;
   let messaggi: Messaggio[] = DataHttp.gruppiChat.messaggi[chatId];
@@ -54,8 +45,4 @@ export function updateMessageRealtime(
       [chatId]: messaggi,
     },
   };
-
-  if (chatService.currentChat() == payload.new.chat_id) {
-    chatService.newMessaggiSignal.set(chatService.cont++);
-  }
 }

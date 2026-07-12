@@ -1,30 +1,30 @@
-import { Routes } from '@angular/router';
+// import { Routes } from '@angular/router';
 
-export const HOME_ROUTES: Routes = [
-  {
-    path: '',
-    children: [
-      {
-        path: 'admin',
-        loadComponent: () =>
-          import('./components/pages/admin/admin.component').then(
-            (m) => m.AdminComponent,
-          ),
-      },
-      {
-        path: 'squadre',
-        loadComponent: () =>
-          import('./components/pages/squadre/squadre.component').then(
-            (m) => m.SquadreComponent,
-          ),
-      },
-      {
-        path: 'interazioni',
-        loadComponent: () =>
-          import('./components/pages/interazioni/interazioni.component').then(
-            (m) => m.InterazioniComponent,
-          ),
-      },
-    ],
-  },
-];
+// export const HOME_ROUTES: Routes = [
+//   {
+//     path: '',
+//     children: [
+//       {
+//         path: 'admin',
+//         loadComponent: () =>
+//           import('./components/pages/admin/admin.component').then(
+//             (m) => m.AdminComponent,
+//           ),
+//       },
+//       {
+//         path: 'squadre',
+//         loadComponent: () =>
+//           import('./components/pages/squadre/squadre.component').then(
+//             (m) => m.SquadreComponent,
+//           ),
+//       },
+//       {
+//         path: 'interazioni',
+//         loadComponent: () =>
+//           import('./components/pages/interazioni/interazioni.component').then(
+//             (m) => m.InterazioniComponent,
+//           ),
+//       },
+//     ],
+//   },
+// ];

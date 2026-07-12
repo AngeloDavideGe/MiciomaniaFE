@@ -1,6 +1,7 @@
 import {
   Component,
   computed,
+  effect,
   inject,
   Input,
   OnInit,
@@ -72,6 +73,13 @@ export class ChatComponent implements OnInit {
   });
 
   @Input() bottomValue!: string;
+
+  constructor() {
+    // effect(() => {
+    //   this.chatService.newMessaggiSignal();
+    //   this.loadComplete();
+    // });
+  }
 
   ngOnInit(): void {
     handlerFunc<GruppiChat>({
