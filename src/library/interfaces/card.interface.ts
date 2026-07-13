@@ -5,4 +5,5 @@ export interface iCard {
   bottone?: string;
   routerLink?: string;
   azione?: Function;
+  color?: string;
 }

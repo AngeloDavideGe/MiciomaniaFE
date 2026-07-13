@@ -27,9 +27,18 @@
       [immagine]="
         'https://images.unsplash.com/photo-1515879218367-8466d910aaa4'
       "
-    >
-    </app-descrizione-micio>
+    />
   </app-container-micio>
+
+  <section class="card-section">
+    <app-card-indy
+      [elems]="cardsHome"
+      [titoloLista]="'✨​ Cosa vuoi fare oggi?'"
+      [tipoSlice]="'single'"
+      [altezzaImg]="'13rem'"
+      [cardPosition]="'start'"
+    />
+  </section>
 }
 
 <router-outlet></router-outlet>

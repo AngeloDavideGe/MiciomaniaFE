@@ -6,7 +6,7 @@ import { Component, input, output } from '@angular/core';
   imports: [],
   template: `
     <button
-      [class]="color()"
+      [style]="{ background: backgroundColor() }"
       (click)="clickButton.emit()"
       [disabled]="disabled()"
     >
@@ -29,18 +29,6 @@ import { Component, input, output } from '@angular/core';
       font-weight: 600;
     }
 
-    .custom-button {
-      background: var(--primary);
-      color: var(--text);
-      border: 1px solid transparent;
-      box-shadow: 0 4px 12px rgba(138, 77, 255, 0.25);
-
-      &:hover:not(:disabled) {
-        filter: brightness(1.1);
-        transform: translateY(-1px);
-      }
-    }
-
     i {
       font-size: 1rem;
       transition: transform 0.2s ease-in-out;
@@ -60,8 +48,6 @@ export class ButtonIndyComponent {
   public text = input.required<string>();
   public icon = input<string>('bi bi-chevron-right');
   public disabled = input<boolean>(false);
-  public color = input<ButtonType>('custom-button');
+  public backgroundColor = input<string>('var(--primary)');
   public clickButton = output<void>();
 }
-
-type ButtonType = 'custom-button';

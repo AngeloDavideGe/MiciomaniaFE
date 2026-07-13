@@ -3,13 +3,12 @@ import {
   ChangeDetectionStrategy,
   Component,
   computed,
-  EventEmitter,
+  effect,
   HostListener,
   inject,
-  Input,
-  OnInit,
-  Output,
-  Signal,
+  input,
+  model,
+  output,
   signal,
 } from '@angular/core';
 import { Router } from '@angular/router';
@@ -19,11 +18,10 @@ import { iCard } from '../../interfaces/card.interface';
 import {
   FiltriInterface,
   RaggioPage,
-  TypeButton,
   TypePagination,
 } from '../../interfaces/pagination.interface';
-import { PaginazioneIndyComponent } from '../pagination/pagination-indy.component';
 import { ButtonIndyComponent } from '../button/botton-indy.component';
+import { PaginazioneIndyComponent } from '../pagination/pagination-indy.component';
 
 @Component({
   selector: 'app-card-indy',
@@ -33,83 +31,94 @@ import { ButtonIndyComponent } from '../button/botton-indy.component';
   templateUrl: './card-indy.component.html',
   styleUrl: './card-indy.component.scss',
 })
-export class CardIndyComponent implements OnInit {
+export class CardIndyComponent {
   public router = inject(Router);
 
-  public filtri: FiltriInterface<iCard> = {} as FiltriInterface<iCard>;
+  public filtri!: FiltriInterface<iCard>;
+
   public elemForPage = signal<number>(0);
+  public elems = input<iCard[] | null>(null);
+  public singleElem = input<iCard | null>(null);
+  public lunghezzaCard = input<string>('20rem');
+  public altezzaImg = input<string>('20rem');
+  public cardPosition = input<string>('center');
+  public titoloLista = input<string>('');
+  public classBody = input<string>('');
+  public tipoSlice = input<TypePagination>('all');
+  public arrayPags = input<RaggioPage[]>(defaultArrayPags);
 
-  @Input() elems?: Signal<iCard[]>;
-  @Input() singleElem?: iCard;
-  @Input() lunghezzaCard: string = '20rem';
-  @Input() altezzaImg: string = '20rem';
-  @Input() titoloLista: string = '';
-  @Input() classBody: string = '';
-  @Input() tipoSlice: TypePagination = 'all';
-  @Input() tipoBottone: TypeButton = 'Default';
-  @Input() arrayPags: RaggioPage[] = defaultArrayPags;
-  @Input() currentButton = signal<string | null>(null);
+  public currentButton = model<string | null>(null);
 
-  @Output() clickStopBotton = new EventEmitter<void>();
+  public clickStopButton = output<void>();
 
-  public viewFirstButton = computed<boolean>(() => {
-    const currentSlice: number = this.filtri.currentSlice();
-    return this.tipoSlice == 'single' && currentSlice > 0;
+  public viewFirstButton = computed(() => {
+    if (!this.filtri) return false;
+
+    return this.tipoSlice() === 'single' && this.filtri.currentSlice() > 0;
   });
 
-  public viewLastButton = computed<boolean>(() => {
-    const currentSlice: number = this.filtri.currentSlice();
-    const totElem: number = this.filtri.searchElems().length;
-    const elemForPage: number = this.elemForPage();
-    return this.tipoSlice == 'single' && totElem > elemForPage + currentSlice;
+  public viewLastButton = computed(() => {
+    if (!this.filtri) return false;
+
+    return (
+      this.tipoSlice() === 'single' &&
+      this.filtri.searchElems().length >
+        this.elemForPage() + this.filtri.currentSlice()
+    );
   });
 
-  ngOnInit(): void {
-    if (this.elems) {
-      this.elemForPage.set(this.getNumCards());
-      this.filtri = GetFiltriCustom<iCard, null>({
-        elemTable: this.elems,
-        elemForPage: this.elemForPage,
-        slice: this.tipoSlice,
-      });
-    }
+  constructor() {
+    effect(() => {
+      const elements = this.elems();
+
+      if (elements) {
+        this.elemForPage.set(this.getNumCards());
+
+        this.filtri = GetFiltriCustom<iCard, null>({
+          elemTable: signal(elements),
+          elemForPage: this.elemForPage,
+          slice: this.tipoSlice(),
+        });
+      }
+    });
   }
 
   @HostListener('window:resize')
-  onResize = debounceTimeoutCustom(() => {
+  public onResize = debounceTimeoutCustom(() => {
+    if (!this.filtri) return;
+
     this.filtri.currentPage?.set(1);
     this.filtri.currentSlice?.set(0);
+
     this.elemForPage.set(this.getNumCards());
   });
 
   private getNumCards(): number {
-    const width: number = window.innerWidth;
-
-    const raggioConfig: RaggioPage | undefined = this.arrayPags.find(
-      (config: RaggioPage) => width >= config.width,
-    );
-
-    return raggioConfig ? raggioConfig.raggio : 2;
+    const width = window.innerWidth;
+    const config = this.arrayPags().find((x) => width >= x.width);
+    return config?.raggio ?? 2;
   }
 
   public clickButton(elem: iCard): void {
     if (elem.routerLink) {
       this.router.navigate([elem.routerLink]);
-    } else if (elem.azione) {
-      elem.azione();
+      return;
     }
+
+    elem.azione?.();
   }
 
   public clickSongButton(elem: iCard): void {
     this.clickButton(elem);
-    this.currentButton.update((x: string | null) =>
-      x == elem.titolo ? null : elem.titolo || null,
+
+    this.currentButton.update((x) =>
+      x === elem.titolo ? null : (elem.titolo ?? null),
     );
   }
 
   public stopFunc(): void {
     this.currentButton.set(null);
-    this.clickStopBotton.emit();
+    this.clickStopButton.emit();
   }
 }
 

@@ -1,46 +1,77 @@
-.button-manga {
-  font-weight: 600;
-  border-radius: 30px;
+.indy-card {
+  overflow: hidden;
+  border-radius: 1rem;
+  background: var(--card);
+  border: 1px solid color-mix(in srgb, var(--card-color) 55%, black);
+  box-shadow: 0 0 18px color-mix(in srgb, var(--card-color) 30%, transparent);
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
 }
 
-.play-button {
-  border-radius: 20px;
-  font-size: 0.8rem;
-  font-weight: 600;
-  padding: 8px 20px;
-  color: white;
-  background: linear-gradient(135deg, #1db954, #1ed760);
-  cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 12px rgba(29, 185, 84, 0.3);
-  letter-spacing: 0.3px;
+.card-image {
+  width: 100%;
+  object-fit: cover;
 }
 
-.stop-button {
-  border-radius: 20px;
-  font-size: 0.8rem;
-  font-weight: 600;
-  padding: 8px 20px;
-  color: #2d3436;
-  background: linear-gradient(135deg, #e4e6e8, #b9c1c5);
-  cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  letter-spacing: 0.3px;
-}
+.card-content {
+  min-height: 12rem;
+  display: flex;
+  flex-direction: column;
+  padding: 1.25rem;
+  color: var(--text);
+  background: linear-gradient(
+    180deg,
+    var(--card-color) 0%,
+    color-mix(in srgb, var(--card-color) 70%, black) 45%,
+    black 100%
+  );
 
-.card {
-  height: 100%;
-}
-
-.button-carousel {
-  z-index: 100;
-  border: 1px solid var(--primary-color);
-  background-color: var(--surface-color);
-  color: var(--primary-color);
-
-  &:hover {
-    background-color: var(--primary-hover);
-    color: var(--bg-lighter);
+  h5 {
+    margin-bottom: 1rem;
+    font-weight: 700;
+    color: var(--text);
   }
+}
+
+.description {
+  margin-bottom: 1rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+.card-title-list {
+  color: var(--text);
+  font-weight: 700;
+}
+
+.carousel-button {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  background: var(--card-light);
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition:
+    background 0.2s ease,
+    transform 0.2s ease;
+  &:hover {
+    background: var(--primary);
+    transform: translateY(-50%) scale(1.1);
+  }
+}
+
+.carousel-button.start {
+  left: 0;
+}
+
+.carousel-button.end {
+  right: 0;
 }
