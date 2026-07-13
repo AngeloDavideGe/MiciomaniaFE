@@ -1,54 +1,56 @@
 <div class="home-navbar-wrapper">
-  @if (tipo != "content") {
-    @if (imgIcona) {
+  @if (tipo() != "content") {
+    @if (imgIcona()) {
       <img
-        [src]="imgIcona"
+        [src]="imgIcona()"
         alt="Profile Picture"
         class="toggle-avatar"
         (click)="toggleMenu()"
       />
     } @else {
       <button class="toggle-button" (click)="toggleMenu()">
-        <i [class]="menuOpen() ? 'bi bi-x' : icona"></i>
+        <i [class]="menuOpen() ? 'bi bi-x' : icona()"></i>
       </button>
 
-      <span>{{ titolo }}</span>
+      <span>{{ titolo() }}</span>
     }
   }
 </div>
 
-@switch (tipo) {
+@switch (tipo()) {
   @case ("single") {
     @if (menuOpen()) {
-      <div class="dropdown-panel shadow-sm" [style]="toggleStyles">
+      <div class="dropdown-panel shadow-sm" [style]="styles()">
         <ul class="custom-nav">
-          @for (item of toggleMenus[0].menuElementi; track $index) {
+          @for (item of toggleMenus()[0].menuElementi; track $index) {
             @if (item.condition) {
               <li>
                 <a (click)="item.azione()">
-                  <i class="{{ item.icona }}"></i>
+                  <i [class]="item.icona"></i>
                   <div [innerHTML]="item.testo"></div>
                 </a>
               </li>
             }
           }
+
           <ng-content select="[downContent]"></ng-content>
         </ul>
       </div>
     }
   }
+
   @case ("multiple") {
     @if (menuOpen()) {
-      <div class="dropdown-panel shadow-sm" [style]="toggleStyles">
+      <div class="dropdown-panel shadow-sm" [style]="styles()">
         <ul class="custom-nav">
-          @for (toggle of toggleMenus; track toggle.titolo) {
+          @for (toggle of toggleMenus(); track toggle.titolo) {
             <li class="nav-item dropdown">
               <button
                 class="btn dropdown-toggle"
                 type="button"
                 (click)="cambiaDropdown(toggle.titolo)"
               >
-                <i class="{{ toggle.icona }} me-2"></i>
+                <i [class]="toggle.icona + ' me-2'"></i>
                 {{ toggle.titolo }}
               </button>
             </li>
@@ -58,7 +60,7 @@
                 @if (item.condition) {
                   <li>
                     <a (click)="item.azione()">
-                      <i class="{{ item.icona }} me-2"></i>
+                      <i [class]="item.icona + ' me-2'"></i>
                       {{ item.testo }}
                     </a>
                   </li>
@@ -70,8 +72,9 @@
       </div>
     }
   }
+
   @case ("content") {
-    <div class="dropdown-panel shadow-sm" [style]="toggleStyles">
+    <div class="dropdown-panel shadow-sm" [style]="styles()">
       <ng-content select="[onlyContent]"></ng-content>
     </div>
   }

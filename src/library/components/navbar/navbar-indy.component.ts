@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, signal } from '@angular/core';
+import { Component, effect, input, signal } from '@angular/core';
 import { PulsanteNavbar } from '../../interfaces/navbar.interface';
 
 @Component({
@@ -8,22 +8,23 @@ import { PulsanteNavbar } from '../../interfaces/navbar.interface';
   templateUrl: './navbar-indy.component.html',
   styleUrl: './navbar-indy.component.scss',
 })
-export class NavbarIndyComponent implements OnInit {
+export class NavbarIndyComponent {
   public selectPulsante = signal<string>('');
 
-  @Input() pulsantiInizio: PulsanteNavbar[] = [];
-  @Input() pulsantiCentro: PulsanteNavbar[] = [];
-  @Input() pulsantiFine: PulsanteNavbar[] = [];
-  @Input() initialPulsante: string = '';
+  public pulsantiInizio = input<PulsanteNavbar[]>([]);
+  public pulsantiCentro = input<PulsanteNavbar[]>([]);
+  public pulsantiFine = input<PulsanteNavbar[]>([]);
+  public initialPulsante = input<string>('');
 
-  ngOnInit(): void {
-    this.selectPulsante.set(this.initialPulsante);
+  constructor() {
+    effect(() => {
+      this.selectPulsante.set(this.initialPulsante());
+    });
   }
 
   public clickPulsante(pulsante: PulsanteNavbar): void {
-    this.selectPulsante.update((x: string) =>
-      pulsante.id == x ? '' : pulsante.id,
-    );
+    this.selectPulsante.update((x) => (pulsante.id === x ? '' : pulsante.id));
+
     pulsante.azione();
   }
 }
