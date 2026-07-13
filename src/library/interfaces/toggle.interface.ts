@@ -17,4 +17,5 @@ export interface ToggleStyles {
   transform?: string;
   left?: string | number;
   right?: string | number;
+  position?: string;
 }

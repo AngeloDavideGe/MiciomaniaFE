@@ -11,7 +11,9 @@ import { PulsanteNavbar } from '../../interfaces/navbar.interface';
 export class NavbarIndyComponent implements OnInit {
   public selectPulsante = signal<string>('');
 
-  @Input() pulsanti: PulsanteNavbar[] = [];
+  @Input() pulsantiInizio: PulsanteNavbar[] = [];
+  @Input() pulsantiCentro: PulsanteNavbar[] = [];
+  @Input() pulsantiFine: PulsanteNavbar[] = [];
   @Input() initialPulsante: string = '';
 
   ngOnInit(): void {
@@ -19,7 +21,9 @@ export class NavbarIndyComponent implements OnInit {
   }
 
   public clickPulsante(pulsante: PulsanteNavbar): void {
-    this.selectPulsante.set(pulsante.id);
+    this.selectPulsante.update((x: string) =>
+      pulsante.id == x ? '' : pulsante.id,
+    );
     pulsante.azione();
   }
 }

@@ -4,18 +4,15 @@
       <img
         [src]="imgIcona"
         alt="Profile Picture"
-        class="rounded-circle"
-        style="width: 3.4rem; height: 3.4rem; cursor: pointer"
+        class="toggle-avatar"
         (click)="toggleMenu()"
       />
     } @else {
-      <button
-        class="btn toggle-btn"
-        (click)="toggleMenu()"
-        [class]="menuOpen() ? 'btn-primary' : 'btn-outline-primary'"
-      >
+      <button class="toggle-button" (click)="toggleMenu()">
         <i [class]="menuOpen() ? 'bi bi-x' : icona"></i>
       </button>
+
+      <span>{{ titolo }}</span>
     }
   }
 </div>

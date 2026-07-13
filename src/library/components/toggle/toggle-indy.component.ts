@@ -9,7 +9,7 @@ import {
 import { ToggleProps, ToggleStyles } from '../../interfaces/toggle.interface';
 
 @Component({
-  selector: 'app-toggle-custom',
+  selector: 'app-toggle-indy',
   standalone: true,
   imports: [],
   templateUrl: './toggle-indy.component.html',
@@ -21,14 +21,17 @@ export class ToggleIndyComponent implements OnInit {
   private readonly DEFAULT_STYLES: ToggleStyles = {
     top: '4rem',
     width: '15rem',
+    position: 'fixed',
+    right: 0,
   };
 
-  @Input() toggleMenus!: ToggleProps[];
-  @Input() icona: string = 'bi bi-list';
+  @Input() titolo: string = '';
   @Input() imgIcona: string = '';
-  @Input() tipo: 'single' | 'multiple' | 'content' = 'multiple';
-  @Input() menuOpen = signal<boolean>(false);
+  @Input() icona: string = 'bi bi-list';
+  @Input() toggleMenus!: ToggleProps[];
   @Input() toggleStyles: ToggleStyles = {};
+  @Input() menuOpen = signal<boolean>(false);
+  @Input() tipo: 'single' | 'multiple' | 'content' = 'multiple';
 
   @Output() aperturaMenu = new EventEmitter<boolean>();
 

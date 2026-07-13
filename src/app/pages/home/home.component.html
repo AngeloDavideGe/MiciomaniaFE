@@ -1,5 +1,20 @@
 @if (isHome$ | async) {
-  <app-navbar-indy [pulsanti]="pulsantiNavbar" />
+  <app-navbar-indy>
+    <div rightContent>
+      <div class="elementi-laterali gap-2">
+        <app-toggle-indy
+          [icona]="'bi bi-bell'"
+          [titolo]="'Notifiche'"
+          [toggleMenus]="impostazioniToggle"
+        />
+        <app-toggle-indy
+          [icona]="'bi bi-gear'"
+          [titolo]="'Impostazioni'"
+          [toggleMenus]="impostazioniToggle"
+        />
+      </div>
+    </div>
+  </app-navbar-indy>
 }
 
 <router-outlet></router-outlet>

@@ -1,18 +1,36 @@
-import { PulsanteNavbar } from '../../../../library/interfaces/navbar.interface';
+import { ToggleProps } from '../../../../library/interfaces/toggle.interface';
 
-export function getPulsantiHomeNavbar(): PulsanteNavbar[] {
+export function getToggleProps(): ToggleProps[] {
   return [
     {
-      id: 'notifiche',
-      icon: 'bi bi-bell',
-      text: 'Notifiche',
-      azione: () => {},
+      titolo: 'Account',
+      icona: 'bi bi-person-circle',
+      menuElementi: [
+        {
+          testo: 'Profilo',
+          icona: 'bi bi-person',
+          condition: true,
+          azione: () => {},
+        },
+        {
+          testo: 'Impostazioni',
+          icona: 'bi bi-gear',
+          condition: true,
+          azione: () => {},
+        },
+      ],
     },
     {
-      id: 'impostazioni',
-      icon: 'bi bi-gear',
-      text: 'Impostazioni',
-      azione: () => {},
+      titolo: 'Auth',
+      icona: 'bi bi-three-dots',
+      menuElementi: [
+        {
+          testo: 'Esci',
+          icona: 'bi bi-box-arrow-right',
+          condition: true,
+          azione: () => {},
+        },
+      ],
     },
   ];
 }

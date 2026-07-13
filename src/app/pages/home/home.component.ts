@@ -2,7 +2,7 @@ import { Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { isCurrentRoute } from '../../../library/functions/router.function';
-import { getPulsantiHomeNavbar } from './functions/home.functions';
+import { getToggleProps } from './functions/home.functions';
 import { home_imports } from './home.imports';
 
 @Component({
@@ -15,7 +15,7 @@ import { home_imports } from './home.imports';
 export class HomeComponent {
   public router = inject(Router);
 
-  public readonly pulsantiNavbar = getPulsantiHomeNavbar();
+  public readonly impostazioniToggle = getToggleProps();
 
   public isHome$: Observable<boolean> = isCurrentRoute({
     router: this.router,

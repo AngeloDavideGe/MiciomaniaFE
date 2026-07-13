@@ -1,25 +1,55 @@
 <header class="top-navbar">
   <nav>
-    <div class="elemento-iniziale">
+    <div class="elemento-iniziale mt-2">
+      @if (pulsantiInizio.length > 0) {
+        @for (pulsante of pulsantiInizio; track pulsante.id) {
+          <a
+            [class.active]="pulsante.id === selectPulsante()"
+            (click)="clickPulsante(pulsante)"
+          >
+            <div class="icon">
+              <i [class]="pulsante.icon"></i>
+            </div>
+
+            <span>{{ pulsante.text }}</span>
+          </a>
+        }
+      }
       <ng-content select="[leftContent]"></ng-content>
     </div>
 
-    <div class="elemento-centrato">
+    <div class="elemento-centrato mt-2">
+      @if (pulsantiCentro.length > 0) {
+        @for (pulsante of pulsantiCentro; track pulsante.id) {
+          <a
+            [class.active]="pulsante.id === selectPulsante()"
+            (click)="clickPulsante(pulsante)"
+          >
+            <div class="icon">
+              <i [class]="pulsante.icon"></i>
+            </div>
+
+            <span>{{ pulsante.text }}</span>
+          </a>
+        }
+      }
       <ng-content select="[centerContent]"></ng-content>
     </div>
 
-    <div class="menu elemento-finale">
-      @for (pulsante of pulsanti; track pulsante.id) {
-        <a
-          [class.active]="pulsante.id === selectPulsante()"
-          (click)="clickPulsante(pulsante)"
-        >
-          <div class="icon">
-            <i [class]="pulsante.icon"></i>
-          </div>
+    <div class="menu elemento-finale mt-2">
+      @if (pulsantiFine.length > 0) {
+        @for (pulsante of pulsantiFine; track pulsante.id) {
+          <a
+            [class.active]="pulsante.id === selectPulsante()"
+            (click)="clickPulsante(pulsante)"
+          >
+            <div class="icon">
+              <i [class]="pulsante.icon"></i>
+            </div>
 
-          <span>{{ pulsante.text }}</span>
-        </a>
+            <span>{{ pulsante.text }}</span>
+          </a>
+        }
       }
       <ng-content select="[rightContent]"></ng-content>
     </div>
