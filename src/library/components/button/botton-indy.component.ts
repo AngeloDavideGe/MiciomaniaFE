@@ -1,96 +1,67 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, input, output } from '@angular/core';
 
 @Component({
   selector: 'app-button-indy',
   standalone: true,
   imports: [],
   template: `
-    <button [class]="color" (click)="clickBotton.emit()" [disabled]="disabled">
-      <i [class]="icon1" class="me-2"></i>
-      <span>{{ text }}</span>
-      <i [class]="icon2" class="ms-2"></i>
+    <button
+      [class]="color()"
+      (click)="clickButton.emit()"
+      [disabled]="disabled()"
+    >
+      <span>{{ text() }}</span>
+
+      <i [class]="icon()"></i>
     </button>
   `,
-  styles: [
-    `
-      button {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        gap: 6px;
-        cursor: pointer;
-        transition: all 0.2s ease-in-out;
+  styles: `
+    button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.75rem;
+      cursor: pointer;
+      transition: all 0.2s ease-in-out;
+      border-radius: 0.75rem;
+      padding: 0.75rem 1.25rem;
+      font-size: 0.95rem;
+      font-weight: 600;
+    }
+
+    .custom-button {
+      background: var(--primary);
+      color: var(--text);
+      border: 1px solid transparent;
+      box-shadow: 0 4px 12px rgba(138, 77, 255, 0.25);
+
+      &:hover:not(:disabled) {
+        filter: brightness(1.1);
+        transform: translateY(-1px);
       }
+    }
 
-      .custom-botton {
-        border-radius: 30px;
-        padding: 12px 24px;
-        font-size: 15px;
-        font-weight: 600;
-        background-color: var(--surface-color);
-        color: var(--text-color);
-        box-shadow: 0 2px 6px var(--border-light);
-        border: var(--border-light) 1px solid;
+    i {
+      font-size: 1rem;
+      transition: transform 0.2s ease-in-out;
+    }
 
-        &:hover:not(:disabled) {
-          background-color: var(--primary-color);
-          color: var(--bg-light);
-          border-width: 2px;
-          box-shadow: 0 4px 12px var(--border-light);
-        }
+    button:hover:not(:disabled) i {
+      transform: translateX(3px);
+    }
 
-        &:disabled {
-          opacity: 0.5;
-          cursor: not-allowed;
-        }
-      }
-
-      .primary-custom {
-        background-color: var(--primary-color);
-        color: var(--surface-color);
-        border: none;
-        border-radius: 9999px;
-        padding: 12px 26px;
-        font-size: 15px;
-        font-weight: 600;
-
-        &:hover:not(:disabled) {
-          background-color: var(--primary-hover);
-        }
-
-        &:disabled {
-          opacity: 0.5;
-          cursor: not-allowed;
-        }
-      }
-
-      .secondary-custom {
-        background-color: transparent;
-        color: var(--primary-color);
-        border: none;
-        padding: 12px 26px;
-        font-size: 15px;
-        font-weight: 600;
-
-        &:disabled {
-          opacity: 0.5;
-          cursor: not-allowed;
-        }
-      }
-
-      i {
-        font-size: 16px;
-      }
-    `,
-  ],
+    button:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+  `,
 })
 export class ButtonIndyComponent {
-  @Input() text!: string;
-  @Input() icon1: string = '';
-  @Input() icon2: string = '';
-  @Input() disabled: boolean = false;
-  @Input() color: ButtonType = 'custom-botton';
-  @Output() clickBotton = new EventEmitter<void>();
+  public text = input.required<string>();
+  public icon = input<string>('bi bi-chevron-right');
+  public disabled = input<boolean>(false);
+  public color = input<ButtonType>('custom-button');
+  public clickButton = output<void>();
 }
 
-type ButtonType = 'custom-botton' | 'primary-custom' | 'secondary-custom';
+type ButtonType = 'custom-button';

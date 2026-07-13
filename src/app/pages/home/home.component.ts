@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { isCurrentRoute } from '../../../library/functions/router.function';
@@ -14,7 +14,7 @@ import { home_imports } from './home.imports';
 })
 export class HomeComponent {
   public router = inject(Router);
-
+  public menuOpen = signal<string>('');
   public readonly impostazioniToggle = getToggleProps();
 
   public isHome$: Observable<boolean> = isCurrentRoute({

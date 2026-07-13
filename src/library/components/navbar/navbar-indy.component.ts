@@ -1,10 +1,17 @@
-import { Component, effect, input, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  effect,
+  input,
+  signal,
+} from '@angular/core';
 import { PulsanteNavbar } from '../../interfaces/navbar.interface';
 
 @Component({
   selector: 'app-navbar-indy',
   standalone: true,
   imports: [],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './navbar-indy.component.html',
   styleUrl: './navbar-indy.component.scss',
 })
@@ -23,8 +30,9 @@ export class NavbarIndyComponent {
   }
 
   public clickPulsante(pulsante: PulsanteNavbar): void {
-    this.selectPulsante.update((x) => (pulsante.id === x ? '' : pulsante.id));
-
+    this.selectPulsante.update((x: string) =>
+      pulsante.id === x ? '' : pulsante.id,
+    );
     pulsante.azione();
   }
 }

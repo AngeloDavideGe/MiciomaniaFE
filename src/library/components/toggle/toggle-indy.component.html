@@ -9,7 +9,7 @@
       />
     } @else {
       <button class="toggle-button" (click)="toggleMenu()">
-        <i [class]="menuOpen() ? 'bi bi-x' : icona()"></i>
+        <i [class]="menuOpen() == titolo() ? 'bi bi-x' : icona()"></i>
       </button>
 
       <span>{{ titolo() }}</span>
@@ -19,7 +19,7 @@
 
 @switch (tipo()) {
   @case ("single") {
-    @if (menuOpen()) {
+    @if (menuOpen() == titolo()) {
       <div class="dropdown-panel shadow-sm" [style]="styles()">
         <ul class="custom-nav">
           @for (item of toggleMenus()[0].menuElementi; track $index) {
@@ -40,7 +40,7 @@
   }
 
   @case ("multiple") {
-    @if (menuOpen()) {
+    @if (menuOpen() == titolo()) {
       <div class="dropdown-panel shadow-sm" [style]="styles()">
         <ul class="custom-nav">
           @for (toggle of toggleMenus(); track toggle.titolo) {

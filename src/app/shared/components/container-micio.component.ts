@@ -11,8 +11,8 @@ import { ChangeDetectionStrategy, Component, input } from '@angular/core';
   `,
   styles: `
     .container-micio {
-      width: calc(100% - 2rem);
-      margin-inline: 1rem;
+      width: calc(100% - 4rem);
+      margin-inline: 2rem;
       background: var(--card);
       border: 1px solid var(--border);
       border-radius: 1.25rem;

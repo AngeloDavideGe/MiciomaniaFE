@@ -6,11 +6,13 @@
           [icona]="'bi bi-bell'"
           [titolo]="'Notifiche'"
           [toggleMenus]="impostazioniToggle"
+          [(menuOpen)]="menuOpen"
         />
         <app-toggle-indy
           [icona]="'bi bi-gear'"
           [titolo]="'Impostazioni'"
           [toggleMenus]="impostazioniToggle"
+          [(menuOpen)]="menuOpen"
         />
       </div>
     </div>
@@ -18,9 +20,9 @@
 
   <app-container-micio>
     <app-descrizione-micio
-      [titolo]="'Manga'"
+      [titolo]="'Benvenuto su Miciomania'"
       [descrizione]="
-        'Scopri migliaia di manga, salvali nei preferiti e tieni traccia della tua lettura.'
+        'Il posto perfetto per leggere manga, ascoltare musica parodia, giocare con i sentimenti e far piangere Sirius.'
       "
       [immagine]="
         'https://images.unsplash.com/photo-1515879218367-8466d910aaa4'

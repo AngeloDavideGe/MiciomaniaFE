@@ -1,4 +1,5 @@
 import {
+  ChangeDetectionStrategy,
   Component,
   computed,
   input,
@@ -12,6 +13,7 @@ import { ToggleProps, ToggleStyles } from '../../interfaces/toggle.interface';
   selector: 'app-toggle-indy',
   standalone: true,
   imports: [],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './toggle-indy.component.html',
   styleUrl: './toggle-indy.component.scss',
 })
@@ -32,7 +34,7 @@ export class ToggleIndyComponent {
   public toggleStyles = input<ToggleStyles>({});
   public tipo = input<'single' | 'multiple' | 'content'>('multiple');
 
-  public menuOpen = model<boolean>(false);
+  public menuOpen = model<string>('');
   public aperturaMenu = output<boolean>();
 
   public styles = computed<ToggleStyles>(() => ({
@@ -41,12 +43,13 @@ export class ToggleIndyComponent {
   }));
 
   public toggleMenu(): void {
-    this.menuOpen.update((x) => !x);
-
-    this.aperturaMenu.emit(this.menuOpen());
+    this.menuOpen.update((x: string) =>
+      x == this.titolo() ? '' : this.titolo(),
+    );
+    this.aperturaMenu.emit(this.menuOpen() == this.titolo());
   }
 
   public cambiaDropdown(drop: string): void {
-    this.currentButton.update((x) => (x === drop ? '' : drop));
+    this.currentButton.update((x: string) => (x === drop ? '' : drop));
   }
 }
