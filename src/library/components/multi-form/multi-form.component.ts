@@ -23,7 +23,7 @@ import {
 } from '../../interfaces/form.interface';
 import { FormIndyComponent } from '../form/form-indy.component';
 import { NgStyle } from '@angular/common';
-import { ButtonIndyComponent } from '../button/botton-indy.component';
+import { ButtonIndyComponent } from '../button/button-indy.component';
 
 @Component({
   selector: 'app-multi-form',

@@ -6,7 +6,7 @@ import {
   Output,
   signal,
 } from '@angular/core';
-import { ButtonIndyComponent } from '../button/botton-indy.component';
+import { ButtonIndyComponent } from '../button/button-indy.component';
 
 @Component({
   selector: 'app-tabs-indy',

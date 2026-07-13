@@ -3,7 +3,6 @@
   border-radius: 1rem;
   background: var(--card);
   border: 1px solid color-mix(in srgb, var(--card-color) 55%, black);
-  box-shadow: 0 0 18px color-mix(in srgb, var(--card-color) 30%, transparent);
   transition:
     transform 0.25s ease,
     box-shadow 0.25s ease;

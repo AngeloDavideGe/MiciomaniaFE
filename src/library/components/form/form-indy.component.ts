@@ -18,7 +18,7 @@ import {
 } from '../../interfaces/form.interface';
 import { CheckBoxIndyComponent } from '../checkbox/checkbox-indy.component';
 import { CapitalizeFirstLetterPipe } from '../../pipes/capitalize.pipe';
-import { ButtonIndyComponent } from '../button/botton-indy.component';
+import { ButtonIndyComponent } from '../button/button-indy.component';
 
 @Component({
   selector: 'app-form-indy',

@@ -20,7 +20,7 @@ import {
   RaggioPage,
   TypePagination,
 } from '../../interfaces/pagination.interface';
-import { ButtonIndyComponent } from '../button/botton-indy.component';
+import { ButtonIndyComponent } from '../button/button-indy.component';
 import { PaginazioneIndyComponent } from '../pagination/pagination-indy.component';
 
 @Component({

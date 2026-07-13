@@ -40,7 +40,7 @@ import { ChangeDetectionStrategy, Component, input } from '@angular/core';
         min-height: 20rem;
         display: flex;
         align-items: center;
-        padding: 3rem;
+        padding: 2rem;
         background: linear-gradient(
           90deg,
           rgba(var(--background-rgb), 0.92) 0%,
@@ -49,7 +49,7 @@ import { ChangeDetectionStrategy, Component, input } from '@angular/core';
         );
 
         .contenuto {
-          max-width: 42rem;
+          max-width: 40rem;
 
           h1 {
             margin: 0;

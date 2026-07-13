@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { ButtonIndyComponent } from '../button/botton-indy.component';
+import { ButtonIndyComponent } from '../button/button-indy.component';
 
 @Component({
   selector: 'app-modal-indy',

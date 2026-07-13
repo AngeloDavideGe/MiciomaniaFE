@@ -7,7 +7,7 @@ import { CercaProfiliComponent } from './components/cerca-profili/cerca-profili.
 import { DescrizionePostComponent } from './components/descrizione-post.component';
 import { NoPostComponent } from './components/no-post.component';
 import { CheckBoxIndyComponent } from '../../../../../../library/components/checkbox/checkbox-indy.component';
-import { ButtonIndyComponent } from '../../../../../../library/components/button/botton-indy.component';
+import { ButtonIndyComponent } from '../../../../../../library/components/button/button-indy.component';
 
 export const ultimiPost_import: Type<any>[] = [
   NoPostComponent,

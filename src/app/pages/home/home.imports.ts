@@ -6,6 +6,8 @@ import { ToggleIndyComponent } from '../../../library/components/toggle/toggle-i
 import { ContaierMicioComponent } from '../../shared/components/container-micio.component';
 import { DescrizioneMicioComponent } from '../../shared/components/descrizione-micio.component';
 import { CardIndyComponent } from '../../../library/components/card/card-indy.component';
+import { SocialLinkComponent } from './components/ui/social-link/social-link.component';
+import { FooterComponent } from './components/ui/footer/footer.component';
 
 export const home_imports: Type<any>[] = [
   NavbarIndyComponent,
@@ -13,6 +15,8 @@ export const home_imports: Type<any>[] = [
   CardIndyComponent,
   ContaierMicioComponent,
   DescrizioneMicioComponent,
+  SocialLinkComponent,
+  FooterComponent,
   RouterOutlet,
   AsyncPipe,
 ];

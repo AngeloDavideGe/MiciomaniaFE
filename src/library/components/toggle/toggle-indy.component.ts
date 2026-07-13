@@ -21,7 +21,7 @@ export class ToggleIndyComponent {
   public currentButton = signal<string>('');
 
   private readonly DEFAULT_STYLES: ToggleStyles = {
-    top: '4rem',
+    top: '5rem',
     width: '15rem',
     position: 'fixed',
     right: 0,

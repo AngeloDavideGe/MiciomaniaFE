@@ -27,20 +27,23 @@ import { Component, input, output } from '@angular/core';
       padding: 0.75rem 1.25rem;
       font-size: 0.95rem;
       font-weight: 600;
-    }
 
-    i {
-      font-size: 1rem;
-      transition: transform 0.2s ease-in-out;
-    }
+      &:hover {
+      }
 
-    button:hover:not(:disabled) i {
-      transform: translateX(3px);
-    }
+      &:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
 
-    button:disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
+      i {
+        font-size: 1rem;
+        transition: transform 0.2s ease-in-out;
+      }
+
+      &:hover:not(:disabled) i {
+        transform: translateX(3px);
+      }
     }
   `,
 })
