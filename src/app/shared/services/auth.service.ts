@@ -1,10 +1,10 @@
 import { HttpParams } from '@angular/common/http';
 import { Injectable, signal } from '@angular/core';
 import { Observable } from 'rxjs';
-import { LOADING_CONTEXT } from '../../../../library/interceptors/loading.interceptor';
-import { BaseService } from '../../../../library/services/base.service';
-import { Ruolo } from '../../enums/users.enum';
-import { CronUtenti, User, UserParams } from '../../interfaces/users.interface';
+import { LOADING_CONTEXT } from '../../../library/interceptors/loading.interceptor';
+import { BaseService } from '../../../library/services/base.service';
+import { Ruolo } from '../enums/users.enum';
+import { CronUtenti, User, UserParams } from '../interfaces/users.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -57,7 +57,7 @@ export class AuthService extends BaseService {
   ): Observable<void> {
     const body = {
       nome: nome,
-      username: username,
+      username: username.trim(),
       email: email,
       password: password,
     };

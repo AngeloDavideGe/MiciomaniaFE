@@ -1,3 +1,9 @@
+.img-icona {
+  height: 2rem;
+  width: 2rem;
+  border-radius: 1rem;
+}
+
 .home-navbar-wrapper {
   display: flex;
   flex-direction: column;
@@ -53,15 +59,15 @@
       font-size: 1.3rem;
       color: var(--text);
     }
+
   }
 }
 
 .dropdown-panel {
-  min-width: 18rem;
   background: var(--card);
   border: 1px solid var(--border);
   border-radius: 1rem;
-  overflow: hidden;
+  overflow: auto;
   backdrop-filter: blur(20px);
   box-shadow: 0 .75rem 2rem rgba(0, 0, 0, .45);
   color: var(--text);

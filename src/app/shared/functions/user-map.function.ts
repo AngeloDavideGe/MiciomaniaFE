@@ -1,4 +1,4 @@
-import { AuthService } from '../services/api/auth.service';
+import { AuthService } from '../services/auth.service';
 import { AppConfigService } from '../../core/api/appConfig.service';
 import { UserReduced } from '../../../library/interfaces/chat.interface';
 

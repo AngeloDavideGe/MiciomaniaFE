@@ -5,13 +5,16 @@
         <app-toggle-indy
           [icona]="'bi bi-bell'"
           [titolo]="'Notifiche'"
-          [toggleMenus]="impostazioniToggle"
+          [tipo]="'single'"
+          [toggleMenus]="notificheToggle()"
+          [toggleStyles]="{ width: '20rem', height: '30rem' }"
           [(menuOpen)]="menuOpen"
         />
         <app-toggle-indy
           [icona]="'bi bi-gear'"
           [titolo]="'Impostazioni'"
           [toggleMenus]="impostazioniToggle"
+          [toggleStyles]="{ width: '20rem' }"
           [(menuOpen)]="menuOpen"
         />
       </div>

@@ -1,8 +1,8 @@
 import { Injectable, signal } from '@angular/core';
-import { BaseService } from '../../../../library/services/base.service';
-import { Social, Conquiste } from '../../interfaces/github.interface';
+import { BaseService } from '../../../library/services/base.service';
+import { Social, Conquiste } from '../interfaces/github.interface';
 import { forkJoin, Observable } from 'rxjs';
-import { MN } from '../../interfaces/squadre.interface';
+import { MN } from '../interfaces/squadre.interface';
 
 @Injectable({
   providedIn: 'root',

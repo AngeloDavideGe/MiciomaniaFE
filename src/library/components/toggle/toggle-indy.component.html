@@ -26,7 +26,11 @@
             @if (item.condition) {
               <li>
                 <a (click)="item.azione()">
-                  <i [class]="item.icona"></i>
+                  @if (item.icona) {
+                    <i [class]="item.icona"></i>
+                  } @else if (item.image) {
+                    <img class="img-icona" [src]="item.image" />
+                  }
                   <div [innerHTML]="item.testo"></div>
                 </a>
               </li>
@@ -60,7 +64,11 @@
                 @if (item.condition) {
                   <li>
                     <a (click)="item.azione()">
-                      <i [class]="item.icona + ' me-2'"></i>
+                      @if (item.icona) {
+                        <i [class]="item.icona"></i>
+                      } @else if (item.image) {
+                        <img class="img-icona" [src]="item.image" />
+                      }
                       {{ item.testo }}
                     </a>
                   </li>
