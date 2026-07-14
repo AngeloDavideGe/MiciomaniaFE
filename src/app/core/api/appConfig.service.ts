@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { SupabaseClient } from '@supabase/supabase-js';
 import { handlerFuncAsync } from '../../../library/functions/handler.function';
-import { getClient, IAppConfig } from '../functions/client.function';
+import { getClient } from '../functions/client.function';
 
 @Injectable({
   providedIn: 'root',
@@ -22,4 +22,31 @@ export class AppConfigService {
       },
     });
   }
+}
+
+export interface IAppConfig {
+  HEADERS: {
+    CS: {
+      KEY: string;
+    };
+    PY: {
+      KEY: string;
+    };
+    DB2: {
+      KEY: string;
+      STORAGE_KEY: string;
+    };
+  };
+  maxElement: {
+    message: number;
+    elemPagine: number;
+    postVisible: number;
+    notifiche: number;
+  };
+  defaultPicsUrl: {
+    user: string;
+    group: string;
+    song: string;
+    manga: string;
+  };
 }

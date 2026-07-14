@@ -1,13 +1,15 @@
 import { inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
-import { DataHttp } from '../api/http.data';
+import { AuthService } from '../../shared/services/api/auth.service';
 
 export const authGuard: CanActivateFn = () => authGuardFunc(true);
 export const notAuthGuard: CanActivateFn = () => authGuardFunc(false);
 
 function authGuardFunc(cond: boolean): boolean {
   const router = inject(Router);
-  const userBool: boolean = !!DataHttp.user();
+  const auth = inject(AuthService);
+
+  const userBool: boolean = auth.currentUserId.length > 0;
 
   if (userBool == cond) {
     return true;

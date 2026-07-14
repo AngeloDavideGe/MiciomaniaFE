@@ -10,8 +10,12 @@ import { CronUtenti, User, UserParams } from '../../interfaces/users.interface';
   providedIn: 'root',
 })
 export class AuthService extends BaseService {
+  public currentUserId = signal<string>('');
+  public localUsers = signal<User[]>([]);
   public users = signal<UserParams[]>([]);
   public notifiche = signal<CronUtenti[]>([]);
+
+  public usersCaricati: boolean = false;
   public notificheCaricate: boolean = false;
 
   constructor() {

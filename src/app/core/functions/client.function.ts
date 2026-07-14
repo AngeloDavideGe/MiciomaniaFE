@@ -1,31 +1,19 @@
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
 import { environment } from '../../../environments/environment';
+import { IAppConfig } from '../api/appConfig.service';
+import { RealtimePostgresChangesFilter } from '@supabase/supabase-js';
 
-export interface IAppConfig {
-  HEADERS: {
-    CS: {
-      KEY: string;
-    };
-    PY: {
-      KEY: string;
-    };
-    DB2: {
-      KEY: string;
-      STORAGE_KEY: string;
-    };
-  };
-  maxElement: {
-    message: number;
-    elemPagine: number;
-    postVisible: number;
-    notifiche: number;
-  };
-  defaultPicsUrl: {
-    user: string;
-    group: string;
-    song: string;
-    manga: string;
-  };
+export type RealTimeFilter = RealtimePostgresChangesFilter<any>;
+
+export function getRealTimeFilter(
+  schema: string,
+  table: string,
+): RealTimeFilter {
+  return {
+    event: '*',
+    schema: schema,
+    table: table,
+  } as RealTimeFilter;
 }
 
 export function getClient(config: IAppConfig): SupabaseClient {

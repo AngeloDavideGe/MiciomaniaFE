@@ -1,7 +1,7 @@
 import { Injectable, signal } from '@angular/core';
 import { BaseService } from '../../../../library/services/base.service';
 import { Social, Conquiste } from '../../interfaces/github.interface';
-import { Observable } from 'rxjs';
+import { forkJoin, Observable } from 'rxjs';
 import { MN } from '../../interfaces/squadre.interface';
 
 @Injectable({
@@ -13,22 +13,22 @@ export class MNService extends BaseService {
   public conquiste = signal<Conquiste | null>(null);
 
   public socialLoaded: boolean = false;
-  public mnLoaded: boolean = false;
-  public conquisteLoaded: boolean = false;
+  public mneConquisteLoaded: boolean = false;
 
   constructor() {
     super('PY');
-  }
-
-  getMN(): Observable<MN[]> {
-    return this.getCustom<MN[]>('squadre/get_mn');
   }
 
   getSocialLinks(): Observable<Social[]> {
     return this.getCustom<Social[]>('squadre/get_social_links');
   }
 
-  getTerritoriConquistati(): Observable<Conquiste> {
-    return this.postCustom<Conquiste>('squadre/get_territori_conquistati');
+  getMNeConquiste(): Observable<{ mn: MN[]; conquiste: Conquiste }> {
+    return forkJoin({
+      mn: this.getCustom<MN[]>('squadre/get_mn'),
+      conquiste: this.postCustom<Conquiste>(
+        'squadre/get_territori_conquistati',
+      ),
+    });
   }
 }

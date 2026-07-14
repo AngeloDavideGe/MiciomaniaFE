@@ -5,9 +5,13 @@ import { RouterOutlet } from '@angular/router';
   selector: 'app-root',
   standalone: true,
   imports: [RouterOutlet],
-  template: ` <main class="main"><router-outlet /></main> `,
+  template: `
+    <main id="main">
+      <router-outlet />
+    </main>
+  `,
   styles: `
-    .main {
+    #main {
       background-color: var(--background);
     }
   `,
