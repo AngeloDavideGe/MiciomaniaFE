@@ -1,59 +1,51 @@
-<div style="padding-bottom: 6rem">
-  <header class="top-navbar">
-    <nav>
-      <div class="elemento-iniziale mt-3">
-        @if (pulsantiInizio().length > 0) {
-          @for (pulsante of pulsantiInizio(); track pulsante.id) {
-            <a
-              [class.active]="pulsante.id === selectPulsante()"
-              (click)="clickPulsante(pulsante)"
-            >
-              <div class="icon">
-                <i [class]="pulsante.icon"></i>
-              </div>
-
-              <span>{{ pulsante.text }}</span>
-            </a>
-          }
+<header class="top-navbar">
+  <nav>
+    <div class="elemento-iniziale mt-3">
+      @if (pulsantiInizio().length > 0) {
+        @for (pulsante of pulsantiInizio(); track pulsante.id) {
+          <a
+            [class.active]="pulsante.id === selectPulsante()"
+            (click)="clickPulsante(pulsante)"
+          >
+            <div class="icon">
+              <i [class]="pulsante.icon" [title]="pulsante.text"></i>
+            </div>
+          </a>
         }
-        <ng-content select="[leftContent]"></ng-content>
-      </div>
+      }
+      <ng-content select="[leftContent]"></ng-content>
+    </div>
 
-      <div class="elemento-centrato mt-3">
-        @if (pulsantiCentro().length > 0) {
-          @for (pulsante of pulsantiCentro(); track pulsante.id) {
-            <a
-              [class.active]="pulsante.id === selectPulsante()"
-              (click)="clickPulsante(pulsante)"
-            >
-              <div class="icon">
-                <i [class]="pulsante.icon"></i>
-              </div>
-
-              <span>{{ pulsante.text }}</span>
-            </a>
-          }
+    <div class="elemento-centrato mt-3">
+      @if (pulsantiCentro().length > 0) {
+        @for (pulsante of pulsantiCentro(); track pulsante.id) {
+          <a
+            [class.active]="pulsante.id === selectPulsante()"
+            (click)="clickPulsante(pulsante)"
+          >
+            <div class="icon">
+              <i [class]="pulsante.icon" [title]="pulsante.text"></i>
+            </div>
+          </a>
         }
-        <ng-content select="[centerContent]"></ng-content>
-      </div>
+      }
+      <ng-content select="[centerContent]"></ng-content>
+    </div>
 
-      <div class="menu elemento-finale mt-3">
-        @if (pulsantiFine().length > 0) {
-          @for (pulsante of pulsantiFine(); track pulsante.id) {
-            <a
-              [class.active]="pulsante.id === selectPulsante()"
-              (click)="clickPulsante(pulsante)"
-            >
-              <div class="icon">
-                <i [class]="pulsante.icon"></i>
-              </div>
-
-              <span>{{ pulsante.text }}</span>
-            </a>
-          }
+    <div class="menu elemento-finale mt-3">
+      @if (pulsantiFine().length > 0) {
+        @for (pulsante of pulsantiFine(); track pulsante.id) {
+          <a
+            [class.active]="pulsante.id === selectPulsante()"
+            (click)="clickPulsante(pulsante)"
+          >
+            <div class="icon">
+              <i [class]="pulsante.icon" [title]="pulsante.text"></i>
+            </div>
+          </a>
         }
-        <ng-content select="[rightContent]"></ng-content>
-      </div>
-    </nav>
-  </header>
-</div>
+      }
+      <ng-content select="[rightContent]"></ng-content>
+    </div>
+  </nav>
+</header>

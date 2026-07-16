@@ -21,13 +21,14 @@ export class ToggleIndyComponent {
   public currentButton = signal<string>('');
 
   private readonly DEFAULT_STYLES: ToggleStyles = {
-    top: '5rem',
+    top: '4rem',
     width: '15rem',
     position: 'fixed',
     right: 0,
   };
 
   public titolo = input<string>('');
+  public titoloVisible = input<boolean>(false);
   public imgIcona = input<string>('');
   public icona = input<string>('bi bi-list');
   public toggleMenus = input<ToggleProps[]>([]);

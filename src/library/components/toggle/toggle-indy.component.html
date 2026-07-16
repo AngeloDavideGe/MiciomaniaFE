@@ -12,7 +12,9 @@
         <i [class]="menuOpen() == titolo() ? 'bi bi-x' : icona()"></i>
       </button>
 
-      <span>{{ titolo() }}</span>
+      @if (titoloVisible()) {
+        <span>{{ titolo() }}</span>
+      }
     }
   }
 </div>

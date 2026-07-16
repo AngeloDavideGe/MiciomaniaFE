@@ -1,0 +1,19 @@
+<footer class="bottom-navbar">
+  <nav>
+    <div class="elementi">
+      @if (pulsanti().length > 0) {
+        @for (pulsante of pulsanti(); track pulsante.id) {
+          <a
+            [class.active]="pulsante.id === selectPulsante()"
+            (click)="clickPulsante(pulsante)"
+          >
+            <div class="icon">
+              <i [class]="pulsante.icon"></i>
+            </div>
+          </a>
+        }
+      }
+      <ng-content></ng-content>
+    </div>
+  </nav>
+</footer>

@@ -11,8 +11,6 @@ export const routes: Routes = [
     path: 'home',
     loadComponent: () =>
       import('./pages/home/home.component').then((m) => m.HomeComponent),
-    // loadChildren: () =>
-    //   import('./pages/home/home.routes').then((m) => m.HOME_ROUTES),
   },
   {
     path: 'auth',
@@ -20,6 +18,15 @@ export const routes: Routes = [
       import('./pages/auth/auth.component').then((m) => m.AuthComponent),
     loadChildren: () =>
       import('./pages/auth/auth.routes').then((m) => m.AUTH_ROUTES),
+  },
+  {
+    path: 'feature',
+    loadComponent: () =>
+      import('./pages/features/feature.component').then(
+        (m) => m.FeatureComponent,
+      ),
+    loadChildren: () =>
+      import('./pages/features/feature.routes').then((m) => m.FEATURE_ROUTES),
   },
   {
     path: 'error-page',
