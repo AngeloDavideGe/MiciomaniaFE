@@ -16,8 +16,9 @@ import { ChangeDetectionStrategy, Component, input } from '@angular/core';
           <p>
             {{ descrizione() }}
           </p>
-
-          <ng-content></ng-content>
+          <div class="mt-3">
+            <ng-content></ng-content>
+          </div>
         </div>
       </div>
     </div>

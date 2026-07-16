@@ -1,0 +1,33 @@
+<div class="manga-top">
+  <div class="stats">
+    @for (stat of stats(); track stat.title) {
+      <div class="stat-card">
+        <i class="bi" [class]="stat.icon"></i>
+
+        <div>
+          <h4>{{ stat.value }}</h4>
+          <span>{{ stat.title }}</span>
+        </div>
+      </div>
+    }
+  </div>
+
+  <div class="toolbar">
+    <div class="search">
+      <i class="bi bi-search"></i>
+      <input type="text" placeholder="Cerca manga, autore, genere..." />
+    </div>
+
+    <div class="order">
+      <select>
+        <option>Ordina per: Più popolari</option>
+        <option>Più recenti</option>
+        <option>A-Z</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <app-tabs-indy [tabs]="tabs" />
+</div>

@@ -1,11 +1,11 @@
-@switch (tipo) {
+@switch (tipo()) {
   @case ("tab") {
     <nav class="nav nav-tabs border-bottom-0">
-      @for (tab of tabs; track tab.id) {
+      @for (tab of tabs(); track tab.id) {
         <button
           class="nav-link me-2 px-3 py-2"
           (click)="clickTabFunc(tab)"
-          [style.color]="selectTab() === tab.id ? tab.color : 'black'"
+          [style.color]="selectTab() === tab.id ? tab.color : disabledColor()"
           [style.border-bottom]="
             selectTab() === tab.id
               ? '2px solid ' + tab.color
@@ -23,7 +23,7 @@
   }
   @case ("wizard") {
     <div class="wizard-header elemento-centrato p-2">
-      @for (tab of tabs; track tab.id) {
+      @for (tab of tabs(); track tab.id) {
         <div
           class="wizard-step text-center mx-3 position-relative"
           [class.active]="selectTab() === tab.id"
@@ -58,7 +58,7 @@
             {{ tab.label }}
           </div>
 
-          @if ($index < tabs.length - 1) {
+          @if ($index < tabs().length - 1) {
             <div
               class="position-absolute top-50 start-100 translate-middle-y"
               style="width: 50px; height: 2px"
@@ -78,24 +78,24 @@
     <div class="elementi-laterali px-5 mt-3 mb-3">
       <app-button-indy
         [text]="'Indietro'"
-        [icon1]="'bi bi-arrow-left'"
+        [icon]="'bi bi-arrow-left'"
         (clickBotton)="prevStep()"
       ></app-button-indy>
 
       <app-button-indy
         [text]="'Avanti'"
-        [icon2]="'bi bi-arrow-right'"
+        [icon]="'bi bi-arrow-right'"
         (clickBotton)="nextStep()"
-        [disabled]="disableNext"
+        [disabled]="disableNext()"
       ></app-button-indy>
     </div>
   }
   @case ("lista") {
     <div class="elemento-finale mb-3 me-2">
-      @for (tab of tabs; track tab.id) {
+      @for (tab of tabs(); track tab.id) {
         <button
           class="btn btn-outline-secondary me-2"
-          [class.active]="selectTab() == tab.id"
+          [class.active]="selectTab() === tab.id"
           (click)="clickTabFunc(tab)"
           title="Visualizza affiancati"
         >

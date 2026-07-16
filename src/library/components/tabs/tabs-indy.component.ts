@@ -1,12 +1,14 @@
 import {
   Component,
-  EventEmitter,
-  Input,
-  OnInit,
-  Output,
+  input,
+  output,
   signal,
+  effect,
+  OnInit,
+  inject,
 } from '@angular/core';
 import { ButtonIndyComponent } from '../button/button-indy.component';
+import { iTab } from '../../interfaces/tabs.interface';
 
 @Component({
   selector: 'app-tabs-indy',
@@ -15,36 +17,44 @@ import { ButtonIndyComponent } from '../button/button-indy.component';
   templateUrl: './tabs-indy.component.html',
   styleUrl: './tabs-indy.component.scss',
 })
-export class TabsIndyComponent implements OnInit {
+export class TabsIndyComponent {
+  private defaultTabs: iTab[] = [
+    {
+      id: '1',
+      icona: 'bi bi-grid',
+    },
+    {
+      id: '2',
+      icona: 'bi bi-list',
+    },
+  ];
+
+  public tabs = input<iTab[]>(this.defaultTabs);
+  public tipo = input<'tab' | 'wizard' | 'lista'>('tab');
+  public disabledColor = input<string>('white');
+  public disableNext = input<boolean>(false);
+  public initialTab = input<string>('');
+
+  public clickTab = output<string>();
+  public prev = output<{ current: string; prev: string }>();
+  public next = output<{ current: string; next: string }>();
+
   public selectTab = signal<string>('');
 
-  @Input() tabs: iTab[] = [];
-  @Input() tipo: 'tab' | 'wizard' | 'lista' = 'tab';
-  @Input() disableNext: boolean = false;
+  constructor() {
+    effect(() => {
+      const tabs = this.tabs();
+      const initial = this.initialTab();
 
-  @Output() clickTab = new EventEmitter<string>();
-  @Output() prev = new EventEmitter<{ current: string; prev: string }>();
-  @Output() next = new EventEmitter<{ current: string; next: string }>();
-
-  ngOnInit(): void {
-    if (this.tabs.length == 0) {
-      this.tabs = [
-        {
-          id: '1',
-          icona: 'bi bi-grid',
-        },
-        {
-          id: '2',
-          icona: 'bi bi-list',
-        },
-      ];
-    }
-
-    this.selectTab.set(this.tabs[0].id);
+      if (tabs.length > 0) {
+        const found = tabs.find((tab) => tab.id === initial);
+        this.selectTab.set(found ? initial : tabs[0].id);
+      }
+    });
   }
 
   public clickTabFunc(value: iTab): void {
-    if (this.selectTab() != value.id) {
+    if (this.selectTab() !== value.id) {
       this.selectTab.set(value.id);
       this.clickTab.emit(value.id);
       value.azione?.(value.id);
@@ -52,34 +62,30 @@ export class TabsIndyComponent implements OnInit {
   }
 
   public prevStep(): void {
-    const index: number = this.tabs.findIndex((x) => x.id === this.selectTab());
-    const prev: string = this.tabs[index - 1]?.id || '';
+    const tabs = this.tabs();
+    const currentIndex = tabs.findIndex((x) => x.id === this.selectTab());
+    const prevTab = tabs[currentIndex - 1];
 
-    this.prev.emit({ current: this.selectTab(), prev: prev });
-
-    if (prev) {
-      this.selectTab.set(prev);
-      this.tabs[index - 1].azione?.(prev);
+    if (prevTab) {
+      this.prev.emit({ current: this.selectTab(), prev: prevTab.id });
+      this.selectTab.set(prevTab.id);
+      prevTab.azione?.(prevTab.id);
+    } else {
+      this.prev.emit({ current: this.selectTab(), prev: '' });
     }
   }
 
   public nextStep(): void {
-    const index = this.tabs.findIndex((x) => x.id === this.selectTab());
-    const next: string = this.tabs[index + 1]?.id || '';
+    const tabs = this.tabs();
+    const currentIndex = tabs.findIndex((x) => x.id === this.selectTab());
+    const nextTab = tabs[currentIndex + 1];
 
-    this.next.emit({ current: this.selectTab(), next: next });
-
-    if (next) {
-      this.selectTab.set(next);
-      this.tabs[index + 1].azione?.(next);
+    if (nextTab) {
+      this.next.emit({ current: this.selectTab(), next: nextTab.id });
+      this.selectTab.set(nextTab.id);
+      nextTab.azione?.(nextTab.id);
+    } else {
+      this.next.emit({ current: this.selectTab(), next: '' });
     }
   }
-}
-
-export interface iTab {
-  id: string;
-  label?: string;
-  color?: string;
-  icona?: string;
-  azione?: (id?: string) => void;
 }

@@ -1,0 +1,19 @@
+<app-container-micio>
+  <app-descrizione-micio
+    [titolo]="'Manga'"
+    [descrizione]="
+      'Leggi i tuoi manga preferiti e scopri le avventure di Indy e Claudia'
+    "
+    [immagine]="'https://images.unsplash.com/photo-1515879218367-8466d910aaa4'"
+  >
+    <div>
+      <app-manga-toolbar />
+      <br />
+      <app-sidebar-indy
+        [titolo]="'Categorie'"
+        [elementi]="categorie"
+        (selezionatoChange)="categoriaAttiva.set($event)"
+      />
+    </div>
+  </app-descrizione-micio>
+</app-container-micio>

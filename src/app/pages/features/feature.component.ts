@@ -11,8 +11,16 @@ import {
   imports: feature_imports,
   template: `
     <app-navbar-indy [pulsantiFine]="pulsantiNavbar" />
-    <router-outlet />
+    <section class="router-section">
+      <router-outlet />
+    </section>
     <app-bottom-navbar-indy [pulsanti]="pulsantiBottombar" />
+  `,
+  styles: `
+    .router-section {
+      padding-top: 4.5rem;
+      padding-bottom: 4.5rem;
+    }
   `,
 })
 export class FeatureComponent {
