@@ -6,14 +6,28 @@
     "
     [immagine]="'https://images.unsplash.com/photo-1515879218367-8466d910aaa4'"
   >
-    <div>
+    <div half-row>
       <app-manga-toolbar />
+    </div>
+
+    <div all-row>
+      <div class="elemento-centrato p-2">
+        <app-tabs-indy [tabs]="tabs" />
+      </div>
       <br />
-      <app-sidebar-indy
-        [titolo]="'Categorie'"
-        [elementi]="categorie"
-        (selezionatoChange)="categoriaAttiva.set($event)"
-      />
+      <div class="container">
+        <div class="sidebar-wrapper">
+          <app-sidebar-indy
+            [titolo]="'Categorie'"
+            [elementi]="categorie"
+            (selezionatoChange)="($event)"
+          />
+        </div>
+
+        <div class="content-wrapper">
+          <app-card-indy [elems]="filtri.elemFilter()" [altezzaImg]="'15rem'" />
+        </div>
+      </div>
     </div>
   </app-descrizione-micio>
 </app-container-micio>

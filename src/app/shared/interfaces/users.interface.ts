@@ -1,4 +1,4 @@
-import { Ruolo, StatoPersona } from '../enums/users.enum';
+import { Ruolo } from '../enums/users.enum';
 
 export interface User {
   id: string;
@@ -16,7 +16,6 @@ export interface Credenziali {
 }
 
 export interface Iscrizione {
-  stato: StatoPersona | null;
   squadra: string | null;
   provincia: string | null;
   punteggio: number | null;
@@ -24,7 +23,6 @@ export interface Iscrizione {
 
 export interface Profile {
   bio: string | null;
-  telefono: string | null;
   compleanno: Date | string | null;
   social: Record<string, string> | null;
 }

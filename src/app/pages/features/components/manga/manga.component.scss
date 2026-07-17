@@ -1,60 +1,81 @@
-.categorie-card {
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: 16px;
-  padding: 1.5rem;
-  margin-top: 2rem;
-}
-
-.categorie-card h3 {
-  color: var(--text);
-  font-size: 1.25rem;
-  font-weight: 700;
-  margin-bottom: 1.25rem;
-}
-
-.categorie {
+.container {
   display: flex;
-  flex-direction: column;
-  gap: .4rem;
+  gap: 20px;
+  max-width: 100%;
 }
 
-.categoria {
-  width: 100%;
-  background: transparent;
-  border: none;
-  border-radius: 12px;
-  color: var(--text-secondary);
-  display: flex;
-  align-items: center;
-  gap: .9rem;
-  padding: .9rem 1rem;
-  transition: .25s;
-  cursor: pointer;
-
-  i {
-    font-size: 1rem;
-    width: 20px;
-    text-align: center;
+// Sidebar
+.sidebar-wrapper {
+  flex: 0 0 280px; // Larghezza fissa per desktop
+  min-width: 0;
+  max-height: calc(100vh - 120px);
+  position: sticky;
+  top: 80px;
+  overflow-y: auto;
+  
+  // Scrollbar personalizzata (opzionale)
+  &::-webkit-scrollbar {
+    width: 6px;
   }
-
-  span {
-    font-size: .95rem;
-    font-weight: 500;
+  
+  &::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.2);
+    border-radius: 3px;
   }
+}
 
-  &:hover {
-    background: var(--card-light);
-    color: var(--text);
+// Contenuto principale
+.content-wrapper {
+  flex: 1; // Occupa tutto lo spazio rimanente
+  min-width: 0; // Previene overflow
+}
+
+/* ===== RESPONSIVE ===== */
+
+// Tablet (schermi medi)
+@media (max-width: 1024px) {
+  .container {
+    gap: 15px;
+    padding: 15px;
   }
+  
+  .sidebar-wrapper {
+    flex: 0 0 240px; // Sidebar leggermente più stretta
+  }
+}
 
-  &.active {
-    background: rgba(138, 77, 255, .15);
-    color: var(--primary-light);
-    border: 1px solid rgba(138, 77, 255, .35);
-
-    i {
-      color: var(--primary);
+// Tablet piccolo / Landscape
+@media (max-width: 768px) {
+  .container {
+    flex-direction: column; // Sidebar sopra, contenuto sotto
+    gap: 20px;
+    padding: 12px;
+  }
+  
+  .sidebar-wrapper {
+    flex: none;
+    width: 100%;
+    position: static;
+    max-height: none;
+    overflow-y: visible;
+    
+    // Sidebar orizzontale su mobile
+    app-sidebar-indy {
+      display: block;
+      // Puoi aggiungere stili per renderla orizzontale
     }
   }
+  
+  .content-wrapper {
+    width: 100%;
+  }
+}
+
+// Telefono piccolo
+@media (max-width: 480px) {
+  .container {
+    padding: 8px;
+    gap: 12px;
+  }
+  
 }

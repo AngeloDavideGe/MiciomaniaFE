@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output, signal } from '@angular/core';
-import { Mappa } from '../../../app/shared/interfaces/github.interface';
+import { Mappa } from '../../../app/shared/interfaces/mn.interface';
 import { PathSvgCustom } from '../../interfaces/svg.interface';
 
 @Component({

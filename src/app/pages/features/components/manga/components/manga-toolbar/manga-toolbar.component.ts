@@ -1,12 +1,9 @@
 import { Component, signal } from '@angular/core';
-import { TabsIndyComponent } from '../../../../../../../library/components/tabs/tabs-indy.component';
-import { iTab } from '../../../../../../../library/interfaces/tabs.interface';
-import { TabellaIndyComponent } from '../../../../../../../library/components/table/table-indy.component';
 
 @Component({
   selector: 'app-manga-toolbar',
   standalone: true,
-  imports: [TabsIndyComponent, TabellaIndyComponent],
+  imports: [],
   templateUrl: './manga-toolbar.component.html',
   styleUrl: './manga-toolbar.component.scss',
 })
@@ -28,22 +25,4 @@ export class MangaToolbarComponent {
       title: 'Utenti lettori',
     },
   ]);
-
-  public tabs: iTab[] = [
-    {
-      id: 'tutti',
-      label: 'Tutti',
-      color: 'var(--primary-light)',
-    },
-    {
-      id: 'in_corso',
-      label: 'In corso',
-      color: 'var(--primary-light)',
-    },
-    {
-      id: 'completati',
-      label: 'Completati',
-      color: 'var(--primary-light)',
-    },
-  ];
 }

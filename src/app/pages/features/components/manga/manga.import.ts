@@ -3,10 +3,14 @@ import { ContaierMicioComponent } from '../../../../shared/components/container-
 import { DescrizioneMicioComponent } from '../../../../shared/components/descrizione-micio.component';
 import { MangaToolbarComponent } from './components/manga-toolbar/manga-toolbar.component';
 import { SidebarIndyComponent } from '../../../../../library/components/sidebar/sidebar-indy.component';
+import { TabsIndyComponent } from '../../../../../library/components/tabs/tabs-indy.component';
+import { CardIndyComponent } from '../../../../../library/components/card/card-indy.component';
 
 export const manga_imports: Type<any>[] = [
   ContaierMicioComponent,
   DescrizioneMicioComponent,
   MangaToolbarComponent,
   SidebarIndyComponent,
+  TabsIndyComponent,
+  CardIndyComponent,
 ];

@@ -1,6 +1,6 @@
 import { Injectable, signal } from '@angular/core';
 import { BaseService } from '../../../library/services/base.service';
-import { Social, Conquiste } from '../interfaces/github.interface';
+import { Social, Conquiste } from '../interfaces/mn.interface';
 import { forkJoin, Observable } from 'rxjs';
 import { MN } from '../interfaces/squadre.interface';
 

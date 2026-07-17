@@ -1,15 +1,3 @@
-export enum StatoPersona {
-  Gettato = 'Gettato',
-  Deriso = 'Deriso',
-  Umiliato = 'Umiliato',
-}
-
-export const BadgeStatoPersona: Record<StatoPersona, string> = {
-  Gettato: 'bg-success text-white rounded-pill px-2 py-1 text-center',
-  Deriso: 'bg-warning text-white rounded-pill px-2 py-1 text-center',
-  Umiliato: 'bg-danger text-white rounded-pill px-2 py-1 text-center',
-};
-
 export enum Ruolo {
   miciomane = 'miciomane',
   admin = 'admin',
