@@ -6,4 +6,5 @@ export interface iCard {
   routerLink?: string;
   azione?: Function;
   color?: string;
+  tabFiltro?: boolean | null;
 }

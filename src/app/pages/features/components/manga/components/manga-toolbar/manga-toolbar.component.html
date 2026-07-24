@@ -15,7 +15,11 @@
   <div class="toolbar">
     <div class="search">
       <i class="bi bi-search"></i>
-      <input type="text" placeholder="Cerca manga, autore, genere..." />
+      <input
+        type="text"
+        placeholder="Cerca manga, autore, genere..."
+        (input)="searchQuery.set($event.target.value)"
+      />
     </div>
 
     <div class="order">

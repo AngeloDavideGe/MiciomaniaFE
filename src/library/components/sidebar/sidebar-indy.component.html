@@ -5,8 +5,8 @@
     @for (item of elementi(); track item.id) {
       <button
         class="sidebar-item"
-        [class.active]="selected() === item.id"
-        (click)="click(item)"
+        [class.active]="selezionato() === item.id"
+        (click)="selezionato.set(item.id)"
       >
         <i class="bi" [class]="item.icona"></i>
 

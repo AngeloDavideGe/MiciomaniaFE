@@ -1,7 +1,10 @@
-export interface AllManga {
+export interface AllManga extends iManga {
+  mangaUtente: MangaUtente;
+}
+
+export interface iManga {
   listaManga: Manga[];
   micioManga: Manga[];
-  mangaUtente: MangaUtente;
 }
 
 export interface Manga {
@@ -11,7 +14,7 @@ export interface Manga {
   genere: string;
   copertina: string;
   path: string;
-  completato: true;
+  completato: boolean;
   capitoli: number;
 }
 

@@ -149,13 +149,11 @@
     <div class="form-actions">
       <app-button-indy
         [text]="'Resetta'"
-        [color]="'secondary-custom'"
         (clickBotton)="onReset()"
       ></app-button-indy>
 
       <app-button-indy
         [text]="'Invia'"
-        [color]="'primary-custom'"
         (clickBotton)="onSubmit()"
         [disabled]="form.invalid"
       ></app-button-indy>

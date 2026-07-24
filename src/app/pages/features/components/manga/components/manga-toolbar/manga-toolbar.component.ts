@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core';
+import { Component, model, signal } from '@angular/core';
 
 @Component({
   selector: 'app-manga-toolbar',
@@ -8,7 +8,8 @@ import { Component, signal } from '@angular/core';
   styleUrl: './manga-toolbar.component.scss',
 })
 export class MangaToolbarComponent {
-  stats = signal([
+  public searchQuery = model<string>('');
+  public stats = signal([
     {
       icon: 'bi-book',
       value: '256',

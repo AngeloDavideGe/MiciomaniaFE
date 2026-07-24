@@ -1,4 +1,4 @@
-import { Component, input, output, signal } from '@angular/core';
+import { Component, input, model, output, signal } from '@angular/core';
 import { ISidebarItem } from '../../interfaces/sidebar.interface';
 
 @Component({
@@ -11,17 +11,12 @@ export class SidebarIndyComponent {
   public titolo = input.required<string>();
   public elementi = input.required<ISidebarItem[]>();
   public maxWidth = input<string>('15rem');
-  public selezionato = input<string>();
-  public selezionatoChange = output<string>();
 
-  public selected = signal<string | null>(null);
-
-  ngOnInit() {
-    this.selected.set(this.selezionato() ?? null);
-  }
+  public selezionato = model<string>();
+  public selezionatChange = output<string>();
 
   click(item: ISidebarItem) {
-    this.selected.set(item.id);
-    this.selezionatoChange.emit(item.id);
+    this.selezionato.set(item.id);
+    this.selezionatChange.emit(item.id);
   }
 }

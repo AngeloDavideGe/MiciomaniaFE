@@ -33,10 +33,5 @@ export function getMangaSidebar(): ISidebarItem[] {
       nome: 'Di Miciomania',
       icona: 'bi-play-circle',
     },
-    {
-      id: 'utenti',
-      nome: 'Degli utenti',
-      icona: 'bi-check2-square',
-    },
   ];
 }

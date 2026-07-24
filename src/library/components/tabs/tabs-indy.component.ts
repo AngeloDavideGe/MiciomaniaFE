@@ -6,6 +6,7 @@ import {
   effect,
   OnInit,
   inject,
+  model,
 } from '@angular/core';
 import { ButtonIndyComponent } from '../button/button-indy.component';
 import { iTab } from '../../interfaces/tabs.interface';
@@ -39,7 +40,7 @@ export class TabsIndyComponent {
   public prev = output<{ current: string; prev: string }>();
   public next = output<{ current: string; next: string }>();
 
-  public selectTab = signal<string>('');
+  public selectTab = model<string>('');
 
   constructor() {
     effect(() => {

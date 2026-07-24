@@ -7,12 +7,12 @@
     [immagine]="'https://images.unsplash.com/photo-1515879218367-8466d910aaa4'"
   >
     <div half-row>
-      <app-manga-toolbar />
+      <app-manga-toolbar [(searchQuery)]="searchQuery" />
     </div>
 
     <div all-row>
       <div class="elemento-centrato p-2">
-        <app-tabs-indy [tabs]="tabs" />
+        <app-tabs-indy [tabs]="tabs" (clickTab)="changeTab($event)" />
       </div>
       <br />
       <div class="container">
@@ -20,12 +20,20 @@
           <app-sidebar-indy
             [titolo]="'Categorie'"
             [elementi]="categorie"
-            (selezionatoChange)="($event)"
+            [selezionato]="'ufficiali'"
+            [(selezionato)]="currentCategoria"
           />
         </div>
 
         <div class="content-wrapper">
-          <app-card-indy [elems]="filtri.elemFilter()" [altezzaImg]="'15rem'" />
+          @if (viewSpinner()) {
+            <app-spinner-indy [mt]="'5rem'" />
+          } @else {
+            <app-card-indy
+              [elems]="filtri().elemFilter()"
+              [altezzaImg]="'15rem'"
+            />
+          }
         </div>
       </div>
     </div>

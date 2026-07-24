@@ -5,6 +5,7 @@ import { MangaToolbarComponent } from './components/manga-toolbar/manga-toolbar.
 import { SidebarIndyComponent } from '../../../../../library/components/sidebar/sidebar-indy.component';
 import { TabsIndyComponent } from '../../../../../library/components/tabs/tabs-indy.component';
 import { CardIndyComponent } from '../../../../../library/components/card/card-indy.component';
+import { SpinnerIndyComponent } from '../../../../../library/components/spinner/spinner-indy.component';
 
 export const manga_imports: Type<any>[] = [
   ContaierMicioComponent,
@@ -13,4 +14,5 @@ export const manga_imports: Type<any>[] = [
   SidebarIndyComponent,
   TabsIndyComponent,
   CardIndyComponent,
+  SpinnerIndyComponent,
 ];

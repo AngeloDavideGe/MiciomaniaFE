@@ -1,12 +1,13 @@
+import { Router } from '@angular/router';
 import { PulsanteNavbar } from '../../../../library/interfaces/navbar.interface';
 
-export function getFeatureNavbar(): PulsanteNavbar[] {
+export function getFeatureNavbar(router: Router): PulsanteNavbar[] {
   return [
     {
       id: 'home',
       icon: 'bi-house',
       text: 'Home',
-      azione: () => {},
+      azione: () => router.navigate(['home']),
     },
   ];
 }

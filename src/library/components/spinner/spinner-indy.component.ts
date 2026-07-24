@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, input, Input } from '@angular/core';
 
 @Component({
   selector: 'app-spinner-indy',
@@ -7,7 +7,7 @@ import { Component, Input } from '@angular/core';
   template: `
     <div
       class="elemento-centrato spinner-template-stile"
-      [style]="{ 'padding-top': mt }"
+      [style]="{ 'padding-top': mt() }"
     >
       <div class="spinner-border text-primary" role="status">
         <span class="visually-hidden">Loading...</span>
@@ -16,5 +16,5 @@ import { Component, Input } from '@angular/core';
   `,
 })
 export class SpinnerIndyComponent {
-  @Input() mt: string = '0';
+  public mt = input<string>('0');
 }

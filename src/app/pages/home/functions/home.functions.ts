@@ -9,7 +9,7 @@ export function getCategorieCard(): iCard[] {
       descrizione:
         'Scopri la mia collezione di manga, recensioni, letture in corso e consigli.',
       bottone: 'Esplora manga',
-      routerLink: '/manga',
+      routerLink: 'feature/manga',
       color: 'var(--primary)',
     },
     {
