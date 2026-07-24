@@ -1,17 +1,19 @@
-<div class="sidebar-card" [style]="{ 'max-width': maxWidth() }">
-  <h3>{{ titolo() }}</h3>
+<div class="sidebar-wrapper">
+  <div class="sidebar-card">
+    <h3>{{ titolo() }}</h3>
 
-  <div class="sidebar-list">
-    @for (item of elementi(); track item.id) {
-      <button
-        class="sidebar-item"
-        [class.active]="selezionato() === item.id"
-        (click)="selezionato.set(item.id)"
-      >
-        <i class="bi" [class]="item.icona"></i>
+    <div class="sidebar-list">
+      @for (item of elementi(); track item.id) {
+        <button
+          class="sidebar-item"
+          [class.active]="selezionato() === item.id"
+          (click)="selezionato.set(item.id)"
+        >
+          <i class="bi" [class]="item.icona"></i>
 
-        <span>{{ item.nome }}</span>
-      </button>
-    }
+          <span>{{ item.nome }}</span>
+        </button>
+      }
+    </div>
   </div>
 </div>

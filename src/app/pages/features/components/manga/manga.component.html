@@ -7,7 +7,10 @@
     [immagine]="'https://images.unsplash.com/photo-1515879218367-8466d910aaa4'"
   >
     <div half-row>
-      <app-manga-toolbar [(searchQuery)]="searchQuery" />
+      <app-manga-toolbar
+        [stats]="mangaToolbar()"
+        [(searchQuery)]="searchQuery"
+      />
     </div>
 
     <div all-row>
@@ -16,14 +19,12 @@
       </div>
       <br />
       <div class="container">
-        <div class="sidebar-wrapper">
-          <app-sidebar-indy
-            [titolo]="'Categorie'"
-            [elementi]="categorie"
-            [selezionato]="'ufficiali'"
-            [(selezionato)]="currentCategoria"
-          />
-        </div>
+        <app-sidebar-indy
+          [titolo]="'Categorie'"
+          [elementi]="categorie"
+          [selezionato]="'ufficiali'"
+          [(selezionato)]="currentCategoria"
+        />
 
         <div class="content-wrapper">
           @if (viewSpinner()) {
@@ -36,6 +37,7 @@
           }
         </div>
       </div>
+      <br />
     </div>
   </app-descrizione-micio>
 </app-container-micio>

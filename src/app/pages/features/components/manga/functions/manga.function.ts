@@ -1,5 +1,7 @@
 import { ISidebarItem } from '../../../../../../library/interfaces/sidebar.interface';
 import { iTab } from '../../../../../../library/interfaces/tabs.interface';
+import { abbreviateNumberFormat } from '../../../../../../library/pipes/number-format.pipe';
+import { MangaToolbar } from '../interfaces/manga.interface';
 
 export function getMangaTabs(): iTab[] {
   return [
@@ -32,6 +34,24 @@ export function getMangaSidebar(): ISidebarItem[] {
       id: 'miciomania',
       nome: 'Di Miciomania',
       icona: 'bi-play-circle',
+    },
+  ];
+}
+
+export function getMangaToolbar(
+  manga: string,
+  capitoli: string,
+): MangaToolbar[] {
+  return [
+    {
+      icon: 'bi-book',
+      value: manga,
+      title: 'Manga disponibili',
+    },
+    {
+      icon: 'bi-grid',
+      value: capitoli,
+      title: 'Capitoli totali',
     },
   ];
 }

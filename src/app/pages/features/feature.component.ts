@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { feature_imports } from './feature.import';
 import {
   getBottomNavItems,
@@ -15,10 +15,15 @@ import { isCurrentRoute } from '../../../library/functions/router.function';
   template: `
     @if (!(isFeature$ | async)) {
       <app-navbar-indy [pulsantiFine]="pulsantiNavbar" />
+
       <section class="router-section">
         <router-outlet />
       </section>
-      <app-bottom-navbar-indy [pulsanti]="pulsantiBottombar" />
+
+      <app-bottom-navbar-indy
+        [pulsanti]="pulsantiBottombar"
+        [initialPulsante]="initialPulsante()"
+      />
     }
   `,
   styles: `
@@ -31,16 +36,25 @@ import { isCurrentRoute } from '../../../library/functions/router.function';
 export class FeatureComponent {
   private router = inject(Router);
 
+  public readonly pulsantiNavbar = getFeatureNavbar(this.router);
+  public readonly pulsantiBottombar = getBottomNavItems(this.router);
+
+  public initialPulsante = signal<string>('manga');
+
   public isFeature$: Observable<boolean> = isCurrentRoute({
     router: this.router,
     eventName: '/feature',
-    tapFunc: (isCurrent: boolean) => {
-      if (isCurrent) {
+    mapFunc: (event: { url: string }) => {
+      const cond: boolean = event.url == '/feature';
+
+      if (cond) {
         this.router.navigate(['feature/manga']);
+        this.initialPulsante.set('manga');
+      } else {
+        this.initialPulsante.set(event.url.split('/')[2]);
       }
+
+      return cond;
     },
   });
-
-  public readonly pulsantiNavbar = getFeatureNavbar(this.router);
-  public readonly pulsantiBottombar = getBottomNavItems();
 }

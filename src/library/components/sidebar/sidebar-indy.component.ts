@@ -10,7 +10,6 @@ import { ISidebarItem } from '../../interfaces/sidebar.interface';
 export class SidebarIndyComponent {
   public titolo = input.required<string>();
   public elementi = input.required<ISidebarItem[]>();
-  public maxWidth = input<string>('15rem');
 
   public selezionato = model<string>();
   public selezionatChange = output<string>();

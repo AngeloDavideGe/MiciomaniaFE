@@ -1,3 +1,20 @@
+.sidebar-wrapper {
+  min-width: 0;
+  max-height: calc(100vh - 120px);
+  position: sticky;
+  top: 80px;
+  overflow-y: auto;
+  
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+  
+  &::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.2);
+    border-radius: 3px;
+  }
+}
+
 .sidebar-card {
   background: var(--card);
   border: 1px solid var(--border);

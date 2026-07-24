@@ -3,13 +3,11 @@ export function compareObjectCustom(obj1: any, obj2: any): boolean {
   else return !Object.keys(obj1).some((key) => obj1[key] !== obj2[key]);
 }
 
-// Formatta Data
 export function formatDataCustom(date: Date): Date {
   date.setMilliseconds(0);
   return date;
 }
 
-// Matrice vuota
 export function boardEmpty<T>(dim: number, emptyCell: T): T[][] {
   let board: T[][] = [];
 

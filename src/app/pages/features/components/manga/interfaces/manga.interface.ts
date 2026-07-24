@@ -7,3 +7,9 @@ export interface IManga {
   path: string;
   completato: boolean;
 }
+
+export interface MangaToolbar {
+  icon: string;
+  value: string;
+  title: string;
+}

@@ -12,37 +12,37 @@ export function getFeatureNavbar(router: Router): PulsanteNavbar[] {
   ];
 }
 
-export function getBottomNavItems(): PulsanteNavbar[] {
+export function getBottomNavItems(router: Router): PulsanteNavbar[] {
   return [
     {
-      id: 'home',
-      icon: 'bi-house',
-      text: 'Home',
-      azione: () => {},
+      id: 'manga',
+      icon: 'bi-book',
+      text: 'Manga',
+      azione: () => router.navigate(['feature/manga']),
     },
     {
-      id: 'search',
-      icon: 'bi-search',
-      text: 'Cerca',
-      azione: () => {},
+      id: 'canzoni',
+      icon: 'bi-music-note',
+      text: 'Canzoni',
+      azione: () => router.navigate(['feature/canzoni']),
     },
     {
-      id: 'add',
-      icon: 'bi-plus-circle',
-      text: 'Nuovo',
-      azione: () => {},
+      id: 'giochi',
+      icon: 'bi-joystick',
+      text: 'Giochi',
+      azione: () => router.navigate(['feature/giochi']),
     },
     {
-      id: 'notifications',
-      icon: 'bi-heart',
-      text: 'Notifiche',
-      azione: () => {},
+      id: 'post',
+      icon: 'bi-chat',
+      text: 'Post',
+      azione: () => router.navigate(['feature/post']),
     },
     {
-      id: 'profile',
-      icon: 'bi-person',
-      text: 'Profilo',
-      azione: () => {},
+      id: 'classifica',
+      icon: 'bi-trophy',
+      text: 'Classifica',
+      azione: () => router.navigate(['feature/classifica']),
     },
   ];
 }

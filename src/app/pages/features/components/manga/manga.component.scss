@@ -4,35 +4,12 @@
   max-width: 100%;
 }
 
-// Sidebar
-.sidebar-wrapper {
-  flex: 0 0 280px; // Larghezza fissa per desktop
-  min-width: 0;
-  max-height: calc(100vh - 120px);
-  position: sticky;
-  top: 80px;
-  overflow-y: auto;
-  
-  // Scrollbar personalizzata (opzionale)
-  &::-webkit-scrollbar {
-    width: 6px;
-  }
-  
-  &::-webkit-scrollbar-thumb {
-    background-color: rgba(0, 0, 0, 0.2);
-    border-radius: 3px;
-  }
-}
-
-// Contenuto principale
 .content-wrapper {
-  flex: 1; // Occupa tutto lo spazio rimanente
-  min-width: 0; // Previene overflow
+  flex: 1;
+  min-width: 0;
+  margin-top: -1rem;
 }
 
-/* ===== RESPONSIVE ===== */
-
-// Tablet (schermi medi)
 @media (max-width: 1024px) {
   .container {
     gap: 15px;
@@ -40,14 +17,13 @@
   }
   
   .sidebar-wrapper {
-    flex: 0 0 240px; // Sidebar leggermente più stretta
+    flex: 0 0 240px;
   }
 }
 
-// Tablet piccolo / Landscape
 @media (max-width: 768px) {
   .container {
-    flex-direction: column; // Sidebar sopra, contenuto sotto
+    flex-direction: column;
     gap: 20px;
     padding: 12px;
   }
@@ -59,10 +35,8 @@
     max-height: none;
     overflow-y: visible;
     
-    // Sidebar orizzontale su mobile
     app-sidebar-indy {
       display: block;
-      // Puoi aggiungere stili per renderla orizzontale
     }
   }
   
@@ -71,11 +45,9 @@
   }
 }
 
-// Telefono piccolo
 @media (max-width: 480px) {
   .container {
     padding: 8px;
     gap: 12px;
   }
-  
 }

@@ -1,29 +1,40 @@
-import { Component, model, signal } from '@angular/core';
+import { Component, input, model } from '@angular/core';
+import { MangaToolbar } from '../../interfaces/manga.interface';
 
 @Component({
   selector: 'app-manga-toolbar',
   standalone: true,
   imports: [],
-  templateUrl: './manga-toolbar.component.html',
+  template: `
+    <div class="manga-top">
+      <div class="stats">
+        @for (stat of stats(); track stat.title) {
+          <div class="stat-card">
+            <i class="bi" [class]="stat.icon"></i>
+
+            <div>
+              <h4>{{ stat.value }}</h4>
+              <span>{{ stat.title }}</span>
+            </div>
+          </div>
+        }
+      </div>
+
+      <div class="toolbar">
+        <div class="search">
+          <i class="bi bi-search"></i>
+          <input
+            type="text"
+            placeholder="Cerca manga, autore, genere..."
+            (input)="searchQuery.set($event.target.value)"
+          />
+        </div>
+      </div>
+    </div>
+  `,
   styleUrl: './manga-toolbar.component.scss',
 })
 export class MangaToolbarComponent {
+  public stats = input<MangaToolbar[]>();
   public searchQuery = model<string>('');
-  public stats = signal([
-    {
-      icon: 'bi-book',
-      value: '256',
-      title: 'Manga disponibili',
-    },
-    {
-      icon: 'bi-grid',
-      value: '12.4K',
-      title: 'Capitoli totali',
-    },
-    {
-      icon: 'bi-people',
-      value: '4.8K',
-      title: 'Utenti lettori',
-    },
-  ]);
 }
