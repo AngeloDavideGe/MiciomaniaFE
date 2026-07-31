@@ -23,3 +23,12 @@ export interface MangaUtente {
   letti: string;
   completati: string;
 }
+
+export interface Canzoni {
+  id: number;
+  nome: string;
+  autore: string;
+  genere: string;
+  copertina: string;
+  path: string;
+}

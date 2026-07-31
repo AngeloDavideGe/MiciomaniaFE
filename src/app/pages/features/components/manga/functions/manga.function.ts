@@ -39,8 +39,8 @@ export function getMangaSidebar(): ISidebarItem[] {
 }
 
 export function getMangaToolbar(
-  manga: string,
-  capitoli: string,
+  manga: number,
+  capitoli: number,
 ): MangaToolbar[] {
   return [
     {

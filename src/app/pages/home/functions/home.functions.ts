@@ -17,7 +17,7 @@ export function getCategorieCard(): iCard[] {
       urlPic: 'assets/images/musica.jpg',
       descrizione: 'Ascolta playlist, album preferiti e scopri nuovi artisti.',
       bottone: 'Vai alla musica',
-      routerLink: '/musica',
+      routerLink: 'feature/canzoni',
       color: 'var(--primary)',
     },
     {
@@ -26,7 +26,7 @@ export function getCategorieCard(): iCard[] {
       descrizione:
         'Tutto il mondo gaming: giochi provati, consigli e preferiti.',
       bottone: 'Scopri giochi',
-      routerLink: '/giochi',
+      routerLink: 'feature/giochi',
       color: 'var(--primary)',
     },
   ];

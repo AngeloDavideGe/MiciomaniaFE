@@ -1,10 +1,11 @@
 import { Component, input, model } from '@angular/core';
 import { MangaToolbar } from '../../interfaces/manga.interface';
+import { AbbreviateNumberPipe } from '../../../../../../../library/pipes/number-format.pipe';
 
 @Component({
   selector: 'app-manga-toolbar',
   standalone: true,
-  imports: [],
+  imports: [AbbreviateNumberPipe],
   template: `
     <div class="manga-top">
       <div class="stats">
@@ -13,7 +14,7 @@ import { MangaToolbar } from '../../interfaces/manga.interface';
             <i class="bi" [class]="stat.icon"></i>
 
             <div>
-              <h4>{{ stat.value }}</h4>
+              <h4>{{ stat.value | abbreviateNumber }}</h4>
               <span>{{ stat.title }}</span>
             </div>
           </div>

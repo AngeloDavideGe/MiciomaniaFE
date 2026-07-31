@@ -10,6 +10,6 @@ export interface IManga {
 
 export interface MangaToolbar {
   icon: string;
-  value: string;
+  value: number;
   title: string;
 }

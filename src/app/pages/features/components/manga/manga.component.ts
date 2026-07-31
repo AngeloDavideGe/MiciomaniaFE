@@ -6,6 +6,7 @@ import {
   Signal,
   signal,
 } from '@angular/core';
+import { effectTimeoutCustom } from '../../../../../library/functions/debounce.function';
 import { handlerFunc } from '../../../../../library/functions/handler.function';
 import { GetFiltriCustom } from '../../../../../library/functions/pagination.function';
 import { iCard } from '../../../../../library/interfaces/card.interface';
@@ -24,10 +25,8 @@ import {
   getMangaTabs,
   getMangaToolbar,
 } from './functions/manga.function';
-import { manga_imports } from './manga.import';
-import { effectTimeoutCustom } from '../../../../../library/functions/debounce.function';
 import { MangaToolbar } from './interfaces/manga.interface';
-import { abbreviateNumberFormat } from '../../../../../library/pipes/number-format.pipe';
+import { manga_imports } from './manga.import';
 
 @Component({
   selector: 'app-auth',
@@ -46,7 +45,7 @@ export class MangaComponent implements OnInit {
   public debaunceQuery = signal<string>('');
   public currentCategoria = signal<string>('ufficiali');
   public currentTabs = signal<boolean | null>(null);
-  public mangaToolbar = signal<MangaToolbar[]>(getMangaToolbar('...', '...'));
+  public mangaToolbar = signal<MangaToolbar[]>(getMangaToolbar(0, 0));
 
   public manga = computed<iCard[]>(() => this.mangaComputed('listaManga'));
   public mangaMicio = computed<iCard[]>(() => this.mangaComputed('micioManga'));
@@ -147,21 +146,14 @@ export class MangaComponent implements OnInit {
   }
 
   private setMangaToolbar(data: AllManga): void {
+    let capitoliTotali: number = 0;
     const mangaDisponibili: number =
       data.listaManga.length + data.micioManga.length;
-
-    let capitoliTotali: number = 0;
 
     data.listaManga.forEach((x: Manga) => (capitoliTotali += x.capitoli));
     data.micioManga.forEach((x: Manga) => (capitoliTotali += x.capitoli));
 
-    this.mangaToolbar.set(
-      getMangaToolbar(
-        abbreviateNumberFormat(mangaDisponibili),
-        abbreviateNumberFormat(capitoliTotali),
-      ),
-    );
-
+    this.mangaToolbar.set(getMangaToolbar(mangaDisponibili, capitoliTotali));
     this.opereService.manga.set(data);
   }
 }
