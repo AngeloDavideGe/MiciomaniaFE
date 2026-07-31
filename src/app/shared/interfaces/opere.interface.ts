@@ -32,3 +32,9 @@ export interface Canzoni {
   copertina: string;
   path: string;
 }
+
+export interface OpereToolbar {
+  icon: string;
+  value: number;
+  title: string;
+}

@@ -7,8 +7,9 @@
     [immagine]="'https://images.unsplash.com/photo-1515879218367-8466d910aaa4'"
   >
     <div half-row>
-      <app-manga-toolbar
+      <app-toolbar-micio
         [stats]="mangaToolbar()"
+        [placeholder]="'Cerca per nome, autore...'"
         [(searchQuery)]="searchQuery"
       />
     </div>

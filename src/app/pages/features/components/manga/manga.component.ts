@@ -18,6 +18,7 @@ import {
   AllManga,
   iManga,
   Manga,
+  OpereToolbar,
 } from '../../../../shared/interfaces/opere.interface';
 import { OpereService } from '../../../../shared/services/opere.service';
 import {
@@ -25,7 +26,6 @@ import {
   getMangaTabs,
   getMangaToolbar,
 } from './functions/manga.function';
-import { MangaToolbar } from './interfaces/manga.interface';
 import { manga_imports } from './manga.import';
 
 @Component({
@@ -45,7 +45,7 @@ export class MangaComponent implements OnInit {
   public debaunceQuery = signal<string>('');
   public currentCategoria = signal<string>('ufficiali');
   public currentTabs = signal<boolean | null>(null);
-  public mangaToolbar = signal<MangaToolbar[]>(getMangaToolbar(0, 0));
+  public mangaToolbar = signal<OpereToolbar[]>(getMangaToolbar(0, 0));
 
   public manga = computed<iCard[]>(() => this.mangaComputed('listaManga'));
   public mangaMicio = computed<iCard[]>(() => this.mangaComputed('micioManga'));

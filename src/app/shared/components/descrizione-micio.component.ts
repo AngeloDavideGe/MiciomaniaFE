@@ -4,6 +4,7 @@ import { ChangeDetectionStrategy, Component, input } from '@angular/core';
   selector: 'app-descrizione-micio',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [],
   template: `
     <div class="descrizione-micio">
       <div class="overlay" [style.background-image]="'url(' + immagine() + ')'">

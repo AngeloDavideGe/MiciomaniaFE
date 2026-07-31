@@ -7,6 +7,7 @@ import {
   OnInit,
   inject,
   model,
+  ChangeDetectionStrategy,
 } from '@angular/core';
 import { ButtonIndyComponent } from '../button/button-indy.component';
 import { iTab } from '../../interfaces/tabs.interface';
@@ -15,6 +16,7 @@ import { iTab } from '../../interfaces/tabs.interface';
   selector: 'app-tabs-indy',
   standalone: true,
   imports: [ButtonIndyComponent],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './tabs-indy.component.html',
   styleUrl: './tabs-indy.component.scss',
 })

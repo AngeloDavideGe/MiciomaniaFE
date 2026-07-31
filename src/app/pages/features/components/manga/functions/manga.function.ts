@@ -1,7 +1,6 @@
 import { ISidebarItem } from '../../../../../../library/interfaces/sidebar.interface';
 import { iTab } from '../../../../../../library/interfaces/tabs.interface';
-import { abbreviateNumberFormat } from '../../../../../../library/pipes/number-format.pipe';
-import { MangaToolbar } from '../interfaces/manga.interface';
+import { OpereToolbar } from '../../../../../shared/interfaces/opere.interface';
 
 export function getMangaTabs(): iTab[] {
   return [
@@ -41,7 +40,7 @@ export function getMangaSidebar(): ISidebarItem[] {
 export function getMangaToolbar(
   manga: number,
   capitoli: number,
-): MangaToolbar[] {
+): OpereToolbar[] {
   return [
     {
       icon: 'bi-book',

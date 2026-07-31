@@ -4,6 +4,7 @@ import { ChangeDetectionStrategy, Component, input } from '@angular/core';
   selector: 'app-container-micio',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [],
   template: `
     <div class="container-micio" [style]="{ background: background() }">
       <ng-content></ng-content>

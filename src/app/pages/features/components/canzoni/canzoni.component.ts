@@ -4,11 +4,12 @@ import { handlerFunc } from '../../../../../library/functions/handler.function';
 import { Canzoni } from '../../../../shared/interfaces/opere.interface';
 import { OpereService } from '../../../../shared/services/opere.service';
 import { iCard } from '../../../../../library/interfaces/card.interface';
+import { canzoni_imports } from './canzoni.import';
 
 @Component({
   selector: 'app-auth',
   standalone: true,
-  imports: [],
+  imports: canzoni_imports,
   templateUrl: './canzoni.component.html',
   styleUrl: './canzoni.component.scss',
 })
