@@ -1,9 +1,16 @@
-import { Component, input, model, output, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  input,
+  model,
+  output,
+} from '@angular/core';
 import { ISidebarItem } from '../../interfaces/sidebar.interface';
 
 @Component({
   selector: 'app-sidebar-indy',
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './sidebar-indy.component.html',
   styleUrl: './sidebar-indy.component.scss',
 })

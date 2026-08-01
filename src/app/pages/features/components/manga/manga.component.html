@@ -18,27 +18,27 @@
       <div class="elemento-centrato p-2">
         <app-tabs-indy [tabs]="tabs" (clickTab)="changeTab($event)" />
       </div>
-      <br />
-      <div class="container">
-        <app-sidebar-indy
-          [titolo]="'Categorie'"
-          [elementi]="categorie"
-          [selezionato]="'ufficiali'"
-          [(selezionato)]="currentCategoria"
-        />
 
-        <div class="content-wrapper">
-          @if (viewSpinner()) {
-            <app-spinner-indy [mt]="'5rem'" />
-          } @else {
-            <app-card-indy
-              [elems]="filtri().elemFilter()"
-              [altezzaImg]="'15rem'"
-            />
-          }
-        </div>
-      </div>
       <br />
+
+      <app-sidebar-indy
+        [titolo]="'Categorie'"
+        [elementi]="categorie"
+        [selezionato]="'ufficiali'"
+        [(selezionato)]="currentCategoria"
+      >
+        @if (viewSpinner()) {
+          <app-spinner-indy [mt]="'5rem'" />
+        } @else {
+          <app-card-indy
+            [elems]="filtri().elemFilter()"
+            [altezzaImg]="'15rem'"
+          />
+        }
+      </app-sidebar-indy>
+
+      <div class="content-wrapper"></div>
     </div>
+    <br />
   </app-descrizione-micio>
 </app-container-micio>

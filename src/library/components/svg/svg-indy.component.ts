@@ -1,4 +1,11 @@
-import { Component, EventEmitter, Input, Output, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+  signal,
+} from '@angular/core';
 import { Mappa } from '../../../app/shared/interfaces/mn.interface';
 import { PathSvgCustom } from '../../interfaces/svg.interface';
 
@@ -6,6 +13,7 @@ import { PathSvgCustom } from '../../interfaces/svg.interface';
   selector: 'app-svg-indy',
   imports: [],
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './svg-indy.component.html',
   styleUrl: './svg-indy.component.scss',
 })

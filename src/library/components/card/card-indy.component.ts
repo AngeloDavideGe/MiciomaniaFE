@@ -49,8 +49,6 @@ export class CardIndyComponent {
 
   public currentButton = model<string | null>(null);
 
-  public clickStopButton = output<void>();
-
   public viewFirstButton = computed(() => {
     if (!this.filtri) return false;
 
@@ -100,25 +98,15 @@ export class CardIndyComponent {
   }
 
   public clickButton(elem: iCard): void {
+    this.currentButton.update((x: string | null) =>
+      x === elem.titolo ? null : (elem.titolo ?? ''),
+    );
+
     if (elem.routerLink) {
       this.router.navigate([elem.routerLink]);
-      return;
+    } else {
+      elem.azione?.();
     }
-
-    elem.azione?.();
-  }
-
-  public clickSongButton(elem: iCard): void {
-    this.clickButton(elem);
-
-    this.currentButton.update((x) =>
-      x === elem.titolo ? null : (elem.titolo ?? null),
-    );
-  }
-
-  public stopFunc(): void {
-    this.currentButton.set(null);
-    this.clickStopButton.emit();
   }
 }
 

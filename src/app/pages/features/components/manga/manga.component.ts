@@ -1,6 +1,7 @@
 import {
   Component,
   computed,
+  effect,
   inject,
   OnInit,
   Signal,
@@ -72,13 +73,15 @@ export class MangaComponent implements OnInit {
     effectTimeoutCustom(this.searchQuery, (value: string) =>
       this.debaunceQuery.set(value),
     );
+
+    effect(() => this.setMangaToolbar(this.opereService.manga()));
   }
 
   ngOnInit(): void {
     handlerFunc<AllManga>({
       skipCall: this.opereService.mangaLoaded,
       callHttp: () => this.opereService.getAllManga('indykun'),
-      nextCall: (data: AllManga) => this.setMangaToolbar(data),
+      nextCall: (data: AllManga) => this.opereService.manga.set(data),
       errorCall: () => (this.opereService.mangaLoaded = false),
     });
 
@@ -88,22 +91,20 @@ export class MangaComponent implements OnInit {
   private mangaComputed(key: keyof iManga): iCard[] {
     const manga: AllManga | null = this.opereService.manga();
 
-    if (manga) {
-      return manga[key].map((x: Manga) => {
-        const card: iCard = {
-          titolo: x.nome,
-          urlPic: x.copertina,
-          descrizione: x.genere,
-          bottone: 'Leggi',
-          tabFiltro: x.completato,
-          azione: () => {},
-        };
+    if (!manga) return [];
 
-        return card;
-      });
-    } else {
-      return [];
-    }
+    return manga[key].map((x: Manga) => {
+      const card: iCard = {
+        titolo: x.nome,
+        urlPic: x.copertina,
+        descrizione: x.genere,
+        bottone: 'Leggi',
+        tabFiltro: x.completato,
+        azione: () => {},
+      };
+
+      return card;
+    });
   }
 
   private mangaFiltri(
@@ -145,7 +146,9 @@ export class MangaComponent implements OnInit {
     }
   }
 
-  private setMangaToolbar(data: AllManga): void {
+  private setMangaToolbar(data: AllManga | null): void {
+    if (!data) return;
+
     let capitoliTotali: number = 0;
     const mangaDisponibili: number =
       data.listaManga.length + data.micioManga.length;
@@ -154,6 +157,5 @@ export class MangaComponent implements OnInit {
     data.micioManga.forEach((x: Manga) => (capitoliTotali += x.capitoli));
 
     this.mangaToolbar.set(getMangaToolbar(mangaDisponibili, capitoliTotali));
-    this.opereService.manga.set(data);
   }
 }
