@@ -1,23 +1,28 @@
 import {
   Component,
   computed,
-  effect,
   inject,
   OnInit,
+  Signal,
   signal,
 } from '@angular/core';
 import { effectTimeoutCustom } from '../../../../../library/functions/debounce.function';
 import { handlerFunc } from '../../../../../library/functions/handler.function';
+import { GetFiltriCustom } from '../../../../../library/functions/pagination.function';
+import { iCard } from '../../../../../library/interfaces/card.interface';
+import { FiltriInterface } from '../../../../../library/interfaces/pagination.interface';
 import {
   Canzoni,
+  CanzoniGet,
   OpereToolbar,
 } from '../../../../shared/interfaces/opere.interface';
-import { OpereService } from '../../../../shared/services/opere.service';
-import { iCard } from '../../../../../library/interfaces/card.interface';
-import { canzoni_imports } from './canzoni.import';
-import { getCanzoniToolbar } from './functions/canzoni.function';
-import { GetFiltriCustom } from '../../../../../library/functions/pagination.function';
 import { AudioService } from '../../../../shared/services/audio.service';
+import { OpereService } from '../../../../shared/services/opere.service';
+import { canzoni_imports } from './canzoni.import';
+import {
+  getCanzoniSidebar,
+  getCanzoniToolbar,
+} from './functions/canzoni.function';
 
 @Component({
   selector: 'app-auth',
@@ -30,17 +35,23 @@ export class CanzoniComponent implements OnInit {
   private opereService = inject(OpereService);
   private audioService = inject(AudioService);
 
-  private currentButton: string | null = null;
+  public readonly categorie = getCanzoniSidebar();
+
+  public currentButton: string | null = null;
 
   public searchQuery = signal<string>('');
-  public debaunceQuery = signal<string>('');
-  public currentCanzone = signal<string | null>(null);
+  public debounceQuery = signal<string>('');
+  public currentCategoria = signal<string>('tutte');
 
   public canzoniToolbar = computed<OpereToolbar[]>(() => {
     const canzoni: Canzoni[] = this.opereService.canzoni();
 
     let cantanti: Record<string, boolean> = {};
-    canzoni.forEach((canzoni: Canzoni) => (cantanti[canzoni.autore] = true));
+
+    canzoni.forEach((canzoni: Canzoni) => {
+      cantanti[canzoni.autore] = true;
+    });
+
     const volumi: number = Object.values(cantanti).length;
 
     return getCanzoniToolbar(volumi, canzoni.length);
@@ -49,57 +60,95 @@ export class CanzoniComponent implements OnInit {
   public canzoni = computed<iCard[]>(() => {
     const canzoni: Canzoni[] = this.opereService.canzoni();
 
-    const cards: iCard[] = canzoni.map((canzone: Canzoni) => {
-      const card: iCard = {
-        titolo: canzone.nome,
-        urlPic: canzone.copertina,
-        descrizione: canzone.genere,
-        bottone: 'Ascolta',
-        azione: () => {
-          if (this.currentButton && this.currentButton == canzone.nome) {
-            this.audioService.stopTrack();
-          } else {
-            this.audioService.playTrack(canzone.path.replace('dl=0', 'dl=1'));
-          }
-        },
-      };
-
-      return card;
-    });
-
-    return cards;
+    return canzoni.map((canzone: Canzoni) => this.mapCanzoneToCard(canzone));
   });
 
-  public filtriCanzoni = GetFiltriCustom<iCard, null>({
-    elemTable: this.canzoni,
-    select: [
-      {
-        key: 'titolo',
-        query: this.debaunceQuery,
-      },
-      {
-        key: 'descrizione',
-        query: this.debaunceQuery,
-      },
-    ],
+  public canzoniPreferite = computed<iCard[]>(() => {
+    const canzoni: Canzoni[] = this.opereService.canzoni();
+    const preferiti: string | null | undefined =
+      this.opereService.mangaUtente()?.canzonimicio;
+
+    if (!preferiti || canzoni.length === 0) return [];
+
+    let recordPreferiti: Record<string, boolean> = {};
+    let canzoniPreferite: Canzoni[] = [];
+
+    preferiti.split(',').forEach((id: string) => {
+      recordPreferiti[id] = true;
+    });
+
+    canzoni.forEach((canzone: Canzoni) => {
+      if (recordPreferiti[canzone.id.toString()]) {
+        canzoniPreferite.push(canzone);
+      }
+    });
+
+    return canzoniPreferite.map((canzone: Canzoni) =>
+      this.mapCanzoneToCard(canzone),
+    );
+  });
+
+  public filtriCanzoni = this.getFiltriCanzoni(this.canzoni);
+  public filtriCanzoniPreferite = this.getFiltriCanzoni(this.canzoniPreferite);
+
+  public filtri = computed<FiltriInterface<iCard>>(() => {
+    switch (this.currentCategoria()) {
+      case 'preferite':
+        return this.filtriCanzoniPreferite;
+      default:
+        return this.filtriCanzoni;
+    }
   });
 
   constructor() {
     effectTimeoutCustom(this.searchQuery, (value: string) =>
-      this.debaunceQuery.set(value),
+      this.debounceQuery.set(value),
     );
-
-    effect(() => (this.currentButton = this.currentCanzone()));
   }
 
   ngOnInit(): void {
-    handlerFunc<Canzoni[]>({
+    handlerFunc<CanzoniGet>({
       skipCall: this.opereService.canzoniLoaded,
-      callHttp: () => this.opereService.getAllCanzoni(),
-      nextCall: (data: Canzoni[]) => this.opereService.canzoni.set(data),
+      callHttp: () => this.opereService.getAllCanzoni('indykun'),
+      nextCall: (data: CanzoniGet) => {
+        this.opereService.canzoni.set(data.canzoni);
+        this.opereService.mangaUtente.set(data.mangaUtente);
+      },
       errorCall: () => (this.opereService.canzoniLoaded = false),
     });
 
     this.opereService.canzoniLoaded = true;
+  }
+
+  private getFiltriCanzoni(canzoni: Signal<iCard[]>): FiltriInterface<iCard> {
+    return GetFiltriCustom<iCard, null>({
+      elemTable: canzoni,
+      select: [
+        {
+          key: 'titolo',
+          query: this.debounceQuery,
+        },
+        {
+          key: 'descrizione',
+          query: this.debounceQuery,
+        },
+      ],
+    });
+  }
+
+  private mapCanzoneToCard(canzone: Canzoni): iCard {
+    return {
+      titolo: canzone.nome,
+      urlPic: canzone.copertina,
+      descrizione: canzone.genere,
+      bottone: 'Ascolta',
+      azione: () => {
+        if (this.currentButton && this.currentButton == canzone.nome) {
+          this.audioService.stopTrack();
+        } else {
+          this.audioService.playTrack(canzone.path.replace('dl=0', 'dl=1'));
+        }
+      },
+    };
   }
 }

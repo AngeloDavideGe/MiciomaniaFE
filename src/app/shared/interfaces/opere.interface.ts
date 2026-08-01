@@ -1,4 +1,10 @@
-export interface AllManga extends iManga {
+export interface MangaGet {
+  manga: iManga;
+  mangaUtente: MangaUtente;
+}
+
+export interface CanzoniGet {
+  canzoni: Canzoni[];
   mangaUtente: MangaUtente;
 }
 
@@ -19,9 +25,9 @@ export interface Manga {
 }
 
 export interface MangaUtente {
-  preferiti: string;
-  letti: string;
-  completati: string;
+  manga: string | null;
+  mangamicio: string | null;
+  canzonimicio: string | null;
 }
 
 export interface Canzoni {

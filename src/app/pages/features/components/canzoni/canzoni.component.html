@@ -17,12 +17,16 @@
     <div all-row>
       <br />
 
-      <app-sidebar-indy [titolo]="'Categorie'" [elementi]="[]">
+      <app-sidebar-indy
+        [titolo]="'Categorie'"
+        [elementi]="categorie"
+        [(selezionato)]="currentCategoria"
+      >
         @if (canzoni().length > 0) {
           <app-card-indy
-            [elems]="filtriCanzoni.elemFilter()"
+            [elems]="filtri().elemFilter()"
             [altezzaImg]="'15rem'"
-            [(currentButton)]="currentCanzone"
+            (changeButton)="currentButton = $event"
           />
         } @else {
           <app-spinner-indy [mt]="'5rem'" />

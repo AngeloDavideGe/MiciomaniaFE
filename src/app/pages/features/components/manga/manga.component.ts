@@ -16,9 +16,9 @@ import {
   InputFiltri,
 } from '../../../../../library/interfaces/pagination.interface';
 import {
-  AllManga,
   iManga,
   Manga,
+  MangaGet,
   OpereToolbar,
 } from '../../../../shared/interfaces/opere.interface';
 import { OpereService } from '../../../../shared/services/opere.service';
@@ -43,7 +43,7 @@ export class MangaComponent implements OnInit {
   public readonly tabs = getMangaTabs();
 
   public searchQuery = signal<string>('');
-  public debaunceQuery = signal<string>('');
+  public debounceQuery = signal<string>('');
   public currentCategoria = signal<string>('ufficiali');
   public currentTabs = signal<boolean | null>(null);
   public mangaToolbar = signal<OpereToolbar[]>(getMangaToolbar(0, 0));
@@ -55,6 +55,7 @@ export class MangaComponent implements OnInit {
   public filtriManga = GetFiltriCustom<iCard, boolean | null>(
     this.mangaFiltri(this.manga),
   );
+
   public filtriMicio = GetFiltriCustom<iCard, boolean | null>(
     this.mangaFiltri(this.mangaMicio),
   );
@@ -71,17 +72,20 @@ export class MangaComponent implements OnInit {
 
   constructor() {
     effectTimeoutCustom(this.searchQuery, (value: string) =>
-      this.debaunceQuery.set(value),
+      this.debounceQuery.set(value),
     );
 
     effect(() => this.setMangaToolbar(this.opereService.manga()));
   }
 
   ngOnInit(): void {
-    handlerFunc<AllManga>({
+    handlerFunc<MangaGet>({
       skipCall: this.opereService.mangaLoaded,
-      callHttp: () => this.opereService.getAllManga('indykun'),
-      nextCall: (data: AllManga) => this.opereService.manga.set(data),
+      callHttp: () => this.opereService.getManga('indykun'),
+      nextCall: (data: MangaGet) => {
+        this.opereService.manga.set(data.manga);
+        this.opereService.mangaUtente.set(data.mangaUtente);
+      },
       errorCall: () => (this.opereService.mangaLoaded = false),
     });
 
@@ -89,7 +93,7 @@ export class MangaComponent implements OnInit {
   }
 
   private mangaComputed(key: keyof iManga): iCard[] {
-    const manga: AllManga | null = this.opereService.manga();
+    const manga: iManga | null = this.opereService.manga();
 
     if (!manga) return [];
 
@@ -115,11 +119,11 @@ export class MangaComponent implements OnInit {
       select: [
         {
           key: 'titolo',
-          query: this.debaunceQuery,
+          query: this.debounceQuery,
         },
         {
           key: 'descrizione',
-          query: this.debaunceQuery,
+          query: this.debounceQuery,
         },
       ],
       tabs: {
@@ -146,7 +150,7 @@ export class MangaComponent implements OnInit {
     }
   }
 
-  private setMangaToolbar(data: AllManga | null): void {
+  private setMangaToolbar(data: iManga | null): void {
     if (!data) return;
 
     let capitoliTotali: number = 0;

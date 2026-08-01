@@ -37,6 +37,7 @@ export class CardIndyComponent {
   public filtri!: FiltriInterface<iCard>;
 
   public elemForPage = signal<number>(0);
+
   public elems = input<iCard[] | null>(null);
   public singleElem = input<iCard | null>(null);
   public lunghezzaCard = input<string>('20rem');
@@ -47,6 +48,7 @@ export class CardIndyComponent {
   public tipoSlice = input<TypePagination>('all');
   public arrayPags = input<RaggioPage[]>(defaultArrayPags);
 
+  public changeButton = output<string | null>();
   public currentButton = model<string | null>(null);
 
   public viewFirstButton = computed(() => {
@@ -101,6 +103,8 @@ export class CardIndyComponent {
     this.currentButton.update((x: string | null) =>
       x === elem.titolo ? null : (elem.titolo ?? ''),
     );
+
+    this.changeButton.emit(this.currentButton());
 
     if (elem.routerLink) {
       this.router.navigate([elem.routerLink]);

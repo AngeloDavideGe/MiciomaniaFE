@@ -1,3 +1,4 @@
+import { ISidebarItem } from '../../../../../../library/interfaces/sidebar.interface';
 import { OpereToolbar } from '../../../../../shared/interfaces/opere.interface';
 
 export function getCanzoniToolbar(
@@ -14,6 +15,21 @@ export function getCanzoniToolbar(
       icon: 'bi-grid',
       value: canzoni,
       title: 'Canozni totali',
+    },
+  ];
+}
+
+export function getCanzoniSidebar(): ISidebarItem[] {
+  return [
+    {
+      id: 'tutte',
+      nome: 'Tutte',
+      icona: 'bi-grid',
+    },
+    {
+      id: 'preferite',
+      nome: 'Preferite',
+      icona: 'bi-play-circle',
     },
   ];
 }
