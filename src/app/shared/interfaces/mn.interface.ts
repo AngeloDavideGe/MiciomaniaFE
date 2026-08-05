@@ -23,3 +23,17 @@ export interface Conquiste {
   territori: Record<string, Mappa>;
   muscoli: Record<string, Mappa>;
 }
+
+export interface IFooter {
+  brand_name: string;
+  brand_description: string;
+  quick_links: ILink[];
+  info_links: ILink[];
+  support_links: ILink[];
+  copyright_text: string;
+}
+
+export interface ILink {
+  url: string;
+  label: string;
+}

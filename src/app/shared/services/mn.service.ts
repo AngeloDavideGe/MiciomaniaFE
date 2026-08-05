@@ -1,6 +1,6 @@
 import { Injectable, signal } from '@angular/core';
 import { BaseService } from '../../../library/services/base.service';
-import { Social, Conquiste } from '../interfaces/mn.interface';
+import { Social, Conquiste, IFooter } from '../interfaces/mn.interface';
 import { forkJoin, Observable } from 'rxjs';
 import { MN } from '../interfaces/squadre.interface';
 
@@ -11,9 +11,12 @@ export class MNService extends BaseService {
   public social = signal<Social[]>([]);
   public mn = signal<MN[]>([]);
   public conquiste = signal<Conquiste | null>(null);
+  public footer = signal<IFooter | null>(null);
 
   public socialLoaded: boolean = false;
-  public mneConquisteLoaded: boolean = false;
+  public mnLoaded: boolean = false;
+  public conquisteLoaded: boolean = false;
+  public footerLoaded: boolean = false;
 
   constructor() {
     super('PY');
@@ -23,12 +26,15 @@ export class MNService extends BaseService {
     return this.getCustom<Social[]>('squadre/get_social_links');
   }
 
-  getMNeConquiste(): Observable<{ mn: MN[]; conquiste: Conquiste }> {
-    return forkJoin({
-      mn: this.getCustom<MN[]>('squadre/get_mn'),
-      conquiste: this.postCustom<Conquiste>(
-        'squadre/get_territori_conquistati',
-      ),
-    });
+  getFooter(): Observable<IFooter> {
+    return this.getCustom<IFooter>('squadre/get_footer');
+  }
+
+  getMN(): Observable<MN[]> {
+    return this.getCustom<MN[]>('squadre/get_mn');
+  }
+
+  getConquiste(): Observable<Conquiste> {
+    return this.postCustom<Conquiste>('squadre/get_territori_conquistati');
   }
 }
