@@ -16,13 +16,13 @@ import {
   CanzoniGet,
   OpereToolbar,
 } from '../../../../shared/interfaces/opere.interface';
-import { AudioService } from '../../../../shared/services/audio.service';
 import { OpereService } from '../../../../shared/services/opere.service';
 import { canzoni_imports } from './canzoni.import';
 import {
   getCanzoniSidebar,
   getCanzoniToolbar,
 } from './functions/canzoni.function';
+import { AudioService } from '../../../../../library/dialogs/audio.service';
 
 @Component({
   selector: 'app-auth',
@@ -38,6 +38,7 @@ export class CanzoniComponent implements OnInit {
   public readonly categorie = getCanzoniSidebar();
 
   public currentButton: string | null = null;
+  public currentButtonSignal = signal<string | null>(null);
 
   public searchQuery = signal<string>('');
   public debounceQuery = signal<string>('');
@@ -45,7 +46,6 @@ export class CanzoniComponent implements OnInit {
 
   public canzoniToolbar = computed<OpereToolbar[]>(() => {
     const canzoni: Canzoni[] = this.opereService.canzoni();
-
     let cantanti: Record<string, boolean> = {};
 
     canzoni.forEach((canzoni: Canzoni) => {
@@ -53,13 +53,11 @@ export class CanzoniComponent implements OnInit {
     });
 
     const volumi: number = Object.values(cantanti).length;
-
     return getCanzoniToolbar(volumi, canzoni.length);
   });
 
   public canzoni = computed<iCard[]>(() => {
     const canzoni: Canzoni[] = this.opereService.canzoni();
-
     return canzoni.map((canzone: Canzoni) => this.mapCanzoneToCard(canzone));
   });
 
@@ -144,7 +142,10 @@ export class CanzoniComponent implements OnInit {
         if (this.currentButton && this.currentButton == canzone.nome) {
           this.audioService.stopTrack();
         } else {
-          this.audioService.playTrack(canzone.path.replace('dl=0', 'dl=1'));
+          this.audioService.playTrack(
+            canzone.path.replace('dl=0', 'dl=1'),
+            () => this.currentButtonSignal.set(null),
+          );
         }
       },
     };

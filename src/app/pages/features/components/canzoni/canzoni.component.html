@@ -27,6 +27,7 @@
             [elems]="filtri().elemFilter()"
             [altezzaImg]="'15rem'"
             (changeButton)="currentButton = $event"
+            [(currentButton)]="currentButtonSignal"
           />
         } @else {
           <app-spinner-indy [mt]="'5rem'" />

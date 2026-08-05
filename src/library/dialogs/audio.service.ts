@@ -9,7 +9,7 @@ export class AudioService {
   public currentTrack = signal<string | null>(null);
   public isPlaying = signal<boolean>(false);
 
-  public playTrack(url: string) {
+  public playTrack(url: string, endedCallback?: () => void) {
     this.stopTrack();
 
     this.audio = new Audio(url);
@@ -27,6 +27,7 @@ export class AudioService {
       this.currentTrack.set(null);
       this.isPlaying.set(false);
       this.audio = null;
+      endedCallback?.();
     };
   }
 

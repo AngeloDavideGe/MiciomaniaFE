@@ -104,13 +104,13 @@ export class CardIndyComponent {
       x === elem.titolo ? null : (elem.titolo ?? ''),
     );
 
-    this.changeButton.emit(this.currentButton());
-
     if (elem.routerLink) {
       this.router.navigate([elem.routerLink]);
     } else {
       elem.azione?.();
     }
+
+    this.changeButton.emit(this.currentButton());
   }
 }
 
