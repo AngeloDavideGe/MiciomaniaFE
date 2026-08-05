@@ -88,15 +88,13 @@ export class CanzoniComponent implements OnInit {
     );
   });
 
-  public filtriCanzoni = this.getFiltriCanzoni(this.canzoni);
-  public filtriCanzoniPreferite = this.getFiltriCanzoni(this.canzoniPreferite);
-
   public filtri = computed<FiltriInterface<iCard>>(() => {
-    switch (this.currentCategoria()) {
-      case 'preferite':
-        return this.filtriCanzoniPreferite;
-      default:
-        return this.filtriCanzoni;
+    const categoria: string = this.currentCategoria();
+
+    if (categoria === 'preferite') {
+      return this.getFiltriCanzoni(this.canzoniPreferite);
+    } else {
+      return this.getFiltriCanzoni(this.canzoni);
     }
   });
 

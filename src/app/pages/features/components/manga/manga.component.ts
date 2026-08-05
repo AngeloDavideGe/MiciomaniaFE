@@ -52,43 +52,33 @@ export class MangaComponent implements OnInit {
   public currentTabs = signal<boolean | null>(null);
   public mangaToolbar = signal<OpereToolbar[]>(getMangaToolbar(0, 0));
 
+  public viewSpinner = computed<boolean>(() => !this.opereService.manga());
+
   public manga = computed<iCard[]>(() => this.mangaComputed('listaManga'));
   public mangaMicio = computed<iCard[]>(() => this.mangaComputed('micioManga'));
+
   public mangaPreferiti = computed<iCard[]>(() =>
     this.mangaPreferitiComputed('listaManga', 'manga'),
   );
   public mangaMicioPreferiti = computed<iCard[]>(() =>
     this.mangaPreferitiComputed('micioManga', 'mangamicio'),
   );
-  public viewSpinner = computed<boolean>(() => !this.opereService.manga());
-
-  public filtriManga = GetFiltriCustom<iCard, boolean | null>(
-    this.mangaFiltri(this.manga),
-  );
-  public filtriMicio = GetFiltriCustom<iCard, boolean | null>(
-    this.mangaFiltri(this.mangaMicio),
-  );
-  public filtriMangaPreferiti = GetFiltriCustom<iCard, boolean | null>(
-    this.mangaFiltri(this.mangaPreferiti),
-  );
-  public filtriMicioPreferiti = GetFiltriCustom<iCard, boolean | null>(
-    this.mangaFiltri(this.mangaMicioPreferiti),
-  );
 
   public filtri = computed<FiltriInterface<iCard>>(() => {
     const categoria: string = this.currentCategoria();
+    const sottoCategoria: string = this.currentSottoCategoria();
 
     if (categoria == 'ufficiali') {
-      if (this.currentSottoCategoria() == 'preferiti') {
-        return this.filtriMangaPreferiti;
+      if (sottoCategoria == 'preferiti') {
+        return this.mangaFiltri(this.mangaPreferiti);
       } else {
-        return this.filtriManga;
+        return this.mangaFiltri(this.manga);
       }
     } else {
-      if (this.currentSottoCategoria() == 'preferiti') {
-        return this.filtriMicioPreferiti;
+      if (sottoCategoria == 'preferiti') {
+        return this.mangaFiltri(this.mangaMicioPreferiti);
       } else {
-        return this.filtriMicio;
+        return this.mangaFiltri(this.mangaMicio);
       }
     }
   });
@@ -171,10 +161,8 @@ export class MangaComponent implements OnInit {
     });
   }
 
-  private mangaFiltri(
-    manga: Signal<iCard[]>,
-  ): InputFiltri<iCard, boolean | null> {
-    return {
+  private mangaFiltri(manga: Signal<iCard[]>): FiltriInterface<iCard> {
+    return GetFiltriCustom<iCard, boolean | null>({
       elemTable: manga,
       select: [
         {
@@ -190,7 +178,7 @@ export class MangaComponent implements OnInit {
         key: 'tabFiltro',
         query: this.currentTabs,
       },
-    };
+    });
   }
 
   public changeTab(value: string): void {

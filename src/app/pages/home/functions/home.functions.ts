@@ -5,7 +5,7 @@ export function getCategorieCard(): iCard[] {
   return [
     {
       titolo: 'Manga',
-      urlPic: 'assets/images/manga.jpg',
+      urlPic: 'https://i.postimg.cc/N0MRzTJn/Manga-Card.png',
       descrizione:
         'Scopri la mia collezione di manga, recensioni, letture in corso e consigli.',
       bottone: 'Esplora manga',
@@ -14,7 +14,7 @@ export function getCategorieCard(): iCard[] {
     },
     {
       titolo: 'Musica',
-      urlPic: 'assets/images/musica.jpg',
+      urlPic: 'https://i.postimg.cc/6QkTfGD4/Canzoni-Card.png',
       descrizione: 'Ascolta playlist, album preferiti e scopri nuovi artisti.',
       bottone: 'Vai alla musica',
       routerLink: 'feature/canzoni',
@@ -22,7 +22,7 @@ export function getCategorieCard(): iCard[] {
     },
     {
       titolo: 'Giochi',
-      urlPic: 'assets/images/giochi.jpg',
+      urlPic: 'https://i.postimg.cc/Y0w3Z0mW/Giochi-Card.png',
       descrizione:
         'Tutto il mondo gaming: giochi provati, consigli e preferiti.',
       bottone: 'Scopri giochi',
