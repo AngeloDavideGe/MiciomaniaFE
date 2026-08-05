@@ -1,5 +1,5 @@
-<div class="container">
-  <div class="sidebar-wrapper">
+<div class="container" style="padding: 0">
+  <div class="sidebar-wrapper" [style.width]="width()">
     <div class="sidebar-card">
       <h3>{{ titolo() }}</h3>
 
@@ -16,6 +16,10 @@
           </button>
         }
       </div>
+    </div>
+
+    <div class="down-content-wrapper">
+      <ng-content select="[down-content]"></ng-content>
     </div>
   </div>
 

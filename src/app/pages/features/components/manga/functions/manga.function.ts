@@ -37,6 +37,21 @@ export function getMangaSidebar(): ISidebarItem[] {
   ];
 }
 
+export function getMangaSidebarSub(): ISidebarItem[] {
+  return [
+    {
+      id: 'tutti',
+      nome: 'Tutti',
+      icona: 'bi-grid',
+    },
+    {
+      id: 'preferiti',
+      nome: 'Preferiti',
+      icona: 'bi-heart',
+    },
+  ];
+}
+
 export function getMangaToolbar(
   manga: number,
   capitoli: number,

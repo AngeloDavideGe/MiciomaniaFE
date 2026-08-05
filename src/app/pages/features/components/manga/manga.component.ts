@@ -19,11 +19,13 @@ import {
   iManga,
   Manga,
   MangaGet,
+  MangaUtente,
   OpereToolbar,
 } from '../../../../shared/interfaces/opere.interface';
 import { OpereService } from '../../../../shared/services/opere.service';
 import {
   getMangaSidebar,
+  getMangaSidebarSub,
   getMangaTabs,
   getMangaToolbar,
 } from './functions/manga.function';
@@ -40,33 +42,54 @@ export class MangaComponent implements OnInit {
   private opereService = inject(OpereService);
 
   public readonly categorie = getMangaSidebar();
+  public readonly sottoCategorie = getMangaSidebarSub();
   public readonly tabs = getMangaTabs();
 
   public searchQuery = signal<string>('');
   public debounceQuery = signal<string>('');
   public currentCategoria = signal<string>('ufficiali');
+  public currentSottoCategoria = signal<string>('tutti');
   public currentTabs = signal<boolean | null>(null);
   public mangaToolbar = signal<OpereToolbar[]>(getMangaToolbar(0, 0));
 
   public manga = computed<iCard[]>(() => this.mangaComputed('listaManga'));
   public mangaMicio = computed<iCard[]>(() => this.mangaComputed('micioManga'));
+  public mangaPreferiti = computed<iCard[]>(() =>
+    this.mangaPreferitiComputed('listaManga', 'manga'),
+  );
+  public mangaMicioPreferiti = computed<iCard[]>(() =>
+    this.mangaPreferitiComputed('micioManga', 'mangamicio'),
+  );
   public viewSpinner = computed<boolean>(() => !this.opereService.manga());
 
   public filtriManga = GetFiltriCustom<iCard, boolean | null>(
     this.mangaFiltri(this.manga),
   );
-
   public filtriMicio = GetFiltriCustom<iCard, boolean | null>(
     this.mangaFiltri(this.mangaMicio),
+  );
+  public filtriMangaPreferiti = GetFiltriCustom<iCard, boolean | null>(
+    this.mangaFiltri(this.mangaPreferiti),
+  );
+  public filtriMicioPreferiti = GetFiltriCustom<iCard, boolean | null>(
+    this.mangaFiltri(this.mangaMicioPreferiti),
   );
 
   public filtri = computed<FiltriInterface<iCard>>(() => {
     const categoria: string = this.currentCategoria();
 
     if (categoria == 'ufficiali') {
-      return this.filtriManga;
+      if (this.currentSottoCategoria() == 'preferiti') {
+        return this.filtriMangaPreferiti;
+      } else {
+        return this.filtriManga;
+      }
     } else {
-      return this.filtriMicio;
+      if (this.currentSottoCategoria() == 'preferiti') {
+        return this.filtriMicioPreferiti;
+      } else {
+        return this.filtriMicio;
+      }
     }
   });
 
@@ -98,6 +121,43 @@ export class MangaComponent implements OnInit {
     if (!manga) return [];
 
     return manga[key].map((x: Manga) => {
+      const card: iCard = {
+        titolo: x.nome,
+        urlPic: x.copertina,
+        descrizione: x.genere,
+        bottone: 'Leggi',
+        tabFiltro: x.completato,
+        azione: () => {},
+      };
+
+      return card;
+    });
+  }
+
+  private mangaPreferitiComputed(
+    key: keyof iManga,
+    preferitiKey: keyof MangaUtente,
+  ): iCard[] {
+    const manga: iManga | null = this.opereService.manga();
+    const preferiti: string | null | undefined =
+      this.opereService.mangaUtente()?.[preferitiKey];
+
+    if (!preferiti || !manga) return [];
+
+    let recordPreferiti: Record<string, boolean> = {};
+    let mangaPreferite: Manga[] = [];
+
+    preferiti.split(',').forEach((id: string) => {
+      recordPreferiti[id] = true;
+    });
+
+    manga[key].forEach((manga: Manga) => {
+      if (recordPreferiti[manga.id.toString()]) {
+        mangaPreferite.push(manga);
+      }
+    });
+
+    return mangaPreferite.map((x: Manga) => {
       const card: iCard = {
         titolo: x.nome,
         urlPic: x.copertina,

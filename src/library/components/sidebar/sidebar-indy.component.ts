@@ -17,6 +17,7 @@ import { ISidebarItem } from '../../interfaces/sidebar.interface';
 export class SidebarIndyComponent {
   public titolo = input.required<string>();
   public elementi = input.required<ISidebarItem[]>();
+  public width = input<string>('auto');
 
   public selezionato = model<string>();
   public selezionatChange = output<string>();

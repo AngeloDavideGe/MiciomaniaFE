@@ -26,6 +26,15 @@
         [elementi]="categorie"
         [(selezionato)]="currentCategoria"
       >
+        <div down-content>
+          <app-sidebar-indy
+            [width]="'100%'"
+            [titolo]="'Sottocategorie'"
+            [elementi]="sottoCategorie"
+            [(selezionato)]="currentSottoCategoria"
+          />
+        </div>
+
         @if (viewSpinner()) {
           <app-spinner-indy [mt]="'5rem'" />
         } @else {
