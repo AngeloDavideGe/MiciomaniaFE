@@ -11,10 +11,7 @@ import { effectTimeoutCustom } from '../../../../../library/functions/debounce.f
 import { handlerFunc } from '../../../../../library/functions/handler.function';
 import { GetFiltriCustom } from '../../../../../library/functions/pagination.function';
 import { iCard } from '../../../../../library/interfaces/card.interface';
-import {
-  FiltriInterface,
-  InputFiltri,
-} from '../../../../../library/interfaces/pagination.interface';
+import { FiltriInterface } from '../../../../../library/interfaces/pagination.interface';
 import {
   iManga,
   Manga,
@@ -24,6 +21,7 @@ import {
 } from '../../../../shared/interfaces/opere.interface';
 import { OpereService } from '../../../../shared/services/opere.service';
 import {
+  defaultMangaArrayPags,
   getMangaSidebar,
   getMangaSidebarSub,
   getMangaTabs,
@@ -44,6 +42,7 @@ export class MangaComponent implements OnInit {
   public readonly categorie = getMangaSidebar();
   public readonly sottoCategorie = getMangaSidebarSub();
   public readonly tabs = getMangaTabs();
+  public readonly arrayRaggi = defaultMangaArrayPags();
 
   public searchQuery = signal<string>('');
   public debounceQuery = signal<string>('');

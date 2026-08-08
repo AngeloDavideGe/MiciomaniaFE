@@ -3,6 +3,7 @@ import {
   Component,
   computed,
   HostListener,
+  input,
   Input,
   signal,
 } from '@angular/core';
@@ -24,16 +25,16 @@ import {
   styleUrl: './pagination-indy.component.scss',
 })
 export class PaginazioneIndyComponent<T> {
-  @Input() filtri!: FiltriInterface<T>;
-  @Input() tipo: TipoPaginazione = 'multiplo';
-  @Input() dataTableHttp: DataTableHttp<T> | null = null;
-  @Input() arrayRaggi: RaggioPage[] = [{ width: Infinity, raggio: 2 }];
+  public filtri = input.required<FiltriInterface<T>>();
+  public tipo = input<TipoPaginazione>('multiplo');
+  public dataTableHttp = input<DataTableHttp<T> | null>(null);
+  public arrayRaggi = input<RaggioPage[]>([{ width: Infinity, raggio: 2 }]);
 
   private raggioPage = signal<number>(this.getRaggioPage());
 
   public arrayPage = computed<number[]>(() => {
-    const totalPageValue: number = this.filtri.totalPage();
-    const currentPages: number = this.filtri.currentPage();
+    const totalPageValue: number = this.filtri().totalPage();
+    const currentPages: number = this.filtri().currentPage();
     const raggioPage: number = this.raggioPage();
 
     const start: number = Math.max(1, currentPages - raggioPage);
@@ -44,7 +45,7 @@ export class PaginazioneIndyComponent<T> {
 
   public othersPage = computed<OtherPage>(() => {
     const arrayPage: number[] = this.arrayPage();
-    const totalPage: number = this.filtri.totalPage();
+    const totalPage: number = this.filtri().totalPage();
 
     return {
       startNumber: arrayPage[0] > 1,
@@ -60,8 +61,9 @@ export class PaginazioneIndyComponent<T> {
 
   private getRaggioPage(): number {
     const width: number = window.innerWidth;
+    const arrayRaggi: RaggioPage[] = this.arrayRaggi();
 
-    const raggioConfig: RaggioPage | undefined = this.arrayRaggi.find(
+    const raggioConfig: RaggioPage | undefined = arrayRaggi.find(
       (config: RaggioPage) => width <= config.width,
     );
 

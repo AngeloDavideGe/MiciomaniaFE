@@ -1,3 +1,4 @@
+import { RaggioPage } from '../../../../../../library/interfaces/pagination.interface';
 import { ISidebarItem } from '../../../../../../library/interfaces/sidebar.interface';
 import { iTab } from '../../../../../../library/interfaces/tabs.interface';
 import { OpereToolbar } from '../../../../../shared/interfaces/opere.interface';
@@ -66,6 +67,31 @@ export function getMangaToolbar(
       icon: 'bi-grid',
       value: capitoli,
       title: 'Capitoli totali',
+    },
+  ];
+}
+
+export function defaultMangaArrayPags(): RaggioPage[] {
+  return [
+    {
+      width: 1904,
+      raggio: 5,
+    },
+    {
+      width: 1592,
+      raggio: 4,
+    },
+    {
+      width: 1280,
+      raggio: 3,
+    },
+    {
+      width: 987,
+      raggio: 2,
+    },
+    {
+      width: 0,
+      raggio: 1,
     },
   ];
 }

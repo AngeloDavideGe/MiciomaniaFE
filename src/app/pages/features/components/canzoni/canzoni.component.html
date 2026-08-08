@@ -26,8 +26,12 @@
           <app-card-indy
             [elems]="filtri().elemFilter()"
             [altezzaImg]="'15rem'"
+            [lunghezzaCard]="'18rem'"
             (changeButton)="currentButton = $event"
             [(currentButton)]="currentButtonSignal"
+            [tipoSlice]="'page'"
+            [tipoPaginazione]="'multiplo'"
+            [arrayPags]="arrayRaggi"
           />
         } @else {
           <app-spinner-indy [mt]="'5rem'" />

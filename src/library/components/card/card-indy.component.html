@@ -6,10 +6,6 @@
   </div>
 
   <div class="position-relative w-100">
-    @if (tipoSlice() === "page") {
-      <app-paginazione-indy [filtri]="filtri" tipo="singolo" />
-    }
-
     @if (viewFirstButton()) {
       <button class="carousel-button start" (click)="filtri.previousSlice()">
         <i class="bi bi-chevron-left"></i>
@@ -27,6 +23,10 @@
         />
       }
     </div>
+
+    @if (tipoSlice() === "page") {
+      <app-paginazione-indy [filtri]="filtri" [tipo]="tipoPaginazione()" />
+    }
 
     @if (viewLastButton()) {
       <button class="carousel-button end" (click)="filtri.nextSlice()">

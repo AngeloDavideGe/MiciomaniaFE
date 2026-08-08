@@ -18,6 +18,7 @@ import { iCard } from '../../interfaces/card.interface';
 import {
   FiltriInterface,
   RaggioPage,
+  TipoPaginazione,
   TypePagination,
 } from '../../interfaces/pagination.interface';
 import { ButtonIndyComponent } from '../button/button-indy.component';
@@ -35,7 +36,6 @@ export class CardIndyComponent {
   public router = inject(Router);
 
   public filtri!: FiltriInterface<iCard>;
-
   public elemForPage = signal<number>(0);
 
   public elems = input<iCard[] | null>(null);
@@ -46,6 +46,7 @@ export class CardIndyComponent {
   public titoloLista = input<string>('');
   public classBody = input<string>('');
   public tipoSlice = input<TypePagination>('all');
+  public tipoPaginazione = input<TipoPaginazione>('singolo');
   public arrayPags = input<RaggioPage[]>(defaultArrayPags);
 
   public changeButton = output<string | null>();
@@ -69,7 +70,7 @@ export class CardIndyComponent {
 
   constructor() {
     effect(() => {
-      const elements = this.elems();
+      const elements: iCard[] | null = this.elems();
 
       if (elements) {
         this.elemForPage.set(this.getNumCards());
@@ -89,7 +90,6 @@ export class CardIndyComponent {
 
     this.filtri.currentPage?.set(1);
     this.filtri.currentSlice?.set(0);
-
     this.elemForPage.set(this.getNumCards());
   });
 

@@ -19,6 +19,7 @@ import {
 import { OpereService } from '../../../../shared/services/opere.service';
 import { canzoni_imports } from './canzoni.import';
 import {
+  defaultCanzoniArrayPags,
   getCanzoniSidebar,
   getCanzoniToolbar,
 } from './functions/canzoni.function';
@@ -36,6 +37,7 @@ export class CanzoniComponent implements OnInit {
   private audioService = inject(AudioService);
 
   public readonly categorie = getCanzoniSidebar();
+  public readonly arrayRaggi = defaultCanzoniArrayPags();
 
   public currentButton: string | null = null;
   public currentButtonSignal = signal<string | null>(null);

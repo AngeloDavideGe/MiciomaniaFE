@@ -1,3 +1,4 @@
+import { RaggioPage } from '../../../../../../library/interfaces/pagination.interface';
 import { ISidebarItem } from '../../../../../../library/interfaces/sidebar.interface';
 import { OpereToolbar } from '../../../../../shared/interfaces/opere.interface';
 
@@ -30,6 +31,31 @@ export function getCanzoniSidebar(): ISidebarItem[] {
       id: 'preferite',
       nome: 'Preferite',
       icona: 'bi-play-circle',
+    },
+  ];
+}
+
+export function defaultCanzoniArrayPags(): RaggioPage[] {
+  return [
+    {
+      width: 1904,
+      raggio: 5,
+    },
+    {
+      width: 1592,
+      raggio: 4,
+    },
+    {
+      width: 1280,
+      raggio: 3,
+    },
+    {
+      width: 987,
+      raggio: 2,
+    },
+    {
+      width: 0,
+      raggio: 1,
     },
   ];
 }
