@@ -3,9 +3,9 @@ import {
   ChangeDetectionStrategy,
   Component,
   effect,
-  EventEmitter,
+  input,
   Input,
-  Output,
+  output,
   Signal,
   signal,
   TemplateRef,
@@ -44,23 +44,23 @@ import { SpinnerIndyComponent } from '../spinner/spinner-indy.component';
   styleUrl: './table-indy.component.scss',
 })
 export class TabellaIndyComponent<T> {
-  @Input() colonne!: Partial<RecordColonne<T>>;
-  @Input() elemTable: Signal<T[]> = signal<T[]>([]);
-  @Input() dataTableHttp: DataTableHttp<T> | null = null;
-  @Input() noElement: string = 'Nessun Elemento';
-  @Input() titoloTabella: string = '';
-  @Input() lunghezzaAzioni: string = '10rem';
-  @Input() titoloColAzioni: string = 'Azioni';
-  @Input() azioni: AzioniTabella<T>[] = [];
-  @Input() tipoPaginazione: TipoPaginazione = 'multiplo';
-  @Input() arrayElemForPage: number[] = [1, 5, 10, 20];
-  @Input() elemForPage = signal<number>(20);
-  @Input() recordBadge: Record<string, string> = {};
-  @Input() trackByKey: keyof T = 'id' as keyof T;
-  @Input() templateCustom?: TemplateRef<any>;
-  @Input() keyPrimary?: keyof T;
+  public elemTable = input<T[]>([]);
+  public elemForPage = signal<number>(20);
+  public colonne = signal<Partial<RecordColonne<T>>>({});
+  public dataTableHttp = signal<DataTableHttp<T> | null>(null);
+  public noElement = signal<string>('Nessun Elemento');
+  public titoloTabella = signal<string>('');
+  public lunghezzaAzioni = signal<string>('10rem');
+  public titoloColAzioni = signal<string>('Azioni');
+  public azioni = signal<AzioniTabella<T>[]>([]);
+  public tipoPaginazione = signal<TipoPaginazione>('multiplo');
+  public arrayElemForPage = signal<number[]>([1, 5, 10, 20]);
+  public recordBadge = signal<Record<string, string>>({});
+  public trackByKey = signal<keyof T>('id' as keyof T);
+  public templateCustom = signal<TemplateRef<any> | null>(null);
+  public keyPrimary = signal<keyof T | null>(null);
 
-  @Output() changeElements = new EventEmitter<ChangePageHttp>();
+  public changeElements = output<ChangePageHttp>();
 
   public keyofElem: Array<keyof T> = [];
   public searchQuery = signal<string>('');
@@ -80,7 +80,7 @@ export class TabellaIndyComponent<T> {
   };
 
   public ordinaColonna: Function = debounceTimeoutCustom((key: keyof T) => {
-    if (!this.colonne[key]!.sortCol) return;
+    if (!this.colonne()[key]!.sortCol) return;
 
     if (this.ordinaElem()?.key !== key) {
       this.ordinaElem.set({
@@ -141,30 +141,29 @@ export class TabellaIndyComponent<T> {
   }
 
   ngOnInit(): void {
-    this.keyofElem = Object.keys(this.colonne) as (keyof T)[];
+    this.keyofElem = Object.keys(this.colonne()) as (keyof T)[];
 
-    this.colonne = this.keyofElem.reduce(
-      (acc: Partial<RecordColonne<T>>, key: keyof T) => {
+    this.colonne.set(
+      this.keyofElem.reduce((acc: Partial<RecordColonne<T>>, key: keyof T) => {
         acc[key] = {
-          ...this.colonne[key],
+          ...this.colonne()[key],
           formatCell:
-            this.colonne[key]!.formatCell ||
+            this.colonne()[key]!.formatCell ||
             ((value: T[keyof T]) => String(value)),
         };
         return acc;
-      },
-      {},
+      }, {}),
     );
 
     this.filtroDefault = this.keyofElem.every(
-      (key: keyof T) => !this.colonne[key]!.filtro,
+      (key: keyof T) => !this.colonne()[key]!.filtro,
     );
 
-    if (this.dataTableHttp) {
+    if (this.dataTableHttp()) {
       this.filtri = GetFiltriCustom<T, null>({
-        elemTable: this.dataTableHttp.elems,
+        elemTable: this.dataTableHttp()!.elems,
         elemForPage: this.elemForPage,
-        totalElemHttp: this.dataTableHttp.totalElems,
+        totalElemHttp: this.dataTableHttp()!.totalElems,
       });
     } else {
       this.filtri = GetFiltriCustom<T, null>({
@@ -175,7 +174,7 @@ export class TabellaIndyComponent<T> {
         select: this.keyofElem.map((x: keyof T) => {
           return {
             key: x,
-            query: this.colonne[x]!.filtro || this.debounceQuery,
+            query: this.colonne()[x]!.filtro || this.debounceQuery,
           };
         }),
       });
@@ -183,7 +182,7 @@ export class TabellaIndyComponent<T> {
   }
 
   public trackByFn(index: number, item: T): T[keyof T] | number {
-    const keyValue: T[keyof T] = item[this.trackByKey];
+    const keyValue: T[keyof T] = item[this.trackByKey()];
     return keyValue ?? index;
   }
 

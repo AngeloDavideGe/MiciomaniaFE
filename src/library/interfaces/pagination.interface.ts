@@ -31,7 +31,7 @@ export interface DataTableHttp<T> {
 
 export interface InputFiltri<T, F> {
   elemTable: Signal<T[]>;
-  elemForPage?: WritableSignal<number>;
+  elemForPage?: WritableSignal<number> | Signal<number>;
   totalElemHttp?: Signal<number>;
   tipoSelect?: 'some' | 'every';
   slice?: TypePagination;

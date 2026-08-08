@@ -2,16 +2,17 @@ import {
   Component,
   computed,
   EventEmitter,
-  Input,
+  input,
+  output,
   Output,
   signal,
 } from '@angular/core';
 import { giorniSettimana, mesi } from '../../constants/utility.constant';
-import { ModalIndyComponent } from '../modal/modal-indy.component';
 import {
   CronObbligatori,
   ErrorCronObbligatori,
 } from '../../interfaces/cron.interface';
+import { ModalIndyComponent } from '../modal/modal-indy.component';
 
 @Component({
   selector: 'app-cron-indy',
@@ -25,7 +26,14 @@ export class CronIndyComponent {
   public selectedDaysOfWeek = signal<number[]>([]);
   public selectedMonths = signal<number[]>([]);
 
-  @Input() campiObbligatori: CronObbligatori = {};
+  public campiObbligatori = input<CronObbligatori>({
+    hour: false,
+    month: false,
+    dayOfWeek: false,
+  });
+
+  public invioStringaCron = output<string>();
+  public chiudiCron = output<void>();
 
   public currentCron = computed<string>(() => {
     const sh: number[] = this.selectedHours();
@@ -49,13 +57,13 @@ export class CronIndyComponent {
     const dayOfWeek: string = cron[4];
 
     const errorHour: boolean =
-      this.campiObbligatori['hour'] == true && hour == '*';
+      this.campiObbligatori()['hour'] == true && hour == '*';
 
     const errorMonth: boolean =
-      this.campiObbligatori['month'] == true && month == '*';
+      this.campiObbligatori()['month'] == true && month == '*';
 
     const errorDayWeek: boolean =
-      this.campiObbligatori['dayOfWeek'] == true && dayOfWeek == '*';
+      this.campiObbligatori()['dayOfWeek'] == true && dayOfWeek == '*';
 
     return {
       hour: errorHour,
@@ -64,9 +72,6 @@ export class CronIndyComponent {
       button: errorHour || errorMonth || errorDayWeek,
     };
   });
-
-  @Output() invioStringaCron = new EventEmitter<string>();
-  @Output() chiudiCron = new EventEmitter<void>();
 
   public readonly hours = Array.from({ length: 24 }, (_, i) => i);
 

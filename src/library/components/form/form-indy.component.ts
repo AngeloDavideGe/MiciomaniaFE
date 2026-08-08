@@ -1,9 +1,9 @@
 import {
   AfterViewInit,
+  ChangeDetectionStrategy,
   Component,
   inject,
   input,
-  Input,
   OnDestroy,
   OnInit,
   output,
@@ -23,6 +23,7 @@ import { CheckBoxIndyComponent } from '../checkbox/checkbox-indy.component';
 @Component({
   selector: 'app-form-indy',
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     ReactiveFormsModule,
     CheckBoxIndyComponent,

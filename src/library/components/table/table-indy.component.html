@@ -1,10 +1,10 @@
 <div class="table-wrapper">
-  @if (titoloTabella) {
+  @if (titoloTabella()) {
     <div class="table-header">
       <div class="header-content">
         <i class="bi bi-table header-icon"></i>
         <h3 class="header-title">
-          {{ titoloTabella | capitalizeFirstLetter }}
+          {{ titoloTabella() | capitalizeFirstLetter }}
         </h3>
         <div class="header-info">
           <span class="total-items">
@@ -35,19 +35,19 @@
     </div>
   }
 
-  @if (filtri.elemFilter().length > 0 || dataTableHttp) {
+  @if (filtri.elemFilter().length > 0 || dataTableHttp()) {
     <div class="table-container">
       <table class="table-custom">
         <thead>
           <tr>
             @for (key of keyofElem; track $index; let idx = $index) {
               <th
-                [style.width]="colonne[key]!.lunghezza"
+                [style.width]="colonne()[key]!.lunghezza"
                 (click)="ordinaColonna(key)"
               >
-                {{ colonne[key]!.titolo }}
+                {{ colonne()[key]!.titolo }}
 
-                @if (colonne[key]!.sortCol) {
+                @if (colonne()[key]!.sortCol) {
                   @let ordinaElem =
                     this.ordinaElem() || { key: null, order: null };
 
@@ -69,8 +69,8 @@
                 }
               </th>
             }
-            @if (azioni.length > 0 || keyPrimary) {
-              <th [style.width]="lunghezzaAzioni">{{ titoloColAzioni }}</th>
+            @if (azioni().length > 0 || keyPrimary()) {
+              <th [style.width]="lunghezzaAzioni()">{{ titoloColAzioni() }}</th>
             }
           </tr>
         </thead>
@@ -80,21 +80,21 @@
               @for (key of keyofElem; track $index) {
                 <td
                   [attr.data-label]="key"
-                  [style.width]="colonne[key]!.lunghezza"
+                  [style.width]="colonne()[key]!.lunghezza"
                 >
                   <div
                     class="cell-content"
-                    [class]="recordBadge['' + elem[key]]"
+                    [class]="recordBadge()['' + elem[key]]"
                   >
-                    {{ colonne[key]!.formatCell!(elem[key]) }}
+                    {{ colonne()[key]!.formatCell!(elem[key]) }}
                   </div>
                 </td>
               }
-              @if (azioni.length > 0 || keyPrimary) {
-                <td [style.width]="lunghezzaAzioni" class="actions-cell">
+              @if (azioni().length > 0 || keyPrimary()) {
+                <td [style.width]="lunghezzaAzioni()" class="actions-cell">
                   <div class="actions-wrapper">
-                    @if (azioni.length > 0) {
-                      @for (azione of azioni; track $index) {
+                    @if (azioni().length > 0) {
+                      @for (azione of azioni(); track $index) {
                         <button
                           class="action-btn"
                           (click)="azione.azione(elem, $index)"
@@ -105,16 +105,16 @@
                         </button>
                       }
                     }
-                    @if (keyPrimary) {
+                    @if (keyPrimary()) {
                       <button
                         class="action-btn"
-                        (click)="toggleExpandedRow(elem[keyPrimary])"
+                        (click)="toggleExpandedRow(elem[keyPrimary()!])"
                         [title]="'Dettagli'"
                         [attr.aria-label]="'Dettagli'"
                       >
                         <i
                           [class]="
-                            expandedRow() === elem[keyPrimary]
+                            expandedRow() === elem[keyPrimary()!]
                               ? 'bi bi-chevron-up'
                               : 'bi bi-chevron-down'
                           "
@@ -126,7 +126,7 @@
               }
             </tr>
 
-            @if (keyPrimary && expandedRow() === elem[keyPrimary]) {
+            @if (keyPrimary() && expandedRow() === elem[keyPrimary()!]) {
               <tr>
                 <td
                   class="p-3 expanded-row"
@@ -134,7 +134,7 @@
                 >
                   <ng-container
                     *ngTemplateOutlet="
-                      templateCustom;
+                      templateCustom();
                       context: { $implicit: elem }
                     "
                   >
@@ -149,12 +149,12 @@
 
     <app-paginazione-indy
       [filtri]="filtri"
-      [tipo]="tipoPaginazione"
-      [dataTableHttp]="dataTableHttp"
+      [tipo]="tipoPaginazione()"
+      [dataTableHttp]="dataTableHttp()"
       [arrayRaggi]="raggiPage"
     ></app-paginazione-indy>
 
-    @if (arrayElemForPage.length > 0) {
+    @if (arrayElemForPage().length > 0) {
       <div class="elemento-finale px-2 mt-2 mb-2" style="--align-end: center">
         <label class="label-elementi-pagina" for="perPageSelect">
           Elementi per pagina:
@@ -166,7 +166,7 @@
           [ngModel]="elemForPage()"
           (ngModelChange)="elemForPage.set($event); filtri.currentPage.set(1)"
         >
-          @for (numElem of arrayElemForPage; track numElem) {
+          @for (numElem of arrayElemForPage(); track numElem) {
             <option [ngValue]="numElem">
               {{ numElem }}
             </option>
@@ -177,12 +177,12 @@
   }
 
   @if (filtri.elemFilter().length == 0) {
-    @if (dataTableHttp) {
+    @if (dataTableHttp()) {
       <app-spinner-indy [mt]="'2rem'"></app-spinner-indy>
     } @else {
       <div class="empty-state">
         <i class="bi bi-inbox empty-icon"></i>
-        <p class="empty-text">{{ noElement }}</p>
+        <p class="empty-text">{{ noElement() }}</p>
       </div>
     }
   }
