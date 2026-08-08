@@ -4,23 +4,23 @@
       <div
         style="cursor: pointer"
         class="section-header"
-        (click)="changeOpenForm(strutturaForm[key].nome)"
+        (click)="changeOpenForm(strutturaForm()[key].nome)"
       >
         <h2 class="section-title">
-          {{ strutturaForm[key].nome }}
+          {{ strutturaForm()[key].nome }}
         </h2>
       </div>
 
       <section
         [ngStyle]="{
           display:
-            selectedForm() !== strutturaForm[key].nome ? 'none' : 'block',
+            selectedForm() !== strutturaForm()[key].nome ? 'none' : 'block',
         }"
       >
         @if (!isArraySection(key)) {
           <div class="section-body" [formGroupName]="key">
             <app-form-indy
-              [strutturaForm]="strutturaForm[key].struttura"
+              [strutturaForm]="strutturaForm()[key].struttura"
               [visualizzaPulsanti]="false"
               [formGroup]="getFormGroup(key)"
               (subscribeForm)="onSectionFormChange(key, $event)"
@@ -32,7 +32,7 @@
             @for (control of getFormArray(key).controls; track $index) {
               <div class="array-item">
                 <app-form-indy
-                  [strutturaForm]="strutturaForm[key].struttura"
+                  [strutturaForm]="strutturaForm()[key].struttura"
                   [visualizzaPulsanti]="false"
                   [formGroup]="getArrayFormGroup(key, $index)"
                 >
@@ -57,17 +57,15 @@
     </section>
   }
 
-  @if (visualizzaPulsanti) {
+  @if (visualizzaPulsanti()) {
     <div class="form-actions">
       <app-button-indy
         [text]="'Indietro'"
-        [color]="'secondary-custom'"
         (clickBotton)="secondaryButton.emit()"
       ></app-button-indy>
 
       <app-button-indy
         [text]="'Invia'"
-        [color]="'primary-custom'"
         (clickBotton)="onSubmit()"
         [disabled]="form.invalid"
       ></app-button-indy>

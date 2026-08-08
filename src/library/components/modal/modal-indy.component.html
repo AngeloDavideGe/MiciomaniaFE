@@ -1,15 +1,19 @@
-<div class="custom-modal-backdrop" [class.blur-backdrop]="blurBackdrop">
-  <div class="custom-modal" [class.centered]="centered" [class]="modalWidth">
+<div class="custom-modal-backdrop" [class.blur-backdrop]="blurBackdrop()">
+  <div
+    class="custom-modal"
+    [class.centered]="centered()"
+    [class]="modalWidth()"
+  >
     <div class="custom-modal-content">
       <div class="custom-modal-header">
         <div class="header-content">
           <h2 class="modal-title">
-            {{ title }}
+            {{ title() }}
           </h2>
 
-          @if (subtitle) {
+          @if (subtitle()) {
             <p class="modal-subtitle">
-              {{ subtitle }}
+              {{ subtitle() }}
             </p>
           }
 
@@ -21,28 +25,26 @@
         </button>
       </div>
 
-      @if (showBody) {
+      @if (showBody()) {
         <div class="custom-modal-body">
           <ng-content select="[bodyModal]"></ng-content>
         </div>
       }
 
-      @if (showFooter) {
+      @if (showFooter()) {
         <div class="custom-modal-footer">
           <ng-content select="[footerModal]"></ng-content>
 
           <div class="footer-actions">
             <app-button-indy
-              [text]="secondaryButtonText"
-              [color]="'secondary-custom'"
+              [text]="secondaryButtonText()"
               (clickBotton)="secondaryAction.emit()"
             ></app-button-indy>
 
             <app-button-indy
-              [text]="primaryButtonText"
-              [color]="'primary-custom'"
-              (clickBotton)="secondaryAction.emit()"
-              [disabled]="disablePrimaryButton"
+              [text]="primaryButtonText()"
+              (clickBotton)="primaryAction.emit()"
+              [disabled]="disablePrimaryButton()"
             ></app-button-indy>
           </div>
         </div>

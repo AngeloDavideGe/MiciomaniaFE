@@ -1,32 +1,35 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {
+  Component,
+  computed,
+  input,
+  output,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { ButtonIndyComponent } from '../button/button-indy.component';
 
 @Component({
   selector: 'app-modal-indy',
   standalone: true,
   imports: [ButtonIndyComponent],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './modal-indy.component.html',
   styleUrl: './modal-indy.component.scss',
 })
-export class ModalIndyComponent implements OnInit {
-  public modalWidth: string = 'modal-md';
+export class ModalIndyComponent {
+  public title = input<string>('');
+  public subtitle = input<string>('');
+  public width = input<'sm' | 'md' | 'lg' | 'xl' | 'fullscreen'>('md');
+  public showFooter = input<boolean>(false);
+  public showBody = input<boolean>(true);
+  public primaryButtonText = input<string>('Conferma');
+  public secondaryButtonText = input<string>('Annulla');
+  public centered = input<boolean>(true);
+  public blurBackdrop = input<boolean>(true);
+  public disablePrimaryButton = input<boolean>(false);
 
-  @Input() title: string = '';
-  @Input() subtitle: string = '';
-  @Input() width: 'sm' | 'md' | 'lg' | 'xl' | 'fullscreen' = 'md';
-  @Input() showFooter: boolean = false;
-  @Input() showBody: boolean = true;
-  @Input() primaryButtonText: string = 'Conferma';
-  @Input() secondaryButtonText: string = 'Annulla';
-  @Input() centered: boolean = true;
-  @Input() blurBackdrop: boolean = true;
-  @Input() disablePrimaryButton: boolean = false;
+  public close = output<void>();
+  public primaryAction = output<void>();
+  public secondaryAction = output<void>();
 
-  @Output() close = new EventEmitter<void>();
-  @Output() primaryAction = new EventEmitter<void>();
-  @Output() secondaryAction = new EventEmitter<void>();
-
-  ngOnInit(): void {
-    this.modalWidth = `modal-${this.width}`;
-  }
+  public modalWidth = computed(() => `modal-${this.width()}`);
 }

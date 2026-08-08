@@ -10,7 +10,7 @@
           <input
             [id]="keys[$index]"
             [formControlName]="keys[$index]"
-            [readonly]="strutturaForm[keys[$index]]?.readonly || false"
+            [readonly]="strutturaForm()[keys[$index]]?.readonly || false"
             type="text"
             class="form-input"
             [class.is-invalid]="
@@ -27,7 +27,7 @@
           <input
             [id]="keys[$index]"
             [formControlName]="keys[$index]"
-            [readonly]="strutturaForm[keys[$index]]?.readonly || false"
+            [readonly]="strutturaForm()[keys[$index]]?.readonly || false"
             type="password"
             class="form-input"
             [class.is-invalid]="
@@ -44,7 +44,7 @@
           <textarea
             [id]="keys[$index]"
             [formControlName]="keys[$index]"
-            [readonly]="strutturaForm[keys[$index]]?.readonly || false"
+            [readonly]="strutturaForm()[keys[$index]]?.readonly || false"
             rows="4"
             class="form-input"
             [class.is-invalid]="
@@ -65,7 +65,7 @@
           <input
             [id]="keys[$index]"
             [formControlName]="keys[$index]"
-            [readonly]="strutturaForm[keys[$index]]?.readonly || false"
+            [readonly]="strutturaForm()[keys[$index]]?.readonly || false"
             type="date"
             class="form-input"
             [class.is-invalid]="
@@ -93,7 +93,7 @@
           >
             <option value="">Seleziona un'opzione</option>
             @for (
-              option of strutturaForm[keys[$index]].optionsSelect;
+              option of strutturaForm()[keys[$index]].optionsSelect;
               track option
             ) {
               <option [value]="option">
@@ -105,8 +105,8 @@
 
         @case ("Checkbox") {
           <app-checkbox-indy
-            [checks]="strutturaForm[keys[$index]].checkbox || []"
-            [initialChecked]="strutturaForm[keys[$index]].valueInit"
+            [checks]="strutturaForm()[keys[$index]].checkbox || []"
+            [initialChecked]="strutturaForm()[keys[$index]].valueInit"
             (checkChange)="onCheckboxChange($event, keys[$index])"
           >
           </app-checkbox-indy>
@@ -118,13 +118,13 @@
             type="file"
             class="form-control mb-3"
             style="border-radius: 30px"
-            [accept]="strutturaForm[keys[$index]].file?.accept ?? 'image/*'"
+            [accept]="strutturaForm()[keys[$index]].file?.accept ?? 'image/*'"
             (change)="onFileSelected($event, keys[$index])"
           />
 
-          @if (strutturaForm[keys[$index]].file?.previewUrl) {
+          @if (strutturaForm()[keys[$index]].file?.previewUrl) {
             <img
-              [src]="strutturaForm[keys[$index]].file?.previewUrl"
+              [src]="strutturaForm()[keys[$index]].file?.previewUrl"
               alt="preview"
               class="img-thumbnail mt-2"
               width="200"
@@ -135,7 +135,7 @@
 
       @if (f[keys[$index]]?.invalid && f[keys[$index]]?.touched) {
         <div class="error-message">
-          {{ strutturaForm[keys[$index]]?.errorMessage || " " }}
+          {{ strutturaForm()[keys[$index]]?.errorMessage || " " }}
         </div>
       }
 
@@ -145,7 +145,7 @@
     </div>
   }
 
-  @if (visualizzaPulsanti) {
+  @if (visualizzaPulsanti()) {
     <div class="form-actions">
       <app-button-indy
         [text]="'Resetta'"

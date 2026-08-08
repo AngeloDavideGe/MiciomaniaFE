@@ -1,9 +1,9 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  EventEmitter,
-  Input,
-  Output,
+  effect,
+  input,
+  output,
   signal,
 } from '@angular/core';
 import { Mappa } from '../../../app/shared/interfaces/mn.interface';
@@ -18,30 +18,39 @@ import { PathSvgCustom } from '../../interfaces/svg.interface';
   styleUrl: './svg-indy.component.scss',
 })
 export class SvgIndyComponent {
-  @Input() colori: Record<string, string> = {};
-  @Input() paths: PathSvgCustom[] = [];
-  @Input() viewbox: string = '';
-  @Input() translate: string = '';
-  @Input() transform: string = '';
-  @Input() width: number = 1;
-  @Input() height: number = 1;
-  @Input() set modale(value: Mappa | null) {
-    if (value) {
-      this.popupText = `Proprietario: ${value.proprietario}\nDescrizione: ${value.descrizione}`;
-      this.showPopup.set(true);
-    } else {
-      this.popupText = 'Nessuna informazione disponibile.';
-      this.showPopup.set(false);
-    }
-  }
-  @Output() pathClicked = new EventEmitter<string>();
+  public colori = input<Record<string, string>>({});
+  public paths = input<PathSvgCustom[]>([]);
+  public viewbox = input<string>('');
+  public translate = input<string>('');
+  public transform = input<string>('');
+  public width = input<number>(1);
+  public height = input<number>(1);
+  public modale = input<Mappa | null>(null);
+
+  public pathClicked = output<string>();
 
   public showPopup = signal<boolean>(false);
-  public popupX = 0;
-  public popupY = 0;
-  public popupText = '';
+  public popupX = signal<number>(0);
+  public popupY = signal<number>(0);
+  public popupText = signal<string>('');
 
-  onPathClick(pathId: string, event: MouseEvent) {
+  constructor() {
+    effect(() => {
+      const value: Mappa | null = this.modale();
+
+      if (value) {
+        this.popupText.set(
+          `Proprietario: ${value.proprietario}\nDescrizione: ${value.descrizione}`,
+        );
+        this.showPopup.set(true);
+      } else {
+        this.popupText.set('Nessuna informazione disponibile.');
+        this.showPopup.set(false);
+      }
+    });
+  }
+
+  public onPathClick(pathId: string, event: MouseEvent): void {
     this.pathClicked.emit(pathId);
 
     const svgContainer = (event.currentTarget as HTMLElement).closest(
@@ -50,8 +59,8 @@ export class SvgIndyComponent {
 
     if (svgContainer) {
       const containerRect = svgContainer.getBoundingClientRect();
-      this.popupX = event.clientX - containerRect.left;
-      this.popupY = event.clientY - containerRect.top;
+      this.popupX.set(event.clientX - containerRect.left);
+      this.popupY.set(event.clientY - containerRect.top);
     }
   }
 }

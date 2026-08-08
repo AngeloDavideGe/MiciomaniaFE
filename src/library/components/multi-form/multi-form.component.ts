@@ -1,12 +1,13 @@
+import { NgStyle } from '@angular/common';
 import {
   AfterViewInit,
   Component,
-  EventEmitter,
   inject,
+  input,
   Input,
   OnDestroy,
   OnInit,
-  Output,
+  output,
   signal,
 } from '@angular/core';
 import {
@@ -21,9 +22,8 @@ import {
   RecordStrutturaMultiForm,
   StrutturaMultiForm,
 } from '../../interfaces/form.interface';
-import { FormIndyComponent } from '../form/form-indy.component';
-import { NgStyle } from '@angular/common';
 import { ButtonIndyComponent } from '../button/button-indy.component';
+import { FormIndyComponent } from '../form/form-indy.component';
 
 @Component({
   selector: 'app-multi-form',
@@ -45,20 +45,20 @@ export class MultiFormComponent implements OnInit, AfterViewInit, OnDestroy {
   public selectedForm = signal<string>('');
   private destroy$ = new Subject<void>();
 
-  @Input() strutturaForm!: RecordStrutturaMultiForm;
-  @Input() visualizzaPulsanti: boolean = true;
+  public strutturaForm = input.required<RecordStrutturaMultiForm>();
+  public visualizzaPulsanti = input<boolean>(true);
 
-  @Output() invioDati = new EventEmitter<any>();
-  @Output() subscribeForm = new EventEmitter<any>();
-  @Output() formValido = new EventEmitter<boolean>();
-  @Output() secondaryButton = new EventEmitter<void>();
+  public invioDati = output<any>();
+  public subscribeForm = output<any>();
+  public formValido = output<boolean>();
+  public secondaryButton = output<void>();
 
   ngOnInit(): void {
-    this.keys = Object.keys(this.strutturaForm);
+    this.keys = Object.keys(this.strutturaForm());
     const groupConfig: Record<string, FormGroup | FormArray> = {};
 
     this.keys.forEach((key: string) => {
-      const sezione: StrutturaMultiForm = this.strutturaForm[key];
+      const sezione: StrutturaMultiForm = this.strutturaForm()[key];
 
       if (sezione.tipo === 'array') {
         const array = new FormArray<FormGroup>([]);
@@ -125,11 +125,11 @@ export class MultiFormComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   public isArraySection(nomeSezione: string): boolean {
-    return this.strutturaForm[nomeSezione].tipo === 'array';
+    return this.strutturaForm()[nomeSezione].tipo === 'array';
   }
 
   public addArrayItem(nomeSezione: string, values?: Record<string, any>): void {
-    const struttura = this.strutturaForm[nomeSezione].struttura;
+    const struttura = this.strutturaForm()[nomeSezione].struttura;
 
     this.getFormArray(nomeSezione).push(
       this.createFormGroup(struttura, values),

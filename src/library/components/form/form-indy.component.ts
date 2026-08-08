@@ -1,12 +1,12 @@
 import {
   AfterViewInit,
   Component,
-  EventEmitter,
   inject,
+  input,
   Input,
   OnDestroy,
   OnInit,
-  Output,
+  output,
 } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { debounceTime, Subject, takeUntil } from 'rxjs';
@@ -16,9 +16,9 @@ import {
   RecordStruttura,
   StrutturaForm,
 } from '../../interfaces/form.interface';
-import { CheckBoxIndyComponent } from '../checkbox/checkbox-indy.component';
 import { CapitalizeFirstLetterPipe } from '../../pipes/capitalize.pipe';
 import { ButtonIndyComponent } from '../button/button-indy.component';
+import { CheckBoxIndyComponent } from '../checkbox/checkbox-indy.component';
 
 @Component({
   selector: 'app-form-indy',
@@ -39,24 +39,24 @@ export class FormIndyComponent implements OnInit, AfterViewInit, OnDestroy {
   public keys: string[] = [];
   private destroy$ = new Subject<void>();
 
-  @Input() strutturaForm!: RecordStruttura;
-  @Input() visualizzaPulsanti: boolean = true;
-  @Input() formGroup?: FormGroup;
+  public strutturaForm = input.required<RecordStruttura>();
+  public visualizzaPulsanti = input<boolean>(true);
+  public formGroup = input<FormGroup | undefined>();
 
-  @Output() invioDati = new EventEmitter<any>();
-  @Output() subscribeForm = new EventEmitter<any>();
-  @Output() formValido = new EventEmitter<boolean>();
+  public invioDati = output<any>();
+  public subscribeForm = output<any>();
+  public formValido = output<boolean>();
 
   ngOnInit(): void {
-    this.keys = Object.keys(this.strutturaForm);
-    this.arrayForm = this.keys.map((x: string) => this.strutturaForm[x]);
+    this.keys = Object.keys(this.strutturaForm());
+    this.arrayForm = this.keys.map((x: string) => this.strutturaForm()[x]);
 
-    if (this.formGroup) {
-      this.form = this.formGroup;
+    if (this.formGroup()) {
+      this.form = this.formGroup()!;
     } else {
       this.form = this.formBuilder.group(
         this.keys.reduce((acc: BuildInterface, key: string) => {
-          const field: StrutturaForm = this.strutturaForm[key];
+          const field: StrutturaForm = this.strutturaForm()[key];
           acc[key] = [field.valueInit || '', field.validators];
           return acc;
         }, {} as BuildInterface),
@@ -102,7 +102,7 @@ export class FormIndyComponent implements OnInit, AfterViewInit, OnDestroy {
 
   public onInputChange(event: Event, index: string): void {
     const value: string = (event.target as HTMLInputElement).value;
-    this.strutturaForm[index].onChange?.(value, this.form);
+    this.strutturaForm()[index].onChange?.(value, this.form);
   }
 
   public onFileSelected(event: Event, index: string): void {
@@ -114,9 +114,9 @@ export class FormIndyComponent implements OnInit, AfterViewInit, OnDestroy {
 
     const file: File = input.files[0];
     const allowedExtensions: string[] =
-      this.strutturaForm[index]!.file!.allowedExtensions;
+      this.strutturaForm()[index]!.file!.allowedExtensions;
     const allowedTypes: string[] =
-      this.strutturaForm[index]!.file!.allowedExtensions;
+      this.strutturaForm()[index]!.file!.allowedExtensions;
 
     const fileExtension: string | undefined = file.name
       .split('.')
@@ -132,7 +132,7 @@ export class FormIndyComponent implements OnInit, AfterViewInit, OnDestroy {
       alert('Formato non supportato. Seleziona un file immagine valido.');
 
       input.value = '';
-      this.strutturaForm[index].file!.previewUrl = null;
+      this.strutturaForm()[index].file!.previewUrl = null;
 
       this.form.get(index)?.setValue(null);
       this.form.get(index)?.updateValueAndValidity();
@@ -143,12 +143,12 @@ export class FormIndyComponent implements OnInit, AfterViewInit, OnDestroy {
     this.form.get(index)?.setValue(file);
     this.form.get(index)?.markAsDirty();
     this.form.get(index)?.updateValueAndValidity();
-    this.strutturaForm[index].onChange?.(file, this.form);
+    this.strutturaForm()[index].onChange?.(file, this.form);
 
     const reader = new FileReader();
 
     reader.onload = () => {
-      this.strutturaForm[index].file!.previewUrl = reader.result;
+      this.strutturaForm()[index].file!.previewUrl = reader.result;
     };
 
     reader.readAsDataURL(file);
