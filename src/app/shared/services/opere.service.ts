@@ -4,6 +4,7 @@ import { BaseService } from '../../../library/services/base.service';
 import {
   Canzoni,
   CanzoniGet,
+  Classifica,
   iManga,
   MangaGet,
   MangaUtente,
@@ -16,12 +17,18 @@ export class OpereService extends BaseService {
   public manga = signal<iManga | null>(null);
   public canzoni = signal<Canzoni[]>([]);
   public mangaUtente = signal<MangaUtente | null>(null);
+  public classifica = signal<Classifica | null>(null);
 
   public mangaLoaded: boolean = false;
   public canzoniLoaded: boolean = false;
+  public classificaLoaded: boolean = false;
 
   constructor() {
     super('CS');
+  }
+
+  getClassifica(): Observable<Classifica> {
+    return this.getCustom<Classifica>('Squadre/get_squadre_e_giocatori');
   }
 
   getManga(idUtente: string): Observable<MangaGet> {

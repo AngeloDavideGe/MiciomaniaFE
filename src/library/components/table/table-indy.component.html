@@ -2,10 +2,12 @@
   @if (titoloTabella()) {
     <div class="table-header">
       <div class="header-content">
-        <i class="bi bi-table header-icon"></i>
-        <h3 class="header-title">
-          {{ titoloTabella() | capitalizeFirstLetter }}
-        </h3>
+        <div class="header-left">
+          <i class="bi bi-table header-icon"></i>
+          <h3 class="header-title">
+            {{ titoloTabella() | capitalizeFirstLetter }}
+          </h3>
+        </div>
         <div class="header-info">
           <span class="total-items">
             <i class="bi bi-list-ol me-1"></i>
@@ -45,38 +47,45 @@
                 [style.width]="colonne()[key]!.lunghezza"
                 (click)="ordinaColonna(key)"
               >
-                {{ colonne()[key]!.titolo }}
+                <span class="th-content">
+                  {{ colonne()[key]!.titolo }}
 
-                @if (colonne()[key]!.sortCol) {
-                  @let ordinaElem =
-                    this.ordinaElem() || { key: null, order: null };
+                  @if (colonne()[key]!.sortCol) {
+                    @let ordinaElem =
+                      this.ordinaElem() || { key: null, order: null };
 
-                  @if (ordinaElem.key === key) {
-                    @switch (ordinaElem.order) {
-                      @case ("desc") {
-                        <i class="bi bi-arrow-down ms-1"></i>
+                    @if (ordinaElem.key === key) {
+                      @switch (ordinaElem.order) {
+                        @case ("desc") {
+                          <i class="bi bi-arrow-down ms-1 sort-icon active"></i>
+                        }
+                        @case ("cresc") {
+                          <i class="bi bi-arrow-up ms-1 sort-icon active"></i>
+                        }
+                        @default {
+                          <i class="bi bi-arrow-down-up ms-1 sort-icon"></i>
+                        }
                       }
-                      @case ("cresc") {
-                        <i class="bi bi-arrow-up ms-1"></i>
-                      }
-                      @default {
-                        <i class="bi bi-arrow-down-up ms-1"></i>
-                      }
+                    } @else {
+                      <i class="bi bi-arrow-down-up ms-1 sort-icon"></i>
                     }
-                  } @else {
-                    <i class="bi bi-arrow-down-up text-muted ms-1"></i>
                   }
-                }
+                </span>
               </th>
             }
             @if (azioni().length > 0 || keyPrimary()) {
-              <th [style.width]="lunghezzaAzioni()">{{ titoloColAzioni() }}</th>
+              <th [style.width]="lunghezzaAzioni()" class="actions-header">
+                {{ titoloColAzioni() }}
+              </th>
             }
           </tr>
         </thead>
         <tbody>
           @for (elem of filtri.elemFilter(); track trackByFn($index, elem)) {
-            <tr>
+            <tr
+              class="table-row"
+              [class.expanded]="expandedRow() === elem[keyPrimary()!]"
+            >
               @for (key of keyofElem; track $index) {
                 <td
                   [attr.data-label]="key"
@@ -107,7 +116,7 @@
                     }
                     @if (keyPrimary()) {
                       <button
-                        class="action-btn"
+                        class="action-btn expand-btn"
                         (click)="toggleExpandedRow(elem[keyPrimary()!])"
                         [title]="'Dettagli'"
                         [attr.aria-label]="'Dettagli'"
@@ -127,18 +136,16 @@
             </tr>
 
             @if (keyPrimary() && expandedRow() === elem[keyPrimary()!]) {
-              <tr>
-                <td
-                  class="p-3 expanded-row"
-                  [attr.colspan]="keyofElem.length + 1"
-                >
-                  <ng-container
-                    *ngTemplateOutlet="
-                      templateCustom();
-                      context: { $implicit: elem }
-                    "
-                  >
-                  </ng-container>
+              <tr class="expanded-row-wrapper">
+                <td class="expanded-row" [attr.colspan]="keyofElem.length + 1">
+                  <div class="expanded-content">
+                    <ng-container
+                      *ngTemplateOutlet="
+                        templateCustom();
+                        context: { $implicit: elem }
+                      "
+                    />
+                  </div>
                 </td>
               </tr>
             }
@@ -147,33 +154,35 @@
       </table>
     </div>
 
-    <app-paginazione-indy
-      [filtri]="filtri"
-      [tipo]="tipoPaginazione()"
-      [dataTableHttp]="dataTableHttp()"
-      [arrayRaggi]="raggiPage"
-    ></app-paginazione-indy>
+    <div class="table-footer">
+      <app-paginazione-indy
+        [filtri]="filtri"
+        [tipo]="tipoPaginazione()"
+        [dataTableHttp]="dataTableHttp()"
+        [arrayRaggi]="raggiPage"
+      ></app-paginazione-indy>
 
-    @if (arrayElemForPage().length > 0) {
-      <div class="elemento-finale px-2 mt-2 mb-2" style="--align-end: center">
-        <label class="label-elementi-pagina" for="perPageSelect">
-          Elementi per pagina:
-        </label>
+      @if (arrayElemForPage().length > 0) {
+        <div class="elementi-per-pagina">
+          <label class="label-elementi-pagina" for="perPageSelect">
+            Elementi per pagina:
+          </label>
 
-        <select
-          id="perPageSelect"
-          class="select-elementi-pagina"
-          [ngModel]="elemForPage()"
-          (ngModelChange)="elemForPage.set($event); filtri.currentPage.set(1)"
-        >
-          @for (numElem of arrayElemForPage(); track numElem) {
-            <option [ngValue]="numElem">
-              {{ numElem }}
-            </option>
-          }
-        </select>
-      </div>
-    }
+          <select
+            id="perPageSelect"
+            class="select-elementi-pagina"
+            [ngModel]="elemForPage()"
+            (ngModelChange)="elemForPage.set($event); filtri.currentPage.set(1)"
+          >
+            @for (numElem of arrayElemForPage(); track numElem) {
+              <option [ngValue]="numElem">
+                {{ numElem }}
+              </option>
+            }
+          </select>
+        </div>
+      }
+    </div>
   }
 
   @if (filtri.elemFilter().length == 0) {

@@ -30,7 +30,7 @@ import {
 import { manga_imports } from './manga.import';
 
 @Component({
-  selector: 'app-auth',
+  selector: 'app-manga',
   standalone: true,
   imports: manga_imports,
   templateUrl: './manga.component.html',

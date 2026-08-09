@@ -1,0 +1,20 @@
+.dettagli-squadra {
+  background: var(--card-light);
+
+  .squadra-descrizione {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 12px;
+    background: var(--card);
+    border-radius: 6px;
+    margin-bottom: 12px;
+
+    p {
+      margin: 0;
+      color: var(--text-secondary);
+      line-height: 1.6;
+      font-size: 0.9rem;
+    }
+  }
+}

@@ -44,3 +44,21 @@ export interface OpereToolbar {
   value: number;
   title: string;
 }
+
+export interface Classifica {
+  squadre: Squadra[];
+  giocatori: Giocatore[];
+}
+
+export interface Squadra {
+  nome: string;
+  punteggio: number;
+  descrizione: string;
+  colore: string;
+}
+
+export interface Giocatore {
+  idUtente: string;
+  punteggio: number;
+  squadra: string;
+}

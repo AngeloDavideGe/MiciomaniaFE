@@ -26,7 +26,7 @@ import {
 import { AudioService } from '../../../../../library/dialogs/audio.service';
 
 @Component({
-  selector: 'app-auth',
+  selector: 'app-canzoni',
   standalone: true,
   imports: canzoni_imports,
   templateUrl: './canzoni.component.html',

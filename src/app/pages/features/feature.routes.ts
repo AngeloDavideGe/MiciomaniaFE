@@ -18,6 +18,13 @@ export const FEATURE_ROUTES: Routes = [
             (m) => m.CanzoniComponent,
           ),
       },
+      {
+        path: 'classifica',
+        loadComponent: () =>
+          import('./components/classifica/classifica.component').then(
+            (m) => m.ClassificaComponent,
+          ),
+      },
       // {
       //   path: 'giochi',
       //   loadComponent: () =>
@@ -27,13 +34,6 @@ export const FEATURE_ROUTES: Routes = [
       // },
       // {
       //   path: 'post',
-      //   loadComponent: () =>
-      //     import('./components/manga/manga.component').then(
-      //       (m) => m.MangaComponent,
-      //     ),
-      // },
-      // {
-      //   path: 'classifica',
       //   loadComponent: () =>
       //     import('./components/manga/manga.component').then(
       //       (m) => m.MangaComponent,

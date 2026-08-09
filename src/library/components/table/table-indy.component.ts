@@ -4,9 +4,8 @@ import {
   Component,
   effect,
   input,
-  Input,
+  model,
   output,
-  Signal,
   signal,
   TemplateRef,
 } from '@angular/core';
@@ -45,20 +44,21 @@ import { SpinnerIndyComponent } from '../spinner/spinner-indy.component';
 })
 export class TabellaIndyComponent<T> {
   public elemTable = input<T[]>([]);
-  public elemForPage = signal<number>(20);
-  public colonne = signal<Partial<RecordColonne<T>>>({});
-  public dataTableHttp = signal<DataTableHttp<T> | null>(null);
-  public noElement = signal<string>('Nessun Elemento');
-  public titoloTabella = signal<string>('');
-  public lunghezzaAzioni = signal<string>('10rem');
-  public titoloColAzioni = signal<string>('Azioni');
-  public azioni = signal<AzioniTabella<T>[]>([]);
-  public tipoPaginazione = signal<TipoPaginazione>('multiplo');
-  public arrayElemForPage = signal<number[]>([1, 5, 10, 20]);
-  public recordBadge = signal<Record<string, string>>({});
-  public trackByKey = signal<keyof T>('id' as keyof T);
-  public templateCustom = signal<TemplateRef<any> | null>(null);
-  public keyPrimary = signal<keyof T | null>(null);
+  public dataTableHttp = input<DataTableHttp<T> | null>(null);
+  public noElement = input<string>('Nessun Elemento');
+  public titoloTabella = input<string>('');
+  public lunghezzaAzioni = input<string>('10rem');
+  public titoloColAzioni = input<string>('Azioni');
+  public azioni = input<AzioniTabella<T>[]>([]);
+  public tipoPaginazione = input<TipoPaginazione>('multiplo');
+  public arrayElemForPage = input<number[]>([1, 5, 10, 20]);
+  public recordBadge = input<Record<string, string>>({});
+  public trackByKey = input<keyof T>('id' as keyof T);
+  public templateCustom = input<TemplateRef<any> | null>(null);
+  public keyPrimary = input<keyof T | null>(null);
+
+  public elemForPage = model<number>(20);
+  public colonne = model<Partial<RecordColonne<T>>>({});
 
   public changeElements = output<ChangePageHttp>();
 
