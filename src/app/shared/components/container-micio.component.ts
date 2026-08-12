@@ -18,6 +18,11 @@ import { ChangeDetectionStrategy, Component, input } from '@angular/core';
       border-radius: 1.25rem;
       box-shadow: 0 0.75rem 2rem rgba(0, 0, 0, 0.25);
       transition: all 0.25s ease;
+
+      @media (max-width: 576px) {
+        margin-inline: 0;
+        width: 100%;
+      }
     }
   `,
 })

@@ -93,7 +93,7 @@ export class MangaComponent implements OnInit {
   ngOnInit(): void {
     handlerFunc<MangaGet>({
       skipCall: this.opereService.mangaLoaded,
-      callHttp: () => this.opereService.getManga('indykun'),
+      callHttp: () => this.opereService.getManga(),
       nextCall: (data: MangaGet) => {
         this.opereService.manga.set(data.manga);
         this.opereService.mangaUtente.set(data.mangaUtente);

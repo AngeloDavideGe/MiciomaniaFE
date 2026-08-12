@@ -5,14 +5,17 @@ import {
   HttpHeaders,
   HttpParams,
 } from '@angular/common/http';
-import { inject } from '@angular/core';
+import { inject, signal } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { AppConfigService } from '../../app/core/api/appConfig.service';
+import { User } from '../../app/shared/interfaces/users.interface';
 
 export abstract class BaseService {
   protected http = inject(HttpClient);
   protected appConfig = inject(AppConfigService);
+
+  protected currentUser = signal<User | null>(null);
 
   private baseUrl: string;
   private headers: HttpHeaders;

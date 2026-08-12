@@ -1,6 +1,6 @@
 import { HttpParams } from '@angular/common/http';
 import { Injectable, signal } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 import { LOADING_CONTEXT } from '../../../library/interceptors/loading.interceptor';
 import { BaseService } from '../../../library/services/base.service';
 import { Ruolo } from '../enums/users.enum';
@@ -10,8 +10,6 @@ import { CronUtenti, User, UserParams } from '../interfaces/users.interface';
   providedIn: 'root',
 })
 export class AuthService extends BaseService {
-  public currentUserId = signal<string>('');
-  public localUsers = signal<User[]>([]);
   public users = signal<UserParams[]>([]);
   public notifiche = signal<CronUtenti[]>([]);
 
@@ -34,7 +32,7 @@ export class AuthService extends BaseService {
     return this.getCustom<User>('Utenti/get_utente_by_email', {
       params: params,
       contextToken: LOADING_CONTEXT,
-    });
+    }).pipe(tap((data: User) => this.currentUser.set(data)));
   }
 
   getNotifiche(): Observable<CronUtenti[]> {

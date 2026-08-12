@@ -31,25 +31,35 @@ export class OpereService extends BaseService {
     return this.getCustom<Classifica>('Squadre/get_squadre_e_giocatori');
   }
 
-  getManga(idUtente: string): Observable<MangaGet> {
+  getManga(): Observable<MangaGet> {
     return forkJoin({
       manga: this.getCustom<iManga>('Manga/get_all_manga'),
-      mangaUtente: this.getMangaUtente(idUtente),
+      mangaUtente: this.getMangaUtente(),
     });
   }
 
-  getAllCanzoni(idUtente: string): Observable<CanzoniGet> {
+  getAllCanzoni(): Observable<CanzoniGet> {
     return forkJoin({
       canzoni: this.getCustom<Canzoni[]>('Manga/get_all_canzoni'),
-      mangaUtente: this.getMangaUtente(idUtente),
+      mangaUtente: this.getMangaUtente(),
     });
   }
 
-  private getMangaUtente(idUtente: string): Observable<MangaUtente> {
+  private getMangaUtente(): Observable<MangaUtente> {
+    if (!this.currentUser()) {
+      return of({
+        manga: null,
+        mangamicio: null,
+        canzonimicio: null,
+      });
+    }
+
     if (this.mangaUtente()) {
       return of(this.mangaUtente()!);
     } else {
-      return this.getCustom<MangaUtente>(`Manga/get_manga_utente/${idUtente}`);
+      return this.getCustom<MangaUtente>(
+        `Manga/get_manga_utente/${this.currentUser()?.id}`,
+      );
     }
   }
 }

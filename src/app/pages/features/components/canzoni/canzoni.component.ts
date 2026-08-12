@@ -107,7 +107,7 @@ export class CanzoniComponent implements OnInit {
   ngOnInit(): void {
     handlerFunc<CanzoniGet>({
       skipCall: this.opereService.canzoniLoaded,
-      callHttp: () => this.opereService.getAllCanzoni('indykun'),
+      callHttp: () => this.opereService.getAllCanzoni(),
       nextCall: (data: CanzoniGet) => {
         this.opereService.canzoni.set(data.canzoni);
         this.opereService.mangaUtente.set(data.mangaUtente);
