@@ -55,10 +55,12 @@ export interface Squadra {
   punteggio: number;
   descrizione: string;
   colore: string;
+  posizione: number;
 }
 
 export interface Giocatore {
   idUtente: string;
   punteggio: number;
   squadra: string;
+  posizione: number;
 }

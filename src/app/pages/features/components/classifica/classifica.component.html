@@ -22,6 +22,7 @@
               [elemTable]="giocatori()"
               [titoloTabella]="'Giocatori'"
               [colonne]="colonneGiocatori"
+              [recordBadge]="badgeTable"
             >
             </app-table-indy>
           }
@@ -32,6 +33,7 @@
               [colonne]="colonneSquadre"
               [keyPrimary]="'nome'"
               [templateCustom]="customTemplate"
+              [recordBadge]="badgeTable"
             >
               <ng-template #customTemplate let-elem>
                 <div class="dettagli-squadra">

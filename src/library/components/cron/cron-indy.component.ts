@@ -75,15 +75,17 @@ export class CronIndyComponent {
 
   public readonly hours = Array.from({ length: 24 }, (_, i) => i);
 
-  public readonly giorniSettimana = giorniSettimana.map((nome, index) => {
-    const value = index === 6 ? 0 : index + 1;
-    return {
-      value: value,
-      label: nome,
-    };
-  });
+  public readonly giorniSettimana = giorniSettimana.map(
+    (nome: string, index: number) => {
+      const value = index === 6 ? 0 : index + 1;
+      return {
+        value: value,
+        label: nome,
+      };
+    },
+  );
 
-  public readonly mesiList = mesi.map((nome, index) => ({
+  public readonly mesiList = mesi.map((nome: string, index: number) => ({
     value: index + 1,
     label: nome,
   }));

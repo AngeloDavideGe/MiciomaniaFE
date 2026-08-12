@@ -20,23 +20,34 @@ export function getClassificaTabs(): iTab[] {
   ];
 }
 
+export function getBadgeTable(): Record<number, string> {
+  return {
+    1: 'bg-success text-light rounded-pill px-2 py-1',
+    2: 'bg-secondary text-light rounded-pill px-2 py-1',
+    3: 'bg-warning text-dark rounded-pill px-2 py-1',
+    4: 'bg-info text-light rounded-pill px-2 py-1',
+    5: 'bg-light text-secondary rounded-pill px-2 py-1 border',
+  };
+}
+
 export function getColonneTabellaGiocatori(): Partial<
   RecordColonne<Giocatore>
 > {
   return {
+    posizione: {
+      titolo: 'Posizione',
+      sortCol: false,
+    },
     idUtente: {
       titolo: 'Nome',
-      lunghezza: '20rem',
       sortCol: true,
     },
     squadra: {
       titolo: 'Squadra',
-      lunghezza: '20rem',
       sortCol: true,
     },
     punteggio: {
       titolo: 'Punti',
-      lunghezza: '10rem',
       sortCol: true,
     },
   };
@@ -44,14 +55,16 @@ export function getColonneTabellaGiocatori(): Partial<
 
 export function getColonneTabellaSquadre(): Partial<RecordColonne<Squadra>> {
   return {
+    posizione: {
+      titolo: 'Posizione',
+      sortCol: false,
+    },
     nome: {
       titolo: 'Nome',
-      lunghezza: '20rem',
       sortCol: true,
     },
     punteggio: {
       titolo: 'Punti',
-      lunghezza: '10rem',
       sortCol: true,
     },
   };

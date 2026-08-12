@@ -8,10 +8,12 @@ import {
 } from '../../../../shared/interfaces/opere.interface';
 import { handlerFunc } from '../../../../../library/functions/handler.function';
 import {
+  getBadgeTable,
   getClassificaTabs,
   getColonneTabellaGiocatori,
   getColonneTabellaSquadre,
 } from './functions/classifica.functions';
+import { GetOrderCustom } from '../../../../../library/functions/ordinamento.function';
 
 @Component({
   selector: 'app-classifica',
@@ -26,16 +28,17 @@ export class ClassificaComponent implements OnInit {
   public readonly tabs = getClassificaTabs();
   public readonly colonneGiocatori = getColonneTabellaGiocatori();
   public readonly colonneSquadre = getColonneTabellaSquadre();
+  public readonly badgeTable = getBadgeTable();
 
   public currentTab = signal<string>('giocatori');
   public spinner = computed<boolean>(() => !this.opereService.classifica());
 
   public giocatori = computed<Giocatore[]>(
-    () => this.opereService.classifica()?.giocatori || [],
+    () => this.computedClassifica('giocatori') as Giocatore[],
   );
 
   public squadre = computed<Squadra[]>(
-    () => this.opereService.classifica()?.squadre || [],
+    () => this.computedClassifica('squadre') as Squadra[],
   );
 
   constructor() {}
@@ -49,5 +52,26 @@ export class ClassificaComponent implements OnInit {
     });
 
     this.opereService.classificaLoaded = true;
+  }
+
+  private computedClassifica(key: keyof Classifica): (Giocatore | Squadra)[] {
+    const classifica: Classifica | null = this.opereService.classifica();
+
+    if (!classifica) {
+      return [];
+    }
+
+    const items: (Giocatore | Squadra)[] = classifica[key];
+
+    if (items.length === 0) {
+      return [];
+    }
+
+    return GetOrderCustom<Giocatore | Squadra>(items, 'punteggio', false).map(
+      (item: Giocatore | Squadra, index: number) => ({
+        ...item,
+        posizione: index + 1,
+      }),
+    );
   }
 }

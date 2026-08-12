@@ -76,16 +76,12 @@ export class HomeComponent {
 
     const toggle: ToggleProps = {
       titolo: '',
-      menuElementi: notifiche.map((x: CronUtenti) => {
-        const menu: MenuElements = {
-          azione: () => {},
-          testo: x.idUtente + x.azione,
-          condition: true,
-          image: usersPic[x.idUtente].pic || this.pic,
-        };
-
-        return menu;
-      }),
+      menuElementi: notifiche.map((x: CronUtenti) => ({
+        azione: () => {},
+        testo: x.idUtente + x.azione,
+        condition: true,
+        image: usersPic[x.idUtente].pic || this.pic,
+      })),
     };
 
     return [toggle];

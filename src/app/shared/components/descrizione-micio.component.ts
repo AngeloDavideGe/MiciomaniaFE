@@ -84,6 +84,11 @@ import { ChangeDetectionStrategy, Component, input } from '@angular/core';
       background: var(--background);
       padding-left: 2rem;
       padding-right: 2rem;
+
+      @media (max-width: 576px) {
+        padding-left: 0.5rem;
+        padding-right: 0.5rem;
+      }
     }
   `,
 })

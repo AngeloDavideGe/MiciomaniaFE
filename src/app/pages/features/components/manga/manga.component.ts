@@ -109,18 +109,14 @@ export class MangaComponent implements OnInit {
 
     if (!manga) return [];
 
-    return manga[key].map((x: Manga) => {
-      const card: iCard = {
-        titolo: x.nome,
-        urlPic: x.copertina,
-        descrizione: x.genere,
-        bottone: 'Leggi',
-        tabFiltro: x.completato,
-        azione: () => {},
-      };
-
-      return card;
-    });
+    return manga[key].map((x: Manga) => ({
+      titolo: x.nome,
+      urlPic: x.copertina,
+      descrizione: x.genere,
+      bottone: 'Leggi',
+      tabFiltro: x.completato,
+      azione: () => {},
+    }));
   }
 
   private mangaPreferitiComputed(
@@ -146,18 +142,14 @@ export class MangaComponent implements OnInit {
       }
     });
 
-    return mangaPreferite.map((x: Manga) => {
-      const card: iCard = {
-        titolo: x.nome,
-        urlPic: x.copertina,
-        descrizione: x.genere,
-        bottone: 'Leggi',
-        tabFiltro: x.completato,
-        azione: () => {},
-      };
-
-      return card;
-    });
+    return mangaPreferite.map((x: Manga) => ({
+      titolo: x.nome,
+      urlPic: x.copertina,
+      descrizione: x.genere,
+      bottone: 'Leggi',
+      tabFiltro: x.completato,
+      azione: () => {},
+    }));
   }
 
   private mangaFiltri(manga: Signal<iCard[]>): FiltriInterface<iCard> {

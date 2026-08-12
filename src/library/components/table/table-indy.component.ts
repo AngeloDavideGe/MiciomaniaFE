@@ -47,7 +47,6 @@ export class TabellaIndyComponent<T> {
   public dataTableHttp = input<DataTableHttp<T> | null>(null);
   public noElement = input<string>('Nessun Elemento');
   public titoloTabella = input<string>('');
-  public lunghezzaAzioni = input<string>('10rem');
   public titoloColAzioni = input<string>('Azioni');
   public azioni = input<AzioniTabella<T>[]>([]);
   public tipoPaginazione = input<TipoPaginazione>('multiplo');
@@ -171,12 +170,10 @@ export class TabellaIndyComponent<T> {
         elemForPage: this.elemForPage,
         ordinaElem: this.ordinaElem,
         tipoSelect: this.filtroDefault ? 'some' : 'every',
-        select: this.keyofElem.map((x: keyof T) => {
-          return {
-            key: x,
-            query: this.colonne()[x]!.filtro || this.debounceQuery,
-          };
-        }),
+        select: this.keyofElem.map((x: keyof T) => ({
+          key: x,
+          query: this.colonne()[x]!.filtro || this.debounceQuery,
+        })),
       });
     }
   }

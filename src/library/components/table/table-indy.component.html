@@ -43,10 +43,7 @@
         <thead>
           <tr>
             @for (key of keyofElem; track $index; let idx = $index) {
-              <th
-                [style.width]="colonne()[key]!.lunghezza"
-                (click)="ordinaColonna(key)"
-              >
+              <th (click)="ordinaColonna(key)">
                 <span class="th-content">
                   {{ colonne()[key]!.titolo }}
 
@@ -74,7 +71,7 @@
               </th>
             }
             @if (azioni().length > 0 || keyPrimary()) {
-              <th [style.width]="lunghezzaAzioni()" class="actions-header">
+              <th class="actions-header">
                 {{ titoloColAzioni() }}
               </th>
             }
@@ -87,10 +84,7 @@
               [class.expanded]="expandedRow() === elem[keyPrimary()!]"
             >
               @for (key of keyofElem; track $index) {
-                <td
-                  [attr.data-label]="key"
-                  [style.width]="colonne()[key]!.lunghezza"
-                >
+                <td [attr.data-label]="key">
                   <div
                     class="cell-content"
                     [class]="recordBadge()['' + elem[key]]"
@@ -100,7 +94,7 @@
                 </td>
               }
               @if (azioni().length > 0 || keyPrimary()) {
-                <td [style.width]="lunghezzaAzioni()" class="actions-cell">
+                <td class="actions-cell">
                   <div class="actions-wrapper">
                     @if (azioni().length > 0) {
                       @for (azione of azioni(); track $index) {

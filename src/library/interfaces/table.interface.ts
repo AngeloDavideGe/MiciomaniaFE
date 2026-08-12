@@ -12,7 +12,6 @@ export interface AzioniTabella<T> {
 
 interface ColonnaConfig<T, K extends keyof T> {
   titolo: string;
-  lunghezza: string;
   filtro?: WritableSignal<string>;
   sortCol?: boolean;
   formatCell?: (value: T[K]) => string;
