@@ -24,6 +24,8 @@ import {
   getCanzoniToolbar,
 } from './functions/canzoni.function';
 import { AudioService } from '../../../../../library/dialogs/audio.service';
+import { AuthService } from '../../../../shared/services/auth.service';
+import { User } from '../../../../shared/interfaces/users.interface';
 
 @Component({
   selector: 'app-canzoni',
@@ -35,6 +37,7 @@ import { AudioService } from '../../../../../library/dialogs/audio.service';
 export class CanzoniComponent implements OnInit {
   private opereService = inject(OpereService);
   private audioService = inject(AudioService);
+  private authService = inject(AuthService);
 
   public readonly categorie = getCanzoniSidebar();
   public readonly arrayRaggi = defaultCanzoniArrayPags();
@@ -45,6 +48,10 @@ export class CanzoniComponent implements OnInit {
   public searchQuery = signal<string>('');
   public debounceQuery = signal<string>('');
   public currentCategoria = signal<string>('tutte');
+
+  public currentUser = computed<User | null>(() =>
+    this.authService.currentUser(),
+  );
 
   public canzoniToolbar = computed<OpereToolbar[]>(() => {
     const canzoni: Canzoni[] = this.opereService.canzoni();
@@ -107,7 +114,7 @@ export class CanzoniComponent implements OnInit {
   ngOnInit(): void {
     handlerFunc<CanzoniGet>({
       skipCall: this.opereService.canzoniLoaded,
-      callHttp: () => this.opereService.getAllCanzoni(),
+      callHttp: () => this.opereService.getAllCanzoni(this.currentUser()),
       nextCall: (data: CanzoniGet) => {
         this.opereService.canzoni.set(data.canzoni);
         this.opereService.mangaUtente.set(data.mangaUtente);

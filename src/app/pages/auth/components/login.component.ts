@@ -2,6 +2,9 @@ import { Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormIndyComponent } from '../../../../library/components/form/form-indy.component';
 import { getLoginForm } from '../functions/auth.function';
+import { AuthService } from '../../../shared/services/auth.service';
+import { handlerFunc } from '../../../../library/functions/handler.function';
+import { User, UserToken } from '../../../shared/interfaces/users.interface';
 
 @Component({
   selector: 'app-login',
@@ -18,7 +21,10 @@ import { getLoginForm } from '../functions/auth.function';
         </div>
 
         <div class="form-container">
-          <app-form-indy [strutturaForm]="formLogin"></app-form-indy>
+          <app-form-indy
+            [strutturaForm]="formLogin"
+            (invioDati)="loginComplete($event)"
+          ></app-form-indy>
         </div>
 
         <div class="login-footer">
@@ -41,5 +47,22 @@ import { getLoginForm } from '../functions/auth.function';
 })
 export class LoginComponent {
   public router = inject(Router);
+  public authService = inject(AuthService);
+
   public readonly formLogin = getLoginForm();
+
+  public loginComplete(event: { email: string; password: string }): void {
+    handlerFunc<UserToken>({
+      callHttp: () =>
+        this.authService.getUserByEmailAndPassword(event.email, event.password),
+      nextCall: (data: UserToken) => {
+        this.authService.currentUser.set(data.user);
+
+        if (data) {
+          this.authService.token.set(data.token);
+          this.router.navigate(['home']);
+        }
+      },
+    });
+  }
 }

@@ -9,6 +9,7 @@ import {
   MangaGet,
   MangaUtente,
 } from '../interfaces/opere.interface';
+import { User } from '../interfaces/users.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -31,22 +32,22 @@ export class OpereService extends BaseService {
     return this.getCustom<Classifica>('Squadre/get_squadre_e_giocatori');
   }
 
-  getManga(): Observable<MangaGet> {
+  getManga(currentUser: User | null): Observable<MangaGet> {
     return forkJoin({
       manga: this.getCustom<iManga>('Manga/get_all_manga'),
-      mangaUtente: this.getMangaUtente(),
+      mangaUtente: this.getMangaUtente(currentUser),
     });
   }
 
-  getAllCanzoni(): Observable<CanzoniGet> {
+  getAllCanzoni(currentUser: User | null): Observable<CanzoniGet> {
     return forkJoin({
       canzoni: this.getCustom<Canzoni[]>('Manga/get_all_canzoni'),
-      mangaUtente: this.getMangaUtente(),
+      mangaUtente: this.getMangaUtente(currentUser),
     });
   }
 
-  private getMangaUtente(): Observable<MangaUtente> {
-    if (!this.currentUser()) {
+  private getMangaUtente(currentUser: User | null): Observable<MangaUtente> {
+    if (!currentUser) {
       return of({
         manga: null,
         mangamicio: null,
@@ -58,7 +59,7 @@ export class OpereService extends BaseService {
       return of(this.mangaUtente()!);
     } else {
       return this.getCustom<MangaUtente>(
-        `Manga/get_manga_utente/${this.currentUser()?.id}`,
+        `Manga/get_manga_utente/${currentUser?.id}`,
       );
     }
   }

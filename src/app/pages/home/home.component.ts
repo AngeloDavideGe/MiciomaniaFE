@@ -1,4 +1,4 @@
-import { Component, computed, inject, signal } from '@angular/core';
+import { Component, computed, effect, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { handlerFunc } from '../../../library/functions/handler.function';
@@ -11,11 +11,13 @@ import {
 import { AppConfigService } from '../../core/api/appConfig.service';
 import {
   CronUtenti,
+  User,
   UserParams,
 } from '../../shared/interfaces/users.interface';
 import { AuthService } from '../../shared/services/auth.service';
 import { getCategorieCard, getToggleProps } from './functions/home.functions';
 import { home_imports } from './home.imports';
+import { OpereService } from '../../shared/services/opere.service';
 
 @Component({
   selector: 'app-home',
@@ -28,10 +30,24 @@ export class HomeComponent {
   public router = inject(Router);
   private authService = inject(AuthService);
   private appConfig = inject(AppConfigService);
+  private opereService = inject(OpereService);
 
   public readonly pic = this.appConfig.config.defaultPicsUrl.user;
-  public readonly impostazioniToggle = getToggleProps();
   public readonly cardsHome = getCategorieCard();
+
+  public impostazioniToggle = computed<ToggleProps[]>(() =>
+    getToggleProps(this.authService, this.router),
+  );
+
+  public imgToggle = computed<string>(() => {
+    const user: User | null = this.authService.currentUser();
+
+    if (!user || !user.credenziali || !user.credenziali.profilePic) {
+      return this.pic;
+    } else {
+      return user.credenziali.profilePic;
+    }
+  });
 
   public menuOpen = signal<string>('');
 
@@ -86,6 +102,19 @@ export class HomeComponent {
 
     return [toggle];
   });
+
+  constructor() {
+    effect(() => {
+      const user: User | null = this.authService.currentUser();
+
+      this.opereService.canzoni.set([]);
+      this.opereService.manga.set(null);
+      this.opereService.mangaUtente.set(null);
+
+      this.opereService.mangaLoaded = false;
+      this.opereService.canzoniLoaded = false;
+    });
+  }
 
   private loadAllUsers(): void {
     handlerFunc<UserParams[]>({

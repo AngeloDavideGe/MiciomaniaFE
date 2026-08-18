@@ -1,5 +1,10 @@
 import { Ruolo } from '../enums/users.enum';
 
+export interface UserToken {
+  user: User | null;
+  token: string;
+}
+
 export interface User {
   id: string;
   credenziali: Credenziali;

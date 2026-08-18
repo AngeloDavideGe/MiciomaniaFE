@@ -1,5 +1,8 @@
+import { Router } from '@angular/router';
 import { iCard } from '../../../../library/interfaces/card.interface';
 import { ToggleProps } from '../../../../library/interfaces/toggle.interface';
+import { User } from '../../../shared/interfaces/users.interface';
+import { AuthService } from '../../../shared/services/auth.service';
 
 export function getCategorieCard(): iCard[] {
   return [
@@ -32,7 +35,12 @@ export function getCategorieCard(): iCard[] {
   ];
 }
 
-export function getToggleProps(): ToggleProps[] {
+export function getToggleProps(
+  authService: AuthService,
+  router: Router,
+): ToggleProps[] {
+  const currentUser: User | null = authService.currentUser();
+
   return [
     {
       titolo: 'Account',
@@ -41,12 +49,6 @@ export function getToggleProps(): ToggleProps[] {
         {
           testo: 'Profilo',
           icona: 'bi bi-person',
-          condition: true,
-          azione: () => {},
-        },
-        {
-          testo: 'Impostazioni',
-          icona: 'bi bi-gear',
           condition: true,
           azione: () => {},
         },
@@ -59,8 +61,14 @@ export function getToggleProps(): ToggleProps[] {
         {
           testo: 'Esci',
           icona: 'bi bi-box-arrow-right',
-          condition: true,
-          azione: () => {},
+          condition: !!currentUser,
+          azione: () => authService.currentUser.set(null),
+        },
+        {
+          testo: 'Login',
+          icona: 'bi bi-box-arrow-right',
+          condition: !currentUser,
+          azione: () => router.navigate(['auth/login']),
         },
       ],
     },

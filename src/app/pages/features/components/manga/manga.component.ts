@@ -28,6 +28,8 @@ import {
   getMangaToolbar,
 } from './functions/manga.function';
 import { manga_imports } from './manga.import';
+import { AuthService } from '../../../../shared/services/auth.service';
+import { User } from '../../../../shared/interfaces/users.interface';
 
 @Component({
   selector: 'app-manga',
@@ -38,6 +40,7 @@ import { manga_imports } from './manga.import';
 })
 export class MangaComponent implements OnInit {
   private opereService = inject(OpereService);
+  private authService = inject(AuthService);
 
   public readonly categorie = getMangaSidebar();
   public readonly sottoCategorie = getMangaSidebarSub();
@@ -52,6 +55,9 @@ export class MangaComponent implements OnInit {
   public mangaToolbar = signal<OpereToolbar[]>(getMangaToolbar(0, 0));
 
   public viewSpinner = computed<boolean>(() => !this.opereService.manga());
+  public currentUser = computed<User | null>(() =>
+    this.authService.currentUser(),
+  );
 
   public manga = computed<iCard[]>(() => this.mangaComputed('listaManga'));
   public mangaMicio = computed<iCard[]>(() => this.mangaComputed('micioManga'));
@@ -93,7 +99,7 @@ export class MangaComponent implements OnInit {
   ngOnInit(): void {
     handlerFunc<MangaGet>({
       skipCall: this.opereService.mangaLoaded,
-      callHttp: () => this.opereService.getManga(),
+      callHttp: () => this.opereService.getManga(this.currentUser()),
       nextCall: (data: MangaGet) => {
         this.opereService.manga.set(data.manga);
         this.opereService.mangaUtente.set(data.mangaUtente);

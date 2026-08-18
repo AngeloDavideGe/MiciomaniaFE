@@ -17,7 +17,7 @@ export const appConfig: ApplicationConfig = {
       withInterceptors([
         loadingInterceptor,
         errorInterceptor,
-        tokenInterceptor,
+        // tokenInterceptor,
       ]),
     ),
     provideRouter(

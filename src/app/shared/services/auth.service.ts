@@ -1,15 +1,23 @@
 import { HttpParams } from '@angular/common/http';
 import { Injectable, signal } from '@angular/core';
-import { Observable, tap } from 'rxjs';
+import { Observable } from 'rxjs';
 import { LOADING_CONTEXT } from '../../../library/interceptors/loading.interceptor';
 import { BaseService } from '../../../library/services/base.service';
 import { Ruolo } from '../enums/users.enum';
-import { CronUtenti, User, UserParams } from '../interfaces/users.interface';
+import {
+  CronUtenti,
+  User,
+  UserParams,
+  UserToken,
+} from '../interfaces/users.interface';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService extends BaseService {
+  public token = signal<string | null>('');
+  public currentUser = signal<User | null>(null);
+
   public users = signal<UserParams[]>([]);
   public notifiche = signal<CronUtenti[]>([]);
 
@@ -24,15 +32,18 @@ export class AuthService extends BaseService {
     return this.getCustom<UserParams[]>('Utenti/get_all_utenti');
   }
 
-  getUserByEmailAndPassword(email: string, password: string): Observable<User> {
+  getUserByEmailAndPassword(
+    email: string,
+    password: string,
+  ): Observable<UserToken> {
     const params = new HttpParams()
       .set('email', email)
       .set('password', password);
 
-    return this.getCustom<User>('Utenti/get_utente_by_email', {
+    return this.getCustom<UserToken>('Utenti/get_utente_by_email', {
       params: params,
       contextToken: LOADING_CONTEXT,
-    }).pipe(tap((data: User) => this.currentUser.set(data)));
+    });
   }
 
   getNotifiche(): Observable<CronUtenti[]> {
