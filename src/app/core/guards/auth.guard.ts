@@ -9,7 +9,7 @@ function authGuardFunc(cond: boolean): boolean {
   const router = inject(Router);
   const auth = inject(AuthService);
 
-  const userBool: boolean = auth.currentUserId.length > 0;
+  const userBool: boolean = !!auth.currentUser();
 
   if (userBool == cond) {
     return true;

@@ -1,0 +1,121 @@
+.login-page {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 32px 20px;
+  overflow: hidden;
+  background: var(--background);
+}
+
+.login-container {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 480px;
+  padding: 0.5rem;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 24px;
+  box-shadow: 0 24px 70px rgba(var(--background-rgb), 0.65);
+  backdrop-filter: blur(14px);
+}
+
+.login-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  margin-top: 1rem;
+  text-align: center;
+}
+
+.header-text h1 {
+  margin: 0 0 8px;
+  color: var(--text);
+  font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: -0.04em;
+}
+
+.header-text p {
+  margin: 0;
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+.form-container {
+  width: 100%;
+}
+
+.login-footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding-top: 14px;
+  border-top: 1px solid var(--border);
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+}
+
+.login-footer button {
+  padding: 0;
+  color: var(--primary-light);
+  background: transparent;
+  border: none;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    color 0.2s ease,
+    text-shadow 0.2s ease;
+}
+
+.login-footer button:hover {
+  color: var(--primary);
+  text-shadow: 0 0 12px rgba(138, 77, 255, 0.45);
+}
+
+.glow {
+  position: absolute;
+  width: 420px;
+  height: 420px;
+  border-radius: 50%;
+  background: rgba(138, 77, 255, 0.12);
+  filter: blur(110px);
+  pointer-events: none;
+}
+
+.glow-left {
+  top: -180px;
+  left: -160px;
+}
+
+.glow-right {
+  right: -180px;
+  bottom: -200px;
+  background: rgba(183, 130, 255, 0.08);
+}
+
+@media (max-width: 576px) {
+  .login-page {
+    padding: 20px 14px;
+  }
+
+  .login-container {
+    padding: 24px 18px;
+    border-radius: 20px;
+  }
+
+  .header-text h1 {
+    font-size: 1.7rem;
+  }
+
+  .login-footer {
+    flex-wrap: wrap;
+  }
+}

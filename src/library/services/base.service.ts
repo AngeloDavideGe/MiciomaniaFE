@@ -15,7 +15,7 @@ export abstract class BaseService {
   protected http = inject(HttpClient);
   protected appConfig = inject(AppConfigService);
 
-  protected currentUser = signal<User | null>(null);
+  public currentUser = signal<User | null>(null);
 
   private baseUrl: string;
   private headers: HttpHeaders;
