@@ -17,6 +17,7 @@ import {
 export class AuthService extends BaseMicioService {
   public token = signal<string | null>('');
   public currentUser = signal<User | null>(null);
+  public accountsUser = signal<User[]>([]);
 
   public users = signal<UserParams[]>([]);
   public notifiche = signal<CronUtenti[]>([]);

@@ -8,6 +8,8 @@ export interface ToggleProps {
 export interface MenuElements {
   azione: Function;
   testo: string;
+  sottotitolo?: string;
+  selezionato?: boolean;
   icona?: string;
   image?: string;
   condition: boolean;

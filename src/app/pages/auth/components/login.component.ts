@@ -58,7 +58,20 @@ export class LoginComponent {
       nextCall: (data: UserToken) => {
         this.authService.currentUser.set(data.user);
 
-        if (data) {
+        if (data.user) {
+          this.authService.accountsUser.update((accounts: User[]) => {
+            const accountIndex = accounts.findIndex(
+              (account: User) => account.id === data.user?.id,
+            );
+
+            if (accountIndex === -1) {
+              return [...accounts, data.user as User];
+            }
+
+            return accounts.map((account: User, index: number) =>
+              index === accountIndex ? (data.user as User) : account,
+            );
+          });
           this.authService.token.set(data.token);
           this.router.navigate(['home']);
         }

@@ -1,9 +1,12 @@
 import { Component, HostListener, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { User } from './shared/interfaces/users.interface';
+import {
+  ACCOUNTS_USER_KEY,
+  CURRENT_USER_KEY,
+  getStoredAccountsUser,
+  getStoredCurrentUser,
+} from './core/functions/storage.function';
 import { AuthService } from './shared/services/auth.service';
-
-const CURRENT_USER_KEY: string = 'currentUtente';
 
 @Component({
   selector: 'app-root',
@@ -21,35 +24,23 @@ const CURRENT_USER_KEY: string = 'currentUtente';
   `,
 })
 export class AppComponent {
-  private readonly authService = inject(AuthService);
+  private authService = inject(AuthService);
 
   constructor() {
-    this.authService.currentUser.set(this.getStoredCurrentUser());
+    this.authService.currentUser.set(getStoredCurrentUser());
+    this.authService.accountsUser.set(getStoredAccountsUser());
   }
 
   @HostListener('window:beforeunload')
   saveCurrentUser(): void {
-    const currentUser = this.authService.currentUser();
+    localStorage.setItem(
+      CURRENT_USER_KEY,
+      JSON.stringify(this.authService.currentUser()),
+    );
 
-    if (currentUser) {
-      localStorage.setItem(CURRENT_USER_KEY, JSON.stringify(currentUser));
-    } else {
-      localStorage.removeItem(CURRENT_USER_KEY);
-    }
-  }
-
-  private getStoredCurrentUser(): User | null {
-    const storedUser = localStorage.getItem(CURRENT_USER_KEY);
-
-    if (!storedUser) {
-      return null;
-    }
-
-    try {
-      return JSON.parse(storedUser) as User;
-    } catch {
-      localStorage.removeItem(CURRENT_USER_KEY);
-      return null;
-    }
+    localStorage.setItem(
+      ACCOUNTS_USER_KEY,
+      JSON.stringify(this.authService.accountsUser()),
+    );
   }
 }

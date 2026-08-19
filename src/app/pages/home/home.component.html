@@ -18,10 +18,34 @@
           [(menuOpen)]="menuOpen"
         />
         <app-toggle-indy
+          [titolo]="'Account utente'"
           [imgIcona]="imgToggle()"
-          [toggleStyles]="{ width: '0', height: '0' }"
+          [tipo]="'single'"
+          [toggleMenus]="accountToggle()"
+          [toggleStyles]="{ width: '20rem', right: '1rem' }"
           [(menuOpen)]="menuOpen"
-        />
+        >
+          <div downContent class="account-actions">
+            <div class="account-divider"></div>
+
+            <button type="button" (click)="router.navigate(['auth/login'])">
+              <span class="account-action-icon">
+                <i class="bi bi-plus-lg"></i>
+              </span>
+              <span>Aggiungi un altro account</span>
+            </button>
+
+            @if (authService.currentUser()) {
+              <button
+                type="button"
+                class="logout-all"
+                (click)="logoutAllAccounts()"
+              >
+                Esci da tutti gli account
+              </button>
+            }
+          </div>
+        </app-toggle-indy>
       </div>
     </div>
   </app-navbar-indy>

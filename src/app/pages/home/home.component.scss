@@ -2,3 +2,51 @@
     margin-inline: 2rem;
     margin-top: 2rem;
 }
+
+.account-actions {
+  padding: 0 .6rem .6rem;
+
+  .account-divider {
+    height: 1px;
+    margin: .15rem 0 .6rem;
+    background: var(--border);
+  }
+
+  button {
+    display: flex;
+    align-items: center;
+    gap: .85rem;
+    width: 100%;
+    padding: .7rem .8rem;
+    border: 0;
+    border-radius: .85rem;
+    background: transparent;
+    color: var(--text);
+    font-size: .9rem;
+    font-weight: 600;
+    text-align: left;
+    cursor: pointer;
+    transition: background-color .2s ease, color .2s ease;
+
+    &:hover {
+      background: var(--card-light);
+    }
+  }
+
+  .account-action-icon {
+    display: grid;
+    flex: 0 0 2rem;
+    width: 2rem;
+    height: 2rem;
+    place-items: center;
+    border: 1px solid var(--border);
+    border-radius: 50%;
+    color: var(--primary-light);
+  }
+
+  .logout-all {
+    justify-content: center;
+    margin-top: .35rem;
+    color: var(--primary-light);
+  }
+}

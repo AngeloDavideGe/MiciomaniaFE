@@ -4,10 +4,7 @@ import { Observable } from 'rxjs';
 import { handlerFunc } from '../../../library/functions/handler.function';
 import { isCurrentRoute } from '../../../library/functions/router.function';
 import { UserReduced } from '../../../library/interfaces/chat.interface';
-import {
-  MenuElements,
-  ToggleProps,
-} from '../../../library/interfaces/toggle.interface';
+import { ToggleProps } from '../../../library/interfaces/toggle.interface';
 import { AppConfigService } from '../../core/api/appConfig.service';
 import {
   CronUtenti,
@@ -15,9 +12,13 @@ import {
   UserParams,
 } from '../../shared/interfaces/users.interface';
 import { AuthService } from '../../shared/services/auth.service';
+import { OpereService } from '../../shared/services/opere.service';
 import { getCategorieCard, getToggleProps } from './functions/home.functions';
 import { home_imports } from './home.imports';
-import { OpereService } from '../../shared/services/opere.service';
+import {
+  ACCOUNTS_USER_KEY,
+  CURRENT_USER_KEY,
+} from '../../core/functions/storage.function';
 
 @Component({
   selector: 'app-home',
@@ -28,9 +29,11 @@ import { OpereService } from '../../shared/services/opere.service';
 })
 export class HomeComponent {
   public router = inject(Router);
-  private authService = inject(AuthService);
+  public authService = inject(AuthService);
   private appConfig = inject(AppConfigService);
   private opereService = inject(OpereService);
+
+  private openNow: boolean = true;
 
   public readonly pic = this.appConfig.config.defaultPicsUrl.user;
   public readonly cardsHome = getCategorieCard();
@@ -47,6 +50,28 @@ export class HomeComponent {
     } else {
       return user.credenziali.profilePic;
     }
+  });
+
+  public accountToggle = computed<ToggleProps[]>(() => {
+    const user: User | null = this.authService.currentUser();
+    const accounts: User[] = this.authService.accountsUser();
+
+    return [
+      {
+        titolo: 'Account',
+        menuElementi: accounts.map((account: User) => ({
+          testo: account.credenziali.nome,
+          sottotitolo: account.id,
+          selezionato: account.id === user?.id,
+          image: account?.credenziali?.profilePic || this.pic,
+          condition: true,
+          azione: () => {
+            this.authService.currentUser.set(account);
+            this.menuOpen.set('');
+          },
+        })),
+      },
+    ];
   });
 
   public menuOpen = signal<string>('');
@@ -96,7 +121,7 @@ export class HomeComponent {
         azione: () => {},
         testo: x.idUtente + x.azione,
         condition: true,
-        image: usersPic[x.idUtente].pic || this.pic,
+        image: usersPic[x.idUtente]?.pic || this.pic,
       })),
     };
 
@@ -107,13 +132,27 @@ export class HomeComponent {
     effect(() => {
       const user: User | null = this.authService.currentUser();
 
-      this.opereService.canzoni.set([]);
-      this.opereService.manga.set(null);
-      this.opereService.mangaUtente.set(null);
+      if (this.openNow) {
+        this.openNow = false;
+      } else {
+        this.opereService.canzoni.set([]);
+        this.opereService.manga.set(null);
+        this.opereService.mangaUtente.set(null);
 
-      this.opereService.mangaLoaded = false;
-      this.opereService.canzoniLoaded = false;
+        this.opereService.mangaLoaded = false;
+        this.opereService.canzoniLoaded = false;
+      }
     });
+  }
+
+  public logoutAllAccounts(): void {
+    this.authService.currentUser.set(null);
+    this.authService.accountsUser.set([]);
+    this.authService.token.set(null);
+    localStorage.removeItem(CURRENT_USER_KEY);
+    localStorage.removeItem(ACCOUNTS_USER_KEY);
+    this.menuOpen.set('');
+    this.router.navigate(['auth/login']);
   }
 
   private loadAllUsers(): void {

@@ -33,7 +33,17 @@
                   } @else if (item.image) {
                     <img class="img-icona" [src]="item.image" />
                   }
-                  <div [innerHTML]="item.testo"></div>
+                  @if (item.sottotitolo) {
+                    <div class="content">
+                      <span class="title">{{ item.testo }}</span>
+                      <span class="subtitle">{{ item.sottotitolo }}</span>
+                    </div>
+                    @if (item.selezionato) {
+                      <i class="bi bi-check-circle-fill selected"></i>
+                    }
+                  } @else {
+                    <div [innerHTML]="item.testo"></div>
+                  }
                 </a>
               </li>
             }
