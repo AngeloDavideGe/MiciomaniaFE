@@ -2,7 +2,7 @@ import { HttpParams } from '@angular/common/http';
 import { Injectable, signal } from '@angular/core';
 import { Observable } from 'rxjs';
 import { LOADING_CONTEXT } from '../../../library/interceptors/loading.interceptor';
-import { BaseService } from '../../../library/services/base.service';
+import { BaseMicioService } from './base-micio.service';
 import { Ruolo } from '../enums/users.enum';
 import {
   CronUtenti,
@@ -14,7 +14,7 @@ import {
 @Injectable({
   providedIn: 'root',
 })
-export class AuthService extends BaseService {
+export class AuthService extends BaseMicioService {
   public token = signal<string | null>('');
   public currentUser = signal<User | null>(null);
 
@@ -42,7 +42,7 @@ export class AuthService extends BaseService {
 
     return this.getCustom<UserToken>('Utenti/get_utente_by_email', {
       params: params,
-      contextToken: LOADING_CONTEXT,
+      contexts: [{ contextToken: LOADING_CONTEXT, value: true }],
     });
   }
 
@@ -54,7 +54,6 @@ export class AuthService extends BaseService {
 
     return this.getCustom<CronUtenti[]>('Crono/get_notifiche', {
       params: params,
-      contextToken: LOADING_CONTEXT,
     });
   }
 
@@ -73,7 +72,7 @@ export class AuthService extends BaseService {
 
     return this.postCustom<void>('Utenti/post_utente', {
       body: body,
-      contextToken: LOADING_CONTEXT,
+      contexts: [{ contextToken: LOADING_CONTEXT, value: true }],
     });
   }
 
@@ -94,8 +93,7 @@ export class AuthService extends BaseService {
 
     return this.putCustom<any>(`Utenti/update_utente/${user.id}`, {
       body: body,
-      contextToken: LOADING_CONTEXT,
-      valueContext: valueContext,
+      contexts: [{ contextToken: LOADING_CONTEXT, value: valueContext }],
     });
   }
 
@@ -106,8 +104,7 @@ export class AuthService extends BaseService {
 
     return this.putCustom<void>(`Utenti/update_ruolo_admin/${id}`, {
       body: body,
-      contextToken: LOADING_CONTEXT,
-      valueContext: true,
+      contexts: [{ contextToken: LOADING_CONTEXT, value: true }],
     });
   }
 }

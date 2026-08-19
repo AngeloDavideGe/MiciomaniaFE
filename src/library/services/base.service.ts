@@ -5,26 +5,22 @@ import {
   HttpHeaders,
   HttpParams,
 } from '@angular/common/http';
-import { inject, signal } from '@angular/core';
+import { inject } from '@angular/core';
 import { Observable } from 'rxjs';
-import { environment } from '../../environments/environment';
-import { AppConfigService } from '../../app/core/api/appConfig.service';
-import { User } from '../../app/shared/interfaces/users.interface';
 
 export abstract class BaseService {
   protected http = inject(HttpClient);
-  protected appConfig = inject(AppConfigService);
 
-  private baseUrl: string;
-  private headers: HttpHeaders;
+  private readonly baseUrl: string;
+  private readonly headers: HttpHeaders;
 
-  constructor(db: 'CS' | 'PY' | 'DB2') {
-    this.baseUrl = environment.BE[db];
-    this.headers = getHeader(this.appConfig.config.HEADERS[db].KEY);
+  constructor(config: BaseServiceConfig) {
+    this.baseUrl = config.baseUrl;
+    this.headers = config.headers ?? new HttpHeaders();
   }
 
   protected getCustom<T>(url: string, input?: HttpBaseInput): Observable<T> {
-    const context = getContext(input?.contextToken, input?.valueContext);
+    const context = getContext(input?.contexts);
 
     return this.http.get<T>(`${this.baseUrl}${url}`, {
       headers: this.headers,
@@ -35,7 +31,7 @@ export abstract class BaseService {
 
   protected postCustom<T>(url: string, input?: HttpBaseInput): Observable<T> {
     const body = input?.body || {};
-    const context = getContext(input?.contextToken, input?.valueContext);
+    const context = getContext(input?.contexts);
 
     return this.http.post<T>(`${this.baseUrl}${url}`, body, {
       headers: this.headers,
@@ -45,7 +41,7 @@ export abstract class BaseService {
 
   protected putCustom<T>(url: string, input?: HttpBaseInput): Observable<T> {
     const body = input?.body || {};
-    const context = getContext(input?.contextToken, input?.valueContext);
+    const context = getContext(input?.contexts);
 
     return this.http.put<T>(`${this.baseUrl}${url}`, body, {
       headers: this.headers,
@@ -54,7 +50,7 @@ export abstract class BaseService {
   }
 
   protected deleteCustom<T>(url: string, input?: HttpBaseInput): Observable<T> {
-    const context = getContext(input?.contextToken, input?.valueContext);
+    const context = getContext(input?.contexts);
 
     return this.http.delete<T>(`${this.baseUrl}${url}`, {
       headers: this.headers,
@@ -63,21 +59,16 @@ export abstract class BaseService {
   }
 }
 
-function getHeader(key: string): HttpHeaders {
-  return new HttpHeaders({
-    apikey: key,
-    Authorization: `Bearer ${key}`,
-  });
+export interface BaseServiceConfig {
+  baseUrl: string;
+  headers?: HttpHeaders;
 }
 
-function getContext(
-  contextToken?: HttpContextToken<boolean>,
-  value?: boolean,
-): HttpContext {
+function getContext(contexts: HttpContextInput[] = []): HttpContext {
   let context = new HttpContext();
 
-  if (contextToken && value != undefined) {
-    context = context.set(contextToken, value);
+  for (const item of contexts) {
+    context = context.set(item.contextToken, item.value);
   }
 
   return context;
@@ -86,6 +77,10 @@ function getContext(
 interface HttpBaseInput {
   body?: any;
   params?: HttpParams;
-  contextToken?: HttpContextToken<boolean>;
-  valueContext?: boolean;
+  contexts?: HttpContextInput[];
+}
+
+interface HttpContextInput {
+  contextToken: HttpContextToken<boolean>;
+  value: boolean;
 }

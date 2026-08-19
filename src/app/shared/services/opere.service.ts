@@ -1,6 +1,6 @@
 import { Injectable, signal } from '@angular/core';
 import { forkJoin, Observable, of } from 'rxjs';
-import { BaseService } from '../../../library/services/base.service';
+import { BaseMicioService } from './base-micio.service';
 import {
   Canzoni,
   CanzoniGet,
@@ -14,7 +14,7 @@ import { User } from '../interfaces/users.interface';
 @Injectable({
   providedIn: 'root',
 })
-export class OpereService extends BaseService {
+export class OpereService extends BaseMicioService {
   public manga = signal<iManga | null>(null);
   public canzoni = signal<Canzoni[]>([]);
   public mangaUtente = signal<MangaUtente | null>(null);

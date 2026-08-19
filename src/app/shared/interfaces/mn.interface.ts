@@ -1,3 +1,5 @@
+import { Mappa } from '../../../library/interfaces/svg.interface';
+
 export type GitHubType = Social[] | Conquiste;
 
 export interface Social {
@@ -11,11 +13,6 @@ export interface Social {
 export interface Risposta {
   testo: string;
   soluzione: boolean;
-}
-
-export interface Mappa {
-  proprietario: string;
-  descrizione: string;
 }
 
 export interface Conquiste {
@@ -36,4 +33,12 @@ export interface IFooter {
 export interface ILink {
   url: string;
   label: string;
+}
+
+export interface MN {
+  valore: string | number;
+  descrizione: string;
+  consiglio: string;
+  esempi: string[];
+  colore: string;
 }

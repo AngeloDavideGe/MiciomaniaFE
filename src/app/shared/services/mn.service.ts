@@ -1,13 +1,12 @@
 import { Injectable, signal } from '@angular/core';
-import { BaseService } from '../../../library/services/base.service';
-import { Social, Conquiste, IFooter } from '../interfaces/mn.interface';
-import { forkJoin, Observable } from 'rxjs';
-import { MN } from '../interfaces/squadre.interface';
+import { Observable } from 'rxjs';
+import { BaseMicioService } from './base-micio.service';
+import { Conquiste, IFooter, MN, Social } from '../interfaces/mn.interface';
 
 @Injectable({
   providedIn: 'root',
 })
-export class MNService extends BaseService {
+export class MNService extends BaseMicioService {
   public social = signal<Social[]>([]);
   public mn = signal<MN[]>([]);
   public conquiste = signal<Conquiste | null>(null);

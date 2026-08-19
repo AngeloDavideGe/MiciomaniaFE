@@ -5,3 +5,8 @@ export interface PathSvgCustom {
   textX?: number;
   textY?: number;
 }
+
+export interface Mappa {
+  proprietario: string;
+  descrizione: string;
+}

@@ -6,8 +6,7 @@ import {
   output,
   signal,
 } from '@angular/core';
-import { Mappa } from '../../../app/shared/interfaces/mn.interface';
-import { PathSvgCustom } from '../../interfaces/svg.interface';
+import { PathSvgCustom, Mappa } from '../../interfaces/svg.interface';
 
 @Component({
   selector: 'app-svg-indy',
@@ -18,8 +17,8 @@ import { PathSvgCustom } from '../../interfaces/svg.interface';
   styleUrl: './svg-indy.component.scss',
 })
 export class SvgIndyComponent {
+  public paths = input.required<PathSvgCustom[]>();
   public colori = input<Record<string, string>>({});
-  public paths = input<PathSvgCustom[]>([]);
   public viewbox = input<string>('');
   public translate = input<string>('');
   public transform = input<string>('');
