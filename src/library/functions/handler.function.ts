@@ -42,7 +42,7 @@ export async function handlerFuncAsync<T, S = T, M = S>(
   }
 }
 
-function callHttpFunc<T, S, M>(
+export function callHttpFunc<T, S = T, M = S>(
   params: HandlerInterface<T, S, M>,
 ): Observable<M> {
   return params.callHttp().pipe(

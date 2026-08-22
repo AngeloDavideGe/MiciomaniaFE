@@ -6,7 +6,8 @@ import {
   inject,
   Injectable,
 } from '@angular/core';
-import { finalize, Observable, take } from 'rxjs';
+import { Observable } from 'rxjs';
+import { callHttpFunc, handlerFunc } from '../functions/handler.function';
 import { ConfirmComponent, ConfirmParams } from './confirm.component';
 
 @Injectable({
@@ -26,20 +27,22 @@ export class ConfirmService {
     confirmFunc: Function;
     notConfirmFunc: Function;
   }): void {
-    this.confirm({
-      title: params.titolo,
-      message: params.messaggio,
-      buttonNo: params.buttonNo || 'No',
-      buttonSi: params.buttonSi || 'Si',
-    })
-      .pipe(take(1))
-      .subscribe((result) => {
+    handlerFunc<boolean>({
+      callHttp: () =>
+        this.confirm({
+          title: params.titolo,
+          message: params.messaggio,
+          buttonNo: params.buttonNo || 'No',
+          buttonSi: params.buttonSi || 'Si',
+        }),
+      nextCall: (result: boolean) => {
         if (result) {
           params.confirmFunc();
         } else {
           params.notConfirmFunc();
         }
-      });
+      },
+    });
   }
 
   private confirm(confirmParams: ConfirmParams): Observable<boolean> {
@@ -51,19 +54,20 @@ export class ConfirmService {
       environmentInjector: this.environmentInjector,
     });
 
-    this.confirmComponentRef.instance.params = {
+    this.confirmComponentRef.instance.params.set({
       title: confirmParams.title,
       message: confirmParams.message,
       buttonNo: confirmParams.buttonNo,
       buttonSi: confirmParams.buttonSi,
-    };
+    });
 
     document.body.appendChild(this.confirmComponentRef.location.nativeElement);
     this.appRef.attachView(this.confirmComponentRef.hostView);
 
-    return this.confirmComponentRef.instance
-      .getResultObservable()
-      .pipe(finalize(() => this.destroyConfirmComponent()));
+    return callHttpFunc<boolean>({
+      callHttp: () => this.confirmComponentRef!.instance.getResultObservable(),
+      finalizeCall: () => this.destroyConfirmComponent(),
+    });
   }
 
   private destroyConfirmComponent(): void {

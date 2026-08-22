@@ -4,6 +4,7 @@ import { ToggleProps } from '../../../../library/interfaces/toggle.interface';
 import { User } from '../../../shared/interfaces/users.interface';
 import { AuthService } from '../../../shared/services/auth.service';
 import { RaggioPage } from '../../../../library/interfaces/pagination.interface';
+import { ConfirmService } from '../../../../library/dialogs/confirm.service';
 
 export function getCategorieCard(): iCard[] {
   return [
@@ -48,6 +49,7 @@ export function getCategorieCard(): iCard[] {
 export function getToggleProps(
   authService: AuthService,
   router: Router,
+  confirmService: ConfirmService,
 ): ToggleProps[] {
   const currentUser: User | null = authService.currentUser();
 
@@ -72,7 +74,27 @@ export function getToggleProps(
           testo: 'Esci',
           icona: 'bi bi-box-arrow-right',
           condition: !!currentUser,
-          azione: () => authService.currentUser.set(null),
+          azione: () => {
+            const accountsUser: User[] = authService.accountsUser();
+            const currentUser: User | null = authService.currentUser();
+
+            confirmService.confirmCustom({
+              titolo: 'Logout Account',
+              messaggio: `Vuoi davvero uscire da ${currentUser?.id}?`,
+              confirmFunc: () => {
+                if (accountsUser.length > 1 && currentUser) {
+                  authService.accountsUser.update((x: User[]) =>
+                    x.filter((y: User) => y.id != currentUser.id),
+                  );
+                  authService.currentUser.set(authService.accountsUser()[0]);
+                } else {
+                  authService.accountsUser.set([]);
+                  authService.currentUser.set(null);
+                }
+              },
+              notConfirmFunc: () => {},
+            });
+          },
         },
         {
           testo: 'Login',

@@ -38,12 +38,12 @@
           <div class="footer-actions">
             <app-button-indy
               [text]="secondaryButtonText()"
-              (clickBotton)="secondaryAction.emit()"
+              (clickButton)="secondaryAction.emit()"
             ></app-button-indy>
 
             <app-button-indy
               [text]="primaryButtonText()"
-              (clickBotton)="primaryAction.emit()"
+              (clickButton)="primaryAction.emit()"
               [disabled]="disablePrimaryButton()"
             ></app-button-indy>
           </div>

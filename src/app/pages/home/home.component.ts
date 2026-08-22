@@ -23,6 +23,7 @@ import {
   ACCOUNTS_USER_KEY,
   CURRENT_USER_KEY,
 } from '../../core/functions/storage.function';
+import { ConfirmService } from '../../../library/dialogs/confirm.service';
 
 @Component({
   selector: 'app-home',
@@ -36,6 +37,7 @@ export class HomeComponent {
   public authService = inject(AuthService);
   private appConfig = inject(AppConfigService);
   private opereService = inject(OpereService);
+  private confirmService = inject(ConfirmService);
 
   private openNow: boolean = true;
 
@@ -44,7 +46,7 @@ export class HomeComponent {
   public readonly arrayRaggi = defaultHomeArrayPags();
 
   public impostazioniToggle = computed<ToggleProps[]>(() =>
-    getToggleProps(this.authService, this.router),
+    getToggleProps(this.authService, this.router, this.confirmService),
   );
 
   public imgToggle = computed<string>(() => {
@@ -151,13 +153,19 @@ export class HomeComponent {
   }
 
   public logoutAllAccounts(): void {
-    this.authService.currentUser.set(null);
-    this.authService.accountsUser.set([]);
-    this.authService.token.set(null);
-    localStorage.removeItem(CURRENT_USER_KEY);
-    localStorage.removeItem(ACCOUNTS_USER_KEY);
-    this.menuOpen.set('');
-    this.router.navigate(['auth/login']);
+    this.confirmService.confirmCustom({
+      titolo: 'Disconnetti tutti gli Account',
+      messaggio: `Vuoi davvero uscire da tutti gli account?`,
+      confirmFunc: () => {
+        this.authService.currentUser.set(null);
+        this.authService.accountsUser.set([]);
+        this.authService.token.set(null);
+        localStorage.removeItem(CURRENT_USER_KEY);
+        localStorage.removeItem(ACCOUNTS_USER_KEY);
+        this.menuOpen.set('');
+      },
+      notConfirmFunc: () => {},
+    });
   }
 
   private loadAllUsers(): void {

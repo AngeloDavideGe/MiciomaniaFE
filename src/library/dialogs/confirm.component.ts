@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, input, model } from '@angular/core';
 import { Subject } from 'rxjs';
 import { ModalIndyComponent } from '../components/modal/modal-indy.component';
 
@@ -8,13 +8,13 @@ import { ModalIndyComponent } from '../components/modal/modal-indy.component';
   imports: [ModalIndyComponent],
   template: `
     <app-modal-indy
-      [title]="params.title"
-      [subtitle]="params.message"
+      [title]="params().title"
+      [subtitle]="params().message"
       [width]="'sm'"
       [showFooter]="true"
       [showBody]="false"
-      [secondaryButtonText]="params.buttonNo"
-      [primaryButtonText]="params.buttonSi"
+      [secondaryButtonText]="params().buttonNo"
+      [primaryButtonText]="params().buttonSi"
       (close)="onClose(false)"
       (primaryAction)="onClose(true)"
       (secondaryAction)="onClose(false)"
@@ -23,7 +23,7 @@ import { ModalIndyComponent } from '../components/modal/modal-indy.component';
 })
 export class ConfirmComponent {
   private resultSubject = new Subject<boolean>();
-  @Input() params!: ConfirmParams;
+  public params = model.required<ConfirmParams>();
 
   getResultObservable() {
     return this.resultSubject.asObservable();
