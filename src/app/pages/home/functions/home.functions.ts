@@ -3,6 +3,7 @@ import { iCard } from '../../../../library/interfaces/card.interface';
 import { ToggleProps } from '../../../../library/interfaces/toggle.interface';
 import { User } from '../../../shared/interfaces/users.interface';
 import { AuthService } from '../../../shared/services/auth.service';
+import { RaggioPage } from '../../../../library/interfaces/pagination.interface';
 
 export function getCategorieCard(): iCard[] {
   return [
@@ -30,6 +31,15 @@ export function getCategorieCard(): iCard[] {
         'Tutto il mondo gaming: giochi provati, consigli e preferiti.',
       bottone: 'Scopri giochi',
       routerLink: 'feature/giochi',
+      color: 'var(--primary)',
+    },
+    {
+      titolo: 'Classifica',
+      urlPic: 'https://i.postimg.cc/Y0w3Z0mW/Giochi-Card.png',
+      descrizione:
+        'Classifica dei migliori giocatori Miciomani e le loro squadre',
+      bottone: 'Visualizza classifica',
+      routerLink: 'feature/classifica',
       color: 'var(--primary)',
     },
   ];
@@ -71,6 +81,19 @@ export function getToggleProps(
           azione: () => router.navigate(['auth/login']),
         },
       ],
+    },
+  ];
+}
+
+export function defaultHomeArrayPags(): RaggioPage[] {
+  return [
+    ...[5, 4, 3, 2].map((x: number) => ({
+      width: 40 + 344 * x,
+      raggio: x,
+    })),
+    {
+      width: 0,
+      raggio: 1,
     },
   ];
 }

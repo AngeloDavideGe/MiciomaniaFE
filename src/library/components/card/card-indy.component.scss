@@ -44,6 +44,33 @@
   font-weight: 700;
 }
 
+.slice-indicators {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.slice-indicator {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  background: var(--text-secondary);
+  opacity: 0.55;
+  transition:
+    background 0.2s ease,
+    opacity 0.2s ease,
+    transform 0.2s ease;
+
+  &.active {
+    background: var(--primary-light);
+    opacity: 1;
+    transform: scale(1.35);
+    box-shadow: var(--primary-shadow);
+  }
+}
+
 .carousel-button {
   position: absolute;
   top: 50%;

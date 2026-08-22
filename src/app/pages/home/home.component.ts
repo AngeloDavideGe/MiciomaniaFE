@@ -13,7 +13,11 @@ import {
 } from '../../shared/interfaces/users.interface';
 import { AuthService } from '../../shared/services/auth.service';
 import { OpereService } from '../../shared/services/opere.service';
-import { getCategorieCard, getToggleProps } from './functions/home.functions';
+import {
+  defaultHomeArrayPags,
+  getCategorieCard,
+  getToggleProps,
+} from './functions/home.functions';
 import { home_imports } from './home.imports';
 import {
   ACCOUNTS_USER_KEY,
@@ -37,6 +41,7 @@ export class HomeComponent {
 
   public readonly pic = this.appConfig.config.defaultPicsUrl.user;
   public readonly cardsHome = getCategorieCard();
+  public readonly arrayRaggi = defaultHomeArrayPags();
 
   public impostazioniToggle = computed<ToggleProps[]>(() =>
     getToggleProps(this.authService, this.router),

@@ -4,6 +4,7 @@ import {
   Component,
   computed,
   effect,
+  EffectCleanupRegisterFn,
   HostListener,
   inject,
   input,
@@ -48,6 +49,19 @@ export class CardIndyComponent {
   public tipoSlice = input<TypePagination>('all');
   public tipoPaginazione = input<TipoPaginazione>('singolo');
   public arrayPags = input<RaggioPage[]>(defaultArrayPags);
+  public sliceAutomaticoInSec = input<number | undefined>(undefined);
+
+  public singleSliceIndicators = computed(() => {
+    if (this.tipoSlice() !== 'single' || !this.sliceAutomaticoInSec())
+      return [];
+
+    const count = Math.max(
+      0,
+      (this.elems()?.length ?? 0) - this.elemForPage() + 1,
+    );
+
+    return Array.from({ length: count }, (_, index) => index);
+  });
 
   public changeButton = output<string | null>();
   public currentButton = model<string | null>(null);
@@ -69,8 +83,11 @@ export class CardIndyComponent {
   });
 
   constructor() {
-    effect(() => {
+    effect((onCleanup: EffectCleanupRegisterFn) => {
       const elements: iCard[] | null = this.elems();
+      const tipoSlice: TypePagination = this.tipoSlice();
+      const sliceAutomaticoInSec: number | undefined =
+        this.sliceAutomaticoInSec();
 
       if (elements) {
         this.elemForPage.set(this.getNumCards());
@@ -78,8 +95,22 @@ export class CardIndyComponent {
         this.filtri = GetFiltriCustom<iCard, null>({
           elemTable: signal(elements),
           elemForPage: this.elemForPage,
-          slice: this.tipoSlice(),
+          slice: tipoSlice,
         });
+
+        if (tipoSlice === 'single' && sliceAutomaticoInSec) {
+          const intervalId: number = window.setInterval(() => {
+            const currentSlice: number = this.filtri.currentSlice();
+
+            this.filtri.nextSlice();
+
+            if (this.filtri.currentSlice() === currentSlice) {
+              this.filtri.currentSlice.set(0);
+            }
+          }, sliceAutomaticoInSec * 1000);
+
+          onCleanup(() => window.clearInterval(intervalId));
+        }
       }
     });
   }
@@ -95,7 +126,7 @@ export class CardIndyComponent {
 
   private getNumCards(): number {
     const width = window.innerWidth;
-    const config = this.arrayPags().find((x) => width >= x.width);
+    const config = this.arrayPags().find((x) => x.width <= width);
     return config?.raggio ?? 2;
   }
 

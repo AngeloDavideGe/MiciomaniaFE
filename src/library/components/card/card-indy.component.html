@@ -24,6 +24,17 @@
       }
     </div>
 
+    @if (singleSliceIndicators().length > 0) {
+      <div class="slice-indicators" aria-hidden="true">
+        @for (indicator of singleSliceIndicators(); track indicator) {
+          <span
+            class="slice-indicator"
+            [class.active]="indicator === filtri.currentSlice()"
+          ></span>
+        }
+      </div>
+    }
+
     @if (tipoSlice() === "page") {
       <app-paginazione-indy [filtri]="filtri" [tipo]="tipoPaginazione()" />
     }
