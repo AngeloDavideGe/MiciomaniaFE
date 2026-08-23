@@ -23,7 +23,7 @@ import {
   getCanzoniSidebar,
   getCanzoniToolbar,
 } from './functions/canzoni.function';
-import { AudioService } from '../../../../../library/dialogs/audio.service';
+import { AudioService } from '../../../../../library/dialogs/audio/audio.service';
 import { AuthService } from '../../../../shared/services/auth.service';
 import { User } from '../../../../shared/interfaces/users.interface';
 

@@ -2,7 +2,7 @@ import { Component, computed, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { ErrorService } from './error.service';
-import { ErrorParams } from '../interfaces/error.interface';
+import { ErrorParams } from '../../interfaces/error.interface';
 
 @Component({
   selector: 'app-error-page',

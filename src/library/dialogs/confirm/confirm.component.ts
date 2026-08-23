@@ -1,6 +1,6 @@
-import { Component, input, model } from '@angular/core';
+import { Component, model } from '@angular/core';
 import { Subject } from 'rxjs';
-import { ModalIndyComponent } from '../components/modal/modal-indy.component';
+import { ModalIndyComponent } from '../../components/modal/modal-indy.component';
 
 @Component({
   selector: 'app-confirm',

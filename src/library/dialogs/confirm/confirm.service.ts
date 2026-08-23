@@ -7,7 +7,7 @@ import {
   Injectable,
 } from '@angular/core';
 import { Observable } from 'rxjs';
-import { callHttpFunc, handlerFunc } from '../functions/handler.function';
+import { callHttpFunc, handlerFunc } from '../../functions/handler.function';
 import { ConfirmComponent, ConfirmParams } from './confirm.component';
 
 @Injectable({

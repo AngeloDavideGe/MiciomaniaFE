@@ -1,6 +1,6 @@
 import { inject, Injectable, signal } from '@angular/core';
 import { Router } from '@angular/router';
-import { ErrorParams } from '../interfaces/error.interface';
+import { ErrorParams } from '../../interfaces/error.interface';
 
 @Injectable({
   providedIn: 'root',

@@ -31,7 +31,7 @@ export const routes: Routes = [
   {
     path: 'error-page',
     loadComponent: () =>
-      import('./../library/dialogs/error.component').then(
+      import('../library/dialogs/error/error.component').then(
         (m) => m.ErrorPageComponent,
       ),
     canActivate: [errorGuard],

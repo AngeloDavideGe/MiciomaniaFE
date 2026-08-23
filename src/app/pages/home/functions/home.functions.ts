@@ -4,7 +4,7 @@ import { ToggleProps } from '../../../../library/interfaces/toggle.interface';
 import { User } from '../../../shared/interfaces/users.interface';
 import { AuthService } from '../../../shared/services/auth.service';
 import { RaggioPage } from '../../../../library/interfaces/pagination.interface';
-import { ConfirmService } from '../../../../library/dialogs/confirm.service';
+import { ConfirmService } from '../../../../library/dialogs/confirm/confirm.service';
 
 export function getCategorieCard(): iCard[] {
   return [

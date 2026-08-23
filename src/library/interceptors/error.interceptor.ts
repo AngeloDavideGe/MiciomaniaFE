@@ -6,7 +6,7 @@ import {
 } from '@angular/common/http';
 import { catchError, throwError } from 'rxjs';
 import { inject } from '@angular/core';
-import { ErrorService } from '../dialogs/error.service';
+import { ErrorService } from '../dialogs/error/error.service';
 import { ProblemDetails } from '../interfaces/error.interface';
 
 export const errorInterceptor: HttpInterceptorFn = (

@@ -23,7 +23,7 @@ import {
   ACCOUNTS_USER_KEY,
   CURRENT_USER_KEY,
 } from '../../core/functions/storage.function';
-import { ConfirmService } from '../../../library/dialogs/confirm.service';
+import { ConfirmService } from '../../../library/dialogs/confirm/confirm.service';
 
 @Component({
   selector: 'app-home',
