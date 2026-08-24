@@ -104,8 +104,8 @@ export class MultiFormComponent implements OnInit, AfterViewInit, OnDestroy {
 
     Object.entries(struttura).forEach(([key, field]) => {
       controls[key] = [
-        values?.[key] ?? field.valueInit ?? '',
-        field.validators ?? [],
+        values?.[key] || field.valueInit || '',
+        field.validators || [],
       ];
     });
 

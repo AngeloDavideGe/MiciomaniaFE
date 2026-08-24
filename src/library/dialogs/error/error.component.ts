@@ -25,12 +25,12 @@ import { ErrorParams } from '../../interfaces/error.interface';
         <div class="error__badge">Errore</div>
 
         <h1 class="error__title">
-          {{ error()?.title ?? 'Qualcosa è andato storto' }}
+          {{ error()?.title || 'Qualcosa è andato storto' }}
         </h1>
 
         <p class="error__message">
           {{
-            error()?.message ??
+            error()?.message ||
               'Si è verificato un errore durante la richiesta.'
           }}
         </p>

@@ -52,13 +52,11 @@ export class CardIndyComponent {
   public sliceAutomaticoInSec = input<number | undefined>(undefined);
 
   public singleSliceIndicators = computed(() => {
-    if (this.tipoSlice() !== 'single' || !this.sliceAutomaticoInSec())
-      return [];
+    if (this.tipoSlice() !== 'single') return [];
 
-    const count = Math.max(
-      0,
-      (this.elems()?.length ?? 0) - this.elemForPage() + 1,
-    );
+    const numElems: number = this.elems()?.length || 0;
+    const elemForPage: number = this.elemForPage();
+    const count: number = Math.max(0, numElems - elemForPage + 1);
 
     return Array.from({ length: count }, (_, index) => index);
   });
@@ -127,12 +125,12 @@ export class CardIndyComponent {
   private getNumCards(): number {
     const width = window.innerWidth;
     const config = this.arrayPags().find((x) => x.width <= width);
-    return config?.raggio ?? 2;
+    return config?.raggio || 2;
   }
 
   public clickButton(elem: iCard): void {
     this.currentButton.update((x: string | null) =>
-      x === elem.titolo ? null : (elem.titolo ?? ''),
+      x === elem.titolo ? null : elem.titolo || '',
     );
 
     if (elem.routerLink) {

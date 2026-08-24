@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { notAuthGuard } from '../../core/guards/auth.guard';
+import { authGuard } from '../../core/guards/auth.guard';
 
 export const AUTH_ROUTES: Routes = [
   {
@@ -9,7 +9,7 @@ export const AUTH_ROUTES: Routes = [
         path: 'login',
         loadComponent: () =>
           import('./components/login.component').then((m) => m.LoginComponent),
-        // canActivate: [notAuthGuard],
+        canActivate: [authGuard],
       },
       {
         path: 'register',
@@ -17,7 +17,7 @@ export const AUTH_ROUTES: Routes = [
           import('./components/register.component').then(
             (m) => m.RegisterComponent,
           ),
-        // canActivate: [notAuthGuard],
+        canActivate: [authGuard],
       },
     ],
   },

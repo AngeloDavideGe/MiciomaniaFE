@@ -180,7 +180,7 @@ export class TabellaIndyComponent<T> {
 
   public trackByFn(index: number, item: T): T[keyof T] | number {
     const keyValue: T[keyof T] = item[this.trackByKey()];
-    return keyValue ?? index;
+    return keyValue || index;
   }
 
   private getRaggiPage(): RaggioPage[] {

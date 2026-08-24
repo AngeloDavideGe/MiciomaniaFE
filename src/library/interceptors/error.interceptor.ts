@@ -25,9 +25,9 @@ export const errorInterceptor: HttpInterceptorFn = (
       let status: number = error.status;
 
       if (problem) {
-        title = problem.title ?? title;
-        message = problem.detail ?? message;
-        status = problem.status ?? status;
+        title = problem.title || title;
+        message = problem.detail || message;
+        status = problem.status || status;
         debugMessage = problem.extensions?.['debugMessage'];
       }
 
@@ -53,8 +53,8 @@ export const errorInterceptor: HttpInterceptorFn = (
           break;
 
         case 500:
-          title = problem?.title ?? 'Errore server';
-          message = problem?.detail ?? message;
+          title = problem?.title || 'Errore server';
+          message = problem?.detail || message;
           break;
       }
 

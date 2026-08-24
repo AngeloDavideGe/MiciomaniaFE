@@ -38,7 +38,7 @@ export interface IAppConfig {
     };
   };
   maxElement: {
-    message: number;
+    users: number;
     elemPagine: number;
     postVisible: number;
     notifiche: number;

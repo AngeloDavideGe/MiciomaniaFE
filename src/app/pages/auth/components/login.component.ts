@@ -60,7 +60,7 @@ export class LoginComponent {
 
         if (data.user) {
           this.authService.accountsUser.update((accounts: User[]) => {
-            const accountIndex = accounts.findIndex(
+            const accountIndex: number = accounts.findIndex(
               (account: User) => account.id === data.user?.id,
             );
 

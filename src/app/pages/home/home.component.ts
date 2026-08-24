@@ -42,6 +42,8 @@ export class HomeComponent {
   private openNow: boolean = true;
 
   public readonly pic = this.appConfig.config.defaultPicsUrl.user;
+  public readonly maxUsers = this.appConfig.config.maxElement.users;
+
   public readonly cardsHome = getCategorieCard();
   public readonly arrayRaggi = defaultHomeArrayPags();
 

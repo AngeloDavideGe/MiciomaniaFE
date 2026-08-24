@@ -16,11 +16,11 @@ export abstract class BaseService {
 
   constructor(config: BaseServiceConfig) {
     this.baseUrl = config.baseUrl;
-    this.headers = config.headers ?? new HttpHeaders();
+    this.headers = config.headers || new HttpHeaders();
   }
 
   protected getCustom<T>(url: string, input?: HttpBaseInput): Observable<T> {
-    const context = getContext(input?.contexts);
+    const context: HttpContext = getContext(input?.contexts);
 
     return this.http.get<T>(`${this.baseUrl}${url}`, {
       headers: this.headers,
@@ -30,8 +30,8 @@ export abstract class BaseService {
   }
 
   protected postCustom<T>(url: string, input?: HttpBaseInput): Observable<T> {
-    const body = input?.body || {};
-    const context = getContext(input?.contexts);
+    const body: any = input?.body || {};
+    const context: HttpContext = getContext(input?.contexts);
 
     return this.http.post<T>(`${this.baseUrl}${url}`, body, {
       headers: this.headers,
@@ -40,8 +40,8 @@ export abstract class BaseService {
   }
 
   protected putCustom<T>(url: string, input?: HttpBaseInput): Observable<T> {
-    const body = input?.body || {};
-    const context = getContext(input?.contexts);
+    const body: any = input?.body || {};
+    const context: HttpContext = getContext(input?.contexts);
 
     return this.http.put<T>(`${this.baseUrl}${url}`, body, {
       headers: this.headers,
@@ -50,7 +50,7 @@ export abstract class BaseService {
   }
 
   protected deleteCustom<T>(url: string, input?: HttpBaseInput): Observable<T> {
-    const context = getContext(input?.contexts);
+    const context: HttpContext = getContext(input?.contexts);
 
     return this.http.delete<T>(`${this.baseUrl}${url}`, {
       headers: this.headers,

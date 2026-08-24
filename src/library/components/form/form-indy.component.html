@@ -118,7 +118,7 @@
             type="file"
             class="form-control mb-3"
             style="border-radius: 30px"
-            [accept]="strutturaForm()[keys[$index]].file?.accept ?? 'image/*'"
+            [accept]="strutturaForm()[keys[$index]].file?.accept || 'image/*'"
             (change)="onFileSelected($event, keys[$index])"
           />
 
