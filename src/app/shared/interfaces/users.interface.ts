@@ -7,6 +7,7 @@ export interface UserToken {
 
 export interface User {
   id: string;
+  admin: Admin;
   credenziali: Credenziali;
   profile: Profile;
   iscrizione: Iscrizione;
@@ -17,7 +18,6 @@ export interface Credenziali {
   email: string;
   password: string;
   profilePic: string | null;
-  ruolo: Ruolo;
 }
 
 export interface Iscrizione {
@@ -30,6 +30,11 @@ export interface Profile {
   bio: string | null;
   compleanno: Date | string | null;
   social: Record<string, string> | null;
+}
+
+export interface Admin {
+  ruolo: Ruolo;
+  permessi: string[];
 }
 
 export interface UserParams {

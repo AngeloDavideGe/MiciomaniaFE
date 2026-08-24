@@ -61,12 +61,12 @@
     <div class="form-actions">
       <app-button-indy
         [text]="'Indietro'"
-        (clickBotton)="secondaryButton.emit()"
+        (clickButton)="secondaryButton.emit()"
       ></app-button-indy>
 
       <app-button-indy
         [text]="'Invia'"
-        (clickBotton)="onSubmit()"
+        (clickButton)="onSubmit()"
         [disabled]="form.invalid"
       ></app-button-indy>
     </div>

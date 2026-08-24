@@ -2,83 +2,103 @@
   display: flex;
   flex-direction: column;
   gap: 1rem;
+  color: var(--text);
 
   .multi-form-section {
-    border: 2px solid var(--border-color);
-    border-radius: 16px;
-    background: var(--surface-color);
-    padding: 1rem;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    background: var(--card);
     transition:
-      transform 0.2s ease,
+      border-color 0.2s ease,
       box-shadow 0.2s ease;
 
     &:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 4px 12px var(--border-light);
+      border-color: rgba(183, 130, 255, 0.28);
+      box-shadow: 0 8px 24px rgba(var(--background-rgb), 0.3);
     }
 
     .section-header {
-      margin-bottom: 1rem;
-      padding-bottom: 0.75rem;
-      border-bottom: 1px solid var(--border-light);
+      display: flex;
+      align-items: center;
+      min-height: 58px;
+      margin: 0;
+      padding: 0.85rem 1.1rem;
+      background: var(--card-light);
+      border-bottom: 1px solid var(--border);
       cursor: pointer;
+      transition: background-color 0.2s ease;
+
+      &:hover {
+        background: var(--primary);
+      }
 
       .section-title {
         margin: 0;
-        font-size: 1.3rem;
+        color: var(--text);
+        font-size: 1.05rem;
         font-weight: 700;
-        color: var(--text-color);
+        letter-spacing: 0.01em;
       }
     }
 
     .section-body {
+      padding: 0.9rem;
       display: flex;
       flex-direction: column;
       gap: 1rem;
 
       .array-item {
         position: relative;
-        padding: 1rem;
-        border: 1px solid var(--border-color);
-        border-radius: 12px;
-        background: var(--bg-light);
+        padding: 0.25rem;
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        background: var(--background);
 
         & + .array-item {
           margin-top: 1rem;
         }
 
         .btn-remove {
+          display: block;
           margin-top: 1rem;
-          border: 1px solid var(--red-miciomania);
+          border: 1px solid var(--primary-light);
           border-radius: 8px;
           padding: 0.5rem 0.85rem;
-          background: var(--surface-color);
-          color: var(--red-miciomania);
+          background: transparent;
+          color: var(--primary-light);
           font-weight: 600;
           cursor: pointer;
-          transition: all 0.2s ease;
+          transition:
+            background-color 0.2s ease,
+            color 0.2s ease;
 
           &:hover {
-            background: var(--red-miciomania);
-            color: var(--surface-color);
+            background: var(--primary-light);
+            color: var(--background);
           }
         }
       }
 
       .btn-add {
         align-self: flex-start;
-        border: 1px solid var(--green-miciomania);
+        border: 1px solid var(--primary);
         border-radius: 8px;
         padding: 0.6rem 1rem;
-        background: var(--green-miciomania);
-        color: var(--surface-color);
+        background: var(--primary);
+        color: var(--badge-text);
         font-weight: 600;
         cursor: pointer;
-        transition: all 0.2s ease;
+        transition:
+          background-color 0.2s ease,
+          box-shadow 0.2s ease,
+          transform 0.2s ease;
 
         &:hover {
-          background: #146c43;
-          border-color: #146c43;
+          background: var(--primary-light);
+          border-color: var(--primary-light);
+          box-shadow: var(--primary-shadow);
+          transform: translateY(-1px);
         }
       }
     }
@@ -92,8 +112,8 @@
       border: none;
       border-radius: 10px;
       padding: 0.7rem 1rem;
-      background: var(--primary-color);
-      color: var(--surface-color);
+      background: var(--primary);
+      color: var(--badge-text);
       font-weight: 600;
       cursor: pointer;
       transition:
@@ -102,12 +122,31 @@
 
       &:hover:not(:disabled) {
         transform: translateY(-1px);
-        background: var(--primary-hover);
+        background: var(--primary-light);
       }
 
       &:disabled {
         opacity: 0.5;
         cursor: not-allowed;
+      }
+    }
+  }
+}
+
+@media (max-width: 576px) {
+  .multi-form {
+    gap: 0.75rem;
+
+    .multi-form-section .section-body {
+      padding: 0.55rem;
+    }
+
+    .form-actions {
+      flex-direction: column-reverse;
+      gap: 0.65rem;
+
+      app-button-indy {
+        width: 100%;
       }
     }
   }

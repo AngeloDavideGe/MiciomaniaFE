@@ -55,6 +55,7 @@ export class MultiFormComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnInit(): void {
     this.keys = Object.keys(this.strutturaForm());
+
     const groupConfig: Record<string, FormGroup | FormArray> = {};
 
     this.keys.forEach((key: string) => {

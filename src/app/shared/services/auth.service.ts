@@ -24,6 +24,7 @@ export class AuthService extends BaseMicioService {
 
   public usersCaricati: boolean = false;
   public notificheCaricate: boolean = false;
+  public currentUsersCaricati: Record<string, boolean> = {};
 
   constructor() {
     super('CS');

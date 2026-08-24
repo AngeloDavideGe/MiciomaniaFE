@@ -71,6 +71,12 @@ export function getToggleProps(
       icona: 'bi bi-three-dots',
       menuElementi: [
         {
+          testo: 'Edit Account',
+          icona: 'bi bi-box-arrow-right',
+          condition: !!currentUser,
+          azione: () => router.navigate(['auth/edit-user']),
+        },
+        {
           testo: 'Esci',
           icona: 'bi bi-box-arrow-right',
           condition: !!currentUser,
