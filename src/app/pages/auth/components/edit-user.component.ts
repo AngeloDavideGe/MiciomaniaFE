@@ -84,7 +84,8 @@ export class EditUserComponent implements OnInit {
       iscrizione: {
         ...user.iscrizione,
         squadra: value.iscrizione.squadra || null,
-        provincia: value.iscrizione.provincia || null,
+        provincia:
+          `${value.iscrizione.provincia} (${value.iscrizione.regione})` || null,
       },
       admin: {
         ...user.admin,
@@ -119,6 +120,7 @@ interface EditUserFormValue {
     nome: string;
     email: string;
     password: string;
+    confirmPassword: string;
   };
   profile: {
     compleanno: string;
@@ -129,6 +131,7 @@ interface EditUserFormValue {
   }[];
   iscrizione: {
     squadra: string;
+    regione: string;
     provincia: string;
   };
 }

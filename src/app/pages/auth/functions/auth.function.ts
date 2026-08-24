@@ -2,8 +2,11 @@ import { Validators } from '@angular/forms';
 import {
   RecordStruttura,
   RecordStrutturaMultiForm,
+  StrutturaForm,
 } from '../../../../library/interfaces/form.interface';
 import { User } from '../../../shared/interfaces/users.interface';
+import { regioni } from '../../../../library/constants/utility.constant';
+import { dynamicValidator } from '../../../../library/validators/dynamic.validator';
 
 export function getLoginForm(): RecordStruttura {
   return {
@@ -65,6 +68,14 @@ export function getEditUserForm(user: User | null): RecordStrutturaMultiForm {
     ? new Date(user.profile.compleanno).toISOString().slice(0, 10)
     : '';
 
+  const provinciaField: StrutturaForm = {
+    titolo: 'Provincia',
+    validators: [Validators.required],
+    tipo: 'Select',
+    valueInit: '',
+    optionsSelect: [],
+  };
+
   return {
     account: {
       nome: 'Account',
@@ -102,6 +113,22 @@ export function getEditUserForm(user: User | null): RecordStrutturaMultiForm {
           valueInit: user?.credenziali.password || '',
           errorMessage:
             'La password è obbligatoria e può avere massimo 20 caratteri',
+          onChange: (_value: string, form) => {
+            form.get('confirmPassword')?.updateValueAndValidity();
+          },
+        },
+        confirmPassword: {
+          titolo: 'Conferma password',
+          validators: [
+            Validators.required,
+            dynamicValidator(
+              (control) =>
+                control.value === control.parent?.get('password')?.value,
+            ),
+          ],
+          tipo: 'Password',
+          valueInit: '',
+          errorMessage: 'Le password devono coincidere',
         },
       },
     },
@@ -154,12 +181,21 @@ export function getEditUserForm(user: User | null): RecordStrutturaMultiForm {
           tipo: 'Text',
           valueInit: user?.iscrizione.squadra || '',
         },
-        provincia: {
-          titolo: 'Provincia',
-          validators: [Validators.maxLength(40)],
-          tipo: 'Text',
-          valueInit: user?.iscrizione.provincia || '',
+        regione: {
+          titolo: 'Regione',
+          validators: [Validators.required],
+          tipo: 'Select',
+          valueInit: '',
+          optionsSelect: regioni.map((regione) => regione.label),
+          onChange: (value: string, form) => {
+            form.get('provincia')?.reset('');
+
+            provinciaField.optionsSelect =
+              regioni.find((regione) => regione.label === value)?.province ||
+              [];
+          },
         },
+        provincia: provinciaField,
         punteggio: {
           titolo: 'Punteggio',
           validators: [],

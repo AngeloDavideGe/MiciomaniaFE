@@ -1,8 +1,10 @@
 import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 
-export function dynamicValidator(conditionFn: () => boolean): ValidatorFn {
+export function dynamicValidator(
+  conditionFn: (control: AbstractControl) => boolean,
+): ValidatorFn {
   return (control: AbstractControl): ValidationErrors | null => {
-    if (!conditionFn()) {
+    if (!conditionFn(control)) {
       return { invalidValue: { value: control.value } };
     }
 
