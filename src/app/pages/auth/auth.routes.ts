@@ -20,12 +20,11 @@ export const AUTH_ROUTES: Routes = [
         canActivate: [authGuard],
       },
       {
-        path: 'edit-user',
+        path: 'user/:id',
         loadComponent: () =>
-          import('./components/edit-user.component').then(
-            (m) => m.EditUserComponent,
+          import('./components/profilo/profilo.component').then(
+            (m) => m.ProfileComponent,
           ),
-        canActivate: [userGuard],
       },
     ],
   },

@@ -1,0 +1,140 @@
+<app-container-micio>
+  <app-descrizione-micio
+    [titolo]="'Profilo'"
+    [descrizione]="'La tua identità nella community Miciomania'"
+    [immagine]="
+      'https://images.unsplash.com/photo-1578632767115-351597cf2477?auto=format&fit=crop&w=1600&q=80'
+    "
+  >
+    <div half-row class="profile-summary">
+      <div class="profile-identity">
+        <div class="avatar-wrap">
+          <img
+            src="https://i.pravatar.cc/160?img=12"
+            alt="Avatar di MicioMaster"
+          />
+          <span class="online-dot" aria-label="Online"></span>
+        </div>
+        <div>
+          <div class="name-line">
+            <h2>MicioMaster</h2>
+            <span class="verified" aria-label="Profilo verificato"
+              ><i class="bi bi-patch-check-fill"></i
+            ></span>
+          </div>
+          <p class="handle">@miciomaster</p>
+          <span class="premium"
+            ><i class="bi bi-star-fill"></i> Utente Premium</span
+          >
+        </div>
+      </div>
+      @if (isPersonalProfile()) {
+        <button class="edit-button" type="button" (click)="openEditProfile()">
+          <i class="bi bi-pencil-square"></i>
+          <span>Modifica profilo</span>
+        </button>
+      }
+    </div>
+
+    <div all-row class="profile-body">
+      <div class="bio-column">
+        <p class="bio">
+          Amo manga, musica e videogiochi. Sempre alla ricerca di nuove
+          avventure!
+        </p>
+        <div class="profile-meta">
+          <span
+            ><i class="bi bi-calendar3"></i> Iscritto da
+            <strong>Gennaio 2024</strong></span
+          >
+          <span><i class="bi bi-geo-alt"></i> <strong>Italia</strong></span>
+          <span
+            ><i class="bi bi-globe2"></i> <strong>miciomania.it</strong></span
+          >
+        </div>
+      </div>
+      <div class="profile-stats" aria-label="Statistiche profilo">
+        <div><strong>128</strong><span>Post</span></div>
+        <div><strong>4.8K</strong><span>Punti</span></div>
+      </div>
+    </div>
+  </app-descrizione-micio>
+
+  <section class="posts-section" aria-label="Attività di MicioMaster">
+    <div class="section-heading">
+      <div>
+        <span class="eyebrow">Attività recente</span>
+        <h2>Condivisi dalla community</h2>
+      </div>
+      <span class="post-count">{{ posts.length }} pubblicazioni</span>
+    </div>
+
+    <div class="tabs-wrap">
+      <app-tabs-indy
+        [tabs]="tabs"
+        [disabledColor]="'var(--text-secondary)'"
+        (clickTab)="currentTab.set($event)"
+      />
+    </div>
+
+    @if (currentTab() === "text") {
+      <div class="posts-list">
+        @for (post of posts; track post.date) {
+          <article class="post">
+            <div class="post-marker"><i class="bi bi-chat-left-text"></i></div>
+            <div class="post-content">
+              <div class="post-header">
+                <div>
+                  <strong>MicioMaster</strong>
+                  <span class="post-date">{{ post.date }}</span>
+                </div>
+                <button
+                  class="more-button"
+                  type="button"
+                  aria-label="Altre opzioni"
+                >
+                  <i class="bi bi-three-dots"></i>
+                </button>
+              </div>
+              <div class="post-copy">
+                @for (line of post.content; track $index) {
+                  <p>{{ line }}</p>
+                }
+              </div>
+              <div class="post-actions">
+                <button type="button">
+                  <i class="bi bi-heart"></i> {{ post.likes }}
+                </button>
+                <button type="button">
+                  <i class="bi bi-chat"></i> {{ post.comments }}
+                </button>
+              </div>
+            </div>
+          </article>
+        }
+      </div>
+    } @else {
+      <div class="empty-state">
+        <i class="bi bi-images"></i>
+        <h3>Nessuna foto pubblicata</h3>
+        <p>I post con foto compariranno qui.</p>
+      </div>
+    }
+  </section>
+</app-container-micio>
+
+@if (isPersonalProfile() && editProfiloOpen()) {
+  <app-modal-indy
+    [title]="'Modifica profilo'"
+    [subtitle]="'Aggiorna i tuoi dati personali e social'"
+    [width]="'xl'"
+    (close)="editProfiloOpen.set(false)"
+  >
+    <div bodyModal>
+      <app-edit-user
+        [currentUser]="currentUser()"
+        (chiudi)="editProfiloOpen.set(false)"
+      ></app-edit-user>
+    </div>
+  </app-modal-indy>
+}

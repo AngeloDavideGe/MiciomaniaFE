@@ -1,4 +1,4 @@
-import { Validators } from '@angular/forms';
+import { AbstractControl, Validators } from '@angular/forms';
 import {
   RecordStruttura,
   RecordStrutturaMultiForm,
@@ -122,7 +122,7 @@ export function getEditUserForm(user: User | null): RecordStrutturaMultiForm {
           validators: [
             Validators.required,
             dynamicValidator(
-              (control) =>
+              (control: AbstractControl) =>
                 control.value === control.parent?.get('password')?.value,
             ),
           ],

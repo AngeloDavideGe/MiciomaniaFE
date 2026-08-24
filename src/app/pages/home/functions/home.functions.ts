@@ -1,10 +1,10 @@
 import { Router } from '@angular/router';
+import { ConfirmService } from '../../../../library/dialogs/confirm/confirm.service';
 import { iCard } from '../../../../library/interfaces/card.interface';
+import { RaggioPage } from '../../../../library/interfaces/pagination.interface';
 import { ToggleProps } from '../../../../library/interfaces/toggle.interface';
 import { User } from '../../../shared/interfaces/users.interface';
 import { AuthService } from '../../../shared/services/auth.service';
-import { RaggioPage } from '../../../../library/interfaces/pagination.interface';
-import { ConfirmService } from '../../../../library/dialogs/confirm/confirm.service';
 
 export function getCategorieCard(): iCard[] {
   return [
@@ -61,8 +61,9 @@ export function getToggleProps(
         {
           testo: 'Profilo',
           icona: 'bi bi-person',
-          condition: true,
-          azione: () => {},
+          condition: !!authService.currentUser(),
+          azione: () =>
+            router.navigate(['auth/user/' + authService.currentUser()?.id]),
         },
       ],
     },
@@ -70,12 +71,6 @@ export function getToggleProps(
       titolo: 'Auth',
       icona: 'bi bi-three-dots',
       menuElementi: [
-        {
-          testo: 'Edit Account',
-          icona: 'bi bi-box-arrow-right',
-          condition: !!currentUser,
-          azione: () => router.navigate(['auth/edit-user']),
-        },
         {
           testo: 'Esci',
           icona: 'bi bi-box-arrow-right',

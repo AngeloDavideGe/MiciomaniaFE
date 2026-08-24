@@ -48,6 +48,12 @@ export class AuthService extends BaseMicioService {
     });
   }
 
+  getUserById(id: string): Observable<User> {
+    return this.getCustom<User>(`Utenti/get_utente_by_id/${id}`, {
+      contexts: [{ contextToken: LOADING_CONTEXT, value: true }],
+    });
+  }
+
   getNotifiche(): Observable<CronUtenti[]> {
     const params = new HttpParams().set(
       'maxElems',

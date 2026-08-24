@@ -9,7 +9,7 @@ export const errorGuard: CanActivateFn = () => {
   if (errorService.error()) {
     return true;
   } else {
-    router.navigate(['/home']);
+    router.navigate(['/**']);
     return false;
   }
 };
