@@ -1,11 +1,14 @@
-import { ActivatedRoute, Router } from '@angular/router';
 import { Component, computed, inject, OnInit, signal } from '@angular/core';
-import { iTab } from '../../../../../library/interfaces/tabs.interface';
-import { profilo_imports } from './profilo.imports';
-import { getProfiloTabs } from './functions/profilo.function';
-import { User, UserToken } from '../../../../shared/interfaces/users.interface';
-import { AuthService } from '../../../../shared/services/auth.service';
+import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { handlerFunc } from '../../../../../library/functions/handler.function';
+import { User } from '../../../../shared/interfaces/users.interface';
+import { AuthService } from '../../../../shared/services/auth.service';
+import { getProfiloTabs } from './functions/profilo.function';
+import { profilo_imports } from './profilo.imports';
+import { AppConfigService } from '../../../../core/api/appConfig.service';
+import { paraMapCustom } from '../../../../../library/functions/router.function';
+import { Subject } from 'rxjs';
+import { iTab } from '../../../../../library/interfaces/navbar.interface';
 
 interface ProfilePost {
   date: string;
@@ -25,37 +28,35 @@ export class ProfileComponent implements OnInit {
   public router = inject(Router);
   private route = inject(ActivatedRoute);
   public authService = inject(AuthService);
+  private appConfig = inject(AppConfigService);
 
   public readonly tabs: iTab[] = getProfiloTabs();
+  public readonly defaultPic = this.appConfig.config.defaultPicsUrl.user;
 
   public currentTab = signal<string>('text');
   public editProfiloOpen = signal<boolean>(false);
-  public profileId = signal<string>('');
+  private destroy$ = new Subject<void>();
 
   public currentUser = computed<User | null>(() =>
     this.authService.currentUser(),
   );
 
-  public profilo = signal<User>({} as User);
+  public profilo = signal<User | null>(null);
 
   public isPersonalProfile = computed<boolean>(
-    () => this.profileId() === this.currentUser()?.id,
+    () => this.profilo()?.id === this.currentUser()?.id,
   );
 
   ngOnInit(): void {
-    this.route.paramMap.subscribe((params) => {
-      const idUser: string = params.get('id') ?? '';
-      this.profileId.set(idUser);
-      this.loadProfile(idUser);
+    paraMapCustom({
+      route: this.route,
+      nameParam: 'id',
+      destroy: this.destroy$,
+      func: (id: string) => this.loadProfile(id),
     });
   }
 
   private loadProfile(idUser: string): void {
-    if (!idUser) {
-      this.profilo.set({} as User);
-      return;
-    }
-
     const userCaricati = this.authService.currentUsersCaricati;
     const logged: boolean = userCaricati[idUser] || false;
     const cachedUser: User | undefined = this.authService
@@ -70,7 +71,12 @@ export class ProfileComponent implements OnInit {
     handlerFunc<User>({
       skipCall: logged,
       callHttp: () => this.authService.getUserById(idUser),
-      nextCall: (data: User) => {
+      nextCall: (data: User | null) => {
+        if (!data) {
+          this.router.navigate(['home']);
+          return;
+        }
+
         this.updateLoadedUser(data);
         this.profilo.set(data);
       },

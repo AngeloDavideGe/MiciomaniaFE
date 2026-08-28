@@ -1,5 +1,5 @@
+import { ISidebarItem } from '../../../../../../library/interfaces/navbar.interface';
 import { RaggioPage } from '../../../../../../library/interfaces/pagination.interface';
-import { ISidebarItem } from '../../../../../../library/interfaces/sidebar.interface';
 import { OpereToolbar } from '../../../../../shared/interfaces/opere.interface';
 
 export function getCanzoniToolbar(

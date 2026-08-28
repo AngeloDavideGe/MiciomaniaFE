@@ -5,7 +5,7 @@ import {
   model,
   output,
 } from '@angular/core';
-import { ISidebarItem } from '../../interfaces/sidebar.interface';
+import { ISidebarItem } from '../../interfaces/navbar.interface';
 
 @Component({
   selector: 'app-sidebar-indy',

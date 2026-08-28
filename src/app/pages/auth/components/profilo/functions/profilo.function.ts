@@ -1,4 +1,4 @@
-import { iTab } from '../../../../../../library/interfaces/tabs.interface';
+import { iTab } from '../../../../../../library/interfaces/navbar.interface';
 
 export function getProfiloTabs(): iTab[] {
   return [

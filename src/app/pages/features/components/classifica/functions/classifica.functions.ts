@@ -1,5 +1,5 @@
+import { iTab } from '../../../../../../library/interfaces/navbar.interface';
 import { RecordColonne } from '../../../../../../library/interfaces/table.interface';
-import { iTab } from '../../../../../../library/interfaces/tabs.interface';
 import {
   Giocatore,
   Squadra,

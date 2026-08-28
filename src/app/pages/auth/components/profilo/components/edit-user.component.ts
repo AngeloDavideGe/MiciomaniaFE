@@ -2,10 +2,7 @@ import { Component, computed, inject, input, output } from '@angular/core';
 import { MultiFormComponent } from '../../../../../../library/components/multi-form/multi-form.component';
 import { handlerFunc } from '../../../../../../library/functions/handler.function';
 import { RecordStrutturaMultiForm } from '../../../../../../library/interfaces/form.interface';
-import {
-  User,
-  UserToken,
-} from '../../../../../shared/interfaces/users.interface';
+import { User } from '../../../../../shared/interfaces/users.interface';
 import { AuthService } from '../../../../../shared/services/auth.service';
 import { getEditUserForm } from '../../../functions/auth.function';
 
@@ -13,8 +10,14 @@ import { getEditUserForm } from '../../../functions/auth.function';
   selector: 'app-edit-user',
   standalone: true,
   imports: [MultiFormComponent],
-  templateUrl: './edit-user.component.html',
-  styleUrl: './edit-user.component.scss',
+  template: `
+    <app-multi-form
+      [strutturaForm]="formEditUser()"
+      (invioDati)="updateUser($event)"
+      (secondaryButton)="chiudi.emit()"
+    ></app-multi-form>
+  `,
+  styles: ``,
 })
 export class EditUserComponent {
   public authService = inject(AuthService);

@@ -1,7 +1,8 @@
+<br />
 <app-container-micio>
   <app-descrizione-micio
-    [titolo]="'Profilo'"
-    [descrizione]="'La tua identità nella community Miciomania'"
+    [titolo]="''"
+    [descrizione]="''"
     [immagine]="
       'https://images.unsplash.com/photo-1578632767115-351597cf2477?auto=format&fit=crop&w=1600&q=80'
     "
@@ -10,21 +11,21 @@
       <div class="profile-identity">
         <div class="avatar-wrap">
           <img
-            src="https://i.pravatar.cc/160?img=12"
-            alt="Avatar di MicioMaster"
+            [src]="profilo()?.credenziali?.profilePic || defaultPic"
+            alt="Avatar Profilo"
           />
           <span class="online-dot" aria-label="Online"></span>
         </div>
         <div>
           <div class="name-line">
-            <h2>MicioMaster</h2>
+            <h2>{{ profilo()?.credenziali?.nome }}</h2>
             <span class="verified" aria-label="Profilo verificato"
               ><i class="bi bi-patch-check-fill"></i
             ></span>
           </div>
-          <p class="handle">@miciomaster</p>
+          <p class="handle">{{ profilo()?.id }}</p>
           <span class="premium"
-            ><i class="bi bi-star-fill"></i> Utente Premium</span
+            ><i class="bi bi-star-fill"></i>{{ profilo()?.admin?.ruolo }}</span
           >
         </div>
       </div>
@@ -39,17 +40,18 @@
     <div all-row class="profile-body">
       <div class="bio-column">
         <p class="bio">
-          Amo manga, musica e videogiochi. Sempre alla ricerca di nuove
-          avventure!
+          {{ profilo()?.profile?.bio }}
         </p>
         <div class="profile-meta">
           <span
             ><i class="bi bi-calendar3"></i> Iscritto da
             <strong>Gennaio 2024</strong></span
           >
-          <span><i class="bi bi-geo-alt"></i> <strong>Italia</strong></span>
           <span
-            ><i class="bi bi-globe2"></i> <strong>miciomania.it</strong></span
+            ><i class="bi bi-geo-alt"></i>
+            <strong>{{
+              profilo()?.profile?.compleanno | dateFormat
+            }}</strong></span
           >
         </div>
       </div>
@@ -66,7 +68,6 @@
         <span class="eyebrow">Attività recente</span>
         <h2>Condivisi dalla community</h2>
       </div>
-      <span class="post-count">{{ posts.length }} pubblicazioni</span>
     </div>
 
     <div class="tabs-wrap">
@@ -138,3 +139,5 @@
     </div>
   </app-modal-indy>
 }
+
+<br />

@@ -10,7 +10,7 @@ import {
   ChangeDetectionStrategy,
 } from '@angular/core';
 import { ButtonIndyComponent } from '../button/button-indy.component';
-import { iTab } from '../../interfaces/tabs.interface';
+import { iTab } from '../../interfaces/navbar.interface';
 
 @Component({
   selector: 'app-tabs-indy',

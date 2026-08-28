@@ -3,7 +3,6 @@ import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { handlerFunc } from '../../../library/functions/handler.function';
 import { isCurrentRoute } from '../../../library/functions/router.function';
-import { UserReduced } from '../../../library/interfaces/chat.interface';
 import { ToggleProps } from '../../../library/interfaces/toggle.interface';
 import { AppConfigService } from '../../core/api/appConfig.service';
 import {
@@ -191,4 +190,9 @@ export class HomeComponent {
 
     this.authService.notificheCaricate = true;
   }
+}
+
+interface UserReduced {
+  nome: string;
+  pic: string;
 }
