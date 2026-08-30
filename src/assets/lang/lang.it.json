@@ -18,6 +18,18 @@
       "LogoutTitolo": "Disconnetti account",
       "LogoutMessaggio": "Vuoi davvero uscire da"
     },
+    "AccountMenuTitolo": "Account",
+    "LogoutAllTitolo": "Disconnetti tutti gli account",
+    "LogoutAllMessaggio": "Vuoi davvero uscire da tutti gli account?",
+    "Social": {
+      "Titolo": "Resta connesso con Miciomania",
+      "Descrizione": "Unisciti alle nostre community e seguici sui social!"
+    },
+    "Footer": {
+      "LinkUtili": "Link utili",
+      "Info": "Info",
+      "Supporto": "Supporto"
+    },
     "Card1": {
       "titolo": "Manga",
       "descrizione": "Scopri la mia collezione di manga, recensioni, letture in corso e consigli.",
@@ -37,6 +49,162 @@
       "titolo": "Classifica",
       "descrizione": "Classifica",
       "bottone": "Visualizza classifica"
+    }
+  },
+  "Feature": {
+    "Navbar": {
+      "Home": "Home",
+      "Manga": "Manga",
+      "Canzoni": "Canzoni",
+      "Giochi": "Giochi",
+      "Post": "Post",
+      "Classifica": "Classifica"
+    }
+  },
+  "Canzoni": {
+    "Titolo": "Canzoni",
+    "Descrizione": "Ascolta le tue canzoni preferite cantate da Miciomania e Sirius",
+    "CercaPlaceholder": "Cerca per nome, autore...",
+    "CategorieTitolo": "Categorie",
+    "BottoneAscolta": "Ascolta",
+    "Toolbar": {
+      "AlbumDisponibili": "Album disponibili",
+      "CanzoniTotali": "Canzoni totali"
+    },
+    "Categorie": {
+      "Tutte": "Tutte",
+      "Preferite": "Preferite"
+    }
+  },
+  "Manga": {
+    "Titolo": "Manga",
+    "Descrizione": "Leggi i tuoi manga preferiti e scopri le avventure di Indy e Claudia",
+    "CercaPlaceholder": "Cerca per nome, autore...",
+    "CategorieTitolo": "Categorie",
+    "SottocategorieTitolo": "Sottocategorie",
+    "BottoneLeggi": "Leggi",
+    "Toolbar": {
+      "MangaDisponibili": "Manga disponibili",
+      "CapitoliTotali": "Capitoli totali"
+    },
+    "Tabs": {
+      "Tutti": "Tutti",
+      "InCorso": "In corso",
+      "Completati": "Completati"
+    },
+    "Categorie": {
+      "Ufficiali": "Ufficiali",
+      "Miciomania": "Di Miciomania"
+    },
+    "Sottocategorie": {
+      "Tutti": "Tutti",
+      "Preferiti": "Preferiti"
+    }
+  },
+  "Classifica": {
+    "Titolo": "Classifica",
+    "Descrizione": "Osserva la classifica dei giocatori e delle squadre più deridenti della Miciomania Season",
+    "Tabelle": {
+      "Giocatori": "Giocatori",
+      "Squadre": "Squadre"
+    },
+    "Tabs": {
+      "Giocatori": "Giocatori",
+      "Squadre": "Squadre"
+    },
+    "Colonne": {
+      "Posizione": "Posizione",
+      "Nome": "Nome",
+      "Squadra": "Squadra",
+      "Punti": "Punti"
+    }
+  },
+  "Profilo": {
+    "AvatarAlt": "Avatar profilo",
+    "OnlineAriaLabel": "Online",
+    "ProfiloVerificatoAriaLabel": "Profilo verificato",
+    "ModificaProfilo": "Modifica profilo",
+    "IscrittoDa": "Iscritto da",
+    "DataIscrizione": "Gennaio 2024",
+    "StatisticheAriaLabel": "Statistiche profilo",
+    "Post": "Post",
+    "Punti": "Punti",
+    "AttivitaAriaLabel": "Attività di MicioMaster",
+    "AttivitaRecente": "Attività recente",
+    "CondivisiCommunity": "Condivisi dalla community",
+    "AltreOpzioniAriaLabel": "Altre opzioni",
+    "NessunaFoto": "Nessuna foto pubblicata",
+    "FotoCompariranno": "I post con foto compariranno qui.",
+    "Modale": {
+      "Titolo": "Modifica profilo",
+      "Sottotitolo": "Aggiorna i tuoi dati personali e social"
+    },
+    "Tabs": {
+      "PostTesto": "Post di testo",
+      "PostFoto": "Post con foto"
+    },
+    "EditUser": {
+      "Sezioni": {
+        "Account": "Account",
+        "Profilo": "Profilo",
+        "Social": "Social",
+        "Iscrizione": "Iscrizione"
+      },
+      "Campi": {
+        "IdUtente": "ID utente",
+        "Nome": "Nome",
+        "Email": "Email",
+        "Password": "Password",
+        "ConfermaPassword": "Conferma password",
+        "Compleanno": "Compleanno",
+        "Biografia": "Biografia",
+        "Piattaforma": "Piattaforma",
+        "LinkUsername": "Link o username",
+        "Squadra": "Squadra",
+        "Regione": "Regione",
+        "Provincia": "Provincia",
+        "Punteggio": "Punteggio"
+      },
+      "Errori": {
+        "Nome": "Il nome è obbligatorio e può avere massimo 30 caratteri",
+        "Email": "Inserisci un indirizzo email valido",
+        "Password": "La password è obbligatoria e può avere massimo 20 caratteri",
+        "ConfermaPassword": "Le password devono coincidere",
+        "Piattaforma": "Indica la piattaforma social",
+        "LinkUsername": "Inserisci il link o lo username"
+      }
+    }
+  },
+  "Login": {
+    "Titolo": "Bentornato",
+    "Descrizione": "Accedi al tuo account per continuare",
+    "NessunAccount": "Non hai ancora un account?",
+    "Registrati": "Registrati",
+    "AccessoOspite": "Vuoi entrare senza effettuare l'accesso?",
+    "Entra": "Entra",
+    "Form": {
+      "Email": "Email",
+      "Password": "Password",
+      "ErroreEmail": "L'email è obbligatoria e può avere massimo 40 caratteri",
+      "ErrorePassword": "La password è obbligatoria e può avere massimo 20 caratteri"
+    }
+  },
+  "Register": {
+    "Titolo": "Benvenuto",
+    "Descrizione": "Iscriviti al sito per continuare",
+    "AccountEsistente": "Hai già un account?",
+    "Accedi": "Accedi",
+    "AccessoOspite": "Vuoi entrare senza effettuare l'accesso?",
+    "Entra": "Entra",
+    "Form": {
+      "Nickname": "Nickname",
+      "NomeCompleto": "Nome e cognome",
+      "Email": "Email",
+      "Password": "Password",
+      "ErroreNickname": "Il nickname è obbligatorio e può avere massimo 15 caratteri",
+      "ErroreNomeCompleto": "Il nome è obbligatorio e può avere massimo 30 caratteri",
+      "ErroreEmail": "L'email è obbligatoria e può avere massimo 40 caratteri",
+      "ErrorePassword": "La password è obbligatoria e può avere massimo 20 caratteri"
     }
   }
 }

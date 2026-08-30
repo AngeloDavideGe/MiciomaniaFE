@@ -5,6 +5,7 @@ import { getLoginForm } from '../functions/auth.function';
 import { AuthService } from '../../../shared/services/auth.service';
 import { handlerFunc } from '../../../../library/functions/handler.function';
 import { User, UserToken } from '../../../shared/interfaces/users.interface';
+import { AppConfigService } from '../../../core/api/appConfig.service';
 
 @Component({
   selector: 'app-login',
@@ -15,8 +16,8 @@ import { User, UserToken } from '../../../shared/interfaces/users.interface';
       <section class="login-container">
         <div class="login-header">
           <div class="header-text">
-            <h1>Bentornato</h1>
-            <p>Accedi al tuo account per continuare</p>
+            <h1>{{ lang.Titolo }}</h1>
+            <p>{{ lang.Descrizione }}</p>
           </div>
         </div>
 
@@ -28,16 +29,16 @@ import { User, UserToken } from '../../../shared/interfaces/users.interface';
         </div>
 
         <div class="login-footer">
-          <span>Non hai ancora un account?</span>
+          <span>{{ lang.NessunAccount }}</span>
           <button type="button" (click)="router.navigate(['auth/register'])">
-            Registrati
+            {{ lang.Registrati }}
           </button>
         </div>
 
         <div class="login-footer" style="border-top: none;">
-          <span>Vuoi entrare senza effetturale l'accesso?</span>
+          <span>{{ lang.AccessoOspite }}</span>
           <button type="button" (click)="router.navigate(['home'])">
-            Entra
+            {{ lang.Entra }}
           </button>
         </div>
       </section>
@@ -48,8 +49,10 @@ import { User, UserToken } from '../../../shared/interfaces/users.interface';
 export class LoginComponent {
   public router = inject(Router);
   public authService = inject(AuthService);
+  private appConfig = inject(AppConfigService);
 
-  public readonly formLogin = getLoginForm();
+  public readonly lang = this.appConfig.lang.Login;
+  public readonly formLogin = getLoginForm(this.lang.Form);
 
   public loginComplete(event: { email: string; password: string }): void {
     handlerFunc<UserToken>({

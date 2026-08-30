@@ -4,6 +4,7 @@ import { handlerFunc } from '../../../../../../library/functions/handler.functio
 import { ContaierMicioComponent } from '../../../../../shared/components/container-micio.component';
 import { IFooter } from '../../../../../shared/interfaces/mn.interface';
 import { MNService } from '../../../../../shared/services/mn.service';
+import { AppConfigService } from '../../../../../core/api/appConfig.service';
 
 @Component({
   selector: 'app-footer',
@@ -25,7 +26,7 @@ import { MNService } from '../../../../../shared/services/mn.service';
           </div>
 
           <div>
-            <h5>Link Utili</h5>
+            <h5>{{ lang.LinkUtili }}</h5>
             <ul>
               @for (link of footer()?.quick_links || []; track link.url) {
                 <li>
@@ -36,7 +37,7 @@ import { MNService } from '../../../../../shared/services/mn.service';
           </div>
 
           <div>
-            <h5>Info</h5>
+            <h5>{{ lang.Info }}</h5>
             <ul>
               @for (link of footer()?.info_links || []; track link.url) {
                 <li>
@@ -47,7 +48,7 @@ import { MNService } from '../../../../../shared/services/mn.service';
           </div>
 
           <div>
-            <h5>Supporto</h5>
+            <h5>{{ lang.Supporto }}</h5>
             <ul>
               @for (link of footer()?.support_links || []; track link.url) {
                 <li>
@@ -70,6 +71,9 @@ import { MNService } from '../../../../../shared/services/mn.service';
 })
 export class FooterComponent implements OnInit {
   private mnService = inject(MNService);
+  private appConfig = inject(AppConfigService);
+
+  public readonly lang = this.appConfig.lang.Home.Footer;
   public footer = computed<IFooter | null>(() => this.mnService.footer());
 
   ngOnInit() {

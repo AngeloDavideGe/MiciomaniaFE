@@ -7,69 +7,75 @@ import {
 import { User } from '../../../shared/interfaces/users.interface';
 import { regioni } from '../../../../library/constants/utility.constant';
 import { dynamicValidator } from '../../../../library/validators/dynamic.validator';
+import { ILang } from '../../../core/interfaces/lang.interface';
 
-export function getLoginForm(): RecordStruttura {
+export function getLoginForm(lang: ILang['Login']['Form']): RecordStruttura {
   return {
     email: {
-      titolo: 'Email',
+      titolo: lang.Email,
       validators: [
         Validators.required,
         Validators.maxLength(40),
         Validators.email,
       ],
       tipo: 'Text',
-      errorMessage: 'Email obbligatorio con max 40 caratteri',
+      errorMessage: lang.ErroreEmail,
     },
     password: {
-      titolo: 'Password',
+      titolo: lang.Password,
       validators: [Validators.required, Validators.maxLength(20)],
       tipo: 'Password',
-      errorMessage: 'Nick obbligatorio con max 20 caratteri',
+      errorMessage: lang.ErrorePassword,
     },
   };
 }
 
-export function getRegisterForm(): RecordStruttura {
+export function getRegisterForm(
+  lang: ILang['Register']['Form'],
+): RecordStruttura {
   return {
     id: {
-      titolo: 'Nickname',
+      titolo: lang.Nickname,
       validators: [Validators.required, Validators.maxLength(15)],
       tipo: 'Text',
-      errorMessage: 'Nick obbligatorio con max 15 caratteri',
+      errorMessage: lang.ErroreNickname,
     },
     nome: {
-      titolo: 'Nome e Cognome',
+      titolo: lang.NomeCompleto,
       validators: [Validators.required, Validators.maxLength(30)],
       tipo: 'Text',
-      errorMessage: 'Campo obbligatorio con max 30 caratteri',
+      errorMessage: lang.ErroreNomeCompleto,
     },
     email: {
-      titolo: 'Email',
+      titolo: lang.Email,
       validators: [
         Validators.required,
         Validators.maxLength(40),
         Validators.email,
       ],
       tipo: 'Text',
-      errorMessage: 'Email obbligatorio con max 40 caratteri',
+      errorMessage: lang.ErroreEmail,
     },
     password: {
-      titolo: 'Password',
+      titolo: lang.Password,
       validators: [Validators.required, Validators.maxLength(20)],
       tipo: 'Password',
-      errorMessage: 'Nick obbligatorio con max 20 caratteri',
+      errorMessage: lang.ErrorePassword,
     },
   };
 }
 
-export function getEditUserForm(user: User | null): RecordStrutturaMultiForm {
+export function getEditUserForm(
+  user: User | null,
+  lang: ILang['Profilo']['EditUser'],
+): RecordStrutturaMultiForm {
   const social = user?.profile.social || {};
   const date = user?.profile.compleanno
     ? new Date(user.profile.compleanno).toISOString().slice(0, 10)
     : '';
 
   const provinciaField: StrutturaForm = {
-    titolo: 'Provincia',
+    titolo: lang.Campi.Provincia,
     validators: [Validators.required],
     tipo: 'Select',
     valueInit: '',
@@ -78,25 +84,24 @@ export function getEditUserForm(user: User | null): RecordStrutturaMultiForm {
 
   return {
     account: {
-      nome: 'Account',
+      nome: lang.Sezioni.Account,
       struttura: {
         id: {
-          titolo: 'ID utente',
+          titolo: lang.Campi.IdUtente,
           validators: [],
           tipo: 'Text',
           valueInit: user?.id || '',
           readonly: true,
         },
         nome: {
-          titolo: 'Nome',
+          titolo: lang.Campi.Nome,
           validators: [Validators.required, Validators.maxLength(30)],
           tipo: 'Text',
           valueInit: user?.credenziali.nome || '',
-          errorMessage:
-            'Il nome è obbligatorio e può avere massimo 30 caratteri',
+          errorMessage: lang.Errori.Nome,
         },
         email: {
-          titolo: 'Email',
+          titolo: lang.Campi.Email,
           validators: [
             Validators.required,
             Validators.maxLength(40),
@@ -104,21 +109,20 @@ export function getEditUserForm(user: User | null): RecordStrutturaMultiForm {
           ],
           tipo: 'Text',
           valueInit: user?.credenziali.email || '',
-          errorMessage: 'Inserisci un indirizzo email valido',
+          errorMessage: lang.Errori.Email,
         },
         password: {
-          titolo: 'Password',
+          titolo: lang.Campi.Password,
           validators: [Validators.required, Validators.maxLength(20)],
           tipo: 'Password',
           valueInit: user?.credenziali.password || '',
-          errorMessage:
-            'La password è obbligatoria e può avere massimo 20 caratteri',
+          errorMessage: lang.Errori.Password,
           onChange: (_value: string, form) => {
             form.get('confirmPassword')?.updateValueAndValidity();
           },
         },
         confirmPassword: {
-          titolo: 'Conferma password',
+          titolo: lang.Campi.ConfermaPassword,
           validators: [
             Validators.required,
             dynamicValidator(
@@ -128,21 +132,21 @@ export function getEditUserForm(user: User | null): RecordStrutturaMultiForm {
           ],
           tipo: 'Password',
           valueInit: '',
-          errorMessage: 'Le password devono coincidere',
+          errorMessage: lang.Errori.ConfermaPassword,
         },
       },
     },
     profile: {
-      nome: 'Profilo',
+      nome: lang.Sezioni.Profilo,
       struttura: {
         compleanno: {
-          titolo: 'Compleanno',
+          titolo: lang.Campi.Compleanno,
           validators: [],
           tipo: 'Date',
           valueInit: date,
         },
         bio: {
-          titolo: 'Biografia',
+          titolo: lang.Campi.Biografia,
           validators: [],
           tipo: 'Textarea',
           valueInit: user?.profile.bio || '',
@@ -151,20 +155,20 @@ export function getEditUserForm(user: User | null): RecordStrutturaMultiForm {
       },
     },
     social: {
-      nome: 'Social',
+      nome: lang.Sezioni.Social,
       tipo: 'array',
       struttura: {
         piattaforma: {
-          titolo: 'Piattaforma',
+          titolo: lang.Campi.Piattaforma,
           validators: [Validators.required, Validators.maxLength(30)],
           tipo: 'Text',
-          errorMessage: 'Indica la piattaforma social',
+          errorMessage: lang.Errori.Piattaforma,
         },
         link: {
-          titolo: 'Link o username',
+          titolo: lang.Campi.LinkUsername,
           validators: [Validators.required, Validators.maxLength(100)],
           tipo: 'Text',
-          errorMessage: 'Inserisci il link o lo username',
+          errorMessage: lang.Errori.LinkUsername,
         },
       },
       initialArray: Object.entries(social).map(([piattaforma, link]) => ({
@@ -173,16 +177,16 @@ export function getEditUserForm(user: User | null): RecordStrutturaMultiForm {
       })),
     },
     iscrizione: {
-      nome: 'Iscrizione',
+      nome: lang.Sezioni.Iscrizione,
       struttura: {
         squadra: {
-          titolo: 'Squadra',
+          titolo: lang.Campi.Squadra,
           validators: [Validators.maxLength(50)],
           tipo: 'Text',
           valueInit: user?.iscrizione.squadra || '',
         },
         regione: {
-          titolo: 'Regione',
+          titolo: lang.Campi.Regione,
           validators: [Validators.required],
           tipo: 'Select',
           valueInit: '',
@@ -197,7 +201,7 @@ export function getEditUserForm(user: User | null): RecordStrutturaMultiForm {
         },
         provincia: provinciaField,
         punteggio: {
-          titolo: 'Punteggio',
+          titolo: lang.Campi.Punteggio,
           validators: [],
           tipo: 'Text',
           valueInit: user?.iscrizione.punteggio?.toString() || '',

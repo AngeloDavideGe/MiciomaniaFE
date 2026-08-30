@@ -30,8 +30,10 @@ export class ProfileComponent implements OnInit {
   public authService = inject(AuthService);
   private appConfig = inject(AppConfigService);
 
-  public readonly tabs: iTab[] = getProfiloTabs();
+  public readonly lang = this.appConfig.lang.Profilo;
+  public readonly tabs: iTab[] = getProfiloTabs(this.lang.Tabs);
   public readonly defaultPic = this.appConfig.config.defaultPicsUrl.user;
+  public posts = signal<ProfilePost[]>([]);
 
   public currentTab = signal<string>('text');
   public editProfiloOpen = signal<boolean>(false);
@@ -110,38 +112,4 @@ export class ProfileComponent implements OnInit {
       this.editProfiloOpen.set(true);
     }
   }
-
-  public readonly posts: ProfilePost[] = [
-    {
-      date: '12 Maggio 2024 · 21:30',
-      content: [
-        'Oggi ho finito un manga che mi ha lasciato senza parole.',
-        'A volte le storie sanno davvero arrivare dritte al cuore.',
-        'Consigli?',
-      ],
-      likes: 24,
-      comments: 8,
-    },
-    {
-      date: '9 Maggio 2024 · 18:12',
-      content: [
-        'Nuova playlist in arrivo!',
-        'Se avete qualche brano da suggerire, drop pazzo nei commenti 🎧',
-      ],
-      likes: 18,
-      comments: 6,
-    },
-    {
-      date: '3 Maggio 2024 · 14:45',
-      content: [
-        'Giornatona produttiva:',
-        'Allenamento',
-        'Studio',
-        'Gaming serale con gli amici',
-        'La combo perfetta non esiste... o forse sì? 😎',
-      ],
-      likes: 31,
-      comments: 12,
-    },
-  ];
 }

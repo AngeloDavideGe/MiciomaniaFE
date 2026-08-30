@@ -5,6 +5,7 @@ import { RecordStrutturaMultiForm } from '../../../../../../library/interfaces/f
 import { User } from '../../../../../shared/interfaces/users.interface';
 import { AuthService } from '../../../../../shared/services/auth.service';
 import { getEditUserForm } from '../../../functions/auth.function';
+import { AppConfigService } from '../../../../../core/api/appConfig.service';
 
 @Component({
   selector: 'app-edit-user',
@@ -21,12 +22,14 @@ import { getEditUserForm } from '../../../functions/auth.function';
 })
 export class EditUserComponent {
   public authService = inject(AuthService);
+  private appConfig = inject(AppConfigService);
+  public readonly lang = this.appConfig.lang.Profilo.EditUser;
 
   public currentUser = input.required<User | null>();
   public chiudi = output<void>();
 
   public formEditUser = computed<RecordStrutturaMultiForm>(() =>
-    getEditUserForm(this.currentUser()),
+    getEditUserForm(this.currentUser(), this.lang),
   );
 
   public updateUser(value: EditUserFormValue): void {

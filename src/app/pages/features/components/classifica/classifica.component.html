@@ -1,9 +1,7 @@
 <app-container-micio>
   <app-descrizione-micio
-    [titolo]="'Classifica'"
-    [descrizione]="
-      'Osserva la classifica dei giocatori e delle squadre più deridenti della Miciomania Season'
-    "
+    [titolo]="lang.Titolo"
+    [descrizione]="lang.Descrizione"
     [immagine]="'https://images.unsplash.com/photo-1515879218367-8466d910aaa4'"
   >
     <div all-row>
@@ -20,7 +18,7 @@
           @case ("giocatori") {
             <app-table-indy
               [elemTable]="giocatori()"
-              [titoloTabella]="'Giocatori'"
+              [titoloTabella]="lang.Tabelle.Giocatori"
               [colonne]="colonneGiocatori"
               [recordBadge]="badgeTable"
             >
@@ -29,7 +27,7 @@
           @case ("squadre") {
             <app-table-indy
               [elemTable]="squadre()"
-              [titoloTabella]="'Squadre'"
+              [titoloTabella]="lang.Tabelle.Squadre"
               [colonne]="colonneSquadre"
               [keyPrimary]="'nome'"
               [templateCustom]="customTemplate"

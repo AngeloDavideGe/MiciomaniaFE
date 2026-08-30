@@ -4,6 +4,7 @@ import { FormIndyComponent } from '../../../../library/components/form/form-indy
 import { handlerFunc } from '../../../../library/functions/handler.function';
 import { AuthService } from '../../../shared/services/auth.service';
 import { getRegisterForm } from '../functions/auth.function';
+import { AppConfigService } from '../../../core/api/appConfig.service';
 
 @Component({
   selector: 'app-register',
@@ -14,8 +15,8 @@ import { getRegisterForm } from '../functions/auth.function';
       <section class="login-container">
         <div class="login-header">
           <div class="header-text">
-            <h1>Benvenuto</h1>
-            <p>Iscriviti al tuo sito per continuare</p>
+            <h1>{{ lang.Titolo }}</h1>
+            <p>{{ lang.Descrizione }}</p>
           </div>
         </div>
 
@@ -27,16 +28,16 @@ import { getRegisterForm } from '../functions/auth.function';
         </div>
 
         <div class="login-footer">
-          <span>Hai gia un account?</span>
+          <span>{{ lang.AccountEsistente }}</span>
           <button type="button" (click)="router.navigate(['auth/login'])">
-            Accedi
+            {{ lang.Accedi }}
           </button>
         </div>
 
         <div class="login-footer" style="border-top: none;">
-          <span>Vuoi entrare senza effetturale l'accesso?</span>
+          <span>{{ lang.AccessoOspite }}</span>
           <button type="button" (click)="router.navigate(['home'])">
-            Entra
+            {{ lang.Entra }}
           </button>
         </div>
       </section>
@@ -47,7 +48,10 @@ import { getRegisterForm } from '../functions/auth.function';
 export class RegisterComponent {
   public router = inject(Router);
   private readonly authService = inject(AuthService);
-  public readonly formRegister = getRegisterForm();
+  private appConfig = inject(AppConfigService);
+
+  public readonly lang = this.appConfig.lang.Register;
+  public readonly formRegister = getRegisterForm(this.lang.Form);
 
   public registerComplete(event: RegisterFormValue): void {
     handlerFunc<void>({

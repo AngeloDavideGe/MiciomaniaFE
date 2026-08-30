@@ -1,15 +1,13 @@
 <app-container-micio>
   <app-descrizione-micio
-    [titolo]="'Canzoni'"
-    [descrizione]="
-      'Ascolta le tue canzoni preferite cantate da Miciomania e Sirius'
-    "
+    [titolo]="lang.Titolo"
+    [descrizione]="lang.Descrizione"
     [immagine]="'https://images.unsplash.com/photo-1515879218367-8466d910aaa4'"
   >
     <div half-row>
       <app-toolbar-micio
         [stats]="canzoniToolbar()"
-        [placeholder]="'Cerca per nome, autore...'"
+        [placeholder]="lang.CercaPlaceholder"
         [(searchQuery)]="searchQuery"
       />
     </div>
@@ -18,7 +16,7 @@
       <br />
 
       <app-sidebar-indy
-        [titolo]="'Categorie'"
+        [titolo]="lang.CategorieTitolo"
         [elementi]="categorie"
         [(selezionato)]="currentCategoria"
       >

@@ -26,6 +26,7 @@ import {
 import { AudioService } from '../../../../../library/dialogs/audio/audio.service';
 import { AuthService } from '../../../../shared/services/auth.service';
 import { User } from '../../../../shared/interfaces/users.interface';
+import { AppConfigService } from '../../../../core/api/appConfig.service';
 
 @Component({
   selector: 'app-canzoni',
@@ -38,8 +39,10 @@ export class CanzoniComponent implements OnInit {
   private opereService = inject(OpereService);
   private audioService = inject(AudioService);
   private authService = inject(AuthService);
+  private appConfig = inject(AppConfigService);
 
-  public readonly categorie = getCanzoniSidebar();
+  public readonly lang = this.appConfig.lang.Canzoni;
+  public readonly categorie = getCanzoniSidebar(this.lang.Categorie);
   public readonly arrayRaggi = defaultCanzoniArrayPags();
 
   public currentButton: string | null = null;
@@ -62,7 +65,7 @@ export class CanzoniComponent implements OnInit {
     });
 
     const volumi: number = Object.values(cantanti).length;
-    return getCanzoniToolbar(volumi, canzoni.length);
+    return getCanzoniToolbar(volumi, canzoni.length, this.lang.Toolbar);
   });
 
   public canzoni = computed<iCard[]>(() => {
@@ -146,7 +149,7 @@ export class CanzoniComponent implements OnInit {
       titolo: canzone.nome,
       urlPic: canzone.copertina,
       descrizione: canzone.genere,
-      bottone: 'Ascolta',
+      bottone: this.lang.BottoneAscolta,
       azione: () => {
         if (this.currentButton && this.currentButton == canzone.nome) {
           this.audioService.stopTrack();

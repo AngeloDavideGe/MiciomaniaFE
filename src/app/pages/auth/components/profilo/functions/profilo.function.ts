@@ -1,16 +1,17 @@
 import { iTab } from '../../../../../../library/interfaces/navbar.interface';
+import { ILang } from '../../../../../core/interfaces/lang.interface';
 
-export function getProfiloTabs(): iTab[] {
+export function getProfiloTabs(lang: ILang['Profilo']['Tabs']): iTab[] {
   return [
     {
       id: 'text',
-      label: 'Post di testo',
+      label: lang.PostTesto,
       color: 'var(--primary-light)',
       icona: 'bi bi-chat-left-text',
     },
     {
       id: 'photo',
-      label: 'Post con foto',
+      label: lang.PostFoto,
       color: 'var(--primary-light)',
       icona: 'bi bi-images',
     },

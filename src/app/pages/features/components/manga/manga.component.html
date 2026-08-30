@@ -1,15 +1,13 @@
 <app-container-micio>
   <app-descrizione-micio
-    [titolo]="'Manga'"
-    [descrizione]="
-      'Leggi i tuoi manga preferiti e scopri le avventure di Indy e Claudia'
-    "
+    [titolo]="lang.Titolo"
+    [descrizione]="lang.Descrizione"
     [immagine]="'https://images.unsplash.com/photo-1515879218367-8466d910aaa4'"
   >
     <div half-row>
       <app-toolbar-micio
         [stats]="mangaToolbar()"
-        [placeholder]="'Cerca per nome, autore...'"
+        [placeholder]="lang.CercaPlaceholder"
         [(searchQuery)]="searchQuery"
       />
     </div>
@@ -22,14 +20,14 @@
       <br />
 
       <app-sidebar-indy
-        [titolo]="'Categorie'"
+        [titolo]="lang.CategorieTitolo"
         [elementi]="categorie"
         [(selezionato)]="currentCategoria"
       >
         <div down-content>
           <app-sidebar-indy
             [width]="'100%'"
-            [titolo]="'Sottocategorie'"
+            [titolo]="lang.SottocategorieTitolo"
             [elementi]="sottoCategorie"
             [(selezionato)]="currentSottoCategoria"
           />

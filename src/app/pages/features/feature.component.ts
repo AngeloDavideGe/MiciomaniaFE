@@ -7,6 +7,7 @@ import {
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { isCurrentRoute } from '../../../library/functions/router.function';
+import { AppConfigService } from '../../core/api/appConfig.service';
 
 @Component({
   selector: 'app-auth',
@@ -35,9 +36,17 @@ import { isCurrentRoute } from '../../../library/functions/router.function';
 })
 export class FeatureComponent {
   private router = inject(Router);
+  private appConfig = inject(AppConfigService);
 
-  public readonly pulsantiNavbar = getFeatureNavbar(this.router);
-  public readonly pulsantiBottombar = getBottomNavItems(this.router);
+  public readonly lang = this.appConfig.lang.Feature;
+  public readonly pulsantiNavbar = getFeatureNavbar(
+    this.router,
+    this.lang.Navbar,
+  );
+  public readonly pulsantiBottombar = getBottomNavItems(
+    this.router,
+    this.lang.Navbar,
+  );
 
   public initialPulsante = signal<string>('manga');
 

@@ -4,17 +4,18 @@ import {
   Giocatore,
   Squadra,
 } from '../../../../../shared/interfaces/opere.interface';
+import { ILang } from '../../../../../core/interfaces/lang.interface';
 
-export function getClassificaTabs(): iTab[] {
+export function getClassificaTabs(lang: ILang['Classifica']['Tabs']): iTab[] {
   return [
     {
       id: 'giocatori',
-      label: 'Giocatori',
+      label: lang.Giocatori,
       color: 'var(--primary-light)',
     },
     {
       id: 'squadre',
-      label: 'Squadre',
+      label: lang.Squadre,
       color: 'var(--primary-light)',
     },
   ];
@@ -30,41 +31,45 @@ export function getBadgeTable(): Record<number, string> {
   };
 }
 
-export function getColonneTabellaGiocatori(): Partial<
+export function getColonneTabellaGiocatori(
+  lang: ILang['Classifica']['Colonne'],
+): Partial<
   RecordColonne<Giocatore>
 > {
   return {
     posizione: {
-      titolo: 'Posizione',
+      titolo: lang.Posizione,
       sortCol: false,
     },
     idUtente: {
-      titolo: 'Nome',
+      titolo: lang.Nome,
       sortCol: true,
     },
     squadra: {
-      titolo: 'Squadra',
+      titolo: lang.Squadra,
       sortCol: true,
     },
     punteggio: {
-      titolo: 'Punti',
+      titolo: lang.Punti,
       sortCol: true,
     },
   };
 }
 
-export function getColonneTabellaSquadre(): Partial<RecordColonne<Squadra>> {
+export function getColonneTabellaSquadre(
+  lang: ILang['Classifica']['Colonne'],
+): Partial<RecordColonne<Squadra>> {
   return {
     posizione: {
-      titolo: 'Posizione',
+      titolo: lang.Posizione,
       sortCol: false,
     },
     nome: {
-      titolo: 'Nome',
+      titolo: lang.Nome,
       sortCol: true,
     },
     punteggio: {
-      titolo: 'Punti',
+      titolo: lang.Punti,
       sortCol: true,
     },
   };

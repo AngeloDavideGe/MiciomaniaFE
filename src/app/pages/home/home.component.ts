@@ -72,7 +72,7 @@ export class HomeComponent {
 
     return [
       {
-        titolo: 'Account',
+        titolo: this.lang.AccountMenuTitolo,
         menuElementi: accounts.map((account: User) => ({
           testo: account.credenziali.nome,
           sottotitolo: account.id,
@@ -161,8 +161,8 @@ export class HomeComponent {
 
   public logoutAllAccounts(): void {
     this.confirmService.confirmCustom({
-      titolo: 'Disconnetti tutti gli Account',
-      messaggio: `Vuoi davvero uscire da tutti gli account?`,
+      titolo: this.lang.LogoutAllTitolo,
+      messaggio: this.lang.LogoutAllMessaggio,
       confirmFunc: () => {
         this.authService.currentUser.set(null);
         this.authService.accountsUser.set([]);

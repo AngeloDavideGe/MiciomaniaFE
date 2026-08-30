@@ -12,14 +12,19 @@
         <div class="avatar-wrap">
           <img
             [src]="profilo()?.credenziali?.profilePic || defaultPic"
-            alt="Avatar Profilo"
+            [alt]="lang.AvatarAlt"
           />
-          <span class="online-dot" aria-label="Online"></span>
+          <span
+            class="online-dot"
+            [attr.aria-label]="lang.OnlineAriaLabel"
+          ></span>
         </div>
         <div>
           <div class="name-line">
             <h2>{{ profilo()?.credenziali?.nome }}</h2>
-            <span class="verified" aria-label="Profilo verificato"
+            <span
+              class="verified"
+              [attr.aria-label]="lang.ProfiloVerificatoAriaLabel"
               ><i class="bi bi-patch-check-fill"></i
             ></span>
           </div>
@@ -32,7 +37,7 @@
       @if (isPersonalProfile()) {
         <button class="edit-button" type="button" (click)="openEditProfile()">
           <i class="bi bi-pencil-square"></i>
-          <span>Modifica profilo</span>
+          <span>{{ lang.ModificaProfilo }}</span>
         </button>
       }
     </div>
@@ -44,8 +49,8 @@
         </p>
         <div class="profile-meta">
           <span
-            ><i class="bi bi-calendar3"></i> Iscritto da
-            <strong>Gennaio 2024</strong></span
+            ><i class="bi bi-calendar3"></i> {{ lang.IscrittoDa }}
+            <strong>{{ lang.DataIscrizione }}</strong></span
           >
           <span
             ><i class="bi bi-geo-alt"></i>
@@ -55,18 +60,22 @@
           >
         </div>
       </div>
-      <div class="profile-stats" aria-label="Statistiche profilo">
-        <div><strong>128</strong><span>Post</span></div>
-        <div><strong>4.8K</strong><span>Punti</span></div>
+      <div class="profile-stats" [attr.aria-label]="lang.StatisticheAriaLabel">
+        <div>
+          <strong>128</strong><span>{{ lang.Post }}</span>
+        </div>
+        <div>
+          <strong>4.8K</strong><span>{{ lang.Punti }}</span>
+        </div>
       </div>
     </div>
   </app-descrizione-micio>
 
-  <section class="posts-section" aria-label="Attività di MicioMaster">
+  <section class="posts-section" [attr.aria-label]="lang.AttivitaAriaLabel">
     <div class="section-heading">
       <div>
-        <span class="eyebrow">Attività recente</span>
-        <h2>Condivisi dalla community</h2>
+        <span class="eyebrow">{{ lang.AttivitaRecente }}</span>
+        <h2>{{ lang.CondivisiCommunity }}</h2>
       </div>
     </div>
 
@@ -80,7 +89,7 @@
 
     @if (currentTab() === "text") {
       <div class="posts-list">
-        @for (post of posts; track post.date) {
+        @for (post of posts(); track post.date) {
           <article class="post">
             <div class="post-marker"><i class="bi bi-chat-left-text"></i></div>
             <div class="post-content">
@@ -92,7 +101,7 @@
                 <button
                   class="more-button"
                   type="button"
-                  aria-label="Altre opzioni"
+                  [attr.aria-label]="lang.AltreOpzioniAriaLabel"
                 >
                   <i class="bi bi-three-dots"></i>
                 </button>
@@ -117,8 +126,8 @@
     } @else {
       <div class="empty-state">
         <i class="bi bi-images"></i>
-        <h3>Nessuna foto pubblicata</h3>
-        <p>I post con foto compariranno qui.</p>
+        <h3>{{ lang.NessunaFoto }}</h3>
+        <p>{{ lang.FotoCompariranno }}</p>
       </div>
     }
   </section>
@@ -126,8 +135,8 @@
 
 @if (isPersonalProfile() && editProfiloOpen()) {
   <app-modal-indy
-    [title]="'Modifica profilo'"
-    [subtitle]="'Aggiorna i tuoi dati personali e social'"
+    [title]="lang.Modale.Titolo"
+    [subtitle]="lang.Modale.Sottotitolo"
     [width]="'xl'"
     (close)="editProfiloOpen.set(false)"
   >

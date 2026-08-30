@@ -1,35 +1,39 @@
 import { ISidebarItem } from '../../../../../../library/interfaces/navbar.interface';
 import { RaggioPage } from '../../../../../../library/interfaces/pagination.interface';
 import { OpereToolbar } from '../../../../../shared/interfaces/opere.interface';
+import { ILang } from '../../../../../core/interfaces/lang.interface';
 
 export function getCanzoniToolbar(
   album: number,
   canzoni: number,
+  lang: ILang['Canzoni']['Toolbar'],
 ): OpereToolbar[] {
   return [
     {
       icon: 'bi-book',
       value: album,
-      title: 'Album disponibili',
+      title: lang.AlbumDisponibili,
     },
     {
       icon: 'bi-grid',
       value: canzoni,
-      title: 'Canozni totali',
+      title: lang.CanzoniTotali,
     },
   ];
 }
 
-export function getCanzoniSidebar(): ISidebarItem[] {
+export function getCanzoniSidebar(
+  lang: ILang['Canzoni']['Categorie'],
+): ISidebarItem[] {
   return [
     {
       id: 'tutte',
-      nome: 'Tutte',
+      nome: lang.Tutte,
       icona: 'bi-grid',
     },
     {
       id: 'preferite',
-      nome: 'Preferite',
+      nome: lang.Preferite,
       icona: 'bi-play-circle',
     },
   ];

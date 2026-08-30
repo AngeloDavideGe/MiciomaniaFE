@@ -30,6 +30,7 @@ import {
 import { manga_imports } from './manga.import';
 import { AuthService } from '../../../../shared/services/auth.service';
 import { User } from '../../../../shared/interfaces/users.interface';
+import { AppConfigService } from '../../../../core/api/appConfig.service';
 
 @Component({
   selector: 'app-manga',
@@ -41,10 +42,14 @@ import { User } from '../../../../shared/interfaces/users.interface';
 export class MangaComponent implements OnInit {
   private opereService = inject(OpereService);
   private authService = inject(AuthService);
+  private appConfig = inject(AppConfigService);
 
-  public readonly categorie = getMangaSidebar();
-  public readonly sottoCategorie = getMangaSidebarSub();
-  public readonly tabs = getMangaTabs();
+  public readonly lang = this.appConfig.lang.Manga;
+  public readonly categorie = getMangaSidebar(this.lang.Categorie);
+  public readonly sottoCategorie = getMangaSidebarSub(
+    this.lang.Sottocategorie,
+  );
+  public readonly tabs = getMangaTabs(this.lang.Tabs);
   public readonly arrayRaggi = defaultMangaArrayPags();
 
   public searchQuery = signal<string>('');
@@ -52,7 +57,9 @@ export class MangaComponent implements OnInit {
   public currentCategoria = signal<string>('ufficiali');
   public currentSottoCategoria = signal<string>('tutti');
   public currentTabs = signal<boolean | null>(null);
-  public mangaToolbar = signal<OpereToolbar[]>(getMangaToolbar(0, 0));
+  public mangaToolbar = signal<OpereToolbar[]>(
+    getMangaToolbar(0, 0, this.lang.Toolbar),
+  );
 
   public viewSpinner = computed<boolean>(() => !this.opereService.manga());
   public currentUser = computed<User | null>(() =>
@@ -119,7 +126,7 @@ export class MangaComponent implements OnInit {
       titolo: x.nome,
       urlPic: x.copertina,
       descrizione: x.genere,
-      bottone: 'Leggi',
+      bottone: this.lang.BottoneLeggi,
       tabFiltro: x.completato,
       azione: () => {},
     }));
@@ -152,7 +159,7 @@ export class MangaComponent implements OnInit {
       titolo: x.nome,
       urlPic: x.copertina,
       descrizione: x.genere,
-      bottone: 'Leggi',
+      bottone: this.lang.BottoneLeggi,
       tabFiltro: x.completato,
       azione: () => {},
     }));
@@ -205,6 +212,8 @@ export class MangaComponent implements OnInit {
     data.listaManga.forEach((x: Manga) => (capitoliTotali += x.capitoli));
     data.micioManga.forEach((x: Manga) => (capitoliTotali += x.capitoli));
 
-    this.mangaToolbar.set(getMangaToolbar(mangaDisponibili, capitoliTotali));
+    this.mangaToolbar.set(
+      getMangaToolbar(mangaDisponibili, capitoliTotali, this.lang.Toolbar),
+    );
   }
 }

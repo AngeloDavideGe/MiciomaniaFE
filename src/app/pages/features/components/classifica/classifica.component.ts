@@ -14,6 +14,7 @@ import {
   getColonneTabellaSquadre,
 } from './functions/classifica.functions';
 import { GetOrderCustom } from '../../../../../library/functions/ordinamento.function';
+import { AppConfigService } from '../../../../core/api/appConfig.service';
 
 @Component({
   selector: 'app-classifica',
@@ -24,10 +25,16 @@ import { GetOrderCustom } from '../../../../../library/functions/ordinamento.fun
 })
 export class ClassificaComponent implements OnInit {
   private opereService = inject(OpereService);
+  private appConfig = inject(AppConfigService);
 
-  public readonly tabs = getClassificaTabs();
-  public readonly colonneGiocatori = getColonneTabellaGiocatori();
-  public readonly colonneSquadre = getColonneTabellaSquadre();
+  public readonly lang = this.appConfig.lang.Classifica;
+  public readonly tabs = getClassificaTabs(this.lang.Tabs);
+  public readonly colonneGiocatori = getColonneTabellaGiocatori(
+    this.lang.Colonne,
+  );
+  public readonly colonneSquadre = getColonneTabellaSquadre(
+    this.lang.Colonne,
+  );
   public readonly badgeTable = getBadgeTable();
 
   public currentTab = signal<string>('giocatori');

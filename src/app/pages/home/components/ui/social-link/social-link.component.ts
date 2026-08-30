@@ -3,6 +3,7 @@ import { SpinnerIndyComponent } from '../../../../../../library/components/spinn
 import { handlerFunc } from '../../../../../../library/functions/handler.function';
 import { Social } from '../../../../../shared/interfaces/mn.interface';
 import { MNService } from '../../../../../shared/services/mn.service';
+import { AppConfigService } from '../../../../../core/api/appConfig.service';
 @Component({
   selector: 'app-social-link',
   standalone: true,
@@ -12,6 +13,9 @@ import { MNService } from '../../../../../shared/services/mn.service';
 })
 export class SocialLinkComponent implements OnInit {
   public mnService = inject(MNService);
+  private appConfig = inject(AppConfigService);
+
+  public readonly lang = this.appConfig.lang.Home.Social;
 
   ngOnInit(): void {
     handlerFunc<Social[]>({

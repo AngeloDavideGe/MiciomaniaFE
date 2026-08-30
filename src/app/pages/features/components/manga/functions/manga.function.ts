@@ -4,52 +4,57 @@ import {
 } from '../../../../../../library/interfaces/navbar.interface';
 import { RaggioPage } from '../../../../../../library/interfaces/pagination.interface';
 import { OpereToolbar } from '../../../../../shared/interfaces/opere.interface';
+import { ILang } from '../../../../../core/interfaces/lang.interface';
 
-export function getMangaTabs(): iTab[] {
+export function getMangaTabs(lang: ILang['Manga']['Tabs']): iTab[] {
   return [
     {
       id: 'tutti',
-      label: 'Tutti',
+      label: lang.Tutti,
       color: 'var(--primary-light)',
     },
     {
       id: 'in_corso',
-      label: 'In corso',
+      label: lang.InCorso,
       color: 'var(--primary-light)',
     },
     {
       id: 'completati',
-      label: 'Completati',
+      label: lang.Completati,
       color: 'var(--primary-light)',
     },
   ];
 }
 
-export function getMangaSidebar(): ISidebarItem[] {
+export function getMangaSidebar(
+  lang: ILang['Manga']['Categorie'],
+): ISidebarItem[] {
   return [
     {
       id: 'ufficiali',
-      nome: 'Ufficiali',
+      nome: lang.Ufficiali,
       icona: 'bi-grid',
     },
     {
       id: 'miciomania',
-      nome: 'Di Miciomania',
+      nome: lang.Miciomania,
       icona: 'bi-play-circle',
     },
   ];
 }
 
-export function getMangaSidebarSub(): ISidebarItem[] {
+export function getMangaSidebarSub(
+  lang: ILang['Manga']['Sottocategorie'],
+): ISidebarItem[] {
   return [
     {
       id: 'tutti',
-      nome: 'Tutti',
+      nome: lang.Tutti,
       icona: 'bi-grid',
     },
     {
       id: 'preferiti',
-      nome: 'Preferiti',
+      nome: lang.Preferiti,
       icona: 'bi-heart',
     },
   ];
@@ -58,17 +63,18 @@ export function getMangaSidebarSub(): ISidebarItem[] {
 export function getMangaToolbar(
   manga: number,
   capitoli: number,
+  lang: ILang['Manga']['Toolbar'],
 ): OpereToolbar[] {
   return [
     {
       icon: 'bi-book',
       value: manga,
-      title: 'Manga disponibili',
+      title: lang.MangaDisponibili,
     },
     {
       icon: 'bi-grid',
       value: capitoli,
-      title: 'Capitoli totali',
+      title: lang.CapitoliTotali,
     },
   ];
 }
