@@ -1,0 +1,42 @@
+{
+  "Home": {
+    "Notifiche": "Notifiche",
+    "Impostazioni": "Impostazioni",
+    "AccountUtente": "Account utente",
+    "AggiungiAccount": "Aggiungi un altro account",
+    "EsciAccount": "Esci da tutti gli account",
+    "Benvenuti": "Benvenuto/a su Miciomania",
+    "Descrizione": "Il posto perfetto per leggere manga, ascoltare musica parodia, giocare con i sentimenti e far piangere Sirius.",
+    "CardsTitle": "Cosa vuoi fare oggi?",
+    "Toggle": {
+      "Account": "Account",
+      "Profilo": "Profilo",
+      "Auth": "Autenticazione",
+      "Esci": "Esci",
+      "Login": "Accedi",
+      "Lingua": "Lingua",
+      "LogoutTitolo": "Disconnetti account",
+      "LogoutMessaggio": "Vuoi davvero uscire da"
+    },
+    "Card1": {
+      "titolo": "Manga",
+      "descrizione": "Scopri la mia collezione di manga, recensioni, letture in corso e consigli.",
+      "bottone": "Esplora manga"
+    },
+    "Card2": {
+      "titolo": "Musica",
+      "descrizione": "Ascolta playlist, album preferiti e scopri nuovi artisti.",
+      "bottone": "Vai alla musica"
+    },
+    "Card3": {
+      "titolo": "Giochi",
+      "descrizione": "Tutto il mondo gaming: giochi provati, consigli e preferiti.",
+      "bottone": "Scopri giochi"
+    },
+    "Card4": {
+      "titolo": "Classifica",
+      "descrizione": "Classifica",
+      "bottone": "Visualizza classifica"
+    }
+  }
+}

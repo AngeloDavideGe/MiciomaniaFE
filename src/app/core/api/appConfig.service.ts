@@ -1,52 +1,38 @@
 import { HttpClient } from '@angular/common/http';
-import { inject, Injectable } from '@angular/core';
-import { SupabaseClient } from '@supabase/supabase-js';
+import { inject, Injectable, signal } from '@angular/core';
+import { forkJoin } from 'rxjs';
 import { handlerFuncAsync } from '../../../library/functions/handler.function';
-import { getClient } from '../functions/client.function';
+import { IAppConfig } from '../interfaces/appConfig.interface';
+import { ILang } from '../interfaces/lang.interface';
+
+interface IConfigService {
+  config: IAppConfig;
+  lang: ILang;
+}
 
 @Injectable({
   providedIn: 'root',
 })
 export class AppConfigService {
   private http = inject(HttpClient);
+  private currentLang = signal<'it' | 'en'>('it');
 
   public config!: IAppConfig;
-  public client!: SupabaseClient;
+  public lang!: ILang;
 
   public loadConfig(): Promise<void> {
-    return handlerFuncAsync<IAppConfig>({
-      callHttp: () => this.http.get<IAppConfig>('assets/data/appConfig.json'),
-      nextCall: (config: IAppConfig) => {
-        this.config = config;
-        this.client = getClient(config);
+    return handlerFuncAsync<IConfigService>({
+      callHttp: () =>
+        forkJoin({
+          config: this.http.get<IAppConfig>('assets/data/appConfig.json'),
+          lang: this.http.get<ILang>(
+            `assets/lang/lang.${this.currentLang()}.json`,
+          ),
+        }),
+      nextCall: (data: IConfigService) => {
+        this.config = data.config;
+        this.lang = data.lang;
       },
     });
   }
-}
-
-export interface IAppConfig {
-  HEADERS: {
-    CS: {
-      KEY: string;
-    };
-    PY: {
-      KEY: string;
-    };
-    DB2: {
-      KEY: string;
-      STORAGE_KEY: string;
-    };
-  };
-  maxElement: {
-    users: number;
-    elemPagine: number;
-    postVisible: number;
-    notifiche: number;
-  };
-  defaultPicsUrl: {
-    user: string;
-    group: string;
-    song: string;
-    manga: string;
-  };
 }

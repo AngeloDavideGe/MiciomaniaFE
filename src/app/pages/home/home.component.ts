@@ -40,14 +40,20 @@ export class HomeComponent {
 
   private openNow: boolean = true;
 
+  public readonly lang = this.appConfig.lang.Home;
   public readonly pic = this.appConfig.config.defaultPicsUrl.user;
   public readonly maxUsers = this.appConfig.config.maxElement.users;
 
-  public readonly cardsHome = getCategorieCard();
+  public readonly cardsHome = getCategorieCard(this.lang);
   public readonly arrayRaggi = defaultHomeArrayPags();
 
   public impostazioniToggle = computed<ToggleProps[]>(() =>
-    getToggleProps(this.authService, this.router, this.confirmService),
+    getToggleProps(
+      this.authService,
+      this.router,
+      this.confirmService,
+      this.lang.Toggle,
+    ),
   );
 
   public imgToggle = computed<string>(() => {

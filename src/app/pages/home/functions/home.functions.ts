@@ -5,41 +5,39 @@ import { RaggioPage } from '../../../../library/interfaces/pagination.interface'
 import { ToggleProps } from '../../../../library/interfaces/toggle.interface';
 import { User } from '../../../shared/interfaces/users.interface';
 import { AuthService } from '../../../shared/services/auth.service';
+import { ILang } from '../../../core/interfaces/lang.interface';
 
-export function getCategorieCard(): iCard[] {
+export function getCategorieCard(lang: ILang['Home']): iCard[] {
   return [
     {
-      titolo: 'Manga',
+      titolo: lang.Card1.titolo,
+      descrizione: lang.Card1.descrizione,
+      bottone: lang.Card1.bottone,
       urlPic: 'https://i.postimg.cc/N0MRzTJn/Manga-Card.png',
-      descrizione:
-        'Scopri la mia collezione di manga, recensioni, letture in corso e consigli.',
-      bottone: 'Esplora manga',
       routerLink: 'feature/manga',
       color: 'var(--primary)',
     },
     {
-      titolo: 'Musica',
+      titolo: lang.Card2.titolo,
+      descrizione: lang.Card2.descrizione,
+      bottone: lang.Card2.bottone,
       urlPic: 'https://i.postimg.cc/6QkTfGD4/Canzoni-Card.png',
-      descrizione: 'Ascolta playlist, album preferiti e scopri nuovi artisti.',
-      bottone: 'Vai alla musica',
       routerLink: 'feature/canzoni',
       color: 'var(--primary)',
     },
     {
-      titolo: 'Giochi',
+      titolo: lang.Card3.titolo,
+      descrizione: lang.Card3.descrizione,
+      bottone: lang.Card3.bottone,
       urlPic: 'https://i.postimg.cc/Y0w3Z0mW/Giochi-Card.png',
-      descrizione:
-        'Tutto il mondo gaming: giochi provati, consigli e preferiti.',
-      bottone: 'Scopri giochi',
       routerLink: 'feature/giochi',
       color: 'var(--primary)',
     },
     {
-      titolo: 'Classifica',
+      titolo: lang.Card4.titolo,
+      descrizione: lang.Card4.descrizione,
+      bottone: lang.Card4.bottone,
       urlPic: 'https://i.postimg.cc/Y0w3Z0mW/Giochi-Card.png',
-      descrizione:
-        'Classifica dei migliori giocatori Miciomani e le loro squadre',
-      bottone: 'Visualizza classifica',
       routerLink: 'feature/classifica',
       color: 'var(--primary)',
     },
@@ -50,16 +48,17 @@ export function getToggleProps(
   authService: AuthService,
   router: Router,
   confirmService: ConfirmService,
+  lang: ILang['Home']['Toggle'],
 ): ToggleProps[] {
   const currentUser: User | null = authService.currentUser();
 
   return [
     {
-      titolo: 'Account',
+      titolo: lang.Account,
       icona: 'bi bi-person-circle',
       menuElementi: [
         {
-          testo: 'Profilo',
+          testo: lang.Profilo,
           icona: 'bi bi-person',
           condition: !!authService.currentUser(),
           azione: () =>
@@ -68,11 +67,11 @@ export function getToggleProps(
       ],
     },
     {
-      titolo: 'Auth',
+      titolo: lang.Auth,
       icona: 'bi bi-three-dots',
       menuElementi: [
         {
-          testo: 'Esci',
+          testo: lang.Esci,
           icona: 'bi bi-box-arrow-right',
           condition: !!currentUser,
           azione: () => {
@@ -80,8 +79,8 @@ export function getToggleProps(
             const currentUser: User | null = authService.currentUser();
 
             confirmService.confirmCustom({
-              titolo: 'Logout Account',
-              messaggio: `Vuoi davvero uscire da ${currentUser?.id}?`,
+              titolo: lang.LogoutTitolo,
+              messaggio: `${lang.LogoutMessaggio} ${currentUser?.id}?`,
               confirmFunc: () => {
                 if (accountsUser.length > 1 && currentUser) {
                   authService.accountsUser.update((x: User[]) =>
@@ -98,10 +97,28 @@ export function getToggleProps(
           },
         },
         {
-          testo: 'Login',
+          testo: lang.Login,
           icona: 'bi bi-box-arrow-right',
           condition: !currentUser,
           azione: () => router.navigate(['auth/login']),
+        },
+      ],
+    },
+    {
+      titolo: lang.Lingua,
+      icona: 'bi bi-person-circle',
+      menuElementi: [
+        {
+          testo: 'it',
+          icona: 'bi bi-world',
+          condition: true,
+          azione: () => {},
+        },
+        {
+          testo: 'en',
+          icona: 'bi bi-world',
+          condition: true,
+          azione: () => {},
         },
       ],
     },
