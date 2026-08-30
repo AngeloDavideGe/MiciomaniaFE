@@ -23,6 +23,8 @@ import {
   CURRENT_USER_KEY,
 } from '../../core/functions/storage.function';
 import { ConfirmService } from '../../../library/dialogs/confirm/confirm.service';
+import { iCard } from '../../../library/interfaces/card.interface';
+import { ILang } from '../../core/interfaces/lang.interface';
 
 @Component({
   selector: 'app-home',
@@ -40,19 +42,24 @@ export class HomeComponent {
 
   private openNow: boolean = true;
 
-  public readonly lang = this.appConfig.lang.Home;
+  public lang = computed<ILang['Home']>(() => {
+    this.appConfig.currentLang();
+    return this.appConfig.lang.Home;
+  });
+
   public readonly pic = this.appConfig.config.defaultPicsUrl.user;
   public readonly maxUsers = this.appConfig.config.maxElement.users;
-
-  public readonly cardsHome = getCategorieCard(this.lang);
   public readonly arrayRaggi = defaultHomeArrayPags();
+
+  public cardsHome = computed<iCard[]>(() => getCategorieCard(this.lang()));
 
   public impostazioniToggle = computed<ToggleProps[]>(() =>
     getToggleProps(
       this.authService,
       this.router,
       this.confirmService,
-      this.lang.Toggle,
+      this.appConfig,
+      this.lang().Toggle,
     ),
   );
 
@@ -72,7 +79,7 @@ export class HomeComponent {
 
     return [
       {
-        titolo: this.lang.AccountMenuTitolo,
+        titolo: this.lang().AccountMenuTitolo,
         menuElementi: accounts.map((account: User) => ({
           testo: account.credenziali.nome,
           sottotitolo: account.id,
@@ -161,8 +168,8 @@ export class HomeComponent {
 
   public logoutAllAccounts(): void {
     this.confirmService.confirmCustom({
-      titolo: this.lang.LogoutAllTitolo,
-      messaggio: this.lang.LogoutAllMessaggio,
+      titolo: this.lang().LogoutAllTitolo,
+      messaggio: this.lang().LogoutAllMessaggio,
       confirmFunc: () => {
         this.authService.currentUser.set(null);
         this.authService.accountsUser.set([]);

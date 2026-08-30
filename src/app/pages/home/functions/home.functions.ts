@@ -3,9 +3,13 @@ import { ConfirmService } from '../../../../library/dialogs/confirm/confirm.serv
 import { iCard } from '../../../../library/interfaces/card.interface';
 import { RaggioPage } from '../../../../library/interfaces/pagination.interface';
 import { ToggleProps } from '../../../../library/interfaces/toggle.interface';
+import {
+  AppConfigService,
+  LangEnum,
+} from '../../../core/api/appConfig.service';
+import { ILang } from '../../../core/interfaces/lang.interface';
 import { User } from '../../../shared/interfaces/users.interface';
 import { AuthService } from '../../../shared/services/auth.service';
-import { ILang } from '../../../core/interfaces/lang.interface';
 
 export function getCategorieCard(lang: ILang['Home']): iCard[] {
   return [
@@ -48,6 +52,7 @@ export function getToggleProps(
   authService: AuthService,
   router: Router,
   confirmService: ConfirmService,
+  appConfig: AppConfigService,
   lang: ILang['Home']['Toggle'],
 ): ToggleProps[] {
   const currentUser: User | null = authService.currentUser();
@@ -59,7 +64,7 @@ export function getToggleProps(
       menuElementi: [
         {
           testo: lang.Profilo,
-          icona: 'bi bi-person',
+          icona: 'bi bi-person-vcard',
           condition: !!authService.currentUser(),
           azione: () =>
             router.navigate(['auth/user/' + authService.currentUser()?.id]),
@@ -67,8 +72,23 @@ export function getToggleProps(
       ],
     },
     {
+      titolo: lang.Lingua,
+      icona: 'bi bi-globe2',
+      menuElementi: Object.values(LangEnum).map((x: LangEnum) => {
+        return {
+          testo: x.toUpperCase(),
+          icona:
+            x === appConfig.currentLang()
+              ? 'bi bi-check-circle-fill text-success'
+              : 'bi bi-translate',
+          condition: true,
+          azione: () => appConfig.changeLang(x),
+        };
+      }),
+    },
+    {
       titolo: lang.Auth,
-      icona: 'bi bi-three-dots',
+      icona: 'bi bi-shield-lock',
       menuElementi: [
         {
           testo: lang.Esci,
@@ -101,24 +121,6 @@ export function getToggleProps(
           icona: 'bi bi-box-arrow-right',
           condition: !currentUser,
           azione: () => router.navigate(['auth/login']),
-        },
-      ],
-    },
-    {
-      titolo: lang.Lingua,
-      icona: 'bi bi-person-circle',
-      menuElementi: [
-        {
-          testo: 'it',
-          icona: 'bi bi-world',
-          condition: true,
-          azione: () => {},
-        },
-        {
-          testo: 'en',
-          icona: 'bi bi-world',
-          condition: true,
-          azione: () => {},
         },
       ],
     },

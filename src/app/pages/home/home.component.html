@@ -4,7 +4,7 @@
       <div class="elementi-laterali gap-3">
         <app-toggle-indy
           [icona]="'bi bi-bell'"
-          [titolo]="lang.Notifiche"
+          [titolo]="lang().Notifiche"
           [tipo]="'single'"
           [toggleMenus]="notificheToggle()"
           [toggleStyles]="{ width: '20rem', height: '30rem' }"
@@ -12,13 +12,13 @@
         />
         <app-toggle-indy
           [icona]="'bi bi-gear'"
-          [titolo]="lang.Impostazioni"
+          [titolo]="lang().Impostazioni"
           [toggleMenus]="impostazioniToggle()"
           [toggleStyles]="{ width: '20rem' }"
           [(menuOpen)]="menuOpen"
         />
         <app-toggle-indy
-          [titolo]="lang.AccountUtente"
+          [titolo]="lang().AccountUtente"
           [imgIcona]="imgToggle()"
           [tipo]="'single'"
           [toggleMenus]="accountToggle()"
@@ -33,7 +33,7 @@
                 <span class="account-action-icon">
                   <i class="bi bi-plus-lg"></i>
                 </span>
-                <span>{{ lang.AggiungiAccount }}</span>
+                <span>{{ lang().AggiungiAccount }}</span>
               </button>
             }
 
@@ -43,7 +43,7 @@
                 class="logout-all"
                 (click)="logoutAllAccounts()"
               >
-                {{ lang.EsciAccount }}
+                {{ lang().EsciAccount }}
               </button>
             }
           </div>
@@ -55,8 +55,8 @@
   <section style="margin-top: 4rem">
     <app-container-micio>
       <app-descrizione-micio
-        [titolo]="lang.Benvenuti"
-        [descrizione]="lang.Descrizione"
+        [titolo]="lang().Benvenuti"
+        [descrizione]="lang().Descrizione"
         [immagine]="
           'https://images.unsplash.com/photo-1515879218367-8466d910aaa4'
         "
@@ -66,8 +66,8 @@
 
   <section class="card-section">
     <app-card-indy
-      [elems]="cardsHome"
-      [titoloLista]="lang.CardsTitle"
+      [elems]="cardsHome()"
+      [titoloLista]="lang().CardsTitle"
       [tipoSlice]="'single'"
       [altezzaImg]="'13rem'"
       [cardPosition]="'start'"

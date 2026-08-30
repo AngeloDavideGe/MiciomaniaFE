@@ -125,14 +125,10 @@ export interface ILang {
     ProfiloVerificatoAriaLabel: string;
     ModificaProfilo: string;
     IscrittoDa: string;
-    DataIscrizione: string;
-    StatisticheAriaLabel: string;
     Post: string;
     Punti: string;
-    AttivitaAriaLabel: string;
     AttivitaRecente: string;
     CondivisiCommunity: string;
-    AltreOpzioniAriaLabel: string;
     NessunaFoto: string;
     FotoCompariranno: string;
     Modale: { Titolo: string; Sottotitolo: string };

@@ -50,7 +50,7 @@
         <div class="profile-meta">
           <span
             ><i class="bi bi-calendar3"></i> {{ lang.IscrittoDa }}
-            <strong>{{ lang.DataIscrizione }}</strong></span
+            <strong>{{ profilo()?.profile?.compleanno }}</strong></span
           >
           <span
             ><i class="bi bi-geo-alt"></i>
@@ -60,7 +60,7 @@
           >
         </div>
       </div>
-      <div class="profile-stats" [attr.aria-label]="lang.StatisticheAriaLabel">
+      <div class="profile-stats" [attr.aria-label]="'Stats'">
         <div>
           <strong>128</strong><span>{{ lang.Post }}</span>
         </div>
@@ -71,7 +71,7 @@
     </div>
   </app-descrizione-micio>
 
-  <section class="posts-section" [attr.aria-label]="lang.AttivitaAriaLabel">
+  <section class="posts-section" [attr.aria-label]="'Atts'">
     <div class="section-heading">
       <div>
         <span class="eyebrow">{{ lang.AttivitaRecente }}</span>
@@ -87,49 +87,63 @@
       />
     </div>
 
-    @if (currentTab() === "text") {
-      <div class="posts-list">
-        @for (post of posts(); track post.date) {
-          <article class="post">
-            <div class="post-marker"><i class="bi bi-chat-left-text"></i></div>
-            <div class="post-content">
-              <div class="post-header">
-                <div>
-                  <strong>MicioMaster</strong>
-                  <span class="post-date">{{ post.date }}</span>
+    <div class="posts-list">
+      @switch (currentTab()) {
+        @case ("text") {
+          @if (posts().length > 0) {
+            @for (post of posts(); track post.date) {
+              <article class="post">
+                <div class="post-marker">
+                  <i class="bi bi-chat-left-text"></i>
                 </div>
-                <button
-                  class="more-button"
-                  type="button"
-                  [attr.aria-label]="lang.AltreOpzioniAriaLabel"
-                >
-                  <i class="bi bi-three-dots"></i>
-                </button>
-              </div>
-              <div class="post-copy">
-                @for (line of post.content; track $index) {
-                  <p>{{ line }}</p>
-                }
-              </div>
-              <div class="post-actions">
-                <button type="button">
-                  <i class="bi bi-heart"></i> {{ post.likes }}
-                </button>
-                <button type="button">
-                  <i class="bi bi-chat"></i> {{ post.comments }}
-                </button>
-              </div>
+                <div class="post-content">
+                  <div class="post-header">
+                    <div>
+                      <strong>MicioMaster</strong>
+                      <span class="post-date">{{ post.date }}</span>
+                    </div>
+                    <button
+                      class="more-button"
+                      type="button"
+                      [attr.aria-label]="'Opts'"
+                    >
+                      <i class="bi bi-three-dots"></i>
+                    </button>
+                  </div>
+                  <div class="post-copy">
+                    @for (line of post.content; track $index) {
+                      <p>{{ line }}</p>
+                    }
+                  </div>
+                  <div class="post-actions">
+                    <button type="button">
+                      <i class="bi bi-heart"></i> {{ post.likes }}
+                    </button>
+                    <button type="button">
+                      <i class="bi bi-chat"></i> {{ post.comments }}
+                    </button>
+                  </div>
+                </div>
+              </article>
+            }
+          } @else {
+            <div class="empty-state">
+              <i class="bi bi-images"></i>
+              <h3>{{ lang.NessunaFoto }}</h3>
+              <p>{{ lang.FotoCompariranno }}</p>
             </div>
-          </article>
+          }
         }
-      </div>
-    } @else {
-      <div class="empty-state">
-        <i class="bi bi-images"></i>
-        <h3>{{ lang.NessunaFoto }}</h3>
-        <p>{{ lang.FotoCompariranno }}</p>
-      </div>
-    }
+
+        @case ("photo") {
+          <div class="empty-state">
+            <i class="bi bi-images"></i>
+            <h3>{{ lang.NessunaFoto }}</h3>
+            <p>{{ lang.FotoCompariranno }}</p>
+          </div>
+        }
+      }
+    </div>
   </section>
 </app-container-micio>
 

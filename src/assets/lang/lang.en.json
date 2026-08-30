@@ -1,0 +1,206 @@
+{
+  "Home": {
+    "Notifiche": "Notifications",
+    "Impostazioni": "Settings",
+    "AccountUtente": "User account",
+    "AggiungiAccount": "Add another account",
+    "EsciAccount": "Sign out of all accounts",
+    "Benvenuti": "Welcome to Miciomania",
+    "Descrizione": "The perfect place to read manga, listen to parody music, play with emotions, and make Sirius cry.",
+    "CardsTitle": "What do you want to do today?",
+    "Toggle": {
+      "Account": "Account",
+      "Profilo": "Profile",
+      "Auth": "Authentication",
+      "Esci": "Log out",
+      "Login": "Log in",
+      "Lingua": "Language",
+      "LogoutTitolo": "Disconnect account",
+      "LogoutMessaggio": "Do you really want to log out of"
+    },
+    "AccountMenuTitolo": "Account",
+    "LogoutAllTitolo": "Log out of all accounts",
+    "LogoutAllMessaggio": "Do you really want to log out of all accounts?",
+    "Social": {
+      "Titolo": "Stay connected with Miciomania",
+      "Descrizione": "Join our communities and follow us on social media!"
+    },
+    "Footer": {
+      "LinkUtili": "Useful links",
+      "Info": "Info",
+      "Supporto": "Support"
+    },
+    "Card1": {
+      "titolo": "Manga",
+      "descrizione": "Discover my manga collection, reviews, ongoing reads, and recommendations.",
+      "bottone": "Explore manga"
+    },
+    "Card2": {
+      "titolo": "Music",
+      "descrizione": "Listen to playlists, favorite albums, and discover new artists.",
+      "bottone": "Go to music"
+    },
+    "Card3": {
+      "titolo": "Games",
+      "descrizione": "Everything gaming: games tested, tips, and favorites.",
+      "bottone": "Discover games"
+    },
+    "Card4": {
+      "titolo": "Ranking",
+      "descrizione": "Ranking",
+      "bottone": "View ranking"
+    }
+  },
+  "Feature": {
+    "Navbar": {
+      "Home": "Home",
+      "Manga": "Manga",
+      "Canzoni": "Songs",
+      "Giochi": "Games",
+      "Post": "Posts",
+      "Classifica": "Ranking"
+    }
+  },
+  "Canzoni": {
+    "Titolo": "Songs",
+    "Descrizione": "Listen to your favorite songs sung by Miciomania and Sirius",
+    "CercaPlaceholder": "Search by name, author...",
+    "CategorieTitolo": "Categories",
+    "BottoneAscolta": "Listen",
+    "Toolbar": {
+      "AlbumDisponibili": "Albums available",
+      "CanzoniTotali": "Total songs"
+    },
+    "Categorie": {
+      "Tutte": "All",
+      "Preferite": "Favorites"
+    }
+  },
+  "Manga": {
+    "Titolo": "Manga",
+    "Descrizione": "Read your favorite manga and discover the adventures of Indy and Claudia",
+    "CercaPlaceholder": "Search by name, author...",
+    "CategorieTitolo": "Categories",
+    "SottocategorieTitolo": "Subcategories",
+    "BottoneLeggi": "Read",
+    "Toolbar": {
+      "MangaDisponibili": "Manga available",
+      "CapitoliTotali": "Total chapters"
+    },
+    "Tabs": {
+      "Tutti": "All",
+      "InCorso": "In progress",
+      "Completati": "Completed"
+    },
+    "Categorie": {
+      "Ufficiali": "Official",
+      "Miciomania": "Miciomania"
+    },
+    "Sottocategorie": {
+      "Tutti": "All",
+      "Preferiti": "Favorites"
+    }
+  },
+  "Classifica": {
+    "Titolo": "Ranking",
+    "Descrizione": "View the leaderboard of the most notorious players and teams of the Miciomania Season",
+    "Tabelle": {
+      "Giocatori": "Players",
+      "Squadre": "Teams"
+    },
+    "Tabs": {
+      "Giocatori": "Players",
+      "Squadre": "Teams"
+    },
+    "Colonne": {
+      "Posizione": "Position",
+      "Nome": "Name",
+      "Squadra": "Team",
+      "Punti": "Points"
+    }
+  },
+  "Profilo": {
+    "AvatarAlt": "Profile avatar",
+    "OnlineAriaLabel": "Online",
+    "ProfiloVerificatoAriaLabel": "Verified profile",
+    "ModificaProfilo": "Edit profile",
+    "IscrittoDa": "Joined on",
+    "Post": "Posts",
+    "Punti": "Points",
+    "AttivitaRecente": "Recent activity",
+    "CondivisiCommunity": "Shared by the community",
+    "NessunaFoto": "No photos published",
+    "FotoCompariranno": "Posts with photos will appear here.",
+    "Modale": {
+      "Titolo": "Edit profile",
+      "Sottotitolo": "Update your personal and social details"
+    },
+    "Tabs": {
+      "PostTesto": "Text posts",
+      "PostFoto": "Photo posts"
+    },
+    "EditUser": {
+      "Sezioni": {
+        "Account": "Account",
+        "Profilo": "Profile",
+        "Social": "Social",
+        "Iscrizione": "Membership"
+      },
+      "Campi": {
+        "IdUtente": "User ID",
+        "Nome": "Name",
+        "Email": "Email",
+        "Password": "Password",
+        "ConfermaPassword": "Confirm password",
+        "Compleanno": "Birthday",
+        "Biografia": "Bio",
+        "Piattaforma": "Platform",
+        "LinkUsername": "Link or username",
+        "Squadra": "Team",
+        "Regione": "Region",
+        "Provincia": "Province",
+        "Punteggio": "Score"
+      },
+      "Errori": {
+        "Nome": "Name is required and can have a maximum of 30 characters",
+        "Email": "Please enter a valid email address",
+        "Password": "Password is required and can have a maximum of 20 characters",
+        "ConfermaPassword": "Passwords must match",
+        "Piattaforma": "Please indicate the social platform",
+        "LinkUsername": "Please enter the link or username"
+      }
+    }
+  },
+  "Login": {
+    "Titolo": "Welcome back",
+    "Descrizione": "Log in to your account to continue",
+    "NessunAccount": "Don't have an account yet?",
+    "Registrati": "Sign up",
+    "AccessoOspite": "Do you want to continue without logging in?",
+    "Entra": "Enter",
+    "Form": {
+      "Email": "Email",
+      "Password": "Password",
+      "ErroreEmail": "Email is required and can have a maximum of 40 characters",
+      "ErrorePassword": "Password is required and can have a maximum of 20 characters"
+    }
+  },
+  "Register": {
+    "Titolo": "Welcome",
+    "Descrizione": "Sign up to continue",
+    "AccountEsistente": "Already have an account?",
+    "Accedi": "Log in",
+    "AccessoOspite": "Do you want to continue without logging in?",
+    "Entra": "Enter",
+    "Form": {
+      "Nickname": "Nickname",
+      "NomeCompleto": "Full name",
+      "Email": "Email",
+      "Password": "Password",
+      "ErroreNickname": "Nickname is required and can have a maximum of 15 characters",
+      "ErroreNomeCompleto": "Name is required and can have a maximum of 30 characters",
+      "ErroreEmail": "Email is required and can have a maximum of 40 characters",
+      "ErrorePassword": "Password is required and can have a maximum of 20 characters"
+    }
+  }
+}
