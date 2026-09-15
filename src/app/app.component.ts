@@ -1,14 +1,13 @@
-import { Component, HostListener, inject } from '@angular/core';
+import { Component, HostListener, inject, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { gestisciCursore } from '../library/functions/cursor.functions';
+import { AppConfigService } from './core/api/appConfig.service';
 import {
-  ACCOUNTS_USER_KEY,
-  CURRENT_LANG_KEY,
-  CURRENT_USER_KEY,
   getStoredAccountsUser,
   getStoredCurrentUser,
-} from './core/functions/storage.function';
+} from './core/functions/storage.getFunction';
+import { setLocalStorage } from './core/functions/storage.setFunction';
 import { AuthService } from './shared/services/auth.service';
-import { AppConfigService } from './core/api/appConfig.service';
 
 @Component({
   selector: 'app-root',
@@ -25,7 +24,7 @@ import { AppConfigService } from './core/api/appConfig.service';
     }
   `,
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   private authService = inject(AuthService);
   private appConfig = inject(AppConfigService);
 
@@ -34,21 +33,12 @@ export class AppComponent {
     this.authService.accountsUser.set(getStoredAccountsUser());
   }
 
+  ngOnInit(): void {
+    gestisciCursore(this.appConfig.currentCursor());
+  }
+
   @HostListener('window:beforeunload')
-  saveCurrentUser(): void {
-    localStorage.setItem(
-      CURRENT_USER_KEY,
-      JSON.stringify(this.authService.currentUser()),
-    );
-
-    localStorage.setItem(
-      ACCOUNTS_USER_KEY,
-      JSON.stringify(this.authService.accountsUser()),
-    );
-
-    localStorage.setItem(
-      CURRENT_LANG_KEY,
-      JSON.stringify(this.appConfig.currentLang()),
-    );
+  setLocalStorage(): void {
+    setLocalStorage(this.authService, this.appConfig);
   }
 }

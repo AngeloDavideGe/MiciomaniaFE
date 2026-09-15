@@ -10,7 +10,7 @@ import { AppConfigService } from '../../core/api/appConfig.service';
 import {
   ACCOUNTS_USER_KEY,
   CURRENT_USER_KEY,
-} from '../../core/functions/storage.function';
+} from '../../core/functions/storage.setFunction';
 import { ILang } from '../../core/interfaces/lang.interface';
 import {
   CronUtenti,
@@ -25,6 +25,7 @@ import {
   getToggleProps,
 } from './functions/home.functions';
 import { home_imports } from './home.imports';
+import { gestisciCursore } from '../../../library/functions/cursor.functions';
 
 @Component({
   selector: 'app-home',
@@ -165,6 +166,8 @@ export class HomeComponent {
         this.opereService.canzoniLoaded = false;
       }
     });
+
+    effect(() => gestisciCursore(this.appConfig.currentCursor()));
   }
 
   public logoutAllAccounts(): void {

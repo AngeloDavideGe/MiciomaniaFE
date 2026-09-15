@@ -1,7 +1,7 @@
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
 import { environment } from '../../../environments/environment';
-import { IAppConfig } from '../api/appConfig.service';
 import { RealtimePostgresChangesFilter } from '@supabase/supabase-js';
+import { IAppConfig } from '../interfaces/appConfig.interface';
 
 export type RealTimeFilter = RealtimePostgresChangesFilter<any>;
 

@@ -1,9 +1,26 @@
 import { User } from '../../shared/interfaces/users.interface';
 import { LangEnum } from '../api/appConfig.service';
+import {
+  CURRENT_CURSOR_KEY,
+  CURRENT_USER_KEY,
+  ACCOUNTS_USER_KEY,
+  CURRENT_LANG_KEY,
+} from './storage.setFunction';
 
-export const CURRENT_USER_KEY: string = 'currentUtente';
-export const ACCOUNTS_USER_KEY: string = 'accountsUtente';
-export const CURRENT_LANG_KEY: string = 'currentLingua';
+export function getStoredCurrentCursor(): string {
+  const storedCursor = localStorage.getItem(CURRENT_CURSOR_KEY);
+
+  if (!storedCursor) {
+    return '';
+  }
+
+  try {
+    return JSON.parse(storedCursor) as string;
+  } catch {
+    localStorage.removeItem(CURRENT_CURSOR_KEY);
+    return '';
+  }
+}
 
 export function getStoredCurrentUser(): User | null {
   const storedUser = localStorage.getItem(CURRENT_USER_KEY);

@@ -10,7 +10,6 @@ import {
 import { ILang } from '../../../core/interfaces/lang.interface';
 import { User } from '../../../shared/interfaces/users.interface';
 import { AuthService } from '../../../shared/services/auth.service';
-import { gestisciCursore } from '../../../../library/functions/cursor.functions';
 
 export function getCategorieCard(lang: ILang['Home']): iCard[] {
   return [
@@ -80,37 +79,37 @@ export function getToggleProps(
           testo: lang.CursoreContagocce,
           icona: 'bi bi-eyedropper',
           condition: true,
-          azione: () => gestisciCursore('bi bi-eyedropper'),
+          azione: () => appConfig.currentCursor.set('bi bi-eyedropper'),
         },
         {
           testo: lang.CursorePiuma,
           icona: 'bi bi-feather',
           condition: true,
-          azione: () => gestisciCursore('bi bi-feather'),
+          azione: () => appConfig.currentCursor.set('bi bi-feather'),
         },
         {
           testo: lang.CursoreFulmine,
           icona: 'bi bi-lightning-fill',
           condition: true,
-          azione: () => gestisciCursore('bi bi-lightning-fill'),
+          azione: () => appConfig.currentCursor.set('bi bi-lightning-fill'),
         },
         {
           testo: lang.CursoreBacchetta,
           icona: 'bi bi-magic',
           condition: true,
-          azione: () => gestisciCursore('bi bi-magic'),
+          azione: () => appConfig.currentCursor.set('bi bi-magic'),
         },
         {
           testo: lang.CursoreCacciavite,
           icona: 'bi bi-screwdriver',
           condition: true,
-          azione: () => gestisciCursore('bi bi-screwdriver'),
+          azione: () => appConfig.currentCursor.set('bi bi-screwdriver'),
         },
         {
           testo: lang.CursoreDisattiva,
           icona: 'bi bi-x-circle',
           condition: true,
-          azione: () => gestisciCursore(''),
+          azione: () => appConfig.currentCursor.set(''),
         },
       ],
     },

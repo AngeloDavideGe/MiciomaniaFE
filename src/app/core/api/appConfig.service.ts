@@ -7,8 +7,12 @@ import {
 } from '../../../library/functions/handler.function';
 import { IAppConfig } from '../interfaces/appConfig.interface';
 import { ILang } from '../interfaces/lang.interface';
-import { getStoredCurrentLang } from '../functions/storage.function';
+
 import { LOADING_CONTEXT } from '../../../library/interceptors/loading.interceptor';
+import {
+  getStoredCurrentLang,
+  getStoredCurrentCursor,
+} from '../functions/storage.getFunction';
 
 interface IConfigService {
   config: IAppConfig;
@@ -25,7 +29,9 @@ export enum LangEnum {
 })
 export class AppConfigService {
   private http = inject(HttpClient);
+
   public currentLang = signal<LangEnum>(getStoredCurrentLang());
+  public currentCursor = signal<string>(getStoredCurrentCursor());
 
   public config!: IAppConfig;
   public lang!: ILang;
@@ -47,12 +53,10 @@ export class AppConfigService {
   }
 
   public changeLang(lingua: LangEnum): void {
-    let contex = new HttpContext().set(LOADING_CONTEXT, true);
-
     handlerFunc<ILang>({
       callHttp: () =>
         this.http.get<ILang>(`assets/lang/lang.${lingua}.json`, {
-          context: contex,
+          context: new HttpContext().set(LOADING_CONTEXT, true),
         }),
       nextCall: (data: ILang) => {
         this.lang = data;
