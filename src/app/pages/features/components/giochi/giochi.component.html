@@ -1,0 +1,31 @@
+<app-container-micio>
+  <app-descrizione-micio
+    [titolo]="currentDescrizione().Titolo"
+    [descrizione]="currentDescrizione().Descrizione"
+    [immagine]="'https://i.postimg.cc/Y0w3Z0mW/Giochi-Card.png'"
+  >
+    <div half-row>
+      <app-toolbar-micio
+        [placeholder]="lang.CercaPlaceholder"
+        [(searchQuery)]="searchQuery"
+      />
+    </div>
+
+    <div all-row>
+      <br />
+
+      @if (isGiochi$ | async) {
+        <app-card-indy
+          [elems]="filtri().elemFilter()"
+          [altezzaImg]="'15rem'"
+          [lunghezzaCard]="'18rem'"
+          [tipoSlice]="'page'"
+          [tipoPaginazione]="'multiplo'"
+          [arrayPags]="arrayRaggi"
+        />
+      } @else {
+        <router-outlet />
+      }
+    </div>
+  </app-descrizione-micio>
+</app-container-micio>

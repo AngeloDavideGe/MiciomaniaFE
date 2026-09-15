@@ -25,13 +25,17 @@ export const FEATURE_ROUTES: Routes = [
             (m) => m.ClassificaComponent,
           ),
       },
-      // {
-      //   path: 'giochi',
-      //   loadComponent: () =>
-      //     import('./components/manga/manga.component').then(
-      //       (m) => m.MangaComponent,
-      //     ),
-      // },
+      {
+        path: 'giochi',
+        loadComponent: () =>
+          import('./components/giochi/giochi.component').then(
+            (m) => m.GiochiComponent,
+          ),
+        loadChildren: () =>
+          import('./components/giochi/giochi.routes').then(
+            (m) => m.GIOCHI_ROUTES,
+          ),
+      },
       // {
       //   path: 'post',
       //   loadComponent: () =>

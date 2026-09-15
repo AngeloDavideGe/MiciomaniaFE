@@ -83,6 +83,22 @@
       "Preferite": "Favorites"
     }
   },
+  "Giochi": {
+    "Titolo": "Games",
+    "Descrizione": "Choose a game and put yourself to the test",
+    "CercaPlaceholder": "Search for a game...",
+    "BottoneGioca": "Play",
+    "Lista": {
+      "Tris": {
+        "Titolo": "Tic-tac-toe",
+        "Descrizione": "Line up three symbols before your opponent."
+      },
+      "BattagliaNavale": {
+        "Titolo": "Battleship",
+        "Descrizione": "Sink every ship in the opposing fleet."
+      }
+    }
+  },
   "Manga": {
     "Titolo": "Manga",
     "Descrizione": "Read your favorite manga and discover the adventures of Indy and Claudia",

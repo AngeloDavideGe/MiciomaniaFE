@@ -17,3 +17,11 @@ export function capitalizeFirstLetter(value: string): string {
     return '';
   }
 }
+
+export function uppercaseFirstLetter(value: string): string {
+  if (value) {
+    return value.charAt(0).toUpperCase() + value.slice(1);
+  } else {
+    return '';
+  }
+}

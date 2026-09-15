@@ -83,6 +83,22 @@
       "Preferite": "Preferite"
     }
   },
+  "Giochi": {
+    "Titolo": "Giochi",
+    "Descrizione": "Scegli un gioco e mettiti alla prova",
+    "CercaPlaceholder": "Cerca un gioco...",
+    "BottoneGioca": "Gioca",
+    "Lista": {
+      "Tris": {
+        "Titolo": "Tris",
+        "Descrizione": "Allinea tre simboli prima del tuo avversario."
+      },
+      "BattagliaNavale": {
+        "Titolo": "Battaglia navale",
+        "Descrizione": "Affonda tutte le navi della flotta avversaria."
+      }
+    }
+  },
   "Manga": {
     "Titolo": "Manga",
     "Descrizione": "Leggi i tuoi manga preferiti e scopri le avventure di Indy e Claudia",

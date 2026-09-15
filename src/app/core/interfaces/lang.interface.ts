@@ -83,6 +83,13 @@ export interface ILang {
       Preferite: string;
     };
   };
+  Giochi: {
+    Titolo: string;
+    Descrizione: string;
+    CercaPlaceholder: string;
+    BottoneGioca: string;
+    Lista: Record<string, { Titolo: string; Descrizione: string }>;
+  };
   Manga: {
     Titolo: string;
     Descrizione: string;

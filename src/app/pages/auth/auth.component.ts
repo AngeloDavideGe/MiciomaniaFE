@@ -10,7 +10,7 @@ import { isCurrentRoute } from '../../../library/functions/router.function';
   imports: [RouterOutlet, AsyncPipe],
   template: `
     @if (isAuth$ | async) {
-      <router-outlet></router-outlet>
+      <router-outlet />
     }
   `,
 })
