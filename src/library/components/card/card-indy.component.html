@@ -77,7 +77,11 @@
       @if (elem.bottone) {
         <app-button-indy
           class="mt-auto"
-          [text]="currentButton() == elem.titolo ? 'Stop' : elem.bottone"
+          [text]="
+            currentButton() == elem.titolo && secondNameButton()
+              ? secondNameButton()
+              : elem.bottone
+          "
           [backgroundColor]="elem.color || 'var(--primary)'"
           (clickButton)="clickButton(elem)"
         />

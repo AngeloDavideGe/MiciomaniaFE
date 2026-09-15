@@ -8,6 +8,24 @@
   align-items: center;
 }
 
+.tab-item {
+  background-color: var(--card);
+  border-top: 1px solid transparent;
+  border-right: 1px solid transparent;
+  border-left: 1px solid transparent;
+  transition:
+    background-color 0.2s ease-in-out,
+    border-color 0.2s ease-in-out,
+    color 0.2s ease-in-out;
+
+  &:hover {
+    background-color: var(--card-light);
+    border-top-color: var(--border);
+    border-right-color: var(--border);
+    border-left-color: var(--border);
+  }
+}
+
 .wizard-step {
   text-align: center;
   position: relative;

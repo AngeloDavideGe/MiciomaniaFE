@@ -6,7 +6,8 @@ import { Component, input, output } from '@angular/core';
   imports: [],
   template: `
     <button
-      [style]="{ background: backgroundColor() }"
+      id="button-indy"
+      [style.--button-background]="backgroundColor()"
       (click)="clickButton.emit()"
       [disabled]="disabled()"
     >
@@ -16,19 +17,34 @@ import { Component, input, output } from '@angular/core';
     </button>
   `,
   styles: `
-    button {
+    #button-indy {
       display: inline-flex;
       align-items: center;
       justify-content: center;
       gap: 0.75rem;
       cursor: pointer;
-      transition: all 0.2s ease-in-out;
+      background: var(--button-background);
+      border: 1px solid transparent;
       border-radius: 0.75rem;
+      color: var(--text);
       padding: 0.75rem 1.25rem;
       font-size: 0.95rem;
       font-weight: 600;
+      transition:
+        background 0.2s ease-in-out,
+        box-shadow 0.2s ease-in-out,
+        color 0.2s ease-in-out,
+        transform 0.2s ease-in-out;
 
-      &:hover {
+      &:hover:not(:disabled) {
+        background: var(--primary-light);
+        box-shadow: var(--primary-shadow);
+        color: var(--background);
+        transform: translateY(-2px);
+      }
+
+      &:active:not(:disabled) {
+        transform: translateY(0);
       }
 
       &:disabled {

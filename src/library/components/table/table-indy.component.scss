@@ -202,7 +202,7 @@
             border-bottom: 2px solid var(--primary);
 
             .expanded-content {
-              padding: 20px 24px;
+              padding: 0;
               margin: 0;
               color: var(--text-secondary);
               font-size: 0.85rem;
@@ -327,21 +327,25 @@
       color: #00ff88;
       border-color: rgba(0, 255, 136, 0.3);
     }
+
     &-warning {
       background: rgba(255, 193, 7, 0.15);
       color: #ffc107;
       border-color: rgba(255, 193, 7, 0.3);
     }
+
     &-danger {
       background: rgba(255, 61, 113, 0.15);
       color: #ff3d71;
       border-color: rgba(255, 61, 113, 0.3);
     }
+
     &-info {
       background: rgba(74, 222, 255, 0.15);
       color: #4adeff;
       border-color: rgba(74, 222, 255, 0.3);
     }
+    
     &-primary {
       background: rgba(138, 77, 255, 0.15);
       color: var(--primary-light);

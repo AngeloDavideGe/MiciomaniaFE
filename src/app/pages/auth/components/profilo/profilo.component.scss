@@ -144,15 +144,6 @@
   padding: 1rem;
 }
 
-.section-heading {
-  display: flex;
-  align-items: end;
-  justify-content: space-between;
-  gap: 1rem;
-  margin-bottom: 2rem;
-  margin-top: 0.5rem;
-}
-
 .eyebrow {
   color: var(--primary-light);
   font-size: 0.7rem;
@@ -160,11 +151,7 @@
   letter-spacing: 0.08em;
   text-transform: uppercase;
 }
-.section-heading h2 {
-  margin: 0.25rem 0 0;
-  color: var(--text);
-  font-size: 1.45rem;
-}
+
 .tabs-wrap {
   padding: 0.5rem;
   border: 1px solid var(--border);
@@ -193,24 +180,29 @@
   background: rgba(138, 77, 255, 0.12);
   color: var(--primary-light);
 }
+
 .post-content {
   min-width: 0;
   flex: 1;
 }
+
 .post-header {
   display: flex;
   align-items: start;
   justify-content: space-between;
   gap: 1rem;
 }
+
 .post-header strong {
   color: var(--text);
   font-size: 0.9rem;
 }
+
 .post-date {
   display: block;
   margin-top: 0.2rem;
 }
+
 .more-button {
   border: 0;
   background: transparent;
@@ -223,14 +215,17 @@
   color: var(--text);
   line-height: 1.6;
 }
+
 .post-copy p {
   margin: 0.15rem 0;
 }
+
 .post-actions {
   display: flex;
   gap: 1.25rem;
   margin-top: 1rem;
 }
+
 .post-actions button {
   display: inline-flex;
   align-items: center;
@@ -241,10 +236,12 @@
   cursor: pointer;
   font-size: 0.8rem;
 }
+
 .post-actions button:hover,
 .more-button:hover {
   color: var(--primary-light);
 }
+
 .empty-state {
   display: grid;
   place-items: center;
@@ -253,14 +250,17 @@
   text-align: center;
   color: var(--text-secondary);
 }
+
 .empty-state > i {
   color: var(--primary-light);
   font-size: 2.5rem;
 }
+
 .empty-state h3 {
   margin: 0.75rem 0 0;
   color: var(--text);
 }
+
 .empty-state p {
   margin: 0.35rem 0 0;
 }
@@ -270,10 +270,12 @@
     align-items: flex-start;
     flex-direction: column;
   }
+
   .edit-button {
     align-self: stretch;
     justify-content: center;
   }
+
   .profile-body {
     grid-template-columns: 1fr;
   }
@@ -284,21 +286,21 @@
     align-items: flex-start;
     flex-direction: column;
   }
+
   .name-line h2 {
     font-size: 1.35rem;
   }
+
   .profile-stats {
     grid-template-columns: repeat(2, 1fr);
   }
+
   .profile-stats div:nth-child(3),
   .profile-stats div:nth-child(4) {
     border-top: 1px solid var(--border);
   }
+
   .profile-stats div:nth-child(3)::before {
     display: none;
-  }
-  .section-heading {
-    align-items: flex-start;
-    flex-direction: column;
   }
 }

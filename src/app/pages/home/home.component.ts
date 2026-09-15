@@ -1,10 +1,17 @@
 import { Component, computed, effect, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
+import { ConfirmService } from '../../../library/dialogs/confirm/confirm.service';
 import { handlerFunc } from '../../../library/functions/handler.function';
 import { isCurrentRoute } from '../../../library/functions/router.function';
+import { iCard } from '../../../library/interfaces/card.interface';
 import { ToggleProps } from '../../../library/interfaces/toggle.interface';
 import { AppConfigService } from '../../core/api/appConfig.service';
+import {
+  ACCOUNTS_USER_KEY,
+  CURRENT_USER_KEY,
+} from '../../core/functions/storage.function';
+import { ILang } from '../../core/interfaces/lang.interface';
 import {
   CronUtenti,
   User,
@@ -18,13 +25,6 @@ import {
   getToggleProps,
 } from './functions/home.functions';
 import { home_imports } from './home.imports';
-import {
-  ACCOUNTS_USER_KEY,
-  CURRENT_USER_KEY,
-} from '../../core/functions/storage.function';
-import { ConfirmService } from '../../../library/dialogs/confirm/confirm.service';
-import { iCard } from '../../../library/interfaces/card.interface';
-import { ILang } from '../../core/interfaces/lang.interface';
 
 @Component({
   selector: 'app-home',
@@ -42,14 +42,14 @@ export class HomeComponent {
 
   private openNow: boolean = true;
 
+  public readonly pic = this.appConfig.config.defaultPicsUrl.user;
+  public readonly maxUsers = this.appConfig.config.maxElement.users;
+  public readonly arrayRaggi = defaultHomeArrayPags();
+
   public lang = computed<ILang['Home']>(() => {
     this.appConfig.currentLang();
     return this.appConfig.lang.Home;
   });
-
-  public readonly pic = this.appConfig.config.defaultPicsUrl.user;
-  public readonly maxUsers = this.appConfig.config.maxElement.users;
-  public readonly arrayRaggi = defaultHomeArrayPags();
 
   public cardsHome = computed<iCard[]>(() => getCategorieCard(this.lang()));
 
@@ -76,10 +76,11 @@ export class HomeComponent {
   public accountToggle = computed<ToggleProps[]>(() => {
     const user: User | null = this.authService.currentUser();
     const accounts: User[] = this.authService.accountsUser();
+    const lingua: ILang['Home'] = this.lang();
 
     return [
       {
-        titolo: this.lang().AccountMenuTitolo,
+        titolo: lingua.AccountMenuTitolo,
         menuElementi: accounts.map((account: User) => ({
           testo: account.credenziali.nome,
           sottotitolo: account.id,
@@ -151,7 +152,7 @@ export class HomeComponent {
 
   constructor() {
     effect(() => {
-      const user: User | null = this.authService.currentUser();
+      this.authService.currentUser();
 
       if (this.openNow) {
         this.openNow = false;

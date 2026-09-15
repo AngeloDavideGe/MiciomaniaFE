@@ -3,13 +3,13 @@
     <nav class="nav nav-tabs border-bottom-0">
       @for (tab of tabs(); track tab.id) {
         <button
-          class="nav-link me-2 px-3 py-2"
+          class="nav-link tab-item me-2 px-3 py-2"
           (click)="clickTabFunc(tab)"
           [style.color]="selectTab() === tab.id ? tab.color : disabledColor()"
           [style.border-bottom]="
             selectTab() === tab.id
               ? '2px solid ' + tab.color
-              : '2px solid transparent'
+              : '2px solid var(--border)'
           "
         >
           {{ tab.label }}

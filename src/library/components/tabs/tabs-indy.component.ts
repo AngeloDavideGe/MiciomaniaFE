@@ -1,16 +1,13 @@
 import {
-  Component,
-  input,
-  output,
-  signal,
-  effect,
-  OnInit,
-  inject,
-  model,
   ChangeDetectionStrategy,
+  Component,
+  effect,
+  input,
+  model,
+  output,
 } from '@angular/core';
-import { ButtonIndyComponent } from '../button/button-indy.component';
 import { iTab } from '../../interfaces/navbar.interface';
+import { ButtonIndyComponent } from '../button/button-indy.component';
 
 @Component({
   selector: 'app-tabs-indy',
@@ -21,18 +18,7 @@ import { iTab } from '../../interfaces/navbar.interface';
   styleUrl: './tabs-indy.component.scss',
 })
 export class TabsIndyComponent {
-  private defaultTabs: iTab[] = [
-    {
-      id: '1',
-      icona: 'bi bi-grid',
-    },
-    {
-      id: '2',
-      icona: 'bi bi-list',
-    },
-  ];
-
-  public tabs = input<iTab[]>(this.defaultTabs);
+  public tabs = input<iTab[]>(defaultTabs);
   public tipo = input<'tab' | 'wizard' | 'lista'>('tab');
   public disabledColor = input<string>('white');
   public disableNext = input<boolean>(false);
@@ -92,3 +78,14 @@ export class TabsIndyComponent {
     }
   }
 }
+
+const defaultTabs: iTab[] = [
+  {
+    id: '1',
+    icona: 'bi bi-grid',
+  },
+  {
+    id: '2',
+    icona: 'bi bi-list',
+  },
+];

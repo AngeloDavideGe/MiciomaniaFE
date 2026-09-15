@@ -127,8 +127,6 @@ export interface ILang {
     IscrittoDa: string;
     Post: string;
     Punti: string;
-    AttivitaRecente: string;
-    CondivisiCommunity: string;
     NessunaFoto: string;
     FotoCompariranno: string;
     Modale: { Titolo: string; Sottotitolo: string };

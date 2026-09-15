@@ -50,6 +50,7 @@ export class CardIndyComponent {
   public tipoPaginazione = input<TipoPaginazione>('singolo');
   public arrayPags = input<RaggioPage[]>(defaultArrayPags);
   public sliceAutomaticoInSec = input<number | undefined>(undefined);
+  public secondNameButton = input<string | undefined>(undefined);
 
   public singleSliceIndicators = computed(() => {
     if (this.tipoSlice() !== 'single') return [];
