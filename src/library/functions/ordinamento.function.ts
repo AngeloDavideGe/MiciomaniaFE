@@ -25,7 +25,15 @@ export function GetOrderCustom<T>(
       }
     }
     default:
-      return vett;
+      if (cresc) {
+        return vett.sort((a: T, b: T) =>
+          String(a[k]).localeCompare(String(b[k])),
+        );
+      } else {
+        return vett.sort((a: T, b: T) =>
+          String(b[k]).localeCompare(String(a[k])),
+        );
+      }
   }
 }
 

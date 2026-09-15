@@ -4,6 +4,11 @@ html {
 
 body {
   -ms-overflow-style: none;
+
+  &.cursore-personalizzato,
+  &.cursore-personalizzato * {
+    cursor: var(--cursore-attivo, auto) !important;
+  }
 }
 
 .pc-only {

@@ -10,6 +10,7 @@ import {
 import { ILang } from '../../../core/interfaces/lang.interface';
 import { User } from '../../../shared/interfaces/users.interface';
 import { AuthService } from '../../../shared/services/auth.service';
+import { gestisciCursore } from '../../../../library/functions/cursor.functions';
 
 export function getCategorieCard(lang: ILang['Home']): iCard[] {
   return [
@@ -68,6 +69,48 @@ export function getToggleProps(
           condition: !!authService.currentUser(),
           azione: () =>
             router.navigate(['auth/user/' + authService.currentUser()?.id]),
+        },
+      ],
+    },
+    {
+      titolo: lang.Cursore,
+      icona: 'bi bi-cursor-fill',
+      menuElementi: [
+        {
+          testo: lang.CursoreContagocce,
+          icona: 'bi bi-eyedropper',
+          condition: true,
+          azione: () => gestisciCursore('bi bi-eyedropper'),
+        },
+        {
+          testo: lang.CursorePiuma,
+          icona: 'bi bi-feather',
+          condition: true,
+          azione: () => gestisciCursore('bi bi-feather'),
+        },
+        {
+          testo: lang.CursoreFulmine,
+          icona: 'bi bi-lightning-fill',
+          condition: true,
+          azione: () => gestisciCursore('bi bi-lightning-fill'),
+        },
+        {
+          testo: lang.CursoreBacchetta,
+          icona: 'bi bi-magic',
+          condition: true,
+          azione: () => gestisciCursore('bi bi-magic'),
+        },
+        {
+          testo: lang.CursoreCacciavite,
+          icona: 'bi bi-screwdriver',
+          condition: true,
+          azione: () => gestisciCursore('bi bi-screwdriver'),
+        },
+        {
+          testo: lang.CursoreDisattiva,
+          icona: 'bi bi-x-circle',
+          condition: true,
+          azione: () => gestisciCursore(''),
         },
       ],
     },

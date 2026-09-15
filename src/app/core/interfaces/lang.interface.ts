@@ -15,6 +15,13 @@ export interface ILang {
       Esci: string;
       Login: string;
       Lingua: string;
+      Cursore: string;
+      CursoreContagocce: string;
+      CursorePiuma: string;
+      CursoreFulmine: string;
+      CursoreBacchetta: string;
+      CursoreCacciavite: string;
+      CursoreDisattiva: string;
       LogoutTitolo: string;
       LogoutMessaggio: string;
     };

@@ -32,9 +32,7 @@ export class ClassificaComponent implements OnInit {
   public readonly colonneGiocatori = getColonneTabellaGiocatori(
     this.lang.Colonne,
   );
-  public readonly colonneSquadre = getColonneTabellaSquadre(
-    this.lang.Colonne,
-  );
+  public readonly colonneSquadre = getColonneTabellaSquadre(this.lang.Colonne);
   public readonly badgeTable = getBadgeTable();
 
   public currentTab = signal<string>('giocatori');
@@ -47,8 +45,6 @@ export class ClassificaComponent implements OnInit {
   public squadre = computed<Squadra[]>(
     () => this.computedClassifica('squadre') as Squadra[],
   );
-
-  constructor() {}
 
   ngOnInit(): void {
     handlerFunc<Classifica>({
