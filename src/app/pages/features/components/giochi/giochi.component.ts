@@ -6,10 +6,14 @@ import { GetFiltriCustom } from '../../../../../library/functions/pagination.fun
 import { isCurrentRoute } from '../../../../../library/functions/router.function';
 import { iCard } from '../../../../../library/interfaces/card.interface';
 import { FiltriInterface } from '../../../../../library/interfaces/pagination.interface';
-import { uppercaseFirstLetter } from '../../../../../library/pipes/capitalize.pipe';
 import { AppConfigService } from '../../../../core/api/appConfig.service';
-import { defaultGiochiArrayPags, getGiochi } from './functions/giochi.function';
+import {
+  defaultGiochiArrayPags,
+  getGiochi,
+  getGiochiDescrizione,
+} from './functions/giochi.function';
 import { giochi_imports } from './giochi.import';
+import { DescrizioneGiochi } from './interfaces/giochi.interface';
 
 @Component({
   selector: 'app-giochi',
@@ -27,7 +31,10 @@ export class GiochiComponent implements OnInit {
 
   public searchQuery = signal<string>('');
   public debounceQuery = signal<string>('');
-  public currentDescrizione = signal({ Titolo: '...', Descrizione: '...' });
+  public currentDescrizione = signal<DescrizioneGiochi>({
+    Titolo: '...',
+    Descrizione: '...',
+  });
 
   public filtri = computed<FiltriInterface<iCard>>(() =>
     GetFiltriCustom<iCard, null>({
@@ -54,24 +61,7 @@ export class GiochiComponent implements OnInit {
         return true;
       }
 
-      const giochiUrlIndex = url.split('/').indexOf('giochi');
-      const gameRouteKey = url.split('/')[giochiUrlIndex + 1];
-      const gameKey = gameRouteKey
-        ? uppercaseFirstLetter(gameRouteKey)
-        : undefined;
-      const currentLang = gameKey ? this.lang.Lista[gameKey] : undefined;
-
-      if (currentLang) {
-        this.currentDescrizione.set({
-          Titolo: currentLang.Titolo,
-          Descrizione: currentLang.Descrizione,
-        });
-      } else {
-        this.currentDescrizione.set({
-          Titolo: this.lang.Titolo,
-          Descrizione: this.lang.Descrizione,
-        });
-      }
+      this.currentDescrizione.set(getGiochiDescrizione(url, this.lang));
 
       return false;
     },

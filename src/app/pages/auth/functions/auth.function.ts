@@ -147,10 +147,9 @@ export function getEditUserForm(
         },
         bio: {
           titolo: lang.Campi.Biografia,
-          validators: [],
+          validators: [Validators.maxLength(500)],
           tipo: 'Textarea',
           valueInit: user?.profile.bio || '',
-          readonly: true,
         },
       },
     },

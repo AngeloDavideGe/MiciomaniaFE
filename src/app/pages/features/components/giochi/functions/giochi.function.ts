@@ -1,7 +1,9 @@
 import { Router } from '@angular/router';
 import { iCard } from '../../../../../../library/interfaces/card.interface';
 import { RaggioPage } from '../../../../../../library/interfaces/pagination.interface';
+import { uppercaseFirstLetter } from '../../../../../../library/pipes/capitalize.pipe';
 import { ILang } from '../../../../../core/interfaces/lang.interface';
+import { DescrizioneGiochi } from '../interfaces/giochi.interface';
 
 export function getGiochi(lang: ILang['Giochi'], router: Router): iCard[] {
   return [
@@ -30,4 +32,26 @@ export function defaultGiochiArrayPags(): RaggioPage[] {
     { width: 986.4, raggio: 2 },
     { width: 0, raggio: 1 },
   ];
+}
+
+export function getGiochiDescrizione(
+  url: string,
+  lang: ILang['Giochi'],
+): DescrizioneGiochi {
+  const giochiUrlIndex = url.split('/').indexOf('giochi');
+  const gameRouteKey = url.split('/')[giochiUrlIndex + 1];
+  const gameKey = gameRouteKey ? uppercaseFirstLetter(gameRouteKey) : undefined;
+  const currentLang = gameKey ? lang.Lista[gameKey] : undefined;
+
+  if (currentLang) {
+    return {
+      Titolo: currentLang.Titolo,
+      Descrizione: currentLang.Descrizione,
+    };
+  } else {
+    return {
+      Titolo: lang.Titolo,
+      Descrizione: lang.Descrizione,
+    };
+  }
 }

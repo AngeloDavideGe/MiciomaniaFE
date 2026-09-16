@@ -21,6 +21,10 @@
             "
             (input)="onInputChange($event, keys[$index])"
           />
+
+          <div class="counter">
+            {{ f[keys[$index]].value?.length || 0 }}
+          </div>
         }
 
         @case ("Password") {
@@ -57,7 +61,7 @@
           ></textarea>
 
           <div class="counter">
-            {{ f[keys[$index]].value?.length || 0 + " / 200" }}
+            {{ f[keys[$index]].value?.length || 0 }}
           </div>
         }
 
