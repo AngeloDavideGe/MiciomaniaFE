@@ -35,5 +35,5 @@ const appConfig: ApplicationConfig = {
 };
 
 bootstrapApplication(AppComponent, appConfig)
-  .then(() => console.log('Application bootstrapped successfully'))
+  .then(() => {})
   .catch((err: Error) => console.error(err));

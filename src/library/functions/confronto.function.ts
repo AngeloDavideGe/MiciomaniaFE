@@ -26,6 +26,5 @@ export function boardEmpty<T>(row: number, col: number, emptyCell: T): T[][] {
 
 export function drawCasualElement<T>(array: T[]): T | undefined {
   if (array.length === 0) return undefined;
-  const randomIndex: number = Math.floor(Math.random() * array.length);
-  return array[randomIndex];
+  return array[Math.floor(Math.random() * array.length)];
 }

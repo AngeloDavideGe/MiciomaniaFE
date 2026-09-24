@@ -1,0 +1,34 @@
+<section class="tris-container">
+  <div class="game-panel">
+    <div class="game-header">
+      <div>
+        <p class="eyebrow">Mini game</p>
+        <h2>Tris</h2>
+      </div>
+      <button type="button" class="reset-button" (click)="resetBoard()">
+        Reset
+      </button>
+    </div>
+
+    <p class="status">{{ status() }}</p>
+
+    <div class="board" role="grid" aria-label="Scacchiera del tris">
+      @for (row of board(); track row; let rowIndex = $index) {
+        @for (cell of row; track $index; let colIndex = $index) {
+          <button
+            type="button"
+            class="cell"
+            [class.cell--x]="cell === 'X'"
+            [class.cell--o]="cell === 'O'"
+            [attr.aria-label]="
+              'Cella ' + (rowIndex + 1) + ', colonna ' + (colIndex + 1)
+            "
+            (click)="handleCellClick(rowIndex, colIndex)"
+          >
+            {{ cell || "" }}
+          </button>
+        }
+      }
+    </div>
+  </div>
+</section>
