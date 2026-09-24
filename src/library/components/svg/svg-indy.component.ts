@@ -22,8 +22,8 @@ export class SvgIndyComponent {
   public viewbox = input<string>('');
   public translate = input<string>('');
   public transform = input<string>('');
-  public width = input<number>(1);
-  public height = input<number>(1);
+  public width = input<number>(200);
+  public height = input<number>(200);
   public modale = input<Mappa | null>(null);
 
   public pathClicked = output<string>();
@@ -49,8 +49,9 @@ export class SvgIndyComponent {
     });
   }
 
-  public onPathClick(pathId: string, event: MouseEvent): void {
-    this.pathClicked.emit(pathId);
+  public onPathClick(path: PathSvgCustom, event: MouseEvent): void {
+    this.pathClicked.emit(path.title);
+    path.click?.();
 
     const svgContainer = (event.currentTarget as HTMLElement).closest(
       '.svg-container',

@@ -20,7 +20,7 @@
           [attr.fill]="
             path.fill || colori()[path.title] || 'var(--primary-light)'
           "
-          (click)="onPathClick(path.title, $event)"
+          (click)="onPathClick(path, $event)"
         >
           <title>{{ path.title }}</title>
         </path>
