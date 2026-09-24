@@ -18,7 +18,7 @@
           [attr.d]="path.d"
           [attr.id]="path.title"
           [attr.fill]="
-            path.fill || colori()[path.title] || 'var(--fill-svg-void)'
+            path.fill || colori()[path.title] || 'var(--primary-light)'
           "
           (click)="onPathClick(path.title, $event)"
         >

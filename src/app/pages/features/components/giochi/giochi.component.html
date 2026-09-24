@@ -5,10 +5,12 @@
     [immagine]="'https://i.postimg.cc/Y0w3Z0mW/Giochi-Card.png'"
   >
     <div half-row>
-      <app-toolbar-micio
-        [placeholder]="lang.CercaPlaceholder"
-        [(searchQuery)]="searchQuery"
-      />
+      @if (isGiochi$ | async) {
+        <app-toolbar-micio
+          [placeholder]="lang.CercaPlaceholder"
+          [(searchQuery)]="searchQuery"
+        />
+      }
     </div>
 
     <div all-row>

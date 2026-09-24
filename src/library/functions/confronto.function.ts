@@ -8,13 +8,13 @@ export function formatDataCustom(date: Date): Date {
   return date;
 }
 
-export function boardEmpty<T>(dim: number, emptyCell: T): T[][] {
+export function boardEmpty<T>(row: number, col: number, emptyCell: T): T[][] {
   let board: T[][] = [];
 
-  for (let i = 0; i < dim; i++) {
+  for (let i = 0; i < row; i++) {
     const row: T[] = [];
 
-    for (let j = 0; j < dim; j++) {
+    for (let j = 0; j < col; j++) {
       row.push(structuredClone(emptyCell));
     }
 
