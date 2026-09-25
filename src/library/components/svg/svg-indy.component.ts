@@ -3,6 +3,7 @@ import {
   Component,
   effect,
   input,
+  model,
   output,
   signal,
 } from '@angular/core';
@@ -24,30 +25,12 @@ export class SvgIndyComponent {
   public transform = input<string>('');
   public width = input<number>(200);
   public height = input<number>(200);
-  public modale = input<Mappa | null>(null);
+  public modale = model<Mappa | null>(null);
 
   public pathClicked = output<string>();
 
-  public showPopup = signal<boolean>(false);
   public popupX = signal<number>(0);
   public popupY = signal<number>(0);
-  public popupText = signal<string>('');
-
-  constructor() {
-    effect(() => {
-      const value: Mappa | null = this.modale();
-
-      if (value) {
-        this.popupText.set(
-          `Proprietario: ${value.proprietario}\nDescrizione: ${value.descrizione}`,
-        );
-        this.showPopup.set(true);
-      } else {
-        this.popupText.set('Nessuna informazione disponibile.');
-        this.showPopup.set(false);
-      }
-    });
-  }
 
   public onPathClick(path: PathSvgCustom, event: MouseEvent): void {
     this.pathClicked.emit(path.title);

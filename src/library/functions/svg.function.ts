@@ -62,7 +62,13 @@ export function creaBarPaths(
 
   return dati.map((dato, indice) => {
     const y: number = margine + indice * (altezzaBarra + spazio);
-    const larghezza: number = (dato.valore / massimo) * larghezzaMassima;
+    const larghezzaValore: number =
+      massimo > 0 ? (dato.valore / massimo) * larghezzaMassima : 0;
+    const larghezzaTesto: number = Math.min(
+      larghezzaMassima,
+      dato.titolo.length * 9 + 28,
+    );
+    const larghezza: number = Math.max(larghezzaValore, larghezzaTesto);
 
     const d: string = [
       `M ${margine} ${y}`,

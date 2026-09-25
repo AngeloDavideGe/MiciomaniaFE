@@ -1,20 +1,28 @@
 import { Component, computed, inject, OnInit, signal } from '@angular/core';
-import { OpereService } from '../../../../shared/services/opere.service';
-import { classifica_imports } from './classifica.imports';
+import { handlerFunc } from '../../../../../library/functions/handler.function';
+import {
+  Mappa,
+  PathSvgCustom,
+} from '../../../../../library/interfaces/svg.interface';
+import { AppConfigService } from '../../../../core/api/appConfig.service';
 import {
   Classifica,
   Giocatore,
   Squadra,
 } from '../../../../shared/interfaces/opere.interface';
-import { handlerFunc } from '../../../../../library/functions/handler.function';
+import { OpereService } from '../../../../shared/services/opere.service';
+import { classifica_imports } from './classifica.imports';
+import {
+  computedPathsClassifica,
+  computedTabellaClassifica,
+} from './functions/classifica.computed';
 import {
   getBadgeTable,
   getClassificaTabs,
   getColonneTabellaGiocatori,
   getColonneTabellaSquadre,
+  getVisualizzaTabs,
 } from './functions/classifica.functions';
-import { GetOrderCustom } from '../../../../../library/functions/ordinamento.function';
-import { AppConfigService } from '../../../../core/api/appConfig.service';
 
 @Component({
   selector: 'app-classifica',
@@ -29,6 +37,7 @@ export class ClassificaComponent implements OnInit {
 
   public readonly lang = this.appConfig.lang.Classifica;
   public readonly tabs = getClassificaTabs(this.lang.Tabs);
+  public readonly viewTabs = getVisualizzaTabs(this.lang.Tabs);
   public readonly colonneGiocatori = getColonneTabellaGiocatori(
     this.lang.Colonne,
   );
@@ -36,14 +45,48 @@ export class ClassificaComponent implements OnInit {
   public readonly badgeTable = getBadgeTable();
 
   public currentTab = signal<string>('giocatori');
+  public viewTab = signal<string>('tabella');
+  public modaleClassifica = signal<Mappa | null>(null);
   public spinner = computed<boolean>(() => !this.opereService.classifica());
 
   public giocatori = computed<Giocatore[]>(
-    () => this.computedClassifica('giocatori') as Giocatore[],
+    () =>
+      computedTabellaClassifica(
+        'giocatori',
+        this.opereService.classifica(),
+      ) as Giocatore[],
   );
 
   public squadre = computed<Squadra[]>(
-    () => this.computedClassifica('squadre') as Squadra[],
+    () =>
+      computedTabellaClassifica(
+        'squadre',
+        this.opereService.classifica(),
+      ) as Squadra[],
+  );
+
+  public pathGiocatori = computed<PathSvgCustom[]>(() =>
+    computedPathsClassifica('giocatori', this.opereService.classifica()),
+  );
+
+  public pathSquadre = computed<PathSvgCustom[]>(() =>
+    computedPathsClassifica(
+      'squadre',
+      this.opereService.classifica(),
+      (item: Squadra) =>
+        this.modaleClassifica.set({
+          proprietario: (item as Squadra).nome,
+          descrizione: (item as Squadra).descrizione,
+        }),
+    ),
+  );
+
+  public graficoAltezzaGiocatori = computed<number>(() =>
+    Math.max(180, this.pathGiocatori().length * 56 + 26),
+  );
+
+  public graficoAltezzaSquadre = computed<number>(() =>
+    Math.max(180, this.pathSquadre().length * 56 + 26),
   );
 
   ngOnInit(): void {
@@ -55,26 +98,5 @@ export class ClassificaComponent implements OnInit {
     });
 
     this.opereService.classificaLoaded = true;
-  }
-
-  private computedClassifica(key: keyof Classifica): (Giocatore | Squadra)[] {
-    const classifica: Classifica | null = this.opereService.classifica();
-
-    if (!classifica) {
-      return [];
-    }
-
-    const items: (Giocatore | Squadra)[] = classifica[key];
-
-    if (items.length === 0) {
-      return [];
-    }
-
-    return GetOrderCustom<Giocatore | Squadra>(items, 'punteggio', false).map(
-      (item: Giocatore | Squadra, index: number) => ({
-        ...item,
-        posizione: index + 1,
-      }),
-    );
   }
 }

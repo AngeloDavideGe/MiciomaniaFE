@@ -40,10 +40,10 @@
     </g>
   </svg>
 
-  @if (showPopup()) {
+  @if (modale()) {
     <div class="popup" [style.left.px]="popupX()" [style.top.px]="popupY()">
-      <button (click)="showPopup.set(false)" class="close-btn">×</button>
-      <pre>{{ popupText() }}</pre>
+      <button (click)="modale.set(null)" class="close-btn">×</button>
+      <pre>{{ modale()?.proprietario }} - {{ modale()?.descrizione }}</pre>
     </div>
   }
 </div>

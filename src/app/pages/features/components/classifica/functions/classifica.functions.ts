@@ -5,6 +5,7 @@ import {
   Squadra,
 } from '../../../../../shared/interfaces/opere.interface';
 import { ILang } from '../../../../../core/interfaces/lang.interface';
+import { SvgBar } from '../../../../../../library/interfaces/svg.interface';
 
 export function getClassificaTabs(lang: ILang['Classifica']['Tabs']): iTab[] {
   return [
@@ -16,6 +17,21 @@ export function getClassificaTabs(lang: ILang['Classifica']['Tabs']): iTab[] {
     {
       id: 'squadre',
       label: lang.Squadre,
+      color: 'var(--primary-light)',
+    },
+  ];
+}
+
+export function getVisualizzaTabs(lang: ILang['Classifica']['Tabs']): iTab[] {
+  return [
+    {
+      id: 'tabella',
+      label: lang.Tabella,
+      color: 'var(--primary-light)',
+    },
+    {
+      id: 'grafico',
+      label: lang.Grafico,
       color: 'var(--primary-light)',
     },
   ];
@@ -33,9 +49,7 @@ export function getBadgeTable(): Record<number, string> {
 
 export function getColonneTabellaGiocatori(
   lang: ILang['Classifica']['Colonne'],
-): Partial<
-  RecordColonne<Giocatore>
-> {
+): Partial<RecordColonne<Giocatore>> {
   return {
     posizione: {
       titolo: lang.Posizione,
@@ -72,5 +86,14 @@ export function getColonneTabellaSquadre(
       titolo: lang.Punti,
       sortCol: true,
     },
+  };
+}
+
+export function opzioniGraficoClassifica(): SvgBar {
+  return {
+    larghezzaMassima: 660,
+    altezzaBarra: 42,
+    spazio: 14,
+    margine: 20,
   };
 }

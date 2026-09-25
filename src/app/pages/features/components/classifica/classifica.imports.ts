@@ -4,6 +4,7 @@ import { ContaierMicioComponent } from '../../../../shared/components/container-
 import { DescrizioneMicioComponent } from '../../../../shared/components/descrizione-micio.component';
 import { TabsIndyComponent } from '../../../../../library/components/tabs/tabs-indy.component';
 import { TabellaIndyComponent } from '../../../../../library/components/table/table-indy.component';
+import { SvgIndyComponent } from '../../../../../library/components/svg/svg-indy.component';
 
 export const classifica_imports: Type<any>[] = [
   ContaierMicioComponent,
@@ -11,4 +12,5 @@ export const classifica_imports: Type<any>[] = [
   SpinnerIndyComponent,
   TabsIndyComponent,
   TabellaIndyComponent,
+  SvgIndyComponent,
 ];
